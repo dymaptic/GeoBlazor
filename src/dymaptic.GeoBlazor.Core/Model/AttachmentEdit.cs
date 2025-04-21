@@ -19,7 +19,7 @@ public record AttachmentEdit
     /// <summary>
     ///     Construct an AttachmentEdit from a Feature's `objectId` and its <see cref="Attachment"/>.
     /// </summary>
-    public AttachmentEdit(int objectId, Attachment attachment)
+    public AttachmentEdit(ObjectId objectId, Attachment attachment)
     {
         ObjectId = objectId;
         Attachment = attachment;
@@ -43,7 +43,7 @@ public record AttachmentEdit
     /// <summary>
     ///     The `objectId` of the feature associated with the attachment.
     /// </summary>
-    public int? ObjectId { get; set; }
+    public ObjectId? ObjectId { get; set; }
     
     /// <summary>
     ///     The `globalId` of the feature associated with the attachment.
@@ -53,5 +53,5 @@ public record AttachmentEdit
     /// <summary>
     ///     The attachment to be added, updated or deleted.
     /// </summary>
-    public Attachment Attachment { get; set; } = default!;
+    public required Attachment Attachment { get; set; }
 }

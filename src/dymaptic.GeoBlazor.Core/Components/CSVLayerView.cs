@@ -17,30 +17,12 @@ public partial class CSVLayerView
     ///     A handle that allows the highlight to be removed later.
     /// </returns>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(long objectId)
+    public async Task<HighlightHandle> Highlight(ObjectId objectId)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference objectRef =
             await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectId);
-        return new HighlightHandle(objectRef);
-    }
-
-    /// <summary>
-    ///     Highlights the given feature(s).
-    /// </summary>
-    /// <param name="objectId">
-    ///     The ObjectID as stringof the graphic to highlight.
-    /// </param>
-    /// <returns>
-    ///     A handle that allows the highlight to be removed later.
-    /// </returns>
-    [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(string objectId)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
-        IJSObjectReference objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight", 
-            CancellationTokenSource.Token, objectId);
         return new HighlightHandle(objectRef);
     }
 
@@ -57,7 +39,7 @@ public partial class CSVLayerView
     ///     Throws if no ObjectIDs are provided.
     /// </exception>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(IReadOnlyCollection<long> objectIds)
+    public async Task<HighlightHandle> Highlight(IReadOnlyCollection<ObjectId> objectIds)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         if (objectIds.Count == 0)
@@ -71,33 +53,6 @@ public partial class CSVLayerView
         return new HighlightHandle(objectRef);
     }
     
-    /// <summary>
-    ///     Highlights the given feature(s).
-    /// </summary>
-    /// <param name="objectIds">
-    ///     The ObjectIDs as strings of the graphics to highlight.
-    /// </param>
-    /// <returns>
-    ///     A handle that allows the highlight to be removed later.
-    /// </returns>
-    /// <exception cref="ArgumentException">
-    ///     Throws if no ObjectIDs are provided.
-    /// </exception>
-    [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(IReadOnlyCollection<string> objectIds)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
-        if (objectIds.Count == 0)
-        {
-            throw new ArgumentException("At least one ObjectID must be provided.", nameof(objectIds));
-        }
-        IJSObjectReference objectRef =
-            await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
-                CancellationTokenSource.Token, objectIds);
-
-        return new HighlightHandle(objectRef);
-    }
-
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>

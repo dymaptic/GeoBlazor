@@ -105,7 +105,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
         let objectIds = await this.component.queryObjectIds(jsQuery, options);
-        return objectIds.map(i => i.toString());
+        return objectIds;
     }
 
 }

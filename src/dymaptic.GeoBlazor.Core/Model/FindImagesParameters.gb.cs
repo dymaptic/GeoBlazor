@@ -31,7 +31,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record FindImagesParameters(
     Point? FromGeometry = null,
     int? MaxCount = null,
-    IReadOnlyCollection<string>? ObjectIds = null,
+    IReadOnlyCollection<ObjectId>? ObjectIds = null,
     Point? ToGeometry = null,
     string? Where = null)
 {
@@ -51,7 +51,7 @@ public partial record FindImagesParameters(
     ///     An array of ObjectIDs to filter images.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<string>? ObjectIds { get; set; } = ObjectIds;
+    public IReadOnlyCollection<ObjectId>? ObjectIds { get; set; } = ObjectIds;
     
     /// <summary>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry with `z` value that defines the target geometry's location.

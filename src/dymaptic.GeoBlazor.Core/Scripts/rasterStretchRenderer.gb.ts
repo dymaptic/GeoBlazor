@@ -44,7 +44,7 @@ export async function buildJsRasterStretchRendererGenerated(dotNetObject: any, l
     if (hasValue(dotNetObject.sigmoidStrengthLevel)) {
         properties.sigmoidStrengthLevel = dotNetObject.sigmoidStrengthLevel;
     }
-    if (hasValue(dotNetObject.statistics)) {
+    if (hasValue(dotNetObject.statistics) && dotNetObject.statistics.length > 0) {
         properties.statistics = dotNetObject.statistics;
     }
     if (hasValue(dotNetObject.stretchType)) {

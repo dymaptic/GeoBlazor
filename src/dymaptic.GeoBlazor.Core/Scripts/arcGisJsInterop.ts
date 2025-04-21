@@ -16,9 +16,7 @@ import {
     DotNetViewHit,
     MapCollection
 } from './definitions';
-import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
 import * as locator from "@arcgis/core/rest/locator";
-import * as projectionOperator from "@arcgis/core/geometry/operators/projectOperator";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import * as route from "@arcgis/core/rest/route";
 import * as serviceArea from "@arcgis/core/rest/serviceArea";
@@ -56,11 +54,9 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import View from "@arcgis/core/views/View";
 import WebMap from "@arcgis/core/WebMap";
-import WebScene from "@arcgis/core/WebScene";
 import Widget from "@arcgis/core/widgets/Widget";
 import {load} from "protobufjs";
 import {buildDotNetExtent, buildJsExtent} from './extent';
-import {buildJsPortalItem} from './portalItem';
 import {buildJsGraphic} from './graphic';
 import {buildDotNetLayer, buildJsLayer, preloadLayerTypes} from './layer';
 import {buildDotNetPoint, buildJsPoint} from './point';
@@ -84,8 +80,6 @@ import {buildJsBasemap} from "./basemap";
 // re-export imported types
 export {
     esriConfig,
-    projectionOperator,
-    geometryEngine,
     Graphic,
     Color,
     Point,
@@ -391,7 +385,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                             longitude: long as number,
                             spatialReference: spatialRef as SpatialReference
                         });
-                        center = resetCenterToSpatialReference(center, spatialRef as SpatialReference);
+                        center = await resetCenterToSpatialReference(center, spatialRef as SpatialReference);
                     } else {
                         center = [long, lat];
                     }
@@ -1295,7 +1289,7 @@ export function getGraphicAttributes(id: string, layerId: string | null, viewId:
 export function getObjectIdForGraphic(id: string, layerId: string | null, viewId: string | null): string | null {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (graphic !== null) {
-        return graphic.getObjectId()?.toString() ?? null;
+        return graphic.getObjectId() ?? null;
     }
 
     return null;
@@ -1681,11 +1675,12 @@ export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boo
     delete arcGisObjectRefs[layerId];
 }
 
-function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Point {
-    if (!projectionOperator.isLoaded()) {
-        projectionOperator.load();
+async function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Point {
+    let projectOperator = await import('@arcgis/core/geometry/operators/projectOperator');
+    if (!projectOperator.isLoaded()) {
+        await projectOperator.load();
     }
-    return projectionOperator.execute(center, spatialReference) as Point;
+    return projectOperator.execute(center, spatialReference) as Point;
 }
 
 function waitForRender(viewId: string, dotNetRef: any): void {

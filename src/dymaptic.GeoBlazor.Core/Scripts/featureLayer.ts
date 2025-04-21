@@ -92,7 +92,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let { buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
         let result = await this.layer.queryObjectIds(jsQuery, options);
-        return result.map(i => i.toString());
+        return result;
     }
 
     async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any,
@@ -159,7 +159,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
         let jsQuery = await buildJsTopFeaturesQuery(query, this.layerId, this.viewId);
         let result = await this.layer.queryTopObjectIds(jsQuery, options);
-        return result.map(i => i.toString());
+        return result;
     }
 
     async queryTopFeaturesExtent(query: DotNetTopFeaturesQuery, options: any): Promise<any> {

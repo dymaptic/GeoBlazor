@@ -19,4 +19,4 @@ public partial record FeatureIdentifier(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? GlobalId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    long? ObjectId = null);
+    ObjectId? ObjectId = null);

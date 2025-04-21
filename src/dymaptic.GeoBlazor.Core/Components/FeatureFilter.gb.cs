@@ -57,7 +57,7 @@ public partial class FeatureFilter
     public FeatureFilter(
         double? distance = null,
         Geometry? geometry = null,
-        IReadOnlyList<long>? objectIds = null,
+        IReadOnlyList<ObjectId>? objectIds = null,
         SpatialRelationship? spatialRelationship = null,
         TimeExtent? timeExtent = null,
         QueryUnits? units = null,
@@ -86,7 +86,7 @@ public partial class FeatureFilter
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<long>? ObjectIds { get; set; }
+    public IReadOnlyList<ObjectId>? ObjectIds { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureFilter.html#featurefilterunits-property">GeoBlazor Docs</a>
@@ -184,7 +184,7 @@ public partial class FeatureFilter
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIds property.
     /// </summary>
-    public async Task<IReadOnlyList<long>?> GetObjectIds()
+    public async Task<IReadOnlyList<ObjectId>?> GetObjectIds()
     {
         if (CoreJsModule is null)
         {
@@ -207,7 +207,7 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
+        IReadOnlyList<ObjectId>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ObjectId>?>("getProperty",
             CancellationTokenSource.Token, "objectIds");
         if (result is not null)
         {
@@ -468,7 +468,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetObjectIds(IReadOnlyList<long>? value)
+    public async Task SetObjectIds(IReadOnlyList<ObjectId>? value)
     {
 #pragma warning disable BL0005
         ObjectIds = value;
@@ -665,9 +665,9 @@ public partial class FeatureFilter
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToObjectIds(params long[] values)
+    public async Task AddToObjectIds(params ObjectId[] values)
     {
-        long[] join = ObjectIds is null
+        ObjectId[] join = ObjectIds is null
             ? values
             : [..ObjectIds, ..values];
         await SetObjectIds(join);
@@ -684,7 +684,7 @@ public partial class FeatureFilter
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromObjectIds(params long[] values)
+    public async Task RemoveFromObjectIds(params ObjectId[] values)
     {
         if (ObjectIds is null)
         {

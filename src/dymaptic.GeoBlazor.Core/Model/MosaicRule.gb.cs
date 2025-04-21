@@ -72,7 +72,7 @@ public partial record MosaicRule(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<DimensionalDefinition>? MultidimensionalDefinition = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<long>? ObjectIds = null,
+    IReadOnlyCollection<ObjectId>? ObjectIds = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Operation? Operation = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -101,7 +101,7 @@
             ReturnGeometry = false
         };
 
-        long[] objectIds = await _featureLayer!.QueryObjectIds(query);
+        string[] objectIds = await _featureLayer!.QueryObjectIds(query);
         if (!objectIds.Any())
         {
             return;

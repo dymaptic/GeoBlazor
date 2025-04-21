@@ -124,10 +124,10 @@
                 @if (_results is not null)
                 {
                     <h5 class="heading" id="resultsHeading" slot="header-content">
-                        Results: @_results!.Features!.Length parks
+                        Results: @_results!.Features!.Count parks
                     </h5>
                     <div id="results">
-                        @for (var i = 0; i < _results.Features!.Length; i++)
+                        @for (var i = 0; i < _results.Features!.Count; i++)
                         {
                             Graphic result = _results.Features![i];
                             int index = i;

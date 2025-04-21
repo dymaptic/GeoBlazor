@@ -493,11 +493,11 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     /// </summary>
     [ArcGISMethod]
     [CodeGenerationIgnore]
-    public async Task<string?> GetObjectId()
+    public async Task<ObjectId?> GetObjectId()
     {
         if (CoreJsModule is null) return null;
         
-        return await CoreJsModule!.InvokeAsync<string?>(
+        return await CoreJsModule!.InvokeAsync<ObjectId?>(
             "getObjectIdForGraphic", 
             CancellationTokenSource.Token,
             Id, LayerId, ViewId);

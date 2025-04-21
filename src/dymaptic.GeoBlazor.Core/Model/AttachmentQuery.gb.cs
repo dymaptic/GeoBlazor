@@ -71,7 +71,7 @@ public partial record AttachmentQuery(
     IReadOnlyCollection<string>? Keywords = null,
     string? Name = null,
     double? Num = null,
-    IReadOnlyCollection<long>? ObjectIds = null,
+    IReadOnlyCollection<ObjectId>? ObjectIds = null,
     IReadOnlyCollection<string>? OrderByFields = null,
     bool? ReturnMetadata = null,
     IReadOnlyCollection<int>? Size = null,
@@ -125,7 +125,7 @@ public partial record AttachmentQuery(
     ///     An array of objectIds of the features to be queried for attachments.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<long>? ObjectIds { get; set; } = ObjectIds;
+    public IReadOnlyCollection<ObjectId>? ObjectIds { get; set; } = ObjectIds;
     
     /// <summary>
     ///     An array of one or more `attachmentInfo` field names on which the returned queried attachments will be sorted.
