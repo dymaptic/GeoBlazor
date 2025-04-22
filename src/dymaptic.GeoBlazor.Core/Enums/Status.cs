@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.Status.html">GeoBlazor Docs</a>
-///     <summary>
-///          Enumeration for Status
-///      </summary>
+///     Enumeration for Status
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Status>))]
 public enum Status

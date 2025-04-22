@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.UnivariateTheme.html">GeoBlazor Docs</a>
-///     <summary>
-///          Enumeration for UnivariateTheme
-///      </summary>
+///     Enumeration for UnivariateTheme
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<UnivariateTheme>))]
 public enum UnivariateTheme

@@ -17,7 +17,6 @@ public enum SliderViewModelType
     Min,
     Max,
     Tick,
-    Values,
     Value
 #pragma warning restore CS1591
 }

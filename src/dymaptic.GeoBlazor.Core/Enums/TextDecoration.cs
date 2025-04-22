@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.TextDecoration.html">GeoBlazor Docs</a>
-///     <summary>
-///          Decoration enumeration.
-///      </summary>
+///     Decoration enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<TextDecoration>))]
 public enum TextDecoration

@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.PortalGroupAccess.html">GeoBlazor Docs</a>
-///     <summary>
-///          Enumeration for PortalGroupAccess
-///      </summary>
+///     Enumeration for PortalGroupAccess
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PortalGroupAccess>))]
 public enum PortalGroupAccess
