@@ -1501,7 +1501,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerenderergetuniquevalueinfo-method">GeoBlazor Docs</a>
     ///     Returns rendering and legend information (as defined by the renderer) associated with the given graphic.
-    ///     param graphic The graphic whose rendering and legend information will be returned.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#getUniqueValueInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="graphic">
@@ -1539,7 +1538,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendererremoveuniquevalueinfo-method">GeoBlazor Docs</a>
     ///     Removes a unique value from the renderer.
-    ///     param value Value to remove from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#removeUniqueValueInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">

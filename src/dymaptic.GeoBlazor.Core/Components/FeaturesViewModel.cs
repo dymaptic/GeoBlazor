@@ -79,7 +79,6 @@ public partial class FeaturesViewModel: IViewModel
    /// <summary>
    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelzoomto-method">GeoBlazor Docs</a>
    ///     Sets the view to a given target.
-   ///     param params The parameters to pass to the `zoomTo()` method.
    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#zoomTo">ArcGIS Maps SDK for JavaScript</a>
    /// </summary>
    /// <param name="target">

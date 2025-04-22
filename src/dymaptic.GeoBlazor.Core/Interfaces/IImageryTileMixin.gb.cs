@@ -255,12 +255,6 @@ public partial interface IImageryTileMixin : IMapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinfetchpixels-method">GeoBlazor Docs</a>
     ///     Fetches pixels for a given extent.
-    ///     param extent The extent of the image to export.
-    ///     param width The width of the image in pixels.
-    ///     param height The height of the image in pixels.
-    ///     param options The parameter options is an object with the following properties.
-    ///     param options.interpolation Added at version 4.23. Defines how to interpolate pixel values.
-    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#fetchPixels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
@@ -284,8 +278,6 @@ public partial interface IImageryTileMixin : IMapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinidentify-method">GeoBlazor Docs</a>
     ///     Identify pixel values at a given location.
-    ///     param point Input point that defines the location to be identified.
-    ///     param options Optional settings for the identify request. At version 4.25, the `transposedVariableName` was added to get pixel values from specific dimensional definitions if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayer</a> references a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#hasMultidimensionalTranspose">transposed multidimensional</a> image service. Set the `transposedVariableName` and `multidimensionalDefinition` get pixel values for the specified dimensional definitions from a transposed multidimensional service. If `multidimensionalDefinition` is not specified, pixel values will be returned from all the dimensional slices.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#identify">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="point">

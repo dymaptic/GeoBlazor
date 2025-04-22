@@ -898,7 +898,6 @@ public partial class SliderViewModel
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeldefaultinputformatfunction-method">GeoBlazor Docs</a>
     ///     The default input format function available for use as a fallback in custom formatting implementations.
-    ///     param value The input value to format.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#defaultInputFormatFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -936,7 +935,6 @@ public partial class SliderViewModel
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeldefaultinputparsefunction-method">GeoBlazor Docs</a>
     ///     The default input parsing function available for use as a fallback in custom parsing implementations.
-    ///     param value The thumb value to parse.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#defaultInputParseFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -974,7 +972,6 @@ public partial class SliderViewModel
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeldefaultlabelformatfunction-method">GeoBlazor Docs</a>
     ///     The default label format function, available for use as a fallback in custom formatting implementations.
-    ///     param value The thumb value to format.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#defaultLabelFormatFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -1045,7 +1042,6 @@ public partial class SliderViewModel
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelgetboundsforvalueatindex-method">GeoBlazor Docs</a>
     ///     Returns the min and max bounds for a 'value' at the provided index.
-    ///     param index The index of the associated value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#getBoundsForValueAtIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="index">
@@ -1083,9 +1079,6 @@ public partial class SliderViewModel
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelgetlabelforvalue-method">GeoBlazor Docs</a>
     ///     Returns the formatted label for a provided value.
-    ///     param value The value from which to retrieve a formatted label.
-    ///     param type The label type.
-    ///     param index The index of the label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#getLabelForValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -1133,8 +1126,6 @@ public partial class SliderViewModel
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelsetvalue-method">GeoBlazor Docs</a>
     ///     Updates a thumb <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">value</a> based on the provided index.
-    ///     param index The index of the thumb value in the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">values</a> array.
-    ///     param value The new value to replace with the old value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#setValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="index">
@@ -1177,7 +1168,6 @@ public partial class SliderViewModel
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeltoprecision-method">GeoBlazor Docs</a>
     ///     Rounds the given value to the number of decimal places specified in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#precision">precision</a> property set on the view model.
-    ///     param value The thumb value to format.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#toPrecision">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">

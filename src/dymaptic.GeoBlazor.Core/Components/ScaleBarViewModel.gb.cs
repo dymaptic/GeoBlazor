@@ -81,8 +81,6 @@ public partial class ScaleBarViewModel : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ScaleBarViewModel.html#scalebarviewmodelgetscalebarproperties-method">GeoBlazor Docs</a>
     ///     Computes the size and units of the scale bar widget given a base length in pixels.
-    ///     param length The base width of the scale bar widget in pixels.
-    ///     param measurementSystem The measurement system to use.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar-ScaleBarViewModel.html#getScaleBarProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="length">

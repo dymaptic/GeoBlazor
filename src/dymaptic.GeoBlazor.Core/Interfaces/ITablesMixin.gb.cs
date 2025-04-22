@@ -60,7 +60,6 @@ public partial interface ITablesMixin : IMapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ITablesMixin.html#itablesmixinfindtablebyid-method">GeoBlazor Docs</a>
     ///     Returns a table based on the given table ID.
-    ///     param tableId The ID assigned to the table.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-TablesMixin.html#findTableById">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="tableId">

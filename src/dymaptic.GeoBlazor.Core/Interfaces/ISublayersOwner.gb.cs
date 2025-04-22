@@ -69,7 +69,6 @@ public partial interface ISublayersOwner : IMapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISublayersOwner.html#isublayersownerfindsublayerbyid-method">GeoBlazor Docs</a>
     ///     Returns the sublayer with the given layerId.
-    ///     param id The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#id">id</a> of the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#findSublayerById">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="id">

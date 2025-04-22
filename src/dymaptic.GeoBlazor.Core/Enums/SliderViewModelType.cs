@@ -5,9 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SliderViewModelType.html">GeoBlazor Docs</a>
 ///     Returns the formatted label for a provided value.
-///     param value The value from which to retrieve a formatted label.
-///     param type The label type.
-///     param index The index of the label.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#getLabelForValue">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SliderViewModelType>))]

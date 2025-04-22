@@ -393,8 +393,6 @@ public partial class BasemapGalleryViewModel : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelbasemapequals-method">GeoBlazor Docs</a>
     ///     A convenience function to check basemap equality.
-    ///     param basemap1 The basemap to compare against `basemap2`.
-    ///     param basemap2 The basemap to compare against `basemap1`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#basemapEquals">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="basemap1">

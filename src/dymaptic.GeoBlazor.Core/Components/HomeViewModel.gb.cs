@@ -300,7 +300,6 @@ public partial class HomeViewModel : IGoTo
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html#homeviewmodelongo-property">GeoBlazor Docs</a>
     ///     Indicates whether there is an event listener on the instance that matches
     ///     the provided event name.
-    ///     param type The name of the event.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#hasEventListener">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]

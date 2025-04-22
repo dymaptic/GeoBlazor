@@ -2977,7 +2977,6 @@ public partial class SearchViewModel : IGoTo
     ///     Depending on the sources specified, `search()` queries the feature layer(s) and/or performs
     ///     address matching using any specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">Locator(s)</a> and
     ///     returns the applicable results.
-    ///     param searchItem This searchItem can be a string, point geometry, suggest candidate object, or an array containing [latitude,longitude]. If a geometry is supplied, then it will reverse geocode (locator) or findAddressCandidates with geometry instead of text (featurelayer).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#search">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="searchItem">
@@ -3051,7 +3050,6 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelselect-method">GeoBlazor Docs</a>
     ///     Selects a result.
-    ///     param value The result object to select.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#select">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -3089,7 +3087,6 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsuggest-method">GeoBlazor Docs</a>
     ///     Performs a suggest() request on the active Locator.
-    ///     param value The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value of the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggest">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">

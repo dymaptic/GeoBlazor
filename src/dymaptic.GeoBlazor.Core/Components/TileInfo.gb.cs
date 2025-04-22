@@ -731,7 +731,6 @@ public partial class TileInfo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html#tileinfoscaletozoom-method">GeoBlazor Docs</a>
     ///     Utility method used to convert a scale value to its corresponding zoom value.
-    ///     param scale The scale value to convert.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#scaleToZoom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="scale">
@@ -769,7 +768,6 @@ public partial class TileInfo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html#tileinfozoomtoscale-method">GeoBlazor Docs</a>
     ///     Utility method used to convert a zoom value to its corresponding scale value.
-    ///     param zoom The zoom value to convert.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#zoomToScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="zoom">

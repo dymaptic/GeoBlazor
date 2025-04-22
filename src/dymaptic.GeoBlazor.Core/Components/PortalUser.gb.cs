@@ -1586,10 +1586,6 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluseradditem-method">GeoBlazor Docs</a>
     ///     Adds an item to the user's portal content.
-    ///     param params See the object specifications table below for the parameters that may be passed as properties in this object.
-    ///     param params.item The item to add to the user's content.
-    ///     param params.data The component used to stream the data represented by the item to the client.
-    ///     param params.folder The portal folder in which to store the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="item">
@@ -1638,8 +1634,6 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserdeleteitem-method">GeoBlazor Docs</a>
     ///     Deletes an item from the user's portal content.
-    ///     param item The portal item to remove.
-    ///     param permanentDelete Since 4.30. When the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#recycleBinEnabled">recycle bin is enabled</a> and the item to be deleted is an item type supported by the recycle bin, this parameter determines if the item should be permanently deleted. If `true`, the item will be permanently deleted. Otherwise, the item will be moved to the recycle bin. If the recycle bin is disabled, this parameter has no effect. If the item is not supported by the recycle bin, it will be permanently deleted regardless of the value of this parameter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#deleteItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="item">
@@ -1682,8 +1676,6 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserdeleteitems-method">GeoBlazor Docs</a>
     ///     Deletes items from the user's portal content.
-    ///     param items The portal items to remove.
-    ///     param permanentDelete Since 4.30. When the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#recycleBinEnabled">recycle bin is enabled</a> and the items to be deleted are item types supported by the recycle bin, this parameter determines if the items should be permanently deleted. If `true`, the items will be permanently deleted. Otherwise, the items will be moved to the recycle bin. If the recycle bin is disabled, this parameter has no effect. If items are not supported by the recycle bin, they will be permanently deleted regardless of the value of this parameter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#deleteItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="items">
@@ -1792,14 +1784,6 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchitems-method">GeoBlazor Docs</a>
     ///     Retrieves all the items in either the user's root folder or the specified folder.
-    ///     param params See the object specifications table below for the parameters that may be passed as properties in this object.
-    ///     param params.folder The folder to retrieve items from. When `folder` is not specified, the `includeSubfolderItems` parameter can be used to include items from subfolders.
-    ///     param params.inRecycleBin Option to retrieve items from the recycle bin instead.
-    ///     param params.includeSubfolderItems Option to include items from subfolders along with items in the root folder. This parameter does not apply when the `folder` parameter is specified.
-    ///     param params.num The maximum number of results to be included in the result set response. The maximum value allowed is 100. The start property combined with the num property can be used to paginate the search results.
-    ///     param params.sortField A comma-delimited list of fields to sort by. Allowed values are `created`, `modified`, `size`, and `type`.
-    ///     param params.sortOrder The order in which to sort the results. Allowed values are `asc` for ascending order and `desc` for descending order.
-    ///     param params.start The index of the first entry in the result set response. The index is 1-based.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="folder">
@@ -1905,7 +1889,6 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusergetthumbnailurl-method">GeoBlazor Docs</a>
     ///     Get the URL to the thumbnail image for the user.
-    ///     param width The desired image width.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#getThumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="width">
@@ -1944,7 +1927,6 @@ public partial class PortalUser : MapComponent
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserqueryfavorites-method">GeoBlazor Docs</a>
     ///     Executes a query against the user's favorite group to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItem</a>
     ///     objects that match the input query.
-    ///     param queryParams The input query parameters defined in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>. This object may be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/autocasting/">autocast</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#queryFavorites">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
@@ -1984,8 +1966,6 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserrestoreitem-method">GeoBlazor Docs</a>
     ///     Restores an item from the user's recycle bin to their content.
-    ///     param item The portal item to restore.
-    ///     param folder The folder to restore the item to. If not specified, the item will be restored to the root folder. If an invalid folder is specified, an error will be returned and the item will not be restored.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#restoreItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="item">

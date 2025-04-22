@@ -5,7 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IEditorViewModelGetTemplatesForLayer.html">GeoBlazor Docs</a>
 ///     Get all of the editing templates associated with a given layer.
-///     param layer The layer whose templates should be retrieved.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor-EditorViewModel.html#getTemplatesForLayer">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IEditorViewModelGetTemplatesForLayer>))]

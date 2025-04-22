@@ -484,7 +484,6 @@ public partial class Extent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentcenterat-method">GeoBlazor Docs</a>
     ///     Centers the extent to the specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a>.
-    ///     param point The point to center the extent.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#centerAt">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="point">
@@ -522,7 +521,6 @@ public partial class Extent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentcontains-method">GeoBlazor Docs</a>
     ///     Checks if the input geometry is contained within the extent.
-    ///     param geometry Input geometry to test if it is contained within the extent.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#contains">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="geometry">
@@ -560,7 +558,6 @@ public partial class Extent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentexpand-method">GeoBlazor Docs</a>
     ///     Expands the extent by the given factor.
-    ///     param factor The multiplier value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#expand">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="factor">
@@ -598,7 +595,6 @@ public partial class Extent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentintersection-method">GeoBlazor Docs</a>
     ///     Shrinks the original extent to the intersection with the input extent.
-    ///     param extent The input extent to intersect.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#intersection">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
@@ -636,7 +632,6 @@ public partial class Extent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentintersects-method">GeoBlazor Docs</a>
     ///     Tests to validate if the input geometry intersects the extent and returns a Boolean value.
-    ///     param geometry The geometry used to test the intersection. It can be a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">Polyline</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">Polygon</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Multipoint.html">Multipoint</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#intersects">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="geometry">
@@ -711,9 +706,6 @@ public partial class Extent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentoffset-method">GeoBlazor Docs</a>
     ///     Modifies the extent geometry in-place with X and Y offsets in map units.
-    ///     param dx The offset distance in map units for the X-coordinate.
-    ///     param dy The offset distance in map units for the Y-coordinate.
-    ///     param dz The offset distance in map units for the Z-coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#offset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="dx">
@@ -761,7 +753,6 @@ public partial class Extent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentunion-method">GeoBlazor Docs</a>
     ///     Expands the original extent to include the extent of the input Extent.
-    ///     param extent The input extent to union.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#union">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">

@@ -1069,7 +1069,6 @@ public partial class BookmarksWidget : IGoTo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetgoto-method">GeoBlazor Docs</a>
     ///     Zoom to a specific bookmark.
-    ///     param Bookmark The bookmark to zoom to.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#goTo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="bookmark">

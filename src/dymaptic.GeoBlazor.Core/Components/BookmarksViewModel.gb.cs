@@ -577,7 +577,6 @@ public partial class BookmarksViewModel : IGoTo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelcreatebookmark-method">GeoBlazor Docs</a>
     ///     Creates a new bookmark from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#defaultCreateOptions">defaultCreateOptions</a>, unless otherwise specified.
-    ///     param options Specifies how new bookmarks will be created. Can be used to enable/disable taking screenshots or capturing the extent when a new bookmark is added.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#createBookmark">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
@@ -616,8 +615,6 @@ public partial class BookmarksViewModel : IGoTo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodeleditbookmark-method">GeoBlazor Docs</a>
     ///     Edits the given bookmark.
-    ///     param bookmark The bookmark to be edited.
-    ///     param options Specifies how bookmarks will be edited. Can be used to enable/disable taking screenshots or capturing the extent when a bookmark is edited. If not specified, the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#defaultEditOptions">defaultEditOptions</a> will be used.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#editBookmark">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="bookmark">
@@ -662,7 +659,6 @@ public partial class BookmarksViewModel : IGoTo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelgoto-method">GeoBlazor Docs</a>
     ///     Zoom to a specific bookmark.
-    ///     param bookmark The bookmark to zoom to.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#goTo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="bookmark">

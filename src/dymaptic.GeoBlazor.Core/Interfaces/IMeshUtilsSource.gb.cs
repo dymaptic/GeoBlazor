@@ -5,11 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IMeshUtilsSource.html">GeoBlazor Docs</a>
 ///     Creates a mesh geometry by sampling elevation data from an elevation service on a regular grid.
-///     param source The source from which to query the elevation data.
-///     param extent The extent from which to create the mesh.
-///     param options Additional options.
-///     param options.demResolution Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`). See <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#queryElevation">ElevationLayer.queryElevation</a> for more details on the different settings.
-///     param options.signal Signal object that can be used to abort the asynchronous task.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-meshUtils.html#createFromElevation">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IMeshUtilsSource 
