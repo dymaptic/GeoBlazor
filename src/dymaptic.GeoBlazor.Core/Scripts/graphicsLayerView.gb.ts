@@ -35,10 +35,8 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
         let jsTarget = buildJsGraphic(target) as any;
-        let result = this.component.highlight(jsTarget,
+        return this.component.highlight(jsTarget,
             options);
-        let { buildDotNetHighlightHandle } = await import('./highlightHandle');
-        return await buildDotNetHighlightHandle(result, this.layerId, this.viewId);
     }
 
     async isFulfilled(): Promise<any> {

@@ -137,13 +137,13 @@ public partial class FeatureLayerView : LayerView
     ///     A handle that allows the highlight to be removed later.
     /// </returns>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(ObjectId objectId)
+    public async Task<Handle> Highlight(ObjectId objectId)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference objectRef =
             await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectId);
-        return new HighlightHandle(objectRef);
+        return new Handle(objectRef);
     }
 
     /// <summary>
@@ -159,7 +159,7 @@ public partial class FeatureLayerView : LayerView
     ///     Throws if no ObjectIDs are provided.
     /// </exception>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(IReadOnlyCollection<ObjectId> objectIds)
+    public async Task<Handle> Highlight(IReadOnlyCollection<ObjectId> objectIds)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         if (objectIds.Count == 0)
@@ -170,7 +170,7 @@ public partial class FeatureLayerView : LayerView
             await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectIds);
 
-        return new HighlightHandle(objectRef);
+        return new Handle(objectRef);
     }
     
     /// <summary>
@@ -186,7 +186,7 @@ public partial class FeatureLayerView : LayerView
     ///     Throws if the graphic has no OBJECTID attribute and was not queried via GeoBlazor.
     /// </exception>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(Graphic graphic)
+    public async Task<Handle> Highlight(Graphic graphic)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference? objectRef;
@@ -206,7 +206,7 @@ public partial class FeatureLayerView : LayerView
             }
         }
         
-        return new HighlightHandle(objectRef);
+        return new Handle(objectRef);
     }
 
     /// <summary>
@@ -222,7 +222,7 @@ public partial class FeatureLayerView : LayerView
     ///     Throws if the graphics have no OBJECTID attribute and were not queried via GeoBlazor.
     /// </exception>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(IReadOnlyCollection<Graphic> graphics)
+    public async Task<Handle> Highlight(IReadOnlyCollection<Graphic> graphics)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference? objectRef;
@@ -247,7 +247,7 @@ public partial class FeatureLayerView : LayerView
             }
         }
 
-        return new HighlightHandle(objectRef);
+        return new Handle(objectRef);
     }
 
     /// <summary>

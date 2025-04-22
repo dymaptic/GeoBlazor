@@ -11,6 +11,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<IHostApplicationLifetime, WasmApplicationLifetime>();
 
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddGeoBlazor();
+builder.Services.AddGeoBlazor(builder.Configuration);
 
 await builder.Build().RunAsync();
