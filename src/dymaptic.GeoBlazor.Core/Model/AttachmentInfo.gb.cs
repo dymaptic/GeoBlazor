@@ -63,7 +63,6 @@ public partial record AttachmentInfo(
     string Name,
     OrientationInfo OrientationInfo,
     string ParentGlobalId,
-    [property:JsonConverter(typeof(NumberToStringConverter))]
     ObjectId ParentObjectId,
     int Size,
     string Url,

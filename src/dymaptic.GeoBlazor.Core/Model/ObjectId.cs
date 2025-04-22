@@ -35,6 +35,26 @@ public class ObjectId(string stringVal) : IEquatable<ObjectId>
         return string.Equals(StringVal, other.StringVal, StringComparison.OrdinalIgnoreCase);
     }
 
+    public override bool Equals(object? obj)
+    {
+        return obj is ObjectId other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(StringVal, NumericVal);
+    }
+
+    public static bool operator ==(ObjectId? left, ObjectId? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(ObjectId? left, ObjectId? right)
+    {
+        return !Equals(left, right);
+    }
+
     public override string ToString() => StringVal;
 }
 

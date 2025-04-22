@@ -33,7 +33,7 @@ public partial class AttachmentsOrderByInfo : MapComponent
     /// </param>
     public AttachmentsOrderByInfo(
         string? field = null,
-        Order? order = null)
+        SortOrder? order = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -64,7 +64,7 @@ public partial class AttachmentsOrderByInfo : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Order? Order { get; set; }
+    public SortOrder? Order { get; set; }
     
 #endregion
 
@@ -112,7 +112,7 @@ public partial class AttachmentsOrderByInfo : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Order property.
     /// </summary>
-    public async Task<Order?> GetOrder()
+    public async Task<SortOrder?> GetOrder()
     {
         if (CoreJsModule is null)
         {
@@ -135,12 +135,12 @@ public partial class AttachmentsOrderByInfo : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<Order>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Order>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<SortOrder>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SortOrder>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "order");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Order = (Order)result.Value.Value!;
+             Order = (SortOrder)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Order)] = Order;
         }
@@ -195,7 +195,7 @@ public partial class AttachmentsOrderByInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrder(Order? value)
+    public async Task SetOrder(SortOrder? value)
     {
 #pragma warning disable BL0005
         Order = value;

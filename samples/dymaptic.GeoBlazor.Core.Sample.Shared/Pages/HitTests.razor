@@ -97,7 +97,7 @@
 
                 Query layerQuery = await _layerView!.CreateQuery();
                 layerQuery.Where = $"YEAR = {newYear} AND NAME = '{newName}'";
-                string[]? ids = await _layerView.QueryObjectIds(layerQuery);
+                ObjectId[]? ids = await _layerView.QueryObjectIds(layerQuery);
                 if (_highlightHandle is not null)
                 {
                     await _highlightHandle.Remove();

@@ -230,6 +230,7 @@
                     AddFeatures = graphics
                 };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
+        // timeout is needed here to allow the layer to be updated
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]);
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
         Assert.AreEqual(2000, layer.Source!.Count);
@@ -400,13 +401,13 @@
                     SpatialRelationship = SpatialRelationship.Intersects,
                     ReturnGeometry = false
                 };
-        string[] objectIds = await layer!.QueryObjectIds(query);
+        ObjectId[] objectIds = await layer!.QueryObjectIds(query);
         Assert.IsTrue(objectIds.Length > 0);
         var relationshipQuery = new RelationshipQuery
         {
             OutFields = ["NAME", "SUM_POPULATION"],
             RelationshipId = layer.Relationships?.FirstOrDefault()?.RelationshipId,
-            ObjectIds = objectIds.Select(i => i.ToString()).ToList()
+            ObjectIds = objectIds
         };
         RelatedFeaturesQueryResult? result = await layer.QueryRelatedFeatures(relationshipQuery);
         Assert.IsNotNull(result);

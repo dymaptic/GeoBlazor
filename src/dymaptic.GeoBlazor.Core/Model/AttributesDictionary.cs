@@ -37,6 +37,10 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                 {
                     _backingDictionary[kvp.Key] = new ObjectId(objectIdLong);
                 }
+                else if (kvp.Value is int objectIdInt)
+                {
+                    _backingDictionary[kvp.Key] = new ObjectId(objectIdInt);
+                }
                 else if (kvp.Value is JsonElement jsonObjectIdElement)
                 {
                     if (jsonObjectIdElement.TryGetInt64(out long objectIdLong2))

@@ -788,14 +788,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     [CodeGenerationIgnore]
-    public async Task<string[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
+    public async Task<ObjectId[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
         if (JsComponentReference is null) return [];
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string[] queryResult = await JsComponentReference!.InvokeAsync<string[]>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
+        ObjectId[] queryResult = await JsComponentReference!.InvokeAsync<ObjectId[]>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return queryResult;
@@ -991,7 +991,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     ///     An array of Object IDs for features that satisfy the input query.
     /// </returns>
     [CodeGenerationIgnore]
-    public async Task<long[]> QueryTopObjectIds(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    public async Task<ObjectId[]> QueryTopObjectIds(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
@@ -999,7 +999,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        long[] queryResult = await JsComponentReference!.InvokeAsync<long[]>("queryTopObjectIds", cancellationToken,
+        ObjectId[] queryResult = await JsComponentReference!.InvokeAsync<ObjectId[]>("queryTopObjectIds", cancellationToken,
             query, new { signal = abortSignal });
 
         await AbortManager.DisposeAbortController(cancellationToken);

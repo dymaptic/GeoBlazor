@@ -38,7 +38,7 @@ public partial class OrderByInfo : MapComponent
     /// </param>
     public OrderByInfo(
         string? field = null,
-        Order? order = null,
+        SortOrder? order = null,
         string? valueExpression = null)
     {
         AllowRender = false;
@@ -71,7 +71,7 @@ public partial class OrderByInfo : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Order? Order { get; set; }
+    public SortOrder? Order { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OrderByInfo.html#orderbyinfovalueexpression-property">GeoBlazor Docs</a>
@@ -130,7 +130,7 @@ public partial class OrderByInfo : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Order property.
     /// </summary>
-    public async Task<Order?> GetOrder()
+    public async Task<SortOrder?> GetOrder()
     {
         if (CoreJsModule is null)
         {
@@ -153,12 +153,12 @@ public partial class OrderByInfo : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<Order>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Order>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<SortOrder>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SortOrder>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "order");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Order = (Order)result.Value.Value!;
+             Order = (SortOrder)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Order)] = Order;
         }
@@ -252,7 +252,7 @@ public partial class OrderByInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrder(Order? value)
+    public async Task SetOrder(SortOrder? value)
     {
 #pragma warning disable BL0005
         Order = value;

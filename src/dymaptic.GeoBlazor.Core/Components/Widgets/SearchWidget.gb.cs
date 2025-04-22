@@ -1121,9 +1121,9 @@ public partial class SearchWidget : IGoTo
             return Suggestions;
         }
 
-        IReadOnlyList<SuggestResult>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SuggestResult>?>(
-            "getSuggestions", CancellationTokenSource.Token);
-        
+        // get the property value
+        IReadOnlyList<SuggestResult>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SuggestResult>?>("getProperty",
+            CancellationTokenSource.Token, "suggestions");
         if (result is not null)
         {
 #pragma warning disable BL0005

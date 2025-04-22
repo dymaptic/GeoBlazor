@@ -81,9 +81,6 @@ export function buildJsPolygon(dnPolygon): any {
     if (hasValue(dnPolygon.hasZ)) {
         properties.hasZ = dnPolygon.hasZ;
     }
-    if (hasValue(dnPolygon.centroid)) {
-        properties.centroid = buildJsPoint(dnPolygon.centroid);
-    }
 
     let polygon: Polygon;
     if (hasValue(dnPolygon.center) && hasValue(dnPolygon.radius)) {

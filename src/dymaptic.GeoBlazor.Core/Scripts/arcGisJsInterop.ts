@@ -101,6 +101,9 @@ export const actionHandlers: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 
+export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper(false);
+export let projectionEngine: ProjectionWrapper = new ProjectionWrapper(false);
+
 // region module variables
 
 let notifyExtentChanged: boolean = true;
@@ -116,6 +119,10 @@ export let Pro: any;
 
 export async function setPro(pro): Promise<void> {
     Pro = pro;
+}
+
+export async function getGeometryEngine() {
+    
 }
 
 // we have to wrap the JsObjectReference because a null will throw an error
@@ -205,18 +212,18 @@ export function setAssetsPath(path: string) {
     }
 }
 
-export async function getProjectionEngineWrapper(dotNetRef: any): Promise<ProjectionWrapper> {
+export async function getProjectionEngineWrapper(): Promise<ProjectionWrapper> {
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
     }
-    return new ProjectionWrapper(dotNetRef);
+    return new ProjectionWrapper();
 }
 
-export async function getGeometryEngineWrapper(dotNetRef: any): Promise<GeometryEngineWrapper> {
+export async function getGeometryEngineWrapper(): Promise<GeometryEngineWrapper> {
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
     }
-    return new GeometryEngineWrapper(dotNetRef);
+    return new GeometryEngineWrapper();
 }
 
 export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
@@ -325,7 +332,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         if (hasValue(popupEnabled)) {
-            (view as MapView).popup!.defaultPopupTemplateEnabled = popupEnabled as boolean;
+            (view as MapView).popupEnabled = popupEnabled as boolean;
         }
 
         if (hasValue(constraints)) {
