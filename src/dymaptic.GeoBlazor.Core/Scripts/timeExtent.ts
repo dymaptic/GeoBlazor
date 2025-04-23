@@ -1,4 +1,3 @@
-import TimeExtentGenerated from './timeExtent.gb';
 // override generated code in this file
 import TimeExtent from '@arcgis/core/time/TimeExtent';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
