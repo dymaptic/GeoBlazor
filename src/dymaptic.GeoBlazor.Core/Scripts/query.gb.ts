@@ -217,7 +217,7 @@ export async function buildDotNetQueryGenerated(jsObject: any, layerId: string |
     }
     
     if (hasValue(jsObject.objectIds)) {
-        dotNetQuery.objectIds = jsObject.objectIds;
+        dotNetQuery.objectIds = removeCircularReferences(jsObject.objectIds);
     }
     
     if (hasValue(jsObject.orderByFields)) {

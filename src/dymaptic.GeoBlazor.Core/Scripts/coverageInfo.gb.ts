@@ -8,8 +8,8 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     }
 
     let jsCoverageInfo: any = {};
-    if (hasValue(dotNetObject.description)) {
-        jsCoverageInfo.description = dotNetObject.description;
+    if (hasValue(dotNetObject.coverageDescription)) {
+        jsCoverageInfo.coverageDescription = dotNetObject.coverageDescription;
     }
     if (hasValue(dotNetObject.lonLatEnvelope)) {
         let { buildJsExtent } = await import('./extent');
@@ -23,11 +23,11 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.bandNames) && dotNetObject.bandNames.length > 0) {
         jsCoverageInfo.bandNames = dotNetObject.bandNames;
     }
-    if (hasValue(dotNetObject.coverageDescription)) {
-        jsCoverageInfo.coverageDescription = dotNetObject.coverageDescription;
-    }
     if (hasValue(dotNetObject.coverageId)) {
         jsCoverageInfo.id = dotNetObject.coverageId;
+    }
+    if (hasValue(dotNetObject.description)) {
+        jsCoverageInfo.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.supportedFormats) && dotNetObject.supportedFormats.length > 0) {
         jsCoverageInfo.supportedFormats = dotNetObject.supportedFormats;
@@ -82,7 +82,7 @@ export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<a
     }
     
     if (hasValue(jsObject.description)) {
-        dotNetCoverageInfo.description = removeCircularReferences(jsObject.description);
+        dotNetCoverageInfo.description = jsObject.description;
     }
     
     if (hasValue(jsObject.supportedFormats)) {
