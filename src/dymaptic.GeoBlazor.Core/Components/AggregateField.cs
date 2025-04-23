@@ -13,7 +13,7 @@ public partial class AggregateField : MapComponent
     public string? Alias { get; set; }
 
     /// <summary>
-    ///     Indicates whether the field was created internally by the JS API's rendering engine for default <see cref = "FeatureReductionCluster"/> visualizations. You should avoid setting or changing this value. If true, then all other properties of the AggregateField are read-only.
+    ///     Indicates whether the field was created internally by the JS API's rendering engine for default FeatureReductionCluster visualizations. You should avoid setting or changing this value. If true, then all other properties of the AggregateField are read-only.
     ///     Default Value:false
     /// </summary>
     [Parameter]

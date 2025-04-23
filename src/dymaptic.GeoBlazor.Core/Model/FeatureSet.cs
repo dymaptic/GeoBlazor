@@ -13,10 +13,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Typically, a layer has a limit on the number of features (i.e., records) returned by the query operation.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html#exceededTransferLimit">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Features">
-///     The array of graphics returned from a task.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html#features">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Fields">
 ///     Information about each field.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html#fields">ArcGIS Maps SDK for JavaScript</a>
@@ -48,6 +44,10 @@ public record FeatureSet(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SpatialReference? SpatialReference = null) : IClosestFacilityParametersFacilities, IClosestFacilityParametersIncidents, IServiceAreaParametersFacilities
 {
+    /// <summary>
+    ///     The array of graphics returned from a task.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html#features">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Graphic>? Features { get; init; }
 }
