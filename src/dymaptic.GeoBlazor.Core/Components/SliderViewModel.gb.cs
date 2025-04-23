@@ -1079,6 +1079,7 @@ public partial class SliderViewModel
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelgetlabelforvalue-method">GeoBlazor Docs</a>
     ///     Returns the formatted label for a provided value.
+    ///     param type The label type.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#getLabelForValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -1126,10 +1127,11 @@ public partial class SliderViewModel
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelsetvalue-method">GeoBlazor Docs</a>
     ///     Updates a thumb <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">value</a> based on the provided index.
+    ///     param value The new value to replace with the old value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#setValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="index">
-    ///     The index of the thumb value in the associated <a href="#values">values</a> array.
+    ///     The index of the thumb value in the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">values</a> array.
     /// </param>
     /// <param name="value">
     ///     The new value to replace with the old value.

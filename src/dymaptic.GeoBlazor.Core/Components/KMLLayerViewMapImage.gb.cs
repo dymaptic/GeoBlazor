@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html">GeoBlazor Docs</a>
-///     MapImage represents an image overlay draped onto the terrain.
+///     **MapImage*represents an image overlay draped onto the terrain.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class KMLLayerViewMapImage : MapComponent

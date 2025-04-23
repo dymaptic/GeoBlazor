@@ -1541,7 +1541,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#removeUniqueValueInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
-    ///     Value to remove from <a href="#uniqueValueInfos">uniqueValueInfos</a>.
+    ///     Value to remove from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a>.
     /// </param>
     [ArcGISMethod]
     public async Task RemoveUniqueValueInfo(string value)

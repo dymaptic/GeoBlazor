@@ -4,7 +4,6 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.MeasurementSystem.html">GeoBlazor Docs</a>
-///     
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<MeasurementSystem>))]
 public enum MeasurementSystem

@@ -635,10 +635,7 @@ public partial class Extent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#intersects">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="geometry">
-    ///     The geometry used to test the intersection. It can be a
-    ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a>, <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">Polyline</a>,
-    ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">Polygon</a>, <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> or
-    ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Multipoint.html">Multipoint</a>.
+    ///     The geometry used to test the intersection. It can be a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">Polyline</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">Polygon</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Multipoint.html">Multipoint</a>.
     /// </param>
     [ArcGISMethod]
     public async Task<bool?> Intersects(Geometry geometry)
@@ -706,6 +703,7 @@ public partial class Extent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentoffset-method">GeoBlazor Docs</a>
     ///     Modifies the extent geometry in-place with X and Y offsets in map units.
+    ///     param dy The offset distance in map units for the Y-coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#offset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="dx">

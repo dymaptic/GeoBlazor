@@ -1072,6 +1072,7 @@ public partial class BookmarksWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#goTo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="bookmark">
+    ///     The bookmark to zoom to.
     /// </param>
     [ArcGISMethod]
     public async Task<string?> GoTo(Bookmark bookmark)

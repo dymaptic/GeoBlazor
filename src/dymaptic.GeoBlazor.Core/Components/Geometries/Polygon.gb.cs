@@ -163,9 +163,7 @@ public partial class Polygon
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#addRing">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="points">
-    ///     A polygon ring. The first and last coordinates/points
-    ///     in the ring must be the same. This can either be defined as an array of
-    ///     Point geometries or an array of XY coordinates.
+    ///     A polygon ring. The first and last coordinates/points in the ring must be the same. This can either be defined as an array of Point geometries or an array of XY coordinates.
     /// </param>
     [ArcGISMethod]
     public async Task<Polygon?> AddRing(IReadOnlyCollection<Point> points)
@@ -236,6 +234,7 @@ public partial class Polygon
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygongetpoint-method">GeoBlazor Docs</a>
     ///     Returns a point specified by a ring and point in the path.
+    ///     param pointIndex The index of the desired point within the ring.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#getPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ringIndex">
@@ -278,6 +277,7 @@ public partial class Polygon
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygoninsertpoint-method">GeoBlazor Docs</a>
     ///     Inserts a new point into the polygon.
+    ///     param pointIndex The index of the point to insert within the ring.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#insertPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ringIndex">
@@ -328,8 +328,7 @@ public partial class Polygon
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#isClockwise">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ring">
-    ///     A polygon ring. It can either be defined as an array of
-    ///     Point geometries or an array of XY coordinates.
+    ///     A polygon ring. It can either be defined as an array of Point geometries or an array of XY coordinates.
     /// </param>
     [ArcGISMethod]
     public async Task<bool?> IsClockwise(IReadOnlyCollection<Point> ring)
@@ -363,6 +362,7 @@ public partial class Polygon
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygonremovepoint-method">GeoBlazor Docs</a>
     ///     Removes a point from the polygon at the given `pointIndex` within the ring identified by `ringIndex`.
+    ///     param pointIndex The index of the point to remove within the ring.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#removePoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ringIndex">
@@ -442,6 +442,7 @@ public partial class Polygon
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygonsetpoint-method">GeoBlazor Docs</a>
     ///     Updates a point in the polygon.
+    ///     param pointIndex The index of the point to update within the ring.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#setPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ringIndex">

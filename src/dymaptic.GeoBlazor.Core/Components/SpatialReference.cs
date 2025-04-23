@@ -1,7 +1,5 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-// TODO: Implement full ImageCoordinateSystem schema from https://developers.arcgis.com/rest/services-reference/enterprise/image-coordinate-system/
-
 [JsonConverter(typeof(SpatialReferenceConverter))]
 public partial class SpatialReference : MapComponent, IEquatable<SpatialReference>
 {

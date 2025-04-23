@@ -310,6 +310,8 @@ public partial class LayerListViewModel : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html#layerlistviewmodelmovelistitem-method">GeoBlazor Docs</a>
     ///     Moves a list item from one position to another in the LayerList widget.
+    ///     param fromParentItem If the `targetItem` is a child of a parent list item and you want to move it out of the parentItem, then use this parameter to indicate the parent item to move from.
+    ///     param newIndex The new index to move the `targetItem` to. If moving the item as a child to a parent item, then specify the index of the item within that parent.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#moveListItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="targetItem">
@@ -319,7 +321,7 @@ public partial class LayerListViewModel : MapComponent
     ///     If the <code>targetItem</code> is a child of a parent list item and you want to move it out of the parentItem, then use this parameter to indicate the parent item to move from.
     /// </param>
     /// <param name="toParentItem">
-    ///     The parent list item to move the <code>targetItem</code> to if moving it as a child to another parent item.
+    ///     The parent list item to move the `targetItem` to if moving it as a child to another parent item.
     /// </param>
     /// <param name="newIndex">
     ///     The new index to move the <code>targetItem</code> to. If moving the item as a child to a parent item, then specify the index of the item within that parent.
@@ -363,6 +365,7 @@ public partial class LayerListViewModel : MapComponent
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html#layerlistviewmodeltriggeraction-method">GeoBlazor Docs</a>
     ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#event-trigger-action">trigger-action</a> event and executes
     ///     the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a>.
+    ///     param item An item associated with the action.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#triggerAction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="action">

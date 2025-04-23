@@ -2118,9 +2118,20 @@ public partial class PopupWidget : IGoTo
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetopen-method">GeoBlazor Docs</a>
     ///     Opens the popup at the given location with content defined either explicitly with `content`
     ///     or driven from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> of input features.
+    ///     param options.title Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#title">title</a> of the popup.
+    ///     param options.location Sets the popup's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">location</a>, which is the geometry used to position the popup.
+    ///     param options.features Sets the popup's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">features</a>, which populate the title and content of the popup based on each graphic's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+    ///     param options.featureMenuOpen **Since:*4.5    This property enables multiple features in a popup to display in a list rather than displaying the first selected feature. Setting this to `true` allows the user to scroll through the list of features. This value will only be honored if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#initialDisplayMode">`initialDisplayMode`</a> is set to `feature`.
+    ///     param options.collapsed **Since:*4.5    When `true`, indicates that only the popup header will display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
+    ///     Defines the location and content of the popup when opened.
+    ///     - options.content: Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
+    ///     - options.fetchFeatures: When `true`, indicates the popup should fetch the content of this feature and display it. If no <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> exists, a default template is created for the layer if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#defaultPopupTemplateEnabled">defaultPopupTemplateEnabled</a> = `true`. In order for this option to work, there must be a valid `view` and `location` set.
+    ///     - options.promises: Sets pending <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">promises</a> on the popup. The popup will display once the promises resolve. Each promise must resolve to an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">Graphics</a>.
+    ///     - options.updateLocationEnabled: When `true` indicates the popup should update its <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">location</a> for each paginated feature based on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected feature's</a> geometry.
+    ///     - options.shouldFocus: **Since:*4.23    When `true`, indicates that the focus should be on the popup after it has been opened.
     /// </param>
     [ArcGISMethod]
     public async Task Open(PopupOpenOptions options)
@@ -2224,6 +2235,7 @@ public partial class PopupWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#triggerAction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="actionIndex">
+    ///     The index of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#actions">action</a> to execute.
     /// </param>
     [ArcGISMethod]
     public async Task TriggerAction(int actionIndex)

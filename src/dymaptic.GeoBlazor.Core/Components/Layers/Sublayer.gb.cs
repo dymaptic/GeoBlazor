@@ -2390,14 +2390,14 @@ public partial class Sublayer
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayergetfielddomain-method">GeoBlazor Docs</a>
     ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> associated with the given field name.
+    ///     param options An object specifying additional options. See the object specification table below for the required properties of this object.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="fieldName">
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     An object specifying additional options. See the
-    ///     object specification table below for the required properties of this object.
+    ///     - options.feature: The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
@@ -2532,6 +2532,7 @@ public partial class Sublayer
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerload-method">GeoBlazor Docs</a>
     ///     Loads the resources referenced by this class.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#load">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
@@ -2574,6 +2575,7 @@ public partial class Sublayer
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryattachments-method">GeoBlazor Docs</a>
     ///     Query information about attachments associated with features.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryAttachments">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="attachmentQuery">
@@ -2622,12 +2624,11 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryfeaturecount-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the sublayer and returns the number of features that
     ///     satisfy the query.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no
-    ///     parameters are specified, the total number of features satisfying
-    ///     the layer's configuration/filters is returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2671,12 +2672,11 @@ public partial class Sublayer
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryfeatures-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query.html">query</a> against features in the sublayer.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial
-    ///     filter of the query. If no parameters are specified, then all features satisfying the
-    ///     layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2721,18 +2721,17 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryobjectids-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the sublayer and returns an array of Object IDs for
     ///     features that satisfy the input query.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no
-    ///     parameters are specified, then the Object IDs of all features
-    ///     satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<long[]?> QueryObjectIds(Query query,
+    public async Task<ObjectId[]?> QueryObjectIds(Query query,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -2756,7 +2755,7 @@ public partial class Sublayer
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
+        ObjectId[]? result = await JsComponentReference!.InvokeAsync<ObjectId[]?>(
             "queryObjectIds", 
             CancellationTokenSource.Token,
             query,
@@ -2771,12 +2770,11 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryrelatedfeatures-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html">RelationshipQuery</a> against the sublayer and returns
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSets</a> grouped by source layer or table objectIds.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryRelatedFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipQuery">
-    ///     Specifies relationship parameters for
-    ///     querying related features or records from
-    ///     a layer or a table.
+    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2821,12 +2819,11 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryrelatedfeaturescount-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html">RelationshipQuery</a> against the sublayer and when resolved, it returns
     ///     an `object` containing key value pairs.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryRelatedFeaturesCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipQuery">
-    ///     Specifies relationship parameters for
-    ///     querying related features or records from
-    ///     a layer or a table.
+    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2870,6 +2867,7 @@ public partial class Sublayer
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param errback The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="callback">

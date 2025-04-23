@@ -3016,6 +3016,8 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemaddresource-method">GeoBlazor Docs</a>
     ///     Adds a new <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">resource</a> to the portal item.
+    ///     param content The resource content.
+    ///     param options.access Indicates the level of access to the resource. The default is "inherit" which causes the resource to have the same access level as the owning item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#addResource">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="resource">
@@ -3026,6 +3028,7 @@ public partial class PortalItem
     /// </param>
     /// <param name="options">
     ///     An object wih the following properties.
+    ///     - options.signal: Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -3138,6 +3141,7 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchdata-method">GeoBlazor Docs</a>
     ///     Requests a PortalItem in the format specified in `responseType`.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="responseType">
@@ -3185,6 +3189,7 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchrating-method">GeoBlazor Docs</a>
     ///     Returns the rating (if any) given to the item.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchRating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
@@ -3227,6 +3232,8 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchrelateditems-method">GeoBlazor Docs</a>
     ///     Gets all the related items of a certain relationship type for the portal item.
+    ///     param params.relationshipType The type of relationship between the two items. See <a target="_blank" href="https://developers.arcgis.com/rest/users-groups-and-items/relationship-types.htm">Relationship types</a> for a complete listing of types.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchRelatedItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipType">
@@ -3280,6 +3287,7 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchresources-method">GeoBlazor Docs</a>
     ///     Retrieves references to all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">portal item resources</a>.
+    ///     param options Additional options with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchResources">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="num">
@@ -3479,6 +3487,7 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemload-method">GeoBlazor Docs</a>
     ///     Loads the resources referenced by this class.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#load">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
@@ -3554,6 +3563,7 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemremoveallresources-method">GeoBlazor Docs</a>
     ///     Removes all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">resources</a> from the portal item.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#removeAllResources">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
@@ -3596,6 +3606,7 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemremoveresource-method">GeoBlazor Docs</a>
     ///     Removes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">resource</a> from the portal item.
+    ///     param options An object wih the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#removeResource">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="resource">
@@ -3643,6 +3654,7 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemupdate-method">GeoBlazor Docs</a>
     ///     Updates the item's properties to the portal, and optionally its data.
+    ///     param params.data **Optional**. The component used to stream the data represented by the item to the client.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="data">
@@ -3681,6 +3693,7 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemupdatethumbnail-method">GeoBlazor Docs</a>
     ///     Updates the item's thumbnail on the portal.
+    ///     param params.thumbnail A URL, Data URI, Blob, or File. The accepted formats are `GIF`, `JPG`, and `PNG`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="thumbnail">
@@ -3724,6 +3737,7 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param errback The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="callback">

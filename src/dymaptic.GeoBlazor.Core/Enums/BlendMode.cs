@@ -8,12 +8,6 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     seems like a new layer. Unlike the method of using transparency which can result in a washed-out top layer, blend
 ///     modes can create a variety of very vibrant and intriguing results by blending a layer with the layer(s) below it.
 /// </summary>
-/// <remarks>
-///     See more at
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">
-///          ArcGIS Maps SDK for JavaScript
-///     </a>
-/// </remarks>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<BlendMode>))]
 public enum BlendMode
 {

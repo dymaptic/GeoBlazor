@@ -834,10 +834,12 @@ public partial class PixelBlock : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockadddata-method">GeoBlazor Docs</a>
     ///     Adds another plane to the PixelBlock.
+    ///     param planeData.pixels An array representing the pixel data to add.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#addData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="planeData">
     ///     The data to add to the PixelBlock.
+    ///     - planeData.statistics: An object containing numeric statistical properties.
     /// </param>
     [ArcGISMethod]
     public async Task AddData(PixelBlockAddDataPlaneData planeData)

@@ -60,11 +60,14 @@ public partial interface ILayersMixin : IMapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinadd-method">GeoBlazor Docs</a>
     ///     Adds a layer to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>.
+    ///     param index A layer can be added at a specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>. If no index is specified or the index specified is greater than the current number of layers, the layer is automatically appended to the list of layers in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a> and the index is normalized.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#add">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layer">
+    ///     Layer or a promise that resolves to a layer to add to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>.
     /// </param>
     /// <param name="index">
+    ///     A layer can be added at a specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>. If no index is specified or the index specified is greater than the current number of layers, the layer is automatically appended to the list of layers in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a> and the index is normalized.
     /// </param>
     [ArcGISMethod]
     Task Add(Layer layer,
@@ -73,11 +76,14 @@ public partial interface ILayersMixin : IMapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinaddmany-method">GeoBlazor Docs</a>
     ///     Adds a layer or an array of layers to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>.
+    ///     param index A layer can be added at a specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>. If no index is specified or the index specified is greater than the current number of layers, the layer is automatically appended to the list of layers in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a> and the index is normalized.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#addMany">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layers">
+    ///     Layer(s) to be added to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>.
     /// </param>
     /// <param name="index">
+    ///     A layer can be added at a specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>. If no index is specified or the index specified is greater than the current number of layers, the layer is automatically appended to the list of layers in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a> and the index is normalized.
     /// </param>
     [ArcGISMethod]
     Task AddMany(IReadOnlyCollection<Layer> layers,
@@ -89,6 +95,7 @@ public partial interface ILayersMixin : IMapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#findLayerById">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
+    ///     The ID assigned to the layer.
     /// </param>
     [ArcGISMethod]
     Task<Layer?> FindLayerById(string layerId);
@@ -99,6 +106,7 @@ public partial interface ILayersMixin : IMapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#remove">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layer">
+    ///     Layer to remove from the layers collection.
     /// </param>
     [ArcGISMethod]
     Task<Layer?> Remove(Layer layer);
@@ -117,6 +125,7 @@ public partial interface ILayersMixin : IMapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#removeMany">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layers">
+    ///     Array of layers to remove from the layers collection.
     /// </param>
     [ArcGISMethod]
     Task<Layer[]?> RemoveMany(IReadOnlyCollection<Layer> layers);
@@ -124,11 +133,14 @@ public partial interface ILayersMixin : IMapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinreorder-method">GeoBlazor Docs</a>
     ///     Changes the layer order.
+    ///     param index The index location for placing the layer. The bottom-most layer has an index of `0`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#reorder">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layer">
+    ///     The layer to be moved.
     /// </param>
     /// <param name="index">
+    ///     The index location for placing the layer. The bottom-most layer has an index of `0`.
     /// </param>
     [ArcGISMethod]
     Task<Layer?> Reorder(Layer layer,

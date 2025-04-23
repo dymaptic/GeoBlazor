@@ -1127,11 +1127,11 @@ public partial class SearchWidget : IGoTo
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Suggestions = result;
+             Suggestions = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Suggestions)] = Suggestions;
+             ModifiedParameters[nameof(Suggestions)] = Suggestions;
         }
-        
+         
         return Suggestions;
     }
     

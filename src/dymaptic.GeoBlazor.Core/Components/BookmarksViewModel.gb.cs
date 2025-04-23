@@ -580,8 +580,7 @@ public partial class BookmarksViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#createBookmark">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
-    ///     Specifies
-    ///     how new bookmarks will be created. Can be used to enable/disable taking screenshots or capturing the extent when a new bookmark is added.
+    ///     Specifies how new bookmarks will be created. Can be used to enable/disable taking screenshots or capturing the extent when a new bookmark is added.
     /// </param>
     [ArcGISMethod]
     public async Task<Bookmark?> CreateBookmark(BookmarkOptions options)
@@ -615,6 +614,7 @@ public partial class BookmarksViewModel : IGoTo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodeleditbookmark-method">GeoBlazor Docs</a>
     ///     Edits the given bookmark.
+    ///     param options Specifies how bookmarks will be edited. Can be used to enable/disable taking screenshots or capturing the extent when a bookmark is edited. If not specified, the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#defaultEditOptions">defaultEditOptions</a> will be used.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#editBookmark">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="bookmark">

@@ -98,13 +98,16 @@ public partial record Ground(
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundcreateelevationsampler-method">GeoBlazor Docs</a>
     ///     Creates an elevation sampler for the given extent by querying the ground layers
     ///     for elevation data and caching it so values may be sampled quickly afterwards.
+    ///     param options Additional sampler options.
+    ///     param options.noDataValue The value to use when there is no data available.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#createElevationSampler">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
     ///     The extent for which to create the sampler.
     /// </param>
     /// <param name="options">
-    ///     Additional sampler options.
+    ///     - options.demResolution: Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`). See <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">Ground</a> for more details.
+    ///     - options.signal: An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -248,6 +251,7 @@ public partial record Ground(
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundload-method">GeoBlazor Docs</a>
     ///     Loads the resources referenced by this class.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#load">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
@@ -323,19 +327,22 @@ public partial record Ground(
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundqueryelevation-method">GeoBlazor Docs</a>
     ///     Query the ground layer services for elevation values for the given geometry.
-    ///     Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`). See the table below for more details on the different settings.
-    ///     demResolution          | Description
-    ///     -----------------------|-------------
-    ///     `auto`                 | Automatically chooses an appropriate resolution for each coordinate of the input geometry. The current implementation will try to use the finest available resolution given that the total required number of tile requests does not exceed a certain maximum amount (currently 20). Note that this may result in values being sampled from different resolutions.
-    ///     `finest-contiguous`    | Sample elevation from the finest available resolution (cell size) across the entire geometry.
-    ///     `{number}`             | Sample elevation from the resolution closest to the specified resolution (in meters).
+    ///     param options Additional query options.
+    ///     param options.returnSampleInfo Indicates whether to return additional sample information for each sampled coordinate.
+    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to sample.
     /// </param>
     /// <param name="options">
-    ///     Additional query options.
+    ///     - options.demResolution: Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`). See the table below for more details on the different settings.
+    ///     demResolution          | Description
+    ///     -----------------------|-------------
+    ///     `auto`                 | Automatically chooses an appropriate resolution for each coordinate of the input geometry. The current implementation will try to use the finest available resolution given that the total required number of tile requests does not exceed a certain maximum amount (currently 20). Note that this may result in values being sampled from different resolutions.
+    ///     `finest-contiguous`    | Sample elevation from the finest available resolution (cell size) across the entire geometry.
+    ///     `{number}`             | Sample elevation from the resolution closest to the specified resolution (in meters).
+    ///     - options.noDataValue: The value that appears in the resulting geometry when there is no data available.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -380,6 +387,7 @@ public partial record Ground(
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param errback The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="callback">

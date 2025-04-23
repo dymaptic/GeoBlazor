@@ -63,8 +63,7 @@ public partial class Polyline
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#addPath">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="points">
-    ///     A polyline path. This can either be defined as an array of
-    ///     Point geometries or an array of XY coordinates.
+    ///     A polyline path. This can either be defined as an array of Point geometries or an array of XY coordinates.
     /// </param>
     [ArcGISMethod]
     public async Task<Polyline?> AddPath(IReadOnlyCollection<Point> points)
@@ -98,6 +97,7 @@ public partial class Polyline
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polyline.html#polylinegetpoint-method">GeoBlazor Docs</a>
     ///     Returns a point specified by a path and point in the path.
+    ///     param pointIndex The index of a point in a path.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#getPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="pathIndex">
@@ -140,6 +140,7 @@ public partial class Polyline
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polyline.html#polylineinsertpoint-method">GeoBlazor Docs</a>
     ///     Inserts a new point into a polyline.
+    ///     param pointIndex The index of the inserted point in the path.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#insertPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="pathIndex">
@@ -224,6 +225,7 @@ public partial class Polyline
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polyline.html#polylineremovepoint-method">GeoBlazor Docs</a>
     ///     Removes a point from the polyline at the given `pointIndex` within the path identified by the given `pathIndex`.
+    ///     param pointIndex The index of the point to be removed within the path.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#removePoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="pathIndex">
@@ -266,6 +268,7 @@ public partial class Polyline
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polyline.html#polylinesetpoint-method">GeoBlazor Docs</a>
     ///     Updates a point in a polyline.
+    ///     param pointIndex The index of the point to be updated in the path.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#setPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="pathIndex">
