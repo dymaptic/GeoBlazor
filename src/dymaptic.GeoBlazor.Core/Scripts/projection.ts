@@ -1,3 +1,4 @@
+import ProjectionGenerated from './projection.gb';
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
 import {buildDotNetGeometry, buildJsGeometry} from "./geometry";

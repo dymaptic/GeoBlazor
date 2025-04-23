@@ -170,7 +170,7 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<
     }
     
     if (hasValue(jsObject.objectIds)) {
-        dotNetFeatureFilter.objectIds = jsObject.objectIds;
+        dotNetFeatureFilter.objectIds = removeCircularReferences(jsObject.objectIds);
     }
     
     if (hasValue(jsObject.spatialRelationship)) {

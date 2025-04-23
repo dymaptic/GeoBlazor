@@ -90,7 +90,7 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
     }
     
     if (hasValue(jsObject.objectIds)) {
-        dotNetMosaicRule.objectIds = jsObject.objectIds;
+        dotNetMosaicRule.objectIds = removeCircularReferences(jsObject.objectIds);
     }
     
     if (hasValue(jsObject.operation)) {

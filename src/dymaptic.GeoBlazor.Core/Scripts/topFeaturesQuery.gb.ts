@@ -122,7 +122,7 @@ export async function buildDotNetTopFeaturesQueryGenerated(jsObject: any, layerI
     }
     
     if (hasValue(jsObject.objectIds)) {
-        dotNetTopFeaturesQuery.objectIds = jsObject.objectIds;
+        dotNetTopFeaturesQuery.objectIds = removeCircularReferences(jsObject.objectIds);
     }
     
     if (hasValue(jsObject.orderByFields)) {
