@@ -1,5 +1,4 @@
-﻿@using dymaptic.GeoBlazor.Core.Results
-@inherits TestRunnerBase
+﻿@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -7,6 +6,27 @@
 
 @code {
 
+    [TestMethod]
+    public async Task TestMapRenderedSetBeforeOnViewRenderedCallback(Action renderHandler)
+    {
+        MapView? view = null;
+        void OnViewRendered()
+        {
+            Assert.IsNotNull(view);
+            Assert.IsTrue(view.MapRendered);
+            renderHandler.Invoke();
+        }
+        AddMapRenderFragment(
+            @<MapView @ref="view" class="map-view" OnViewRendered="OnViewRendered">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+    }
+    
     [TestMethod]
     public async Task TestCanSetCenter(Action renderHandler)
     {

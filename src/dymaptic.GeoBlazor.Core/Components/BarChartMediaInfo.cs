@@ -10,7 +10,7 @@ public partial class BarChartMediaInfo : MediaInfo
 
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
-        return new MediaInfoSerializationRecord("bar-chart")
+        return new MediaInfoSerializationRecord(Id.ToString(), "bar-chart")
         {
             AltText = AltText,
             Caption = Caption,

@@ -13,25 +13,57 @@
         FeatureLayer? layer = null;
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler"
-                          Latitude="34.02700"
-                          Longitude="-118.80543"
-                          Zoom="13">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
-            </Basemap>
-            <FeatureLayer @ref="layer"
-                          Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0">
-                <SimpleRenderer>
-                    <TextSymbol Text="Hello" />
-                </SimpleRenderer>
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler"
+                                  Latitude="34.02700"
+                                  Longitude="-118.80543"
+                                  Zoom="13">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0">
+                        <SimpleRenderer>
+                            <TextSymbol Text="Hello" />
+                        </SimpleRenderer>
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertSymbolOnLayer", args: [layer!.Id, "text"]);
+    }
+
+    [TestMethod]
+    public async Task CanUpdateFontSize(Action renderHandler)
+    {
+        Graphic? graphic = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler"
+                                  Latitude="34.02700"
+                                  Longitude="-118.80543"
+                                  Zoom="13">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <GraphicsLayer>
+                        <Graphic @ref="graphic">
+                            <Point X="0" Y="0" />
+                            <TextSymbol Text="Hello">
+                                <MapFont Family="San Serif" Size="12" />
+                            </TextSymbol>
+                        </Graphic>
+                    </GraphicsLayer>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await graphic!.SetSymbol(new TextSymbol("Hello", font: new MapFont(24, "San Serif")));
+        TextSymbol textSymbol = (TextSymbol)(await graphic.GetSymbol())!;
+        Assert.AreEqual(24, textSymbol.Font!.Size);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [textSymbol.Id, "font.size", 24]);
     }
 
     [TestMethod]
@@ -41,41 +73,40 @@
         TextSymbol? textSymbol = null;
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler"
-                          Latitude="34.02700"
-                          Longitude="-118.80543"
-                          Zoom="13">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
-            </Basemap>
-            <FeatureLayer @ref="layer"
-                          Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0">
-                <SimpleRenderer>
-                    <TextSymbol @ref="textSymbol" Text="Hello"
-                                Angle="39"
-                                BackgroundColor="@(new MapColor("red"))"
-                                BorderLineColor="@(new MapColor("blue"))"
-                                BorderLineSize="2"
-                                HaloColor="@(new MapColor("green"))"
-                                HaloSize="4"
-                                HorizontalAlignment="HorizontalAlignment.Left"
-                                VerticalAlignment="VerticalAlignment.Top"
-                                Kerning="false"
-                                LineHeight="2.3"
-                                LineWidth="@(new Dimension("120px"))"
-                                Rotated="true"
-                                Xoffset="@("23pt")"
-                                Yoffset="@("23pt")">
-                        <MapFont Family="San Serif" />
-                    </TextSymbol>
-                </SimpleRenderer>
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler"
+                      Latitude="34.02700"
+                      Longitude="-118.80543"
+                      Zoom="13">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0">
+                        <SimpleRenderer>
+                            <TextSymbol @ref="textSymbol" Text="Hello"
+                                        Angle="39"
+                                        BackgroundColor="@(new MapColor("red"))"
+                                        BorderLineColor="@(new MapColor("blue"))"
+                                        BorderLineSize="2"
+                                        HaloColor="@(new MapColor("green"))"
+                                        HaloSize="4"
+                                        HorizontalAlignment="HorizontalAlignment.Left"
+                                        VerticalAlignment="VerticalAlignment.Top"
+                                        Kerning="false"
+                                        LineHeight="2.3"
+                                        LineWidth="@(new Dimension("120px"))"
+                                        Rotated="true"
+                                        Xoffset="@("23pt")"
+                                        Yoffset="@("23pt")">
+                                <MapFont Family="San Serif" />
+                            </TextSymbol>
+                        </SimpleRenderer>
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertSymbolOnLayer", args: [layer!.Id, "text", textSymbol!]);
     }
-
 }

@@ -133,7 +133,7 @@ public partial class Extent : Geometry
 
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new GeometrySerializationRecord(Type.ToString().ToKebabCase(), null, 
+        return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), null, 
             SpatialReference?.ToSerializationRecord())
         {
             Xmax = Xmax,

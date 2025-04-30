@@ -46,17 +46,24 @@ public class RelatedRecordsInfoFieldOrder : MapComponent
 
     internal RelatedRecordsInfoFieldOrderSerializationRecord ToSerializationRecord()
     {
-        return new RelatedRecordsInfoFieldOrderSerializationRecord(Field, Order);
+        return new RelatedRecordsInfoFieldOrderSerializationRecord(Field, Order, Id.ToString());
     }
 }
 
 [ProtoContract(Name = "RelatedRecordsInfoFieldOrder")]
 internal record RelatedRecordsInfoFieldOrderSerializationRecord(
     [property: ProtoMember(1)] string? Field, 
-    [property: ProtoMember(2)] OrderBy? Order)
+    [property: ProtoMember(2)] OrderBy? Order,
+    [property: ProtoMember(3)] string Id)
 {
     public RelatedRecordsInfoFieldOrder FromSerializationRecord()
     {
-        return new(Field, Order);
+        Guid id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out Guid guid))
+        {
+            id = guid;
+        }
+        return new(Field, Order) { Id = id };
     }
 }

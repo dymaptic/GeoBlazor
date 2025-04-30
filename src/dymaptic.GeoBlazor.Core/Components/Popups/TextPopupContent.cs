@@ -19,7 +19,7 @@ public partial class TextPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
+        return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             Text = Text
         };

@@ -54,7 +54,7 @@ public partial class PictureFillSymbol : FillSymbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), null)
+        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), null)
         {
             Url = Url,
             Width = Width?.Points,

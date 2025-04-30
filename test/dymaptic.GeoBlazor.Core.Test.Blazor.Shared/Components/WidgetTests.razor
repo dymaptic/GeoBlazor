@@ -456,7 +456,7 @@
         Assert.IsNotNull(suggestResponse);
         SearchResponse searchResponse = await widget!.Search("test");
         Assert.IsNotNull(searchResponse);
-        IReadOnlyList<SearchResultResponse> searchResultResponse = await widget.GetResults();
+        IReadOnlyList<SearchResultResponse>? searchResultResponse = await widget.GetResults();
         Assert.IsNotNull(searchResultResponse);
         IReadOnlyList<SuggestResult>? suggestResults = await widget.GetSuggestions();
         Assert.IsNotNull(suggestResults);

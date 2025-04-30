@@ -17,7 +17,7 @@ public partial class ActionToggle : ActionBase
 
     internal override ActionBaseSerializationRecord ToSerializationRecord()
     {
-        return new ActionBaseSerializationRecord(Id, Type, Title, null, Active, Disabled, Visible, ActionId)
+        return new ActionBaseSerializationRecord(Id.ToString(), Type, Title, null, Active, Disabled, Visible, ActionId)
         {
             Value = Value
         };

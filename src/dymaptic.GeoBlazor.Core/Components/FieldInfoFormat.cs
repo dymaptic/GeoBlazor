@@ -59,7 +59,7 @@ public partial class FieldInfoFormat : MapComponent
             Enums.DateFormat.Year => "year",
             _ => null
         };
-        return new FieldInfoFormatSerializationRecord(Places, DigitSeparator, dateFormat);
+        return new FieldInfoFormatSerializationRecord(Id.ToString(), Places, DigitSeparator, dateFormat);
     }
 }
 
@@ -70,10 +70,12 @@ internal record FieldInfoFormatSerializationRecord : MapComponentSerializationRe
     {
     }
     
-    public FieldInfoFormatSerializationRecord(int? Places,
+    public FieldInfoFormatSerializationRecord(string Id,
+        int? Places,
         bool? DigitSeparator,
         string? DateFormat)
     {
+        this.Id = Id;
         this.Places = Places;
         this.DigitSeparator = DigitSeparator;
         this.DateFormat = DateFormat;
@@ -81,6 +83,11 @@ internal record FieldInfoFormatSerializationRecord : MapComponentSerializationRe
 
     public FieldInfoFormat FromSerializationRecord()
     {
+        Guid id = Guid.NewGuid();
+        if (Guid.TryParse(Id, out Guid guidId))
+        {
+            id = guidId;
+        }
         DateFormat? df = DateFormat switch
         {
             "short-date" => Enums.DateFormat.ShortDate,
@@ -113,7 +120,7 @@ internal record FieldInfoFormatSerializationRecord : MapComponentSerializationRe
             "year" => Enums.DateFormat.Year,
             _ => null
         };
-        return new FieldInfoFormat(Places, DigitSeparator, df);
+        return new FieldInfoFormat(Places, DigitSeparator, df) { Id = id };
     }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -125,4 +132,7 @@ internal record FieldInfoFormatSerializationRecord : MapComponentSerializationRe
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public string? DateFormat { get; init; }
+    
+    [ProtoMember(4)]
+    public string? Id { get; init; }
 }

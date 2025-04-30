@@ -10,7 +10,7 @@ public partial class ColumnChartMediaInfo : MediaInfo
 
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
-        return new MediaInfoSerializationRecord("column-chart")
+        return new MediaInfoSerializationRecord(Id.ToString(), "column-chart")
         {
             AltText = AltText,
             Caption = Caption,

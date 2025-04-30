@@ -21,7 +21,8 @@ public partial class ChartMediaInfoValue : MapComponent
 
     internal ChartMediaInfoValueSerializationRecord ToSerializationRecord()
     {
-        return new ChartMediaInfoValueSerializationRecord(Fields, NormalizeField, TooltipField, Series?.Select(s => s.ToSerializationRecord()));
+        return new ChartMediaInfoValueSerializationRecord(Id.ToString(), Fields, NormalizeField, TooltipField, 
+            Series?.Select(s => s.ToSerializationRecord()));
     }
 }
 
@@ -32,7 +33,10 @@ internal record ChartMediaInfoValueSerializationRecord : MapComponentSerializati
     {
     }
 
-    public ChartMediaInfoValueSerializationRecord(IEnumerable<string>? Fields = null, string? NormalizeField = null, string? TooltipField = null, IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series = null, string? LinkURL = null, string? SourceURL = null)
+    public ChartMediaInfoValueSerializationRecord(string Id, IEnumerable<string>? Fields = null, 
+        string? NormalizeField = null, string? TooltipField = null, 
+        IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series = null, string? LinkURL = null, 
+        string? SourceURL = null)
     {
         this.Fields = Fields;
         this.NormalizeField = NormalizeField;
@@ -44,12 +48,22 @@ internal record ChartMediaInfoValueSerializationRecord : MapComponentSerializati
 
     public object FromSerializationRecord()
     {
+        Guid id = Guid.NewGuid();
+        if (Guid.TryParse(Id, out Guid guid))
+        {
+            id = guid;
+        }
+        
         if (LinkURL is not null || SourceURL is not null)
         {
-            return new ImageMediaInfoValue(LinkURL, SourceURL);
+            return new ImageMediaInfoValue(LinkURL, SourceURL) { Id = id };
         }
 
-        return new ChartMediaInfoValue(Fields?.ToArray(), NormalizeField, TooltipField, Series?.Select(s => s.FromSerializationRecord()).ToArray());
+        return new ChartMediaInfoValue(Fields?.ToArray(), NormalizeField, TooltipField, 
+            Series?.Select(s => s.FromSerializationRecord()).ToArray())
+        {
+            Id = id
+        };
     }
 
     [ProtoMember(1)]
@@ -74,4 +88,7 @@ internal record ChartMediaInfoValueSerializationRecord : MapComponentSerializati
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public string? SourceURL { get; init; }
+    
+    [ProtoMember(7)]
+    public string? Id { get; init; }
 }

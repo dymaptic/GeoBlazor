@@ -10,7 +10,7 @@ public partial class LineChartMediaInfo : MediaInfo
 
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
-        return new MediaInfoSerializationRecord("line-chart")
+        return new MediaInfoSerializationRecord(Id.ToString(), "line-chart")
         {
             AltText = AltText,
             Caption = Caption,
