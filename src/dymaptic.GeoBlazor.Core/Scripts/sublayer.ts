@@ -1,6 +1,7 @@
 // override generated code in this file
 import SublayerGenerated from './sublayer.gb';
 import Sublayer from '@arcgis/core/layers/support/Sublayer';
+import { hasValue } from './arcGisJsInterop';
 
 export default class SublayerWrapper extends SublayerGenerated {
 
@@ -17,5 +18,13 @@ export async function buildJsSublayer(dotNetObject: any, layerId: string | null,
 
 export async function buildDotNetSublayer(jsObject: any): Promise<any> {
     let {buildDotNetSublayerGenerated} = await import('./sublayer.gb');
-    return await buildDotNetSublayerGenerated(jsObject);
+    let dnObject = await buildDotNetSublayerGenerated(jsObject);
+    if (hasValue(jsObject.sublayers) && jsObject.sublayers.length > 0) {
+        dnObject.sublayers = [];
+        for (let i = 0; i < jsObject.sublayers.items.length; i++) {
+            const sublayer = jsObject.sublayers.items[i];
+            dnObject.sublayers[i] = await buildDotNetSublayer(sublayer);
+        }
+    }
+    return dnObject;
 }

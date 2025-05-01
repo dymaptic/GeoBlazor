@@ -80,7 +80,6 @@ public partial class TileLayer : Layer
     {
         await base.UpdateFromJavaScript(renderedLayer);
         TileLayer renderedTileLayer = (TileLayer)renderedLayer;
-        Sublayers ??= renderedTileLayer.Sublayers;
         Url ??= renderedTileLayer.Url;
         Title ??= renderedTileLayer.Title;
         Effect ??= renderedTileLayer.Effect;
