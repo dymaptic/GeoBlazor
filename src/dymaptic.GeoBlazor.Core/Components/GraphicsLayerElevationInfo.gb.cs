@@ -57,6 +57,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GraphicsLayerElevationInfo.html#graphicslayerelevationinfofeatureexpressioninfo-property">GeoBlazor Docs</a>
     ///     Defines how to override a feature's Z-value based on its attributes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +67,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
     public GraphicsLayerElevationInfoFeatureExpressionInfo? FeatureExpressionInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GraphicsLayerElevationInfo.html#graphicslayerelevationinfomode-property">GeoBlazor Docs</a>
     ///     Defines how the feature is placed with respect to the terrain surface or 3D objects in the scene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +77,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
     public ElevationInfoMode? Mode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GraphicsLayerElevationInfo.html#graphicslayerelevationinfooffset-property">GeoBlazor Docs</a>
     ///     An elevation offset, which is added to the vertical position of the graphic.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +87,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
     public double? Offset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GraphicsLayerElevationInfo.html#graphicslayerelevationinfounit-property">GeoBlazor Docs</a>
     ///     The unit for `featureExpressionInfo` and `offset` values.
     ///     <a target="_blank" href="global.html#unit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

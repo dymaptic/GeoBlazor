@@ -4,7 +4,10 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IMeshUtilsSource.html">GeoBlazor Docs</a>
-///     Interface for types ElevationLayer, ElevationSampler, Ground
+///     Creates a mesh geometry by sampling elevation data from an elevation service on a regular grid.
+///     param extent The extent from which to create the mesh.
+///     param options.demResolution Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`). See <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#queryElevation">ElevationLayer.queryElevation</a> for more details on the different settings.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-meshUtils.html#createFromElevation">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IMeshUtilsSource 
 {

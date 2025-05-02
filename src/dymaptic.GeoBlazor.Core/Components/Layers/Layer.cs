@@ -267,6 +267,7 @@ public abstract partial class Layer : MapComponent
     /// <param name="cancellationToken">
     ///     A cancellation token to cancel the operation.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task Load(IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
         CancellationToken cancellationToken)
     {

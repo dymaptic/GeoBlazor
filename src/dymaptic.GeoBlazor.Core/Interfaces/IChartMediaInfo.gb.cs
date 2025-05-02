@@ -11,6 +11,7 @@ public partial interface IChartMediaInfo : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IChartMediaInfo.html#ichartmediainfovalue-property">GeoBlazor Docs</a>
     ///     Defines the chart value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-ChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

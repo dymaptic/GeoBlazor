@@ -35,7 +35,8 @@ public partial class ChartMediaInfoValue
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html#tooltipField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="series">
-    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">ChartMediaInfoValueSeries</a> objects which provide information of x/y data that is plotted in a chart.
+    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">ChartMediaInfoValueSeries</a> objects which provide
+    ///     information of x/y data that is plotted in a chart.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html#series">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="colors">
@@ -63,6 +64,7 @@ public partial class ChartMediaInfoValue
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ChartMediaInfoValue.html#chartmediainfovaluecolors-property">GeoBlazor Docs</a>
     ///     An optional array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">colors</a> where each color corresponds respectively to a field in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html#fields">fields</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html#colors">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -72,6 +74,7 @@ public partial class ChartMediaInfoValue
     public IReadOnlyList<MapColor>? Colors { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ChartMediaInfoValue.html#chartmediainfovaluefields-property">GeoBlazor Docs</a>
     ///     An array of strings, with each string containing the name of a field to display in the chart.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -81,7 +84,9 @@ public partial class ChartMediaInfoValue
     public IReadOnlyList<string>? Fields { get; set; }
     
     /// <summary>
-    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">ChartMediaInfoValueSeries</a> objects which provide information of x/y data that is plotted in a chart.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ChartMediaInfoValue.html#chartmediainfovalueseries-property">GeoBlazor Docs</a>
+    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">ChartMediaInfoValueSeries</a> objects which provide
+    ///     information of x/y data that is plotted in a chart.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html#series">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

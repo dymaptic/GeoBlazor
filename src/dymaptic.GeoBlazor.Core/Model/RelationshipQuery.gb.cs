@@ -80,7 +80,7 @@ public partial record RelationshipQuery(
     DateTime? HistoricMoment = null,
     double? MaxAllowableOffset = null,
     int? Num = null,
-    IReadOnlyCollection<string>? ObjectIds = null,
+    IReadOnlyCollection<ObjectId>? ObjectIds = null,
     IReadOnlyCollection<string>? OrderByFields = null,
     IReadOnlyCollection<string>? OutFields = null,
     SpatialReference? OutSpatialReference = null,
@@ -132,7 +132,7 @@ public partial record RelationshipQuery(
     ///     An array of objectIds for the features in the layer/table being queried.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<string>? ObjectIds { get; set; } = ObjectIds;
+    public IReadOnlyCollection<ObjectId>? ObjectIds { get; set; } = ObjectIds;
     
     /// <summary>
     ///     One or more field names used to order the query results.

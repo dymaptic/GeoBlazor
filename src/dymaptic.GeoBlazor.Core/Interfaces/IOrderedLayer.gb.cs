@@ -11,11 +11,12 @@ public partial interface IOrderedLayer : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IOrderedLayer.html#iorderedlayerorderby-property">GeoBlazor Docs</a>
     ///     Determines the order in which features are drawn in the view.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OrderedLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    IReadOnlyList<OrderedLayerOrderBy>? OrderBy { get; set; }
+    IReadOnlyList<OrderByInfo>? OrderBy { get; set; }
     
 #endregion
 
@@ -24,7 +25,7 @@ public partial interface IOrderedLayer : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
-    Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy>? value);
+    Task SetOrderBy(IReadOnlyList<OrderByInfo>? value);
     
 #endregion
 
@@ -33,7 +34,7 @@ public partial interface IOrderedLayer : IMapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
-    Task<IReadOnlyList<OrderedLayerOrderBy>?> GetOrderBy();
+    Task<IReadOnlyList<OrderByInfo>?> GetOrderBy();
 
 #endregion
 
@@ -42,7 +43,7 @@ public partial interface IOrderedLayer : IMapComponent
     /// <summary>
     ///     Asynchronously add elements to the OrderBy property.
     /// </summary>
-    Task AddToOrderBy(params OrderedLayerOrderBy[] values);
+    Task AddToOrderBy(params OrderByInfo[] values);
     
 #endregion
 
@@ -51,7 +52,7 @@ public partial interface IOrderedLayer : IMapComponent
     /// <summary>
     ///     Asynchronously remove elements from the OrderBy property.
     /// </summary>
-    Task RemoveFromOrderBy(params OrderedLayerOrderBy[] values);
+    Task RemoveFromOrderBy(params OrderByInfo[] values);
     
 #endregion
 

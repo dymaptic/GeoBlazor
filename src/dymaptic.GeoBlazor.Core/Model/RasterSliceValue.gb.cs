@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RasterSliceValue.html">GeoBlazor Docs</a>
-///     Data series returned in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyResult">RasterIdentifyResult</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#identify">identify()</a> is called on a transposed multidimensional ImageryTileLayer.
+///     Data series returned in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyResult">RasterIdentifyResult</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#identify">identify()</a> is called on a
+///     transposed multidimensional ImageryTileLayer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterSliceValue">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="MagdirValue">

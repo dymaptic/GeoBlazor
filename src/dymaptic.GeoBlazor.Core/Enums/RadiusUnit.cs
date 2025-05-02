@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.RadiusUnit.html">GeoBlazor Docs</a>
-///     Enumeration for RadiusUnit
+///     Unit of the radius.
+///     default "meters"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#radiusUnit">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<RadiusUnit>))]
 public enum RadiusUnit

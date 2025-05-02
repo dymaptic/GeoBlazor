@@ -23,6 +23,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Indicates if sublayers <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#definitionExpression">definition expression</a> can be set.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="SupportsSublayerOrderBy">
+/// </param>
 /// <param name="SupportsSublayersChanges">
 ///     Indicates if sublayers can be added, or removed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -40,6 +42,8 @@ public partial record ArcGISMapServiceCapabilitiesExportMap(
     bool? SupportsDynamicLayers = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsSublayerDefinitionExpression = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? SupportsSublayerOrderBy = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsSublayersChanges = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

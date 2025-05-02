@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryItem.html">GeoBlazor Docs</a>
-///     The BasemapGalleryItem class represents one of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#items">items</a> in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
+///     The BasemapGalleryItem class represents one of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#items">items</a>
+///     in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-BasemapGalleryItem.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BasemapGalleryItem : MapComponent
@@ -39,6 +40,7 @@ public partial class BasemapGalleryItem : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryItem.html#basemapgalleryitembasemap-property">GeoBlazor Docs</a>
     ///     The item's associated basemap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-BasemapGalleryItem.html#basemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -48,6 +50,7 @@ public partial class BasemapGalleryItem : MapComponent
     public Basemap? Basemap { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryItem.html#basemapgalleryitemerror-property">GeoBlazor Docs</a>
     ///     The Error object returned if an error occurred.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-BasemapGalleryItem.html#error">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -57,8 +60,9 @@ public partial class BasemapGalleryItem : MapComponent
     public Error? Error { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryItem.html#basemapgalleryitemstate-property">GeoBlazor Docs</a>
     ///     The item's state.
-    ///     default loading
+    ///     default "loading"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-BasemapGalleryItem.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

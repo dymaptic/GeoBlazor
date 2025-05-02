@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocatorSearchSource.html">GeoBlazor Docs</a>
-///     The following properties define a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">source</a> pointing to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#url">url</a> that represents a locator service, which may be used to geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget instance.
+///     The following properties define a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">source</a> pointing to a
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#url">url</a> that represents a locator service, which may be used to geocode locations
+///     with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget instance.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LocatorSearchSource
@@ -31,12 +33,14 @@ public partial class LocatorSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#apiKey">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="autoNavigate">
-    ///     Indicates whether to automatically navigate to the selected result once selected.
+    ///     Indicates whether to automatically navigate to the
+    ///     selected result once selected.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#autoNavigate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="categories">
-    ///     A string array which limits the results to one or more categories.
+    ///     A string array which limits the results to one
+    ///     or more categories.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#categories">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="countryCode">
@@ -44,7 +48,8 @@ public partial class LocatorSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#countryCode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="defaultZoomScale">
-    ///     Sets the scale of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#scale">MapView</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#scale">SceneView</a> for the resulting search result, if the locator service doesn’t return an extent with a scale.
+    ///     Sets the scale of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#scale">MapView</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#scale">SceneView</a>
+    ///     for the resulting search result, if the locator service doesn't return an extent with a scale.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#defaultZoomScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -63,12 +68,14 @@ public partial class LocatorSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#getSuggestions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="localSearchDisabled">
-    ///     This property controls prioritization of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget result candidates depending on the view scale.
+    ///     This property controls prioritization of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget result
+    ///     candidates depending on the view scale.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#localSearchDisabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="locationType">
-    ///     Defines the type of location, either `street` or `rooftop`, of the point returned from the <a target="_blank" href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-category-filtering.htm">World Geocoding Service</a>.
+    ///     Defines the type of location, either `street` or `rooftop`, of the point returned from the
+    ///     <a target="_blank" href="https://developers.arcgis.com/rest/geocode/api-reference/geocoding-category-filtering.htm">World Geocoding Service</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#locationType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxResults">
@@ -77,12 +84,14 @@ public partial class LocatorSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#maxResults">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxSuggestions">
-    ///     Indicates the maximum number of suggestions to return for the widget's input.
+    ///     Indicates the maximum number of suggestions
+    ///     to return for the widget's input.
     ///     default 6
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#maxSuggestions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minSuggestCharacters">
-    ///     Indicates the minimum number of characters required before querying for a suggestion.
+    ///     Indicates the minimum number of characters
+    ///     required before querying for a suggestion.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#minSuggestCharacters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -99,7 +108,8 @@ public partial class LocatorSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#placeholder">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
-    ///     Indicates whether to display a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> when a selected result is clicked.
+    ///     Indicates whether to display a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> when a selected result is clicked.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupTemplate">
@@ -111,7 +121,8 @@ public partial class LocatorSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#prefix">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="resultGraphicEnabled">
-    ///     Indicates whether to show a graphic on the map for the selected source using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#resultSymbol">resultSymbol</a>.
+    ///     Indicates whether to show a graphic on the
+    ///     map for the selected source using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#resultSymbol">resultSymbol</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#resultGraphicEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="resultSymbol">
@@ -119,11 +130,13 @@ public partial class LocatorSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#resultSymbol">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="searchTemplate">
-    ///     A template string used to display multiple fields in a defined order when results are displayed.
+    ///     A template string used to display multiple
+    ///     fields in a defined order when results are displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#searchTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="singleLineFieldName">
-    ///     The field name of the Single Line Address Field in the REST services directory for the locator service.
+    ///     The field name of the Single Line Address
+    ///     Field in the REST services directory for the locator service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#singleLineFieldName">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="suffix">
@@ -131,12 +144,14 @@ public partial class LocatorSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#suffix">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="suggestionsEnabled">
-    ///     Indicates whether to display suggestions as the user enters input text in the widget.
+    ///     Indicates whether to display suggestions
+    ///     as the user enters input text in the widget.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#suggestionsEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="withinViewEnabled">
-    ///     Indicates whether to constrain the search results to the view's extent.
+    ///     Indicates whether to constrain the search
+    ///     results to the view's extent.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#withinViewEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -215,7 +230,9 @@ public partial class LocatorSearchSource
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     A string array which limits the results to one or more categories.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocatorSearchSource.html#locatorsearchsourcecategories-property">GeoBlazor Docs</a>
+    ///     A string array which limits the results to one
+    ///     or more categories.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#categories">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -224,6 +241,7 @@ public partial class LocatorSearchSource
     public IReadOnlyList<string>? Categories { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocatorSearchSource.html#locatorsearchsourcename-property">GeoBlazor Docs</a>
     ///     The name of the source for display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -233,7 +251,9 @@ public partial class LocatorSearchSource
     public string? Name { get; set; }
     
     /// <summary>
-    ///     A template string used to display multiple fields in a defined order when results are displayed.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocatorSearchSource.html#locatorsearchsourcesearchtemplate-property">GeoBlazor Docs</a>
+    ///     A template string used to display multiple
+    ///     fields in a defined order when results are displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#searchTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -242,6 +262,7 @@ public partial class LocatorSearchSource
     public string? SearchTemplate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocatorSearchSource.html#locatorsearchsourceurl-property">GeoBlazor Docs</a>
     ///     URL to the ArcGIS Server REST resource that represents a locator service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

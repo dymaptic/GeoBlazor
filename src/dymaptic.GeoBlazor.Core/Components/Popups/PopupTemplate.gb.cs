@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html">GeoBlazor Docs</a>
-///     A PopupTemplate formats and defines the content of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> for a specific <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">Graphic</a>.
+///     A PopupTemplate formats and defines the content of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> for
+///     a specific <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">Graphic</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class PopupTemplate
@@ -14,6 +15,7 @@ public partial class PopupTemplate
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplateactions-property">GeoBlazor Docs</a>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> objects.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#actions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -23,7 +25,10 @@ public partial class PopupTemplate
     public IReadOnlyList<ActionBase>? Actions { get; set; }
     
     /// <summary>
-    ///     An array of objects or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">ExpressionInfo[]</a> that reference <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expressions following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplateexpressioninfos-property">GeoBlazor Docs</a>
+    ///     An array of objects or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">ExpressionInfo[]</a> that reference
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expressions following
+    ///     the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#expressionInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -32,7 +37,10 @@ public partial class PopupTemplate
     public IReadOnlyList<PopupExpressionInfo>? ExpressionInfos { get; set; }
     
     /// <summary>
-    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">FieldInfo</a> that defines how fields in the dataset or values from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expressions participate in a popup.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatefieldinfos-property">GeoBlazor Docs</a>
+    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">FieldInfo</a> that defines how fields in the dataset
+    ///     or values from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expressions participate
+    ///     in a popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#fieldInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -41,6 +49,7 @@ public partial class PopupTemplate
     public IReadOnlyList<FieldInfo>? FieldInfos { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatelasteditinfoenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether or not editor tracking should display.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#lastEditInfoEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -51,6 +60,7 @@ public partial class PopupTemplate
     public bool? LastEditInfoEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatelayeroptions-property">GeoBlazor Docs</a>
     ///     Additional options that can be defined for the popup layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#layerOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,15 +70,7 @@ public partial class PopupTemplate
     public LayerOptions? LayerOptions { get; set; }
     
     /// <summary>
-    ///     The template for defining how to format the title used in a popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#title">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? ObjectTitle { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplateoutfields-property">GeoBlazor Docs</a>
     ///     An array of field names used in the PopupTemplate.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#outFields">ArcGIS Maps SDK for JavaScript</a>
@@ -79,6 +81,7 @@ public partial class PopupTemplate
     public IReadOnlyList<string>? OutFields { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatestringtitle-property">GeoBlazor Docs</a>
     ///     The template for defining how to format the title used in a popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -88,6 +91,7 @@ public partial class PopupTemplate
     public string? StringTitle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatetaskcollectiontitle-property">GeoBlazor Docs</a>
     ///     The template for defining how to format the title used in a popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -293,45 +297,6 @@ public partial class PopupTemplate
         }
         
         return LayerOptions;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ObjectTitle property.
-    /// </summary>
-    public async Task<object?> GetObjectTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return ObjectTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ObjectTitle;
-        }
-
-        // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ObjectTitle = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ObjectTitle)] = ObjectTitle;
-        }
-         
-        return ObjectTitle;
     }
     
     /// <summary>
@@ -757,43 +722,6 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerOptions", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ObjectTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetObjectTitle(object? value)
-    {
-#pragma warning disable BL0005
-        ObjectTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ObjectTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
     }
     
     /// <summary>

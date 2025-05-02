@@ -39,6 +39,7 @@ public partial class Orientation : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Orientation.html#orientationz-property">GeoBlazor Docs</a>
     ///     z axis orientation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#Orientation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

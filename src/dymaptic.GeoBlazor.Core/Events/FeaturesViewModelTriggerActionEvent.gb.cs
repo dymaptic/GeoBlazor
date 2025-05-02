@@ -7,7 +7,9 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     Event result type for the FeaturesViewModel.OnTriggerAction event.
 /// </summary>
 /// <param name="Action">
-///     The action clicked by the user. For a description of this object and a specification of its properties, see the <a href="#actions">actions</a> property of this class.
+///     The action clicked by the user. For a description
+///     of this object and a specification of its properties,
+///     see the <a href="#actions">actions</a> property of this class.
 /// </param>
 public partial record FeaturesViewModelTriggerActionEvent(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

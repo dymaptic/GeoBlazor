@@ -23,7 +23,7 @@ public partial class SpatialReference : MapComponent, IEquatable<SpatialReferenc
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt2">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [CodeGenerationIgnore]
-    public SpatialReference(int? wkid = null, object? imageCoordinateSystem = null, string? wkt = null, string? wkt2 = null)
+    public SpatialReference(int? wkid = null, string? imageCoordinateSystem = null, string? wkt = null, string? wkt2 = null)
     {
 #pragma warning disable BL0005
         Wkid = wkid;

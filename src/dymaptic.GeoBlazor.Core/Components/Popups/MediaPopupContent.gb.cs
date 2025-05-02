@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.MediaPopupContent.html">GeoBlazor Docs</a>
-///     A `MediaContent` popup element contains an individual or array of chart and/or image media elements to display within a popup's content.
+///     A `MediaContent` popup element contains an individual or array of chart and/or image media elements
+///     to display within a popup's content.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class MediaPopupContent
@@ -31,7 +32,8 @@ public partial class MediaPopupContent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mediaInfos">
-    ///     Contains the media elements representing images or charts to display within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+    ///     Contains the media elements representing images or charts to display
+    ///     within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html#mediaInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="activeMediaInfoIndex">
@@ -54,19 +56,6 @@ public partial class MediaPopupContent
     }
     
     
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     Contains the media elements representing images or charts to display within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html#mediaInfos">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<MediaInfo>? MediaInfos { get; set; }
-    
-#endregion
-
 #region Property Getters
 
     /// <summary>
@@ -428,52 +417,4 @@ public partial class MediaPopupContent
     
 #endregion
 
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case MediaInfo mediaInfos:
-                MediaInfos ??= [];
-                if (!MediaInfos.Contains(mediaInfos))
-                {
-                    MediaInfos = [..MediaInfos, mediaInfos];
-                    ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case MediaInfo mediaInfos:
-                MediaInfos = MediaInfos?.Where(m => m != mediaInfos).ToList();
-                ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (MediaInfos is not null)
-        {
-            foreach (MediaInfo child in MediaInfos)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

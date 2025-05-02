@@ -18,7 +18,7 @@ public record HitTestOptions
     /// <summary>
     ///     A list of graphic ArcGIS OBJECTID attributes to include in the hitTest. All layers and graphics will be included if include is not specified.
     /// </summary>
-    public IEnumerable<string>? IncludeGraphicsByArcGISId { get; set; }
+    public IEnumerable<ObjectId>? IncludeGraphicsByArcGISId { get; set; }
 
     /// <summary>
     ///     A list of layers and/or graphics GeoBlazor Ids (Guid) to exclude from the hitTest. No layers or graphics will be excluded if exclude is not specified.
@@ -33,5 +33,5 @@ public record HitTestOptions
     /// <summary>
     ///     A list of graphic ArcGIS OBJECTID attributes to exclude in the hitTest. No layers and graphics will be excluded if exclude is not specified.
     /// </summary>
-    public IEnumerable<string>? ExcludeGraphicsByArcGISId { get; set; }
+    public IEnumerable<ObjectId>? ExcludeGraphicsByArcGISId { get; set; }
 }

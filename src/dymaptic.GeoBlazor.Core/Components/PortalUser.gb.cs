@@ -63,7 +63,8 @@ public partial class PortalUser : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#privileges">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="region">
-    ///     The user preferred region, used to set the featured maps on the home page, content in the gallery, and the default extent of new maps in the Viewer.
+    ///     The user preferred region, used to set the featured maps on the home page,
+    ///     content in the gallery, and the default extent of new maps in the Viewer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#region">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="role">
@@ -123,6 +124,7 @@ public partial class PortalUser : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluseraccess-property">GeoBlazor Docs</a>
     ///     Indicates the level of access of the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#access">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -132,6 +134,7 @@ public partial class PortalUser : MapComponent
     public PortalUserAccess? Access { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusercreated-property">GeoBlazor Docs</a>
     ///     The date the user was created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#created">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -141,6 +144,7 @@ public partial class PortalUser : MapComponent
     public DateTime? Created { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserculture-property">GeoBlazor Docs</a>
     ///     The culture information for the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#culture">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -150,6 +154,7 @@ public partial class PortalUser : MapComponent
     public string? Culture { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserdescription-property">GeoBlazor Docs</a>
     ///     A description of the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +164,7 @@ public partial class PortalUser : MapComponent
     public string? Description { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluseremail-property">GeoBlazor Docs</a>
     ///     The user's e-mail address.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#email">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -168,6 +174,7 @@ public partial class PortalUser : MapComponent
     public string? Email { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfullname-property">GeoBlazor Docs</a>
     ///     The user's full name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fullName">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -177,6 +184,7 @@ public partial class PortalUser : MapComponent
     public string? FullName { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusermodified-property">GeoBlazor Docs</a>
     ///     The date the user was last modified.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#modified">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -186,6 +194,7 @@ public partial class PortalUser : MapComponent
     public DateTime? Modified { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserorgid-property">GeoBlazor Docs</a>
     ///     The ID of the organization the user belongs to.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#orgId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -195,6 +204,7 @@ public partial class PortalUser : MapComponent
     public string? OrgId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserportal-property">GeoBlazor Docs</a>
     ///     The portal associated with the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#portal">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -205,6 +215,7 @@ public partial class PortalUser : MapComponent
     public Portal? Portal { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserpreferredview-property">GeoBlazor Docs</a>
     ///     The user's preferred view for content, either web or GIS.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#preferredView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -214,6 +225,7 @@ public partial class PortalUser : MapComponent
     public string? PreferredView { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserprivileges-property">GeoBlazor Docs</a>
     ///     The user's privileges based on their user type or role in their organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#privileges">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -223,7 +235,9 @@ public partial class PortalUser : MapComponent
     public IReadOnlyList<string>? Privileges { get; set; }
     
     /// <summary>
-    ///     The user preferred region, used to set the featured maps on the home page, content in the gallery, and the default extent of new maps in the Viewer.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserregion-property">GeoBlazor Docs</a>
+    ///     The user preferred region, used to set the featured maps on the home page,
+    ///     content in the gallery, and the default extent of new maps in the Viewer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#region">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -232,6 +246,7 @@ public partial class PortalUser : MapComponent
     public string? Region { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserrole-property">GeoBlazor Docs</a>
     ///     Defines the user's role in the organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#role">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -241,6 +256,7 @@ public partial class PortalUser : MapComponent
     public PortalUserRole? Role { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserroleid-property">GeoBlazor Docs</a>
     ///     The ID of the user's role.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#roleId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -250,15 +266,17 @@ public partial class PortalUser : MapComponent
     public string? RoleId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusersourcejson-property">GeoBlazor Docs</a>
     ///     The JSON used to create the property values when the `PortalUser` is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public object? SourceJSON { get; protected set; }
+    public string? SourceJSON { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserthumbnailurl-property">GeoBlazor Docs</a>
     ///     The URL to the thumbnail image for the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -268,6 +286,7 @@ public partial class PortalUser : MapComponent
     public string? ThumbnailUrl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserunits-property">GeoBlazor Docs</a>
     ///     The user's personal units of measure setting.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#units">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -277,6 +296,7 @@ public partial class PortalUser : MapComponent
     public PortalUserUnits? Units { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserusercontenturl-property">GeoBlazor Docs</a>
     ///     The URL for the user's content.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#userContentUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -286,6 +306,7 @@ public partial class PortalUser : MapComponent
     public string? UserContentUrl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserusername-property">GeoBlazor Docs</a>
     ///     The username of the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#username">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -808,7 +829,7 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<object?> GetSourceJSON()
+    public async Task<string?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -831,7 +852,7 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -1563,7 +1584,10 @@ public partial class PortalUser : MapComponent
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluseradditem-method">GeoBlazor Docs</a>
     ///     Adds an item to the user's portal content.
+    ///     param params.item The item to add to the user's content.
+    ///     param params.folder The portal folder in which to store the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="item">
@@ -1610,7 +1634,9 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserdeleteitem-method">GeoBlazor Docs</a>
     ///     Deletes an item from the user's portal content.
+    ///     param permanentDelete **Since 4.30.*When the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#recycleBinEnabled">recycle bin is enabled</a> and the item to be deleted is an item type supported by the recycle bin, this parameter determines if the item should be permanently deleted. If `true`, the item will be permanently deleted. Otherwise, the item will be moved to the recycle bin. If the recycle bin is disabled, this parameter has no effect. If the item is not supported by the recycle bin, it will be permanently deleted regardless of the value of this parameter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#deleteItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="item">
@@ -1620,7 +1646,7 @@ public partial class PortalUser : MapComponent
     ///     <strong>Since 4.30.</strong> When the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#recycleBinEnabled">recycle bin is enabled</a> and the item to be deleted is an item type supported by the recycle bin, this parameter determines if the item should be permanently deleted. If <code>true</code>, the item will be permanently deleted. Otherwise, the item will be moved to the recycle bin. If the recycle bin is disabled, this parameter has no effect. If the item is not supported by the recycle bin, it will be permanently deleted regardless of the value of this parameter.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> DeleteItem(PortalItem item,
+    public async Task<string?> DeleteItem(PortalItem item,
         bool permanentDelete)
     {
         if (CoreJsModule is null)
@@ -1643,7 +1669,7 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "deleteItem", 
             CancellationTokenSource.Token,
             item,
@@ -1651,7 +1677,9 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserdeleteitems-method">GeoBlazor Docs</a>
     ///     Deletes items from the user's portal content.
+    ///     param permanentDelete **Since 4.30.*When the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#recycleBinEnabled">recycle bin is enabled</a> and the items to be deleted are item types supported by the recycle bin, this parameter determines if the items should be permanently deleted. If `true`, the items will be permanently deleted. Otherwise, the items will be moved to the recycle bin. If the recycle bin is disabled, this parameter has no effect. If items are not supported by the recycle bin, they will be permanently deleted regardless of the value of this parameter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#deleteItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="items">
@@ -1692,6 +1720,7 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchfolders-method">GeoBlazor Docs</a>
     ///     Fetches all of the user's folders used to organize portal content.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchFolders">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1724,6 +1753,7 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchgroups-method">GeoBlazor Docs</a>
     ///     Fetches all the groups that the portal user has permission to access.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1756,7 +1786,12 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchitems-method">GeoBlazor Docs</a>
     ///     Retrieves all the items in either the user's root folder or the specified folder.
+    ///     param params.folder The folder to retrieve items from. When `folder` is not specified, the `includeSubfolderItems` parameter can be used to include items from subfolders.
+    ///     param params.includeSubfolderItems Option to include items from subfolders along with items in the root folder. This parameter does not apply when the `folder` parameter is specified.
+    ///     param params.sortField A comma-delimited list of fields to sort by. Allowed values are `created`, `modified`, `size`, and `type`.
+    ///     param params.start The index of the first entry in the result set response. The index is 1-based.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="folder">
@@ -1797,7 +1832,7 @@ public partial class PortalUser : MapComponent
         bool includeSubfolderItems,
         double num,
         string sortField,
-        string sortOrder,
+        OrderBy sortOrder,
         double start)
     {
         if (CoreJsModule is null)
@@ -1827,11 +1862,12 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchtags-method">GeoBlazor Docs</a>
     ///     Fetches the tag objects that have been created by the portal user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchTags">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<object[]?> FetchTags()
+    public async Task<string[]?> FetchTags()
     {
         if (CoreJsModule is null)
         {
@@ -1853,12 +1889,13 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object[]?>(
+        return await JsComponentReference!.InvokeAsync<string[]?>(
             "fetchTags", 
             CancellationTokenSource.Token);
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusergetthumbnailurl-method">GeoBlazor Docs</a>
     ///     Get the URL to the thumbnail image for the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#getThumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1895,12 +1932,13 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
-    ///     Executes a query against the user's favorite group to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItem</a> objects that match the input query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserqueryfavorites-method">GeoBlazor Docs</a>
+    ///     Executes a query against the user's favorite group to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItem</a>
+    ///     objects that match the input query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#queryFavorites">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>. This object may be
-    ///     <a href="https://developers.arcgis.com/javascript/latest/autocasting/">autocast</a>.
+    ///     The input query parameters defined in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>. This object may be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/autocasting/">autocast</a>.
     /// </param>
     [ArcGISMethod]
     public async Task<PortalQueryResult?> QueryFavorites(PortalQueryParams queryParams)
@@ -1932,7 +1970,9 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserrestoreitem-method">GeoBlazor Docs</a>
     ///     Restores an item from the user's recycle bin to their content.
+    ///     param folder The folder to restore the item to. If not specified, the item will be restored to the root folder. If an invalid folder is specified, an error will be returned and the item will not be restored.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#restoreItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="item">
@@ -1943,7 +1983,7 @@ public partial class PortalUser : MapComponent
     ///     If an invalid folder is specified, an error will be returned and the item will not be restored.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> RestoreItem(PortalItem item,
+    public async Task<string?> RestoreItem(PortalItem item,
         PortalFolder folder)
     {
         if (CoreJsModule is null)
@@ -1966,7 +2006,7 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "restoreItem", 
             CancellationTokenSource.Token,
             item,

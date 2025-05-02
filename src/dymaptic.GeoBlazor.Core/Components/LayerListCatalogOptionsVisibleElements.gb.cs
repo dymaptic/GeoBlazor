@@ -59,6 +59,7 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListCatalogOptionsVisibleElements.html#layerlistcatalogoptionsvisibleelementserrors-property">GeoBlazor Docs</a>
     ///     Indicates whether to display errors in the catalog layer list.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -69,6 +70,7 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
     public bool? Errors { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListCatalogOptionsVisibleElements.html#layerlistcatalogoptionsvisibleelementsfilter-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the filter input box in the catalog layer list.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -78,6 +80,7 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
     public bool? Filter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListCatalogOptionsVisibleElements.html#layerlistcatalogoptionsvisibleelementsstatusindicators-property">GeoBlazor Docs</a>
     ///     Indicates whether to display status indicators in the catalog layer list.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -88,6 +91,7 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
     public bool? StatusIndicators { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListCatalogOptionsVisibleElements.html#layerlistcatalogoptionsvisibleelementstemporarylayerindicators-property">GeoBlazor Docs</a>
     ///     Indicates whether temporary layer indicators will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

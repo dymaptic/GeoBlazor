@@ -51,6 +51,7 @@ public partial class PortalFolder : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalFolder.html#portalfoldercreated-property">GeoBlazor Docs</a>
     ///     The date the folder was created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalFolder.html#created">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,6 +61,7 @@ public partial class PortalFolder : MapComponent
     public DateTime? Created { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalFolder.html#portalfolderportal-property">GeoBlazor Docs</a>
     ///     The portal associated with the folder.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalFolder.html#portal">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -70,6 +72,7 @@ public partial class PortalFolder : MapComponent
     public Portal? Portal { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalFolder.html#portalfolderportalfolderid-property">GeoBlazor Docs</a>
     ///     The unique id of the folder.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalFolder.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -79,6 +82,7 @@ public partial class PortalFolder : MapComponent
     public string? PortalFolderId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalFolder.html#portalfoldertitle-property">GeoBlazor Docs</a>
     ///     The title of the folder.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalFolder.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -88,6 +92,7 @@ public partial class PortalFolder : MapComponent
     public string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalFolder.html#portalfolderurl-property">GeoBlazor Docs</a>
     ///     The URL to the folder.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalFolder.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

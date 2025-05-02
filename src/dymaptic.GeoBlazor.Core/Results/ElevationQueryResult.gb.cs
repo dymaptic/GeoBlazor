@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.ElevationQueryResult.html">GeoBlazor Docs</a>
-///     Object returned when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">queryElevation()</a> promise resolves:
+///     Object returned when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">queryElevation()</a> promise resolves:.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#ElevationQueryResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Geometry">

@@ -42,6 +42,8 @@ public partial class CapabilitiesAttachment : MapComponent
     ///     Indicates if the attachments can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html">queried</a> by their names.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="supportsOrderByFields">
+    /// </param>
     /// <param name="supportsResize">
     ///     Indicates if resized attachments are supported in the feature layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -56,6 +58,7 @@ public partial class CapabilitiesAttachment : MapComponent
         bool? supportsExifInfo = null,
         bool? supportsKeywords = null,
         bool? supportsName = null,
+        bool? supportsOrderByFields = null,
         bool? supportsResize = null,
         bool? supportsSize = null)
     {
@@ -66,6 +69,7 @@ public partial class CapabilitiesAttachment : MapComponent
         SupportsExifInfo = supportsExifInfo;
         SupportsKeywords = supportsKeywords;
         SupportsName = supportsName;
+        SupportsOrderByFields = supportsOrderByFields;
         SupportsResize = supportsResize;
         SupportsSize = supportsSize;
 #pragma warning restore BL0005    
@@ -75,6 +79,7 @@ public partial class CapabilitiesAttachment : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesAttachment.html#capabilitiesattachmentsupportscachehint-property">GeoBlazor Docs</a>
     ///     Indicates if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html">attachment operations</a> support a cache hint.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +89,7 @@ public partial class CapabilitiesAttachment : MapComponent
     public bool? SupportsCacheHint { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesAttachment.html#capabilitiesattachmentsupportscontenttype-property">GeoBlazor Docs</a>
     ///     Indicates if the attachments can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html">queried</a> by their content types.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -93,6 +99,7 @@ public partial class CapabilitiesAttachment : MapComponent
     public bool? SupportsContentType { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesAttachment.html#capabilitiesattachmentsupportsexifinfo-property">GeoBlazor Docs</a>
     ///     Indicates if the attachment <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html">queries</a> support `exifInfo`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -102,6 +109,7 @@ public partial class CapabilitiesAttachment : MapComponent
     public bool? SupportsExifInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesAttachment.html#capabilitiesattachmentsupportskeywords-property">GeoBlazor Docs</a>
     ///     Indicates if the attachments can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html">queried</a> by their keywords.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -111,6 +119,7 @@ public partial class CapabilitiesAttachment : MapComponent
     public bool? SupportsKeywords { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesAttachment.html#capabilitiesattachmentsupportsname-property">GeoBlazor Docs</a>
     ///     Indicates if the attachments can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html">queried</a> by their names.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -120,6 +129,16 @@ public partial class CapabilitiesAttachment : MapComponent
     public bool? SupportsName { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesAttachment.html#capabilitiesattachmentsupportsorderbyfields-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? SupportsOrderByFields { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesAttachment.html#capabilitiesattachmentsupportsresize-property">GeoBlazor Docs</a>
     ///     Indicates if resized attachments are supported in the feature layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -129,6 +148,7 @@ public partial class CapabilitiesAttachment : MapComponent
     public bool? SupportsResize { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesAttachment.html#capabilitiesattachmentsupportssize-property">GeoBlazor Docs</a>
     ///     Indicates if the attachments can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html">queried</a> by their sizes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -334,6 +354,45 @@ public partial class CapabilitiesAttachment : MapComponent
         }
          
         return SupportsName;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SupportsOrderByFields property.
+    /// </summary>
+    public async Task<bool?> GetSupportsOrderByFields()
+    {
+        if (CoreJsModule is null)
+        {
+            return SupportsOrderByFields;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SupportsOrderByFields;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsOrderByFields");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             SupportsOrderByFields = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(SupportsOrderByFields)] = SupportsOrderByFields;
+        }
+         
+        return SupportsOrderByFields;
     }
     
     /// <summary>
@@ -601,6 +660,43 @@ public partial class CapabilitiesAttachment : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsName", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the SupportsOrderByFields property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSupportsOrderByFields(bool? value)
+    {
+#pragma warning disable BL0005
+        SupportsOrderByFields = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SupportsOrderByFields)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "supportsOrderByFields", value);
     }
     
     /// <summary>

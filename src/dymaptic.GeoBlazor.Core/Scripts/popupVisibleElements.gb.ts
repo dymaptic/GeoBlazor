@@ -21,6 +21,9 @@ export async function buildJsPopupVisibleElementsGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.featureListLayerTitle)) {
         jsPopupVisibleElements.featureListLayerTitle = dotNetObject.featureListLayerTitle;
     }
+    if (hasValue(dotNetObject.featureMenuHeading)) {
+        jsPopupVisibleElements.featureMenuHeading = dotNetObject.featureMenuHeading;
+    }
     if (hasValue(dotNetObject.featureNavigation)) {
         jsPopupVisibleElements.featureNavigation = dotNetObject.featureNavigation;
     }
@@ -59,6 +62,10 @@ export async function buildDotNetPopupVisibleElementsGenerated(jsObject: any, la
     
     if (hasValue(jsObject.featureListLayerTitle)) {
         dotNetPopupVisibleElements.featureListLayerTitle = jsObject.featureListLayerTitle;
+    }
+    
+    if (hasValue(jsObject.featureMenuHeading)) {
+        dotNetPopupVisibleElements.featureMenuHeading = jsObject.featureMenuHeading;
     }
     
     if (hasValue(jsObject.featureNavigation)) {

@@ -9,6 +9,10 @@ export async function buildDotNetBasemapStyleGenerated(jsObject: any): Promise<a
     
     let dotNetBasemapStyle: any = {};
     
+    if (hasValue(jsObject.apiKey)) {
+        dotNetBasemapStyle.apiKey = jsObject.apiKey;
+    }
+    
     if (hasValue(jsObject.language)) {
         dotNetBasemapStyle.language = jsObject.language;
     }

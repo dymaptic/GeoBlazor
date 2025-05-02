@@ -12,24 +12,28 @@ public partial interface IArcGISMapService : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISMapService.html#iarcgismapservicecapabilities-property">GeoBlazor Docs</a>
     ///     Indicates the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     ArcGISMapServiceCapabilities? Capabilities { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISMapService.html#iarcgismapservicecopyright-property">GeoBlazor Docs</a>
     ///     The copyright text as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISMapService.html#iarcgismapservicefullextent-property">GeoBlazor Docs</a>
     ///     The full extent of the layer as defined by the map service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     Extent? FullExtent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISMapService.html#iarcgismapservicelegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -37,12 +41,14 @@ public partial interface IArcGISMapService : IMapComponent
     bool? LegendEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISMapService.html#iarcgismapservicespatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     SpatialReference? SpatialReference { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISMapService.html#iarcgismapserviceversion-property">GeoBlazor Docs</a>
     ///     The version of ArcGIS Server in which the map service is published.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

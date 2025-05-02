@@ -27,24 +27,44 @@ public partial class FeaturesViewModel : MapComponent,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> objects.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#actions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="activeFeature">
+    ///     The highlighted feature on the map that is either hovered over or in focus within the feature menu.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#activeFeature">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="autoCloseEnabled">
     ///     This closes the container when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> camera or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> changes.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#autoCloseEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="browseClusterEnabled">
-    ///     Indicates if the "Browse features" experience is active in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureReductionCluster.html">cluster</a> popup.
+    ///     Indicates if the "Browse features" experience is active in a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureReductionCluster.html">cluster</a> popup.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#browseClusterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="defaultPopupTemplateEnabled">
-    ///     Enables automatic creation of a popup template for layers that have popups enabled but no popupTemplate defined.
+    ///     Enables automatic creation of a popup template for layers that have popups enabled but no
+    ///     popupTemplate defined.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultPopupTemplateEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="elementReferenceContent">
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="featureMenuOpen">
+    ///     This property enables showing the list of features.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featureMenuOpen">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="featureMenuTitle">
+    ///     The title to display on the widget while viewing the feature menu.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featureMenuTitle">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="featurePage">
+    ///     The current page number in the feature browsing menu.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featurePage">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="features">
     ///     An array of features.
@@ -64,7 +84,9 @@ public partial class FeaturesViewModel : MapComponent,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="highlightEnabled">
-    ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a>
+    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a>
+    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -73,13 +95,23 @@ public partial class FeaturesViewModel : MapComponent,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#includeDefaultActions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="initialDisplayMode">
+    ///     Indicates whether to initially display a list of features, or the content for one feature.
+    ///     default "feature"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#initialDisplayMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="location">
     ///     Geometry used to show the location of the feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#location">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="promises">
-    ///     An array of pending Promises that have not yet been fulfilled.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">ArcGIS Maps SDK for JavaScript</a>
+    /// <param name="screenLocation">
+    ///     The screen location of the selected feature.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#screenLocation">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="screenLocationEnabled">
+    ///     Determines whether screen point tracking is active for positioning.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#screenLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="selectedFeatureIndex">
     ///     Index of the feature that is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeature">selected</a>.
@@ -102,6 +134,11 @@ public partial class FeaturesViewModel : MapComponent,
     ///     The title of the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="updateLocationEnabled">
+    ///     Indicates whether to update the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#location">location</a> when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeatureIndex">selectedFeatureIndex</a> changes.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#updateLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="visible">
     ///     Indicates whether the widget is visible.
     ///     default false
@@ -113,46 +150,60 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public FeaturesViewModel(
         IReadOnlyList<ActionBase>? actions = null,
+        Graphic? activeFeature = null,
         bool? autoCloseEnabled = null,
         bool? browseClusterEnabled = null,
         bool? defaultPopupTemplateEnabled = null,
         ElementReference? elementReferenceContent = null,
+        bool? featureMenuOpen = null,
+        string? featureMenuTitle = null,
+        double? featurePage = null,
         IReadOnlyList<Graphic>? features = null,
         double? featuresPerPage = null,
         Abilities? featureViewModelAbilities = null,
         GoToOverride? goToOverride = null,
         bool? highlightEnabled = null,
         bool? includeDefaultActions = null,
+        InitialDisplayMode? initialDisplayMode = null,
         Point? location = null,
-        object? promises = null,
+        FeaturesViewModelScreenPoint? screenLocation = null,
+        bool? screenLocationEnabled = null,
         int? selectedFeatureIndex = null,
         SpatialReference? spatialReference = null,
         string? stringContent = null,
         string? timeZone = null,
         string? title = null,
+        bool? updateLocationEnabled = null,
         bool? visible = null,
         Widget? widgetContent = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Actions = actions;
+        ActiveFeature = activeFeature;
         AutoCloseEnabled = autoCloseEnabled;
         BrowseClusterEnabled = browseClusterEnabled;
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
         ElementReferenceContent = elementReferenceContent;
+        FeatureMenuOpen = featureMenuOpen;
+        FeatureMenuTitle = featureMenuTitle;
+        FeaturePage = featurePage;
         Features = features;
         FeaturesPerPage = featuresPerPage;
         FeatureViewModelAbilities = featureViewModelAbilities;
         GoToOverride = goToOverride;
         HighlightEnabled = highlightEnabled;
         IncludeDefaultActions = includeDefaultActions;
+        InitialDisplayMode = initialDisplayMode;
         Location = location;
-        Promises = promises;
+        ScreenLocation = screenLocation;
+        ScreenLocationEnabled = screenLocationEnabled;
         SelectedFeatureIndex = selectedFeatureIndex;
         SpatialReference = spatialReference;
         StringContent = stringContent;
         TimeZone = timeZone;
         Title = title;
+        UpdateLocationEnabled = updateLocationEnabled;
         Visible = visible;
         WidgetContent = widgetContent;
 #pragma warning restore BL0005    
@@ -162,6 +213,7 @@ public partial class FeaturesViewModel : MapComponent,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelactions-property">GeoBlazor Docs</a>
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> objects.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#actions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -171,6 +223,7 @@ public partial class FeaturesViewModel : MapComponent,
     public IReadOnlyList<ActionBase>? Actions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelactive-property">GeoBlazor Docs</a>
     ///     Indicates if the view model is active when it is visible and is not <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#waitingForResult">waiting for results</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#active">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -180,6 +233,17 @@ public partial class FeaturesViewModel : MapComponent,
     public bool? Active { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelactivefeature-property">GeoBlazor Docs</a>
+    ///     The highlighted feature on the map that is either hovered over or in focus within the feature menu.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#activeFeature">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Graphic? ActiveFeature { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelallactions-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">actions</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggles</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#allActions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -189,6 +253,7 @@ public partial class FeaturesViewModel : MapComponent,
     public IReadOnlyList<ActionBase>? AllActions { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelautocloseenabled-property">GeoBlazor Docs</a>
     ///     This closes the container when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> camera or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> changes.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#autoCloseEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -199,7 +264,9 @@ public partial class FeaturesViewModel : MapComponent,
     public bool? AutoCloseEnabled { get; set; }
     
     /// <summary>
-    ///     Indicates if the "Browse features" experience is active in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureReductionCluster.html">cluster</a> popup.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelbrowseclusterenabled-property">GeoBlazor Docs</a>
+    ///     Indicates if the "Browse features" experience is active in a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureReductionCluster.html">cluster</a> popup.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#browseClusterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -209,6 +276,7 @@ public partial class FeaturesViewModel : MapComponent,
     public bool? BrowseClusterEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeldefaultactions-property">GeoBlazor Docs</a>
     ///     A read-only property that specifies a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of action <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">buttons</a> and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">toggles</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultActions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -218,7 +286,9 @@ public partial class FeaturesViewModel : MapComponent,
     public IReadOnlyList<ActionBase>? DefaultActions { get; protected set; }
     
     /// <summary>
-    ///     Enables automatic creation of a popup template for layers that have popups enabled but no popupTemplate defined.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeldefaultpopuptemplateenabled-property">GeoBlazor Docs</a>
+    ///     Enables automatic creation of a popup template for layers that have popups enabled but no
+    ///     popupTemplate defined.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultPopupTemplateEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -228,6 +298,7 @@ public partial class FeaturesViewModel : MapComponent,
     public bool? DefaultPopupTemplateEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelelementreferencecontent-property">GeoBlazor Docs</a>
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -237,6 +308,7 @@ public partial class FeaturesViewModel : MapComponent,
     public ElementReference? ElementReferenceContent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturecount-property">GeoBlazor Docs</a>
     ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">features</a> available.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featureCount">ArcGIS Maps SDK for JavaScript</a>
@@ -247,6 +319,39 @@ public partial class FeaturesViewModel : MapComponent,
     public int? FeatureCount { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturemenuopen-property">GeoBlazor Docs</a>
+    ///     This property enables showing the list of features.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featureMenuOpen">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? FeatureMenuOpen { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturemenutitle-property">GeoBlazor Docs</a>
+    ///     The title to display on the widget while viewing the feature menu.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featureMenuTitle">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FeatureMenuTitle { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturepage-property">GeoBlazor Docs</a>
+    ///     The current page number in the feature browsing menu.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featurePage">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? FeaturePage { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeatures-property">GeoBlazor Docs</a>
     ///     An array of features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -256,6 +361,7 @@ public partial class FeaturesViewModel : MapComponent,
     public IReadOnlyList<Graphic>? Features { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturesperpage-property">GeoBlazor Docs</a>
     ///     The number of features to fetch at one time.
     ///     default 20
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featuresPerPage">ArcGIS Maps SDK for JavaScript</a>
@@ -266,6 +372,7 @@ public partial class FeaturesViewModel : MapComponent,
     public double? FeaturesPerPage { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeatureviewmodelabilities-property">GeoBlazor Docs</a>
     ///     Defines the specific <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">abilities</a> that can be used when querying and displaying content.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featureViewModelAbilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -275,6 +382,7 @@ public partial class FeaturesViewModel : MapComponent,
     public Abilities? FeatureViewModelAbilities { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeatureviewmodels-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html">feature view model(s)</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featureViewModels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -284,7 +392,10 @@ public partial class FeaturesViewModel : MapComponent,
     public IReadOnlyList<IFeatureViewModel>? FeatureViewModels { get; protected set; }
     
     /// <summary>
-    ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelhighlightenabled-property">GeoBlazor Docs</a>
+    ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a>
+    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a>
+    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -294,6 +405,7 @@ public partial class FeaturesViewModel : MapComponent,
     public bool? HighlightEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelincludedefaultactions-property">GeoBlazor Docs</a>
     ///     Indicates whether or not to include <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultActions">defaultActions</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#includeDefaultActions">ArcGIS Maps SDK for JavaScript</a>
@@ -304,6 +416,18 @@ public partial class FeaturesViewModel : MapComponent,
     public bool? IncludeDefaultActions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelinitialdisplaymode-property">GeoBlazor Docs</a>
+    ///     Indicates whether to initially display a list of features, or the content for one feature.
+    ///     default "feature"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#initialDisplayMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public InitialDisplayMode? InitialDisplayMode { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodellocation-property">GeoBlazor Docs</a>
     ///     Geometry used to show the location of the feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#location">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -313,6 +437,7 @@ public partial class FeaturesViewModel : MapComponent,
     public Point? Location { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelpendingpromisescount-property">GeoBlazor Docs</a>
     ///     The number of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a> remaining to be resolved.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#pendingPromisesCount">ArcGIS Maps SDK for JavaScript</a>
@@ -323,26 +448,30 @@ public partial class FeaturesViewModel : MapComponent,
     public int? PendingPromisesCount { get; protected set; }
     
     /// <summary>
-    ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a> available.
-    ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promiseCount">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public int? PromiseCount { get; protected set; }
-    
-    /// <summary>
-    ///     An array of pending Promises that have not yet been fulfilled.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelscreenlocation-property">GeoBlazor Docs</a>
+    ///     The screen location of the selected feature.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#screenLocation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? Promises { get; set; }
+    public FeaturesViewModelScreenPoint? ScreenLocation { get; set; }
     
     /// <summary>
-    ///     The graphic used to represent the cluster extent when the `Browse features` action is active.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelscreenlocationenabled-property">GeoBlazor Docs</a>
+    ///     Determines whether screen point tracking is active for positioning.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#screenLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ScreenLocationEnabled { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelselectedclusterboundaryfeature-property">GeoBlazor Docs</a>
+    ///     The graphic used to represent the cluster extent when the `Browse features` action
+    ///     is active.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedClusterBoundaryFeature">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -351,6 +480,7 @@ public partial class FeaturesViewModel : MapComponent,
     public Graphic? SelectedClusterBoundaryFeature { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelselectedfeature-property">GeoBlazor Docs</a>
     ///     The selected feature accessed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeature">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -360,6 +490,7 @@ public partial class FeaturesViewModel : MapComponent,
     public Graphic? SelectedFeature { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelselectedfeatureindex-property">GeoBlazor Docs</a>
     ///     Index of the feature that is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeature">selected</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeatureIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -369,6 +500,17 @@ public partial class FeaturesViewModel : MapComponent,
     public int? SelectedFeatureIndex { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelselectedfeatureviewmodel-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html">view model</a> of the selected feature.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeatureViewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IFeatureViewModel? SelectedFeatureViewModel { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference used for <a target="_blank" href="https://developers.arcgis.com/arcade">Arcade</a> operations.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
@@ -379,8 +521,9 @@ public partial class FeaturesViewModel : MapComponent,
     public SpatialReference? SpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -389,6 +532,7 @@ public partial class FeaturesViewModel : MapComponent,
     public ViewModelState? State { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelstringcontent-property">GeoBlazor Docs</a>
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -398,6 +542,7 @@ public partial class FeaturesViewModel : MapComponent,
     public string? StringContent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeltimezone-property">GeoBlazor Docs</a>
     ///     Dates and times will be displayed in this time zone.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#timeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -407,6 +552,7 @@ public partial class FeaturesViewModel : MapComponent,
     public string? TimeZone { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeltitle-property">GeoBlazor Docs</a>
     ///     The title of the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -416,6 +562,28 @@ public partial class FeaturesViewModel : MapComponent,
     public string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelupdatelocationenabled-property">GeoBlazor Docs</a>
+    ///     Indicates whether to update the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#location">location</a> when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeatureIndex">selectedFeatureIndex</a> changes.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#updateLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? UpdateLocationEnabled { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelwaitingforcontents-property">GeoBlazor Docs</a>
+    ///     Indicates whether the widget is waiting for content to be resolved.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#waitingForContents">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public bool? WaitingForContents { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelwaitingforresult-property">GeoBlazor Docs</a>
     ///     Indicates whether a feature was found while resolving <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a>.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#waitingForResult">ArcGIS Maps SDK for JavaScript</a>
@@ -426,6 +594,7 @@ public partial class FeaturesViewModel : MapComponent,
     public bool? WaitingForResult { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelwidgetcontent-property">GeoBlazor Docs</a>
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -514,6 +683,50 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return Active;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActiveFeature property.
+    /// </summary>
+    public async Task<Graphic?> GetActiveFeature()
+    {
+        if (CoreJsModule is null)
+        {
+            return ActiveFeature;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ActiveFeature;
+        }
+
+        Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
+            "getActiveFeature", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (ActiveFeature is not null)
+            {
+                result.Id = ActiveFeature.Id;
+            }
+            
+#pragma warning disable BL0005
+            ActiveFeature = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ActiveFeature)] = ActiveFeature;
+        }
+        
+        return ActiveFeature;
     }
     
     /// <summary>
@@ -790,6 +1003,123 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the FeatureMenuOpen property.
+    /// </summary>
+    public async Task<bool?> GetFeatureMenuOpen()
+    {
+        if (CoreJsModule is null)
+        {
+            return FeatureMenuOpen;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FeatureMenuOpen;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "featureMenuOpen");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             FeatureMenuOpen = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(FeatureMenuOpen)] = FeatureMenuOpen;
+        }
+         
+        return FeatureMenuOpen;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FeatureMenuTitle property.
+    /// </summary>
+    public async Task<string?> GetFeatureMenuTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return FeatureMenuTitle;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FeatureMenuTitle;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "featureMenuTitle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FeatureMenuTitle = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(FeatureMenuTitle)] = FeatureMenuTitle;
+        }
+         
+        return FeatureMenuTitle;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FeaturePage property.
+    /// </summary>
+    public async Task<double?> GetFeaturePage()
+    {
+        if (CoreJsModule is null)
+        {
+            return FeaturePage;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FeaturePage;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "featurePage");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             FeaturePage = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(FeaturePage)] = FeaturePage;
+        }
+         
+        return FeaturePage;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Features property.
     /// </summary>
     public async Task<IReadOnlyList<Graphic>?> GetFeatures()
@@ -1024,6 +1354,45 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the InitialDisplayMode property.
+    /// </summary>
+    public async Task<InitialDisplayMode?> GetInitialDisplayMode()
+    {
+        if (CoreJsModule is null)
+        {
+            return InitialDisplayMode;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return InitialDisplayMode;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<InitialDisplayMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<InitialDisplayMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "initialDisplayMode");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             InitialDisplayMode = (InitialDisplayMode)result.Value.Value!;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(InitialDisplayMode)] = InitialDisplayMode;
+        }
+         
+        return InitialDisplayMode;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Location property.
     /// </summary>
     public async Task<Point?> GetLocation()
@@ -1107,13 +1476,13 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the PromiseCount property.
+    ///     Asynchronously retrieve the current value of the ScreenLocation property.
     /// </summary>
-    public async Task<int?> GetPromiseCount()
+    public async Task<FeaturesViewModelScreenPoint?> GetScreenLocation()
     {
         if (CoreJsModule is null)
         {
-            return PromiseCount;
+            return ScreenLocation;
         }
         
         try 
@@ -1128,60 +1497,60 @@ public partial class FeaturesViewModel : MapComponent,
         
         if (JsComponentReference is null)
         {
-            return PromiseCount;
+            return ScreenLocation;
         }
 
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "promiseCount");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             PromiseCount = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(PromiseCount)] = PromiseCount;
-        }
-         
-        return PromiseCount;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Promises property.
-    /// </summary>
-    public async Task<object?> GetPromises()
-    {
-        if (CoreJsModule is null)
-        {
-            return Promises;
-        }
+        FeaturesViewModelScreenPoint? result = await JsComponentReference.InvokeAsync<FeaturesViewModelScreenPoint?>(
+            "getScreenLocation", CancellationTokenSource.Token);
         
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Promises;
-        }
-
-        // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "promises");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Promises = result;
+            ScreenLocation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Promises)] = Promises;
+            ModifiedParameters[nameof(ScreenLocation)] = ScreenLocation;
+        }
+        
+        return ScreenLocation;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ScreenLocationEnabled property.
+    /// </summary>
+    public async Task<bool?> GetScreenLocationEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return ScreenLocationEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ScreenLocationEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "screenLocationEnabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             ScreenLocationEnabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ScreenLocationEnabled)] = ScreenLocationEnabled;
         }
          
-        return Promises;
+        return ScreenLocationEnabled;
     }
     
     /// <summary>
@@ -1309,6 +1678,45 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return SelectedFeatureIndex;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SelectedFeatureViewModel property.
+    /// </summary>
+    public async Task<IFeatureViewModel?> GetSelectedFeatureViewModel()
+    {
+        if (CoreJsModule is null)
+        {
+            return SelectedFeatureViewModel;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SelectedFeatureViewModel;
+        }
+
+        // get the property value
+        IFeatureViewModel? result = await JsComponentReference!.InvokeAsync<IFeatureViewModel?>("getProperty",
+            CancellationTokenSource.Token, "selectedFeatureViewModel");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SelectedFeatureViewModel = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(SelectedFeatureViewModel)] = SelectedFeatureViewModel;
+        }
+         
+        return SelectedFeatureViewModel;
     }
     
     /// <summary>
@@ -1507,6 +1915,84 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the UpdateLocationEnabled property.
+    /// </summary>
+    public async Task<bool?> GetUpdateLocationEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return UpdateLocationEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return UpdateLocationEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "updateLocationEnabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             UpdateLocationEnabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(UpdateLocationEnabled)] = UpdateLocationEnabled;
+        }
+         
+        return UpdateLocationEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the WaitingForContents property.
+    /// </summary>
+    public async Task<bool?> GetWaitingForContents()
+    {
+        if (CoreJsModule is null)
+        {
+            return WaitingForContents;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return WaitingForContents;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "waitingForContents");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             WaitingForContents = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(WaitingForContents)] = WaitingForContents;
+        }
+         
+        return WaitingForContents;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the WaitingForResult property.
     /// </summary>
     public async Task<bool?> GetWaitingForResult()
@@ -1638,6 +2124,51 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         await JsComponentReference.InvokeVoidAsync("setActions", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ActiveFeature property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetActiveFeature(Graphic? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        ActiveFeature = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActiveFeature)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setActiveFeature", 
             CancellationTokenSource.Token, value);
     }
     
@@ -1787,6 +2318,117 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "content", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FeatureMenuOpen property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFeatureMenuOpen(bool? value)
+    {
+#pragma warning disable BL0005
+        FeatureMenuOpen = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FeatureMenuOpen)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureMenuOpen", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FeatureMenuTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFeatureMenuTitle(string? value)
+    {
+#pragma warning disable BL0005
+        FeatureMenuTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FeatureMenuTitle)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureMenuTitle", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FeaturePage property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFeaturePage(double? value)
+    {
+#pragma warning disable BL0005
+        FeaturePage = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FeaturePage)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featurePage", value);
     }
     
     /// <summary>
@@ -1994,6 +2636,43 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the InitialDisplayMode property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetInitialDisplayMode(InitialDisplayMode? value)
+    {
+#pragma warning disable BL0005
+        InitialDisplayMode = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(InitialDisplayMode)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "initialDisplayMode", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Location property after render.
     /// </summary>
     /// <param name="value">
@@ -2039,17 +2718,62 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the Promises property after render.
+    ///    Asynchronously set the value of the ScreenLocation property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPromises(object? value)
+    public async Task SetScreenLocation(FeaturesViewModelScreenPoint? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        ScreenLocation = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ScreenLocation)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setScreenLocation", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ScreenLocationEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetScreenLocationEnabled(bool? value)
     {
 #pragma warning disable BL0005
-        Promises = value;
+        ScreenLocationEnabled = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(Promises)] = value;
+        ModifiedParameters[nameof(ScreenLocationEnabled)] = value;
         
         if (CoreJsModule is null)
         {
@@ -2072,7 +2796,7 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "promises", value);
+            JsComponentReference, "screenLocationEnabled", value);
     }
     
     /// <summary>
@@ -2269,6 +2993,43 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the UpdateLocationEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUpdateLocationEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        UpdateLocationEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(UpdateLocationEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "updateLocationEnabled", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the WidgetContent property after render.
     /// </summary>
     /// <param name="value">
@@ -2386,7 +3147,9 @@ public partial class FeaturesViewModel : MapComponent,
 #region Public Methods
 
     /// <summary>
-    ///     Removes all <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">features</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">content</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#title">title</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelclear-method">GeoBlazor Docs</a>
+    ///     Removes all <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">features</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">content</a>, and
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#title">title</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#clear">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
@@ -2418,6 +3181,7 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelnext-method">GeoBlazor Docs</a>
     ///     Selects the feature at the next index in relation to the selected feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#next">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -2450,14 +3214,23 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///     Opens the widget at the given location with content defined either explicitly with `content` or driven from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> of input features.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelopen-method">GeoBlazor Docs</a>
+    ///     Opens the widget at the given location with content defined either explicitly with `content`
+    ///     or driven from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> of input features.
+    ///     param options.title Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#title">title</a> of the popup.
+    ///     param options.fetchFeatures **Since:*4.12  When `true`, indicates the feature's content should be fetched and displayed. If no <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> exists, a default template is created for the layer if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultPopupTemplateEnabled">defaultPopupTemplateEnabled</a> = `true`. In order for this option to work, there must be a valid `view` and `location` set.
+    ///     param options.features Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">features</a>, which populates the title and content based on each graphic's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+    ///     param options.updateLocationEnabled When `true`, indicates the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#location">location</a> property will be updated for each paginated feature based on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeature">selected feature's</a> geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
     ///     Defines the location and content of the popup when opened.
+    ///     - options.content: Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">content</a> of the popup.
+    ///     - options.location: Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#location">location</a>, which is the geometry used to position the popup.
+    ///     - options.promises: Sets pending <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a>. The UI will display once the promises resolve. Each promise must resolve to an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">Graphics</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task Open(FeaturesViewModelOpenOptions options)
+    public async Task Open(GoToOptions options)
     {
         if (CoreJsModule is null)
         {
@@ -2486,6 +3259,7 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelprevious-method">GeoBlazor Docs</a>
     ///     Selects the feature at the previous index in relation to the selected feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#previous">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -2518,11 +3292,13 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#event-trigger-action">trigger-action</a> event and executes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#actions">action</a> at the specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#actions">actions</a> array.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeltriggeraction-method">GeoBlazor Docs</a>
+    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#event-trigger-action">trigger-action</a> event and executes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#actions">action</a>
+    ///     at the specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#actions">actions</a> array.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#triggerAction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="actionIndex">
-    ///     The index of the <a href="#actions">action</a> to execute.
+    ///     The index of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#actions">action</a> to execute.
     /// </param>
     [ArcGISMethod]
     public async Task TriggerAction(int actionIndex)
@@ -2576,7 +3352,10 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///     Fires after the user clicks on an <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> in the action bar. This event may be used to define a custom function to execute when particular actions are clicked. See the example below for details of how this works.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelontriggeraction-property">GeoBlazor Docs</a>
+    ///     Fires after the user clicks on an <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> in the action bar. This
+    ///     event may be used to define a custom function to execute when particular
+    ///     actions are clicked. See the example below for details of how this works.
     /// </summary>
     [Parameter]
     [JsonIgnore]
@@ -2604,15 +3383,6 @@ public partial class FeaturesViewModel : MapComponent,
                 }
                 
                 return true;
-            case Graphic features:
-                Features ??= [];
-                if (!Features.Contains(features))
-                {
-                    Features = [..Features, features];
-                    ModifiedParameters[nameof(Features)] = Features;
-                }
-                
-                return true;
             case Abilities featureViewModelAbilities:
                 if (featureViewModelAbilities != FeatureViewModelAbilities)
                 {
@@ -2626,6 +3396,14 @@ public partial class FeaturesViewModel : MapComponent,
                 {
                     Location = location;
                     ModifiedParameters[nameof(Location)] = Location;
+                }
+                
+                return true;
+            case FeaturesViewModelScreenPoint screenLocation:
+                if (screenLocation != ScreenLocation)
+                {
+                    ScreenLocation = screenLocation;
+                    ModifiedParameters[nameof(ScreenLocation)] = ScreenLocation;
                 }
                 
                 return true;
@@ -2659,10 +3437,6 @@ public partial class FeaturesViewModel : MapComponent,
                 Actions = Actions?.Where(a => a != actions).ToList();
                 ModifiedParameters[nameof(Actions)] = Actions;
                 return true;
-            case Graphic features:
-                Features = Features?.Where(f => f != features).ToList();
-                ModifiedParameters[nameof(Features)] = Features;
-                return true;
             case Abilities _:
                 FeatureViewModelAbilities = null;
                 ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
@@ -2670,6 +3444,10 @@ public partial class FeaturesViewModel : MapComponent,
             case Point _:
                 Location = null;
                 ModifiedParameters[nameof(Location)] = Location;
+                return true;
+            case FeaturesViewModelScreenPoint _:
+                ScreenLocation = null;
+                ModifiedParameters[nameof(ScreenLocation)] = ScreenLocation;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
@@ -2695,15 +3473,9 @@ public partial class FeaturesViewModel : MapComponent,
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        if (Features is not null)
-        {
-            foreach (Graphic child in Features)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
         FeatureViewModelAbilities?.ValidateRequiredGeneratedChildren();
         Location?.ValidateRequiredGeneratedChildren();
+        ScreenLocation?.ValidateRequiredGeneratedChildren();
         SpatialReference?.ValidateRequiredGeneratedChildren();
         WidgetContent?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

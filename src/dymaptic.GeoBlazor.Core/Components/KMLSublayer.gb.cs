@@ -30,12 +30,9 @@ public partial class KMLSublayer : MapComponent
     ///     The id for the KML sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="networkLink">
-    ///     Network link info for the current layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#networkLink">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="title">
-    ///     The title of the KML sublayer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     The title of the KML sublayer used to identify it in places such as the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -45,7 +42,6 @@ public partial class KMLSublayer : MapComponent
     public KMLSublayer(
         string? description = null,
         long? kMLSublayerId = null,
-        object? networkLink = null,
         string? title = null,
         bool? visible = null)
     {
@@ -53,7 +49,6 @@ public partial class KMLSublayer : MapComponent
 #pragma warning disable BL0005
         Description = description;
         KMLSublayerId = kMLSublayerId;
-        NetworkLink = networkLink;
         Title = title;
         Visible = visible;
 #pragma warning restore BL0005    
@@ -63,6 +58,7 @@ public partial class KMLSublayer : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayerdescription-property">GeoBlazor Docs</a>
     ///     Description for the KML sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -72,6 +68,7 @@ public partial class KMLSublayer : MapComponent
     public string? Description { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayerkmlsublayerid-property">GeoBlazor Docs</a>
     ///     The id for the KML sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -81,24 +78,28 @@ public partial class KMLSublayer : MapComponent
     public long? KMLSublayerId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayernetworklink-property">GeoBlazor Docs</a>
     ///     Network link info for the current layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#networkLink">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? NetworkLink { get; set; }
+    [JsonInclude]
+    public string? NetworkLink { get; protected set; }
     
     /// <summary>
-    ///     The raw KML data for this sublayer, in JSON format, as returned by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-config.html#kmlServiceUrl">KML utility service</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayersourcejson-property">GeoBlazor Docs</a>
+    ///     The raw KML data for this sublayer, in JSON format, as returned by the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-config.html#kmlServiceUrl">KML utility service</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public object? SourceJSON { get; protected set; }
+    public string? SourceJSON { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayersublayers-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html">KMLSublayers</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -109,7 +110,9 @@ public partial class KMLSublayer : MapComponent
     public IReadOnlyList<KMLSublayer>? Sublayers { get; set; }
     
     /// <summary>
-    ///     The title of the KML sublayer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayertitle-property">GeoBlazor Docs</a>
+    ///     The title of the KML sublayer used to identify it in places such as the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -202,7 +205,7 @@ public partial class KMLSublayer : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the NetworkLink property.
     /// </summary>
-    public async Task<object?> GetNetworkLink()
+    public async Task<string?> GetNetworkLink()
     {
         if (CoreJsModule is null)
         {
@@ -225,7 +228,7 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "networkLink");
         if (result is not null)
         {
@@ -241,7 +244,7 @@ public partial class KMLSublayer : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<object?> GetSourceJSON()
+    public async Task<string?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -264,7 +267,7 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -392,43 +395,6 @@ public partial class KMLSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the NetworkLink property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetNetworkLink(object? value)
-    {
-#pragma warning disable BL0005
-        NetworkLink = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(NetworkLink)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "networkLink", value);
     }
     
     /// <summary>

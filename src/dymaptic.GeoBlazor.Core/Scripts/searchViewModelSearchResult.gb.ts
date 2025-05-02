@@ -21,8 +21,7 @@ export async function buildJsSearchViewModelSearchResultGenerated(dotNetObject: 
         jsSearchViewModelSearchResult.name = dotNetObject.name;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSearchViewModelSearchResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSearchViewModelSearchResult;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelSearchResult;
     
     return jsSearchViewModelSearchResult;

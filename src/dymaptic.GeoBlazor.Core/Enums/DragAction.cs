@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Enums;
+namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     JavaScript Drag actions

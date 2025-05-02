@@ -58,6 +58,7 @@ public partial class Viewpoint
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewpoint.html#viewpointcamera-property">GeoBlazor Docs</a>
     ///     The viewpoint camera (3D only).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html#camera">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -67,6 +68,7 @@ public partial class Viewpoint
     public Camera? Camera { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewpoint.html#viewpointtargetgeometry-property">GeoBlazor Docs</a>
     ///     The target geometry framed by the viewpoint.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html#targetGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

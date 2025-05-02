@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html">GeoBlazor Docs</a>
-///     Contains information about the tiling scheme for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">TileLayers</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ElevationLayers</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayers</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html">VectorTileLayers</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html">WebTileLayers</a>.
+///     Contains information about the tiling scheme for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">TileLayers</a>,
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ElevationLayers</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayers</a>,
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html">VectorTileLayers</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html">WebTileLayers</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class TileInfo
@@ -70,6 +72,7 @@ public partial class TileInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html#tileinfoiswrappable-property">GeoBlazor Docs</a>
     ///     Indicates if the tiling scheme supports wrap around.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#isWrappable">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -79,6 +82,7 @@ public partial class TileInfo
     public bool? IsWrappable { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html#tileinfolods-property">GeoBlazor Docs</a>
     ///     An array of levels of detail that define the tiling scheme.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#lods">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -88,6 +92,7 @@ public partial class TileInfo
     public IReadOnlyList<LOD>? Lods { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html#tileinfoorigin-property">GeoBlazor Docs</a>
     ///     The tiling scheme origin.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#origin">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -97,6 +102,7 @@ public partial class TileInfo
     public Point? Origin { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html#tileinfosize-property">GeoBlazor Docs</a>
     ///     Size of tiles in pixels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#size">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -106,6 +112,7 @@ public partial class TileInfo
     public IReadOnlyList<int>? Size { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html#tileinfospatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the tiling schema.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -722,6 +729,7 @@ public partial class TileInfo
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html#tileinfoscaletozoom-method">GeoBlazor Docs</a>
     ///     Utility method used to convert a scale value to its corresponding zoom value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#scaleToZoom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -758,6 +766,7 @@ public partial class TileInfo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileInfo.html#tileinfozoomtoscale-method">GeoBlazor Docs</a>
     ///     Utility method used to convert a zoom value to its corresponding scale value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#zoomToScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

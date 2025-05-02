@@ -9,6 +9,9 @@ export async function buildJsCapabilitiesDataGenerated(dotNetObject: any): Promi
 
     let jsCapabilitiesData: any = {};
 
+    if (hasValue(dotNetObject.isBranchVersioned)) {
+        jsCapabilitiesData.isBranchVersioned = dotNetObject.isBranchVersioned;
+    }
     if (hasValue(dotNetObject.isVersioned)) {
         jsCapabilitiesData.isVersioned = dotNetObject.isVersioned;
     }
@@ -35,6 +38,10 @@ export async function buildDotNetCapabilitiesDataGenerated(jsObject: any): Promi
     }
     
     let dotNetCapabilitiesData: any = {};
+    
+    if (hasValue(jsObject.isBranchVersioned)) {
+        dotNetCapabilitiesData.isBranchVersioned = jsObject.isBranchVersioned;
+    }
     
     if (hasValue(jsObject.isVersioned)) {
         dotNetCapabilitiesData.isVersioned = jsObject.isVersioned;

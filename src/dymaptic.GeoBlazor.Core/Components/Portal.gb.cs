@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html">GeoBlazor Docs</a>
-///     The Portal class is part of the <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Enterprise portal</a> that provides a way to build applications that work with content from <a target="_blank" href="https://www.arcgis.com/home/">ArcGIS Online</a> or an <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Enterprise portal</a>.
+///     The Portal class is part of the <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Enterprise portal</a>
+///     that provides a way to build applications that work with content from <a target="_blank" href="https://www.arcgis.com/home/">ArcGIS Online</a> or
+///     an <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Enterprise portal</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Portal
@@ -31,20 +33,24 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#allSSL">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="authMode">
-    ///     The authentication mode for handling authentication when the user attempts to access a secure resource.
-    ///     default auto
+    ///     The authentication mode for handling authentication when the user attempts to
+    ///     access a secure resource.
+    ///     default "auto"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#authMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="authorizedCrossOriginDomains">
-    ///     Array of trusted servers to send credentials to when making Cross-Origin Resource Sharing (CORS) requests to access services secured with web-tier authentication.
+    ///     Array of trusted servers to send credentials to when making Cross-Origin Resource Sharing (CORS) requests to access services
+    ///     secured with web-tier authentication.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#authorizedCrossOriginDomains">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="basemapGalleryGroupQuery">
-    ///     The query that defines the basemaps that should be displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">useVectorBasemaps</a> is not true.
+    ///     The query that defines the basemaps that should be displayed in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">useVectorBasemaps</a> is not true.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="basemapGalleryGroupQuery3D">
-    ///     The query that defines the 3D basemaps that should be displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
+    ///     The query that defines the 3D basemaps that should be displayed in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery3D">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="bingKey">
@@ -113,6 +119,10 @@ public partial class Portal
     ///     The custom base URL for the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#customBaseUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="default3DBasemapQuery">
+    ///     The query that defines the default 3d basemap to use in scene views for the portal.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#default3DBasemapQuery">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="defaultExtent">
     ///     The default extent to use for the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultExtent">ArcGIS Maps SDK for JavaScript</a>
@@ -122,11 +132,13 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="devBasemapGalleryGroupQuery">
-    ///     The query that defines the basemaps that should be displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-config.html#apiKey">apiKey</a> is defined.
+    ///     The query that defines the basemaps that should be displayed in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-config.html#apiKey">apiKey</a> is defined.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#devBasemapGalleryGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="eueiEnabled">
-    ///     Boolean value indicating whether to opt-in to the <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/reference/faq.htm#ESRI_QUESTIONANSWER_AED97F28DCD84F7682623C2FA9E5CE49">Esri User Experience Improvement (EUEI) program</a>.
+    ///     Boolean value indicating whether to opt-in to the [Esri
+    ///     User Experience Improvement (EUEI) program](https://doc.arcgis.com/en/arcgis-online/reference/faq.htm#ESRI_QUESTIONANSWER_AED97F28DCD84F7682623C2FA9E5CE49).
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#eueiEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -147,8 +159,13 @@ public partial class Portal
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#hasCategorySchema">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="hasClassificationSchema">
+    ///     Indicates whether the organization has classification schema.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#hasClassificationSchema">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="helperServices">
-    ///     Helper services provided by the portal.
+    ///     This class contains properties to obtain information for various web services available on the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#helperServices">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="homePageFeaturedContent">
@@ -237,7 +254,8 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#symbolSetsGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="templatesGroupQuery">
-    ///     The query that defines the collection of templates that will appear in the template gallery.
+    ///     The query that defines the collection of templates that will appear in the template
+    ///     gallery.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#templatesGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="units">
@@ -253,19 +271,28 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#urlKey">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="use3dBasemaps">
-    ///     When `false`, 3D basemaps are hidden from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>, regardless of the type of the view.
+    ///     When `false`, 3D basemaps are hidden from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>, regardless
+    ///     of the type of the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#use3dBasemaps">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="useDefault3dBasemap">
+    ///     When `false`, The default 3d basemap is not used in the SceneViewer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useDefault3dBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useStandardizedQuery">
     ///     When `true`, only simple where clauses that are compliant with SQL92 can be used when querying layers and tables.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useStandardizedQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useVectorBasemaps">
-    ///     When `true`, the organization has opted in to use the vector tile basemaps, and (a) <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#vectorBasemapGalleryGroupQuery">vectorBasemapGalleryGroupQuery</a> should be used instead of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery">basemapGalleryGroupQuery</a>, while (b) <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultVectorBasemap">defaultVectorBasemap</a> should be used instead of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultBasemap">defaultBasemap</a>.
+    ///     When `true`, the organization has opted in to use the vector tile basemaps,
+    ///     and (a) <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#vectorBasemapGalleryGroupQuery">vectorBasemapGalleryGroupQuery</a> should
+    ///     be used instead of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery">basemapGalleryGroupQuery</a>, while
+    ///     (b) <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultVectorBasemap">defaultVectorBasemap</a> should be used instead of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultBasemap">defaultBasemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="vectorBasemapGalleryGroupQuery">
-    ///     The query that defines the vector tiles basemaps that should be displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">useVectorBasemaps</a> is true.
+    ///     The query that defines the vector tiles basemaps that should be displayed in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">useVectorBasemaps</a> is true.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#vectorBasemapGalleryGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public Portal(
@@ -290,6 +317,7 @@ public partial class Portal
         DateTime? created = null,
         string? culture = null,
         string? customBaseUrl = null,
+        string? default3DBasemapQuery = null,
         Extent? defaultExtent = null,
         string? description = null,
         string? devBasemapGalleryGroupQuery = null,
@@ -298,6 +326,7 @@ public partial class Portal
         string? featuredItemsGroupQuery = null,
         string? galleryTemplatesGroupQuery = null,
         bool? hasCategorySchema = null,
+        bool? hasClassificationSchema = null,
         HelperServices? helperServices = null,
         string? homePageFeaturedContent = null,
         int? homePageFeaturedContentCount = null,
@@ -325,6 +354,7 @@ public partial class Portal
         string? url = null,
         string? urlKey = null,
         bool? use3dBasemaps = null,
+        bool? useDefault3dBasemap = null,
         bool? useStandardizedQuery = null,
         bool? useVectorBasemaps = null,
         string? vectorBasemapGalleryGroupQuery = null)
@@ -352,6 +382,7 @@ public partial class Portal
         Created = created;
         Culture = culture;
         CustomBaseUrl = customBaseUrl;
+        Default3DBasemapQuery = default3DBasemapQuery;
         DefaultExtent = defaultExtent;
         Description = description;
         DevBasemapGalleryGroupQuery = devBasemapGalleryGroupQuery;
@@ -360,6 +391,7 @@ public partial class Portal
         FeaturedItemsGroupQuery = featuredItemsGroupQuery;
         GalleryTemplatesGroupQuery = galleryTemplatesGroupQuery;
         HasCategorySchema = hasCategorySchema;
+        HasClassificationSchema = hasClassificationSchema;
         HelperServices = helperServices;
         HomePageFeaturedContent = homePageFeaturedContent;
         HomePageFeaturedContentCount = homePageFeaturedContentCount;
@@ -387,6 +419,7 @@ public partial class Portal
         Url = url;
         UrlKey = urlKey;
         Use3dBasemaps = use3dBasemaps;
+        UseDefault3dBasemap = useDefault3dBasemap;
         UseStandardizedQuery = useStandardizedQuery;
         UseVectorBasemaps = useVectorBasemaps;
         VectorBasemapGalleryGroupQuery = vectorBasemapGalleryGroupQuery;
@@ -397,6 +430,7 @@ public partial class Portal
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalaccess-property">GeoBlazor Docs</a>
     ///     The access level of the organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#access">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -406,6 +440,7 @@ public partial class Portal
     public PortalAccess? Access { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalallssl-property">GeoBlazor Docs</a>
     ///     When `true`, access to the organization's Portal resources must occur over SSL.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#allSSL">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -415,8 +450,10 @@ public partial class Portal
     public bool? AllSSL { get; set; }
     
     /// <summary>
-    ///     The authentication mode for handling authentication when the user attempts to access a secure resource.
-    ///     default auto
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalauthmode-property">GeoBlazor Docs</a>
+    ///     The authentication mode for handling authentication when the user attempts to
+    ///     access a secure resource.
+    ///     default "auto"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#authMode">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -425,7 +462,9 @@ public partial class Portal
     public AuthMode? AuthMode { get; set; }
     
     /// <summary>
-    ///     Array of trusted servers to send credentials to when making Cross-Origin Resource Sharing (CORS) requests to access services secured with web-tier authentication.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalauthorizedcrossorigindomains-property">GeoBlazor Docs</a>
+    ///     Array of trusted servers to send credentials to when making Cross-Origin Resource Sharing (CORS) requests to access services
+    ///     secured with web-tier authentication.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#authorizedCrossOriginDomains">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -434,7 +473,9 @@ public partial class Portal
     public IReadOnlyList<string>? AuthorizedCrossOriginDomains { get; set; }
     
     /// <summary>
-    ///     The query that defines the basemaps that should be displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">useVectorBasemaps</a> is not true.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalbasemapgallerygroupquery-property">GeoBlazor Docs</a>
+    ///     The query that defines the basemaps that should be displayed in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">useVectorBasemaps</a> is not true.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -443,7 +484,9 @@ public partial class Portal
     public string? BasemapGalleryGroupQuery { get; set; }
     
     /// <summary>
-    ///     The query that defines the 3D basemaps that should be displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalbasemapgallerygroupquery3d-property">GeoBlazor Docs</a>
+    ///     The query that defines the 3D basemaps that should be displayed in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery3D">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -452,6 +495,7 @@ public partial class Portal
     public string? BasemapGalleryGroupQuery3D { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalbingkey-property">GeoBlazor Docs</a>
     ///     The Bing key to use for web maps using Bing Maps.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#bingKey">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -461,6 +505,7 @@ public partial class Portal
     public string? BingKey { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcanlistapps-property">GeoBlazor Docs</a>
     ///     Indicates whether an organization can list applications in the marketplace.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canListApps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -470,6 +515,7 @@ public partial class Portal
     public bool? CanListApps { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcanlistdata-property">GeoBlazor Docs</a>
     ///     Indicates whether an organization can list data services in the marketplace.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canListData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -479,6 +525,7 @@ public partial class Portal
     public bool? CanListData { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcanlistpreprovisioneditems-property">GeoBlazor Docs</a>
     ///     Indicates whether an organization can list pre-provisioned items in the marketplace.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canListPreProvisionedItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -488,6 +535,7 @@ public partial class Portal
     public bool? CanListPreProvisionedItems { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcanprovisiondirectpurchase-property">GeoBlazor Docs</a>
     ///     Indicates whether an organization can provision direct purchases in the marketplace without customer request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canProvisionDirectPurchase">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -497,6 +545,7 @@ public partial class Portal
     public bool? CanProvisionDirectPurchase { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcansearchpublic-property">GeoBlazor Docs</a>
     ///     When `true`, the organization's public items, groups and users are included in search queries.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canSearchPublic">ArcGIS Maps SDK for JavaScript</a>
@@ -507,6 +556,7 @@ public partial class Portal
     public bool? CanSearchPublic { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcansharebingpublic-property">GeoBlazor Docs</a>
     ///     The Bing key can be shared to the public and is returned as part of a portal's description call (`/sharing/rest/portals/orgid`).
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canShareBingPublic">ArcGIS Maps SDK for JavaScript</a>
@@ -517,6 +567,7 @@ public partial class Portal
     public bool? CanShareBingPublic { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcansharepublic-property">GeoBlazor Docs</a>
     ///     When `true`, members of the organization can share resources outside the organization.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canSharePublic">ArcGIS Maps SDK for JavaScript</a>
@@ -527,6 +578,7 @@ public partial class Portal
     public bool? CanSharePublic { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcansigninarcgis-property">GeoBlazor Docs</a>
     ///     Indicates whether to allow an organization with an enterprise IDP configured to be able to turn on or off the ArcGIS sign in.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canSignInArcGIS">ArcGIS Maps SDK for JavaScript</a>
@@ -537,6 +589,7 @@ public partial class Portal
     public bool? CanSignInArcGIS { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcansigninidp-property">GeoBlazor Docs</a>
     ///     Indicates whether to allow an organization with an enterprise IDP configured to be able to turn on or off the enterprise sign in.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canSignInIDP">ArcGIS Maps SDK for JavaScript</a>
@@ -547,6 +600,7 @@ public partial class Portal
     public bool? CanSignInIDP { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcolorsetsgroupquery-property">GeoBlazor Docs</a>
     ///     The query that identifies the group containing the color sets used for rendering in the map viewer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#colorSetsGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -556,6 +610,7 @@ public partial class Portal
     public string? ColorSetsGroupQuery { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcommentsenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to allow the organization to disable commenting.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#commentsEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -566,6 +621,7 @@ public partial class Portal
     public bool? CommentsEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcreated-property">GeoBlazor Docs</a>
     ///     Date the organization was created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#created">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -575,6 +631,7 @@ public partial class Portal
     public DateTime? Created { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalculture-property">GeoBlazor Docs</a>
     ///     The default locale (language and country) information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#culture">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -584,6 +641,7 @@ public partial class Portal
     public string? Culture { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcustombaseurl-property">GeoBlazor Docs</a>
     ///     The custom base URL for the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#customBaseUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -593,6 +651,17 @@ public partial class Portal
     public string? CustomBaseUrl { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaldefault3dbasemapquery-property">GeoBlazor Docs</a>
+    ///     The query that defines the default 3d basemap to use in scene views for the portal.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#default3DBasemapQuery">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Default3DBasemapQuery { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaldefaultbasemap-property">GeoBlazor Docs</a>
     ///     The default basemap to use for the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -603,6 +672,7 @@ public partial class Portal
     public Basemap? DefaultBasemap { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaldefaultdevbasemap-property">GeoBlazor Docs</a>
     ///     The default developer basemap to use for the portal when an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-config.html#apiKey">apiKey</a> is defined.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultDevBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -613,6 +683,7 @@ public partial class Portal
     public Basemap? DefaultDevBasemap { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaldefaultextent-property">GeoBlazor Docs</a>
     ///     The default extent to use for the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -622,6 +693,7 @@ public partial class Portal
     public Extent? DefaultExtent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaldefaultvectorbasemap-property">GeoBlazor Docs</a>
     ///     The default vector basemap to use for the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultVectorBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -632,6 +704,7 @@ public partial class Portal
     public Basemap? DefaultVectorBasemap { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaldescription-property">GeoBlazor Docs</a>
     ///     A description of the organization/portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -641,7 +714,9 @@ public partial class Portal
     public string? Description { get; set; }
     
     /// <summary>
-    ///     The query that defines the basemaps that should be displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-config.html#apiKey">apiKey</a> is defined.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaldevbasemapgallerygroupquery-property">GeoBlazor Docs</a>
+    ///     The query that defines the basemaps that should be displayed in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-config.html#apiKey">apiKey</a> is defined.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#devBasemapGalleryGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -650,7 +725,9 @@ public partial class Portal
     public string? DevBasemapGalleryGroupQuery { get; set; }
     
     /// <summary>
-    ///     Boolean value indicating whether to opt-in to the <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/reference/faq.htm#ESRI_QUESTIONANSWER_AED97F28DCD84F7682623C2FA9E5CE49">Esri User Experience Improvement (EUEI) program</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaleueienabled-property">GeoBlazor Docs</a>
+    ///     Boolean value indicating whether to opt-in to the [Esri
+    ///     User Experience Improvement (EUEI) program](https://doc.arcgis.com/en/arcgis-online/reference/faq.htm#ESRI_QUESTIONANSWER_AED97F28DCD84F7682623C2FA9E5CE49).
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#eueiEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -660,6 +737,7 @@ public partial class Portal
     public bool? EueiEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalfeaturedgroups-property">GeoBlazor Docs</a>
     ///     The featured groups for the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#featuredGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -669,6 +747,7 @@ public partial class Portal
     public IReadOnlyList<PortalFeaturedGroups>? FeaturedGroups { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalfeatureditemsgroupquery-property">GeoBlazor Docs</a>
     ///     The query that defines the featured group.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#featuredItemsGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -678,6 +757,7 @@ public partial class Portal
     public string? FeaturedItemsGroupQuery { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalgallerytemplatesgroupquery-property">GeoBlazor Docs</a>
     ///     The query that identifies the group containing features items for the gallery.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#galleryTemplatesGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -687,6 +767,7 @@ public partial class Portal
     public string? GalleryTemplatesGroupQuery { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalhascategoryschema-property">GeoBlazor Docs</a>
     ///     Indicates whether the organization has content categories.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#hasCategorySchema">ArcGIS Maps SDK for JavaScript</a>
@@ -697,7 +778,19 @@ public partial class Portal
     public bool? HasCategorySchema { get; set; }
     
     /// <summary>
-    ///     Helper services provided by the portal.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalhasclassificationschema-property">GeoBlazor Docs</a>
+    ///     Indicates whether the organization has classification schema.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#hasClassificationSchema">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? HasClassificationSchema { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalhelperservices-property">GeoBlazor Docs</a>
+    ///     This class contains properties to obtain information for various web services available on the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#helperServices">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -706,6 +799,7 @@ public partial class Portal
     public HelperServices? HelperServices { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalhomepagefeaturedcontent-property">GeoBlazor Docs</a>
     ///     The group that contains featured content to be displayed on the home page.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#homePageFeaturedContent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -715,6 +809,7 @@ public partial class Portal
     public string? HomePageFeaturedContent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalhomepagefeaturedcontentcount-property">GeoBlazor Docs</a>
     ///     The number of featured items that can be displayed on the home page.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#homePageFeaturedContentCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -724,6 +819,7 @@ public partial class Portal
     public int? HomePageFeaturedContentCount { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalhttpport-property">GeoBlazor Docs</a>
     ///     The port used by the portal for HTTP communication.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#httpPort">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -733,6 +829,7 @@ public partial class Portal
     public double? HttpPort { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalhttpsport-property">GeoBlazor Docs</a>
     ///     The port used by the portal for HTTPS communication.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#httpsPort">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -742,6 +839,7 @@ public partial class Portal
     public double? HttpsPort { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalipcntrycode-property">GeoBlazor Docs</a>
     ///     The country code of the calling IP (ArcGIS Online only).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#ipCntryCode">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -751,6 +849,7 @@ public partial class Portal
     public string? IpCntryCode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalisorganization-property">GeoBlazor Docs</a>
     ///     Indicates whether the portal is an organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#isOrganization">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -760,6 +859,7 @@ public partial class Portal
     public bool? IsOrganization { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalisportal-property">GeoBlazor Docs</a>
     ///     Indicates if the portal is on-premises.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#isPortal">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -769,6 +869,7 @@ public partial class Portal
     public bool? IsPortal { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalisreadonly-property">GeoBlazor Docs</a>
     ///     Indicates if the portal is in read-only mode.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#isReadOnly">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -778,6 +879,7 @@ public partial class Portal
     public bool? IsReadOnly { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portallayertemplatesgroupquery-property">GeoBlazor Docs</a>
     ///     The query that identifies the group containing editing templates.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#layerTemplatesGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -787,6 +889,7 @@ public partial class Portal
     public string? LayerTemplatesGroupQuery { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalloaded-property">GeoBlazor Docs</a>
     ///     Indicates whether the portal's resources have loaded.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#loaded">ArcGIS Maps SDK for JavaScript</a>
@@ -797,6 +900,7 @@ public partial class Portal
     public bool? Loaded { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalmaxtokenexpirationminutes-property">GeoBlazor Docs</a>
     ///     The maximum validity in minutes of tokens issued for users of the organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#maxTokenExpirationMinutes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -806,6 +910,7 @@ public partial class Portal
     public double? MaxTokenExpirationMinutes { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalmodified-property">GeoBlazor Docs</a>
     ///     Date the organization was last modified.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#modified">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -815,6 +920,7 @@ public partial class Portal
     public DateTime? Modified { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalname-property">GeoBlazor Docs</a>
     ///     Name of the organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -824,6 +930,7 @@ public partial class Portal
     public string? Name { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalportalhostname-property">GeoBlazor Docs</a>
     ///     URL of the portal host.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#portalHostname">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -833,6 +940,7 @@ public partial class Portal
     public string? PortalHostname { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalportalid-property">GeoBlazor Docs</a>
     ///     The id of the organization that owns this portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -842,6 +950,7 @@ public partial class Portal
     public string? PortalId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalportalmode-property">GeoBlazor Docs</a>
     ///     The portal mode.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#portalMode">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -851,6 +960,7 @@ public partial class Portal
     public PortalMode? PortalMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalportalproperties-property">GeoBlazor Docs</a>
     ///     Properties specific to the organization, for example the "contact us" link.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#portalProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -860,6 +970,7 @@ public partial class Portal
     public PortalProperties? PortalProperties { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalrecyclebinenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the recycle bin is enabled for the organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#recycleBinEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -869,6 +980,7 @@ public partial class Portal
     public bool? RecycleBinEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalregion-property">GeoBlazor Docs</a>
     ///     The region for the organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#region">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -878,7 +990,9 @@ public partial class Portal
     public string? Region { get; set; }
     
     /// <summary>
-    ///     The REST URL for the portal, for example "https://www.arcgis.com/sharing/rest" for ArcGIS Online and "https://www.example.com/arcgis/sharing/rest" for your in-house portal.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalresturl-property">GeoBlazor Docs</a>
+    ///     The REST URL for the portal, for example "https://www.arcgis.com/sharing/rest" for ArcGIS Online
+    ///     and "https://www.example.com/arcgis/sharing/rest" for your in-house portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#restUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -887,6 +1001,7 @@ public partial class Portal
     public string? RestUrl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalrotatorpanels-property">GeoBlazor Docs</a>
     ///     Custom HTML for the home page.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#rotatorPanels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -896,6 +1011,7 @@ public partial class Portal
     public IReadOnlyList<RotatorPanel>? RotatorPanels { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalshowhomepagedescription-property">GeoBlazor Docs</a>
     ///     Indicates whether the description of your organization displays on the home page.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#showHomePageDescription">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -905,15 +1021,17 @@ public partial class Portal
     public bool? ShowHomePageDescription { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalsourcejson-property">GeoBlazor Docs</a>
     ///     The JSON used to create the property values when the `Portal` is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public object? SourceJSON { get; protected set; }
+    public string? SourceJSON { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalsupportshostedservices-property">GeoBlazor Docs</a>
     ///     Indicates whether hosted services are supported.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#supportsHostedServices">ArcGIS Maps SDK for JavaScript</a>
@@ -924,6 +1042,7 @@ public partial class Portal
     public bool? SupportsHostedServices { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalsymbolsetsgroupquery-property">GeoBlazor Docs</a>
     ///     The query that defines the symbols sets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#symbolSetsGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -933,7 +1052,9 @@ public partial class Portal
     public string? SymbolSetsGroupQuery { get; set; }
     
     /// <summary>
-    ///     The query that defines the collection of templates that will appear in the template gallery.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaltemplatesgroupquery-property">GeoBlazor Docs</a>
+    ///     The query that defines the collection of templates that will appear in the template
+    ///     gallery.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#templatesGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -942,6 +1063,7 @@ public partial class Portal
     public string? TemplatesGroupQuery { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalthumbnailurl-property">GeoBlazor Docs</a>
     ///     The URL to the thumbnail of the organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -951,6 +1073,7 @@ public partial class Portal
     public string? ThumbnailUrl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalunits-property">GeoBlazor Docs</a>
     ///     Sets the units of measure for the organization's users.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#units">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -960,6 +1083,7 @@ public partial class Portal
     public PortalUnits? Units { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalurlkey-property">GeoBlazor Docs</a>
     ///     The prefix selected by the organization's administrator to be used with the customBaseURL.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#urlKey">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -969,7 +1093,9 @@ public partial class Portal
     public string? UrlKey { get; set; }
     
     /// <summary>
-    ///     When `false`, 3D basemaps are hidden from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>, regardless of the type of the view.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaluse3dbasemaps-property">GeoBlazor Docs</a>
+    ///     When `false`, 3D basemaps are hidden from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>, regardless
+    ///     of the type of the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#use3dBasemaps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -978,6 +1104,17 @@ public partial class Portal
     public bool? Use3dBasemaps { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalusedefault3dbasemap-property">GeoBlazor Docs</a>
+    ///     When `false`, The default 3d basemap is not used in the SceneViewer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useDefault3dBasemap">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? UseDefault3dBasemap { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaluser-property">GeoBlazor Docs</a>
     ///     Information representing a registered user of the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#user">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -987,6 +1124,7 @@ public partial class Portal
     public PortalUser? User { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalusestandardizedquery-property">GeoBlazor Docs</a>
     ///     When `true`, only simple where clauses that are compliant with SQL92 can be used when querying layers and tables.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useStandardizedQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -996,7 +1134,11 @@ public partial class Portal
     public bool? UseStandardizedQuery { get; set; }
     
     /// <summary>
-    ///     When `true`, the organization has opted in to use the vector tile basemaps, and (a) <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#vectorBasemapGalleryGroupQuery">vectorBasemapGalleryGroupQuery</a> should be used instead of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery">basemapGalleryGroupQuery</a>, while (b) <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultVectorBasemap">defaultVectorBasemap</a> should be used instead of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultBasemap">defaultBasemap</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalusevectorbasemaps-property">GeoBlazor Docs</a>
+    ///     When `true`, the organization has opted in to use the vector tile basemaps,
+    ///     and (a) <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#vectorBasemapGalleryGroupQuery">vectorBasemapGalleryGroupQuery</a> should
+    ///     be used instead of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery">basemapGalleryGroupQuery</a>, while
+    ///     (b) <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultVectorBasemap">defaultVectorBasemap</a> should be used instead of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#defaultBasemap">defaultBasemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -1005,7 +1147,9 @@ public partial class Portal
     public bool? UseVectorBasemaps { get; set; }
     
     /// <summary>
-    ///     The query that defines the vector tiles basemaps that should be displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">useVectorBasemaps</a> is true.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalvectorbasemapgallerygroupquery-property">GeoBlazor Docs</a>
+    ///     The query that defines the vector tiles basemaps that should be displayed in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#useVectorBasemaps">useVectorBasemaps</a> is true.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#vectorBasemapGalleryGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -1837,6 +1981,45 @@ public partial class Portal
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the Default3DBasemapQuery property.
+    /// </summary>
+    public async Task<string?> GetDefault3DBasemapQuery()
+    {
+        if (CoreJsModule is null)
+        {
+            return Default3DBasemapQuery;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Default3DBasemapQuery;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "default3DBasemapQuery");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Default3DBasemapQuery = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Default3DBasemapQuery)] = Default3DBasemapQuery;
+        }
+         
+        return Default3DBasemapQuery;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultExtent property.
     /// </summary>
     public async Task<Extent?> GetDefaultExtent()
@@ -2151,6 +2334,45 @@ public partial class Portal
         }
          
         return HasCategorySchema;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HasClassificationSchema property.
+    /// </summary>
+    public async Task<bool?> GetHasClassificationSchema()
+    {
+        if (CoreJsModule is null)
+        {
+            return HasClassificationSchema;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return HasClassificationSchema;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasClassificationSchema");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             HasClassificationSchema = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(HasClassificationSchema)] = HasClassificationSchema;
+        }
+         
+        return HasClassificationSchema;
     }
     
     /// <summary>
@@ -3053,7 +3275,7 @@ public partial class Portal
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<object?> GetSourceJSON()
+    public async Task<string?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -3076,7 +3298,7 @@ public partial class Portal
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -3399,6 +3621,45 @@ public partial class Portal
         }
          
         return Use3dBasemaps;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the UseDefault3dBasemap property.
+    /// </summary>
+    public async Task<bool?> GetUseDefault3dBasemap()
+    {
+        if (CoreJsModule is null)
+        {
+            return UseDefault3dBasemap;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return UseDefault3dBasemap;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "useDefault3dBasemap");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             UseDefault3dBasemap = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(UseDefault3dBasemap)] = UseDefault3dBasemap;
+        }
+         
+        return UseDefault3dBasemap;
     }
     
     /// <summary>
@@ -4300,6 +4561,43 @@ public partial class Portal
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the Default3DBasemapQuery property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDefault3DBasemapQuery(string? value)
+    {
+#pragma warning disable BL0005
+        Default3DBasemapQuery = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Default3DBasemapQuery)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "default3DBasemapQuery", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the DefaultExtent property after render.
     /// </summary>
     /// <param name="value">
@@ -4612,6 +4910,43 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasCategorySchema", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the HasClassificationSchema property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetHasClassificationSchema(bool? value)
+    {
+#pragma warning disable BL0005
+        HasClassificationSchema = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(HasClassificationSchema)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "hasClassificationSchema", value);
     }
     
     /// <summary>
@@ -5614,6 +5949,43 @@ public partial class Portal
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the UseDefault3dBasemap property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUseDefault3dBasemap(bool? value)
+    {
+#pragma warning disable BL0005
+        UseDefault3dBasemap = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(UseDefault3dBasemap)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "useDefault3dBasemap", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the UseStandardizedQuery property after render.
     /// </summary>
     /// <param name="value">
@@ -5827,14 +6199,51 @@ public partial class Portal
 #region Public Methods
 
     /// <summary>
-    ///     Fetches the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">basemaps</a> that are displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalcancelload-method">GeoBlazor Docs</a>
+    ///     Cancels a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#load">load()</a> operation if it is already in progress.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#cancelLoad">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task CancelLoad()
+    {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "cancelLoad", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalfetchbasemaps-method">GeoBlazor Docs</a>
+    ///     Fetches the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">basemaps</a> that are displayed in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
+    ///     param options An object with the following properties.
+    ///     param options.include3d When `true` the basemaps based on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery3D">basemapGalleryGroupQuery3D</a> are also fetched, if no `basemapGalleryGroupQuery` is passed as an argument. When `true` and a custom `basemapGalleryGroupQuery` is passed, also 3D basemaps from the custom group are fetched. When not specified, it will default to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#use3dBasemaps">use3dBasemaps</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchBasemaps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="basemapGalleryGroupQuery">
     ///     When provided, this argument is used to fetch basemaps based on input query parameters.
     /// </param>
     /// <param name="options">
-    ///     An object with the following properties.
+    ///     - options.signal: Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -5877,14 +6286,16 @@ public partial class Portal
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalfetchcategoryschema-method">GeoBlazor Docs</a>
     ///     If present, fetches the organization's category schema.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchCategorySchema">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
+    public async Task<string[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
         {
@@ -5907,7 +6318,7 @@ public partial class Portal
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object[]? result = await JsComponentReference!.InvokeAsync<object[]?>(
+        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
             "fetchCategorySchema", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -5918,7 +6329,95 @@ public partial class Portal
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalfetchclassificationschema-method">GeoBlazor Docs</a>
+    ///     If present, fetches the organization's classification schema.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchClassificationSchema">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> FetchClassificationSchema(CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
+            "fetchClassificationSchema", 
+            CancellationTokenSource.Token,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalfetchdefault3dbasemap-method">GeoBlazor Docs</a>
+    ///     Fetches the default 3d <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> to use in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a> for this portal.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchDefault3DBasemap">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<Basemap?> FetchDefault3DBasemap(CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Basemap? result = await JsComponentReference!.InvokeAsync<Basemap?>(
+            "fetchDefault3DBasemap", 
+            CancellationTokenSource.Token,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalfetchfeaturedgroups-method">GeoBlazor Docs</a>
     ///     Fetches the featured groups in the Portal.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchFeaturedGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
@@ -5959,14 +6458,16 @@ public partial class Portal
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalfetchregions-method">GeoBlazor Docs</a>
     ///     Fetches and returns the associated regions with the portal instance.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchRegions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object[]?> FetchRegions(CancellationToken cancellationToken = default)
+    public async Task<string[]?> FetchRegions(CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
         {
@@ -5989,7 +6490,7 @@ public partial class Portal
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object[]? result = await JsComponentReference!.InvokeAsync<object[]?>(
+        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
             "fetchRegions", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -6000,14 +6501,16 @@ public partial class Portal
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalfetchsettings-method">GeoBlazor Docs</a>
     ///     Fetches and returns the portal settings as seen by the current user(s), whether anonymous or signed in.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchSettings">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> FetchSettings(CancellationToken cancellationToken = default)
+    public async Task<string?> FetchSettings(CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
         {
@@ -6030,7 +6533,7 @@ public partial class Portal
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "fetchSettings", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -6041,11 +6544,156 @@ public partial class Portal
     }
     
     /// <summary>
-    ///     Executes a query against the Portal to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html">PortalGroup</a> objects that match the input query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalisfulfilled-method">GeoBlazor Docs</a>
+    ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#isFulfilled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsFulfilled()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isFulfilled", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalisrejected-method">GeoBlazor Docs</a>
+    ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#isRejected">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsRejected()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isRejected", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalisresolved-method">GeoBlazor Docs</a>
+    ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#isResolved">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsResolved()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isResolved", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalload-method">GeoBlazor Docs</a>
+    ///     Loads the resources referenced by this class.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#load">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> Load(CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
+            "load", 
+            CancellationTokenSource.Token,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalquerygroups-method">GeoBlazor Docs</a>
+    ///     Executes a query against the Portal to return an array of
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html">PortalGroup</a> objects that match the input query.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#queryGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters defined in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -6087,11 +6735,14 @@ public partial class Portal
     }
     
     /// <summary>
-    ///     Executes a query against the Portal to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItem</a> objects that match the input query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalqueryitems-method">GeoBlazor Docs</a>
+    ///     Executes a query against the Portal to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItem</a>
+    ///     objects that match the input query.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#queryItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters defined in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -6133,11 +6784,14 @@ public partial class Portal
     }
     
     /// <summary>
-    ///     Executes a query against the Portal to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html">PortalUser</a> objects that match the input query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalqueryusers-method">GeoBlazor Docs</a>
+    ///     Executes a query against the Portal to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html">PortalUser</a>
+    ///     objects that match the input query.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#queryUsers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters defined in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -6176,6 +6830,49 @@ public partial class Portal
         await AbortManager.DisposeAbortController(cancellationToken);
         
         return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param errback The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="callback">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "when", 
+            CancellationTokenSource.Token,
+            callback,
+            errback);
     }
     
 #endregion

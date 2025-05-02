@@ -51,6 +51,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SearchViewModelDefaultSymbols.html#searchviewmodeldefaultsymbolspoint-property">GeoBlazor Docs</a>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">SimpleMarkerSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PointSymbol3D.html">PointSymbol3D</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">TextSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-CIMSymbol.html">CIMSymbol</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-WebStyleSymbol.html">WebStyleSymbol</a> used for representing the point geometry that is being drawn for the search result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSymbols">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,6 +61,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     public Symbol? Point { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SearchViewModelDefaultSymbols.html#searchviewmodeldefaultsymbolspolygon-property">GeoBlazor Docs</a>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">SimpleFillSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PolygonSymbol3D.html">PolygonSymbol3D</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-CIMSymbol.html">CIMSymbol</a> used for representing the polygon geometry that is being drawn for the search result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSymbols">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +71,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     public Symbol? Polygon { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SearchViewModelDefaultSymbols.html#searchviewmodeldefaultsymbolspolyline-property">GeoBlazor Docs</a>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">SimpleLineSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbol3D.html">LineSymbol3D</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-CIMSymbol.html">CIMSymbol</a> used for representing the polyline geometry that is being drawn for the search result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSymbols">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -16,8 +16,8 @@ export async function buildJsGeoJSONLayerApplyEditsEditsGenerated(dotNetObject: 
         let { buildJsGraphic } = await import('./graphic');
         jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i)) as any;
     }
-    else if (hasValue(dotNetObject.objectCollectionDeleteFeatures) && dotNetObject.objectCollectionDeleteFeatures.length > 0) {
-        jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.objectCollectionDeleteFeatures;
+    else if (hasValue(dotNetObject.stringCollectionDeleteFeatures) && dotNetObject.stringCollectionDeleteFeatures.length > 0) {
+        jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.stringCollectionDeleteFeatures;
     }
     if (hasValue(dotNetObject.updateFeatures) && dotNetObject.updateFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');

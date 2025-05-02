@@ -36,7 +36,8 @@ public partial class TimeInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="interval">
-    ///     The time interval defines the granularity of the temporal data and allows you to visualize the data at specified intervals using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider widget</a>.
+    ///     The time interval defines the granularity of the temporal data and allows you to
+    ///     visualize the data at specified intervals using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider widget</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#interval">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="stops">
@@ -78,6 +79,7 @@ public partial class TimeInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInfo.html#timeinfoendfield-property">GeoBlazor Docs</a>
     ///     The name of the field containing the end time information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -87,6 +89,7 @@ public partial class TimeInfo
     public string? EndField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInfo.html#timeinfofulltimeextent-property">GeoBlazor Docs</a>
     ///     The time extent defines the start time and end time for all data in the layer.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">ArcGIS Maps SDK for JavaScript</a>
@@ -97,7 +100,9 @@ public partial class TimeInfo
     public TimeExtent? FullTimeExtent { get; set; }
     
     /// <summary>
-    ///     The time interval defines the granularity of the temporal data and allows you to visualize the data at specified intervals using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider widget</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInfo.html#timeinfointerval-property">GeoBlazor Docs</a>
+    ///     The time interval defines the granularity of the temporal data and allows you to
+    ///     visualize the data at specified intervals using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider widget</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#interval">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -106,6 +111,7 @@ public partial class TimeInfo
     public TimeInterval? Interval { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInfo.html#timeinfostartfield-property">GeoBlazor Docs</a>
     ///     The name of the field containing the start time information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -115,6 +121,7 @@ public partial class TimeInfo
     public string? StartField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInfo.html#timeinfostops-property">GeoBlazor Docs</a>
     ///     Indicates the time instants that the layer has data for.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#stops">ArcGIS Maps SDK for JavaScript</a>
@@ -125,6 +132,7 @@ public partial class TimeInfo
     public IReadOnlyList<DateTime>? Stops { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInfo.html#timeinfotimezone-property">GeoBlazor Docs</a>
     ///     The IANA time zone that dates are stored in.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#timeZone">ArcGIS Maps SDK for JavaScript</a>
@@ -135,6 +143,7 @@ public partial class TimeInfo
     public string? TimeZone { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInfo.html#timeinfotrackidfield-property">GeoBlazor Docs</a>
     ///     The name of the field used to join or group discrete locations.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#trackIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -216,11 +225,6 @@ public partial class TimeInfo
         
         if (result is not null)
         {
-            if (FullTimeExtent is not null)
-            {
-                result.Id = FullTimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             FullTimeExtent = result;
 #pragma warning restore BL0005

@@ -14,7 +14,7 @@ export function drawWithGeodesicBufferOnPointer(core, cursorSymbol, bufferSymbol
     let view = arcGisObjectRefs[viewId];
     let cursorSymbolGraphic;
     let bufferSymbolGraphic;
-    view.on('pointer-move', (evt) => {
+    view.on('pointer-move', async (evt) => {
         let cursorPoint = view.toMap({
             x: evt.x,
             y: evt.y,
@@ -23,13 +23,13 @@ export function drawWithGeodesicBufferOnPointer(core, cursorSymbol, bufferSymbol
         if (cursorPoint) {
             if (cursorPoint.spatialReference.wkid !== 3857 &&
                 cursorPoint.spatialReference.wkid !== 4326) {
-                cursorPoint = core.projection.project(cursorPoint, {
+                cursorPoint = await core.projectionEngine.project(cursorPoint, {
                     wkid: 4326
                 });
             }
             if (!cursorPoint) return;
 
-            const buffer = core.geometryEngine.geodesicBuffer(cursorPoint, geodesicBufferDistance, geodesicBufferUnit);
+            const buffer = await core.geometryEngine.geodesicBuffer(cursorPoint, geodesicBufferDistance, geodesicBufferUnit);
 
             if (buffer) {
                 if (view.graphics.length > 0) {
@@ -46,7 +46,7 @@ export function drawWithGeodesicBufferOnPointer(core, cursorSymbol, bufferSymbol
                     geometry: cursorPoint,
                     symbol: cursorSymbol
                 });
-                bufferSymbolGraphic = ({
+                bufferSymbolGraphic = new core.Graphic({
                     geometry: buffer,
                     symbol: bufferSymbol
                 });

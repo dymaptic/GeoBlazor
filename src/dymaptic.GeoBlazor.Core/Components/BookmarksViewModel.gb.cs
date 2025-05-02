@@ -63,6 +63,7 @@ public partial class BookmarksViewModel : IGoTo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelactivebookmark-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html">Bookmark</a> that is being navigated to.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#activeBookmark">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -72,6 +73,7 @@ public partial class BookmarksViewModel : IGoTo
     public Bookmark? ActiveBookmark { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelbookmarks-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html">Bookmark</a>s.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#bookmarks">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -81,6 +83,7 @@ public partial class BookmarksViewModel : IGoTo
     public IReadOnlyList<Bookmark>? Bookmarks { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelcapabilities-property">GeoBlazor Docs</a>
     ///     Defines the capabilities of the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -90,6 +93,7 @@ public partial class BookmarksViewModel : IGoTo
     public BookmarksCapabilities? Capabilities { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodeldefaultcreateoptions-property">GeoBlazor Docs</a>
     ///     Specifies how new bookmarks will be created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#defaultCreateOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -99,6 +103,7 @@ public partial class BookmarksViewModel : IGoTo
     public BookmarkOptions? DefaultCreateOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodeldefaulteditoptions-property">GeoBlazor Docs</a>
     ///     Specifies how bookmarks will be edited.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#defaultEditOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -108,8 +113,9 @@ public partial class BookmarksViewModel : IGoTo
     public BookmarkOptions? DefaultEditOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default ready
+    ///     default "ready"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -569,6 +575,7 @@ public partial class BookmarksViewModel : IGoTo
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelcreatebookmark-method">GeoBlazor Docs</a>
     ///     Creates a new bookmark from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#defaultCreateOptions">defaultCreateOptions</a>, unless otherwise specified.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#createBookmark">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -605,14 +612,17 @@ public partial class BookmarksViewModel : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodeleditbookmark-method">GeoBlazor Docs</a>
     ///     Edits the given bookmark.
+    ///     param options Specifies how bookmarks will be edited. Can be used to enable/disable taking screenshots or capturing the extent when a bookmark is edited. If not specified, the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#defaultEditOptions">defaultEditOptions</a> will be used.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#editBookmark">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="bookmark">
     ///     The bookmark to be edited.
     /// </param>
     /// <param name="options">
-    ///     Specifies how bookmarks will be edited. Can be used to enable/disable taking screenshots or capturing the extent when a bookmark is edited.
+    ///     Specifies
+    ///     how bookmarks will be edited. Can be used to enable/disable taking screenshots or capturing the extent when a bookmark is edited.
     ///     If not specified, the <a href="#defaultEditOptions">defaultEditOptions</a> will be used.
     /// </param>
     [ArcGISMethod]
@@ -647,6 +657,7 @@ public partial class BookmarksViewModel : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelgoto-method">GeoBlazor Docs</a>
     ///     Zoom to a specific bookmark.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#goTo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -654,7 +665,7 @@ public partial class BookmarksViewModel : IGoTo
     ///     The bookmark to zoom to.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> GoTo(Bookmark bookmark)
+    public async Task<string?> GoTo(Bookmark bookmark)
     {
         if (CoreJsModule is null)
         {
@@ -676,7 +687,7 @@ public partial class BookmarksViewModel : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "goTo", 
             CancellationTokenSource.Token,
             bookmark);

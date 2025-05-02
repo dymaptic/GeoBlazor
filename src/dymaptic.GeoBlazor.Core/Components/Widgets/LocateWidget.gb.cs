@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html">GeoBlazor Docs</a>
-///     Provides a simple widget that animates the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> to the user's current location.
+///     Provides a simple widget that animates the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>
+///     to the user's current location.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LocateWidget : IGoTo
@@ -44,19 +45,20 @@ public partial class LocateWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#graphic">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="icon">
-    ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     Icon displayed in the widget's button.
+    ///     default "compass"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mapView">
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
     /// </param>
     /// <param name="popupEnabled">
-    ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
+    ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -64,7 +66,8 @@ public partial class LocateWidget : IGoTo
     ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="scale">
-    ///     Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#event-track">track</a> event.
+    ///     Indicates the scale to set on the view when navigating to the position of the geolocated
+    ///     result once a location is returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#event-track">track</a> event.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#scale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -83,7 +86,7 @@ public partial class LocateWidget : IGoTo
     /// </param>
     public LocateWidget(
         string? containerId = null,
-        object? geolocationOptions = null,
+        string? geolocationOptions = null,
         bool? goToLocationEnabled = null,
         GoToOverride? goToOverride = null,
         Graphic? graphic = null,
@@ -120,6 +123,7 @@ public partial class LocateWidget : IGoTo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetgeolocationoptions-property">GeoBlazor Docs</a>
     ///     The browser's Geolocation API Position options for locating.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#geolocationOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -127,9 +131,10 @@ public partial class LocateWidget : IGoTo
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? GeolocationOptions { get; set; }
+    public string? GeolocationOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetgotolocationenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the widget should navigate the view to the position and scale of the geolocated result.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#goToLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -140,6 +145,7 @@ public partial class LocateWidget : IGoTo
     public bool? GoToLocationEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetgraphic-property">GeoBlazor Docs</a>
     ///     The graphic used to show the user's location on the map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#graphic">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -149,7 +155,9 @@ public partial class LocateWidget : IGoTo
     public Graphic? Graphic { get; set; }
     
     /// <summary>
-    ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetpopupenabled-property">GeoBlazor Docs</a>
+    ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +167,7 @@ public partial class LocateWidget : IGoTo
     public bool? PopupEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -174,7 +183,7 @@ public partial class LocateWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeolocationOptions property.
     /// </summary>
-    public async Task<object?> GetGeolocationOptions()
+    public async Task<string?> GetGeolocationOptions()
     {
         if (CoreJsModule is null)
         {
@@ -197,7 +206,7 @@ public partial class LocateWidget : IGoTo
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "geolocationOptions");
         if (result is not null)
         {
@@ -425,7 +434,7 @@ public partial class LocateWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeolocationOptions(object? value)
+    public async Task SetGeolocationOptions(string? value)
     {
 #pragma warning disable BL0005
         GeolocationOptions = value;
@@ -662,7 +671,9 @@ public partial class LocateWidget : IGoTo
 #region Public Methods
 
     /// <summary>
-    ///     This function provides the ability to interrupt and cancel the process of programmatically obtaining the location of the user's device.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetcancellocate-method">GeoBlazor Docs</a>
+    ///     This function provides the ability to interrupt and cancel the process of
+    ///     programmatically obtaining the location of the user's device.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#cancelLocate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
@@ -694,11 +705,12 @@ public partial class LocateWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetlocate-method">GeoBlazor Docs</a>
     ///     Animates the view to the user's location.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#locate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<object?> Locate()
+    public async Task<string?> Locate()
     {
         if (CoreJsModule is null)
         {
@@ -720,7 +732,7 @@ public partial class LocateWidget : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "locate", 
             CancellationTokenSource.Token);
     }
@@ -748,6 +760,7 @@ public partial class LocateWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetonlocate-property">GeoBlazor Docs</a>
     ///     Event Listener for Locate.
     /// </summary>
     [Parameter]
@@ -778,6 +791,7 @@ public partial class LocateWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetonlocateerror-property">GeoBlazor Docs</a>
     ///     Event Listener for LocateError.
     /// </summary>
     [Parameter]

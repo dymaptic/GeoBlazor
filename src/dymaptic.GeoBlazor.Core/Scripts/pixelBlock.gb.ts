@@ -50,7 +50,9 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     }
     
     async addData(planeData: any): Promise<void> {
-        this.component.addData(planeData);
+        let { buildJsPixelBlockAddDataPlaneData } = await import('./pixelBlockAddDataPlaneData');
+        let jsPlaneData = await buildJsPixelBlockAddDataPlaneData(planeData, this.layerId, this.viewId) as any;
+        this.component.addData(jsPlaneData);
     }
 
     async getAsRGBA(): Promise<any> {
@@ -73,10 +75,13 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        return await Promise.all(this.component.statistics.map(async i => await buildDotNetPixelBlockStatistics(i)));
+        return await Promise.all(this.component.statistics!.map(async i => await buildDotNetPixelBlockStatistics(i)));
     }
     
     async setStatistics(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.statistics = [];
+        }
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
         this.component.statistics = await Promise.all(value.map(async i => await buildJsPixelBlockStatistics(i))) as any;
     }

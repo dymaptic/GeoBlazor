@@ -51,6 +51,7 @@ public partial class PixelBlockStatistics : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlockStatistics.html#pixelblockstatisticsmaxvalue-property">GeoBlazor Docs</a>
     ///     The maximum pixel value in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixels">pixels</a> array.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#statistics">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,6 +61,7 @@ public partial class PixelBlockStatistics : MapComponent
     public double? MaxValue { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlockStatistics.html#pixelblockstatisticsminvalue-property">GeoBlazor Docs</a>
     ///     The minimum pixel value in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixels">pixels</a> array.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#statistics">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +71,7 @@ public partial class PixelBlockStatistics : MapComponent
     public double? MinValue { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlockStatistics.html#pixelblockstatisticsnodatavalue-property">GeoBlazor Docs</a>
     ///     Value representing areas of no data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#statistics">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

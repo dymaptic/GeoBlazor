@@ -5,14 +5,11 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SimpleLineSymbol.html">GeoBlazor Docs</a>
-///     SimpleLineSymbol is used for rendering 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">polyline geometries</a> in a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     SimpleLineSymbol is used for rendering 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">polyline geometries</a>
+///     in a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
-    IRouteSymbolsPolylineBarriers,
-    IRouteSymbolsRouteInfo,
-    ISketchViewModelPolylineSymbol,
-    ISymbol2D
+public partial class SimpleLineSymbol : ISymbol2D
 {
 
     /// <summary>
@@ -28,7 +25,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     /// </summary>
     /// <param name="color">
     ///     The color of the symbol.
-    ///     default black
+    ///     default "black"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html#color">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="width">
@@ -38,17 +35,17 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     /// </param>
     /// <param name="style">
     ///     Specifies the line style.
-    ///     default solid
+    ///     default "solid"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="cap">
     ///     Specifies the cap style.
-    ///     default round
+    ///     default "round"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html#cap">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="join">
     ///     Specifies the join style.
-    ///     default round
+    ///     default "round"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html#join">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="marker">

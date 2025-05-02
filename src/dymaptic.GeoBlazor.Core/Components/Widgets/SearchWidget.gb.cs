@@ -5,7 +5,12 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html">GeoBlazor Docs</a>
-///     The Search widget provides a way to perform search operations on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator service(s)</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature layer(s), <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html">SceneLayers</a> with an associated feature layer, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-buildingSublayers-BuildingComponentSublayer.html">BuildingComponentSublayer</a> with an associated feature layer, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">GeoJSONLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">CSVLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OGCFeatureLayer.html">OGCFeatureLayer</a>, and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table(s)</a>.
+///     The Search widget provides a way to perform search operations on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator service(s)</a>,
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature
+///     layer(s), <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html">SceneLayers</a> with an associated feature layer,
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-buildingSublayers-BuildingComponentSublayer.html">BuildingComponentSublayer</a> with an associated feature layer,
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">GeoJSONLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">CSVLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OGCFeatureLayer.html">OGCFeatureLayer</a>, and/or
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table(s)</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class SearchWidget : IGoTo
@@ -22,9 +27,23 @@ public partial class SearchWidget : IGoTo
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="sources">
+    ///     The Search widget may be used to search features in a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature
+    ///     layer(s), <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html">SceneLayers</a> with an associated feature layer,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-buildingSublayers-BuildingComponentSublayer.html">BuildingComponentSublayer</a> with an associated feature layer,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">GeoJSONLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">CSVLayer</a> or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OGCFeatureLayer.html">OGCFeatureLayer</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table</a>,
+    ///     or geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="viewModel">
+    ///     The view model for this widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="activeMenu">
     ///     The current active menu of the Search widget.
-    ///     default none
+    ///     default "none"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#activeMenu">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="activeSourceIndex">
@@ -56,8 +75,8 @@ public partial class SearchWidget : IGoTo
     /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "search"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="includeDefaultSources">
     ///     Indicates whether or not to include <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSources">defaultSources</a> in the Search UI.
@@ -65,8 +84,8 @@ public partial class SearchWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#includeDefaultSources">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="locationEnabled">
     ///     Enables location services within the widget.
@@ -101,14 +120,16 @@ public partial class SearchWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="portal">
-    ///     It is possible to search a specified portal instance's <a target="_blank" href="http://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-portal-to-geocode-addresses.htm">locator services</a> Use this property to set this <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Portal</a> instance to search.
+    ///     It is possible to search a specified portal instance's <a target="_blank" href="http://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-portal-to-geocode-addresses.htm">locator services</a>
+    ///     Use this property to set this <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Portal</a> instance to search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#portal">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="position">
     ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="resultGraphicEnabled">
-    ///     Indicates if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphic">resultGraphic</a> will display at the location of the selected feature.
+    ///     Indicates if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphic">resultGraphic</a> will display at the
+    ///     location of the selected feature.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphicEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -121,18 +142,10 @@ public partial class SearchWidget : IGoTo
     ///     The value of the search box input text string.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#searchTerm">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="sources">
-    ///     The Search widget may be used to search features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature layer(s), <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html">SceneLayers</a> with an associated feature layer, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-buildingSublayers-BuildingComponentSublayer.html">BuildingComponentSublayer</a> with an associated feature layer, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">GeoJSONLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">CSVLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OGCFeatureLayer.html">OGCFeatureLayer</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table</a>, or geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="suggestionsEnabled">
     ///     Enable suggestions for the widget.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#suggestionsEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="viewModel">
-    ///     The view model for this widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
     ///     Indicates whether the widget is visible.
@@ -144,6 +157,8 @@ public partial class SearchWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public SearchWidget(
+        IReadOnlyList<SearchSource> sources,
+        SearchViewModel viewModel,
         SearchMenu? activeMenu = null,
         int? activeSourceIndex = null,
         string? allPlaceholder = null,
@@ -166,14 +181,14 @@ public partial class SearchWidget : IGoTo
         bool? resultGraphicEnabled = null,
         bool? searchAllEnabled = null,
         string? searchTerm = null,
-        IReadOnlyList<SearchSource>? sources = null,
         bool? suggestionsEnabled = null,
-        SearchViewModel? viewModel = null,
         bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        Sources = sources;
+        ViewModel = viewModel;
         ActiveMenu = activeMenu;
         ActiveSourceIndex = activeSourceIndex;
         AllPlaceholder = allPlaceholder;
@@ -196,9 +211,7 @@ public partial class SearchWidget : IGoTo
         ResultGraphicEnabled = resultGraphicEnabled;
         SearchAllEnabled = searchAllEnabled;
         SearchTerm = searchTerm;
-        Sources = sources;
         SuggestionsEnabled = suggestionsEnabled;
-        ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
 #pragma warning restore BL0005    
@@ -208,6 +221,7 @@ public partial class SearchWidget : IGoTo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetactivesource-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">source</a> object currently selected.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#activeSource">ArcGIS Maps SDK for JavaScript</a>
@@ -218,7 +232,9 @@ public partial class SearchWidget : IGoTo
     public SearchSource? ActiveSource { get; protected set; }
     
     /// <summary>
-    ///     The combined collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSources">defaultSources</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#sources">sources</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetallsources-property">GeoBlazor Docs</a>
+    ///     The combined collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSources">defaultSources</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#sources">sources</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#allSources">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -227,7 +243,10 @@ public partial class SearchWidget : IGoTo
     public IReadOnlyList<SearchSource>? AllSources { get; protected set; }
     
     /// <summary>
-    ///     A read-only property that is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html">LayerSearchSource</a> and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html">LocatorSearchSource</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetdefaultsources-property">GeoBlazor Docs</a>
+    ///     A read-only property that is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a>
+    ///     of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html">LayerSearchSource</a>
+    ///     and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html">LocatorSearchSource</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#defaultSources">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -236,6 +255,7 @@ public partial class SearchWidget : IGoTo
     public IReadOnlyList<SearchSource>? DefaultSources { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetpopuptemplate-property">GeoBlazor Docs</a>
     ///     A customized <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> for the selected feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -245,7 +265,9 @@ public partial class SearchWidget : IGoTo
     public PopupTemplate? PopupTemplate { get; set; }
     
     /// <summary>
-    ///     It is possible to search a specified portal instance's <a target="_blank" href="http://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-portal-to-geocode-addresses.htm">locator services</a> Use this property to set this <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Portal</a> instance to search.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetportal-property">GeoBlazor Docs</a>
+    ///     It is possible to search a specified portal instance's <a target="_blank" href="http://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-portal-to-geocode-addresses.htm">locator services</a>
+    ///     Use this property to set this <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Portal</a> instance to search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#portal">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -254,6 +276,7 @@ public partial class SearchWidget : IGoTo
     public Portal? Portal { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetresultgraphic-property">GeoBlazor Docs</a>
     ///     The graphic used to highlight the resulting feature or location.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphic">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -263,6 +286,7 @@ public partial class SearchWidget : IGoTo
     public Graphic? ResultGraphic { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetresults-property">GeoBlazor Docs</a>
     ///     An array of objects, each containing a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">SearchResult</a> from the search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#results">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -272,6 +296,7 @@ public partial class SearchWidget : IGoTo
     public IReadOnlyList<SearchResultResponse>? Results { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetselectedresult-property">GeoBlazor Docs</a>
     ///     The result selected from a search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#selectedResult">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -281,7 +306,14 @@ public partial class SearchWidget : IGoTo
     public SearchResult? SelectedResult { get; protected set; }
     
     /// <summary>
-    ///     The Search widget may be used to search features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature layer(s), <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html">SceneLayers</a> with an associated feature layer, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-buildingSublayers-BuildingComponentSublayer.html">BuildingComponentSublayer</a> with an associated feature layer, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">GeoJSONLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">CSVLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OGCFeatureLayer.html">OGCFeatureLayer</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table</a>, or geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetsources-property">GeoBlazor Docs</a>
+    ///     The Search widget may be used to search features in a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature
+    ///     layer(s), <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html">SceneLayers</a> with an associated feature layer,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-buildingSublayers-BuildingComponentSublayer.html">BuildingComponentSublayer</a> with an associated feature layer,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">GeoJSONLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">CSVLayer</a> or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OGCFeatureLayer.html">OGCFeatureLayer</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table</a>,
+    ///     or geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -290,6 +322,7 @@ public partial class SearchWidget : IGoTo
     public IReadOnlyList<SearchSource>? Sources { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetsuggestions-property">GeoBlazor Docs</a>
     ///     An array of results from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#suggest">suggest method</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#suggestions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -299,6 +332,7 @@ public partial class SearchWidget : IGoTo
     public IReadOnlyList<SuggestResult>? Suggestions { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1802,17 +1836,14 @@ public partial class SearchWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSources(IReadOnlyList<SearchSource>? value)
+    public async Task SetSources(IReadOnlyList<SearchSource> value)
     {
-        if (value is not null)
+        foreach (SearchSource item in value)
         {
-            foreach (SearchSource item in value)
-            {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
-            }
+            item.CoreJsModule = CoreJsModule;
+            item.Parent = this;
+            item.Layer = Layer;
+            item.View = View;
         }
         
 #pragma warning disable BL0005
@@ -1887,15 +1918,12 @@ public partial class SearchWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(SearchViewModel? value)
+    public async Task SetViewModel(SearchViewModel value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
+        value.CoreJsModule  = CoreJsModule;
+        value.Parent = this;
+        value.Layer = Layer;
+        value.View = View;
         
 #pragma warning disable BL0005
         ViewModel = value;
@@ -1969,6 +1997,7 @@ public partial class SearchWidget : IGoTo
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetblur-method">GeoBlazor Docs</a>
     ///     Unfocuses the widget's text input.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#blur">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -2001,6 +2030,7 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetclear-method">GeoBlazor Docs</a>
     ///     Clears the current searchTerm, search results, suggest results, graphic, and graphics layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#clear">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -2033,6 +2063,7 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetfocus-method">GeoBlazor Docs</a>
     ///     Brings focus to the widget's text input.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#focus">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -2087,6 +2118,7 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetonsearchblur-property">GeoBlazor Docs</a>
     ///     Event Listener for SearchBlur.
     /// </summary>
     [Parameter]
@@ -2117,6 +2149,7 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetonsearchclear-property">GeoBlazor Docs</a>
     ///     Event Listener for SearchClear.
     /// </summary>
     [Parameter]
@@ -2147,6 +2180,7 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetonsearchfocus-property">GeoBlazor Docs</a>
     ///     Event Listener for SearchFocus.
     /// </summary>
     [Parameter]
@@ -2177,6 +2211,7 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetonsearchstart-property">GeoBlazor Docs</a>
     ///     Event Listener for SearchStart.
     /// </summary>
     [Parameter]
@@ -2207,6 +2242,7 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetonsuggeststart-property">GeoBlazor Docs</a>
     ///     Event Listener for SuggestStart.
     /// </summary>
     [Parameter]

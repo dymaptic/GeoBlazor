@@ -5,8 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInterval.html">GeoBlazor Docs</a>
-///     TimeInterval is a class that describes a length of time in one of ten temporal units such as seconds, days, or years.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">ArcGIS Maps SDK for JavaScript</a>
+///     TimeInterval is a class that describes a length of time in one of ten temporal
+///     units such as seconds, days, or years.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class TimeInterval
 {
@@ -24,13 +25,13 @@ public partial class TimeInterval
     /// </summary>
     /// <param name="unit">
     ///     Temporal units.
-    ///     default milliseconds
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html#unit">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "milliseconds"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html#unit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="value">
     ///     The numerical value of the time extent.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html#value">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public TimeInterval(
         TemporalTime unit,
@@ -47,9 +48,10 @@ public partial class TimeInterval
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInterval.html#timeintervalunit-property">GeoBlazor Docs</a>
     ///     Temporal units.
-    ///     default milliseconds
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html#unit">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "milliseconds"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html#unit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -57,9 +59,10 @@ public partial class TimeInterval
     public TemporalTime? Unit { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInterval.html#timeintervalvalue-property">GeoBlazor Docs</a>
     ///     The numerical value of the time extent.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html#value">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

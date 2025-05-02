@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html">GeoBlazor Docs</a>
-///     The TileLayer allows you work with a cached <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">map service</a> exposed by the ArcGIS Server REST API and add it to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> as a tile layer.
+///     The TileLayer allows you work with a cached <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">map service</a> exposed by the ArcGIS Server REST API and add it to
+///     a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> as a tile layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class TileLayer : IAPIKeyMixin,
@@ -16,8 +17,7 @@ public partial class TileLayer : IAPIKeyMixin,
     IOperationalLayer,
     IPortalLayer,
     IRefreshableLayer,
-    IScaleRangeLayer,
-    ISublayersOwner
+    IScaleRangeLayer
 {
 
     /// <summary>
@@ -53,13 +53,14 @@ public partial class TileLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-CustomParametersMixin.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fullExtent">
-    ///     The full extent of the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     The full extent of the layer as defined by the map service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isBasemapReferenceLayer">
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
@@ -90,13 +91,13 @@ public partial class TileLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes.
@@ -109,12 +110,13 @@ public partial class TileLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#resampling">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="subtables">
-    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables in the layer including the tables of its sublayers.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#subtables">ArcGIS Maps SDK for JavaScript</a>
+    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables
+    ///     in the layer including the tables of its sublayers.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#subtables">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="tileInfo">
     ///     Contains information about the tiling scheme for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISCachedService.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="tileServers">
     ///     An array of tile servers used for changing map tiles.
@@ -129,7 +131,7 @@ public partial class TileLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -197,7 +199,9 @@ public partial class TileLayer : IAPIKeyMixin,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#sublayers">sublayers</a> in the TileLayer including the sublayers of its sublayers.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerallsublayers-property">GeoBlazor Docs</a>
+    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#sublayers">sublayers</a>
+    ///     in the TileLayer including the sublayers of its sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#allSublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -206,6 +210,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public IReadOnlyList<Sublayer>? AllSublayers { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerattributiondataurl-property">GeoBlazor Docs</a>
     ///     The URL that points to the location of the layer's attribution data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#attributionDataUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -215,6 +220,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public string? AttributionDataUrl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
@@ -225,6 +231,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public BlendMode? BlendMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayercapabilities-property">GeoBlazor Docs</a>
     ///     Indicates the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -234,6 +241,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public ArcGISMapServiceCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayercopyright-property">GeoBlazor Docs</a>
     ///     The copyright text as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISCachedService.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -243,6 +251,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayercustomparameters-property">GeoBlazor Docs</a>
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-CustomParametersMixin.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -252,6 +261,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public Dictionary<string, object>? CustomParameters { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerhasattributiondata-property">GeoBlazor Docs</a>
     ///     Indicates if the layer has attribution data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#hasAttributionData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -261,8 +271,9 @@ public partial class TileLayer : IAPIKeyMixin,
     public bool? HasAttributionData { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -271,6 +282,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerresampling-property">GeoBlazor Docs</a>
     ///     Resampling is enabled by default in 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> and 3D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#resampling">ArcGIS Maps SDK for JavaScript</a>
@@ -281,7 +293,9 @@ public partial class TileLayer : IAPIKeyMixin,
     public bool? Resampling { get; set; }
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/map-service.htm">tiled map service's metadata JSON</a> exposed by the ArcGIS REST API.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayersourcejson-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/map-service.htm">tiled map service's metadata JSON</a>
+    ///     exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -290,6 +304,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public string? SourceJSON { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISCachedService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -299,6 +314,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayersublayers-property">GeoBlazor Docs</a>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a> objects.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -308,8 +324,10 @@ public partial class TileLayer : IAPIKeyMixin,
     public IReadOnlyList<Sublayer>? Sublayers { get; protected set; }
     
     /// <summary>
-    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables in the layer including the tables of its sublayers.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#subtables">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayersubtables-property">GeoBlazor Docs</a>
+    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables
+    ///     in the layer including the tables of its sublayers.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#subtables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -317,6 +335,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public IReadOnlyList<Sublayer>? Subtables { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerurl-property">GeoBlazor Docs</a>
     ///     The URL of the REST endpoint of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -327,6 +346,7 @@ public partial class TileLayer : IAPIKeyMixin,
     public string? Url { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerversion-property">GeoBlazor Docs</a>
     ///     The version of ArcGIS Server in which the map service is published.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1508,6 +1528,43 @@ public partial class TileLayer : IAPIKeyMixin,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the PersistenceEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPersistenceEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PersistenceEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PersistenceEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "persistenceEnabled", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
     /// <param name="value">
@@ -1866,209 +1923,9 @@ public partial class TileLayer : IAPIKeyMixin,
 #region Public Methods
 
     /// <summary>
-    ///     Returns a deep clone of a map service's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">sublayers</a> as defined by the service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#createServiceSublayers">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<Sublayer[]?> CreateServiceSublayers()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Sublayer[]?>(
-            "createServiceSublayers", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     This method fetches a tile for the given level, row and column present in the view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#fetchTile">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="level">
-    ///     Level of detail of the tile to fetch. This value is provided by <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
-    /// </param>
-    /// <param name="row">
-    ///     The row(y) position of the tile fetch. This value is provided by <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
-    /// </param>
-    /// <param name="col">
-    ///     The column(x) position of the tile to fetch. This value is provided by <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<ElementReference?> FetchTile(double level,
-        double row,
-        double col,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ElementReference? result = await JsComponentReference!.InvokeAsync<ElementReference?>(
-            "fetchTile", 
-            CancellationTokenSource.Token,
-            level,
-            row,
-            col,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     Returns the sublayer with the given layerId.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#findSublayerById">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="id">
-    /// </param>
-    [ArcGISMethod]
-    public async Task<Sublayer?> FindSublayerById(long id)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Sublayer?>(
-            "findSublayerById", 
-            CancellationTokenSource.Token,
-            id);
-    }
-    
-    /// <summary>
-    ///     This method returns a URL to a tile for a given level, row and column.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#getTileUrl">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="level">
-    ///     The requested tile's level.
-    /// </param>
-    /// <param name="row">
-    ///     The requested tile's row.
-    /// </param>
-    /// <param name="col">
-    ///     The requested tile's column.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<string?> GetTileUrl(double level,
-        double row,
-        double col)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getTileUrl", 
-            CancellationTokenSource.Token,
-            level,
-            row,
-            col);
-    }
-    
-    /// <summary>
-    ///     Loads all of the sublayers.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#loadAll">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<Sublayer?> LoadAll()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Sublayer?>(
-            "loadAll", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public override async ValueTask Refresh()
@@ -2122,6 +1979,7 @@ public partial class TileLayer : IAPIKeyMixin,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html#tilelayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>

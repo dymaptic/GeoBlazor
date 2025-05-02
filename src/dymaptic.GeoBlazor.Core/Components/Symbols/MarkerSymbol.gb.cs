@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol.html">GeoBlazor Docs</a>
-///     Marker symbols are used to draw <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a> graphics in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> or individual <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">graphics</a> in a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     Marker symbols are used to draw <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a> graphics in
+///     a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> or individual <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">graphics</a>
+///     in a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-MarkerSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class MarkerSymbol

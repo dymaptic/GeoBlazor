@@ -74,17 +74,12 @@ export function buildJsPolygon(dnPolygon): any {
     }
     if (hasValue(dnPolygon.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
-    } else {
-        properties.spatialReference = new SpatialReference({wkid: 4326});
     }
     if (hasValue(dnPolygon.hasM)) {
         properties.hasM = dnPolygon.hasM;
     }
     if (hasValue(dnPolygon.hasZ)) {
         properties.hasZ = dnPolygon.hasZ;
-    }
-    if (hasValue(dnPolygon.centroid)) {
-        properties.centroid = buildJsPoint(dnPolygon.centroid);
     }
 
     let polygon: Polygon;

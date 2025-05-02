@@ -5,8 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendLayerInfos.html">GeoBlazor Docs</a>
-///     Properties defining the scheme of each SymbolTableElementType.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElementType">ArcGIS Maps SDK for JavaScript</a>
+///     Specifies a subset of the layers to display in the legend.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LegendLayerInfos : MapComponent
 {
@@ -14,6 +14,7 @@ public partial class LegendLayerInfos : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendLayerInfos.html#legendlayerinfossublayerids-property">GeoBlazor Docs</a>
     ///     Only applicable if the `layer` is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">MapImageLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SubtypeGroupLayer.html">SubtypeGroupLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html">WMSLayer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -23,6 +24,7 @@ public partial class LegendLayerInfos : MapComponent
     public IReadOnlyList<long>? SublayerIds { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendLayerInfos.html#legendlayerinfostitle-property">GeoBlazor Docs</a>
     ///     Specifies a title for the layer to display above its symbols and descriptions.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -83,6 +83,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Indicates if the number of features returned by the query operation can be controlled.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="SupportsReturnMesh">
+/// </param>
 /// <param name="SupportsSpatialAggregationStatistics">
 ///     Indicates if the layer supports spatial extent, center or convex hull to be returned for each distinct group when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#groupByFieldsForStatistics">groupByFieldsForStatistics</a> is used.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -98,6 +100,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="SupportsStatistics">
 ///     Indicates if the layer supports field-based statistical functions.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="SupportsTrueCurve">
 /// </param>
 public partial record CapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -139,10 +143,14 @@ public partial record CapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsResultType = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? SupportsReturnMesh = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsSpatialAggregationStatistics = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsSqlExpression = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsStandardizedQueriesOnly = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    bool? SupportsStatistics = null);
+    bool? SupportsStatistics = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? SupportsTrueCurve = null);

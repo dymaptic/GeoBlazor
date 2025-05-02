@@ -37,7 +37,7 @@ public partial record SpriteInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? PixelRatio = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    double? Sdf = null,
+    bool? Sdf = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Width = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

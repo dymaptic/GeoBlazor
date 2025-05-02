@@ -27,10 +27,6 @@ public partial class WMSLayer : Layer,
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="allSublayers">
-    ///     A flattened collection of all <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a>s based on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#sublayers">`sublayers`</a> property.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#allSublayers">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="arcGISLayerId">
     ///     The unique ID assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
@@ -57,9 +53,10 @@ public partial class WMSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureInfoFormat">
     ///     The MIME type that will be requested by popups.
@@ -130,13 +127,13 @@ public partial class WMSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes.
@@ -160,12 +157,16 @@ public partial class WMSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeInfo">
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     TimeInfo provides information such as date fields that store
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeOffset">
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -178,7 +179,8 @@ public partial class WMSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useViewTime">
-    ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     Determines if the layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -187,7 +189,7 @@ public partial class WMSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -197,11 +199,10 @@ public partial class WMSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public WMSLayer(
-        IReadOnlyList<WMSSublayer>? allSublayers = null,
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         string? copyright = null,
-        object? customLayerParameters = null,
+        string? customLayerParameters = null,
         Dictionary<string, object>? customParameters = null,
         string? description = null,
         Effect? effect = null,
@@ -238,7 +239,6 @@ public partial class WMSLayer : Layer,
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        AllSublayers = allSublayers;
         ArcGISLayerId = arcGISLayerId;
         BlendMode = blendMode;
         Copyright = copyright;
@@ -286,15 +286,17 @@ public partial class WMSLayer : Layer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerallsublayers-property">GeoBlazor Docs</a>
     ///     A flattened collection of all <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a>s based on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#sublayers">`sublayers`</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#allSublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<WMSSublayer>? AllSublayers { get; set; }
+    [JsonInclude]
+    public IReadOnlyList<WMSSublayer>? AllSublayers { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
@@ -305,6 +307,7 @@ public partial class WMSLayer : Layer,
     public BlendMode? BlendMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayercopyright-property">GeoBlazor Docs</a>
     ///     Copyright information for the WMS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -314,15 +317,17 @@ public partial class WMSLayer : Layer,
     public string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayercustomlayerparameters-property">GeoBlazor Docs</a>
     ///     Use this to append different custom parameters to the WMS map requests.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#customLayerParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? CustomLayerParameters { get; set; }
+    public string? CustomLayerParameters { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayercustomparameters-property">GeoBlazor Docs</a>
     ///     Use this to append custom parameters to all WMS requests.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -332,6 +337,7 @@ public partial class WMSLayer : Layer,
     public Dictionary<string, object>? CustomParameters { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerdescription-property">GeoBlazor Docs</a>
     ///     Description for the WMS layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -341,18 +347,21 @@ public partial class WMSLayer : Layer,
     public string? Description { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerdimensions-property">GeoBlazor Docs</a>
     ///     An array of time, elevation and other dimensions for the root layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#dimensions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<IWMSLayerDimensions>? Dimensions { get; protected set; }
+    public IReadOnlyList<Object>? Dimensions { get; protected set; }
     
     /// <summary>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayereffect-property">GeoBlazor Docs</a>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -360,6 +369,7 @@ public partial class WMSLayer : Layer,
     public Effect? Effect { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfeatureinfoformat-property">GeoBlazor Docs</a>
     ///     The MIME type that will be requested by popups.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#featureInfoFormat">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -369,6 +379,7 @@ public partial class WMSLayer : Layer,
     public FeatureInfoFormat? FeatureInfoFormat { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfeatureinfoformats-property">GeoBlazor Docs</a>
     ///     This property lists all available MIME-types that can be used with the WMS service's _GetFeatureInfo_ request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#featureInfoFormats">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -378,6 +389,7 @@ public partial class WMSLayer : Layer,
     public IReadOnlyList<string>? FeatureInfoFormats { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfeatureinfourl-property">GeoBlazor Docs</a>
     ///     The URL for the WMS GetFeatureInfo call.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#featureInfoUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -387,6 +399,7 @@ public partial class WMSLayer : Layer,
     public string? FeatureInfoUrl { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfetchfeatureinfofunction-property">GeoBlazor Docs</a>
     ///     Function to override the default popup behavior of `WMSLayer`.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#fetchFeatureInfoFunction">ArcGIS Maps SDK for JavaScript</a>
@@ -401,7 +414,7 @@ public partial class WMSLayer : Layer,
     ///     Should not be called by consuming code.
     /// </summary>
     [JSInvokable]
-    public async Task<Graphic[]?> OnJsFetchFeatureInfoFunction(object query)
+    public async Task<Graphic[]?> OnJsFetchFeatureInfoFunction(string query)
     {
         Graphic[]? result = null;
     
@@ -419,6 +432,7 @@ public partial class WMSLayer : Layer,
     public bool HasFetchFeatureInfoFunction => FetchFeatureInfoFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfullextents-property">GeoBlazor Docs</a>
     ///     All bounding boxes defined for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#fullExtents">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -428,6 +442,7 @@ public partial class WMSLayer : Layer,
     public IReadOnlyList<Extent>? FullExtents { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerimageformat-property">GeoBlazor Docs</a>
     ///     The map image format (MIME type) to request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#imageFormat">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -437,6 +452,7 @@ public partial class WMSLayer : Layer,
     public string? ImageFormat { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerimagemaxheight-property">GeoBlazor Docs</a>
     ///     Indicates the maximum height of the image exported by the service.
     ///     default 2048
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#imageMaxHeight">ArcGIS Maps SDK for JavaScript</a>
@@ -447,6 +463,7 @@ public partial class WMSLayer : Layer,
     public int? ImageMaxHeight { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerimagemaxwidth-property">GeoBlazor Docs</a>
     ///     Indicates the maximum width of the image exported by the service.
     ///     default 2048
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#imageMaxWidth">ArcGIS Maps SDK for JavaScript</a>
@@ -457,6 +474,7 @@ public partial class WMSLayer : Layer,
     public int? ImageMaxWidth { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerimagetransparency-property">GeoBlazor Docs</a>
     ///     Indicates whether the background of the image exported by the service is transparent.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#imageTransparency">ArcGIS Maps SDK for JavaScript</a>
@@ -467,6 +485,7 @@ public partial class WMSLayer : Layer,
     public bool? ImageTransparency { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -477,6 +496,7 @@ public partial class WMSLayer : Layer,
     public bool? LegendEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
@@ -487,6 +507,7 @@ public partial class WMSLayer : Layer,
     public double? MaxScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
@@ -497,8 +518,9 @@ public partial class WMSLayer : Layer,
     public double? MinScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -506,6 +528,7 @@ public partial class WMSLayer : Layer,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerrefreshinterval-property">GeoBlazor Docs</a>
     ///     Refresh interval of the layer in minutes.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
@@ -516,6 +539,7 @@ public partial class WMSLayer : Layer,
     public double? RefreshInterval { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -525,6 +549,7 @@ public partial class WMSLayer : Layer,
     public SpatialReference? SpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerspatialreferences-property">GeoBlazor Docs</a>
     ///     List of spatialReference well known ids derived from the CRS elements of the first layer in the GetCapabilities request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#spatialReferences">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -534,6 +559,7 @@ public partial class WMSLayer : Layer,
     public IReadOnlyList<double>? SpatialReferences { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayersublayers-property">GeoBlazor Docs</a>
     ///     A subset of the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a>s that will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -543,6 +569,7 @@ public partial class WMSLayer : Layer,
     public IReadOnlyList<WMSSublayer>? Sublayers { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayertimeextent-property">GeoBlazor Docs</a>
     ///     The layer's time extent.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -552,7 +579,12 @@ public partial class WMSLayer : Layer,
     public TimeExtent? TimeExtent { get; set; }
     
     /// <summary>
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayertimeinfo-property">GeoBlazor Docs</a>
+    ///     TimeInfo provides information such as date fields that store
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -562,7 +594,8 @@ public partial class WMSLayer : Layer,
     public TimeInfo? TimeInfo { get; set; }
     
     /// <summary>
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayertimeoffset-property">GeoBlazor Docs</a>
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -572,6 +605,7 @@ public partial class WMSLayer : Layer,
     public TimeInterval? TimeOffset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerurl-property">GeoBlazor Docs</a>
     ///     The URL of the WMS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -581,7 +615,9 @@ public partial class WMSLayer : Layer,
     public string? Url { get; set; }
     
     /// <summary>
-    ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayeruseviewtime-property">GeoBlazor Docs</a>
+    ///     Determines if the layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -591,6 +627,7 @@ public partial class WMSLayer : Layer,
     public bool? UseViewTime { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerversion-property">GeoBlazor Docs</a>
     ///     Version of the <a target="_blank" href="http://www.opengeospatial.org/standards/wms">WMS specification</a> to use.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -723,7 +760,7 @@ public partial class WMSLayer : Layer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomLayerParameters property.
     /// </summary>
-    public async Task<object?> GetCustomLayerParameters()
+    public async Task<string?> GetCustomLayerParameters()
     {
         if (CoreJsModule is null)
         {
@@ -746,7 +783,7 @@ public partial class WMSLayer : Layer,
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "customLayerParameters");
         if (result is not null)
         {
@@ -840,7 +877,7 @@ public partial class WMSLayer : Layer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
-    public async Task<IReadOnlyList<IWMSLayerDimensions>?> GetDimensions()
+    public async Task<IReadOnlyList<Object>?> GetDimensions()
     {
         if (CoreJsModule is null)
         {
@@ -863,7 +900,7 @@ public partial class WMSLayer : Layer,
         }
 
         // get the property value
-        IReadOnlyList<IWMSLayerDimensions>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IWMSLayerDimensions>?>("getProperty",
+        IReadOnlyList<Object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Object>?>("getProperty",
             CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
@@ -1574,11 +1611,6 @@ public partial class WMSLayer : Layer,
         
         if (result is not null)
         {
-            if (TimeExtent is not null)
-            {
-                result.Id = TimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -1788,54 +1820,6 @@ public partial class WMSLayer : Layer,
 #region Property Setters
 
     /// <summary>
-    ///    Asynchronously set the value of the AllSublayers property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetAllSublayers(IReadOnlyList<WMSSublayer>? value)
-    {
-        if (value is not null)
-        {
-            foreach (WMSSublayer item in value)
-            {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
-            }
-        }
-        
-#pragma warning disable BL0005
-        AllSublayers = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(AllSublayers)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setAllSublayers", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
     /// <param name="value">
@@ -1915,7 +1899,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomLayerParameters(object? value)
+    public async Task SetCustomLayerParameters(string? value)
     {
 #pragma warning disable BL0005
         CustomLayerParameters = value;
@@ -2439,6 +2423,43 @@ public partial class WMSLayer : Layer,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the PersistenceEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPersistenceEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PersistenceEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PersistenceEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "persistenceEnabled", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
     /// <param name="value">
@@ -2901,20 +2922,6 @@ public partial class WMSLayer : Layer,
 #region Add to Collection Methods
 
     /// <summary>
-    ///     Asynchronously adds elements to the AllSublayers property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToAllSublayers(params WMSSublayer[] values)
-    {
-        WMSSublayer[] join = AllSublayers is null
-            ? values
-            : [..AllSublayers, ..values];
-        await SetAllSublayers(join);
-    }
-    
-    /// <summary>
     ///     Asynchronously adds elements to the FullExtents property.
     /// </summary>
     /// <param name="values">
@@ -2960,22 +2967,6 @@ public partial class WMSLayer : Layer,
 
 #region Remove From Collection Methods
 
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the AllSublayers property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromAllSublayers(params WMSSublayer[] values)
-    {
-        if (AllSublayers is null)
-        {
-            return;
-        }
-        await SetAllSublayers(AllSublayers.Except(values).ToArray());
-    }
-    
     
     /// <summary>
     ///     Asynchronously remove an element from the FullExtents property.
@@ -3029,140 +3020,9 @@ public partial class WMSLayer : Layer,
 #region Public Methods
 
     /// <summary>
-    ///     Fetching the WMS image.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="extent">
-    ///     The extent of the view.
-    /// </param>
-    /// <param name="width">
-    ///     The width of the view in pixels.
-    /// </param>
-    /// <param name="height">
-    ///     The height of the view in pixels.
-    /// </param>
-    /// <param name="options">
-    ///     The parameter options is an object with the following properties.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<ElementReference?> FetchImage(Extent extent,
-        int width,
-        int height,
-        WMSLayerFetchImageOptions options,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ElementReference? result = await JsComponentReference!.InvokeAsync<ElementReference?>(
-            "fetchImage", 
-            CancellationTokenSource.Token,
-            extent,
-            width,
-            height,
-            new { pixelRatio = options.PixelRatio, rotation = options.Rotation, timeExent = options.TimeExent, signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     Returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a> based on the given sublayer id.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#findSublayerById">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="id">
-    ///     The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#id">id</a> of the WMS sublayer.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<WMSSublayer?> FindSublayerById(long id)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<WMSSublayer?>(
-            "findSublayerById", 
-            CancellationTokenSource.Token,
-            id);
-    }
-    
-    /// <summary>
-    ///     Returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a> based on the given sublayer name.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#findSublayerByName">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="name">
-    ///     The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#name">name</a> of the WMS sublayer.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<WMSSublayer?> FindSublayerByName(string name)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<WMSSublayer?>(
-            "findSublayerByName", 
-            CancellationTokenSource.Token,
-            name);
-    }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public override async ValueTask Refresh()
@@ -3216,6 +3076,7 @@ public partial class WMSLayer : Layer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>
@@ -3266,6 +3127,19 @@ public partial class WMSLayer : Layer,
                 {
                     SpatialReference = spatialReference;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case WMSSublayer sublayers:
+                Sublayers ??= [];
+                if (!Sublayers.Contains(sublayers))
+                {
+                    Sublayers = [..Sublayers, sublayers];
+                    ModifiedParameters[nameof(Sublayers)] = Sublayers;
                     if (MapRendered)
                     {
                         await UpdateLayer();
@@ -3331,6 +3205,10 @@ public partial class WMSLayer : Layer,
                 SpatialReference = null;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
+            case WMSSublayer sublayers:
+                Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
+                ModifiedParameters[nameof(Sublayers)] = Sublayers;
+                return true;
             case TimeExtent _:
                 TimeExtent = null;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
@@ -3361,6 +3239,13 @@ public partial class WMSLayer : Layer,
         }
         PortalItem?.ValidateRequiredGeneratedChildren();
         SpatialReference?.ValidateRequiredGeneratedChildren();
+        if (Sublayers is not null)
+        {
+            foreach (WMSSublayer child in Sublayers)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         TimeExtent?.ValidateRequiredGeneratedChildren();
         TimeInfo?.ValidateRequiredGeneratedChildren();
         TimeOffset?.ValidateRequiredGeneratedChildren();

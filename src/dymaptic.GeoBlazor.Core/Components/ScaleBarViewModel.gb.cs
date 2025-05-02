@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ScaleBarViewModel.html">GeoBlazor Docs</a>
-///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html">ScaleBar</a> widget.
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-scale-bar/">Scale Bar</a> component and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html">ScaleBar</a> widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar-ScaleBarViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ScaleBarViewModel : MapComponent
@@ -18,5 +18,109 @@ public partial class ScaleBarViewModel : MapComponent
     public ScaleBarViewModel()
     {
     }
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ScaleBarViewModel.html#scalebarviewmodelstate-property">GeoBlazor Docs</a>
+    ///     The current state of the widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar-ScaleBarViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public ScaleBarViewModelState? State { get; protected set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the State property.
+    /// </summary>
+    public async Task<ScaleBarViewModelState?> GetState()
+    {
+        if (CoreJsModule is null)
+        {
+            return State;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return State;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<ScaleBarViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ScaleBarViewModelState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             State = (ScaleBarViewModelState)result.Value.Value!;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(State)] = State;
+        }
+         
+        return State;
+    }
+    
+#endregion
+
+#region Public Methods
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ScaleBarViewModel.html#scalebarviewmodelgetscalebarproperties-method">GeoBlazor Docs</a>
+    ///     Computes the size and units of the scale bar widget given a base length in pixels.
+    ///     param measurementSystem The measurement system to use.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar-ScaleBarViewModel.html#getScaleBarProperties">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="length">
+    ///     The base width of the scale bar widget in pixels.
+    /// </param>
+    /// <param name="measurementSystem">
+    ///     The measurement system to use.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> GetScaleBarProperties(double length,
+        MeasurementSystem measurementSystem)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "getScaleBarProperties", 
+            CancellationTokenSource.Token,
+            length,
+            measurementSystem);
+    }
+    
+#endregion
 
 }

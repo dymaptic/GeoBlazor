@@ -27,8 +27,6 @@ export function buildJsPoint(dotNetObject: any): any {
     let properties: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference);
-    } else {
-        properties.spatialReference = new SpatialReference({ wkid: 4326 });
     }
     copyValuesIfExists(dotNetObject, properties, 'latitude', 'longitude', 'x', 'y', 'z', 'm',
         'hasZ', 'hasM');

@@ -46,10 +46,6 @@ public partial class WMTSSublayer : MapComponent
     ///     A collection of supported <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html">WMTSStyle</a>s as retrieved from the GetCapabilities request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#styles">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="tileMatrixSet">
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html">TileMatrixSet</a> to request.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#tileMatrixSet">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="tileMatrixSetId">
     ///     The id of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html">TileMatrixSet</a> to request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#tileMatrixSetId">ArcGIS Maps SDK for JavaScript</a>
@@ -59,7 +55,8 @@ public partial class WMTSSublayer : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#tileMatrixSets">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the WMTS sublayer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     The title of the WMTS sublayer used to identify it in places such as the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="wMTSSublayerId">
@@ -73,7 +70,6 @@ public partial class WMTSSublayer : MapComponent
         IReadOnlyList<string>? imageFormats = null,
         string? styleId = null,
         IReadOnlyList<WMTSStyle>? styles = null,
-        TileMatrixSet? tileMatrixSet = null,
         string? tileMatrixSetId = null,
         IReadOnlyList<TileMatrixSet>? tileMatrixSets = null,
         string? title = null,
@@ -87,7 +83,6 @@ public partial class WMTSSublayer : MapComponent
         ImageFormats = imageFormats;
         StyleId = styleId;
         Styles = styles;
-        TileMatrixSet = tileMatrixSet;
         TileMatrixSetId = tileMatrixSetId;
         TileMatrixSets = tileMatrixSets;
         Title = title;
@@ -99,6 +94,7 @@ public partial class WMTSSublayer : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerdescription-property">GeoBlazor Docs</a>
     ///     Description for the WMTS sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -108,6 +104,7 @@ public partial class WMTSSublayer : MapComponent
     public string? Description { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerfullextent-property">GeoBlazor Docs</a>
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -117,6 +114,7 @@ public partial class WMTSSublayer : MapComponent
     public Extent? FullExtent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerimageformat-property">GeoBlazor Docs</a>
     ///     The map image format (MIME type) to request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#imageFormat">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -126,6 +124,7 @@ public partial class WMTSSublayer : MapComponent
     public string? ImageFormat { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerimageformats-property">GeoBlazor Docs</a>
     ///     Supported image formats as retrieved from the GetCapabilities request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#imageFormats">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -135,6 +134,7 @@ public partial class WMTSSublayer : MapComponent
     public IReadOnlyList<string>? ImageFormats { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerstyleid-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html">WMTSStyle</a> to request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#styleId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -144,6 +144,7 @@ public partial class WMTSSublayer : MapComponent
     public string? StyleId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerstyles-property">GeoBlazor Docs</a>
     ///     A collection of supported <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html">WMTSStyle</a>s as retrieved from the GetCapabilities request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#styles">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -153,15 +154,17 @@ public partial class WMTSSublayer : MapComponent
     public IReadOnlyList<WMTSStyle>? Styles { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayertilematrixset-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html">TileMatrixSet</a> to request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#tileMatrixSet">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TileMatrixSet? TileMatrixSet { get; set; }
+    [JsonInclude]
+    public TileMatrixSet? TileMatrixSet { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayertilematrixsetid-property">GeoBlazor Docs</a>
     ///     The id of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html">TileMatrixSet</a> to request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#tileMatrixSetId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -171,6 +174,7 @@ public partial class WMTSSublayer : MapComponent
     public string? TileMatrixSetId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayertilematrixsets-property">GeoBlazor Docs</a>
     ///     A collection of supported <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html">TileMatrixSets</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#tileMatrixSets">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -180,7 +184,9 @@ public partial class WMTSSublayer : MapComponent
     public IReadOnlyList<TileMatrixSet>? TileMatrixSets { get; set; }
     
     /// <summary>
-    ///     The title of the WMTS sublayer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayertitle-property">GeoBlazor Docs</a>
+    ///     The title of the WMTS sublayer used to identify it in places such as the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -189,6 +195,7 @@ public partial class WMTSSublayer : MapComponent
     public string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerwmtssublayerid-property">GeoBlazor Docs</a>
     ///     The unique ID assigned to the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -881,51 +888,6 @@ public partial class WMTSSublayer : MapComponent
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the TileMatrixSet property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTileMatrixSet(TileMatrixSet? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        TileMatrixSet = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(TileMatrixSet)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "tileMatrixSet", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the TileMatrixSetId property after render.
     /// </summary>
     /// <param name="value">
@@ -1207,6 +1169,15 @@ public partial class WMTSSublayer : MapComponent
                 }
                 
                 return true;
+            case TileMatrixSet tileMatrixSets:
+                TileMatrixSets ??= [];
+                if (!TileMatrixSets.Contains(tileMatrixSets))
+                {
+                    TileMatrixSets = [..TileMatrixSets, tileMatrixSets];
+                    ModifiedParameters[nameof(TileMatrixSets)] = TileMatrixSets;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -1225,6 +1196,10 @@ public partial class WMTSSublayer : MapComponent
                 Styles = Styles?.Where(s => s != styles).ToList();
                 ModifiedParameters[nameof(Styles)] = Styles;
                 return true;
+            case TileMatrixSet tileMatrixSets:
+                TileMatrixSets = TileMatrixSets?.Where(t => t != tileMatrixSets).ToList();
+                ModifiedParameters[nameof(TileMatrixSets)] = TileMatrixSets;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -1238,6 +1213,13 @@ public partial class WMTSSublayer : MapComponent
         if (Styles is not null)
         {
             foreach (WMTSStyle child in Styles)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        if (TileMatrixSets is not null)
+        {
+            foreach (TileMatrixSet child in TileMatrixSets)
             {
                 child.ValidateRequiredGeneratedChildren();
             }

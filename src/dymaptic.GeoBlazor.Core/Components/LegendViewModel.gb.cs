@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html">GeoBlazor Docs</a>
-///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widget, which displays a label and symbol for interpreting the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">Renderer</a> of each layer in a map.
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widget,
+///     which displays a label and symbol for interpreting the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">Renderer</a>
+///     of each layer in a map.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LegendViewModel : MapComponent
@@ -23,7 +25,8 @@ public partial class LegendViewModel : MapComponent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="activeLayerInfos">
-    ///     Collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html">ActiveLayerInfo</a> objects used by the legend view to display data in the legend.
+    ///     Collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html">ActiveLayerInfo</a> objects used by the legend view to
+    ///     display data in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#activeLayerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="basemapLegendVisible">
@@ -32,7 +35,8 @@ public partial class LegendViewModel : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="hideLayersNotInCurrentView">
-    ///     When `true`, layers will only be shown in the legend if they are visible in the view's extent.
+    ///     When `true`, layers will only be shown in the legend if
+    ///     they are visible in the view's extent.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#hideLayersNotInCurrentView">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -41,7 +45,8 @@ public partial class LegendViewModel : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="respectLayerVisibility">
-    ///     Determines whether to respect the properties of the layers in the map that control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
+    ///     Determines whether to respect the properties of the layers in the map that
+    ///     control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#respectLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -66,7 +71,9 @@ public partial class LegendViewModel : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html">ActiveLayerInfo</a> objects used by the legend view to display data in the legend.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelactivelayerinfos-property">GeoBlazor Docs</a>
+    ///     Collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html">ActiveLayerInfo</a> objects used by the legend view to
+    ///     display data in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#activeLayerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -75,6 +82,7 @@ public partial class LegendViewModel : MapComponent
     public IReadOnlyList<ActiveLayerInfo>? ActiveLayerInfos { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelbasemaplegendvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to show the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> layers in the Legend.
     ///     default filterBasemaps
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">ArcGIS Maps SDK for JavaScript</a>
@@ -85,7 +93,9 @@ public partial class LegendViewModel : MapComponent
     public bool? BasemapLegendVisible { get; set; }
     
     /// <summary>
-    ///     When `true`, layers will only be shown in the legend if they are visible in the view's extent.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelhidelayersnotincurrentview-property">GeoBlazor Docs</a>
+    ///     When `true`, layers will only be shown in the legend if
+    ///     they are visible in the view's extent.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#hideLayersNotInCurrentView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -95,6 +105,7 @@ public partial class LegendViewModel : MapComponent
     public bool? HideLayersNotInCurrentView { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodellayerinfos-property">GeoBlazor Docs</a>
     ///     Specifies a subset of the layers in the map to display in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -104,7 +115,9 @@ public partial class LegendViewModel : MapComponent
     public IReadOnlyList<LegendViewModelLayerInfos>? LayerInfos { get; set; }
     
     /// <summary>
-    ///     Determines whether to respect the properties of the layers in the map that control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelrespectlayervisibility-property">GeoBlazor Docs</a>
+    ///     Determines whether to respect the properties of the layers in the map that
+    ///     control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#respectLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,8 +127,9 @@ public partial class LegendViewModel : MapComponent
     public bool? RespectLayerVisibility { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

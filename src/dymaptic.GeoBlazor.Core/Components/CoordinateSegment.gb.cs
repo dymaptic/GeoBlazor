@@ -51,6 +51,7 @@ public partial class CoordinateSegment : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CoordinateSegment.html#coordinatesegmentalias-property">GeoBlazor Docs</a>
     ///     A string that provides the name for this segment of a coordinate string.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CoordinateConversion-support-Format.html#CoordinateSegment">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,6 +61,7 @@ public partial class CoordinateSegment : MapComponent
     public string? Alias { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CoordinateSegment.html#coordinatesegmentdescription-property">GeoBlazor Docs</a>
     ///     A string that describes the role of this segment.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CoordinateConversion-support-Format.html#CoordinateSegment">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +71,7 @@ public partial class CoordinateSegment : MapComponent
     public string? Description { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CoordinateSegment.html#coordinatesegmentsearchpattern-property">GeoBlazor Docs</a>
     ///     A regular expression that should extract this segment from the complete coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CoordinateConversion-support-Format.html#CoordinateSegment">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

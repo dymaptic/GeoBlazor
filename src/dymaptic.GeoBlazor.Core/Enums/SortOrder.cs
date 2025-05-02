@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SortOrder.html">GeoBlazor Docs</a>
-///     The sort order options for <see cref="OrderedLayerOrderBy" />
+///     The sort order options for <see cref="OrderByInfo" />
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SortOrder>))]
 public enum SortOrder

@@ -24,6 +24,9 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any):
     if (hasValue(dotNetObject.supportsName)) {
         jsCapabilitiesAttachment.supportsName = dotNetObject.supportsName;
     }
+    if (hasValue(dotNetObject.supportsOrderByFields)) {
+        jsCapabilitiesAttachment.supportsOrderByFields = dotNetObject.supportsOrderByFields;
+    }
     if (hasValue(dotNetObject.supportsResize)) {
         jsCapabilitiesAttachment.supportsResize = dotNetObject.supportsResize;
     }
@@ -63,6 +66,10 @@ export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any):
     
     if (hasValue(jsObject.supportsName)) {
         dotNetCapabilitiesAttachment.supportsName = jsObject.supportsName;
+    }
+    
+    if (hasValue(jsObject.supportsOrderByFields)) {
+        dotNetCapabilitiesAttachment.supportsOrderByFields = jsObject.supportsOrderByFields;
     }
     
     if (hasValue(jsObject.supportsResize)) {

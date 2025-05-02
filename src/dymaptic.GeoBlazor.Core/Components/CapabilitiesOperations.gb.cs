@@ -50,6 +50,9 @@ public partial class CapabilitiesOperations : MapComponent
     ///     Indicates if the layer supports <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/enterprise/query-top-features-feature-service-layer-.htm">REST API queryTopFeatures</a> operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="supportsResizeAttachments">
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="supportsUpdate">
     ///     Indicates if features in the layer can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">updated</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -66,6 +69,7 @@ public partial class CapabilitiesOperations : MapComponent
         bool? supportsQuery = null,
         bool? supportsQueryAttachments = null,
         bool? supportsQueryTopFeatures = null,
+        bool? supportsResizeAttachments = null,
         bool? supportsUpdate = null,
         bool? supportsValidateSql = null)
     {
@@ -78,6 +82,7 @@ public partial class CapabilitiesOperations : MapComponent
         SupportsQuery = supportsQuery;
         SupportsQueryAttachments = supportsQueryAttachments;
         SupportsQueryTopFeatures = supportsQueryTopFeatures;
+        SupportsResizeAttachments = supportsResizeAttachments;
         SupportsUpdate = supportsUpdate;
         SupportsValidateSql = supportsValidateSql;
 #pragma warning restore BL0005    
@@ -87,6 +92,7 @@ public partial class CapabilitiesOperations : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportsadd-property">GeoBlazor Docs</a>
     ///     Indicates if new features can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">added</a> to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +102,7 @@ public partial class CapabilitiesOperations : MapComponent
     public bool? SupportsAdd { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportscalculate-property">GeoBlazor Docs</a>
     ///     Indicates if values of one or more field values in the layer can be updated.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -105,6 +112,7 @@ public partial class CapabilitiesOperations : MapComponent
     public bool? SupportsCalculate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportsdelete-property">GeoBlazor Docs</a>
     ///     Indicates if features can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">deleted</a> from the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,6 +122,7 @@ public partial class CapabilitiesOperations : MapComponent
     public bool? SupportsDelete { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportsediting-property">GeoBlazor Docs</a>
     ///     Indicates if features in the layer can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">edited</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -123,6 +132,7 @@ public partial class CapabilitiesOperations : MapComponent
     public bool? SupportsEditing { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportsquery-property">GeoBlazor Docs</a>
     ///     Indicates if features in the layer can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryFeatures">queried</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -132,6 +142,7 @@ public partial class CapabilitiesOperations : MapComponent
     public bool? SupportsQuery { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportsqueryattachments-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/query-attachments-feature-service-layer-.htm">REST API queryAttachments</a> operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -141,6 +152,7 @@ public partial class CapabilitiesOperations : MapComponent
     public bool? SupportsQueryAttachments { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportsquerytopfeatures-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/enterprise/query-top-features-feature-service-layer-.htm">REST API queryTopFeatures</a> operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -150,6 +162,16 @@ public partial class CapabilitiesOperations : MapComponent
     public bool? SupportsQueryTopFeatures { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportsresizeattachments-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? SupportsResizeAttachments { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportsupdate-property">GeoBlazor Docs</a>
     ///     Indicates if features in the layer can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">updated</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +181,7 @@ public partial class CapabilitiesOperations : MapComponent
     public bool? SupportsUpdate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesOperations.html#capabilitiesoperationssupportsvalidatesql-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports a SQL-92 expression or where clause.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -442,6 +465,45 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsQueryTopFeatures;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SupportsResizeAttachments property.
+    /// </summary>
+    public async Task<bool?> GetSupportsResizeAttachments()
+    {
+        if (CoreJsModule is null)
+        {
+            return SupportsResizeAttachments;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SupportsResizeAttachments;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsResizeAttachments");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             SupportsResizeAttachments = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(SupportsResizeAttachments)] = SupportsResizeAttachments;
+        }
+         
+        return SupportsResizeAttachments;
     }
     
     /// <summary>
@@ -783,6 +845,43 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQueryTopFeatures", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the SupportsResizeAttachments property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSupportsResizeAttachments(bool? value)
+    {
+#pragma warning disable BL0005
+        SupportsResizeAttachments = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SupportsResizeAttachments)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "supportsResizeAttachments", value);
     }
     
     /// <summary>

@@ -30,10 +30,6 @@ public partial class OpacityRampStop : MapComponent
     ///     The label in the legend describing features with the given `color` and `value`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="offset">
-    ///     A number between `0` and `1` describing the position of the label on the ramp.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampStop">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="value">
     ///     The value of the opacity visual variable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#stops">stop</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampStop">ArcGIS Maps SDK for JavaScript</a>
@@ -41,14 +37,12 @@ public partial class OpacityRampStop : MapComponent
     public OpacityRampStop(
         MapColor? color = null,
         string? label = null,
-        double? offset = null,
         double? value = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Color = color;
         Label = label;
-        Offset = offset;
         Value = value;
 #pragma warning restore BL0005    
     }
@@ -57,6 +51,7 @@ public partial class OpacityRampStop : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampStop.html#opacityrampstopcolor-property">GeoBlazor Docs</a>
     ///     The color of the visual variable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#stops">stop</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +61,7 @@ public partial class OpacityRampStop : MapComponent
     public MapColor? Color { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampStop.html#opacityrampstoplabel-property">GeoBlazor Docs</a>
     ///     The label in the legend describing features with the given `color` and `value`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,15 +71,7 @@ public partial class OpacityRampStop : MapComponent
     public string? Label { get; set; }
     
     /// <summary>
-    ///     A number between `0` and `1` describing the position of the label on the ramp.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampStop">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Offset { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampStop.html#opacityrampstopvalue-property">GeoBlazor Docs</a>
     ///     The value of the opacity visual variable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#stops">stop</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -172,45 +160,6 @@ public partial class OpacityRampStop : MapComponent
         }
          
         return Label;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Offset property.
-    /// </summary>
-    public async Task<double?> GetOffset()
-    {
-        if (CoreJsModule is null)
-        {
-            return Offset;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Offset;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "offset");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Offset = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Offset)] = Offset;
-        }
-         
-        return Offset;
     }
     
     /// <summary>
@@ -328,43 +277,6 @@ public partial class OpacityRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Offset property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetOffset(double? value)
-    {
-#pragma warning disable BL0005
-        Offset = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Offset)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "offset", value);
     }
     
     /// <summary>

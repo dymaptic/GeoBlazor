@@ -23,6 +23,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 /// <param name="Method">
 ///     The mosaic method determines how the selected rasters are ordered.
+///     default "none"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html#method">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="MultidimensionalDefinition">
@@ -35,20 +36,24 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 /// <param name="Operation">
 ///     Defines the mosaic operation used to resolve overlapping pixels.
+///     default "first"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html#operation">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SortField">
-///     The name of the attribute field that is used with a constant sortValue to define the mosaicking order when the mosaic <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html#method">method</a> is set to `attribute`.
+///     The name of the attribute field that is used with a constant sortValue to define the mosaicking
+///     order when the mosaic <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html#method">method</a> is set to `attribute`.
 ///     default null
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html#sortField">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SortValue">
-///     A constant value defining a reference or base value for the sort field when the mosaic <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html#method">method</a> is set to `attribute`.
+///     A constant value defining a reference or base value for the sort field when the mosaic <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html#method">method</a>
+///     is set to `attribute`.
 ///     default null
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html#sortValue">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Viewpoint">
-///     Defines the viewpoint location on which the ordering is defined based on the distance from the viewpoint and the nadir of rasters.
+///     Defines the viewpoint location on which the ordering is defined based on the
+///     distance from the viewpoint and the nadir of rasters.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html#viewpoint">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Where">
@@ -67,7 +72,7 @@ public partial record MosaicRule(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<DimensionalDefinition>? MultidimensionalDefinition = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<long>? ObjectIds = null,
+    IReadOnlyCollection<ObjectId>? ObjectIds = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Operation? Operation = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

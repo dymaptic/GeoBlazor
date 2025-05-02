@@ -13,10 +13,6 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any
         let { buildJsRasterFunction } = await import('./rasterFunction');
         properties.itemRasterFunction = await buildJsRasterFunction(dotNetObject.itemRasterFunction) as any;
     }
-    if (hasValue(dotNetObject.itemRenderingRule)) {
-        let { buildJsRasterFunction } = await import('./rasterFunction');
-        properties.itemRenderingRule = await buildJsRasterFunction(dotNetObject.itemRenderingRule) as any;
-    }
     if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i))) as any;
@@ -94,7 +90,7 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
     }
     
     if (hasValue(jsObject.objectIds)) {
-        dotNetMosaicRule.objectIds = jsObject.objectIds;
+        dotNetMosaicRule.objectIds = removeCircularReferences(jsObject.objectIds);
     }
     
     if (hasValue(jsObject.operation)) {

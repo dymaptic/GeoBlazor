@@ -48,6 +48,7 @@ public partial record FieldsIndex(
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldsIndex.html#fieldsindexget-method">GeoBlazor Docs</a>
     ///     Returns a field with the specified field name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html#get">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +85,7 @@ public partial record FieldsIndex(
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldsIndex.html#fieldsindexgettimezone-method">GeoBlazor Docs</a>
     ///     Returns a <a target="_blank" href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">time zone</a> for a field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html#getTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -120,6 +122,7 @@ public partial record FieldsIndex(
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldsIndex.html#fieldsindexhas-method">GeoBlazor Docs</a>
     ///     Checks if a field with the specified field name exists in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html#has">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -156,6 +159,7 @@ public partial record FieldsIndex(
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldsIndex.html#fieldsindexisdatefield-method">GeoBlazor Docs</a>
     ///     Checks if a field with the specified field name is a date field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html#isDateField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

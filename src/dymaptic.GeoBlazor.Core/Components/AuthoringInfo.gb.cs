@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html">GeoBlazor Docs</a>
-///     Authoring information related to generating renderers and visual variables with the Smart Mapping methods.
+///     Authoring information related to generating renderers
+///     and visual variables with the Smart Mapping methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class AuthoringInfo
@@ -23,7 +24,8 @@ public partial class AuthoringInfo
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="classificationMethod">
-    ///     Indicates which classification method was used if a classed color or classed size renderer was generated using one of the Smart Mapping functions.
+    ///     Indicates which classification method was used if a
+    ///     classed color or classed size renderer was generated using one of the Smart Mapping functions.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#classificationMethod">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="colorRamp">
@@ -31,15 +33,18 @@ public partial class AuthoringInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#colorRamp">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fadeRatio">
-    ///     Only applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-HeatmapRenderer.html">HeatmapRenderer</a> created with the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-heatmap.html">heatmap renderer creator</a>.
+    ///     Only applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-HeatmapRenderer.html">HeatmapRenderer</a>
+    ///     created with the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-heatmap.html">heatmap renderer creator</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#fadeRatio">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="field1">
-    ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a> along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field2">field2</a>.
+    ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>
+    ///     along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field2">field2</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="field2">
-    ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a> along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">field1</a>.
+    ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>
+    ///     along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">field1</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field2">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fields">
@@ -55,12 +60,13 @@ public partial class AuthoringInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#focus">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isAutoGenerated">
-    ///     Indicates whether the renderer was created internally by the JS API's rendering engine for default <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureReductionCluster.html">FeatureReductionCluster</a> visualizations.
+    ///     Indicates whether the renderer was created internally by the JS API's rendering engine for
+    ///     default <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureReductionCluster.html">FeatureReductionCluster</a> visualizations.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#isAutoGenerated">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="lengthUnit">
-    ///     Only applicable to renderer used in web scenes. Indicates the unit used in real-world sizes.
+    ///     **Only applicable to renderer used in web scenes.*Indicates the unit used in real-world sizes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#lengthUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxSliderValue">
@@ -76,7 +82,8 @@ public partial class AuthoringInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#numClasses">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="standardDeviationInterval">
-    ///     Indicates the standard deviation interval for each stop in a classed color or classed size renderer that was generated using the `standard-deviation` classification method.
+    ///     Indicates the standard deviation interval for each stop in a classed color or
+    ///     classed size renderer that was generated using the `standard-deviation` classification method.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#standardDeviationInterval">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="statistics">
@@ -92,7 +99,8 @@ public partial class AuthoringInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#univariateTheme">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visualVariables">
-    ///     Contains authoring properties of visual variables generated from one of the Smart Mapping methods or sliders.
+    ///     Contains authoring properties of visual variables generated from
+    ///     one of the Smart Mapping methods or sliders.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public AuthoringInfo(
@@ -142,7 +150,9 @@ public partial class AuthoringInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Indicates which classification method was used if a classed color or classed size renderer was generated using one of the Smart Mapping functions.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfoclassificationmethod-property">GeoBlazor Docs</a>
+    ///     Indicates which classification method was used if a
+    ///     classed color or classed size renderer was generated using one of the Smart Mapping functions.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#classificationMethod">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -151,6 +161,7 @@ public partial class AuthoringInfo
     public ClassificationMethod? ClassificationMethod { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfocolorramp-property">GeoBlazor Docs</a>
     ///     Indicates the color ramp was used to create the symbols for Unique Value or Class Breaks renderer for Imagery Layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#colorRamp">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -160,7 +171,9 @@ public partial class AuthoringInfo
     public ColorRamp? ColorRamp { get; set; }
     
     /// <summary>
-    ///     Only applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-HeatmapRenderer.html">HeatmapRenderer</a> created with the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-heatmap.html">heatmap renderer creator</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofaderatio-property">GeoBlazor Docs</a>
+    ///     Only applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-HeatmapRenderer.html">HeatmapRenderer</a>
+    ///     created with the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-heatmap.html">heatmap renderer creator</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#fadeRatio">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -169,7 +182,9 @@ public partial class AuthoringInfo
     public double? FadeRatio { get; set; }
     
     /// <summary>
-    ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a> along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field2">field2</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofield1-property">GeoBlazor Docs</a>
+    ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>
+    ///     along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field2">field2</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -178,7 +193,9 @@ public partial class AuthoringInfo
     public AuthoringInfoField? Field1 { get; set; }
     
     /// <summary>
-    ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a> along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">field1</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofield2-property">GeoBlazor Docs</a>
+    ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>
+    ///     along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">field1</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field2">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -187,6 +204,7 @@ public partial class AuthoringInfo
     public AuthoringInfoField? Field2 { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofields-property">GeoBlazor Docs</a>
     ///     An array of string values representing field names used for creating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-predominance.html">predominance renderer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -196,6 +214,7 @@ public partial class AuthoringInfo
     public IReadOnlyList<string>? Fields { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfoflowtheme-property">GeoBlazor Docs</a>
     ///     Only applicable to flow renderers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#flowTheme">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -205,6 +224,7 @@ public partial class AuthoringInfo
     public AuthoringInfoFlowTheme? FlowTheme { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofocus-property">GeoBlazor Docs</a>
     ///     The focus of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#focus">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -214,7 +234,9 @@ public partial class AuthoringInfo
     public string? Focus { get; set; }
     
     /// <summary>
-    ///     Indicates whether the renderer was created internally by the JS API's rendering engine for default <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureReductionCluster.html">FeatureReductionCluster</a> visualizations.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfoisautogenerated-property">GeoBlazor Docs</a>
+    ///     Indicates whether the renderer was created internally by the JS API's rendering engine for
+    ///     default <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureReductionCluster.html">FeatureReductionCluster</a> visualizations.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#isAutoGenerated">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -224,7 +246,8 @@ public partial class AuthoringInfo
     public bool? IsAutoGenerated { get; set; }
     
     /// <summary>
-    ///     Only applicable to renderer used in web scenes. Indicates the unit used in real-world sizes.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfolengthunit-property">GeoBlazor Docs</a>
+    ///     **Only applicable to renderer used in web scenes.*Indicates the unit used in real-world sizes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#lengthUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -233,6 +256,7 @@ public partial class AuthoringInfo
     public LengthUnit? LengthUnit { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfomaxslidervalue-property">GeoBlazor Docs</a>
     ///     Indicates the value of the upper handle if a slider was used to generate the dot value for dot density renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#maxSliderValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -242,6 +266,7 @@ public partial class AuthoringInfo
     public double? MaxSliderValue { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfominslidervalue-property">GeoBlazor Docs</a>
     ///     Indicates the value of the lower handle if a slider was used to generate the dot value for dot density renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#minSliderValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -251,6 +276,7 @@ public partial class AuthoringInfo
     public double? MinSliderValue { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfonumclasses-property">GeoBlazor Docs</a>
     ///     The number of classes used to classify each field of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#numClasses">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -260,7 +286,9 @@ public partial class AuthoringInfo
     public double? NumClasses { get; set; }
     
     /// <summary>
-    ///     Indicates the standard deviation interval for each stop in a classed color or classed size renderer that was generated using the `standard-deviation` classification method.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfostandarddeviationinterval-property">GeoBlazor Docs</a>
+    ///     Indicates the standard deviation interval for each stop in a classed color or
+    ///     classed size renderer that was generated using the `standard-deviation` classification method.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#standardDeviationInterval">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -269,6 +297,7 @@ public partial class AuthoringInfo
     public double? StandardDeviationInterval { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfostatistics-property">GeoBlazor Docs</a>
     ///     Only for renderers of type `univariate-color-size` with an `above-and-below` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#univariateTheme">univariateTheme</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#statistics">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -278,6 +307,7 @@ public partial class AuthoringInfo
     public AuthoringInfoStatistics? Statistics { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfounivariatesymbolstyle-property">GeoBlazor Docs</a>
     ///     Only applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-univariateColorSize.html">univariateColorSize</a> renderers with an `above-and-below` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#univariateTheme">univariateTheme</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#univariateSymbolStyle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -287,6 +317,7 @@ public partial class AuthoringInfo
     public UnivariateSymbolStyle? UnivariateSymbolStyle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfounivariatetheme-property">GeoBlazor Docs</a>
     ///     Only applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-univariateColorSize.html">univariateColorSize</a> renderers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#univariateTheme">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -296,7 +327,9 @@ public partial class AuthoringInfo
     public UnivariateTheme? UnivariateTheme { get; set; }
     
     /// <summary>
-    ///     Contains authoring properties of visual variables generated from one of the Smart Mapping methods or sliders.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfovisualvariables-property">GeoBlazor Docs</a>
+    ///     Contains authoring properties of visual variables generated from
+    ///     one of the Smart Mapping methods or sliders.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

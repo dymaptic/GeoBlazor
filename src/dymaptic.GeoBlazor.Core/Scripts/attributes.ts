@@ -9,6 +9,7 @@ export function buildJsAttributes(attributes: any): any {
                     case "number":
                     case "int32":
                     case "int64":
+                    case "long":
                     case "double":
                     case "single":
                     case "float":

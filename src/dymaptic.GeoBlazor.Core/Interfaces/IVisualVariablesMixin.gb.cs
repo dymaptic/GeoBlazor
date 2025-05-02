@@ -11,6 +11,7 @@ public partial interface IVisualVariablesMixin : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IVisualVariablesMixin.html#ivisualvariablesmixinvisualvariables-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">VisualVariable</a> objects.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-mixins-VisualVariablesMixin.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

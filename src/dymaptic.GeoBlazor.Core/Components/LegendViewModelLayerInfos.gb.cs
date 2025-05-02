@@ -45,6 +45,7 @@ public partial class LegendViewModelLayerInfos : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModelLayerInfos.html#legendviewmodellayerinfostitle-property">GeoBlazor Docs</a>
     ///     Specify a title for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

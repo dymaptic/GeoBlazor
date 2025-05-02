@@ -10,4 +10,4 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// </param>
 public partial record GeoJSONLayerEditsEventAddedFeatures(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    long? ObjectId = null);
+    ObjectId? ObjectId = null);

@@ -63,6 +63,7 @@ public partial class TickConfig
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TickConfig.html#tickconfiglabelformatfunction-property">GeoBlazor Docs</a>
     ///     Callback for formatting tick labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -76,6 +77,7 @@ public partial class TickConfig
     public bool HasLabelFormatFunction => LabelFormatFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TickConfig.html#tickconfigtickcreatedfunction-property">GeoBlazor Docs</a>
     ///     Callback that fires for each tick.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -107,6 +109,7 @@ public partial class TickConfig
     public bool HasTickCreatedFunction => TickCreatedFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TickConfig.html#tickconfigvalues-property">GeoBlazor Docs</a>
     ///     Indicates where ticks will be rendered below the track.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
