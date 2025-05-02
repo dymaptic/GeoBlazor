@@ -88,7 +88,7 @@
 
     <Target Name="Copy Source Files" BeforeTargets="DispatchToInnerBuilds">
         <Message Importance="high" Text="Copying examples for source display"/>
-        <Exec ContinueOnError="true" Command="robocopy ..\dymaptic.GeoBlazor.Core.Sample.Shared\wwwroot\pages\ Resources\Raw\"/>
+        <Exec ContinueOnError="true" Command="pwsh -Command -Command if (-not (Test-Path -Path Resources\Raw)) { New-Item -ItemType Directory -Path Resources\Raw }; Copy-Item -Path ..\dymaptic.GeoBlazor.Core.Sample.Shared\wwwroot\pages\* -Destination Resources\Raw -Recurse"/>
     </Target>
 
 </Project>
