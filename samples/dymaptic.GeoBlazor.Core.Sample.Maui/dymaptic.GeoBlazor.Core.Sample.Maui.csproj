@@ -88,7 +88,7 @@
 
     <Target Name="Copy Source Files" BeforeTargets="DispatchToInnerBuilds">
         <Message Importance="high" Text="Copying examples for source display"/>
-        <Exec ContinueOnError="true" Command="powershell .\razorCopy.ps1" />
+        <Exec ContinueOnError="true" Command="pwsh .\razorCopy.ps1" />
     </Target>
 
 </Project>
