@@ -61,14 +61,14 @@ internal record MapFontSerializationRecord
     }
 
     public MapFontSerializationRecord(string Id, double? Size, string? Family, string? FontStyle, string? Weight, 
-        string? decoration)
+        string? Decoration)
     {
         this.Id = Id;
         this.Size = Size;
         this.Family = Family;
         this.FontStyle = FontStyle;
         this.Weight = Weight;
-        this.Decoration = decoration;
+        this.Decoration = Decoration;
     }
 
     [ProtoMember(1)]

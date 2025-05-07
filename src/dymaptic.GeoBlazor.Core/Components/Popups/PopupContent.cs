@@ -21,6 +21,7 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
     public PopupContentSerializationRecord(string Id, string Type)
     {
         this.Type = Type;
+        this.Id = Id;
     }
 
     [ProtoMember(1)]

@@ -38,6 +38,7 @@ internal record ChartMediaInfoValueSerializationRecord : MapComponentSerializati
         IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series = null, string? LinkURL = null, 
         string? SourceURL = null)
     {
+        this.Id = Id;
         this.Fields = Fields;
         this.NormalizeField = NormalizeField;
         this.TooltipField = TooltipField;
