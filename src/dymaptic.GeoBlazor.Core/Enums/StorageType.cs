@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.StorageType.html">GeoBlazor Docs</a>
-///     Enumeration for StorageType
+///     This property determines whether sessionStorage or localStorage will be used to store widget state.
+///     default "session"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CoordinateConversion.html#storageType">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<StorageType>))]
 public enum StorageType

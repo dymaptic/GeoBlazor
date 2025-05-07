@@ -40,6 +40,7 @@ public partial class CompassViewModel : MapComponent,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelorientation-property">GeoBlazor Docs</a>
     ///     The z axis orientation.
     ///     default { z: 0 }
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#orientation">ArcGIS Maps SDK for JavaScript</a>
@@ -50,8 +51,9 @@ public partial class CompassViewModel : MapComponent,
     public Orientation? Orientation { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -146,7 +148,9 @@ public partial class CompassViewModel : MapComponent,
 #region Public Methods
 
     /// <summary>
-    ///     If working in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>, sets the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#rotation">rotation</a> is to `0`.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelreset-method">GeoBlazor Docs</a>
+    ///     If working in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>, sets the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#rotation">rotation</a> is to `0`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#reset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]

@@ -27,7 +27,7 @@ public partial record Subtype(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Code = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    object? DefaultValues = null,
+    string? DefaultValues = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Dictionary<string, Domain>? Domains = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -11,4 +11,4 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// </param>
 public partial record LocateViewModelLocateEvent(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    object? Position = null);
+    string? Position = null);

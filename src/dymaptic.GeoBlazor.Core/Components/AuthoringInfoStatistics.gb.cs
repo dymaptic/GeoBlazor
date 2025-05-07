@@ -45,6 +45,7 @@ public partial class AuthoringInfoStatistics
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoStatistics.html#authoringinfostatisticsmax-property">GeoBlazor Docs</a>
     ///     The maximum data value of the attribute represented by the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#statistics">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class AuthoringInfoStatistics
     public double? Max { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoStatistics.html#authoringinfostatisticsmin-property">GeoBlazor Docs</a>
     ///     The minimum data value of the attribute represented by the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#statistics">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

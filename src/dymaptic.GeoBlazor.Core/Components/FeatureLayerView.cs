@@ -137,31 +137,13 @@ public partial class FeatureLayerView : LayerView
     ///     A handle that allows the highlight to be removed later.
     /// </returns>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(long objectId)
+    public async Task<Handle> Highlight(ObjectId objectId)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference objectRef =
             await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectId);
-        return new HighlightHandle(objectRef);
-    }
-
-    /// <summary>
-    ///     Highlights the given feature(s).
-    /// </summary>
-    /// <param name="objectId">
-    ///     The ObjectID as stringof the graphic to highlight.
-    /// </param>
-    /// <returns>
-    ///     A handle that allows the highlight to be removed later.
-    /// </returns>
-    [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(string objectId)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
-        IJSObjectReference objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight", 
-            CancellationTokenSource.Token, objectId);
-        return new HighlightHandle(objectRef);
+        return new Handle(objectRef);
     }
 
     /// <summary>
@@ -177,7 +159,7 @@ public partial class FeatureLayerView : LayerView
     ///     Throws if no ObjectIDs are provided.
     /// </exception>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(IReadOnlyCollection<long> objectIds)
+    public async Task<Handle> Highlight(IReadOnlyCollection<ObjectId> objectIds)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         if (objectIds.Count == 0)
@@ -188,36 +170,9 @@ public partial class FeatureLayerView : LayerView
             await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectIds);
 
-        return new HighlightHandle(objectRef);
+        return new Handle(objectRef);
     }
     
-    /// <summary>
-    ///     Highlights the given feature(s).
-    /// </summary>
-    /// <param name="objectIds">
-    ///     The ObjectIDs as strings of the graphics to highlight.
-    /// </param>
-    /// <returns>
-    ///     A handle that allows the highlight to be removed later.
-    /// </returns>
-    /// <exception cref="ArgumentException">
-    ///     Throws if no ObjectIDs are provided.
-    /// </exception>
-    [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(IReadOnlyCollection<string> objectIds)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
-        if (objectIds.Count == 0)
-        {
-            throw new ArgumentException("At least one ObjectID must be provided.", nameof(objectIds));
-        }
-        IJSObjectReference objectRef =
-            await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
-                CancellationTokenSource.Token, objectIds);
-
-        return new HighlightHandle(objectRef);
-    }
-
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
@@ -231,7 +186,7 @@ public partial class FeatureLayerView : LayerView
     ///     Throws if the graphic has no OBJECTID attribute and was not queried via GeoBlazor.
     /// </exception>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(Graphic graphic)
+    public async Task<Handle> Highlight(Graphic graphic)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference? objectRef;
@@ -251,7 +206,7 @@ public partial class FeatureLayerView : LayerView
             }
         }
         
-        return new HighlightHandle(objectRef);
+        return new Handle(objectRef);
     }
 
     /// <summary>
@@ -267,7 +222,7 @@ public partial class FeatureLayerView : LayerView
     ///     Throws if the graphics have no OBJECTID attribute and were not queried via GeoBlazor.
     /// </exception>
     [CodeGenerationIgnore]
-    public async Task<HighlightHandle> Highlight(IReadOnlyCollection<Graphic> graphics)
+    public async Task<Handle> Highlight(IReadOnlyCollection<Graphic> graphics)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference? objectRef;
@@ -292,7 +247,7 @@ public partial class FeatureLayerView : LayerView
             }
         }
 
-        return new HighlightHandle(objectRef);
+        return new Handle(objectRef);
     }
 
     /// <summary>
@@ -439,11 +394,11 @@ public partial class FeatureLayerView : LayerView
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     [CodeGenerationIgnore]
-    public async Task<long[]?> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
+    public async Task<ObjectId[]?> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        long[]? queryResult = await JsComponentReference.InvokeAsync<long[]?>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
+        ObjectId[]? queryResult = await JsComponentReference.InvokeAsync<ObjectId[]?>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
         return queryResult;
     }

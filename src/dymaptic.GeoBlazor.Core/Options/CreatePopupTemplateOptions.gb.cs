@@ -16,14 +16,14 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-popupUtils.html#CreatePopupTemplateOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record CreatePopupTemplateOptions(
-    IReadOnlyCollection<string>? IgnoreFieldTypes = null,
+    IReadOnlyCollection<IgnoreFieldTypes>? IgnoreFieldTypes = null,
     IReadOnlyCollection<string>? VisibleFieldNames = null)
 {
     /// <summary>
     ///     An array of field types to ignore when creating the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-popupUtils.html#CreatePopupTemplateOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<string>? IgnoreFieldTypes { get; set; } = IgnoreFieldTypes;
+    public IReadOnlyCollection<IgnoreFieldTypes>? IgnoreFieldTypes { get; set; } = IgnoreFieldTypes;
     
     /// <summary>
     ///     An array of field names set to be visible within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.

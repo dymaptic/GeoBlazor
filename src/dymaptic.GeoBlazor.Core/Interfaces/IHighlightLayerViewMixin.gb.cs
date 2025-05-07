@@ -11,6 +11,7 @@ public partial interface IHighlightLayerViewMixin : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IHighlightLayerViewMixin.html#ihighlightlayerviewmixinhighlightoptions-property">GeoBlazor Docs</a>
     ///     Options for configuring the highlight.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-HighlightLayerViewMixin.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

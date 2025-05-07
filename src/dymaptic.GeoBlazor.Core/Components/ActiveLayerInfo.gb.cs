@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html">GeoBlazor Docs</a>
-///     ActiveLayerInfo is added to or removed from the collection of activeLayerInfos as layers become visible or invisible in the view.
+///     ActiveLayerInfo is added to or removed from the collection of
+///     activeLayerInfos as layers become visible or
+///     invisible in the view.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ActiveLayerInfo : MapComponent
@@ -23,13 +25,10 @@ public partial class ActiveLayerInfo : MapComponent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="hideLayersNotInCurrentView">
-    ///     When `true`, layers will only be shown in the legend if they are visible in the view's extent.
+    ///     When `true`, layers will only be shown in the legend if
+    ///     they are visible in the view's extent.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#hideLayersNotInCurrentView">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="isScaleDriven">
-    ///     Indicates if the legend's display of the layer's renderer is driven by the scale of the view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#isScaleDriven">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="layer">
     ///     The layer represented by the ActiveLayerInfo object.
@@ -43,18 +42,11 @@ public partial class ActiveLayerInfo : MapComponent
     ///     The legendElements is constructed using the layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">Renderer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#legendElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="ready">
-    ///     Indicates if the activeLayerInfo is ready.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ready">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="respectLayerVisibility">
-    ///     Determines whether to respect the properties of the layers in the map that control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
+    ///     Determines whether to respect the properties of the layers in the map that
+    ///     control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#respectLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="scale">
-    ///     The scale of the view instance in which the Legend is rendered.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#scale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="sublayerIds">
     ///     Only applies if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#layer">layer</a> is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">MapImageLayer</a>.
@@ -64,36 +56,24 @@ public partial class ActiveLayerInfo : MapComponent
     ///     The text string that represents the legend's title.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="version">
-    ///     The version of the ActiveLayerInfo.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#version">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     public ActiveLayerInfo(
         bool? hideLayersNotInCurrentView = null,
-        bool? isScaleDriven = null,
         Layer? layer = null,
         LayerView? layerView = null,
         IReadOnlyList<ILegendElement>? legendElements = null,
-        bool? ready = null,
         bool? respectLayerVisibility = null,
-        double? scale = null,
         IReadOnlyList<long>? sublayerIds = null,
-        string? title = null,
-        double? version = null)
+        string? title = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         HideLayersNotInCurrentView = hideLayersNotInCurrentView;
-        IsScaleDriven = isScaleDriven;
         Layer = layer;
         LayerView = layerView;
         LegendElements = legendElements;
-        Ready = ready;
         RespectLayerVisibility = respectLayerVisibility;
-        Scale = scale;
         SublayerIds = sublayerIds;
         Title = title;
-        Version = version;
 #pragma warning restore BL0005    
     }
     
@@ -101,6 +81,7 @@ public partial class ActiveLayerInfo : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfochildren-property">GeoBlazor Docs</a>
     ///     A collection of child activeLayerInfos.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#children">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -110,7 +91,9 @@ public partial class ActiveLayerInfo : MapComponent
     public IReadOnlyList<ActiveLayerInfo>? Children { get; set; }
     
     /// <summary>
-    ///     When `true`, layers will only be shown in the legend if they are visible in the view's extent.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfohidelayersnotincurrentview-property">GeoBlazor Docs</a>
+    ///     When `true`, layers will only be shown in the legend if
+    ///     they are visible in the view's extent.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#hideLayersNotInCurrentView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -120,15 +103,17 @@ public partial class ActiveLayerInfo : MapComponent
     public bool? HideLayersNotInCurrentView { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfoisscaledriven-property">GeoBlazor Docs</a>
     ///     Indicates if the legend's display of the layer's renderer is driven by the scale of the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#isScaleDriven">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? IsScaleDriven { get; set; }
+    [JsonInclude]
+    public bool? IsScaleDriven { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfolayerview-property">GeoBlazor Docs</a>
     ///     The layerView represented by the ActiveLayerInfo object's layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#layerView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -138,6 +123,7 @@ public partial class ActiveLayerInfo : MapComponent
     public LayerView? LayerView { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfolegendelements-property">GeoBlazor Docs</a>
     ///     The legendElements is constructed using the layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">Renderer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#legendElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -147,6 +133,7 @@ public partial class ActiveLayerInfo : MapComponent
     public IReadOnlyList<ILegendElement>? LegendElements { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfoopacity-property">GeoBlazor Docs</a>
     ///     The opacity of the layer or parent element.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -156,16 +143,19 @@ public partial class ActiveLayerInfo : MapComponent
     public double? Opacity { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfoready-property">GeoBlazor Docs</a>
     ///     Indicates if the activeLayerInfo is ready.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ready">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Ready { get; set; }
+    [JsonInclude]
+    public bool? Ready { get; protected set; }
     
     /// <summary>
-    ///     Determines whether to respect the properties of the layers in the map that control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinforespectlayervisibility-property">GeoBlazor Docs</a>
+    ///     Determines whether to respect the properties of the layers in the map that
+    ///     control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#respectLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -175,15 +165,17 @@ public partial class ActiveLayerInfo : MapComponent
     public bool? RespectLayerVisibility { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfoscale-property">GeoBlazor Docs</a>
     ///     The scale of the view instance in which the Legend is rendered.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#scale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Scale { get; set; }
+    [JsonInclude]
+    public double? Scale { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfosublayerids-property">GeoBlazor Docs</a>
     ///     Only applies if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#layer">layer</a> is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">MapImageLayer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#sublayerIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -193,6 +185,7 @@ public partial class ActiveLayerInfo : MapComponent
     public IReadOnlyList<long>? SublayerIds { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfotitle-property">GeoBlazor Docs</a>
     ///     The text string that represents the legend's title.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -202,13 +195,14 @@ public partial class ActiveLayerInfo : MapComponent
     public string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActiveLayerInfo.html#activelayerinfoversion-property">GeoBlazor Docs</a>
     ///     The version of the ActiveLayerInfo.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Version { get; set; }
+    [JsonInclude]
+    public double? Version { get; protected set; }
     
 #endregion
 
@@ -366,6 +360,11 @@ public partial class ActiveLayerInfo : MapComponent
         
         if (result is not null)
         {
+            if (LayerView is not null)
+            {
+                result.Id = LayerView.Id;
+            }
+            
 #pragma warning disable BL0005
             LayerView = result;
 #pragma warning restore BL0005
@@ -729,43 +728,6 @@ public partial class ActiveLayerInfo : MapComponent
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the IsScaleDriven property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetIsScaleDriven(bool? value)
-    {
-#pragma warning disable BL0005
-        IsScaleDriven = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(IsScaleDriven)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "isScaleDriven", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the Layer property after render.
     /// </summary>
     /// <param name="value">
@@ -904,43 +866,6 @@ public partial class ActiveLayerInfo : MapComponent
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the Ready property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetReady(bool? value)
-    {
-#pragma warning disable BL0005
-        Ready = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Ready)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "ready", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the RespectLayerVisibility property after render.
     /// </summary>
     /// <param name="value">
@@ -975,43 +900,6 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerVisibility", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Scale property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetScale(double? value)
-    {
-#pragma warning disable BL0005
-        Scale = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Scale)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "scale", value);
     }
     
     /// <summary>
@@ -1086,43 +974,6 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Version property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetVersion(double? value)
-    {
-#pragma warning disable BL0005
-        Version = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Version)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "version", value);
     }
     
 #endregion

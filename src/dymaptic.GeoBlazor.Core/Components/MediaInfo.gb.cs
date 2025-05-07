@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MediaInfo.html">GeoBlazor Docs</a>
-///     Contains the media elements representing images or charts to display within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+///     Contains the media elements representing images or charts to display
+///     within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html#mediaInfos">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class MediaInfo
@@ -14,6 +15,7 @@ public abstract partial class MediaInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MediaInfo.html#mediainfoalttext-property">GeoBlazor Docs</a>
     ///     Provides an alternate text for an image if the image cannot be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-MediaInfo.html#altText">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -23,6 +25,7 @@ public abstract partial class MediaInfo
     public string? AltText { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MediaInfo.html#mediainfocaption-property">GeoBlazor Docs</a>
     ///     Defines a caption for the media.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-MediaInfo.html#caption">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -32,6 +35,7 @@ public abstract partial class MediaInfo
     public string? Caption { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MediaInfo.html#mediainfotitle-property">GeoBlazor Docs</a>
     ///     The title of the media element.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-MediaInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -38,6 +38,7 @@ public partial class WFSOperationsGetCapabilities : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities.html#wfsoperationsgetcapabilitiesurl-property">GeoBlazor Docs</a>
     ///     The URL to the GetCapabilities endpoint.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSOperations">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

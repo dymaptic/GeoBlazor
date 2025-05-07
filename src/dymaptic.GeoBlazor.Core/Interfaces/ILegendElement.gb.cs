@@ -7,6 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     The legendElements is constructed using the layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">Renderer</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#legendElements">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface ILegendElement : IMapComponent
+public partial interface ILegendElement : ISymbolTableElementType,
+    IMapComponent
 {
 }

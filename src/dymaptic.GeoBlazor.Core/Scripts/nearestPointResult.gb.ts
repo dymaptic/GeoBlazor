@@ -37,23 +37,6 @@ export async function buildDotNetNearestPointResultGenerated(jsObject: any, laye
     
     let dotNetNearestPointResult: any = {};
     
-    if (hasValue(jsObject.coordinate)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetNearestPointResult.coordinate = buildDotNetPoint(jsObject.coordinate);
-    }
-    
-    if (hasValue(jsObject.distance)) {
-        dotNetNearestPointResult.distance = jsObject.distance;
-    }
-    
-    if (hasValue(jsObject.isEmpty)) {
-        dotNetNearestPointResult.isEmpty = jsObject.isEmpty;
-    }
-    
-    if (hasValue(jsObject.vertexIndex)) {
-        dotNetNearestPointResult.vertexIndex = jsObject.vertexIndex;
-    }
-    
 
     return dotNetNearestPointResult;
 }

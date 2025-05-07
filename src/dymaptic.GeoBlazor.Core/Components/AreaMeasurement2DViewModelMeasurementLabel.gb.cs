@@ -31,8 +31,8 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurementLabel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public AreaMeasurement2DViewModelMeasurementLabel(
-        double? area = null,
-        double? perimeter = null)
+        string? area = null,
+        string? perimeter = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -45,22 +45,24 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModelMeasurementLabel.html#areameasurement2dviewmodelmeasurementlabelarea-property">GeoBlazor Docs</a>
     ///     The area (m²).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurementLabel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Area { get; set; }
+    public string? Area { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModelMeasurementLabel.html#areameasurement2dviewmodelmeasurementlabelperimeter-property">GeoBlazor Docs</a>
     ///     The perimeter (m).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurementLabel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Perimeter { get; set; }
+    public string? Perimeter { get; set; }
     
 #endregion
 
@@ -69,7 +71,7 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Area property.
     /// </summary>
-    public async Task<double?> GetArea()
+    public async Task<string?> GetArea()
     {
         if (CoreJsModule is null)
         {
@@ -92,12 +94,12 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "area");
-        if (result is { Value: not null })
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "area");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Area = result.Value.Value;
+             Area = result;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Area)] = Area;
         }
@@ -108,7 +110,7 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Perimeter property.
     /// </summary>
-    public async Task<double?> GetPerimeter()
+    public async Task<string?> GetPerimeter()
     {
         if (CoreJsModule is null)
         {
@@ -131,12 +133,12 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "perimeter");
-        if (result is { Value: not null })
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "perimeter");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Perimeter = result.Value.Value;
+             Perimeter = result;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Perimeter)] = Perimeter;
         }
@@ -154,7 +156,7 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetArea(double? value)
+    public async Task SetArea(string? value)
     {
 #pragma warning disable BL0005
         Area = value;
@@ -191,7 +193,7 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPerimeter(double? value)
+    public async Task SetPerimeter(string? value)
     {
 #pragma warning disable BL0005
         Perimeter = value;

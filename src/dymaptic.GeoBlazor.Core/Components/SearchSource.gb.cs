@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html">GeoBlazor Docs</a>
-///     The following properties define generic <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">sources</a> properties for use in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget.
+///     The following properties define generic <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">sources</a> properties
+///     for use in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class SearchSource
@@ -14,6 +15,7 @@ public abstract partial class SearchSource
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html#searchsourcefilter-property">GeoBlazor Docs</a>
     ///     For filtering suggests or search results.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#filter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -23,7 +25,9 @@ public abstract partial class SearchSource
     public SearchSourceFilter? Filter { get; set; }
     
     /// <summary>
-    ///     Indicates the maximum number of suggestions to return for the widget's input.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html#searchsourcemaxsuggestions-property">GeoBlazor Docs</a>
+    ///     Indicates the maximum number of suggestions
+    ///     to return for the widget's input.
     ///     default 6
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#maxSuggestions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -33,6 +37,7 @@ public abstract partial class SearchSource
     public double? MaxSuggestions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html#searchsourceoutfields-property">GeoBlazor Docs</a>
     ///     Specifies the fields returned with the search results.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#outFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -42,6 +47,7 @@ public abstract partial class SearchSource
     public IReadOnlyList<string>? OutFields { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html#searchsourcepopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template used to display search results.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -51,6 +57,7 @@ public abstract partial class SearchSource
     public PopupTemplate? PopupTemplate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html#searchsourceresultsymbol-property">GeoBlazor Docs</a>
     ///     The symbol used to display the result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#resultSymbol">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

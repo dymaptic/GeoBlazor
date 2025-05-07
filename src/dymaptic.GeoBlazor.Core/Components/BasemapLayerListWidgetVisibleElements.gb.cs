@@ -99,6 +99,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListWidgetVisibleElements.html#basemaplayerlistwidgetvisibleelementsclosebutton-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether to display a close button in the header.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -108,6 +109,7 @@ public partial class BasemapLayerListWidgetVisibleElements
     public bool? CloseButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListWidgetVisibleElements.html#basemaplayerlistwidgetvisibleelementscollapsebutton-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether to display a collapse button in the header.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -117,6 +119,7 @@ public partial class BasemapLayerListWidgetVisibleElements
     public bool? CollapseButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListWidgetVisibleElements.html#basemaplayerlistwidgetvisibleelementsedittitlebutton-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether to display a button in the header to edit the basemap title.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -126,6 +129,7 @@ public partial class BasemapLayerListWidgetVisibleElements
     public bool? EditTitleButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListWidgetVisibleElements.html#basemaplayerlistwidgetvisibleelementsfilter-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether to display a filter input box when then number of list items is equal to or greater than the value set in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#minFilterItems">minFilterItems</a>, allowing users to filter layers by their title.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -135,6 +139,7 @@ public partial class BasemapLayerListWidgetVisibleElements
     public bool? Filter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListWidgetVisibleElements.html#basemaplayerlistwidgetvisibleelementsflow-property">GeoBlazor Docs</a>
     ///     Since 4.29 Determines whether the widget should be shown within its built-in <a target="_blank" href="https://developers.arcgis.com/calcite-design-system/components/flow/">flow component</a> or if the flow component should be excluded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -144,6 +149,7 @@ public partial class BasemapLayerListWidgetVisibleElements
     public bool? Flow { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListWidgetVisibleElements.html#basemaplayerlistwidgetvisibleelementsheading-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether the widget displays a heading.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -153,6 +159,7 @@ public partial class BasemapLayerListWidgetVisibleElements
     public bool? Heading { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListWidgetVisibleElements.html#basemaplayerlistwidgetvisibleelementstemporarylayerindicators-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether temporary layer indicators will be displayed for layers with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">layer.persistenceEnabled</a> set to `false`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

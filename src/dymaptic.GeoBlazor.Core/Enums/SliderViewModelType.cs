@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SliderViewModelType.html">GeoBlazor Docs</a>
-///     Enumeration for SliderViewModelType
+///     Returns the formatted label for a provided value.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#getLabelForValue">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SliderViewModelType>))]
 public enum SliderViewModelType
@@ -13,6 +14,6 @@ public enum SliderViewModelType
     Min,
     Max,
     Tick,
-    Values
+    Value
 #pragma warning restore CS1591
 }

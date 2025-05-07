@@ -15,13 +15,15 @@ public partial class Graphic : IHitTestItem,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     The aggregateGeometries contains spatial aggregation geometries when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html#statisticType">statistics</a> query is executed with `envelope-aggregate`, `centroid-aggregate` and/or `convex-hull-aggregate` statistics type.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Graphic.html#graphicaggregategeometries-property">GeoBlazor Docs</a>
+    ///     The aggregateGeometries contains spatial aggregation geometries when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html#statisticType">statistics</a> query is executed with
+    ///     `envelope-aggregate`, `centroid-aggregate` and/or `convex-hull-aggregate` statistics type.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#aggregateGeometries">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? AggregateGeometries { get; set; }
+    public string? AggregateGeometries { get; set; }
     
 #endregion
 

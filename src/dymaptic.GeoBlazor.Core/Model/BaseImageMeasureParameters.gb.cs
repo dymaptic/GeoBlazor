@@ -4,10 +4,12 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.BaseImageMeasureParameters.html">GeoBlazor Docs</a>
-///     
+///     Base class for imagery mensuration operations.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-BaseImageMeasureParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="MosaicRule">
-///     Specifies the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html">mosaic rule</a> on how individual images should be mosaicked when the measure is computed.
+///     Specifies the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html">mosaic rule</a> on how individual images should be mosaicked
+///     when the measure is computed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-BaseImageMeasureParameters.html#mosaicRule">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="PixelSize">
@@ -18,4 +20,4 @@ public partial record BaseImageMeasureParameters(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     MosaicRule? MosaicRule = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    PixelSize? PixelSize = null);
+    Point? PixelSize = null);

@@ -8,8 +8,14 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Cardinality">
-///     The cardinality which specifies the number of objects in the origin <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> related to the number of objects in the destination <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
+///     The cardinality which specifies the number of objects in the origin
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> related to the
+///     number of objects in the destination <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#cardinality">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="CatalogId">
+///     The globally unique identifier for the relationship.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#catalogId">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Composite">
 ///     Indicates whether the relationship is composite.
@@ -46,6 +52,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record Relationship(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Cardinality? Cardinality = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? CatalogId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? Composite = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

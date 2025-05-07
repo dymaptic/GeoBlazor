@@ -57,6 +57,7 @@ public partial class BookmarkOptionsScreenshotSettings
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarkOptionsScreenshotSettings.html#bookmarkoptionsscreenshotsettingsarea-property">GeoBlazor Docs</a>
     ///     Used to take a screenshot of a subregion of the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +67,7 @@ public partial class BookmarkOptionsScreenshotSettings
     public BookmarkOptionsScreenshotSettingsArea? Area { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarkOptionsScreenshotSettings.html#bookmarkoptionsscreenshotsettingsheight-property">GeoBlazor Docs</a>
     ///     The height (in pixels) of the screenshot.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +77,7 @@ public partial class BookmarkOptionsScreenshotSettings
     public int? Height { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarkOptionsScreenshotSettings.html#bookmarkoptionsscreenshotsettingslayers-property">GeoBlazor Docs</a>
     ///     An optional list of layers to be included in the screenshot.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +87,7 @@ public partial class BookmarkOptionsScreenshotSettings
     public IReadOnlyList<Layer>? Layers { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarkOptionsScreenshotSettings.html#bookmarkoptionsscreenshotsettingswidth-property">GeoBlazor Docs</a>
     ///     The width (in pixels) of the screenshot.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

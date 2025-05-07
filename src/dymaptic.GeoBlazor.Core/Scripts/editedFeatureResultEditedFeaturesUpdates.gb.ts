@@ -8,13 +8,13 @@ export async function buildJsEditedFeatureResultEditedFeaturesUpdatesGenerated(d
     }
 
     let jsEditedFeatureResultEditedFeaturesUpdates: any = {};
-    if (hasValue(dotNetObject.current) && dotNetObject.current.length > 0) {
+    if (hasValue(dotNetObject.current)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsEditedFeatureResultEditedFeaturesUpdates.current = dotNetObject.current.map(i => buildJsGraphic(i)) as any;
+        jsEditedFeatureResultEditedFeaturesUpdates.current = buildJsGraphic(dotNetObject.current) as any;
     }
-    if (hasValue(dotNetObject.original) && dotNetObject.original.length > 0) {
+    if (hasValue(dotNetObject.original)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsEditedFeatureResultEditedFeaturesUpdates.original = dotNetObject.original.map(i => buildJsGraphic(i)) as any;
+        jsEditedFeatureResultEditedFeaturesUpdates.original = buildJsGraphic(dotNetObject.original) as any;
     }
 
     
@@ -34,12 +34,12 @@ export async function buildDotNetEditedFeatureResultEditedFeaturesUpdatesGenerat
     
     if (hasValue(jsObject.current)) {
         let { buildDotNetGraphic } = await import('./graphic');
-        dotNetEditedFeatureResultEditedFeaturesUpdates.current = jsObject.current.map(i => buildDotNetGraphic(i, layerId, viewId));
+        dotNetEditedFeatureResultEditedFeaturesUpdates.current = buildDotNetGraphic(jsObject.current, layerId, viewId);
     }
     
     if (hasValue(jsObject.original)) {
         let { buildDotNetGraphic } = await import('./graphic');
-        dotNetEditedFeatureResultEditedFeaturesUpdates.original = jsObject.original.map(i => buildDotNetGraphic(i, layerId, viewId));
+        dotNetEditedFeatureResultEditedFeaturesUpdates.original = buildDotNetGraphic(jsObject.original, layerId, viewId);
     }
     
 

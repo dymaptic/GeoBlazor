@@ -36,7 +36,7 @@ public partial class BarChartMediaInfo : IChartMediaInfo
     /// </param>
     /// <param name="value">
     ///     Defines the chart value.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-ChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public BarChartMediaInfo(
         string? title = null,
@@ -57,8 +57,9 @@ public partial class BarChartMediaInfo : IChartMediaInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BarChartMediaInfo.html#barchartmediainfovalue-property">GeoBlazor Docs</a>
     ///     Defines the chart value.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-ChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

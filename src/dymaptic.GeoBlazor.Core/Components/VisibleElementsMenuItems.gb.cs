@@ -30,6 +30,8 @@ public partial class VisibleElementsMenuItems : MapComponent
     ///     _(Since 4.25)_ Indicates whether to display the `Delete Selection` menu item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="exportSelectionToCSV">
+    /// </param>
     /// <param name="refreshData">
     ///     Indicates whether to display the `Refresh data` menu item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
@@ -53,6 +55,7 @@ public partial class VisibleElementsMenuItems : MapComponent
     public VisibleElementsMenuItems(
         bool? clearSelection = null,
         bool? deleteSelection = null,
+        bool? exportSelectionToCSV = null,
         bool? refreshData = null,
         bool? selectedRecordsShowAllToggle = null,
         bool? selectedRecordsShowSelectedToggle = null,
@@ -63,6 +66,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 #pragma warning disable BL0005
         ClearSelection = clearSelection;
         DeleteSelection = deleteSelection;
+        ExportSelectionToCSV = exportSelectionToCSV;
         RefreshData = refreshData;
         SelectedRecordsShowAllToggle = selectedRecordsShowAllToggle;
         SelectedRecordsShowSelectedToggle = selectedRecordsShowSelectedToggle;
@@ -75,6 +79,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsMenuItems.html#visibleelementsmenuitemsclearselection-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `Clear selection` menu item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +89,7 @@ public partial class VisibleElementsMenuItems : MapComponent
     public bool? ClearSelection { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsMenuItems.html#visibleelementsmenuitemsdeleteselection-property">GeoBlazor Docs</a>
     ///     _(Since 4.25)_ Indicates whether to display the `Delete Selection` menu item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -93,6 +99,16 @@ public partial class VisibleElementsMenuItems : MapComponent
     public bool? DeleteSelection { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsMenuItems.html#visibleelementsmenuitemsexportselectiontocsv-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ExportSelectionToCSV { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsMenuItems.html#visibleelementsmenuitemsrefreshdata-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `Refresh data` menu item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -102,6 +118,7 @@ public partial class VisibleElementsMenuItems : MapComponent
     public bool? RefreshData { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsMenuItems.html#visibleelementsmenuitemsselectedrecordsshowalltoggle-property">GeoBlazor Docs</a>
     ///     _(Since 4.23)_ Indicates whether to toggle between showing only selected records in the table to showing all of the records.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -111,6 +128,7 @@ public partial class VisibleElementsMenuItems : MapComponent
     public bool? SelectedRecordsShowAllToggle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsMenuItems.html#visibleelementsmenuitemsselectedrecordsshowselectedtoggle-property">GeoBlazor Docs</a>
     ///     _(Since 4.23)_ Indicates whether to display the `Show selected records` menu item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -120,6 +138,7 @@ public partial class VisibleElementsMenuItems : MapComponent
     public bool? SelectedRecordsShowSelectedToggle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsMenuItems.html#visibleelementsmenuitemstogglecolumns-property">GeoBlazor Docs</a>
     ///     Indicates whether to enable toggling column visibility within the menu.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -129,6 +148,7 @@ public partial class VisibleElementsMenuItems : MapComponent
     public bool? ToggleColumns { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsMenuItems.html#visibleelementsmenuitemszoomtoselection-property">GeoBlazor Docs</a>
     ///     _(Since 4.23)_ Indicates whether to display the `Zoom to selected` menu item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -217,6 +237,45 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
          
         return DeleteSelection;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ExportSelectionToCSV property.
+    /// </summary>
+    public async Task<bool?> GetExportSelectionToCSV()
+    {
+        if (CoreJsModule is null)
+        {
+            return ExportSelectionToCSV;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ExportSelectionToCSV;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "exportSelectionToCSV");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             ExportSelectionToCSV = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ExportSelectionToCSV)] = ExportSelectionToCSV;
+        }
+         
+        return ExportSelectionToCSV;
     }
     
     /// <summary>
@@ -490,6 +549,43 @@ public partial class VisibleElementsMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "deleteSelection", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ExportSelectionToCSV property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetExportSelectionToCSV(bool? value)
+    {
+#pragma warning disable BL0005
+        ExportSelectionToCSV = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ExportSelectionToCSV)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "exportSelectionToCSV", value);
     }
     
     /// <summary>

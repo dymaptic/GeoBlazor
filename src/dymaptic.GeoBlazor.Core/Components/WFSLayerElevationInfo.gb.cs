@@ -57,6 +57,7 @@ public partial class WFSLayerElevationInfo : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo.html#wfslayerelevationinfofeatureexpressioninfo-property">GeoBlazor Docs</a>
     ///     Defines how to override a feature's Z-value based on its attributes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +67,7 @@ public partial class WFSLayerElevationInfo : MapComponent
     public WFSLayerElevationInfoFeatureExpressionInfo? FeatureExpressionInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo.html#wfslayerelevationinfomode-property">GeoBlazor Docs</a>
     ///     Defines how the feature is placed with respect to the terrain surface or 3D objects in the scene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +77,7 @@ public partial class WFSLayerElevationInfo : MapComponent
     public ElevationInfoMode? Mode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo.html#wfslayerelevationinfooffset-property">GeoBlazor Docs</a>
     ///     An elevation offset, which is added to the vertical position of the feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +87,7 @@ public partial class WFSLayerElevationInfo : MapComponent
     public double? Offset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo.html#wfslayerelevationinfounit-property">GeoBlazor Docs</a>
     ///     The unit for `featureExpressionInfo` and `offset` values.
     ///     <a target="_blank" href="global.html#unit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

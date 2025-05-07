@@ -4,13 +4,17 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.BasemapGalleryViewModelState.html">GeoBlazor Docs</a>
-///     Enumeration for BasemapGalleryViewModelState
+///     The view model's state.
+///     default "disabled"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<BasemapGalleryViewModelState>))]
 public enum BasemapGalleryViewModelState
 {
 #pragma warning disable CS1591
     Ready,
-    Disabled
+    Disabled,
+    Loading,
+    Unsupported
 #pragma warning restore CS1591
 }

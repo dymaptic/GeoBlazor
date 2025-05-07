@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html">GeoBlazor Docs</a>
-///     The ListItem class represents one of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#operationalItems">operationalItems</a> in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html">LayerListViewModel</a>.
+///     The ListItem class represents one of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#operationalItems">operationalItems</a>
+///     in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html">LayerListViewModel</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ListItem
@@ -22,6 +23,7 @@ public partial class ListItem
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemactionsopen-property">GeoBlazor Docs</a>
     ///     Whether the actions panel is open in the LayerList.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsOpen">ArcGIS Maps SDK for JavaScript</a>
@@ -32,6 +34,7 @@ public partial class ListItem
     public bool? ActionsOpen { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemactionssections-property">GeoBlazor Docs</a>
     ///     A nested 2-dimensional collection of actions that could be triggered on the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -41,6 +44,7 @@ public partial class ListItem
     public ActionBase[][]? ActionsSections { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemchildren-property">GeoBlazor Docs</a>
     ///     When a layer contains sublayers, this property is a Collection of ListItem objects belonging to the given layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#children">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -50,6 +54,7 @@ public partial class ListItem
     public IReadOnlyList<ListItem>? Children { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemchildrensortable-property">GeoBlazor Docs</a>
     ///     Indicates if the children of a list item (or sublayers in a GroupLayer) can be sorted or moved/reordered.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#childrenSortable">ArcGIS Maps SDK for JavaScript</a>
@@ -60,6 +65,7 @@ public partial class ListItem
     public bool? ChildrenSortable { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemconnectionstatus-property">GeoBlazor Docs</a>
     ///     Only valid when the list item represents a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html">StreamLayer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#connectionStatus">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +75,7 @@ public partial class ListItem
     public ConnectionStatus? ConnectionStatus { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemerror-property">GeoBlazor Docs</a>
     ///     The Error object returned if an error occurred.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#error">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -78,6 +85,7 @@ public partial class ListItem
     public Error? Error { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemhidden-property">GeoBlazor Docs</a>
     ///     When `true`, hides the layer from the LayerList instance.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#hidden">ArcGIS Maps SDK for JavaScript</a>
@@ -88,7 +96,20 @@ public partial class ListItem
     public bool? Hidden { get; set; }
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> displaying data for the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#layer">layer</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemincompatible-property">GeoBlazor Docs</a>
+    ///     Whether the layer is unsupported by the view.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#incompatible">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public bool? Incompatible { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemlayerview-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> displaying data for the
+    ///     associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#layer">layer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#layerView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -97,6 +118,7 @@ public partial class ListItem
     public LayerView? LayerView { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemlistmodedisabled-property">GeoBlazor Docs</a>
     ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the child layers in the list item.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#listModeDisabled">ArcGIS Maps SDK for JavaScript</a>
@@ -107,6 +129,7 @@ public partial class ListItem
     public bool? ListModeDisabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemopen-property">GeoBlazor Docs</a>
     ///     Whether the layer is open in the LayerList.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#open">ArcGIS Maps SDK for JavaScript</a>
@@ -117,7 +140,9 @@ public partial class ListItem
     public bool? Open { get; set; }
     
     /// <summary>
-    ///     Allows you to display custom content for each ListItem in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitempanel-property">GeoBlazor Docs</a>
+    ///     Allows you to display custom content for each ListItem
+    ///     in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#panel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -126,6 +151,7 @@ public partial class ListItem
     public ListItemPanelWidget? Panel { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitempublishing-property">GeoBlazor Docs</a>
     ///     Value is `true` when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#layer">layer</a> is being published.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#publishing">ArcGIS Maps SDK for JavaScript</a>
@@ -136,6 +162,7 @@ public partial class ListItem
     public bool? Publishing { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemsortable-property">GeoBlazor Docs</a>
     ///     Indicates if the list item (or layer in the map) can be sorted or moved/reordered.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#sortable">ArcGIS Maps SDK for JavaScript</a>
@@ -146,6 +173,7 @@ public partial class ListItem
     public bool? Sortable { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemtitle-property">GeoBlazor Docs</a>
     ///     The title of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -155,6 +183,7 @@ public partial class ListItem
     public string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemupdating-property">GeoBlazor Docs</a>
     ///     Value is `true` when the layer is updating; for example, if it is in the process of fetching data.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#updating">ArcGIS Maps SDK for JavaScript</a>
@@ -165,6 +194,7 @@ public partial class ListItem
     public bool? Updating { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemvisibilitymode-property">GeoBlazor Docs</a>
     ///     Indicates how to manage the visibility of the children layers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#visibilityMode">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -174,6 +204,7 @@ public partial class ListItem
     public string? VisibilityMode { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemvisibleatcurrentscale-property">GeoBlazor Docs</a>
     ///     Whether the layer is visible at the current scale or not.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#visibleAtCurrentScale">ArcGIS Maps SDK for JavaScript</a>
@@ -184,6 +215,7 @@ public partial class ListItem
     public bool? VisibleAtCurrentScale { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemvisibleatcurrenttimeextent-property">GeoBlazor Docs</a>
     ///     Whether the layer is visible at the current time extent or not.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#visibleAtCurrentTimeExtent">ArcGIS Maps SDK for JavaScript</a>
@@ -432,6 +464,45 @@ public partial class ListItem
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the Incompatible property.
+    /// </summary>
+    public async Task<bool?> GetIncompatible()
+    {
+        if (CoreJsModule is null)
+        {
+            return Incompatible;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Incompatible;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "incompatible");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             Incompatible = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Incompatible)] = Incompatible;
+        }
+         
+        return Incompatible;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
     public async Task<Layer?> GetLayer()
@@ -505,6 +576,11 @@ public partial class ListItem
         
         if (result is not null)
         {
+            if (LayerView is not null)
+            {
+                result.Id = LayerView.Id;
+            }
+            
 #pragma warning disable BL0005
             LayerView = result;
 #pragma warning restore BL0005

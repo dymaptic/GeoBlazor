@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.LocateViewModelState.html">GeoBlazor Docs</a>
-///     Enumeration for LocateViewModelState
+///     The current state of the widget.
+///     default "disabled"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LocateViewModelState>))]
 public enum LocateViewModelState
@@ -13,6 +15,7 @@ public enum LocateViewModelState
     Disabled,
     Ready,
     Locating,
-    Error
+    Error,
+    FeatureUnsupported
 #pragma warning restore CS1591
 }

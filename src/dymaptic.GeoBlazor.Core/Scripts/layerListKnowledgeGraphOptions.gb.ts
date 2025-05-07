@@ -58,7 +58,7 @@ export async function buildDotNetLayerListKnowledgeGraphOptionsGenerated(jsObjec
     }
     
     if (hasValue(jsObject.selectionMode)) {
-        dotNetLayerListKnowledgeGraphOptions.selectionMode = jsObject.selectionMode;
+        dotNetLayerListKnowledgeGraphOptions.selectionMode = removeCircularReferences(jsObject.selectionMode);
     }
     
 

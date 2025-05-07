@@ -69,7 +69,7 @@
         MultipartColorRamp wcsLayercolorRamp = new(wcsLayerColorRamps);
         RasterBandStatistics wcsLayerStatistics = new(1, Max: 37, Min: -3, Stddev: 1);
         RasterStretchRenderer displayRenderer = new(colorRamp: wcsLayercolorRamp,
-            stretchType: StretchType.StandardDeviation, statistics: [wcsLayerStatistics],
+            stretchType: StretchType.StandardDeviation, customStatistics: [wcsLayerStatistics],
             numberOfStandardDeviations: 3);
 
         return displayRenderer;

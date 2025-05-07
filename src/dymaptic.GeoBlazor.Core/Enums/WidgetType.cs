@@ -41,6 +41,7 @@ public enum WidgetType
     FloorFilter,
     FullScreen,
     GraphicsLegend,
+    GridControls,
     HeatmapSlider,
     Histogram,
     HistogramRangeSlider,
@@ -78,6 +79,7 @@ public enum WidgetType
     ValuePicker,
     VideoPlayer,
     Weather,
-    Zoom
+    Zoom,
+    BatchAttributeForm
 #pragma warning restore CS1591
 }

@@ -36,7 +36,8 @@ public partial class DimensionalDefinition
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-DimensionalDefinition.html#variableName">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="values">
-    ///     An array of single values or tuples [min, max] each defining a range of valid values along the specified dimension.
+    ///     An array of single values or tuples [min, max] each defining a range of
+    ///     valid values along the specified dimension.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-DimensionalDefinition.html#values">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public DimensionalDefinition(

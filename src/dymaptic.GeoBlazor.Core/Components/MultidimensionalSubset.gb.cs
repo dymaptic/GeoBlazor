@@ -45,6 +45,7 @@ public partial class MultidimensionalSubset
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MultidimensionalSubset.html#multidimensionalsubsetareaofinterest-property">GeoBlazor Docs</a>
     ///     The spatial area of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html#areaOfInterest">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class MultidimensionalSubset
     public Geometry? AreaOfInterest { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MultidimensionalSubset.html#multidimensionalsubsetdimensions-property">GeoBlazor Docs</a>
     ///     The aggregated dimension names and their extents or ranges computed from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html#subsetDefinitions">subsetDefinitions</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html#dimensions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -63,6 +65,7 @@ public partial class MultidimensionalSubset
     public IReadOnlyList<SubsetDimension>? Dimensions { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MultidimensionalSubset.html#multidimensionalsubsetsubsetdefinitions-property">GeoBlazor Docs</a>
     ///     The variable and dimension subset definitions to set the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html#subsetDefinitions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -72,6 +75,7 @@ public partial class MultidimensionalSubset
     public IReadOnlyList<DimensionalDefinition>? SubsetDefinitions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MultidimensionalSubset.html#multidimensionalsubsetvariables-property">GeoBlazor Docs</a>
     ///     The aggregated variables list computed from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html#subsetDefinitions">subsetDefinitions</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html#variables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

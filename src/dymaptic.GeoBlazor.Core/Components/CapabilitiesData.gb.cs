@@ -22,6 +22,8 @@ public partial class CapabilitiesData : MapComponent
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="isBranchVersioned">
+    /// </param>
     /// <param name="isVersioned">
     ///     Indicates if the feature service is versioned.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -39,6 +41,7 @@ public partial class CapabilitiesData : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public CapabilitiesData(
+        bool? isBranchVersioned = null,
         bool? isVersioned = null,
         bool? supportsAttachment = null,
         bool? supportsM = null,
@@ -46,6 +49,7 @@ public partial class CapabilitiesData : MapComponent
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        IsBranchVersioned = isBranchVersioned;
         IsVersioned = isVersioned;
         SupportsAttachment = supportsAttachment;
         SupportsM = supportsM;
@@ -57,6 +61,16 @@ public partial class CapabilitiesData : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesData.html#capabilitiesdataisbranchversioned-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? IsBranchVersioned { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesData.html#capabilitiesdataisversioned-property">GeoBlazor Docs</a>
     ///     Indicates if the feature service is versioned.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +80,7 @@ public partial class CapabilitiesData : MapComponent
     public bool? IsVersioned { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesData.html#capabilitiesdatasupportsattachment-property">GeoBlazor Docs</a>
     ///     Indicates if the attachment is enabled on the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +90,7 @@ public partial class CapabilitiesData : MapComponent
     public bool? SupportsAttachment { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesData.html#capabilitiesdatasupportsm-property">GeoBlazor Docs</a>
     ///     Indicates if the features in the layer support m-values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +100,7 @@ public partial class CapabilitiesData : MapComponent
     public bool? SupportsM { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesData.html#capabilitiesdatasupportsz-property">GeoBlazor Docs</a>
     ///     Indicates if the features in the layer support z-values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +113,45 @@ public partial class CapabilitiesData : MapComponent
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the IsBranchVersioned property.
+    /// </summary>
+    public async Task<bool?> GetIsBranchVersioned()
+    {
+        if (CoreJsModule is null)
+        {
+            return IsBranchVersioned;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return IsBranchVersioned;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "isBranchVersioned");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             IsBranchVersioned = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(IsBranchVersioned)] = IsBranchVersioned;
+        }
+         
+        return IsBranchVersioned;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsVersioned property.
     /// </summary>
@@ -256,6 +312,43 @@ public partial class CapabilitiesData : MapComponent
 
 #region Property Setters
 
+    /// <summary>
+    ///    Asynchronously set the value of the IsBranchVersioned property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetIsBranchVersioned(bool? value)
+    {
+#pragma warning disable BL0005
+        IsBranchVersioned = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(IsBranchVersioned)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "isBranchVersioned", value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the IsVersioned property after render.
     /// </summary>

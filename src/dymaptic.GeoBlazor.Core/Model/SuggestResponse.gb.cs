@@ -32,7 +32,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record SuggestResponse(
     int ActiveSourceIndex,
-    IReadOnlyCollection<Error> Errors,
+    IReadOnlyCollection<SuggestResponseErrors> Errors,
     int NumResults,
     string SuggestTerm,
     IReadOnlyCollection<SuggestResponseResults> Results,

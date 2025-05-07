@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerOptions.html">GeoBlazor Docs</a>
-///     The `LayerOptions` class defines additional options that can be defined for a layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+///     The `LayerOptions` class defines additional options that can be
+///     defined for a layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-LayerOptions.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LayerOptions : MapComponent
@@ -47,6 +48,7 @@ public partial class LayerOptions : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerOptions.html#layeroptionsreturntopmostraster-property">GeoBlazor Docs</a>
     ///     Applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">Imagery Layers</a>.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-LayerOptions.html#returnTopmostRaster">ArcGIS Maps SDK for JavaScript</a>
@@ -57,6 +59,7 @@ public partial class LayerOptions : MapComponent
     public bool? ReturnTopmostRaster { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerOptions.html#layeroptionsshownodatarecords-property">GeoBlazor Docs</a>
     ///     Applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">Imagery Layers</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-LayerOptions.html#showNoDataRecords">ArcGIS Maps SDK for JavaScript</a>

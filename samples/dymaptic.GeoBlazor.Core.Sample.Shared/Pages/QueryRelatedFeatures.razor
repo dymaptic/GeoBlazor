@@ -19,7 +19,7 @@
         <Basemap>
             <PortalItem PortalItemId="00c8181753cd4673810a1ede1f52a922" />
         </Basemap>
-        <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })">
+        <FeatureLayer @ref="_featureLayer" OutFields="@(["*"])">
             <PortalItem PortalItemId="7a301e848a7c4bfcaefdac4fe98a7f99" />
         </FeatureLayer>
     </Map>
@@ -101,7 +101,7 @@
             ReturnGeometry = false
         };
 
-        long[] objectIds = await _featureLayer!.QueryObjectIds(query);
+        ObjectId[] objectIds = await _featureLayer!.QueryObjectIds(query);
         if (!objectIds.Any())
         {
             return;
@@ -120,13 +120,13 @@
         {
             OutFields = ["NAME", "SUM_POPULATION"],
             RelationshipId = _featureLayer.Relationships?.FirstOrDefault()?.RelationshipId,
-            ObjectIds = objectIds.Select(i => i.ToString()).ToList()
+            ObjectIds = objectIds
         };
 
         _relatedFeatures = await _featureLayer.QueryRelatedFeatures(relationshipQuery);
     }
 
     private FeatureLayer? _featureLayer;
-    private HighlightHandle? _highlight;
+    private Handle? _highlight;
     RelatedFeaturesQueryResult? _relatedFeatures;
 }

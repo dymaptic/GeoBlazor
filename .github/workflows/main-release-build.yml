@@ -34,6 +34,12 @@ jobs:
         
     - name: Restore dependencies
       run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
+
+    - name: Update NPM
+      uses: actions/setup-node@v4
+      with:
+        node-version: '>=22.11.0'
+        check-latest: 'true'
     
     - name: Copy Assets and Generate JS
       shell: pwsh

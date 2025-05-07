@@ -45,6 +45,7 @@ public partial class CSVLayerElevationInfoFeatureExpressionInfo : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerElevationInfoFeatureExpressionInfo.html#csvlayerelevationinfofeatureexpressioninfoexpression-property">GeoBlazor Docs</a>
     ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#z-values">Arcade Feature Z Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class CSVLayerElevationInfoFeatureExpressionInfo : MapComponent
     public string? Expression { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerElevationInfoFeatureExpressionInfo.html#csvlayerelevationinfofeatureexpressioninfotitle-property">GeoBlazor Docs</a>
     ///     Title of the expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

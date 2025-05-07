@@ -45,6 +45,7 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField1ClassBreakInfos.html#authoringinfofield1classbreakinfosmaxvalue-property">GeoBlazor Docs</a>
     ///     The maximum bound of values to visualize in the given field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
     public double? MaxValue { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField1ClassBreakInfos.html#authoringinfofield1classbreakinfosminvalue-property">GeoBlazor Docs</a>
     ///     The minimum bound of values to visualize in the given field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

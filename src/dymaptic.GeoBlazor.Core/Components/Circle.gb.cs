@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Circle.html">GeoBlazor Docs</a>
-///     A circle is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">Polygon</a> created by specifying a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#center">center point</a> and a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#radius">radius</a>.
+///     A circle is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">Polygon</a> created by specifying a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#center">center point</a>
+///     and a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#radius">radius</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Circle : Polygon
@@ -22,7 +23,9 @@ public partial class Circle : Polygon
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Applicable when the spatial reference of the center point is either set to Web Mercator (wkid: 3857) or geographic/geodesic (wkid: 4326).
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Circle.html#circlegeodesic-property">GeoBlazor Docs</a>
+    ///     Applicable when the spatial reference of the center point is either set to Web
+    ///     Mercator (wkid: 3857) or geographic/geodesic (wkid: 4326).
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#geodesic">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -32,8 +35,9 @@ public partial class Circle : Polygon
     public bool? Geodesic { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Circle.html#circleradiusunit-property">GeoBlazor Docs</a>
     ///     Unit of the radius.
-    ///     default meters
+    ///     default "meters"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#radiusUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

@@ -38,7 +38,7 @@ public partial class Sublayer
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
-    ///     default show
+    ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxScale">
@@ -50,7 +50,8 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
-    ///     The level of opacity to set on the sublayer on a scale from 0.0 - 1.0 where `0` is fully transparent and `1.0` is fully opaque.
+    ///     The level of opacity to set on the sublayer on a scale
+    ///     from 0.0 - 1.0 where `0` is fully transparent and `1.0` is fully opaque.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
@@ -59,7 +60,8 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the sublayer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     The title of the sublayer used to identify it in places such as the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -71,11 +73,14 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="floorInfo">
-    ///     If a map image layer contains a sublayer which is meant to be floor-aware, then that sublayer must have a floorInfo property, containing a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LayerFloorInfo.html">LayerFloorInfo</a> object which has a string property to represent the floorField.
+    ///     If a map image layer contains a sublayer which is meant to be floor-aware, then that sublayer
+    ///     must have a floorInfo property, containing a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LayerFloorInfo.html">LayerFloorInfo</a> object
+    ///     which has a string property to represent the floorField.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#floorInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="labelingInfo">
-    ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a> objects.
+    ///     The label definition for this layer,
+    ///     specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a> objects.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#labelingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupTemplate">
@@ -87,12 +92,20 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="source">
-    ///     An object that allows you to create a dynamic layer with data either from the map service sublayers or data from a registered workspace.
+    ///     An object that allows you to create a dynamic layer with data
+    ///     either from the map service sublayers or data from a registered workspace.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="sublayers">
-    ///     If a sublayer contains sublayers, this property is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a> objects belonging to the given sublayer with sublayers.
+    ///     If a sublayer contains sublayers, this
+    ///     property is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a>
+    ///     objects belonging to the given sublayer with sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="orderBy">
+    ///     Determines the order in which features are drawn in the view.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="url">
     ///     The URL to the REST endpoint of the sublayer.
@@ -116,6 +129,7 @@ public partial class Sublayer
         Renderer? renderer = null,
         DynamicLayer? source = null,
         IReadOnlyList<Sublayer>? sublayers = null,
+        IReadOnlyList<OrderByInfo>? orderBy = null,
         string? url = null)
     {
         AllowRender = false;
@@ -137,6 +151,7 @@ public partial class Sublayer
         Renderer = renderer;
         Source = source;
         Sublayers = sublayers;
+        OrderBy = orderBy;
         Url = url;
 #pragma warning restore BL0005    
     }
@@ -145,6 +160,7 @@ public partial class Sublayer
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -154,6 +170,7 @@ public partial class Sublayer
     public SublayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerfields-property">GeoBlazor Docs</a>
     ///     An array of fields in the Sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -163,6 +180,7 @@ public partial class Sublayer
     public IReadOnlyList<Field>? Fields { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerfieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#field">field</a> by name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -172,6 +190,7 @@ public partial class Sublayer
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerfullextent-property">GeoBlazor Docs</a>
     ///     The full extent of the Sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -181,6 +200,7 @@ public partial class Sublayer
     public Extent? FullExtent { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayeristable-property">GeoBlazor Docs</a>
     ///     Returns `true` if the sublayer is a non-spatial table in a map service.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#isTable">ArcGIS Maps SDK for JavaScript</a>
@@ -191,7 +211,9 @@ public partial class Sublayer
     public bool? IsTable { get; protected set; }
     
     /// <summary>
-    ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a> objects.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerlabelinginfo-property">GeoBlazor Docs</a>
+    ///     The label definition for this layer,
+    ///     specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a> objects.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#labelingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -200,7 +222,9 @@ public partial class Sublayer
     public IReadOnlyList<Label>? LabelingInfo { get; set; }
     
     /// <summary>
-    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#fields">field</a> containing a unique value or identifier for each feature in the Sublayer.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerobjectidfield-property">GeoBlazor Docs</a>
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#fields">field</a> containing a unique value or identifier for each
+    ///     feature in the Sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -209,6 +233,18 @@ public partial class Sublayer
     public string? ObjectIdField { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerorderby-property">GeoBlazor Docs</a>
+    ///     Determines the order in which features are drawn in the view.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<OrderByInfo>? OrderBy { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerpopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template for the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -218,6 +254,7 @@ public partial class Sublayer
     public PopupTemplate? PopupTemplate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerrelationships-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">relationships</a> associated with the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#relationships">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -227,6 +264,7 @@ public partial class Sublayer
     public IReadOnlyList<Relationship>? Relationships { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerrenderer-property">GeoBlazor Docs</a>
     ///     The renderer to apply to the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -236,7 +274,9 @@ public partial class Sublayer
     public Renderer? Renderer { get; set; }
     
     /// <summary>
-    ///     An object that allows you to create a dynamic layer with data either from the map service sublayers or data from a registered workspace.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayersource-property">GeoBlazor Docs</a>
+    ///     An object that allows you to create a dynamic layer with data
+    ///     either from the map service sublayers or data from a registered workspace.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -245,7 +285,9 @@ public partial class Sublayer
     public DynamicLayer? Source { get; set; }
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/map-service.htm">map service's metadata JSON</a> exposed by the ArcGIS REST API.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayersourcejson-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/map-service.htm">map service's metadata JSON</a>
+    ///     exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -254,6 +296,7 @@ public partial class Sublayer
     public string? SourceJSON { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerspatialreference-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">spatial reference</a> of the sublayer as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -263,6 +306,7 @@ public partial class Sublayer
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayersublayerid-property">GeoBlazor Docs</a>
     ///     The sublayer's layer ID.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -272,7 +316,10 @@ public partial class Sublayer
     public long? SublayerId { get; set; }
     
     /// <summary>
-    ///     If a sublayer contains sublayers, this property is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a> objects belonging to the given sublayer with sublayers.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayersublayers-property">GeoBlazor Docs</a>
+    ///     If a sublayer contains sublayers, this
+    ///     property is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a>
+    ///     objects belonging to the given sublayer with sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -282,6 +329,7 @@ public partial class Sublayer
     public IReadOnlyList<Sublayer>? Sublayers { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayertypeidfield-property">GeoBlazor Docs</a>
     ///     The name of the field holding the type ID or subtypes for the features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#typeIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -291,6 +339,7 @@ public partial class Sublayer
     public string? TypeIdField { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayertypes-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureType.html">types</a> defined in the feature service exposed by ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#types">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -300,6 +349,7 @@ public partial class Sublayer
     public IReadOnlyList<FeatureType>? Types { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerurl-property">GeoBlazor Docs</a>
     ///     The URL to the REST endpoint of the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -900,6 +950,45 @@ public partial class Sublayer
         }
          
         return Opacity;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the OrderBy property.
+    /// </summary>
+    public async Task<IReadOnlyList<OrderByInfo>?> GetOrderBy()
+    {
+        if (CoreJsModule is null)
+        {
+            return OrderBy;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return OrderBy;
+        }
+
+        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>(
+            "getOrderBy", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            OrderBy = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(OrderBy)] = OrderBy;
+        }
+        
+        return OrderBy;
     }
     
     /// <summary>
@@ -1727,6 +1816,54 @@ public partial class Sublayer
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the OrderBy property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetOrderBy(IReadOnlyList<OrderByInfo>? value)
+    {
+        if (value is not null)
+        {
+            foreach (OrderByInfo item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
+#pragma warning disable BL0005
+        OrderBy = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(OrderBy)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
     /// <param name="value">
@@ -2019,6 +2156,20 @@ public partial class Sublayer
         await SetLabelingInfo(join);
     }
     
+    /// <summary>
+    ///     Asynchronously adds elements to the OrderBy property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToOrderBy(params OrderByInfo[] values)
+    {
+        OrderByInfo[] join = OrderBy is null
+            ? values
+            : [..OrderBy, ..values];
+        await SetOrderBy(join);
+    }
+    
 #endregion
 
 #region Remove From Collection Methods
@@ -2039,12 +2190,64 @@ public partial class Sublayer
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
     }
     
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the OrderBy property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromOrderBy(params OrderByInfo[] values)
+    {
+        if (OrderBy is null)
+        {
+            return;
+        }
+        await SetOrderBy(OrderBy.Except(values).ToArray());
+    }
+    
 #endregion
 
 #region Public Methods
 
     /// <summary>
-    ///     A convenient method for creating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> instance based on the Sublayer's configuration, including <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/linux/about-dynamic-layers.htm">dynamic sources</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercancelload-method">GeoBlazor Docs</a>
+    ///     Cancels a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#load">load()</a> operation if it is already in progress.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#cancelLoad">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task CancelLoad()
+    {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "cancelLoad", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercreatefeaturelayer-method">GeoBlazor Docs</a>
+    ///     A convenient method for creating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> instance
+    ///     based on the Sublayer's configuration, including
+    ///     <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/linux/about-dynamic-layers.htm">dynamic sources</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#createFeatureLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
@@ -2076,6 +2279,7 @@ public partial class Sublayer
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercreatepopuptemplate-method">GeoBlazor Docs</a>
     ///     Creates a popup template for the sublayer, populated with all the fields of the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#createPopupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -2112,7 +2316,10 @@ public partial class Sublayer
     }
     
     /// <summary>
-    ///     Creates a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> object with default values representing the layer's state, including filters (definition expression) on the layer's features.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercreatequery-method">GeoBlazor Docs</a>
+    ///     Creates a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> object with
+    ///     default values representing the layer's state, including filters (definition
+    ///     expression) on the layer's features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#createQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
@@ -2144,6 +2351,7 @@ public partial class Sublayer
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayergetfeaturetype-method">GeoBlazor Docs</a>
     ///     Returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureType.html">FeatureType</a> describing the feature's type.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#getFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -2180,14 +2388,16 @@ public partial class Sublayer
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayergetfielddomain-method">GeoBlazor Docs</a>
     ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> associated with the given field name.
+    ///     param options An object specifying additional options. See the object specification table below for the required properties of this object.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="fieldName">
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     An object specifying additional options. See the object specification table below for the required properties of this object.
+    ///     - options.feature: The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
@@ -2221,7 +2431,151 @@ public partial class Sublayer
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerisfulfilled-method">GeoBlazor Docs</a>
+    ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#isFulfilled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsFulfilled()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isFulfilled", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerisrejected-method">GeoBlazor Docs</a>
+    ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#isRejected">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsRejected()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isRejected", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerisresolved-method">GeoBlazor Docs</a>
+    ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#isResolved">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsResolved()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isResolved", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerload-method">GeoBlazor Docs</a>
+    ///     Loads the resources referenced by this class.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#load">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> Load(CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
+            "load", 
+            CancellationTokenSource.Token,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryattachments-method">GeoBlazor Docs</a>
     ///     Query information about attachments associated with features.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryAttachments">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="attachmentQuery">
@@ -2267,7 +2621,10 @@ public partial class Sublayer
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the sublayer and returns the number of features that satisfy the query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryfeaturecount-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the sublayer and returns the number of features that
+    ///     satisfy the query.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -2313,7 +2670,9 @@ public partial class Sublayer
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryfeatures-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query.html">query</a> against features in the sublayer.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -2359,7 +2718,10 @@ public partial class Sublayer
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the sublayer and returns an array of Object IDs for features that satisfy the input query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryobjectids-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the sublayer and returns an array of Object IDs for
+    ///     features that satisfy the input query.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -2369,7 +2731,7 @@ public partial class Sublayer
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<long[]?> QueryObjectIds(Query query,
+    public async Task<ObjectId[]?> QueryObjectIds(Query query,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -2393,7 +2755,7 @@ public partial class Sublayer
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
+        ObjectId[]? result = await JsComponentReference!.InvokeAsync<ObjectId[]?>(
             "queryObjectIds", 
             CancellationTokenSource.Token,
             query,
@@ -2405,7 +2767,10 @@ public partial class Sublayer
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html">RelationshipQuery</a> against the sublayer and returns <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSets</a> grouped by source layer or table objectIds.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryrelatedfeatures-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html">RelationshipQuery</a> against the sublayer and returns
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSets</a> grouped by source layer or table objectIds.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryRelatedFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipQuery">
@@ -2451,7 +2816,10 @@ public partial class Sublayer
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html">RelationshipQuery</a> against the sublayer and when resolved, it returns an `object` containing key value pairs.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryrelatedfeaturescount-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html">RelationshipQuery</a> against the sublayer and when resolved, it returns
+    ///     an `object` containing key value pairs.
+    ///     param options An object with the following properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryRelatedFeaturesCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipQuery">
@@ -2496,6 +2864,49 @@ public partial class Sublayer
         return result;
     }
     
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param errback The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="callback">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "when", 
+            CancellationTokenSource.Token,
+            callback,
+            errback);
+    }
+    
 #endregion
 
 
@@ -2510,6 +2921,15 @@ public partial class Sublayer
                 {
                     LabelingInfo = [..LabelingInfo, labelingInfo];
                     ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                }
+                
+                return true;
+            case OrderByInfo orderBy:
+                OrderBy ??= [];
+                if (!OrderBy.Contains(orderBy))
+                {
+                    OrderBy = [..OrderBy, orderBy];
+                    ModifiedParameters[nameof(OrderBy)] = OrderBy;
                 }
                 
                 return true;
@@ -2560,6 +2980,10 @@ public partial class Sublayer
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
+            case OrderByInfo orderBy:
+                OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
+                ModifiedParameters[nameof(OrderBy)] = OrderBy;
+                return true;
             case PopupTemplate _:
                 PopupTemplate = null;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
@@ -2588,6 +3012,13 @@ public partial class Sublayer
         if (LabelingInfo is not null)
         {
             foreach (Label child in LabelingInfo)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        if (OrderBy is not null)
+        {
+            foreach (OrderByInfo child in OrderBy)
             {
                 child.ValidateRequiredGeneratedChildren();
             }

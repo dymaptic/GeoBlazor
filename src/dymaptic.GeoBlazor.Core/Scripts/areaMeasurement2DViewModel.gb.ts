@@ -21,10 +21,11 @@ export default class AreaMeasurement2DViewModelGenerated implements IPropertyWra
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-
-        if (hasValue(dotNetObject.geodesicDistanceThreshold)) {
-            this.component.geodesicDistanceThreshold = dotNetObject.geodesicDistanceThreshold;
+        if (hasValue(dotNetObject.snappingOptions)) {
+            let { buildJsSnappingOptions } = await import('./snappingOptions');
+            this.component.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, this.layerId, this.viewId) as any;
         }
+
         if (hasValue(dotNetObject.unit)) {
             this.component.unit = dotNetObject.unit;
         }
@@ -61,6 +62,20 @@ export default class AreaMeasurement2DViewModelGenerated implements IPropertyWra
         return await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(this.component.measurementLabel);
     }
     
+    async getSnappingOptions(): Promise<any> {
+        if (!hasValue(this.component.snappingOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetSnappingOptions } = await import('./snappingOptions');
+        return await buildDotNetSnappingOptions(this.component.snappingOptions);
+    }
+    
+    async setSnappingOptions(value: any): Promise<void> {
+        let { buildJsSnappingOptions } = await import('./snappingOptions');
+        this.component.snappingOptions = await  buildJsSnappingOptions(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -80,10 +95,11 @@ export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: a
     if (hasValue(viewId)) {
         jsAreaMeasurement2DViewModel.view = arcGisObjectRefs[viewId!];
     }
-
-    if (hasValue(dotNetObject.geodesicDistanceThreshold)) {
-        jsAreaMeasurement2DViewModel.geodesicDistanceThreshold = dotNetObject.geodesicDistanceThreshold;
+    if (hasValue(dotNetObject.snappingOptions)) {
+        let { buildJsSnappingOptions } = await import('./snappingOptions');
+        jsAreaMeasurement2DViewModel.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.unit)) {
         jsAreaMeasurement2DViewModel.unit = dotNetObject.unit;
     }
@@ -119,6 +135,11 @@ export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: a
     if (hasValue(jsObject.measurementLabel)) {
         let { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
         dotNetAreaMeasurement2DViewModel.measurementLabel = await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(jsObject.measurementLabel);
+    }
+    
+    if (hasValue(jsObject.snappingOptions)) {
+        let { buildDotNetSnappingOptions } = await import('./snappingOptions');
+        dotNetAreaMeasurement2DViewModel.snappingOptions = await buildDotNetSnappingOptions(jsObject.snappingOptions);
     }
     
     if (hasValue(jsObject.state)) {

@@ -111,6 +111,7 @@ public partial class VisibleElements : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementsarea-property">GeoBlazor Docs</a>
     ///     When set to `false`, the area is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -120,6 +121,7 @@ public partial class VisibleElements : MapComponent
     public bool? Area { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementscoordinates-property">GeoBlazor Docs</a>
     ///     When set to `false`, the coordinate is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -129,6 +131,7 @@ public partial class VisibleElements : MapComponent
     public bool? Coordinates { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementsdirection-property">GeoBlazor Docs</a>
     ///     When set to `false`, the direction (or deflection angle) is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -138,6 +141,7 @@ public partial class VisibleElements : MapComponent
     public bool? Direction { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementsdistance-property">GeoBlazor Docs</a>
     ///     When set to `false`, the distance is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -147,6 +151,7 @@ public partial class VisibleElements : MapComponent
     public bool? Distance { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementselevation-property">GeoBlazor Docs</a>
     ///     When set to `false`, the elevation is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -156,6 +161,7 @@ public partial class VisibleElements : MapComponent
     public bool? Elevation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementsheader-property">GeoBlazor Docs</a>
     ///     When set to `false`, the header at the top of the tooltip is not shown, when in input mode.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -165,6 +171,7 @@ public partial class VisibleElements : MapComponent
     public bool? Header { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementshelpmessage-property">GeoBlazor Docs</a>
     ///     When set to `false`, the help message at the bottom of the tooltip is not shown.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -174,6 +181,7 @@ public partial class VisibleElements : MapComponent
     public bool? HelpMessage { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementsorientation-property">GeoBlazor Docs</a>
     ///     When set to `false`, the orientation is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -183,6 +191,7 @@ public partial class VisibleElements : MapComponent
     public bool? Orientation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementsradius-property">GeoBlazor Docs</a>
     ///     When set to `false`, the radius is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -192,6 +201,7 @@ public partial class VisibleElements : MapComponent
     public bool? Radius { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementsrotation-property">GeoBlazor Docs</a>
     ///     When set to `false`, the rotation is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -201,6 +211,7 @@ public partial class VisibleElements : MapComponent
     public bool? Rotation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementsscale-property">GeoBlazor Docs</a>
     ///     When set to `false`, the scale is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -210,6 +221,7 @@ public partial class VisibleElements : MapComponent
     public bool? Scale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementssize-property">GeoBlazor Docs</a>
     ///     When set to `false`, the size is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -219,6 +231,7 @@ public partial class VisibleElements : MapComponent
     public bool? Size { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html#visibleelementstotallength-property">GeoBlazor Docs</a>
     ///     When set to `false`, the total length is not shown in the tooltip.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

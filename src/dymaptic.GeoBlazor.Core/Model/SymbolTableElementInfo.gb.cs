@@ -43,4 +43,4 @@ public partial record SymbolTableElementInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Symbol? Symbol = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    object? Value = null) : ISymbolTableElementType;
+    string? Value = null) : ISymbolTableElementType;

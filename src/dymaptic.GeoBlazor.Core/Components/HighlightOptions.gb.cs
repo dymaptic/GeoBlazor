@@ -5,8 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HighlightOptions.html">GeoBlazor Docs</a>
-///     Options for configuring the highlight on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">MapView</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">SceneView</a> or on layer views.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
+///     HighlightOptions are used to customize the appearance of highlights applied to features.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class HighlightOptions
 {
@@ -24,31 +24,42 @@ public partial class HighlightOptions
     /// </summary>
     /// <param name="color">
     ///     The color of the highlight fill.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html#color">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="haloColor">
     ///     The color of the halo surrounding the highlight.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html#haloColor">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="haloOpacity">
     ///     The opacity of the highlight halo.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     default 1
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html#haloOpacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fillOpacity">
     ///     The opacity of the fill (area within the halo).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     default 0.25
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html#fillOpacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="shadowColor">
-    ///     The color of the highlighted feature's shadow in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">3D SceneView</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     The color of the highlighted feature's shadow in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">3D SceneView</a>.
+    ///     default #000000
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html#shadowColor">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="shadowOpacity">
-    ///     The opacity of the highlighted feature's shadow.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     The opacity of the highlighted feature's shadow in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">3D SceneView</a>.
+    ///     default 0.4
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html#shadowOpacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="shadowDifference">
-    ///     Defines the intensity of the shadow area obtained by overlapping the shadow of the highlighted feature and the shadow of other objects in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">3D SceneView</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     Defines the intensity of the shadow area obtained by overlapping the shadow of the highlighted feature and the
+    ///     shadow of other objects in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">3D SceneView</a>.
+    ///     default 0.2
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html#shadowDifference">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="name">
+    ///     A name used to uniquely identify the highlight options within the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#highlights">highlights</a> collection.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public HighlightOptions(
         MapColor? color = null,
@@ -57,7 +68,8 @@ public partial class HighlightOptions
         double? fillOpacity = null,
         MapColor? shadowColor = null,
         double? shadowOpacity = null,
-        double? shadowDifference = null)
+        double? shadowDifference = null,
+        string? name = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -68,10 +80,26 @@ public partial class HighlightOptions
         ShadowColor = shadowColor;
         ShadowOpacity = shadowOpacity;
         ShadowDifference = shadowDifference;
+        Name = name;
 #pragma warning restore BL0005    
     }
     
     
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HighlightOptions.html#highlightoptionsname-property">GeoBlazor Docs</a>
+    ///     A name used to uniquely identify the highlight options within the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#highlights">highlights</a> collection.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html#name">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Name { get; set; }
+    
+#endregion
+
 #region Property Getters
 
     /// <summary>
@@ -228,6 +256,45 @@ public partial class HighlightOptions
         }
          
         return HaloOpacity;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Name property.
+    /// </summary>
+    public async Task<string?> GetName()
+    {
+        if (CoreJsModule is null)
+        {
+            return Name;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Name;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "name");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Name = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Name)] = Name;
+        }
+         
+        return Name;
     }
     
     /// <summary>
@@ -497,6 +564,43 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "haloOpacity", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Name property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetName(string? value)
+    {
+#pragma warning disable BL0005
+        Name = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Name)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "name", value);
     }
     
     /// <summary>

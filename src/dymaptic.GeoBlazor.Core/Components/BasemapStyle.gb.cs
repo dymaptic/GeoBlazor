@@ -14,6 +14,17 @@ public partial class BasemapStyle
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapStyle.html#basemapstyleapikey-property">GeoBlazor Docs</a>
+    ///     An authorization string used to access a resource or service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#apiKey">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ApiKey { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapStyle.html#basemapstyleplaces-property">GeoBlazor Docs</a>
     ///     Indicates whether to display <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-places.html">places</a> with the basemap style.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#places">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -23,6 +34,7 @@ public partial class BasemapStyle
     public BasemapStylePlace? Places { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapStyle.html#basemapstyleworldview-property">GeoBlazor Docs</a>
     ///     Displays country boundaries and labels based on a specific view of a country.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#worldview">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -35,6 +47,45 @@ public partial class BasemapStyle
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ApiKey property.
+    /// </summary>
+    public async Task<string?> GetApiKey()
+    {
+        if (CoreJsModule is null)
+        {
+            return ApiKey;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ApiKey;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "apiKey");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ApiKey = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ApiKey)] = ApiKey;
+        }
+         
+        return ApiKey;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Language property.
     /// </summary>
@@ -195,6 +246,43 @@ public partial class BasemapStyle
 
 #region Property Setters
 
+    /// <summary>
+    ///    Asynchronously set the value of the ApiKey property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetApiKey(string? value)
+    {
+#pragma warning disable BL0005
+        ApiKey = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ApiKey)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "apiKey", value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the Language property after render.
     /// </summary>

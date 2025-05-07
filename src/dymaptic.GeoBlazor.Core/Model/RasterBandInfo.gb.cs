@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RasterBandInfo.html">GeoBlazor Docs</a>
-///     referenced by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#serviceRasterInfo">ImageryLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#rasterInfo">ImageryTileLayer</a>.
+///     referenced by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#serviceRasterInfo">ImageryLayer</a> or
+///     module:esri/layers/ImageryTileLayer#rasterInfo.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterBandInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="MaxWavelength">

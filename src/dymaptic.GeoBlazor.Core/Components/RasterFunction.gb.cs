@@ -32,7 +32,7 @@ public partial class RasterFunction : MapComponent
     /// </param>
     /// <param name="outputPixelType">
     ///     Defines the pixel type of the output image.
-    ///     default unknown
+    ///     default "unknown"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterFunction.html#outputPixelType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="rasterFunctionDefinition">
@@ -44,10 +44,10 @@ public partial class RasterFunction : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterFunction.html#variableName">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public RasterFunction(
-        object? functionArguments = null,
+        string? functionArguments = null,
         string? functionName = null,
         OutputPixelType? outputPixelType = null,
-        object? rasterFunctionDefinition = null,
+        string? rasterFunctionDefinition = null,
         string? variableName = null)
     {
         AllowRender = false;
@@ -64,15 +64,17 @@ public partial class RasterFunction : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterFunction.html#rasterfunctionfunctionarguments-property">GeoBlazor Docs</a>
     ///     The arguments for the raster function.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterFunction.html#functionArguments">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? FunctionArguments { get; set; }
+    public string? FunctionArguments { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterFunction.html#rasterfunctionfunctionname-property">GeoBlazor Docs</a>
     ///     The raster function name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterFunction.html#functionName">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -82,8 +84,9 @@ public partial class RasterFunction : MapComponent
     public string? FunctionName { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterFunction.html#rasterfunctionoutputpixeltype-property">GeoBlazor Docs</a>
     ///     Defines the pixel type of the output image.
-    ///     default unknown
+    ///     default "unknown"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterFunction.html#outputPixelType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -92,15 +95,17 @@ public partial class RasterFunction : MapComponent
     public OutputPixelType? OutputPixelType { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterFunction.html#rasterfunctionrasterfunctiondefinition-property">GeoBlazor Docs</a>
     ///     Property where Raster Function template is passed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterFunction.html#rasterFunctionDefinition">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? RasterFunctionDefinition { get; set; }
+    public string? RasterFunctionDefinition { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterFunction.html#rasterfunctionvariablename-property">GeoBlazor Docs</a>
     ///     The variable name for the raster function.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterFunction.html#variableName">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -116,7 +121,7 @@ public partial class RasterFunction : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the FunctionArguments property.
     /// </summary>
-    public async Task<object?> GetFunctionArguments()
+    public async Task<string?> GetFunctionArguments()
     {
         if (CoreJsModule is null)
         {
@@ -139,7 +144,7 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "functionArguments");
         if (result is not null)
         {
@@ -233,7 +238,7 @@ public partial class RasterFunction : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFunctionDefinition property.
     /// </summary>
-    public async Task<object?> GetRasterFunctionDefinition()
+    public async Task<string?> GetRasterFunctionDefinition()
     {
         if (CoreJsModule is null)
         {
@@ -256,7 +261,7 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "rasterFunctionDefinition");
         if (result is not null)
         {
@@ -318,7 +323,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFunctionArguments(object? value)
+    public async Task SetFunctionArguments(string? value)
     {
 #pragma warning disable BL0005
         FunctionArguments = value;
@@ -429,7 +434,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRasterFunctionDefinition(object? value)
+    public async Task SetRasterFunctionDefinition(string? value)
     {
 #pragma warning disable BL0005
         RasterFunctionDefinition = value;

@@ -30,10 +30,6 @@ public partial class HeatmapRampStop : MapComponent
     ///     The label of the color stop displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="offset">
-    ///     A number between `0` and `1` describing the position of the label on the ramp.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampStop">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="ratio">
     ///     The ratio of a pixel's intensity value to the minPixelIntensity of the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampStop">ArcGIS Maps SDK for JavaScript</a>
@@ -41,14 +37,12 @@ public partial class HeatmapRampStop : MapComponent
     public HeatmapRampStop(
         MapColor? color = null,
         string? label = null,
-        double? offset = null,
         double? ratio = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Color = color;
         Label = label;
-        Offset = offset;
         Ratio = ratio;
 #pragma warning restore BL0005    
     }
@@ -57,6 +51,7 @@ public partial class HeatmapRampStop : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampStop.html#heatmaprampstopcolor-property">GeoBlazor Docs</a>
     ///     The color of the pixel corresponding to the appropriate pixel `ratio`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +61,7 @@ public partial class HeatmapRampStop : MapComponent
     public MapColor? Color { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampStop.html#heatmaprampstoplabel-property">GeoBlazor Docs</a>
     ///     The label of the color stop displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,15 +71,7 @@ public partial class HeatmapRampStop : MapComponent
     public string? Label { get; set; }
     
     /// <summary>
-    ///     A number between `0` and `1` describing the position of the label on the ramp.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampStop">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Offset { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampStop.html#heatmaprampstopratio-property">GeoBlazor Docs</a>
     ///     The ratio of a pixel's intensity value to the minPixelIntensity of the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -172,45 +160,6 @@ public partial class HeatmapRampStop : MapComponent
         }
          
         return Label;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Offset property.
-    /// </summary>
-    public async Task<double?> GetOffset()
-    {
-        if (CoreJsModule is null)
-        {
-            return Offset;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Offset;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "offset");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Offset = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Offset)] = Offset;
-        }
-         
-        return Offset;
     }
     
     /// <summary>
@@ -328,43 +277,6 @@ public partial class HeatmapRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Offset property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetOffset(double? value)
-    {
-#pragma warning disable BL0005
-        Offset = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Offset)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "offset", value);
     }
     
     /// <summary>

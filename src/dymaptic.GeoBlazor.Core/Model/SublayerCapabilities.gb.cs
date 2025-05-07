@@ -15,6 +15,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Describes operations that can be performed on features in the layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Attachment">
+/// </param>
 /// <param name="QueryRelated">
 ///     Indicates if the layer's query operation supports querying features or records related to features in the layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -22,5 +24,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record SublayerCapabilities(
     SublayerCapabilitiesData Data,
     SublayerCapabilitiesOperations Operations,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    SublayerCapabilitiesAttachment? Attachment = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SublayerCapabilitiesQueryRelated? QueryRelated = null);

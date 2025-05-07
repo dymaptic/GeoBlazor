@@ -10,7 +10,7 @@
 </p>
 <MapView OnLayerViewCreate="StateHasChanged" Class="map-view">
     <WebMap @ref="_webMap">
-        <PortalItem PortalItemId="31cfc5b138e24dee866c457948773ac4" />
+        <PortalItem PortalItemId="237b9584339446a0b56317b5962a4971" />
     </WebMap>
     <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
     <LegendWidget Position="OverlayPosition.TopRight" />
@@ -41,7 +41,11 @@
                                 <ul>
                                     @foreach (Graphic feature in features)
                                     {
-                                        <li>@(feature.Attributes.Values.FirstOrDefault())</li>
+                                        <li>
+                                            @(feature.Attributes.OrderBy(kvp => 
+                                                !kvp.Key.Contains("NAME", StringComparison.OrdinalIgnoreCase))
+                                                .First().Value)
+                                        </li>
                                     }
                                 </ul>
                             </div>
@@ -66,13 +70,13 @@
             return;
         }
 
-        FeatureSet? featureSet = await featureLayer.QueryFeatures(new Query(Where: "1=1"));
+        FeatureSet? featureSet = await featureLayer.QueryFeatures(new Query(Where: "1=1", OutFields: ["*"]));
         if (featureSet?.Features is null)
         {
             return;
         }
 
-        _featureLayerGraphics[featureLayer.Id] = featureSet.Features;
+        _featureLayerGraphics[featureLayer.Id] = featureSet.Features.ToArray();
         StateHasChanged();
     }
 

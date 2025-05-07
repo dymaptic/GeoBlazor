@@ -22,7 +22,9 @@ public partial class LayerListViewModel : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Whether to provide an indication if a layer is being published in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html#layerlistviewmodelcheckpublishstatusenabled-property">GeoBlazor Docs</a>
+    ///     Whether to provide an indication if a layer is being published in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a>.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#checkPublishStatusEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -32,6 +34,7 @@ public partial class LayerListViewModel : MapComponent
     public bool? CheckPublishStatusEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html#layerlistviewmodellistmodedisabled-property">GeoBlazor Docs</a>
     ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the layers to display all layers.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#listModeDisabled">ArcGIS Maps SDK for JavaScript</a>
@@ -42,6 +45,7 @@ public partial class LayerListViewModel : MapComponent
     public bool? ListModeDisabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html#layerlistviewmodeloperationalitems-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing operational layers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#operationalItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -51,8 +55,9 @@ public partial class LayerListViewModel : MapComponent
     public IReadOnlyList<ListItem>? OperationalItems { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html#layerlistviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -303,7 +308,10 @@ public partial class LayerListViewModel : MapComponent
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html#layerlistviewmodelmovelistitem-method">GeoBlazor Docs</a>
     ///     Moves a list item from one position to another in the LayerList widget.
+    ///     param fromParentItem If the `targetItem` is a child of a parent list item and you want to move it out of the parentItem, then use this parameter to indicate the parent item to move from.
+    ///     param newIndex The new index to move the `targetItem` to. If moving the item as a child to a parent item, then specify the index of the item within that parent.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#moveListItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="targetItem">
@@ -313,7 +321,7 @@ public partial class LayerListViewModel : MapComponent
     ///     If the <code>targetItem</code> is a child of a parent list item and you want to move it out of the parentItem, then use this parameter to indicate the parent item to move from.
     /// </param>
     /// <param name="toParentItem">
-    ///     The parent list item to move the <code>targetItem</code> to if moving it as a child to another parent item.
+    ///     The parent list item to move the `targetItem` to if moving it as a child to another parent item.
     /// </param>
     /// <param name="newIndex">
     ///     The new index to move the <code>targetItem</code> to. If moving the item as a child to a parent item, then specify the index of the item within that parent.
@@ -354,7 +362,10 @@ public partial class LayerListViewModel : MapComponent
     }
     
     /// <summary>
-    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#event-trigger-action">trigger-action</a> event and executes the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html#layerlistviewmodeltriggeraction-method">GeoBlazor Docs</a>
+    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#event-trigger-action">trigger-action</a> event and executes
+    ///     the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a>.
+    ///     param item An item associated with the action.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#triggerAction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="action">
@@ -417,6 +428,7 @@ public partial class LayerListViewModel : MapComponent
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html#layerlistviewmodelontriggeraction-property">GeoBlazor Docs</a>
     ///     Fires after the user clicks on an <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> inside the LayerList widget.
     ///     This event may be used to define a custom function to execute when particular
     ///     actions are clicked.

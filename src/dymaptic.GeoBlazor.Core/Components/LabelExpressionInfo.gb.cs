@@ -46,6 +46,7 @@ public partial class LabelExpressionInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LabelExpressionInfo.html#labelexpressioninfotitle-property">GeoBlazor Docs</a>
     ///     The title of the label expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

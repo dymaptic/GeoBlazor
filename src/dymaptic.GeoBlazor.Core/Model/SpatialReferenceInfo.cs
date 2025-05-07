@@ -2,6 +2,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///     The return object of <see cref = "GeometryEngine.ExtendedSpatialReferenceInfo"/>
 /// </summary>
+[CodeGenerationIgnore]
 public record SpatialReferenceInfo
 {
     /// <summary>

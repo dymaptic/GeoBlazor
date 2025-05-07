@@ -141,6 +141,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportscalculatevolume-property">GeoBlazor Docs</a>
     ///     Indicates if the elevation layer supports an operation to <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/calculate-volume.htm">compute volumes</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -150,6 +151,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsCalculateVolume { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportscomputehistograms-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports a <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/compute-histograms.htm">compute histograms</a> operation from an area of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +161,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsComputeHistograms { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportscomputepixellocation-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/compute-pixel-location.htm">computing pixel location</a> in pixel space.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -168,6 +171,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsComputePixelLocation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportscomputestatisticshistograms-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports an operation <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/compute-statistics-and-histograms.htm">computing statistics and histograms</a> from an area of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -177,6 +181,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsComputeStatisticsHistograms { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsdownload-property">GeoBlazor Docs</a>
     ///     Indicates if the layer allows the source image to be <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/download-rasters.htm">downloaded</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -186,6 +191,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsDownload { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsexportimage-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports an <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/export-image.htm">export image</a> operation based on a bounding box.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -195,6 +201,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsExportImage { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsfindimages-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports find images operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -204,6 +211,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsFindImages { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsgetimageurl-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports get image url operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -213,6 +221,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsGetImageUrl { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsgetsamples-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports a <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/get-samples.htm">sampling operation</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -222,6 +231,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsGetSamples { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsidentify-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-identify.html#identify">identify</a> operation on pixel values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -231,6 +241,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsIdentify { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsimagetomap-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports image to map operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -240,6 +251,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsImageToMap { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsimagetomapmultiray-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports image to map multiray operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -249,6 +261,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsImageToMapMultiray { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsmaptoimage-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports map to image operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -258,6 +271,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsMapToImage { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsmeasure-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports mensuration.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -267,6 +281,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsMeasure { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsproject-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/project.htm">projection of geometries</a>, including from/to image spatial reference.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -276,6 +291,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsProject { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsquery-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports an operation to <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/query-image-service-.htm">query images</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -285,6 +301,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsQuery { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsqueryboundary-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports an operation to <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/query-boundary.htm">query the service's boundary</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -294,6 +311,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     public bool? SupportsQueryBoundary { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesOperations.html#arcgisimageservicecapabilitiesoperationssupportsquerygpsinfo-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports an operation to <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/enterprise/query-gps-.htm">query the service's gps info</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

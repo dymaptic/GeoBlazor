@@ -12,6 +12,7 @@ public partial interface IAPIKeyMixin : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IAPIKeyMixin.html#iapikeymixinapikey-property">GeoBlazor Docs</a>
     ///     An authorization string used to access a resource or service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-APIKeyMixin.html#apiKey">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

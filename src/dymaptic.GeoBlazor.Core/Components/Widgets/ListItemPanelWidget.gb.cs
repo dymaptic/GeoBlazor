@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html">GeoBlazor Docs</a>
-///     This class allows you to display custom content for each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a> in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+///     This class allows you to display custom content for each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>
+///     in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ListItemPanelWidget
@@ -112,6 +113,7 @@ public partial class ListItemPanelWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgetcontent-property">GeoBlazor Docs</a>
     ///     The content displayed in the ListItem panel.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -121,6 +123,7 @@ public partial class ListItemPanelWidget
     public IReadOnlyList<ListItemPanelContent>? Content { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgetdisabled-property">GeoBlazor Docs</a>
     ///     If `true`, disables the ListItem's panel so the user cannot open or interact with it.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#disabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -130,6 +133,7 @@ public partial class ListItemPanelWidget
     public bool? Disabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgetflowenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the panel's content should be rendered as a <a target="_blank" href="https://developers.arcgis.com/calcite-design-system/components/flow-item/">Calcite Flow Item</a>.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#flowEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -140,6 +144,7 @@ public partial class ListItemPanelWidget
     public bool? FlowEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgetimage-property">GeoBlazor Docs</a>
     ///     The URL or data URI of an image used to represent the panel.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#image">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -149,6 +154,7 @@ public partial class ListItemPanelWidget
     public string? Image { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgetlistitem-property">GeoBlazor Docs</a>
     ///     The panel's parent ListItem that represents a layer in the map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#listItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +165,7 @@ public partial class ListItemPanelWidget
     public ListItem? ListItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgetopen-property">GeoBlazor Docs</a>
     ///     Indicates if the panel's content is open and visible to the user.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#open">ArcGIS Maps SDK for JavaScript</a>
@@ -169,6 +176,7 @@ public partial class ListItemPanelWidget
     public bool? Open { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgettitle-property">GeoBlazor Docs</a>
     ///     The title of the panel.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

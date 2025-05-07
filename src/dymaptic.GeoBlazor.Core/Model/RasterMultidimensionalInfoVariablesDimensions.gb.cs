@@ -15,6 +15,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The extent of dimension values.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#RasterMultidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="HasRanges">
+/// </param>
 /// <param name="HasRegularIntervals">
 ///     Indicates if the dimension is recorded at regular intervals.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#RasterMultidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -31,6 +33,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Dimension name.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#RasterMultidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Recurring">
+/// </param>
 /// <param name="Unit">
 ///     Dimension unit.
 ///     <a target="_blank" href="global.html#unit">ArcGIS Maps SDK for JavaScript</a>
@@ -45,6 +49,8 @@ public partial record RasterMultidimensionalInfoVariablesDimensions(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<double>? Extent = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? HasRanges = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? HasRegularIntervals = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Interval = null,
@@ -52,6 +58,8 @@ public partial record RasterMultidimensionalInfoVariablesDimensions(
     string? IntervalUnit = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? Recurring = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Unit = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

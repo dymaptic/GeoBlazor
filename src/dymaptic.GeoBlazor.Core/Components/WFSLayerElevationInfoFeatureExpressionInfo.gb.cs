@@ -45,6 +45,7 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfoFeatureExpressionInfo.html#wfslayerelevationinfofeatureexpressioninfoexpression-property">GeoBlazor Docs</a>
     ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#z-values">Arcade Feature Z Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
     public string? Expression { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfoFeatureExpressionInfo.html#wfslayerelevationinfofeatureexpressioninfotitle-property">GeoBlazor Docs</a>
     ///     Title of the expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

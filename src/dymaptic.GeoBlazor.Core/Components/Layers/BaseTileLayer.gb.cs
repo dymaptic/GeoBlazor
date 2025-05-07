@@ -30,9 +30,10 @@ public partial class BaseTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxScale">
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
@@ -51,7 +52,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// </param>
     /// <param name="spatialReference">
     ///     The spatial reference of the layer.
-    ///     default {link module:esri/geometry/SpatialReference#WebMercator SpatialReference.WebMercator}
+    ///     default <a target="_blank" href="module:esri/geometry/SpatialReference#WebMercator">SpatialReference.WebMercator</a>
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="arcGISLayerId">
@@ -75,11 +76,6 @@ public partial class BaseTileLayer : IBlendLayer,
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="tileInfo">
     ///     The tiling scheme information for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -89,7 +85,7 @@ public partial class BaseTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -110,7 +106,6 @@ public partial class BaseTileLayer : IBlendLayer,
         bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? opacity = null,
-        bool? persistenceEnabled = null,
         TileInfo? tileInfo = null,
         string? title = null,
         TimeExtent? visibilityTimeExtent = null,
@@ -129,7 +124,6 @@ public partial class BaseTileLayer : IBlendLayer,
         IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         Opacity = opacity;
-        PersistenceEnabled = persistenceEnabled;
         TileInfo = tileInfo;
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
@@ -141,8 +135,9 @@ public partial class BaseTileLayer : IBlendLayer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.BaseTileLayer.html#basetilelayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
-    ///     default {link module:esri/geometry/SpatialReference#WebMercator SpatialReference.WebMercator}
+    ///     default <a target="_blank" href="module:esri/geometry/SpatialReference#WebMercator">SpatialReference.WebMercator</a>
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -151,6 +146,7 @@ public partial class BaseTileLayer : IBlendLayer,
     public SpatialReference? SpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.BaseTileLayer.html#basetilelayertileinfo-property">GeoBlazor Docs</a>
     ///     The tiling scheme information for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -644,150 +640,9 @@ public partial class BaseTileLayer : IBlendLayer,
 #region Public Methods
 
     /// <summary>
-    ///     Adds a Promise to the layer's loadable chain.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#addResolvingPromise">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="promiseToLoad">
-    ///     A promise that must resolve for the layer to resolve and move from the <code>loading</code> <a href="#loadStatus">status</a> to being
-    ///     <a href="#loaded">loaded</a>.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<object?> AddResolvingPromise(object promiseToLoad)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<object?>(
-            "addResolvingPromise", 
-            CancellationTokenSource.Token,
-            promiseToLoad);
-    }
-    
-    /// <summary>
-    ///     This method fetches a tile for the given level, row and column present in the view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#fetchTile">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="level">
-    ///     Level of detail of the tile to fetch. This value is provided by <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
-    /// </param>
-    /// <param name="row">
-    ///     The row (y) position of the tile fetch. This value is provided by <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
-    /// </param>
-    /// <param name="col">
-    ///     The column (x) position of the tile to fetch. This value is provided by <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<ElementReference?> FetchTile(double level,
-        double row,
-        double col,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ElementReference? result = await JsComponentReference!.InvokeAsync<ElementReference?>(
-            "fetchTile", 
-            CancellationTokenSource.Token,
-            level,
-            row,
-            col,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     This method returns a URL to an image for a given level, row and column.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#getTileUrl">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="level">
-    ///     Level of detail. This value is provided by the
-    ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
-    /// </param>
-    /// <param name="row">
-    ///     Tile row. This value is provided by the
-    ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
-    /// </param>
-    /// <param name="col">
-    ///     Tile column. This value is provided by the
-    ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<string?> GetTileUrl(double level,
-        double row,
-        double col)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getTileUrl", 
-            CancellationTokenSource.Token,
-            level,
-            row,
-            col);
-    }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.BaseTileLayer.html#basetilelayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public override async ValueTask Refresh()
@@ -841,6 +696,7 @@ public partial class BaseTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.BaseTileLayer.html#basetilelayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>

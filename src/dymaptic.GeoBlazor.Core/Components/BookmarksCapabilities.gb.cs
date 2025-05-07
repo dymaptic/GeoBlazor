@@ -39,6 +39,7 @@ public partial class BookmarksCapabilities : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksCapabilities.html#bookmarkscapabilitiestime-property">GeoBlazor Docs</a>
     ///     Indicates whether the time capability is enabled in the Bookmarks widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarksCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

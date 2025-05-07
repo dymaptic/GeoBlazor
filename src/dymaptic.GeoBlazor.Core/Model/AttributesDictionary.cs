@@ -27,6 +27,47 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
 
         foreach (KeyValuePair<string, object?> kvp in dictionary)
         {
+            if (string.Equals(kvp.Key, "OBJECTID", StringComparison.OrdinalIgnoreCase))
+            {
+                if (kvp.Value is string objectIdString)
+                {
+                    _backingDictionary[kvp.Key] = new ObjectId(objectIdString);
+                }
+                else if (kvp.Value is long objectIdLong)
+                {
+                    _backingDictionary[kvp.Key] = new ObjectId(objectIdLong);
+                }
+                else if (kvp.Value is int objectIdInt)
+                {
+                    _backingDictionary[kvp.Key] = new ObjectId(objectIdInt);
+                }
+                else if (kvp.Value is JsonElement jsonObjectIdElement)
+                {
+                    if (jsonObjectIdElement.TryGetInt64(out long objectIdLong2))
+                    {
+                        _backingDictionary[kvp.Key] = new ObjectId(objectIdLong2);
+                    }
+                    else if (jsonObjectIdElement.ValueKind == JsonValueKind.String)
+                    {
+                        _backingDictionary[kvp.Key] = new ObjectId(jsonObjectIdElement.ToString());
+                    }
+                    else if (jsonObjectIdElement.ValueKind == JsonValueKind.Null)
+                    {
+                        _backingDictionary[kvp.Key] = null;
+                    }
+                }
+                else if (kvp.Value is null)
+                {
+                    _backingDictionary[kvp.Key] = null;
+                }
+                else
+                {
+                    _backingDictionary[kvp.Key] = kvp.Value;
+                }
+
+                continue;
+            }
+            
             if (kvp.Value is JsonElement jsonElement)
             {
                 object? typedValue = jsonElement.ValueKind switch
@@ -39,7 +80,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                     JsonValueKind.String => jsonElement.ToString(),
                     _ => jsonElement
                 };
-
+                
                 if (typedValue is double)
                 {
                     if (int.TryParse(jsonElement.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out int intVal))
@@ -91,6 +132,21 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                     _backingDictionary[record.Key] = null;
                     continue;
                 }
+
+                if (string.Equals("OBJECTID", record.Key, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (long.TryParse(record.Value, NumberStyles.None, CultureInfo.InvariantCulture, out long numVal))
+                    {
+                        _backingDictionary[record.Key] = new ObjectId(numVal);
+                    }
+                    else
+                    {
+                        _backingDictionary[record.Key] = new ObjectId(record.Value);
+                    }
+
+                    continue;
+                }
+                
                 switch (record.ValueType)
                 {
                     case "System.Int32":
@@ -282,7 +338,25 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
     /// </param>
     public async Task AddOrUpdate(string key, object? value)
     {
-        _backingDictionary[key] = value;
+        if (string.Equals("OBJECTID", key, StringComparison.OrdinalIgnoreCase))
+        {
+            if (value is string objectIdString)
+            {
+                _backingDictionary[key] = new ObjectId(objectIdString);
+            }
+            else if (value is long objectIdLong)
+            {
+                _backingDictionary[key] = new ObjectId(objectIdLong);
+            }
+            else
+            {
+                _backingDictionary[key] = value;
+            }
+        }
+        else
+        {
+            _backingDictionary[key] = value;
+        }
 
         if (OnChange is not null)
         {
@@ -300,6 +374,23 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
     {
         foreach (KeyValuePair<string, object> kvp in newEntries)
         {
+            if (string.Equals("OBJECTID", kvp.Key, StringComparison.OrdinalIgnoreCase))
+            {
+                if (kvp.Value is string objectIdString)
+                {
+                    _backingDictionary[kvp.Key] = new ObjectId(objectIdString);
+                }
+                else if (kvp.Value is long objectIdLong)
+                {
+                    _backingDictionary[kvp.Key] = new ObjectId(objectIdLong);
+                }
+                else
+                {
+                    _backingDictionary[kvp.Key] = kvp.Value;
+                }
+
+                continue;
+            }
             _backingDictionary[kvp.Key] = kvp.Value;
         }
 
@@ -416,6 +507,11 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
             .Select(kvp =>
             {
                 string valueType = kvp.Value?.GetType().ToString() ?? "null";
+                if (kvp.Value is ObjectId objectId)
+                {
+                    valueType = objectId.NumericVal is not null ? "long" : "string";
+                }
+                
                 string? stringVal = valueType switch
                 {
                     "System.DateTime" => ((DateTime)kvp.Value!).ToString("O", CultureInfo.InvariantCulture),
@@ -424,6 +520,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                     null => string.Empty,
                     _ => kvp.Value?.ToString()
                 };
+                
                 return new AttributeSerializationRecord(kvp.Key, stringVal, valueType!);
             })
             .ToArray();

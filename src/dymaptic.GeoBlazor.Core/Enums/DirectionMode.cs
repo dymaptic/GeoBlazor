@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.DirectionMode.html">GeoBlazor Docs</a>
-///     Enumeration for DirectionMode
+///     How direction values are displayed and, in case of input, how they are interpreted.
+///     default "relative"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchValueOptions.html#directionMode">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<DirectionMode>))]
 public enum DirectionMode

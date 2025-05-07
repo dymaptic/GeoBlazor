@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValue.html">GeoBlazor Docs</a>
-///     Defines combinations of values to expect from up to three fields of categorical data in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">UniqueValueRenderer</a>.
+///     Defines combinations of values to expect from up to three fields of categorical data
+///     in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">UniqueValueRenderer</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class UniqueValue : MapComponent
@@ -23,15 +24,21 @@ public partial class UniqueValue : MapComponent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="value">
-    ///     Defines a value (possibly in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">value2</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">value3</a>) returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">UniqueValueRenderer.field</a> or returned from an Arcade expression defined in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">UniqueValueRenderer.valueExpression</a> to be categorized in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
+    ///     Defines a value (possibly in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">value2</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">value3</a>) returned from the field
+    ///     referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">UniqueValueRenderer.field</a>
+    ///     or returned from an Arcade expression defined in
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">UniqueValueRenderer.valueExpression</a> to be categorized
+    ///     in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="value2">
-    ///     Defines a value returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field2">UniqueValueRenderer.field2</a> to be categorized in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">value</a> (and possibly <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">value3</a>) in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
+    ///     Defines a value returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field2">UniqueValueRenderer.field2</a>
+    ///     to be categorized in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">value</a> (and possibly <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">value3</a>) in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="value3">
-    ///     Defines a value returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field3">UniqueValueRenderer.field3</a> to be categorized in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">value</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">value2</a> in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
+    ///     Defines a value returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field3">UniqueValueRenderer.field3</a>
+    ///     to be categorized in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">value</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">value2</a> in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public UniqueValue(
@@ -51,7 +58,12 @@ public partial class UniqueValue : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Defines a value (possibly in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">value2</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">value3</a>) returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">UniqueValueRenderer.field</a> or returned from an Arcade expression defined in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">UniqueValueRenderer.valueExpression</a> to be categorized in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValue.html#uniquevaluevalue-property">GeoBlazor Docs</a>
+    ///     Defines a value (possibly in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">value2</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">value3</a>) returned from the field
+    ///     referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">UniqueValueRenderer.field</a>
+    ///     or returned from an Arcade expression defined in
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">UniqueValueRenderer.valueExpression</a> to be categorized
+    ///     in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -61,7 +73,9 @@ public partial class UniqueValue : MapComponent
     public string? Value { get; set; }
     
     /// <summary>
-    ///     Defines a value returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field2">UniqueValueRenderer.field2</a> to be categorized in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">value</a> (and possibly <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">value3</a>) in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValue.html#uniquevaluevalue2-property">GeoBlazor Docs</a>
+    ///     Defines a value returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field2">UniqueValueRenderer.field2</a>
+    ///     to be categorized in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">value</a> (and possibly <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">value3</a>) in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -71,7 +85,9 @@ public partial class UniqueValue : MapComponent
     public string? Value2 { get; set; }
     
     /// <summary>
-    ///     Defines a value returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field3">UniqueValueRenderer.field3</a> to be categorized in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">value</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">value2</a> in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValue.html#uniquevaluevalue3-property">GeoBlazor Docs</a>
+    ///     Defines a value returned from the field referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field3">UniqueValueRenderer.field3</a>
+    ///     to be categorized in combination with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">value</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">value2</a> in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">UniqueValueClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
