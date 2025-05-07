@@ -74,7 +74,7 @@ public partial class MediaPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
+        return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             ActiveMediaInfoIndex = ActiveMediaInfoIndex,
             Description = Description,

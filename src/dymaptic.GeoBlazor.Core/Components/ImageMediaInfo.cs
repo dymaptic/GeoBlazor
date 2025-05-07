@@ -18,7 +18,7 @@ public partial class ImageMediaInfo : MediaInfo
 
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
-        return new MediaInfoSerializationRecord("image-media")
+        return new MediaInfoSerializationRecord(Id.ToString(), "image-media")
         {
             AltText = AltText,
             Caption = Caption,

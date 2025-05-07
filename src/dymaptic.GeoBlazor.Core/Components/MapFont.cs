@@ -48,7 +48,7 @@ public partial class MapFont : MapComponent
 
     internal MapFontSerializationRecord ToSerializationRecord()
     {
-        return new MapFontSerializationRecord(Size?.Points, Family, Style?.ToString().ToKebabCase(), 
+        return new MapFontSerializationRecord(Id.ToString(), Size?.Points, Family, Style?.ToString().ToKebabCase(), 
             Weight?.ToString().ToKebabCase(), Decoration?.ToString().ToKebabCase());
     }
 }
@@ -60,13 +60,15 @@ internal record MapFontSerializationRecord
     {
     }
 
-    public MapFontSerializationRecord(double? Size, string? Family, string? FontStyle, string? Weight, string? decoration)
+    public MapFontSerializationRecord(string Id, double? Size, string? Family, string? FontStyle, string? Weight, 
+        string? Decoration)
     {
+        this.Id = Id;
         this.Size = Size;
         this.Family = Family;
         this.FontStyle = FontStyle;
         this.Weight = Weight;
-        this.Decoration = decoration;
+        this.Decoration = Decoration;
     }
 
     [ProtoMember(1)]
@@ -83,9 +85,19 @@ internal record MapFontSerializationRecord
 
     [ProtoMember(5)]
     public string? Decoration { get; init; }
+    
+    [ProtoMember(6)]
+    public string? Id { get; init; }
 
     public MapFont FromSerializationRecord()
     {
-        return new MapFont(Size, Family, FontStyle is null ? null : Enum.Parse<MapFontStyle>(FontStyle), Weight is null ? null : Enum.Parse<FontWeight>(Weight), Decoration is null ? null : Enum.Parse<TextDecoration>(Decoration));
+        Guid id = Guid.NewGuid();
+        if (Guid.TryParse(Id, out Guid guid))
+        {
+            id = guid;
+        }
+        return new MapFont(Size, Family, FontStyle is null ? null : Enum.Parse<MapFontStyle>(FontStyle), 
+            Weight is null ? null : Enum.Parse<FontWeight>(Weight), 
+            Decoration is null ? null : Enum.Parse<TextDecoration>(Decoration)) { Id = id };
     }
 }

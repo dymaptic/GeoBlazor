@@ -55,7 +55,7 @@ public partial class SimpleLineSymbol : LineSymbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), Color)
+        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
         {
             Width = Width?.Points, 
             Style = Style?.ToString().ToKebabCase()

@@ -63,7 +63,7 @@ public abstract partial class ActionBase : MapComponent
     /// <summary>
     ///     Specifies the type of action. Choose between "button" or "toggle".
     /// </summary>
-    public virtual string Type { get; } = default!;
+    public abstract string Type { get; }
     
     internal abstract ActionBaseSerializationRecord ToSerializationRecord();
 }
@@ -75,7 +75,7 @@ internal record ActionBaseSerializationRecord : MapComponentSerializationRecord
     {
     }
     
-    public ActionBaseSerializationRecord(Guid Id,
+    public ActionBaseSerializationRecord(string Id,
         string Type,
         string? Title,
         string? ClassName,
@@ -84,7 +84,7 @@ internal record ActionBaseSerializationRecord : MapComponentSerializationRecord
         bool? Visible,
         string? ActionId)
     {
-        this.Id = Id.ToString();
+        this.Id = Id;
         this.Type = Type;
         this.Title = Title;
         this.ClassName = ClassName;
@@ -132,10 +132,22 @@ internal record ActionBaseSerializationRecord : MapComponentSerializationRecord
 
     public ActionBase FromSerializationRecord()
     {
+        Guid id = Guid.NewGuid();
+        if (Guid.TryParse(Id, out Guid guidId))
+        {
+            id = guidId;
+        }
+        
         return Type switch
         {
-            "button" => new ActionButton(Title, Image, ActionId, null, ClassName, Active, Disabled, Visible),
-            "toggle" => new ActionToggle(Title, ActionId, null, Value, Active, Disabled, Visible),
+            "button" => new ActionButton(Title, Image, ActionId, null, ClassName, Active, Disabled, Visible)
+            {
+                Id = id
+            },
+            "toggle" => new ActionToggle(Title, ActionId, null, Value, Active, Disabled, Visible)
+            {
+                Id = id
+            },
             _ => throw new NotSupportedException()
         };
     }

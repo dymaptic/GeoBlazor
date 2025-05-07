@@ -58,7 +58,7 @@ public partial class FieldsPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
+        return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             FieldInfos = FieldInfos?.Select(i => i.ToSerializationRecord()).ToArray(), 
             Description = Description, Title = Title

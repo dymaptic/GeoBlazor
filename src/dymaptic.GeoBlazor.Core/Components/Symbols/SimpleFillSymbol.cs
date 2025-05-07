@@ -58,7 +58,7 @@ public partial class SimpleFillSymbol : FillSymbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), Color)
+        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
         {
             Outline = Outline?.ToSerializationRecord(), 
             Style = Style?.ToString().ToKebabCase()

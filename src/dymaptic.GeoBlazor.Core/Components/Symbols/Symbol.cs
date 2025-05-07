@@ -118,9 +118,11 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     {
     }
     
-    public SymbolSerializationRecord(string Type,
+    public SymbolSerializationRecord(string Id,
+        string Type,
         MapColor? Color)
     {
+        this.Id = Id;
         this.Type = Type;
         this.Color = Color;
     }
@@ -166,7 +168,7 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public double? HaloSize { get; init; }
 
     [ProtoMember(14)]
-    public MapFontSerializationRecord? MapFont { get; init; }
+    public MapFontSerializationRecord? Font { get; init; }
 
     [ProtoMember(15)]
     public double? Height { get; init; }
@@ -206,28 +208,52 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     
     [ProtoMember(27)]
     public double? YScale { get; init; }
+    
+    [ProtoMember(28)]
+    public string? Id { get; init; }
 
     public Symbol FromSerializationRecord(bool isOutline = false)
     {
+        Guid id = Guid.NewGuid();
+        if (Guid.TryParse(Id, out Guid guidId))
+        {
+            id = guidId;
+        }
+        
         return Type switch
         {
-            "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)),
+            "outline" => new Outline(Color, Width, 
+                LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
+            {
+                Id = id
+            },
             "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, Size, 
-                Style is null ? null : Enum.Parse<SimpleMarkerSymbolStyle>(Style!, true), Angle, Xoffset, Yoffset),
+                Style is null ? null : Enum.Parse<SimpleMarkerSymbolStyle>(Style!, true), Angle, Xoffset, Yoffset)
+            {
+                Id = id
+            },
             "simple-line" => isOutline 
-                ? new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
-                : new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)),
+                ? new Outline(Color, Width, 
+                    LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
+                {
+                    Id = id
+                }
+                : new SimpleLineSymbol(Color, Width, 
+                    LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
+                {
+                    Id = id
+                },
             "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, 
-                Style is null ? null : Enum.Parse<SimpleFillSymbolStyle>(Style!, true)),
-            "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, Xoffset, Yoffset),
+                Style is null ? null : Enum.Parse<SimpleFillSymbolStyle>(Style!, true)) { Id = id },
+            "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, Xoffset, Yoffset) { Id = id },
             "picture-fill" => new PictureFillSymbol(Url!, Width, Height, Xoffset, Yoffset, XScale, YScale, 
-                Outline?.FromSerializationRecord(true) as Outline),
+                Outline?.FromSerializationRecord(true) as Outline) { Id = id },
             "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
-                MapFont?.FromSerializationRecord(), Angle, BackgroundColor, BorderLineColor,
+                Font?.FromSerializationRecord(), Angle, BackgroundColor, BorderLineColor,
                 BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!, true),
                 Kerning, LineHeight, LineWidth, Rotated, 
                 VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!, true),
-                Xoffset, Yoffset),
+                Xoffset, Yoffset) { Id = id },
             _ => throw new ArgumentException($"Unknown symbol type: {Type}")
         };
     }

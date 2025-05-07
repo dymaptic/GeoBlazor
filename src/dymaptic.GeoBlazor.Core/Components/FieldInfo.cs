@@ -42,7 +42,8 @@ public partial class FieldInfo : MapComponent
 
     internal FieldInfoSerializationRecord ToSerializationRecord()
     {
-        return new FieldInfoSerializationRecord(FieldName, Label, Tooltip, StringFieldOption?.ToString().ToKebabCase(), Format?.ToSerializationRecord(), IsEditable, Visible);
+        return new FieldInfoSerializationRecord(Id.ToString(), FieldName, Label, Tooltip, 
+            StringFieldOption?.ToString().ToKebabCase(), Format?.ToSerializationRecord(), IsEditable, Visible);
     }
 }
 
@@ -53,8 +54,11 @@ internal record FieldInfoSerializationRecord : MapComponentSerializationRecord
     {
     }
 
-    public FieldInfoSerializationRecord(string? FieldName = null, string? Label = null, string? Tooltip = null, string? StringFieldOption = null, FieldInfoFormatSerializationRecord? Format = null, bool? IsEditable = null, bool? Visible = null)
+    public FieldInfoSerializationRecord(string Id, string? FieldName = null, string? Label = null, 
+        string? Tooltip = null, string? StringFieldOption = null, FieldInfoFormatSerializationRecord? Format = null, 
+        bool? IsEditable = null, bool? Visible = null)
     {
+        this.Id = Id;
         this.FieldName = FieldName;
         this.Label = Label;
         this.Tooltip = Tooltip;
@@ -66,6 +70,11 @@ internal record FieldInfoSerializationRecord : MapComponentSerializationRecord
 
     public FieldInfo FromSerializationRecord()
     {
+        Guid id = Guid.NewGuid();
+        if (Guid.TryParse(Id, out Guid guid))
+        {
+            id = guid;
+        }
         StringFieldOption? sfo = StringFieldOption switch
         {
             "rich-text" => Enums.StringFieldOption.RichText,
@@ -73,7 +82,10 @@ internal record FieldInfoSerializationRecord : MapComponentSerializationRecord
             "text-box" => Enums.StringFieldOption.TextBox,
             _ => null
         };
-        return new FieldInfo(FieldName, Label, Tooltip, sfo, Format?.FromSerializationRecord(), IsEditable, Visible);
+        return new FieldInfo(FieldName, Label, Tooltip, sfo, Format?.FromSerializationRecord(), IsEditable, Visible)
+        {
+            Id = id
+        };
     }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -103,4 +115,7 @@ internal record FieldInfoSerializationRecord : MapComponentSerializationRecord
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(7)]
     public bool? Visible { get; init; }
+
+    [ProtoMember(8)]
+    public string? Id { get; init; }
 }

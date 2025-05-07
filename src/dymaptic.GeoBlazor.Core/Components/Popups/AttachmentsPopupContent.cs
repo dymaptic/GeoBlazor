@@ -34,7 +34,7 @@ public partial class AttachmentsPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
+        return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             Description = Description,
             DisplayType = DisplayType?.ToString().ToKebabCase(),

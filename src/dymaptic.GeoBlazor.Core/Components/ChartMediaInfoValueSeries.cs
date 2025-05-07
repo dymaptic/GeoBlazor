@@ -27,7 +27,7 @@ public partial class ChartMediaInfoValueSeries : MapComponent
 
     internal ChartMediaInfoValueSeriesSerializationRecord ToSerializationRecord()
     {
-        return new ChartMediaInfoValueSeriesSerializationRecord(FieldName, Tooltip, Value);
+        return new ChartMediaInfoValueSeriesSerializationRecord(Id.ToString(), FieldName, Tooltip, Value);
     }
 }
 
@@ -38,8 +38,9 @@ internal record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSeria
     {
     }
 
-    public ChartMediaInfoValueSeriesSerializationRecord(string? FieldName, string? Tooltip, double? Value)
+    public ChartMediaInfoValueSeriesSerializationRecord(string Id, string? FieldName, string? Tooltip, double? Value)
     {
+        this.Id = Id;
         this.FieldName = FieldName;
         this.Tooltip = Tooltip;
         this.Value = Value;
@@ -47,7 +48,12 @@ internal record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSeria
 
     public ChartMediaInfoValueSeries FromSerializationRecord()
     {
-        return new ChartMediaInfoValueSeries(FieldName, Tooltip, Value);
+        Guid id = Guid.NewGuid();
+        if (Guid.TryParse(Id, out Guid guid))
+        {
+            id = guid;
+        }
+        return new ChartMediaInfoValueSeries(FieldName, Tooltip, Value) { Id = id };
     }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -61,4 +67,7 @@ internal record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSeria
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public double? Value { get; init; }
+    
+    [ProtoMember(4)]
+    public string? Id { get; init; }
 }

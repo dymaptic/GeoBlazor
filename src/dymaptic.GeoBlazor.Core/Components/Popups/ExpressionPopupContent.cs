@@ -16,7 +16,7 @@ public partial class ExpressionPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
+        return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             ExpressionInfo = ExpressionInfo
         };
