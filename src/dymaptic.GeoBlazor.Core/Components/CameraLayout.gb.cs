@@ -61,6 +61,7 @@ public partial class CameraLayout : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CameraLayout.html#cameralayoutcolumn-property">GeoBlazor Docs</a>
     ///     The active column a display client renders to in a tiled display setup.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-CameraLayout.html#column">ArcGIS Maps SDK for JavaScript</a>
@@ -71,6 +72,7 @@ public partial class CameraLayout : MapComponent
     public double? Column { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CameraLayout.html#cameralayoutcolumns-property">GeoBlazor Docs</a>
     ///     The number of columns to decompose the camera in a tiled display setup.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-CameraLayout.html#columns">ArcGIS Maps SDK for JavaScript</a>
@@ -81,6 +83,7 @@ public partial class CameraLayout : MapComponent
     public double? Columns { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CameraLayout.html#cameralayoutrow-property">GeoBlazor Docs</a>
     ///     The active row a display client renders to in a tiled display setup.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-CameraLayout.html#row">ArcGIS Maps SDK for JavaScript</a>
@@ -91,6 +94,7 @@ public partial class CameraLayout : MapComponent
     public double? Row { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CameraLayout.html#cameralayoutrows-property">GeoBlazor Docs</a>
     ///     The number of rows to decompose the camera in a tiled display setup.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-CameraLayout.html#rows">ArcGIS Maps SDK for JavaScript</a>

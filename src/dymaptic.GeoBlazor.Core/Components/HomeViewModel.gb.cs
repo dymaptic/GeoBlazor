@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html">GeoBlazor Docs</a>
-///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html">Home</a> widget that animates the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> to its initial <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> or a previously defined <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#viewpoint">viewpoint</a>.
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-home/">Home</a> component and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html">Home</a> widget that
+///     animates the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> to its
+///     initial <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> or a previously defined <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#viewpoint">viewpoint</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class HomeViewModel : IGoTo
@@ -27,7 +29,8 @@ public partial class HomeViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="viewpoint">
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a>, or point of view, to zoom to when going home.
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a>, or point of view, to zoom to when
+    ///     going home.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#viewpoint">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -46,8 +49,9 @@ public partial class HomeViewModel : IGoTo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html#homeviewmodelstate-property">GeoBlazor Docs</a>
     ///     The current state of the widget.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -56,7 +60,9 @@ public partial class HomeViewModel : IGoTo
     public HomeViewModelState? State { get; protected set; }
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a>, or point of view, to zoom to when going home.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html#homeviewmodelviewpoint-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a>, or point of view, to zoom to when
+    ///     going home.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#viewpoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -201,7 +207,9 @@ public partial class HomeViewModel : IGoTo
 #region Public Methods
 
     /// <summary>
-    ///     This function provides the ability to interrupt and cancel the process of navigating the view back to the view's initial extent.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html#homeviewmodelcancelgo-method">GeoBlazor Docs</a>
+    ///     This function provides the ability to interrupt and cancel the process
+    ///     of navigating the view back to the view's initial extent.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#cancelGo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
@@ -233,7 +241,9 @@ public partial class HomeViewModel : IGoTo
     }
     
     /// <summary>
-    ///     Animates the view to the initial <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> of the view or the value of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#viewpoint">viewpoint</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html#homeviewmodelgo-method">GeoBlazor Docs</a>
+    ///     Animates the view to the initial <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> of the view or the
+    ///     value of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#viewpoint">viewpoint</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#go">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
@@ -287,7 +297,11 @@ public partial class HomeViewModel : IGoTo
     }
     
     /// <summary>
-    ///     Fires when the <a href="#go">go()</a> method is called.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html#homeviewmodelongo-property">GeoBlazor Docs</a>
+    ///     Indicates whether there is an event listener on the instance that matches
+    ///     the provided event name.
+    ///     param type The name of the event.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#hasEventListener">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]
     [JsonIgnore]

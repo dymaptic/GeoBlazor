@@ -7,36 +7,36 @@ export async function buildJsFeatureEditsGenerated(dotNetObject: any, layerId: s
         return null;
     }
 
-    let jsFeatureLayerBaseApplyEditsEdits: any = {};
+    let jsFeatureLayerApplyEditsEdits: any = {};
     if (hasValue(dotNetObject.addAttachments) && dotNetObject.addAttachments.length > 0) {
         let { buildJsAttachmentEdit } = await import('./attachmentEdit');
-        jsFeatureLayerBaseApplyEditsEdits.addAttachments = await Promise.all(dotNetObject.addAttachments.map(async i => await buildJsAttachmentEdit(i, layerId, viewId))) as any;
+        jsFeatureLayerApplyEditsEdits.addAttachments = await Promise.all(dotNetObject.addAttachments.map(async i => await buildJsAttachmentEdit(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.addFeatures) && dotNetObject.addFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatureLayerBaseApplyEditsEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i)) as any;
+        jsFeatureLayerApplyEditsEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.deleteFeatures) && dotNetObject.deleteFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatureLayerBaseApplyEditsEdits.deleteFeatures = dotNetObject.deleteFeatures.map(i => buildJsGraphic(i)) as any;
+        jsFeatureLayerApplyEditsEdits.deleteFeatures = dotNetObject.deleteFeatures.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.updateAttachments) && dotNetObject.updateAttachments.length > 0) {
         let { buildJsAttachmentEdit } = await import('./attachmentEdit');
-        jsFeatureLayerBaseApplyEditsEdits.updateAttachments = await Promise.all(dotNetObject.updateAttachments.map(async i => await buildJsAttachmentEdit(i, layerId, viewId))) as any;
+        jsFeatureLayerApplyEditsEdits.updateAttachments = await Promise.all(dotNetObject.updateAttachments.map(async i => await buildJsAttachmentEdit(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.updateFeatures) && dotNetObject.updateFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatureLayerBaseApplyEditsEdits.updateFeatures = dotNetObject.updateFeatures.map(i => buildJsGraphic(i)) as any;
+        jsFeatureLayerApplyEditsEdits.updateFeatures = dotNetObject.updateFeatures.map(i => buildJsGraphic(i)) as any;
     }
 
     if (hasValue(dotNetObject.deleteAttachments) && dotNetObject.deleteAttachments.length > 0) {
-        jsFeatureLayerBaseApplyEditsEdits.deleteAttachments = dotNetObject.deleteAttachments;
+        jsFeatureLayerApplyEditsEdits.deleteAttachments = dotNetObject.deleteAttachments;
     }
     
-    jsObjectRefs[dotNetObject.id] = jsFeatureLayerBaseApplyEditsEdits;
-    arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseApplyEditsEdits;
+    jsObjectRefs[dotNetObject.id] = jsFeatureLayerApplyEditsEdits;
+    arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerApplyEditsEdits;
     
-    return jsFeatureLayerBaseApplyEditsEdits;
+    return jsFeatureLayerApplyEditsEdits;
 }
 
 

@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.Shading.html">GeoBlazor Docs</a>
-///     Enumeration for Shading
+///     Specifies the type of normals used for lighting.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#shading">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Shading>))]
 public enum Shading

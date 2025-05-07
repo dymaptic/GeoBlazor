@@ -13,4 +13,4 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record SelectionFilter(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<long>? ObjectIds = null) : IFeatureTableViewModelActiveFilters, IFeatureTableWidgetActiveFilters;
+    IReadOnlyCollection<ObjectId>? ObjectIds = null) : IFeatureTableViewModelActiveFilters, IFeatureTableWidgetActiveFilters;

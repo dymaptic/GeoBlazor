@@ -57,6 +57,7 @@ public partial class LOD
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LOD.html#lodlevel-property">GeoBlazor Docs</a>
     ///     ID for each level.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LOD.html#level">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

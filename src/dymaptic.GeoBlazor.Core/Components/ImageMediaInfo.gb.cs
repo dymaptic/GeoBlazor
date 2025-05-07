@@ -63,6 +63,7 @@ public partial class ImageMediaInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ImageMediaInfo.html#imagemediainfovalue-property">GeoBlazor Docs</a>
     ///     Defines the value format of the image media element and how the images should be retrieved.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

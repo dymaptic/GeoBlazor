@@ -5,18 +5,11 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.html">GeoBlazor Docs</a>
-///     PictureMarkerSymbol renders <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a> graphics in either a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or 3D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a> using an image.
+///     PictureMarkerSymbol renders <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a> graphics in either a
+///     2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or 3D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a> using an image.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureMarkerSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
-    IRouteStopSymbolsFirst,
-    IRouteStopSymbolsLast,
-    IRouteStopSymbolsMiddle,
-    IRouteStopSymbolsUnlocated,
-    IRouteStopSymbolsWaypoint,
-    IRouteSymbolsDirectionPoints,
-    IRouteSymbolsPointBarriers,
-    ISymbol2D,
+public partial class PictureMarkerSymbol : ISymbol2D,
     ISymbolsMarkerSymbol
 {
 
@@ -62,7 +55,7 @@ public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
     /// </param>
     /// <param name="color">
     ///     The color of the symbol.
-    ///     default black
+    ///     default "black"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html#color">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public PictureMarkerSymbol(
@@ -90,6 +83,7 @@ public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.html#picturemarkersymbolurl-property">GeoBlazor Docs</a>
     ///     The URL to an image or SVG document.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureMarkerSymbol.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

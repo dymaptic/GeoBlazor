@@ -23,7 +23,8 @@ public partial class LegendWidget
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="activeLayerInfos">
-    ///     Collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html">ActiveLayerInfo</a> objects used by the legend view to display data in the legend.
+    ///     Collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html">ActiveLayerInfo</a> objects used by the legend view to
+    ///     display data in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#activeLayerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="basemapLegendVisible">
@@ -40,18 +41,19 @@ public partial class LegendWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="hideLayersNotInCurrentView">
-    ///     When `true`, layers will only be shown in the legend if they are visible in the view's extent.
+    ///     When `true`, layers will only be shown in the legend if
+    ///     they are visible in the view's extent.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#hideLayersNotInCurrentView">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "legend"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="layerInfos">
     ///     Specifies a subset of the layers to display in the legend.
@@ -59,7 +61,7 @@ public partial class LegendWidget
     /// </param>
     /// <param name="legendStyle">
     ///     Indicates the style of the legend.
-    ///     default classic
+    ///     default "classic"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mapView">
@@ -69,18 +71,21 @@ public partial class LegendWidget
     ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="respectLayerDefinitionExpression">
-    ///     If a layer uses a unique value render, only features that satisfy the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#definitionExpression">definition expression</a> will be displayed in the legend when set to true.
+    ///     If a layer uses a unique value render, only features that satisfy the layer's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#definitionExpression">definition expression</a>
+    ///     will be displayed in the legend when set to true.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#respectLayerDefinitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="respectLayerVisibility">
-    ///     Determines whether to respect the properties of the layers in the map that control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
+    ///     Determines whether to respect the properties of the layers in the map that
+    ///     control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#respectLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="stringStyle">
     ///     Indicates the style of the legend.
-    ///     default classic
+    ///     default "classic"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="viewModel">
@@ -141,7 +146,9 @@ public partial class LegendWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html">ActiveLayerInfo</a> objects used by the legend view to display data in the legend.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetactivelayerinfos-property">GeoBlazor Docs</a>
+    ///     Collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html">ActiveLayerInfo</a> objects used by the legend view to
+    ///     display data in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#activeLayerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -150,6 +157,7 @@ public partial class LegendWidget
     public IReadOnlyList<ActiveLayerInfo>? ActiveLayerInfos { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetbasemaplegendvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to show the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> layers in the Legend.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#basemapLegendVisible">ArcGIS Maps SDK for JavaScript</a>
@@ -160,6 +168,7 @@ public partial class LegendWidget
     public bool? BasemapLegendVisible { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetheadinglevel-property">GeoBlazor Docs</a>
     ///     Indicates the heading level to use for the legend title.
     ///     default 3
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
@@ -170,7 +179,9 @@ public partial class LegendWidget
     public double? HeadingLevel { get; set; }
     
     /// <summary>
-    ///     When `true`, layers will only be shown in the legend if they are visible in the view's extent.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgethidelayersnotincurrentview-property">GeoBlazor Docs</a>
+    ///     When `true`, layers will only be shown in the legend if
+    ///     they are visible in the view's extent.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#hideLayersNotInCurrentView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -180,6 +191,7 @@ public partial class LegendWidget
     public bool? HideLayersNotInCurrentView { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetlayerinfos-property">GeoBlazor Docs</a>
     ///     Specifies a subset of the layers to display in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -189,8 +201,9 @@ public partial class LegendWidget
     public IReadOnlyList<LegendLayerInfos>? LayerInfos { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetlegendstyle-property">GeoBlazor Docs</a>
     ///     Indicates the style of the legend.
-    ///     default classic
+    ///     default "classic"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -199,7 +212,10 @@ public partial class LegendWidget
     public LegendStyle? LegendStyle { get; set; }
     
     /// <summary>
-    ///     If a layer uses a unique value render, only features that satisfy the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#definitionExpression">definition expression</a> will be displayed in the legend when set to true.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetrespectlayerdefinitionexpression-property">GeoBlazor Docs</a>
+    ///     If a layer uses a unique value render, only features that satisfy the layer's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#definitionExpression">definition expression</a>
+    ///     will be displayed in the legend when set to true.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#respectLayerDefinitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -209,7 +225,9 @@ public partial class LegendWidget
     public bool? RespectLayerDefinitionExpression { get; set; }
     
     /// <summary>
-    ///     Determines whether to respect the properties of the layers in the map that control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetrespectlayervisibility-property">GeoBlazor Docs</a>
+    ///     Determines whether to respect the properties of the layers in the map that
+    ///     control the legend's visibility (`minScale`, `maxScale`, `legendEnabled`).
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#respectLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -219,8 +237,9 @@ public partial class LegendWidget
     public bool? RespectLayerVisibility { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetstringstyle-property">GeoBlazor Docs</a>
     ///     Indicates the style of the legend.
-    ///     default classic
+    ///     default "classic"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -229,6 +248,7 @@ public partial class LegendWidget
     public string? StringStyle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

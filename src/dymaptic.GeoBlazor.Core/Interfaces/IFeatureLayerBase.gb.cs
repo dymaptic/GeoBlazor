@@ -11,24 +11,28 @@ public partial interface IFeatureLayerBase : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasecapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     FeatureLayerCapabilities? Capabilities { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasecopyright-property">GeoBlazor Docs</a>
     ///     Copyright information for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasedatefieldstimezone-property">GeoBlazor Docs</a>
     ///     The time zone that dates are stored in.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? DateFieldsTimeZone { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasedatesinunknowntimezone-property">GeoBlazor Docs</a>
     ///     This property is set by the service publisher and indicates that dates should be considered without the local timezone.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#datesInUnknownTimezone">ArcGIS Maps SDK for JavaScript</a>
@@ -36,84 +40,98 @@ public partial interface IFeatureLayerBase : IMapComponent
     bool? DatesInUnknownTimezone { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasedefinitionexpression-property">GeoBlazor Docs</a>
     ///     The SQL where clause used to filter features on the client.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? DefinitionExpression { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasedisplayfield-property">GeoBlazor Docs</a>
     ///     The name of the layer's primary display field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? DisplayField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseeditfieldsinfo-property">GeoBlazor Docs</a>
     ///     The editor tracking fields, which record who adds or edits the data through the feature service and when edits are made.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#editFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     EditFieldsInfo? EditFieldsInfo { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseeditinginfo-property">GeoBlazor Docs</a>
     ///     Specifies information about editing.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#editingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     EditingInfo? EditingInfo { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseeffectivecapabilities-property">GeoBlazor Docs</a>
     ///     Describes effective capabilities of the layer taking in to consideration privileges of the currently signed-in user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#effectiveCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     Capabilities? EffectiveCapabilities { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseeffectiveeditingenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer is editable taking in to consideration privileges of the currently signed-in user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#effectiveEditingEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     bool? EffectiveEditingEnabled { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseelevationinfo-property">GeoBlazor Docs</a>
     ///     Specifies how features are placed on the vertical axis (z).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     FeatureLayerBaseElevationInfo? ElevationInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasefieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a field by name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     FieldsIndex? FieldsIndex { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasefloorinfo-property">GeoBlazor Docs</a>
     ///     When a feature layer is configured as floor-aware, it has a floorInfo property defined.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#floorInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     LayerFloorInfo? FloorInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasefullextent-property">GeoBlazor Docs</a>
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     Extent? FullExtent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasegdbversion-property">GeoBlazor Docs</a>
     ///     The version of the geodatabase of the feature service data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#gdbVersion">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? GdbVersion { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasegeometryfieldsinfo-property">GeoBlazor Docs</a>
     ///     Provides information on the system maintained area and length fields along with their respective units.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#geometryFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     GeometryFieldsInfo? GeometryFieldsInfo { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasegeometrytype-property">GeoBlazor Docs</a>
     ///     The geometry type of features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     FeatureGeometryType? GeometryType { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasehasm-property">GeoBlazor Docs</a>
     ///     Indicates whether the client-side features in the layer have `M` (measurement) values.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#hasM">ArcGIS Maps SDK for JavaScript</a>
@@ -121,6 +139,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     bool? HasM { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasehasz-property">GeoBlazor Docs</a>
     ///     Indicates whether the client-side features in the layer have `Z` (elevation) values.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
@@ -128,12 +147,14 @@ public partial interface IFeatureLayerBase : IMapComponent
     bool? HasZ { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasehistoricmoment-property">GeoBlazor Docs</a>
     ///     The historic moment to query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     DateTime? HistoricMoment { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseistable-property">GeoBlazor Docs</a>
     ///     Returns `true` if the layer is loaded from a non-spatial table in a service.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#isTable">ArcGIS Maps SDK for JavaScript</a>
@@ -141,30 +162,35 @@ public partial interface IFeatureLayerBase : IMapComponent
     bool? IsTable { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaselayerindex-property">GeoBlazor Docs</a>
     ///     The layer ID, or layer index, of a Feature Service layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#layerId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     int? LayerIndex { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseobjectidfield-property">GeoBlazor Docs</a>
     ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? ObjectIdField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasepreferredtimezone-property">GeoBlazor Docs</a>
     ///     The IANA time zone the author of the service intended data from date fields to be viewed in.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#preferredTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? PreferredTimeZone { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaserelationships-property">GeoBlazor Docs</a>
     ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">relationships</a> set up for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#relationships">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     IReadOnlyList<Relationship>? Relationships { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasereturnm-property">GeoBlazor Docs</a>
     ///     When `true`, indicates that M values will be returned.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#returnM">ArcGIS Maps SDK for JavaScript</a>
@@ -172,6 +198,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     bool? ReturnM { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasereturnz-property">GeoBlazor Docs</a>
     ///     When `true`, indicates that z-values will always be returned.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
@@ -179,54 +206,63 @@ public partial interface IFeatureLayerBase : IMapComponent
     bool? ReturnZ { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseservicedefinitionexpression-property">GeoBlazor Docs</a>
     ///     The service definition expression limits the features available for display and query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#serviceDefinitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? ServiceDefinitionExpression { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseserviceitemid-property">GeoBlazor Docs</a>
     ///     Indicates the portal item of the hosted feature service that contains this layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#serviceItemId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? ServiceItemId { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasesourcejson-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/layer-feature-service-.htm">feature service's metadata JSON</a> exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    object? SourceJSON { get; set; }
+    string? SourceJSON { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasespatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     SpatialReference? SpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasesubtypefield-property">GeoBlazor Docs</a>
     ///     The name of the field which holds the id of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypes">subtypes</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypeField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? SubtypeField { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasesubtypes-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Subtype.html">subtypes</a> defined in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     IReadOnlyList<Subtype>? Subtypes { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasetitle-property">GeoBlazor Docs</a>
     ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseurl-property">GeoBlazor Docs</a>
     ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Url { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseversion-property">GeoBlazor Docs</a>
     ///     The version of ArcGIS Server in which the layer is published.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -314,12 +350,12 @@ public partial interface IFeatureLayerBase : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the SourceJSON property after render.
     /// </summary>
-    Task SetSourceJSON(object? value);
+    Task SetSourceJSON(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
-    Task SetSpatialReference(SpatialReference? value);
+    Task SetSpatialReference(SpatialReference value);
     
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
@@ -483,7 +519,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    Task<object?> GetSourceJSON();
+    Task<string?> GetSourceJSON();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
@@ -515,59 +551,6 @@ public partial interface IFeatureLayerBase : IMapComponent
     /// </summary>
     Task<double?> GetVersion();
 
-#endregion
-
-#region Public Methods
-
-    /// <summary>
-    ///     Query information about attachments associated with features.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#queryAttachments">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="attachmentQuery">
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    Task<AttachmentsQueryResult?> QueryAttachments(AttachmentQuery attachmentQuery,
-        CancellationToken cancellationToken = default);
-    
-    /// <summary>
-    ///     Saves the layer to its existing portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a> authenticated within the user's current session.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#save">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="options">
-    /// </param>
-    [ArcGISMethod]
-    Task<PortalItem?> Save(FeatureLayerBaseSaveOptions options);
-    
-    /// <summary>
-    ///     Saves the layer to a new portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a> authenticated within the user's current session.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="portalItem">
-    /// </param>
-    /// <param name="options">
-    /// </param>
-    [ArcGISMethod]
-    Task<PortalItem?> SaveAs(PortalItem portalItem,
-        FeatureLayerBaseSaveAsOptions options);
-    
-    /// <summary>
-    ///     Updates an existing attachment for a feature.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#updateAttachment">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="feature">
-    /// </param>
-    /// <param name="attachmentId">
-    /// </param>
-    /// <param name="attachment">
-    /// </param>
-    [ArcGISMethod]
-    Task<FeatureEditResult?> UpdateAttachment(Graphic feature,
-        long attachmentId,
-        ElementReference attachment);
-    
 #endregion
 
 }

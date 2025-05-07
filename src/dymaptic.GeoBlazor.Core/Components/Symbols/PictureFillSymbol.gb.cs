@@ -5,11 +5,11 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.PictureFillSymbol.html">GeoBlazor Docs</a>
-///     PictureFillSymbol uses an image in a repeating pattern to symbolize polygon features in a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     PictureFillSymbol uses an image in a repeating pattern to symbolize polygon features in a
+///     2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
-    ISymbol2D,
+public partial class PictureFillSymbol : ISymbol2D,
     ISymbolsFillSymbol
 {
 
@@ -62,7 +62,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
     /// </param>
     /// <param name="color">
     ///     The color of the symbol.
-    ///     default black
+    ///     default "black"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html#color">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public PictureFillSymbol(
@@ -83,14 +83,8 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         Height = height;
         Xoffset = xoffset;
         Yoffset = yoffset;
-        if (xScale is not null)
-        {
-            XScale = xScale.Value;
-        }
-        if (yScale is not null)
-        {
-            YScale = yScale.Value;
-        }
+        XScale = xScale;
+        YScale = yScale;
         Outline = outline;
         Color = color;
 #pragma warning restore BL0005    
@@ -100,6 +94,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.PictureFillSymbol.html#picturefillsymbolurl-property">GeoBlazor Docs</a>
     ///     The URL to the image.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -110,6 +105,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
     public string Url { get; set; } = null!;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.PictureFillSymbol.html#picturefillsymbolxscale-property">GeoBlazor Docs</a>
     ///     The scale factor on the x axis of the symbol.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html#xscale">ArcGIS Maps SDK for JavaScript</a>
@@ -120,6 +116,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
     public double? Xscale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.PictureFillSymbol.html#picturefillsymbolyscale-property">GeoBlazor Docs</a>
     ///     The scale factor on the y axis of the symbol.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html#yscale">ArcGIS Maps SDK for JavaScript</a>

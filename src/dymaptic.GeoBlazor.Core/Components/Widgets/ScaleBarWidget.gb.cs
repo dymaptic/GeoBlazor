@@ -27,12 +27,12 @@ public partial class ScaleBarWidget
     /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "actual-size"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mapView">
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
@@ -93,6 +93,7 @@ public partial class ScaleBarWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ScaleBarWidget.html#scalebarwidgetstyle-property">GeoBlazor Docs</a>
     ///     The style for the scale bar.
     ///     default "line"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html#style">ArcGIS Maps SDK for JavaScript</a>
@@ -103,6 +104,7 @@ public partial class ScaleBarWidget
     public ScaleBarWidgetStyle? Style { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ScaleBarWidget.html#scalebarwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -223,6 +225,11 @@ public partial class ScaleBarWidget
         
         if (result is not null)
         {
+            if (ViewModel is not null)
+            {
+                result.Id = ViewModel.Id;
+            }
+            
 #pragma warning disable BL0005
             ViewModel = result;
 #pragma warning restore BL0005

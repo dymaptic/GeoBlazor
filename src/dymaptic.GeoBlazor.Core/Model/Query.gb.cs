@@ -12,17 +12,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="CacheHint">
-///     Indicates if the service should cache the query results.
-///     default undefined
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#cacheHint">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
-/// <param name="DatumTransformation">
-///     Datum transformation used for projecting geometries in the query results when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Distance">
-///     Specifies a search distance from a given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a> in a spatial query.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#distance">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="DoubleDatumTransformation">
+///     Datum transformation used for projecting geometries in the query results when
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="GdbVersion">
 ///     Specifies the geodatabase version to display for feature service queries.
@@ -41,7 +37,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#groupByFieldsForStatistics">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Having">
-///     A condition used with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outStatistics">outStatistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#groupByFieldsForStatistics">groupByFieldsForStatistics</a> to limit query results to groups that satisfy the aggregation function(s).
+///     A condition used with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outStatistics">outStatistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#groupByFieldsForStatistics">groupByFieldsForStatistics</a>
+///     to limit query results to groups that
+///     satisfy the aggregation function(s).
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#having">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="HistoricMoment">
@@ -49,11 +47,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="MaxAllowableOffset">
-///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> used for generalizing geometries returned by the query operation.
+///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> used for
+///     generalizing geometries returned by the query operation.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#maxAllowableOffset">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="MaxRecordCountFactor">
-///     When set, the maximum number of features returned by the query will equal the `maxRecordCount` of the service multiplied by this factor.
+///     When set, the maximum number of features returned by the query will equal the
+///     `maxRecordCount` of the service multiplied by this factor.
 ///     default 1
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#maxRecordCountFactor">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
@@ -95,15 +95,27 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#pixelSize">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="QuantizationParameters">
-///     Used to project the geometry onto a virtual grid, likely representing pixels on the screen.
+///     Used to project the geometry onto a virtual grid, likely representing
+///     pixels on the screen.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#quantizationParameters">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="QueryCompositeTransformationDatumTransformation">
+///     Datum transformation used for projecting geometries in the query results when
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="QuerySimpleTransformationDatumTransformation">
+///     Datum transformation used for projecting geometries in the query results when
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="RangeValues">
 ///     Filters features from the layer that are within the specified range values.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#rangeValues">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="RelationParameter">
-///     The Dimensionally Extended 9 Intersection Model (DE-9IM) matrix relation (encoded as a string) to query the spatial relationship of the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a> to the layer's features.
+///     The Dimensionally Extended 9 Intersection Model (DE-9IM) matrix relation (encoded as a string) to query
+///     the spatial relationship of the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a> to the layer's features.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#relationParameter">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="ReturnCentroid">
@@ -117,7 +129,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnDistinctValues">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="ReturnExceededLimitFeatures">
-///     If `true`, then all features are returned for each tile request, even if they exceed the maximum record limit per query indicated on the service by `maxRecordCount`.
+///     If `true`, then all features are returned for each tile request, even if they exceed the
+///     maximum record limit per query indicated on the service by `maxRecordCount`.
 ///     default true
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnExceededLimitFeatures">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
@@ -140,13 +153,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SpatialRelationship">
-///     For spatial queries, this parameter defines the spatial relationship to query features in the layer or layer view against the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a>.
-///     default intersects
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SqlFormat">
 ///     This parameter can be either standard SQL92 `standard` or it can use the native SQL of the underlying datastore `native`.
-///     default none
+///     default "none"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#sqlFormat">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Start">
@@ -163,19 +173,14 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Units">
-///     The unit for calculating the buffer distance when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#distance">distance</a> is specified in spatial queries.
-///     default null
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#units">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Where">
-///     A where clause for the query.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#where">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record Query(
-    IReadOnlyCollection<long>? AggregateIds = null,
+    IReadOnlyCollection<string>? AggregateIds = null,
     bool? CacheHint = null,
-    double? DatumTransformation = null,
     double? Distance = null,
+    double? DoubleDatumTransformation = null,
     string? GdbVersion = null,
     Geometry? Geometry = null,
     int? GeometryPrecision = null,
@@ -186,14 +191,16 @@ public partial record Query(
     int? MaxRecordCountFactor = null,
     string? MultipatchOption = null,
     int? Num = null,
-    IReadOnlyList<long>? ObjectIds = null,
+    IReadOnlyCollection<ObjectId>? ObjectIds = null,
     IReadOnlyCollection<string>? OrderByFields = null,
     IReadOnlyCollection<string>? OutFields = null,
     SpatialReference? OutSpatialReference = null,
     IReadOnlyCollection<StatisticDefinition>? OutStatistics = null,
-    IReadOnlyCollection<QueryParameterValues>? ParameterValues = null,
+    Dictionary<string, object?>? ParameterValues = null,
     Point? PixelSize = null,
     QuantizationParameters? QuantizationParameters = null,
+    QueryCompositeTransformation? QueryCompositeTransformationDatumTransformation = null,
+    QuerySimpleTransformation? QuerySimpleTransformationDatumTransformation = null,
     IReadOnlyCollection<QueryRangeValues>? RangeValues = null,
     string? RelationParameter = null,
     bool? ReturnCentroid = null,
@@ -209,32 +216,30 @@ public partial record Query(
     string? Text = null,
     TimeExtent? TimeExtent = null,
     QueryUnits? Units = null,
-    string? Where = null)
+    string? Where = null) : IQueryMixin
 {
     /// <summary>
     ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<long>? AggregateIds { get; set; } = AggregateIds;
+    public IReadOnlyCollection<string>? AggregateIds { get; set; } = AggregateIds;
     
     /// <summary>
-    ///     Indicates if the service should cache the query results.
-    ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#cacheHint">ArcGIS Maps SDK for JavaScript</a>
+    ///     
     /// </summary>
     public bool? CacheHint { get; set; } = CacheHint;
     
     /// <summary>
-    ///     Datum transformation used for projecting geometries in the query results when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public double? DatumTransformation { get; set; } = DatumTransformation;
-    
-    /// <summary>
-    ///     Specifies a search distance from a given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a> in a spatial query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#distance">ArcGIS Maps SDK for JavaScript</a>
+    ///     
     /// </summary>
     public double? Distance { get; set; } = Distance;
+    
+    /// <summary>
+    ///     Datum transformation used for projecting geometries in the query results when
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? DoubleDatumTransformation { get; set; } = DoubleDatumTransformation;
     
     /// <summary>
     ///     Specifies the geodatabase version to display for feature service queries.
@@ -261,7 +266,9 @@ public partial record Query(
     public IReadOnlyCollection<string>? GroupByFieldsForStatistics { get; set; } = GroupByFieldsForStatistics;
     
     /// <summary>
-    ///     A condition used with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outStatistics">outStatistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#groupByFieldsForStatistics">groupByFieldsForStatistics</a> to limit query results to groups that satisfy the aggregation function(s).
+    ///     A condition used with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outStatistics">outStatistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#groupByFieldsForStatistics">groupByFieldsForStatistics</a>
+    ///     to limit query results to groups that
+    ///     satisfy the aggregation function(s).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#having">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Having { get; set; } = Having;
@@ -273,13 +280,15 @@ public partial record Query(
     public DateTime? HistoricMoment { get; set; } = HistoricMoment;
     
     /// <summary>
-    ///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> used for generalizing geometries returned by the query operation.
+    ///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> used for
+    ///     generalizing geometries returned by the query operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#maxAllowableOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? MaxAllowableOffset { get; set; } = MaxAllowableOffset;
     
     /// <summary>
-    ///     When set, the maximum number of features returned by the query will equal the `maxRecordCount` of the service multiplied by this factor.
+    ///     When set, the maximum number of features returned by the query will equal the
+    ///     `maxRecordCount` of the service multiplied by this factor.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#maxRecordCountFactor">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -301,7 +310,7 @@ public partial record Query(
     ///     An array of ObjectIDs to be used to query for features in a layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyList<long>? ObjectIds { get; set; } = ObjectIds;
+    public IReadOnlyCollection<ObjectId>? ObjectIds { get; set; } = ObjectIds;
     
     /// <summary>
     ///     One or more field names used to order the query results.
@@ -332,7 +341,7 @@ public partial record Query(
     ///     Filters features from the layer based on pre-authored parameterized filters.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<QueryParameterValues>? ParameterValues { get; set; } = ParameterValues;
+    public Dictionary<string, object?>? ParameterValues { get; set; } = ParameterValues;
     
     /// <summary>
     ///     Specifies the pixel level to be identified on the X and Y axis.
@@ -341,10 +350,25 @@ public partial record Query(
     public Point? PixelSize { get; set; } = PixelSize;
     
     /// <summary>
-    ///     Used to project the geometry onto a virtual grid, likely representing pixels on the screen.
+    ///     Used to project the geometry onto a virtual grid, likely representing
+    ///     pixels on the screen.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#quantizationParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public QuantizationParameters? QuantizationParameters { get; set; } = QuantizationParameters;
+    
+    /// <summary>
+    ///     Datum transformation used for projecting geometries in the query results when
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public QueryCompositeTransformation? QueryCompositeTransformationDatumTransformation { get; set; } = QueryCompositeTransformationDatumTransformation;
+    
+    /// <summary>
+    ///     Datum transformation used for projecting geometries in the query results when
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public QuerySimpleTransformation? QuerySimpleTransformationDatumTransformation { get; set; } = QuerySimpleTransformationDatumTransformation;
     
     /// <summary>
     ///     Filters features from the layer that are within the specified range values.
@@ -353,7 +377,8 @@ public partial record Query(
     public IReadOnlyCollection<QueryRangeValues>? RangeValues { get; set; } = RangeValues;
     
     /// <summary>
-    ///     The Dimensionally Extended 9 Intersection Model (DE-9IM) matrix relation (encoded as a string) to query the spatial relationship of the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a> to the layer's features.
+    ///     The Dimensionally Extended 9 Intersection Model (DE-9IM) matrix relation (encoded as a string) to query
+    ///     the spatial relationship of the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a> to the layer's features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#relationParameter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? RelationParameter { get; set; } = RelationParameter;
@@ -373,7 +398,8 @@ public partial record Query(
     public bool? ReturnDistinctValues { get; set; } = ReturnDistinctValues;
     
     /// <summary>
-    ///     If `true`, then all features are returned for each tile request, even if they exceed the maximum record limit per query indicated on the service by `maxRecordCount`.
+    ///     If `true`, then all features are returned for each tile request, even if they exceed the
+    ///     maximum record limit per query indicated on the service by `maxRecordCount`.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnExceededLimitFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -406,15 +432,13 @@ public partial record Query(
     public bool? ReturnZ { get; set; } = ReturnZ;
     
     /// <summary>
-    ///     For spatial queries, this parameter defines the spatial relationship to query features in the layer or layer view against the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a>.
-    ///     default intersects
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
+    ///     
     /// </summary>
     public SpatialRelationship? SpatialRelationship { get; set; } = SpatialRelationship;
     
     /// <summary>
     ///     This parameter can be either standard SQL92 `standard` or it can use the native SQL of the underlying datastore `native`.
-    ///     default none
+    ///     default "none"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#sqlFormat">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public SqlFormat? SqlFormat { get; set; } = SqlFormat;
@@ -439,15 +463,12 @@ public partial record Query(
     public TimeExtent? TimeExtent { get; set; } = TimeExtent;
     
     /// <summary>
-    ///     The unit for calculating the buffer distance when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#distance">distance</a> is specified in spatial queries.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#units">ArcGIS Maps SDK for JavaScript</a>
+    ///     
     /// </summary>
     public QueryUnits? Units { get; set; } = Units;
     
     /// <summary>
-    ///     A where clause for the query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#where">ArcGIS Maps SDK for JavaScript</a>
+    ///     
     /// </summary>
     public string? Where { get; set; } = Where;
     

@@ -81,6 +81,7 @@ public partial class AttachmentsVisibleElements : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsVisibleElements.html#attachmentsvisibleelementsaddbutton-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `Add` button which prompts the dialog to add a new attachment.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -90,6 +91,7 @@ public partial class AttachmentsVisibleElements : MapComponent
     public bool? AddButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsVisibleElements.html#attachmentsvisibleelementsaddsubmitbutton-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `add` button after selecting the attachment to add.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -99,6 +101,7 @@ public partial class AttachmentsVisibleElements : MapComponent
     public bool? AddSubmitButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsVisibleElements.html#attachmentsvisibleelementscanceladdbutton-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `cancel` button after selecting the attachment to add.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -108,6 +111,7 @@ public partial class AttachmentsVisibleElements : MapComponent
     public bool? CancelAddButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsVisibleElements.html#attachmentsvisibleelementscancelupdatebutton-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `cancel` button after selecting an attachment to update an existing attachment.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -117,6 +121,7 @@ public partial class AttachmentsVisibleElements : MapComponent
     public bool? CancelUpdateButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsVisibleElements.html#attachmentsvisibleelementsdeletebutton-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `delete` button to delete an existing attachment.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -126,6 +131,7 @@ public partial class AttachmentsVisibleElements : MapComponent
     public bool? DeleteButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsVisibleElements.html#attachmentsvisibleelementserrormessage-property">GeoBlazor Docs</a>
     ///     Indicates whether to display an error message if adding or updating an attachment results in errors.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -135,6 +141,7 @@ public partial class AttachmentsVisibleElements : MapComponent
     public bool? ErrorMessage { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsVisibleElements.html#attachmentsvisibleelementsprogressbar-property">GeoBlazor Docs</a>
     ///     Indicates whether to display a progress bar when adding an attachment.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -144,6 +151,7 @@ public partial class AttachmentsVisibleElements : MapComponent
     public bool? ProgressBar { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsVisibleElements.html#attachmentsvisibleelementsupdatebutton-property">GeoBlazor Docs</a>
     ///     Indicates whether to display an `update` button to allow updating on existing attachments.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

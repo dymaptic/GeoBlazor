@@ -9,13 +9,16 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class GeoJSONLayer : IBlendLayer,
+    IDisplayFilteredLayer,
     IFeatureEffectLayer,
+    IFeatureSetLayer,
     IFeatureTableWidgetLayers,
     IFeatureTemplatesViewModelLayers,
     IFeatureTemplatesWidgetLayers,
     IOperationalLayer,
     IOrderedLayer,
-    IScaleRangeLayer
+    IScaleRangeLayer,
+    ITrackableLayer
 {
 
     /// <summary>
@@ -38,9 +41,8 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widgets.
-    ///     default "GeoJSON"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#title">ArcGIS Maps SDK for JavaScript</a>
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
     ///     The opacity of the layer.
@@ -61,6 +63,10 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     The unique ID assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="attributeTableTemplate">
+    ///     This property is used to configure the associated layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html">FeatureTable</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#attributeTableTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
@@ -78,15 +84,20 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     The name of the layer's primary display field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="displayFilterEnabled">
+    /// </param>
+    /// <param name="displayFilterInfo">
+    /// </param>
     /// <param name="editingEnabled">
     ///     Indicates if the layer is editable.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#editingEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="elevationInfo">
     ///     Specifies how features are placed on the vertical axis (z).
@@ -94,11 +105,11 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     /// <param name="featureEffect">
     ///     The featureEffect can be used to draw attention features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureEffectLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureReduction">
-    ///     Configures the method for reducing the number of point features in the view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureReductionLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>
+    ///     Configures the method for reducing the number of features in the view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fields">
     ///     An array of fields in the layer.
@@ -116,7 +127,8 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="labelingInfo">
-    ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
+    ///     The label definition for this layer, specified as an array of
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#labelingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="labelsVisible">
@@ -146,7 +158,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="orderBy">
     ///     Determines the order in which features are drawn in the view.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OrderedLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="outFields">
     ///     An array of field names from the geoJSON file to include with each feature.
@@ -154,9 +166,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#outFields">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -199,22 +211,30 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeInfo">
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeOffset">
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="trackInfo">
+    ///     Allows you to render track data for a layer, including a track line, previous observations, and latest observations.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#trackInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="useViewTime">
-    ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     Determines if the layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -226,10 +246,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         bool? visible = null,
         ListMode? listMode = null,
         string? arcGISLayerId = null,
+        IAttributeTableTemplate? attributeTableTemplate = null,
         BlendMode? blendMode = null,
         Dictionary<string, object>? customParameters = null,
         string? definitionExpression = null,
         string? displayField = null,
+        bool? displayFilterEnabled = null,
+        DisplayFilterInfo? displayFilterInfo = null,
         bool? editingEnabled = null,
         Effect? effect = null,
         GeoJSONLayerElevationInfo? elevationInfo = null,
@@ -245,7 +268,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         double? maxScale = null,
         double? minScale = null,
         string? objectIdField = null,
-        IReadOnlyList<OrderedLayerOrderBy>? orderBy = null,
+        IReadOnlyList<OrderByInfo>? orderBy = null,
         IReadOnlyList<string>? outFields = null,
         bool? persistenceEnabled = null,
         bool? popupEnabled = null,
@@ -259,6 +282,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         TimeExtent? timeExtent = null,
         TimeInfo? timeInfo = null,
         TimeInterval? timeOffset = null,
+        TrackInfo? trackInfo = null,
         bool? useViewTime = null,
         TimeExtent? visibilityTimeExtent = null)
     {
@@ -271,10 +295,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         Visible = visible;
         ListMode = listMode;
         ArcGISLayerId = arcGISLayerId;
+        AttributeTableTemplate = attributeTableTemplate;
         BlendMode = blendMode;
         CustomParameters = customParameters;
         DefinitionExpression = definitionExpression;
         DisplayField = displayField;
+        DisplayFilterEnabled = displayFilterEnabled;
+        DisplayFilterInfo = displayFilterInfo;
         EditingEnabled = editingEnabled;
         Effect = effect;
         ElevationInfo = elevationInfo;
@@ -304,6 +331,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         TimeExtent = timeExtent;
         TimeInfo = timeInfo;
         TimeOffset = timeOffset;
+        TrackInfo = trackInfo;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
 #pragma warning restore BL0005    
@@ -313,6 +341,17 @@ public partial class GeoJSONLayer : IBlendLayer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerattributetabletemplate-property">GeoBlazor Docs</a>
+    ///     This property is used to configure the associated layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html">FeatureTable</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#attributeTableTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IAttributeTableTemplate? AttributeTableTemplate { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
@@ -323,6 +362,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public BlendMode? BlendMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -332,6 +372,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public GeoJSONLayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayercustomparameters-property">GeoBlazor Docs</a>
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -341,6 +382,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public Dictionary<string, object>? CustomParameters { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdatefieldstimezone-property">GeoBlazor Docs</a>
     ///     The time zone that dates are stored in.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -350,6 +392,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public string? DateFieldsTimeZone { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdefinitionexpression-property">GeoBlazor Docs</a>
     ///     The SQL where clause used to filter features on the client.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -359,6 +402,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public string? DefinitionExpression { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdisplayfield-property">GeoBlazor Docs</a>
     ///     The name of the layer's primary display field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -368,6 +412,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     public string? DisplayField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdisplayfilterenabled-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? DisplayFilterEnabled { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdisplayfilterinfo-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DisplayFilterInfo? DisplayFilterInfo { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayereditingenabled-property">GeoBlazor Docs</a>
     ///     Indicates if the layer is editable.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#editingEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -378,9 +441,11 @@ public partial class GeoJSONLayer : IBlendLayer,
     public bool? EditingEnabled { get; set; }
     
     /// <summary>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayereffect-property">GeoBlazor Docs</a>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -388,6 +453,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public Effect? Effect { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerelevationinfo-property">GeoBlazor Docs</a>
     ///     Specifies how features are placed on the vertical axis (z).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -397,8 +463,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     public GeoJSONLayerElevationInfo? ElevationInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerfeatureeffect-property">GeoBlazor Docs</a>
     ///     The featureEffect can be used to draw attention features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureEffectLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -406,6 +473,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public FeatureEffect? FeatureEffect { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerfields-property">GeoBlazor Docs</a>
     ///     An array of fields in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -415,6 +483,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public IReadOnlyList<Field>? Fields { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerfieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a field by name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -424,6 +493,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayergeometrytype-property">GeoBlazor Docs</a>
     ///     The geometry type of features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -433,6 +503,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public SimpleGeometryType? GeometryType { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerhasz-property">GeoBlazor Docs</a>
     ///     Indicates whether the client-side features in the layer have `Z` (elevation) values.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
@@ -443,6 +514,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public bool? HasZ { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeristable-property">GeoBlazor Docs</a>
     ///     Returns `true` if the layer is loaded from a non-spatial table in a service.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#isTable">ArcGIS Maps SDK for JavaScript</a>
@@ -453,7 +525,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     public bool? IsTable { get; protected set; }
     
     /// <summary>
-    ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerlabelinginfo-property">GeoBlazor Docs</a>
+    ///     The label definition for this layer, specified as an array of
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#labelingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -462,6 +536,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public IReadOnlyList<Label>? LabelingInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerlabelsvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to display labels for this layer.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#labelsVisible">ArcGIS Maps SDK for JavaScript</a>
@@ -472,6 +547,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public bool? LabelsVisible { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -482,6 +558,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public bool? LegendEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
@@ -492,6 +569,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public double? MaxScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
@@ -502,6 +580,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public double? MinScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerobjectidfield-property">GeoBlazor Docs</a>
     ///     The name of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -511,16 +590,18 @@ public partial class GeoJSONLayer : IBlendLayer,
     public string? ObjectIdField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerorderby-property">GeoBlazor Docs</a>
     ///     Determines the order in which features are drawn in the view.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OrderedLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<OrderedLayerOrderBy>? OrderBy { get; set; }
+    public IReadOnlyList<OrderByInfo>? OrderBy { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeroutfields-property">GeoBlazor Docs</a>
     ///     An array of field names from the geoJSON file to include with each feature.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#outFields">ArcGIS Maps SDK for JavaScript</a>
@@ -531,6 +612,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public IReadOnlyList<string>? OutFields { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerpopupenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to display popups when features in the layer are clicked.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -541,6 +623,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public bool? PopupEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerpopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -550,6 +633,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public PopupTemplate? PopupTemplate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item referencing the geojson file from which the GeoJSONLayer is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -559,6 +643,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerrefreshinterval-property">GeoBlazor Docs</a>
     ///     Refresh interval of the layer in minutes.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
@@ -569,6 +654,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public double? RefreshInterval { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerrenderer-property">GeoBlazor Docs</a>
     ///     The renderer assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -578,6 +664,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public Renderer? Renderer { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerscreensizeperspectiveenabled-property">GeoBlazor Docs</a>
     ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -588,6 +675,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public bool? ScreenSizePerspectiveEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
     ///     default SpatialReference.WGS84
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
@@ -598,6 +686,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public SpatialReference? SpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertemplates-property">GeoBlazor Docs</a>
     ///     An array of feature templates defined in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#templates">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -607,6 +696,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     public IReadOnlyList<IFeatureTemplate>? Templates { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertimeextent-property">GeoBlazor Docs</a>
     ///     The layer's time extent.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -616,7 +706,11 @@ public partial class GeoJSONLayer : IBlendLayer,
     public TimeExtent? TimeExtent { get; set; }
     
     /// <summary>
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertimeinfo-property">GeoBlazor Docs</a>
+    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -626,7 +720,8 @@ public partial class GeoJSONLayer : IBlendLayer,
     public TimeInfo? TimeInfo { get; set; }
     
     /// <summary>
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertimeoffset-property">GeoBlazor Docs</a>
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -636,6 +731,17 @@ public partial class GeoJSONLayer : IBlendLayer,
     public TimeInterval? TimeOffset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertrackinfo-property">GeoBlazor Docs</a>
+    ///     Allows you to render track data for a layer, including a track line, previous observations, and latest observations.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#trackInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TrackInfo? TrackInfo { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerurl-property">GeoBlazor Docs</a>
     ///     The URL of the GeoJSON file.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -646,7 +752,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     public string Url { get; set; } = null!;
     
     /// <summary>
-    ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeruseviewtime-property">GeoBlazor Docs</a>
+    ///     Determines if the layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -659,6 +767,45 @@ public partial class GeoJSONLayer : IBlendLayer,
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the AttributeTableTemplate property.
+    /// </summary>
+    public async Task<IAttributeTableTemplate?> GetAttributeTableTemplate()
+    {
+        if (CoreJsModule is null)
+        {
+            return AttributeTableTemplate;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return AttributeTableTemplate;
+        }
+
+        // get the property value
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>("getProperty",
+            CancellationTokenSource.Token, "attributeTableTemplate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AttributeTableTemplate = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+        }
+         
+        return AttributeTableTemplate;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -930,6 +1077,84 @@ public partial class GeoJSONLayer : IBlendLayer,
         }
          
         return DisplayField;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DisplayFilterEnabled property.
+    /// </summary>
+    public async Task<bool?> GetDisplayFilterEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return DisplayFilterEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DisplayFilterEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "displayFilterEnabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             DisplayFilterEnabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
+        }
+         
+        return DisplayFilterEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DisplayFilterInfo property.
+    /// </summary>
+    public async Task<DisplayFilterInfo?> GetDisplayFilterInfo()
+    {
+        if (CoreJsModule is null)
+        {
+            return DisplayFilterInfo;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DisplayFilterInfo;
+        }
+
+        DisplayFilterInfo? result = await JsComponentReference.InvokeAsync<DisplayFilterInfo?>(
+            "getDisplayFilterInfo", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            DisplayFilterInfo = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+        }
+        
+        return DisplayFilterInfo;
     }
     
     /// <summary>
@@ -1559,7 +1784,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
-    public async Task<IReadOnlyList<OrderedLayerOrderBy>?> GetOrderBy()
+    public async Task<IReadOnlyList<OrderByInfo>?> GetOrderBy()
     {
         if (CoreJsModule is null)
         {
@@ -1581,7 +1806,7 @@ public partial class GeoJSONLayer : IBlendLayer,
             return OrderBy;
         }
 
-        IReadOnlyList<OrderedLayerOrderBy>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>(
+        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>(
             "getOrderBy", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -1981,11 +2206,6 @@ public partial class GeoJSONLayer : IBlendLayer,
         
         if (result is not null)
         {
-            if (TimeExtent is not null)
-            {
-                result.Id = TimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -2074,6 +2294,45 @@ public partial class GeoJSONLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the TrackInfo property.
+    /// </summary>
+    public async Task<TrackInfo?> GetTrackInfo()
+    {
+        if (CoreJsModule is null)
+        {
+            return TrackInfo;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TrackInfo;
+        }
+
+        TrackInfo? result = await JsComponentReference.InvokeAsync<TrackInfo?>(
+            "getTrackInfo", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            TrackInfo = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+        }
+        
+        return TrackInfo;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
     public async Task<string?> GetUrl()
@@ -2155,6 +2414,43 @@ public partial class GeoJSONLayer : IBlendLayer,
 
 #region Property Setters
 
+    /// <summary>
+    ///    Asynchronously set the value of the AttributeTableTemplate property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetAttributeTableTemplate(IAttributeTableTemplate? value)
+    {
+#pragma warning disable BL0005
+        AttributeTableTemplate = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(AttributeTableTemplate)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "attributeTableTemplate", value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -2338,6 +2634,88 @@ public partial class GeoJSONLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DisplayFilterEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDisplayFilterEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        DisplayFilterEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DisplayFilterEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "displayFilterEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DisplayFilterInfo property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDisplayFilterInfo(DisplayFilterInfo? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        DisplayFilterInfo = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DisplayFilterInfo)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setDisplayFilterInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2828,11 +3206,11 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy>? value)
+    public async Task SetOrderBy(IReadOnlyList<OrderByInfo>? value)
     {
         if (value is not null)
         {
-            foreach (OrderedLayerOrderBy item in value)
+            foreach (OrderByInfo item in value)
             {
                 item.CoreJsModule = CoreJsModule;
                 item.Parent = this;
@@ -2905,6 +3283,43 @@ public partial class GeoJSONLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PersistenceEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPersistenceEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PersistenceEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PersistenceEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "persistenceEnabled", value);
     }
     
     /// <summary>
@@ -3371,6 +3786,51 @@ public partial class GeoJSONLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the TrackInfo property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTrackInfo(TrackInfo? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        TrackInfo = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(TrackInfo)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setTrackInfo", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
     /// <param name="value">
@@ -3482,9 +3942,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToOrderBy(params OrderedLayerOrderBy[] values)
+    public async Task AddToOrderBy(params OrderByInfo[] values)
     {
-        OrderedLayerOrderBy[] join = OrderBy is null
+        OrderByInfo[] join = OrderBy is null
             ? values
             : [..OrderBy, ..values];
         await SetOrderBy(join);
@@ -3561,7 +4021,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromOrderBy(params OrderedLayerOrderBy[] values)
+    public async Task RemoveFromOrderBy(params OrderByInfo[] values)
     {
         if (OrderBy is null)
         {
@@ -3607,371 +4067,7 @@ public partial class GeoJSONLayer : IBlendLayer,
 #region Public Methods
 
     /// <summary>
-    ///     Applies edits to features in a layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="edits">
-    ///     Object containing features to be added, updated or deleted.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<FeatureEditsResult?> ApplyEdits(GeoJSONLayerApplyEditsEdits edits)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<FeatureEditsResult?>(
-            "applyEdits", 
-            CancellationTokenSource.Token,
-            edits);
-    }
-    
-    /// <summary>
-    ///     Creates a popup template for the layer, populated with all the fields of the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#createPopupTemplate">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="options">
-    ///     Options for creating the popup template.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
-            "createPopupTemplate", 
-            CancellationTokenSource.Token,
-            options);
-    }
-    
-    /// <summary>
-    ///     Creates query parameter object that can be used to fetch features that satisfy the layer's configurations such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#definitionExpression">definitionExpression</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#createQuery">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<Query?> CreateQuery()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Query?>(
-            "createQuery", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">Field</a> instance for a field name (case-insensitive).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#getField">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="fieldName">
-    ///     Name of the field.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<Field?> GetField(string fieldName)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Field?>(
-            "getField", 
-            CancellationTokenSource.Token,
-            fieldName);
-    }
-    
-    /// <summary>
-    ///     Returns the Domain associated with the given field name.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="fieldName">
-    ///     Name of the field.
-    /// </param>
-    /// <param name="options">
-    ///     An object specifying additional options. See the object specification table below for the required properties of this object.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<Domain?> GetFieldDomain(string fieldName,
-        GeoJSONLayerGetFieldDomainOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Domain?>(
-            "getFieldDomain", 
-            CancellationTokenSource.Token,
-            fieldName,
-            options);
-    }
-    
-    /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of features that satisfy the query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryExtent">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<ExtentQueryResult?> QueryExtent(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ExtentQueryResult? result = await JsComponentReference!.InvokeAsync<ExtentQueryResult?>(
-            "queryExtent", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns the number of features that satisfy the query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<int?> QueryFeatureCount(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int? result = await JsComponentReference!.InvokeAsync<int?>(
-            "queryFeatureCount", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a>, which can be accessed using the `.then()` method once the promise resolves.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<FeatureSet?> QueryFeatures(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
-            "queryFeatures", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns an array of Object IDs for features that satisfy the input query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<long[]?> QueryObjectIds(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
-            "queryObjectIds", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -4027,6 +4123,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeronedits-property">GeoBlazor Docs</a>
     ///     Fires after <a href="#applyEdits">applyEdits()</a> is completed successfully.
     ///     The event payload includes only successful edits, not the failed edits.
     /// </summary>
@@ -4058,6 +4155,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>
@@ -4078,6 +4176,18 @@ public partial class GeoJSONLayer : IBlendLayer,
     {
         switch (child)
         {
+            case DisplayFilterInfo displayFilterInfo:
+                if (displayFilterInfo != DisplayFilterInfo)
+                {
+                    DisplayFilterInfo = displayFilterInfo;
+                    ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
             case GeoJSONLayerElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
@@ -4128,7 +4238,7 @@ public partial class GeoJSONLayer : IBlendLayer,
                 }
                 
                 return true;
-            case OrderedLayerOrderBy orderBy:
+            case OrderByInfo orderBy:
                 OrderBy ??= [];
                 if (!OrderBy.Contains(orderBy))
                 {
@@ -4225,6 +4335,18 @@ public partial class GeoJSONLayer : IBlendLayer,
                 }
                 
                 return true;
+            case TrackInfo trackInfo:
+                if (trackInfo != TrackInfo)
+                {
+                    TrackInfo = trackInfo;
+                    ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -4235,6 +4357,10 @@ public partial class GeoJSONLayer : IBlendLayer,
     {
         switch (child)
         {
+            case DisplayFilterInfo _:
+                DisplayFilterInfo = null;
+                ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                return true;
             case GeoJSONLayerElevationInfo _:
                 ElevationInfo = null;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
@@ -4251,7 +4377,7 @@ public partial class GeoJSONLayer : IBlendLayer,
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
-            case OrderedLayerOrderBy orderBy:
+            case OrderByInfo orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
                 return true;
@@ -4283,6 +4409,10 @@ public partial class GeoJSONLayer : IBlendLayer,
                 TimeOffset = null;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;
+            case TrackInfo _:
+                TrackInfo = null;
+                ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -4296,6 +4426,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             throw new MissingRequiredChildElementException(nameof(GeoJSONLayer), nameof(Url));
         }
+        DisplayFilterInfo?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         FeatureEffect?.ValidateRequiredGeneratedChildren();
         if (Fields is not null)
@@ -4314,7 +4445,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         }
         if (OrderBy is not null)
         {
-            foreach (OrderedLayerOrderBy child in OrderBy)
+            foreach (OrderByInfo child in OrderBy)
             {
                 child.ValidateRequiredGeneratedChildren();
             }
@@ -4326,6 +4457,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         TimeExtent?.ValidateRequiredGeneratedChildren();
         TimeInfo?.ValidateRequiredGeneratedChildren();
         TimeOffset?.ValidateRequiredGeneratedChildren();
+        TrackInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

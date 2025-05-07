@@ -16,9 +16,6 @@ export async function buildJsColorRampStopGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.label)) {
         jsColorRampStop.label = dotNetObject.label;
     }
-    if (hasValue(dotNetObject.offset)) {
-        jsColorRampStop.offset = dotNetObject.offset;
-    }
     if (hasValue(dotNetObject.value)) {
         jsColorRampStop.value = dotNetObject.value;
     }
@@ -44,10 +41,6 @@ export async function buildDotNetColorRampStopGenerated(jsObject: any, layerId: 
     
     if (hasValue(jsObject.label)) {
         dotNetColorRampStop.label = jsObject.label;
-    }
-    
-    if (hasValue(jsObject.offset)) {
-        dotNetColorRampStop.offset = jsObject.offset;
     }
     
     if (hasValue(jsObject.value)) {

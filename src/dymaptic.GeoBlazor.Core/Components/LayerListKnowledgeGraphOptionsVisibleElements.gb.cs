@@ -53,6 +53,7 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListKnowledgeGraphOptionsVisibleElements.html#layerlistknowledgegraphoptionsvisibleelementserrors-property">GeoBlazor Docs</a>
     ///     Indicates whether to display errors in the table list.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#knowledgeGraphOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -63,6 +64,7 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
     public bool? Errors { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListKnowledgeGraphOptionsVisibleElements.html#layerlistknowledgegraphoptionsvisibleelementsfilter-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the filter input box in the table list.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#knowledgeGraphOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -72,6 +74,7 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
     public bool? Filter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListKnowledgeGraphOptionsVisibleElements.html#layerlistknowledgegraphoptionsvisibleelementsstatusindicators-property">GeoBlazor Docs</a>
     ///     Indicates whether to display status indicators in the table list.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#knowledgeGraphOptions">ArcGIS Maps SDK for JavaScript</a>

@@ -1,6 +1,6 @@
 // override generated code in this file
 import SpatialReference from '@arcgis/core/geometry/SpatialReference';
-import {arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
+import {arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, generateSerializableJson} from "./arcGisJsInterop";
 
 
 export function buildDotNetSpatialReference(spatialReference: SpatialReference) {
@@ -34,7 +34,7 @@ export function buildDotNetSpatialReference(spatialReference: SpatialReference) 
         dotNetSpatialReference.isWrappable = spatialReference.isWrappable;
     }
     if (hasValue(spatialReference.imageCoordinateSystem)) {
-        dotNetSpatialReference.imageCoordinateSystem = spatialReference.imageCoordinateSystem;
+        dotNetSpatialReference.imageCoordinateSystem = generateSerializableJson(spatialReference.imageCoordinateSystem);
     }
 
     dotNetSpatialReference.id = lookupGeoBlazorId(spatialReference);

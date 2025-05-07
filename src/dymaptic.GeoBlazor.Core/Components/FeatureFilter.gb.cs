@@ -35,8 +35,9 @@ public partial class FeatureFilter
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="spatialRelationship">
-    ///     For spatial filters, this parameter defines the spatial relationship to filter features in the layer view against the filter <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>.
-    ///     default intersects
+    ///     For spatial filters, this parameter defines the spatial relationship to filter features in the layer view
+    ///     against the filter <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>.
+    ///     default "intersects"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeExtent">
@@ -56,7 +57,7 @@ public partial class FeatureFilter
     public FeatureFilter(
         double? distance = null,
         Geometry? geometry = null,
-        IReadOnlyList<long>? objectIds = null,
+        IReadOnlyList<ObjectId>? objectIds = null,
         SpatialRelationship? spatialRelationship = null,
         TimeExtent? timeExtent = null,
         QueryUnits? units = null,
@@ -78,15 +79,17 @@ public partial class FeatureFilter
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureFilter.html#featurefilterobjectids-property">GeoBlazor Docs</a>
     ///     An array of objectIds of the features to be filtered.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<long>? ObjectIds { get; set; }
+    public IReadOnlyList<ObjectId>? ObjectIds { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureFilter.html#featurefilterunits-property">GeoBlazor Docs</a>
     ///     The unit for calculating the buffer distance when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#distance">distance</a> is specified in a spatial filter.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#units">ArcGIS Maps SDK for JavaScript</a>
@@ -181,7 +184,7 @@ public partial class FeatureFilter
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIds property.
     /// </summary>
-    public async Task<IReadOnlyList<long>?> GetObjectIds()
+    public async Task<IReadOnlyList<ObjectId>?> GetObjectIds()
     {
         if (CoreJsModule is null)
         {
@@ -204,7 +207,7 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
+        IReadOnlyList<ObjectId>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ObjectId>?>("getProperty",
             CancellationTokenSource.Token, "objectIds");
         if (result is not null)
         {
@@ -286,11 +289,6 @@ public partial class FeatureFilter
         
         if (result is not null)
         {
-            if (TimeExtent is not null)
-            {
-                result.Id = TimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -470,7 +468,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetObjectIds(IReadOnlyList<long>? value)
+    public async Task SetObjectIds(IReadOnlyList<ObjectId>? value)
     {
 #pragma warning disable BL0005
         ObjectIds = value;
@@ -667,9 +665,9 @@ public partial class FeatureFilter
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToObjectIds(params long[] values)
+    public async Task AddToObjectIds(params ObjectId[] values)
     {
-        long[] join = ObjectIds is null
+        ObjectId[] join = ObjectIds is null
             ? values
             : [..ObjectIds, ..values];
         await SetObjectIds(join);
@@ -686,7 +684,7 @@ public partial class FeatureFilter
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromObjectIds(params long[] values)
+    public async Task RemoveFromObjectIds(params ObjectId[] values)
     {
         if (ObjectIds is null)
         {
@@ -700,7 +698,9 @@ public partial class FeatureFilter
 #region Public Methods
 
     /// <summary>
-    ///     Creates <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">query</a> parameters that can be used to fetch features that satisfy the layer's current filters and definitions.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureFilter.html#featurefiltercreatequery-method">GeoBlazor Docs</a>
+    ///     Creates <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">query</a> parameters that can be used to fetch features that
+    ///     satisfy the layer's current filters and definitions.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#createQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]

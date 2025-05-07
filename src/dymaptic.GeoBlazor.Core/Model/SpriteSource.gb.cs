@@ -7,9 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The sprite source returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setSpriteSource">setSpriteSource</a> method.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#SpriteSource">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-/// <param name="BaseUrl">
-///     The base URL of the sprites source.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#SpriteSource">ArcGIS Maps SDK for JavaScript</a>
+/// <param name="BaseURL">
 /// </param>
 /// <param name="DevicePixelRatio">
 ///     The device pixel ratio of the sprite source.
@@ -37,7 +35,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record SpriteSource(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? BaseUrl = null,
+    string? BaseURL = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? DevicePixelRatio = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -47,6 +45,6 @@ public partial record SpriteSource(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Stream? Image = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    object? LoadStatus = null,
+    LoadStatus? LoadStatus = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Width = null);

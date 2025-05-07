@@ -38,7 +38,7 @@
 /// </param>
 public record DomPointerEvent(long? PointerId, double? Width, double? Height, double? Pressure,
     double? TangentialPressure, double? TiltX, double? TiltY, double? Twist, PointerType? PointerType, bool? IsPrimary,
-    bool? IsTrusted);
+    bool? IsTrusted): IDomUiEvent;
     
     
 /// <summary>
@@ -120,4 +120,59 @@ public record DomMouseEvent(
     int ScreenY,
     bool ShiftKey,
     int X,
-    int Y);
+    int Y): IDomUiEvent;
+
+/// <summary>
+///     Represents the native keyboard event in the DOM.
+/// </summary>
+/// <param name="AltKey">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/altKey">MDN Reference</a>
+/// </param>
+/// <param name="CharCode">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/charCode">MDN Reference</a>
+/// </param>
+/// <param name="Code">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/code">MDN Reference</a>
+/// </param>
+/// <param name="CtrlKey">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/ctrlKey">MDN Reference</a>
+/// </param>
+/// <param name="IsComposing">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/isComposing">MDN Reference</a>
+/// </param>
+/// <param name="Key">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/key">MDN Reference</a>
+/// </param>
+/// <param name="KeyCode">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/keyCode">MDN Reference</a>
+/// </param>
+/// <param name="Location">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/location">MDN Reference</a>
+/// </param>
+/// <param name="MetaKey">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/metaKey">MDN Reference</a>
+/// </param>
+/// <param name="Repeat">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/repeat">MDN Reference</a>
+/// </param>
+/// <param name="ShiftKey">
+///     <a href="https://developer.mozilla.org/docs/Web/API/KeyboardEvent/shiftKey">MDN Reference</a>
+/// </param>
+public record DomKeyboardEvent(
+    bool AltKey,
+    int CharCode,
+    string Code,
+    bool CtrlKey,
+    bool IsComposing,
+    string Key,
+    int KeyCode,
+    int Location,
+    bool MetaKey,
+    bool Repeat,
+    bool ShiftKey
+): IDomUiEvent;
+    
+/// <summary>
+///     Interface for DOM UI events (keyboard, mouse, touch).
+/// </summary>
+public interface IDomUiEvent;

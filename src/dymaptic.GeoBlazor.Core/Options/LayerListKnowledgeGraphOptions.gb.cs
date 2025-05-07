@@ -39,6 +39,6 @@ public partial record LayerListKnowledgeGraphOptions(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? MinFilterItems = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? SelectionMode = null,
+    SelectionMode? SelectionMode = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     LayerListKnowledgeGraphOptionsVisibleElements? VisibleElements = null);

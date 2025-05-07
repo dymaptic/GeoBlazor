@@ -20,8 +20,7 @@ namespace dymaptic.GeoBlazor.Core.Results;
 /// </param>
 public partial record FeatureEditResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property:JsonConverter(typeof(NumberToStringConverter))]
-    string? ObjectId = null,
+    ObjectId? ObjectId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? GlobalId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

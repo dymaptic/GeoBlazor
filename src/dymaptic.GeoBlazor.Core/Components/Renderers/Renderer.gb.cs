@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html">GeoBlazor Docs</a>
-///     Renderers define how to visually represent each feature in one of the following layer types:
+///     Renderers define how to visually represent each feature in one of the following layer types:.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class Renderer
@@ -14,7 +14,11 @@ public abstract partial class Renderer
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Authoring metadata only included in renderers generated from one of the Smart Mapping creator methods, such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-size.html#createContinuousRenderer">sizeRendererCreator.createContinuousRenderer()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-color.html#createContinuousRenderer">colorRendererCreator.createContinuousRenderer()</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html#rendererauthoringinfo-property">GeoBlazor Docs</a>
+    ///     Authoring metadata only included in renderers generated from one of the
+    ///     Smart Mapping creator methods, such as
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-size.html#createContinuousRenderer">sizeRendererCreator.createContinuousRenderer()</a> or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-color.html#createContinuousRenderer">colorRendererCreator.createContinuousRenderer()</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html#authoringInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

@@ -42,6 +42,8 @@ public partial class PopupVisibleElements
     ///     Since 4.30. Indicates whether to display the group heading for a list of multiple features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="featureMenuHeading">
+    /// </param>
     /// <param name="heading">
     ///     Since 4.29. Indicates whether to display the widget heading.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
@@ -56,6 +58,7 @@ public partial class PopupVisibleElements
         bool? actionBar = null,
         bool? collapseButton = null,
         bool? featureListLayerTitle = null,
+        bool? featureMenuHeading = null,
         bool? heading = null,
         bool? spinner = null)
     {
@@ -66,6 +69,7 @@ public partial class PopupVisibleElements
         ActionBar = actionBar;
         CollapseButton = collapseButton;
         FeatureListLayerTitle = featureListLayerTitle;
+        FeatureMenuHeading = featureMenuHeading;
         Heading = heading;
         Spinner = spinner;
 #pragma warning restore BL0005    
@@ -75,6 +79,7 @@ public partial class PopupVisibleElements
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupVisibleElements.html#popupvisibleelementsactionbar-property">GeoBlazor Docs</a>
     ///     Since 4.29. Indicates whether to display the action bar that holds the feature's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#actions">actions</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +89,7 @@ public partial class PopupVisibleElements
     public bool? ActionBar { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupVisibleElements.html#popupvisibleelementsclosebutton-property">GeoBlazor Docs</a>
     ///     Indicates whether to display a close button on the widget dialog.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -93,6 +99,7 @@ public partial class PopupVisibleElements
     public bool? CloseButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupVisibleElements.html#popupvisibleelementscollapsebutton-property">GeoBlazor Docs</a>
     ///     Since 4.29. Indicates whether to display the collapse button on the widget dialog.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -102,6 +109,7 @@ public partial class PopupVisibleElements
     public bool? CollapseButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupVisibleElements.html#popupvisibleelementsfeaturelistlayertitle-property">GeoBlazor Docs</a>
     ///     Since 4.30. Indicates whether to display the group heading for a list of multiple features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -111,6 +119,16 @@ public partial class PopupVisibleElements
     public bool? FeatureListLayerTitle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupVisibleElements.html#popupvisibleelementsfeaturemenuheading-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? FeatureMenuHeading { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupVisibleElements.html#popupvisibleelementsfeaturenavigation-property">GeoBlazor Docs</a>
     ///     Indicates whether pagination for feature navigation will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -120,6 +138,7 @@ public partial class PopupVisibleElements
     public bool? FeatureNavigation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupVisibleElements.html#popupvisibleelementsheading-property">GeoBlazor Docs</a>
     ///     Since 4.29. Indicates whether to display the widget heading.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -129,6 +148,7 @@ public partial class PopupVisibleElements
     public bool? Heading { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupVisibleElements.html#popupvisibleelementsspinner-property">GeoBlazor Docs</a>
     ///     Since 4.29. Indicates whether to display the widget's loading spinner.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -295,6 +315,45 @@ public partial class PopupVisibleElements
         }
          
         return FeatureListLayerTitle;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FeatureMenuHeading property.
+    /// </summary>
+    public async Task<bool?> GetFeatureMenuHeading()
+    {
+        if (CoreJsModule is null)
+        {
+            return FeatureMenuHeading;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FeatureMenuHeading;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "featureMenuHeading");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             FeatureMenuHeading = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(FeatureMenuHeading)] = FeatureMenuHeading;
+        }
+         
+        return FeatureMenuHeading;
     }
     
     /// <summary>
@@ -564,6 +623,43 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureListLayerTitle", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FeatureMenuHeading property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFeatureMenuHeading(bool? value)
+    {
+#pragma warning disable BL0005
+        FeatureMenuHeading = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FeatureMenuHeading)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureMenuHeading", value);
     }
     
     /// <summary>

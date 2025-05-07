@@ -50,6 +50,8 @@ public partial class Capabilities : MapComponent
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">query</a> operations that can be performed on features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="queryAttributeBins">
+    /// </param>
     /// <param name="queryRelated">
     ///     Indicates if the layer's query operation supports querying features or records related to features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -66,6 +68,7 @@ public partial class Capabilities : MapComponent
         CapabilitiesMetadata? metadata = null,
         CapabilitiesOperations? operations = null,
         CapabilitiesQuery? query = null,
+        CapabilitiesQueryAttributeBins? queryAttributeBins = null,
         CapabilitiesQueryRelated? queryRelated = null,
         CapabilitiesQueryTopFeatures? queryTopFeatures = null)
     {
@@ -78,6 +81,7 @@ public partial class Capabilities : MapComponent
         Metadata = metadata;
         Operations = operations;
         Query = query;
+        QueryAttributeBins = queryAttributeBins;
         QueryRelated = queryRelated;
         QueryTopFeatures = queryTopFeatures;
 #pragma warning restore BL0005    
@@ -87,6 +91,7 @@ public partial class Capabilities : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesanalytics-property">GeoBlazor Docs</a>
     ///     Describes what analytics capabilities are enabled on the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +101,7 @@ public partial class Capabilities : MapComponent
     public CapabilitiesAnalytics? Analytics { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesattachment-property">GeoBlazor Docs</a>
     ///     Describes what attachment capabilities are enabled on the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -105,6 +111,7 @@ public partial class Capabilities : MapComponent
     public CapabilitiesAttachment? Attachment { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesdata-property">GeoBlazor Docs</a>
     ///     Describes characteristics of the data in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,6 +121,7 @@ public partial class Capabilities : MapComponent
     public CapabilitiesData? Data { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesediting-property">GeoBlazor Docs</a>
     ///     Describes editing capabilities that can be performed on the features in the layer via <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">applyEdits()</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -123,6 +131,7 @@ public partial class Capabilities : MapComponent
     public CapabilitiesEditing? Editing { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesmetadata-property">GeoBlazor Docs</a>
     ///     Describes the metadata contained on features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -132,6 +141,7 @@ public partial class Capabilities : MapComponent
     public CapabilitiesMetadata? Metadata { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesoperations-property">GeoBlazor Docs</a>
     ///     Describes operations that can be performed on features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -141,6 +151,7 @@ public partial class Capabilities : MapComponent
     public CapabilitiesOperations? Operations { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesquery-property">GeoBlazor Docs</a>
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">query</a> operations that can be performed on features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -150,6 +161,16 @@ public partial class Capabilities : MapComponent
     public CapabilitiesQuery? Query { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesqueryattributebins-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public CapabilitiesQueryAttributeBins? QueryAttributeBins { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesqueryrelated-property">GeoBlazor Docs</a>
     ///     Indicates if the layer's query operation supports querying features or records related to features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +180,7 @@ public partial class Capabilities : MapComponent
     public CapabilitiesQueryRelated? QueryRelated { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesquerytopfeatures-property">GeoBlazor Docs</a>
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html">top features query</a> operations that can be performed on features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -442,6 +464,45 @@ public partial class Capabilities : MapComponent
         }
          
         return Query;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the QueryAttributeBins property.
+    /// </summary>
+    public async Task<CapabilitiesQueryAttributeBins?> GetQueryAttributeBins()
+    {
+        if (CoreJsModule is null)
+        {
+            return QueryAttributeBins;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return QueryAttributeBins;
+        }
+
+        CapabilitiesQueryAttributeBins? result = await JsComponentReference.InvokeAsync<CapabilitiesQueryAttributeBins?>(
+            "getQueryAttributeBins", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            QueryAttributeBins = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
+        }
+        
+        return QueryAttributeBins;
     }
     
     /// <summary>
@@ -834,6 +895,51 @@ public partial class Capabilities : MapComponent
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the QueryAttributeBins property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetQueryAttributeBins(CapabilitiesQueryAttributeBins? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        QueryAttributeBins = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(QueryAttributeBins)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "queryAttributeBins", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the QueryRelated property after render.
     /// </summary>
     /// <param name="value">
@@ -979,6 +1085,14 @@ public partial class Capabilities : MapComponent
                 }
                 
                 return true;
+            case CapabilitiesQueryAttributeBins queryAttributeBins:
+                if (queryAttributeBins != QueryAttributeBins)
+                {
+                    QueryAttributeBins = queryAttributeBins;
+                    ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
+                }
+                
+                return true;
             case CapabilitiesQueryRelated queryRelated:
                 if (queryRelated != QueryRelated)
                 {
@@ -1029,6 +1143,10 @@ public partial class Capabilities : MapComponent
                 Operations = null;
                 ModifiedParameters[nameof(Operations)] = Operations;
                 return true;
+            case CapabilitiesQueryAttributeBins _:
+                QueryAttributeBins = null;
+                ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
+                return true;
             case CapabilitiesQueryRelated _:
                 QueryRelated = null;
                 ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
@@ -1052,6 +1170,7 @@ public partial class Capabilities : MapComponent
         Editing?.ValidateRequiredGeneratedChildren();
         Metadata?.ValidateRequiredGeneratedChildren();
         Operations?.ValidateRequiredGeneratedChildren();
+        QueryAttributeBins?.ValidateRequiredGeneratedChildren();
         QueryRelated?.ValidateRequiredGeneratedChildren();
         QueryTopFeatures?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

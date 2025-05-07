@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterSensorInfo.html">GeoBlazor Docs</a>
-///     The `RasterSensorInfo` class provides additional information on the raster sensor associated with an image service referenced by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#serviceRasterInfo">ImageryLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#rasterInfo">ImageryTileLayer</a>.
+///     The `RasterSensorInfo` class provides additional information on the raster sensor associated with an image service
+///     referenced by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#serviceRasterInfo">ImageryLayer</a> or
+///     module:esri/layers/ImageryTileLayer#rasterInfo.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterSensorInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class RasterSensorInfo : MapComponent
@@ -81,6 +83,7 @@ public partial class RasterSensorInfo : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterSensorInfo.html#rastersensorinfoacquisitiondate-property">GeoBlazor Docs</a>
     ///     The acquisition date.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterSensorInfo.html#acquisitionDate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -90,6 +93,7 @@ public partial class RasterSensorInfo : MapComponent
     public DateTime? AcquisitionDate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterSensorInfo.html#rastersensorinfocloudcover-property">GeoBlazor Docs</a>
     ///     The cloud coverage (0-1).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterSensorInfo.html#cloudCover">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -99,6 +103,7 @@ public partial class RasterSensorInfo : MapComponent
     public double? CloudCover { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterSensorInfo.html#rastersensorinfoproductname-property">GeoBlazor Docs</a>
     ///     The satellite product name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterSensorInfo.html#productName">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -108,6 +113,7 @@ public partial class RasterSensorInfo : MapComponent
     public string? ProductName { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterSensorInfo.html#rastersensorinfosensorazimuth-property">GeoBlazor Docs</a>
     ///     The sensor azimuth.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterSensorInfo.html#sensorAzimuth">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -117,6 +123,7 @@ public partial class RasterSensorInfo : MapComponent
     public double? SensorAzimuth { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterSensorInfo.html#rastersensorinfosensorelevation-property">GeoBlazor Docs</a>
     ///     The sensor elevation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterSensorInfo.html#sensorElevation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -126,6 +133,7 @@ public partial class RasterSensorInfo : MapComponent
     public double? SensorElevation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterSensorInfo.html#rastersensorinfosensorname-property">GeoBlazor Docs</a>
     ///     The sensor name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterSensorInfo.html#sensorName">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -135,6 +143,7 @@ public partial class RasterSensorInfo : MapComponent
     public string? SensorName { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterSensorInfo.html#rastersensorinfosunazimuth-property">GeoBlazor Docs</a>
     ///     The sun azimuth.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterSensorInfo.html#sunAzimuth">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -144,6 +153,7 @@ public partial class RasterSensorInfo : MapComponent
     public double? SunAzimuth { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterSensorInfo.html#rastersensorinfosunelevation-property">GeoBlazor Docs</a>
     ///     The sun elevation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterSensorInfo.html#sunElevation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

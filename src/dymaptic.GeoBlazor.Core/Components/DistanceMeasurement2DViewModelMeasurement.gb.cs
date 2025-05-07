@@ -45,6 +45,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModelMeasurement.html#distancemeasurement2dviewmodelmeasurementgeometry-property">GeoBlazor Docs</a>
     ///     Measurement line.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     public Polyline? Geometry { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModelMeasurement.html#distancemeasurement2dviewmodelmeasurementlength-property">GeoBlazor Docs</a>
     ///     Line length (m).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -82,6 +82,10 @@ export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any):
         dotNetCapabilitiesOperations.supportsQueryTopFeatures = jsObject.supportsQueryTopFeatures;
     }
     
+    if (hasValue(jsObject.supportsResizeAttachments)) {
+        dotNetCapabilitiesOperations.supportsResizeAttachments = jsObject.supportsResizeAttachments;
+    }
+    
     if (hasValue(jsObject.supportsUpdate)) {
         dotNetCapabilitiesOperations.supportsUpdate = jsObject.supportsUpdate;
     }

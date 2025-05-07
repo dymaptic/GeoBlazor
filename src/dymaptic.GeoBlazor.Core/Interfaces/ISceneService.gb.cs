@@ -11,30 +11,35 @@ public partial interface ISceneService : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISceneService.html#isceneservicecopyright-property">GeoBlazor Docs</a>
     ///     The copyright text as defined by the scene service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SceneService.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISceneService.html#isceneservicesceneservicelayerid-property">GeoBlazor Docs</a>
     ///     The layer ID, or layer index, of a Scene Service layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SceneService.html#layerId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     long? SceneServiceLayerId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISceneService.html#isceneservicespatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SceneService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     SpatialReference? SpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISceneService.html#isceneserviceurl-property">GeoBlazor Docs</a>
     ///     The URL of the REST endpoint of the layer or scene service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SceneService.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Url { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISceneService.html#isceneserviceversion-property">GeoBlazor Docs</a>
     ///     The version of the scene service specification used for this service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SceneService.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -57,7 +62,7 @@ public partial interface ISceneService : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
-    Task SetSpatialReference(SpatialReference? value);
+    Task SetSpatialReference(SpatialReference value);
     
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.

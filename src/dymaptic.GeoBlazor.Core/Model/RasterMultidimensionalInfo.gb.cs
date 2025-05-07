@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RasterMultidimensionalInfo.html">GeoBlazor Docs</a>
-///     RasterMultidimensionalInfo contains dimensions for each variable in the service describing information about the images collected at multiple times, depths, or heights.
+///     RasterMultidimensionalInfo contains dimensions for each variable in the service  describing information about the images collected at multiple times, depths, or heights.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#RasterMultidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Variables">

@@ -51,6 +51,7 @@ public partial class UniqueValueInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueInfo.html#uniquevalueinfosymbol-property">GeoBlazor Docs</a>
     ///     Defines the symbol used to render features with the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueInfo.html#value">value</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueInfo.html#symbol">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

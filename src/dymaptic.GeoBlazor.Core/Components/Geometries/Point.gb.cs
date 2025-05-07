@@ -47,7 +47,7 @@ public partial class Point
     /// </param>
     /// <param name="spatialReference">
     ///     The spatial reference of the geometry.
-    ///     default WGS84 (wkid: 4326)
+    ///     default SpatialReference.WGS84 // wkid: 4326
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="hasM">
@@ -556,6 +556,7 @@ public partial class Point
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Point.html#pointcopy-method">GeoBlazor Docs</a>
     ///     Copies all values from another Point instance.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#copy">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -592,6 +593,7 @@ public partial class Point
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Point.html#pointdistance-method">GeoBlazor Docs</a>
     ///     Computes the Euclidean distance between this Point and a given Point.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#distance">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -628,7 +630,9 @@ public partial class Point
     }
     
     /// <summary>
-    ///     Modifies the point geometry in-place by shifting the X-coordinate to within +/- 180 span in map units.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Point.html#pointnormalize-method">GeoBlazor Docs</a>
+    ///     Modifies the point geometry in-place by shifting the X-coordinate to within
+    ///     +/- 180 span in map units.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#normalize">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]

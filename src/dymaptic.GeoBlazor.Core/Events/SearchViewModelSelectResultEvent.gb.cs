@@ -10,7 +10,8 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     An object containing the results of the search.
 /// </param>
 /// <param name="Source">
-///     The source of the selected result. Please see <a href="#sources">sources</a> for additional information on its properties.
+///     The source of the selected result. Please see <a href="#sources">sources</a> for
+///     additional information on its properties.
 /// </param>
 /// <param name="SourceIndex">
 ///     The index of the source of the selected result.

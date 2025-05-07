@@ -31,7 +31,7 @@ export function buildJsSymbol(symbol: any): any {
     }
 }
 
-export function buildDotNetSymbol(symbol: Symbol): any {
+export function buildDotNetSymbol(symbol: Symbol | null | undefined): any {
     if (!hasValue(symbol)) {
         return null;
     }

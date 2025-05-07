@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerView.html">GeoBlazor Docs</a>
-///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">KMLLayer</a> after it has been added to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">KMLLayer</a>
+///     after it has been added to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class KMLLayerView : LayerView
@@ -40,6 +41,7 @@ public partial class KMLLayerView : LayerView
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerView.html#kmllayerviewallvisiblemapimages-property">GeoBlazor Docs</a>
     ///     A collection of all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">MapImages</a> from visible sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#allVisibleMapImages">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -49,6 +51,7 @@ public partial class KMLLayerView : LayerView
     public IReadOnlyList<KMLLayerViewMapImage>? AllVisibleMapImages { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerView.html#kmllayerviewallvisiblepoints-property">GeoBlazor Docs</a>
     ///     A collection of graphics representing all the points from visible sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#allVisiblePoints">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -58,6 +61,7 @@ public partial class KMLLayerView : LayerView
     public IReadOnlyList<Graphic>? AllVisiblePoints { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerView.html#kmllayerviewallvisiblepolygons-property">GeoBlazor Docs</a>
     ///     A collection of graphics representing all the polygons from visible sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#allVisiblePolygons">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -67,6 +71,7 @@ public partial class KMLLayerView : LayerView
     public IReadOnlyList<Graphic>? AllVisiblePolygons { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerView.html#kmllayerviewallvisiblepolylines-property">GeoBlazor Docs</a>
     ///     A collection of graphics representing all the polylines from visible sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#allVisiblePolylines">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

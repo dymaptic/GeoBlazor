@@ -45,6 +45,7 @@ public partial class WFSCapabilities : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSCapabilities.html#wfscapabilitiesfeaturetypes-property">GeoBlazor Docs</a>
     ///     An array of featureTypes (or layers) available in the WFS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class WFSCapabilities : MapComponent
     public IReadOnlyList<WFSFeatureType>? FeatureTypes { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSCapabilities.html#wfscapabilitiesoperations-property">GeoBlazor Docs</a>
     ///     Information about the operations needed to consume the WFS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

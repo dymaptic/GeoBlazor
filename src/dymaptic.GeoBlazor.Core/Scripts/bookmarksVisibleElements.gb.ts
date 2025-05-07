@@ -9,9 +9,6 @@ export async function buildJsBookmarksVisibleElementsGenerated(dotNetObject: any
 
     let jsBookmarksVisibleElements: any = {};
 
-    if (hasValue(dotNetObject.addBookmark)) {
-        jsBookmarksVisibleElements.addBookmark = dotNetObject.addBookmark;
-    }
     if (hasValue(dotNetObject.addBookmarkButton)) {
         jsBookmarksVisibleElements.addBookmarkButton = dotNetObject.addBookmarkButton;
     }

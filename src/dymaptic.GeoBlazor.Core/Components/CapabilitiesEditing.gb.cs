@@ -87,6 +87,7 @@ public partial class CapabilitiesEditing : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesEditing.html#capabilitieseditingsupportsdeletebyanonymous-property">GeoBlazor Docs</a>
     ///     Indicates if anonymous users can delete features created by others.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +97,7 @@ public partial class CapabilitiesEditing : MapComponent
     public bool? SupportsDeleteByAnonymous { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesEditing.html#capabilitieseditingsupportsdeletebyothers-property">GeoBlazor Docs</a>
     ///     Indicates if logged in users can delete features created by others.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -105,6 +107,7 @@ public partial class CapabilitiesEditing : MapComponent
     public bool? SupportsDeleteByOthers { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesEditing.html#capabilitieseditingsupportsgeometryupdate-property">GeoBlazor Docs</a>
     ///     Indicates if the geometry of the features in the layer can be edited.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,6 +117,7 @@ public partial class CapabilitiesEditing : MapComponent
     public bool? SupportsGeometryUpdate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesEditing.html#capabilitieseditingsupportsglobalid-property">GeoBlazor Docs</a>
     ///     Indicates if the `globalId` values provided by the client are used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">applyEdits</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -123,6 +127,7 @@ public partial class CapabilitiesEditing : MapComponent
     public bool? SupportsGlobalId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesEditing.html#capabilitieseditingsupportsrollbackonfailure-property">GeoBlazor Docs</a>
     ///     Indicates if the `rollbackOnFailureEnabled` parameter can be set to `true` or `false` when editing features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -132,6 +137,7 @@ public partial class CapabilitiesEditing : MapComponent
     public bool? SupportsRollbackOnFailure { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesEditing.html#capabilitieseditingsupportsupdatebyanonymous-property">GeoBlazor Docs</a>
     ///     Indicates if anonymous users can update features created by others.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -141,6 +147,7 @@ public partial class CapabilitiesEditing : MapComponent
     public bool? SupportsUpdateByAnonymous { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesEditing.html#capabilitieseditingsupportsupdatebyothers-property">GeoBlazor Docs</a>
     ///     Indicates if logged in users can update features created by others.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -150,6 +157,7 @@ public partial class CapabilitiesEditing : MapComponent
     public bool? SupportsUpdateByOthers { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesEditing.html#capabilitieseditingsupportsupdatewithoutm-property">GeoBlazor Docs</a>
     ///     Indicates if `m-values` must be provided when updating features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +167,7 @@ public partial class CapabilitiesEditing : MapComponent
     public bool? SupportsUpdateWithoutM { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesEditing.html#capabilitieseditingsupportsuploadwithitemid-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports uploading attachments by <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/item.htm">UploadId</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

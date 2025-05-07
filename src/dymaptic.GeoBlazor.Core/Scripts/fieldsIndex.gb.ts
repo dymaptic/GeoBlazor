@@ -56,6 +56,9 @@ export default class FieldsIndexGenerated implements IPropertyWrapper {
     }
     
     async setDateFields(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.dateFields = [];
+        }
         let { buildJsField } = await import('./field');
         this.component.dateFields = value.map(i => buildJsField(i)) as any;
     }

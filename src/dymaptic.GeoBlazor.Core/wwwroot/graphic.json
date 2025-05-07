@@ -222,6 +222,10 @@
                         "radiusUnit": {
                           "type": "string",
                           "id": 28
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 29
                         }
                       }
                     },
@@ -364,6 +368,10 @@
                         "yscale": {
                           "type": "int32",
                           "id": 27
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 28
                         }
                       }
                     },
@@ -401,6 +409,10 @@
                         "decoration": {
                           "type": "string",
                           "id": 5
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 6
                         }
                       }
                     },
@@ -482,6 +494,10 @@
                         "visible": {
                           "type": "bool",
                           "id": 7
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 8
                         }
                       }
                     },
@@ -498,6 +514,10 @@
                         "dateFormat": {
                           "type": "string",
                           "id": 3
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 4
                         }
                       }
                     },
@@ -553,6 +573,10 @@
                         "text": {
                           "type": "string",
                           "id": 12
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 13
                         }
                       }
                     },
@@ -597,6 +621,10 @@
                         "refreshInterval": {
                           "type": "double",
                           "id": 6
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 7
                         }
                       }
                     },
@@ -627,6 +655,10 @@
                         "sourceURL": {
                           "type": "string",
                           "id": 6
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 7
                         }
                       }
                     },
@@ -643,6 +675,10 @@
                         "value": {
                           "type": "double",
                           "id": 3
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 4
                         }
                       }
                     },
@@ -655,6 +691,10 @@
                         "order": {
                           "type": "OrderBy",
                           "id": 2
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 3
                         }
                       }
                     },
@@ -681,6 +721,10 @@
                         "returnType": {
                           "type": "ReturnType",
                           "id": 4
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 5
                         }
                       }
                     },

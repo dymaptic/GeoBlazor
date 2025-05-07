@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html">GeoBlazor Docs</a>
-///     MapImage represents an image overlay draped onto the terrain.
+///     **MapImage*represents an image overlay draped onto the terrain.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class KMLLayerViewMapImage : MapComponent
@@ -57,6 +57,7 @@ public partial class KMLLayerViewMapImage : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimageextent-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of the map image.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +67,7 @@ public partial class KMLLayerViewMapImage : MapComponent
     public Extent? Extent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimagehref-property">GeoBlazor Docs</a>
     ///     URL to the map image.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +77,7 @@ public partial class KMLLayerViewMapImage : MapComponent
     public string? Href { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimagekmllayerviewmapimageid-property">GeoBlazor Docs</a>
     ///     Map image id.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +87,7 @@ public partial class KMLLayerViewMapImage : MapComponent
     public long? KMLLayerViewMapImageId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimagerotation-property">GeoBlazor Docs</a>
     ///     Rotation of the map image about its center, in degrees.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -303,7 +307,7 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "Extent", value);
+            JsComponentReference, "extent", value);
     }
     
     /// <summary>

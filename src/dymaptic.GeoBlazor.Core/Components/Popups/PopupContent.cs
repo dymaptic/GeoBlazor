@@ -18,9 +18,10 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
     {
     }
     
-    public PopupContentSerializationRecord(string Type)
+    public PopupContentSerializationRecord(string Id, string Type)
     {
         this.Type = Type;
+        this.Id = Id;
     }
 
     [ProtoMember(1)]
@@ -58,24 +59,36 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
 
     [ProtoMember(12)]
     public string? Text { get; init; }
+    
+    [ProtoMember(13)]
+    public string? Id { get; set; }
 
     public PopupContent FromSerializationRecord()
     {
+        Guid id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out Guid guidId))
+        {
+            id = guidId;
+        }
         return Type switch
         {
             "fields" => new FieldsPopupContent(FieldInfos?.Select(i => 
                     i.FromSerializationRecord()).ToArray() ?? [],
-                Description, Title),
-            "text" => new TextPopupContent(Text),
+                Description, Title) { Id = id },
+            "text" => new TextPopupContent(Text){ Id = id },
             "attachments" => new AttachmentsPopupContent(Title, Description, 
-                DisplayType is null ? null : Enum.Parse<AttachmentsPopupContentDisplayType>(DisplayType)),
-            "expression" => new ExpressionPopupContent(ExpressionInfo),
+                DisplayType is null ? null : Enum.Parse<AttachmentsPopupContentDisplayType>(DisplayType))
+            {
+                Id = id
+            },
+            "expression" => new ExpressionPopupContent(ExpressionInfo) { Id = id },
             "media" => new MediaPopupContent(Title, Description,
                 MediaInfos?.Select(i => i.FromSerializationRecord()).ToArray(),
-                ActiveMediaInfoIndex),
+                ActiveMediaInfoIndex) { Id = id },
             "relationship" => new RelationshipPopupContent(Title, Description, DisplayCount,
                 DisplayType, OrderByFields?.Select(x => x.FromSerializationRecord()).ToList(),
-                RelationshipId),
+                RelationshipId) { Id = id },
             _ => throw new NotSupportedException($"PopupContent type {Type} is not supported")
         };
     }

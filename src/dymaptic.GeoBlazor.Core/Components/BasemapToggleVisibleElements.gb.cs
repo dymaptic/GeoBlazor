@@ -39,6 +39,7 @@ public partial class BasemapToggleVisibleElements : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleVisibleElements.html#basemaptogglevisibleelementstitle-property">GeoBlazor Docs</a>
     ///     Indicates whether to the title will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

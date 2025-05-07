@@ -130,8 +130,10 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
     {
     }
 
-    public GeometrySerializationRecord(string Type, GeometrySerializationRecord? Extent, SpatialReferenceSerializationRecord? SpatialReference)
+    public GeometrySerializationRecord(string Id, string Type, GeometrySerializationRecord? Extent, 
+        SpatialReferenceSerializationRecord? SpatialReference)
     {
+        this.Id = Id;
         this.Type = Type;
         this.Extent = Extent;
         this.SpatialReference = SpatialReference;
@@ -222,19 +224,31 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
     
     [ProtoMember(28)]
     public string? RadiusUnit { get; set; }
+    
+    [ProtoMember(29)]
+    public string? Id { get; set; }
 
     public Geometry FromSerializationRecord()
     {
         Extent? extent = Extent?.FromSerializationRecord() as Extent;
+        Guid id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out Guid guidId))
+        {
+            id = guidId;
+        }
         return Type switch
         {
             "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(), HasM, HasZ, M)
             {
-                Extent = extent
+                Extent = extent,
+                Id = id
             },
-            "polyline" => new Polyline(Paths!.Select(x => x.FromSerializationRecord()).ToArray(), SpatialReference?.FromSerializationRecord(), HasM, HasZ)
+            "polyline" => new Polyline(Paths!.Select(x => x.FromSerializationRecord()).ToArray(),
+                SpatialReference?.FromSerializationRecord(), HasM, HasZ)
             {
-                Extent = extent
+                Extent = extent,
+                Id = id
             },
             "polygon" => Center is not null && Radius is not null
             ? new Circle((Point)Center.FromSerializationRecord(), Radius.Value, 
@@ -244,16 +258,22 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
                 Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
                 SpatialReference?.FromSerializationRecord())
                 {
-                    Extent = extent
+                    Extent = extent,
+                    Id = id
                 }
             : new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(), 
                 SpatialReference?.FromSerializationRecord(), 
                 Centroid?.FromSerializationRecord() as Point, 
                 HasM, HasZ, IsSelfIntersecting)
                 {
-                    Extent = extent
+                    Extent = extent,
+                    Id = id
                 },
-            "extent" => new Extent(Xmax!.Value, Xmin!.Value, Ymax!.Value, Ymin!.Value, Zmax, Zmin, Mmax, Mmin, SpatialReference?.FromSerializationRecord(), HasM, HasZ),
+            "extent" => new Extent(Xmax!.Value, Xmin!.Value, Ymax!.Value, Ymin!.Value, Zmax, 
+                Zmin, Mmax, Mmin, SpatialReference?.FromSerializationRecord(), HasM, HasZ)
+            {
+                Id = id
+            },
             _ => throw new ArgumentOutOfRangeException()
         };
     }

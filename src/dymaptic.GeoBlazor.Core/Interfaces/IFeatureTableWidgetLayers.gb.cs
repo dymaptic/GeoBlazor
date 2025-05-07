@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureTableWidgetLayers.html">GeoBlazor Docs</a>
-///     Group of layers displayed in the <a target="_blank" href="https://developers.arcgis.com/calcite-design-system/components/dropdown/">dropdown component</a> in the table's header, which allows changing what layer is currently displayed in the table.
+///     An array of layers listed within the <a target="_blank" href="https://developers.arcgis.com/calcite-design-system/components/dropdown/">dropdown component</a> of the table's header.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#layers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IFeatureTableWidgetLayers : IMapComponent

@@ -637,8 +637,17 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJsViewRendered()
     {
-        if (_isDisposed) return;
+        if (_isDisposed || _waitingForRender) return;
+        
+        _waitingForRender = true;
+
+        while (!MapRendered)
+        {
+            // wait for the RenderView method to complete
+            await Task.Delay(50);
+        }
         await OnViewRendered.InvokeAsync(Id);
+        _waitingForRender = false;
     }
 
     /// <summary>
@@ -2703,6 +2712,7 @@ public partial class MapView : MapComponent
     private bool? _isPro;
     private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;
-    
+    private bool _waitingForRender;
+
 #endregion
 }

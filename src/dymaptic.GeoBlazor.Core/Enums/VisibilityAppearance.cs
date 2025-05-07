@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.VisibilityAppearance.html">GeoBlazor Docs</a>
-///     Enumeration for VisibilityAppearance
+///     Determines the icons used to indicate visibility.
+///     default "default"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibilityAppearance">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<VisibilityAppearance>))]
 public enum VisibilityAppearance

@@ -75,9 +75,7 @@ export default class IntlGenerated implements IPropertyWrapper {
     }
 
     async onLocaleChange(callback: any): Promise<any> {
-        let result = this.component.onLocaleChange(callback);
-        let { buildDotNetHighlightHandle } = await import('./highlightHandle');
-        return await buildDotNetHighlightHandle(result, this.layerId, this.viewId);
+        return this.component.onLocaleChange(callback);
     }
 
     async prefersRTL(locale: any): Promise<any> {

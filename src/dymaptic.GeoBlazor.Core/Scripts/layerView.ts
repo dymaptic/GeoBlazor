@@ -289,3 +289,4 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
 
     return dnLayerView;
 }
+

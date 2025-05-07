@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetCapabilities } from './capabilities';
 
-export async function buildJsCapabilitiesGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -31,6 +31,10 @@ export async function buildJsCapabilitiesGenerated(dotNetObject: any): Promise<a
     if (hasValue(dotNetObject.operations)) {
         let { buildJsCapabilitiesOperations } = await import('./capabilitiesOperations');
         jsCapabilities.operations = await buildJsCapabilitiesOperations(dotNetObject.operations) as any;
+    }
+    if (hasValue(dotNetObject.queryAttributeBins)) {
+        let { buildJsCapabilitiesQueryAttributeBins } = await import('./capabilitiesQueryAttributeBins');
+        jsCapabilities.queryAttributeBins = await buildJsCapabilitiesQueryAttributeBins(dotNetObject.queryAttributeBins, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.queryRelated)) {
         let { buildJsCapabilitiesQueryRelated } = await import('./capabilitiesQueryRelated');
@@ -87,6 +91,11 @@ export async function buildDotNetCapabilitiesGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.operations)) {
         let { buildDotNetCapabilitiesOperations } = await import('./capabilitiesOperations');
         dotNetCapabilities.operations = await buildDotNetCapabilitiesOperations(jsObject.operations);
+    }
+    
+    if (hasValue(jsObject.queryAttributeBins)) {
+        let { buildDotNetCapabilitiesQueryAttributeBins } = await import('./capabilitiesQueryAttributeBins');
+        dotNetCapabilities.queryAttributeBins = await buildDotNetCapabilitiesQueryAttributeBins(jsObject.queryAttributeBins);
     }
     
     if (hasValue(jsObject.queryRelated)) {

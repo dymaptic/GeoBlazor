@@ -5,10 +5,12 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.FillSymbol.html">GeoBlazor Docs</a>
-///     Fill symbols are used to draw <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">Polygon</a> graphics in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">GraphicsLayer</a> or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> in a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     Fill symbols are used to draw <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">Polygon</a> graphics in a
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">GraphicsLayer</a> or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>
+///     in a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-FillSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public abstract partial class FillSymbol : IClassBreaksRendererBackgroundFillSymbol
+public abstract partial class FillSymbol
 {
 
 }

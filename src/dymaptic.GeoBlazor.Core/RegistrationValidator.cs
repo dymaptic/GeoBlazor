@@ -74,7 +74,7 @@ internal class RegistrationValidator(GeoBlazorSettings settings) : IAppValidator
     private bool _validating;
 }
 
-internal enum BlazorMode
+public enum BlazorMode
 {
 #pragma warning disable CS1591
     Server,

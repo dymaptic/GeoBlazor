@@ -125,7 +125,7 @@ public partial class Circle
     
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new GeometrySerializationRecord(Type.ToString().ToKebabCase(), 
+        return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), 
             Extent?.ToSerializationRecord(),
             SpatialReference?.ToSerializationRecord())
         {

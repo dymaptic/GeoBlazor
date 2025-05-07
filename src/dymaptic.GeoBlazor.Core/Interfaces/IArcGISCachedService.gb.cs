@@ -12,18 +12,21 @@ public partial interface IArcGISCachedService : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISCachedService.html#iarcgiscachedservicecopyright-property">GeoBlazor Docs</a>
     ///     The copyright text as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISCachedService.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISCachedService.html#iarcgiscachedservicespatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISCachedService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     SpatialReference? SpatialReference { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISCachedService.html#iarcgiscachedservicetileinfo-property">GeoBlazor Docs</a>
     ///     Contains information about the tiling scheme for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISCachedService.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -41,7 +44,7 @@ public partial interface IArcGISCachedService : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the TileInfo property after render.
     /// </summary>
-    Task SetTileInfo(TileInfo? value);
+    Task SetTileInfo(TileInfo value);
     
 #endregion
 

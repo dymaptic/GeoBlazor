@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html">GeoBlazor Docs</a>
-///     UniqueValueGroup represents a group of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">unique value classes</a> (i.e.
+///     UniqueValueGroup represents a group of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">unique value classes</a>
+///     (i.e.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class UniqueValueGroup : MapComponent
@@ -45,6 +46,7 @@ public partial class UniqueValueGroup : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html#uniquevaluegroupclasses-property">GeoBlazor Docs</a>
     ///     Specifies the classes (or unique categories) to group under a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">heading</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#classes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +56,7 @@ public partial class UniqueValueGroup : MapComponent
     public IReadOnlyList<UniqueValueClass>? Classes { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html#uniquevaluegroupheading-property">GeoBlazor Docs</a>
     ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -123,7 +123,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
         return encodedJson;
     }
 
-
+    
 }
 
 export async function buildJsSearchWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

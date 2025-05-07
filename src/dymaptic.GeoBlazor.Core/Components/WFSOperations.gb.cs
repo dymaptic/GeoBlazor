@@ -45,6 +45,7 @@ public partial class WFSOperations : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSOperations.html#wfsoperationsdescribefeaturetype-property">GeoBlazor Docs</a>
     ///     
     /// </summary>
     [ArcGISProperty]
@@ -53,6 +54,7 @@ public partial class WFSOperations : MapComponent
     public WFSOperationsDescribeFeatureType? DescribeFeatureType { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSOperations.html#wfsoperationsgetcapabilities-property">GeoBlazor Docs</a>
     ///     
     /// </summary>
     [ArcGISProperty]
@@ -61,6 +63,7 @@ public partial class WFSOperations : MapComponent
     public WFSOperationsGetCapabilities? GetCapabilities { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSOperations.html#wfsoperationsgetfeature-property">GeoBlazor Docs</a>
     ///     
     /// </summary>
     [ArcGISProperty]

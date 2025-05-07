@@ -16,7 +16,8 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     The number of suggest results.
 /// </param>
 /// <param name="Results">
-///     An array of objects representing the results of suggest. See object specification table below for more information about the result object.
+///     An array of objects representing the results of suggest. See object specification
+///     table below for more information about the result object.
 /// </param>
 /// <param name="SearchTerm">
 ///     The search expression used for the suggest.

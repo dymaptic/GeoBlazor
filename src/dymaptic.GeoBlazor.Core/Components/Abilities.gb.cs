@@ -69,6 +69,7 @@ public partial class Abilities : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Abilities.html#abilitiesattachmentscontent-property">GeoBlazor Docs</a>
     ///     Indicate whether the widget should query and display <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html">attachments</a> associated with the feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -78,6 +79,7 @@ public partial class Abilities : MapComponent
     public bool? AttachmentsContent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Abilities.html#abilitieschartanimation-property">GeoBlazor Docs</a>
     ///     Indicate whether the widget should display animations for charts residing in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">media content elements</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -87,6 +89,7 @@ public partial class Abilities : MapComponent
     public bool? ChartAnimation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Abilities.html#abilitiescustomcontent-property">GeoBlazor Docs</a>
     ///     Indicate whether the widget should display any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-CustomContent.html">custom content elements</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +99,7 @@ public partial class Abilities : MapComponent
     public bool? CustomContent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Abilities.html#abilitiesfieldscontent-property">GeoBlazor Docs</a>
     ///     Indicate whether the widget should display any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">fields content elements</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -105,6 +109,7 @@ public partial class Abilities : MapComponent
     public bool? FieldsContent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Abilities.html#abilitiesmediacontent-property">GeoBlazor Docs</a>
     ///     Indicate whether the widget should display any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">media content elements</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,6 +119,7 @@ public partial class Abilities : MapComponent
     public bool? MediaContent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Abilities.html#abilitiestextcontent-property">GeoBlazor Docs</a>
     ///     Indicate whether the widget should display any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">text content elements</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

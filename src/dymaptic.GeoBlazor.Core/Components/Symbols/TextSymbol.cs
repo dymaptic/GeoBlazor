@@ -156,12 +156,12 @@ public partial class TextSymbol : Symbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), Color)
+        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
         {
             Text = Text, 
             HaloColor = HaloColor, 
             HaloSize = HaloSize?.Points,
-            MapFont = Font?.ToSerializationRecord(),
+            Font = Font?.ToSerializationRecord(),
             Angle = Angle,
             BackgroundColor = BackgroundColor,
             BorderLineSize = BorderLineSize,

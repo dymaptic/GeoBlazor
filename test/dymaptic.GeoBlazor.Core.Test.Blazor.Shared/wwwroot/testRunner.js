@@ -219,7 +219,9 @@ export async function clickOnGraphicPopupAction(methodName) {
 }
 
 export async function triggerSearchHandlers() {
-    let searchInput = document.querySelector('.esri-search__input');
+    let searchInput = document.querySelector('.esri-search__autocomplete')
+        .shadowRoot.querySelector('calcite-input')
+        .shadowRoot.querySelector('input');
     searchInput.value = 'testFromJavascript';
     searchInput.dispatchEvent(new Event('input'));
     await new Promise(resolve => setTimeout(resolve, 100));

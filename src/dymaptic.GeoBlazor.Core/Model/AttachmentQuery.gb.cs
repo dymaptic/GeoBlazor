@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.AttachmentQuery.html">GeoBlazor Docs</a>
-///     This class defines parameters for executing queries for feature attachments from a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature layer</a>.
+///     This class defines parameters for executing queries for feature attachments from a
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature layer</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="AttachmentsWhere">
@@ -40,8 +41,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     An array of objectIds of the features to be queried for attachments.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="OrderByFields">
+///     An array of one or more `attachmentInfo` field names on which the returned queried attachments will be sorted.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#orderByFields">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="ReturnMetadata">
-///     If `true`, the <a target="_blank" href="https://en.wikipedia.org/wiki/Exif">Exchangeable image file format</a> for the attachment will be included in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#exifInfo">attachmentInfo</a>.
+///     If `true`, the <a target="_blank" href="https://en.wikipedia.org/wiki/Exif">Exchangeable image file format</a> for the attachment will be included in
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#exifInfo">attachmentInfo</a>.
 ///     default false
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#returnMetadata">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
@@ -61,11 +67,12 @@ public partial record AttachmentQuery(
     string? AttachmentsWhere = null,
     IReadOnlyCollection<string>? AttachmentTypes = null,
     bool? CacheHint = null,
-    IReadOnlyCollection<long>? GlobalIds = null,
+    IReadOnlyCollection<string>? GlobalIds = null,
     IReadOnlyCollection<string>? Keywords = null,
     string? Name = null,
     double? Num = null,
-    IReadOnlyCollection<long>? ObjectIds = null,
+    IReadOnlyCollection<ObjectId>? ObjectIds = null,
+    IReadOnlyCollection<string>? OrderByFields = null,
     bool? ReturnMetadata = null,
     IReadOnlyCollection<int>? Size = null,
     double? Start = null,
@@ -94,7 +101,7 @@ public partial record AttachmentQuery(
     ///     An array of globalIds for the features in the layer being queried.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#globalIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<long>? GlobalIds { get; set; } = GlobalIds;
+    public IReadOnlyCollection<string>? GlobalIds { get; set; } = GlobalIds;
     
     /// <summary>
     ///     Used to query for attachments that match the provided `keywords`.
@@ -118,10 +125,17 @@ public partial record AttachmentQuery(
     ///     An array of objectIds of the features to be queried for attachments.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<long>? ObjectIds { get; set; } = ObjectIds;
+    public IReadOnlyCollection<ObjectId>? ObjectIds { get; set; } = ObjectIds;
     
     /// <summary>
-    ///     If `true`, the <a target="_blank" href="https://en.wikipedia.org/wiki/Exif">Exchangeable image file format</a> for the attachment will be included in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#exifInfo">attachmentInfo</a>.
+    ///     An array of one or more `attachmentInfo` field names on which the returned queried attachments will be sorted.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#orderByFields">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public IReadOnlyCollection<string>? OrderByFields { get; set; } = OrderByFields;
+    
+    /// <summary>
+    ///     If `true`, the <a target="_blank" href="https://en.wikipedia.org/wiki/Exif">Exchangeable image file format</a> for the attachment will be included in
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#exifInfo">attachmentInfo</a>.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#returnMetadata">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

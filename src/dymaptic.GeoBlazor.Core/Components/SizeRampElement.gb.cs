@@ -23,6 +23,10 @@ public partial class SizeRampElement : MapComponent,
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="clusterTitle">
+    ///     The title of the size ramp as displayed in the legend.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="infos">
     ///     The individual size stops rendered in the legend that correspond to the size visual variable in the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
@@ -36,12 +40,14 @@ public partial class SizeRampElement : MapComponent,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public SizeRampElement(
+        ClusterTitle? clusterTitle = null,
         IReadOnlyList<SizeRampStop>? infos = null,
         RampTitle? rampTitle = null,
         string? stringTitle = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ClusterTitle = clusterTitle;
         Infos = infos;
         RampTitle = rampTitle;
         StringTitle = stringTitle;
@@ -52,6 +58,17 @@ public partial class SizeRampElement : MapComponent,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementclustertitle-property">GeoBlazor Docs</a>
+    ///     The title of the size ramp as displayed in the legend.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ClusterTitle? ClusterTitle { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementinfos-property">GeoBlazor Docs</a>
     ///     The individual size stops rendered in the legend that correspond to the size visual variable in the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -61,6 +78,7 @@ public partial class SizeRampElement : MapComponent,
     public IReadOnlyList<SizeRampStop>? Infos { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementramptitle-property">GeoBlazor Docs</a>
     ///     The title of the size ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -70,6 +88,7 @@ public partial class SizeRampElement : MapComponent,
     public RampTitle? RampTitle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementstringtitle-property">GeoBlazor Docs</a>
     ///     The title of the size ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -82,6 +101,45 @@ public partial class SizeRampElement : MapComponent,
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ClusterTitle property.
+    /// </summary>
+    public async Task<ClusterTitle?> GetClusterTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return ClusterTitle;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ClusterTitle;
+        }
+
+        ClusterTitle? result = await JsComponentReference.InvokeAsync<ClusterTitle?>(
+            "getClusterTitle", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ClusterTitle = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
+        }
+        
+        return ClusterTitle;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Infos property.
     /// </summary>
@@ -203,6 +261,51 @@ public partial class SizeRampElement : MapComponent,
 
 #region Property Setters
 
+    /// <summary>
+    ///    Asynchronously set the value of the ClusterTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetClusterTitle(ClusterTitle? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        ClusterTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ClusterTitle)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the Infos property after render.
     /// </summary>
@@ -371,6 +474,14 @@ public partial class SizeRampElement : MapComponent,
     {
         switch (child)
         {
+            case ClusterTitle clusterTitle:
+                if (clusterTitle != ClusterTitle)
+                {
+                    ClusterTitle = clusterTitle;
+                    ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
+                }
+                
+                return true;
             case SizeRampStop infos:
                 Infos ??= [];
                 if (!Infos.Contains(infos))
@@ -390,6 +501,10 @@ public partial class SizeRampElement : MapComponent,
     {
         switch (child)
         {
+            case ClusterTitle _:
+                ClusterTitle = null;
+                ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
+                return true;
             case SizeRampStop infos:
                 Infos = Infos?.Where(i => i != infos).ToList();
                 ModifiedParameters[nameof(Infos)] = Infos;
@@ -403,6 +518,7 @@ public partial class SizeRampElement : MapComponent,
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        ClusterTitle?.ValidateRequiredGeneratedChildren();
         if (Infos is not null)
         {
             foreach (SizeRampStop child in Infos)

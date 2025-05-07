@@ -87,6 +87,7 @@ public partial class BookmarksVisibleElements : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksVisibleElements.html#bookmarksvisibleelementsaddbookmarkbutton-property">GeoBlazor Docs</a>
     ///     _Since 4.29._ Indicates whether the button to add a new bookmark displays.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +97,7 @@ public partial class BookmarksVisibleElements : MapComponent
     public bool? AddBookmarkButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksVisibleElements.html#bookmarksvisibleelementsclosebutton-property">GeoBlazor Docs</a>
     ///     _Since 4.29._ Indicates whether to display a close button at the top of the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -105,6 +107,7 @@ public partial class BookmarksVisibleElements : MapComponent
     public bool? CloseButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksVisibleElements.html#bookmarksvisibleelementscollapsebutton-property">GeoBlazor Docs</a>
     ///     _Since 4.29._ Indicates whether to display a collapse button at the top of the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,6 +117,7 @@ public partial class BookmarksVisibleElements : MapComponent
     public bool? CollapseButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksVisibleElements.html#bookmarksvisibleelementseditbookmarkbutton-property">GeoBlazor Docs</a>
     ///     _Since 4.29._ Indicates whether the button to edit a bookmark displays.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -123,6 +127,7 @@ public partial class BookmarksVisibleElements : MapComponent
     public bool? EditBookmarkButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksVisibleElements.html#bookmarksvisibleelementsfilter-property">GeoBlazor Docs</a>
     ///     _Since 4.29._ Indicates whether the bookmarks filter displays.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -132,6 +137,7 @@ public partial class BookmarksVisibleElements : MapComponent
     public bool? Filter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksVisibleElements.html#bookmarksvisibleelementsflow-property">GeoBlazor Docs</a>
     ///     _Since 4.29._ Determines whether the widget should be shown within its built-in <a target="_blank" href="https://developers.arcgis.com/calcite-design-system/components/flow/">flow component</a> or if the flow component should be excluded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -141,6 +147,7 @@ public partial class BookmarksVisibleElements : MapComponent
     public bool? Flow { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksVisibleElements.html#bookmarksvisibleelementsheading-property">GeoBlazor Docs</a>
     ///     _Since 4.29._ Indicates whether to display the widget heading.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -150,6 +157,7 @@ public partial class BookmarksVisibleElements : MapComponent
     public bool? Heading { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksVisibleElements.html#bookmarksvisibleelementsthumbnail-property">GeoBlazor Docs</a>
     ///     _Since 4.13._ Indicates whether the thumbnail associated with the bookmark displays.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +167,7 @@ public partial class BookmarksVisibleElements : MapComponent
     public bool? Thumbnail { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksVisibleElements.html#bookmarksvisibleelementstime-property">GeoBlazor Docs</a>
     ///     _Since 4.22._ Indicates whether the time (`h:m:s`) is displayed alongside the date if the bookmark has a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#timeExtent">time extent</a> defined.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

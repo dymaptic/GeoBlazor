@@ -45,6 +45,7 @@ public partial class PortalFeaturedGroups : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalFeaturedGroups.html#portalfeaturedgroupsowner-property">GeoBlazor Docs</a>
     ///     Name of the group owner.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#featuredGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class PortalFeaturedGroups : MapComponent
     public string? Owner { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalFeaturedGroups.html#portalfeaturedgroupstitle-property">GeoBlazor Docs</a>
     ///     Group title.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#featuredGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

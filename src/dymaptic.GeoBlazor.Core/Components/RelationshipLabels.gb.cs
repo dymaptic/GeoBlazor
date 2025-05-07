@@ -57,6 +57,7 @@ public partial class RelationshipLabels : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipLabels.html#relationshiplabelsbottom-property">GeoBlazor Docs</a>
     ///     The label corresponding with the bottom corner of the legend if the focus is set to `HH`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipLabels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +67,7 @@ public partial class RelationshipLabels : MapComponent
     public string? Bottom { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipLabels.html#relationshiplabelsleft-property">GeoBlazor Docs</a>
     ///     The label corresponding with the left corner of the legend (if the focus is set to `HH`).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipLabels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +77,7 @@ public partial class RelationshipLabels : MapComponent
     public string? Left { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipLabels.html#relationshiplabelsright-property">GeoBlazor Docs</a>
     ///     The label corresponding with the right corner of the legend (if the focus is set to `HH`).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipLabels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +87,7 @@ public partial class RelationshipLabels : MapComponent
     public string? Right { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipLabels.html#relationshiplabelstop-property">GeoBlazor Docs</a>
     ///     The label corresponding with the top corner of the legend if the focus is set to `HH`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipLabels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

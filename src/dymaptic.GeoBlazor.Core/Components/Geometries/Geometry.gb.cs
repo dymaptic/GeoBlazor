@@ -14,13 +14,14 @@ public abstract partial class Geometry
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html#geometrycache-property">GeoBlazor Docs</a>
     ///     The cache is used to store values computed from geometries that need to be cleared or recomputed upon mutation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#cache">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public object? Cache { get; protected set; }
+    public string? Cache { get; protected set; }
     
 #endregion
 
@@ -29,7 +30,7 @@ public abstract partial class Geometry
     /// <summary>
     ///     Asynchronously retrieve the current value of the Cache property.
     /// </summary>
-    public async Task<object?> GetCache()
+    public async Task<string?> GetCache()
     {
         if (CoreJsModule is null)
         {
@@ -52,7 +53,7 @@ public abstract partial class Geometry
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "cache");
         if (result is not null)
         {

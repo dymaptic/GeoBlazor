@@ -20,6 +20,6 @@ public partial class ImageMediaInfoValue : MapComponent
 
     internal ChartMediaInfoValueSerializationRecord ToSerializationRecord()
     {
-        return new ChartMediaInfoValueSerializationRecord(LinkURL: LinkURL, SourceURL: SourceURL);
+        return new ChartMediaInfoValueSerializationRecord(Id.ToString(), LinkURL: LinkURL, SourceURL: SourceURL);
     }
 }

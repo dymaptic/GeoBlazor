@@ -62,7 +62,7 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.operationalItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.component.operationalItems!.map(async i => await buildDotNetListItem(i)));
     }
     
     getProperty(prop: string): any {

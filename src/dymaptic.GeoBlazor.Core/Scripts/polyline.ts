@@ -30,8 +30,6 @@ export function buildJsPolyline(dnPolyline): any {
     }
     if (hasValue(dnPolyline.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
-    } else {
-        properties.spatialReference = new SpatialReference({wkid: 4326});
     }
     let polyline = new Polyline(properties);
     let jsObjectRef = DotNet.createJSObjectReference(polyline);

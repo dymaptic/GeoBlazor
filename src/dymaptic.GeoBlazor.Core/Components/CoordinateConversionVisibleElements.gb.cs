@@ -57,6 +57,7 @@ public partial class CoordinateConversionVisibleElements : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.html#coordinateconversionvisibleelementscapturebutton-property">GeoBlazor Docs</a>
     ///     Indicates whether the capture mode button will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CoordinateConversion.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +67,7 @@ public partial class CoordinateConversionVisibleElements : MapComponent
     public bool? CaptureButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.html#coordinateconversionvisibleelementseditbutton-property">GeoBlazor Docs</a>
     ///     Indicates whether the input coordinate button will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CoordinateConversion.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +77,7 @@ public partial class CoordinateConversionVisibleElements : MapComponent
     public bool? EditButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.html#coordinateconversionvisibleelementsexpandbutton-property">GeoBlazor Docs</a>
     ///     Indicates whether the expand and retract buttons will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CoordinateConversion.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +87,7 @@ public partial class CoordinateConversionVisibleElements : MapComponent
     public bool? ExpandButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.html#coordinateconversionvisibleelementssettingsbutton-property">GeoBlazor Docs</a>
     ///     Indicates whether the settings button will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CoordinateConversion.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

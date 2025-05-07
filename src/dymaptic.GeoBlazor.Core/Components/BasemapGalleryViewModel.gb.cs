@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html">GeoBlazor Docs</a>
-///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> widget.
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery widget</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-basemap-gallery/">component</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BasemapGalleryViewModel : MapComponent
@@ -26,23 +26,17 @@ public partial class BasemapGalleryViewModel : MapComponent
     ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="items">
-    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-BasemapGalleryItem.html">BasemapGalleryItem</a>s representing basemaps.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#items">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="source">
-    ///     The source for basemaps that the widget will display.
+    ///     The source for basemaps that the Basemap Gallery will display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public BasemapGalleryViewModel(
         Basemap? activeBasemap = null,
-        IReadOnlyList<BasemapGalleryItem>? items = null,
         IBasemapGalleryWidgetSource? source = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ActiveBasemap = activeBasemap;
-        Items = items;
         Source = source;
 #pragma warning restore BL0005    
     }
@@ -51,6 +45,7 @@ public partial class BasemapGalleryViewModel : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelactivebasemap-property">GeoBlazor Docs</a>
     ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,16 +55,29 @@ public partial class BasemapGalleryViewModel : MapComponent
     public Basemap? ActiveBasemap { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelactivebasemapindex-property">GeoBlazor Docs</a>
+    ///     The current index of the active <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>
+    ///     in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#activeBasemapIndex">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public int? ActiveBasemapIndex { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelitems-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-BasemapGalleryItem.html">BasemapGalleryItem</a>s representing basemaps.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#items">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<BasemapGalleryItem>? Items { get; set; }
+    [JsonInclude]
+    public IReadOnlyList<BasemapGalleryItem>? Items { get; protected set; }
     
     /// <summary>
-    ///     The source for basemaps that the widget will display.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelsource-property">GeoBlazor Docs</a>
+    ///     The source for basemaps that the Basemap Gallery will display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -78,8 +86,9 @@ public partial class BasemapGalleryViewModel : MapComponent
     public IBasemapGalleryWidgetSource? Source { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -133,6 +142,45 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
         
         return ActiveBasemap;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActiveBasemapIndex property.
+    /// </summary>
+    public async Task<int?> GetActiveBasemapIndex()
+    {
+        if (CoreJsModule is null)
+        {
+            return ActiveBasemapIndex;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ActiveBasemapIndex;
+        }
+
+        // get the property value
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "activeBasemapIndex");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             ActiveBasemapIndex = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ActiveBasemapIndex)] = ActiveBasemapIndex;
+        }
+         
+        return ActiveBasemapIndex;
     }
     
     /// <summary>
@@ -302,54 +350,6 @@ public partial class BasemapGalleryViewModel : MapComponent
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the Items property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetItems(IReadOnlyList<BasemapGalleryItem>? value)
-    {
-        if (value is not null)
-        {
-            foreach (BasemapGalleryItem item in value)
-            {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
-            }
-        }
-        
-#pragma warning disable BL0005
-        Items = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Items)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setItems", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
     /// <param name="value">
@@ -388,52 +388,16 @@ public partial class BasemapGalleryViewModel : MapComponent
     
 #endregion
 
-#region Add to Collection Methods
-
-    /// <summary>
-    ///     Asynchronously adds elements to the Items property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToItems(params BasemapGalleryItem[] values)
-    {
-        BasemapGalleryItem[] join = Items is null
-            ? values
-            : [..Items, ..values];
-        await SetItems(join);
-    }
-    
-#endregion
-
-#region Remove From Collection Methods
-
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the Items property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromItems(params BasemapGalleryItem[] values)
-    {
-        if (Items is null)
-        {
-            return;
-        }
-        await SetItems(Items.Except(values).ToArray());
-    }
-    
-#endregion
-
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelbasemapequals-method">GeoBlazor Docs</a>
     ///     A convenience function to check basemap equality.
+    ///     param basemap2 The basemap to compare against `basemap1`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#basemapEquals">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="basemap1">
-    ///     The basemap to compare against <code>basemap2</code>.
+    ///     The basemap to compare against `basemap2`.
     /// </param>
     /// <param name="basemap2">
     ///     The basemap to compare against <code>basemap1</code>.
@@ -485,15 +449,6 @@ public partial class BasemapGalleryViewModel : MapComponent
                 }
                 
                 return true;
-            case BasemapGalleryItem items:
-                Items ??= [];
-                if (!Items.Contains(items))
-                {
-                    Items = [..Items, items];
-                    ModifiedParameters[nameof(Items)] = Items;
-                }
-                
-                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -508,10 +463,6 @@ public partial class BasemapGalleryViewModel : MapComponent
                 ActiveBasemap = null;
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 return true;
-            case BasemapGalleryItem items:
-                Items = Items?.Where(i => i != items).ToList();
-                ModifiedParameters[nameof(Items)] = Items;
-                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -522,13 +473,6 @@ public partial class BasemapGalleryViewModel : MapComponent
     {
     
         ActiveBasemap?.ValidateRequiredGeneratedChildren();
-        if (Items is not null)
-        {
-            foreach (BasemapGalleryItem child in Items)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
         base.ValidateRequiredGeneratedChildren();
     }
       

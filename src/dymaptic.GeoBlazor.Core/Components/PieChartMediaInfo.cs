@@ -10,7 +10,7 @@ public partial class PieChartMediaInfo : MediaInfo
 
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
-        return new MediaInfoSerializationRecord("pie-chart")
+        return new MediaInfoSerializationRecord(Id.ToString(), "pie-chart")
         {
             AltText = AltText,
             Caption = Caption,

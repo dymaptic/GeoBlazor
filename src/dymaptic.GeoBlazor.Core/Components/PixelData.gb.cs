@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelData.html">GeoBlazor Docs</a>
-///     An object that provides the user access to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixels">pixels</a> and their values in the layer.
+///     An object that provides the user access to
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixels">pixels</a> and their values in the layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class PixelData : MapComponent
@@ -45,6 +46,7 @@ public partial class PixelData : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelData.html#pixeldataextent-property">GeoBlazor Docs</a>
     ///     The extent of the `pixelBlock`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +56,7 @@ public partial class PixelData : MapComponent
     public Extent? Extent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelData.html#pixeldatapixelblock-property">GeoBlazor Docs</a>
     ///     An object representing the pixels in the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

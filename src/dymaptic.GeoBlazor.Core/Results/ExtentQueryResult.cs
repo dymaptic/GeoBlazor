@@ -9,4 +9,4 @@ namespace dymaptic.GeoBlazor.Core.Results;
 /// <param name="Extent">
 ///     The extent of features that satisfy the query.
 /// </param>
-public record ExtentQueryResult(int Count, Extent Extent);
+public record ExtentQueryResult(int Count, Extent? Extent);

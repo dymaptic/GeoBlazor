@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField.html">GeoBlazor Docs</a>
-///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a> along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field2">field2</a>.
+///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>
+///     along with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field2">field2</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class AuthoringInfoField
@@ -57,6 +58,7 @@ public partial class AuthoringInfoField
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField.html#authoringinfofieldclassbreakinfos-property">GeoBlazor Docs</a>
     ///     Describes the class breaks generated for this field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +68,7 @@ public partial class AuthoringInfoField
     public IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? ClassBreakInfos { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField.html#authoringinfofieldfield-property">GeoBlazor Docs</a>
     ///     The name of a numeric field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +78,7 @@ public partial class AuthoringInfoField
     public string? Field { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField.html#authoringinfofieldlabel-property">GeoBlazor Docs</a>
     ///     The label used to describe the field or variable in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +88,7 @@ public partial class AuthoringInfoField
     public string? Label { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField.html#authoringinfofieldnormalizationfield-property">GeoBlazor Docs</a>
     ///     The name of a numeric field used to normalize the given `field`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
