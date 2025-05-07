@@ -196,27 +196,26 @@ public partial class MapImageLayer : Layer
         TimeInfo ??= renderedMapLayer.TimeInfo;
         Version ??= renderedMapLayer.Version;
 
-        if (renderedMapLayer.Sublayers is null)
-        {
-            return;
-        }
-
         Sublayers ??= [];
 
-        foreach (Sublayer renderedSubLayer in renderedMapLayer.Sublayers)
+        // create or update each sublayer individually
+        if (renderedMapLayer.Sublayers is not null)
         {
-            Sublayer? matchingLayer = Sublayers.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
+            foreach (Sublayer renderedSubLayer in renderedMapLayer.Sublayers)
+            {
+                Sublayer? matchingLayer = Sublayers.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
 
-            if (matchingLayer is not null)
-            {
-                matchingLayer.Parent = this;
-                matchingLayer.View = View;
-                matchingLayer.Layer = this;
-                await matchingLayer.UpdateFromJavaScript(renderedSubLayer);
-            }
-            else
-            {
-                await RegisterNewSublayer(renderedSubLayer);
+                if (matchingLayer is not null)
+                {
+                    matchingLayer.Parent = this;
+                    matchingLayer.View = View;
+                    matchingLayer.Layer = this;
+                    await matchingLayer.UpdateFromJavaScript(renderedSubLayer);
+                }
+                else
+                {
+                    await RegisterNewSublayer(renderedSubLayer);
+                }
             }
         }
         

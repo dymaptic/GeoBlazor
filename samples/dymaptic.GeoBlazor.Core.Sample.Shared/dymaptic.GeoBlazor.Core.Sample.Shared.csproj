@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Markdig" Version="0.41.0" />
+        <PackageReference Include="Markdig" Version="0.41.1" />
         <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.15" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.15" />

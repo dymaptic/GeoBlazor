@@ -80,7 +80,6 @@ public partial class TileLayer : Layer
     {
         await base.UpdateFromJavaScript(renderedLayer);
         TileLayer renderedTileLayer = (TileLayer)renderedLayer;
-        Sublayers ??= renderedTileLayer.Sublayers;
         Url ??= renderedTileLayer.Url;
         Title ??= renderedTileLayer.Title;
         Effect ??= renderedTileLayer.Effect;
@@ -103,6 +102,7 @@ public partial class TileLayer : Layer
 
         if (renderedTileLayer.Sublayers is not null)
         {
+            // create or update each sublayer individually
             foreach (Sublayer renderedSubLayer in renderedTileLayer.Sublayers!)
             {
                 Sublayer? matchingLayer = Sublayers.FirstOrDefault(l => l.Id == renderedSubLayer.Id);

@@ -1,0 +1,26 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@* ReSharper disable once InconsistentNaming *@
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderImageryTileLayerWithUrl(Action renderHandler)
+    {
+        AddMapRenderFragment(
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <PortalItem PortalItemId="55ebf90799fa4a3fa57562700a68c405" />
+            </Basemap>
+            <ImageryTileLayer Url="https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer" />
+        </Map>
+    </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "imagery-tile");
+    }
+}

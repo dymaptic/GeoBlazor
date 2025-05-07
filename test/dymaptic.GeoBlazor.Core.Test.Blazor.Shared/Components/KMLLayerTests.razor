@@ -1,0 +1,26 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@* ReSharper disable once InconsistentNaming *@
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderKMLLayerWithUrl(Action renderHandler)
+    {
+        AddMapRenderFragment(
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <PortalItem PortalItemId="55ebf90799fa4a3fa57562700a68c405" />
+            </Basemap>
+            <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" />
+        </Map>
+    </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "kml");
+    }
+}
