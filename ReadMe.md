@@ -81,6 +81,14 @@ Or for the Pro version with additional features:
 ```
 
 > **Note:** *.NET 9 can cause __very slow__ build times due to its new static asset compression. If you need faster builds, we recommend staying on .NET 8 for now, and using a global.json file to pin your SDK build version to .NET 8. See our [open request for a fix here](https://github.com/dotnet/aspnetcore/issues/59014).*
+>
+> *If you decide to stay with .NET 9, we suggest adding the following line to your `csproj` file to disable the new compression feature:*
+>
+> ```xml
+>    <PropertyGroup>
+>        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
+>    </PropertyGroup>
+> ```
 
 ## 🏁 Getting Started
 

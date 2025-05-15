@@ -1,35 +1,10 @@
-﻿<style>
-   #geoblazor-logo { 
-      background-color: #5D2E8E; 
-      padding: 1rem; 
-      border-radius: 1rem; 
-   }
+﻿# GeoBlazor
 
-   #pro-link {
-      background-color: #d6d6d6;
-      padding: 1rem;
-      border-radius: 1rem;
-      width: 300px;
-   }
-</style>
-
-<p style="text-align: center;">
-  <img id="geoblazor-logo" src="./gb_white_text_300px.png" alt="GeoBlazor" width="300">
-</p>
-
-<p style="text-align: center;">
-  <b>The premier mapping solution for Asp.NET Core Blazor applications.</b>
-</p>
+## The premier mapping solution for Asp.NET Core Blazor applications.
 
 GeoBlazor brings the power of the ArcGIS Maps SDK for JavaScript into your Blazor applications with 100% C# code - no JavaScript required. Create beautiful, interactive maps with industry-leading geospatial capabilities while maintaining a pure .NET development experience.
 
-<p style="text-align: center;">
-   <em>
-      <a href="https://www.nuget.org/packages/dymaptic.GeoBlazor.Pro">
-         <img id="pro-link" alt="GeoBlazor Pro" src="./Go-GeoBlazor-Pro.png" />
-      </a>
-   </em>
-</p>
+[Go GeoBlazor Pro](https://www.nuget.org/packages/dymaptic.GeoBlazor.Pro)
 
 [![Build](https://img.shields.io/github/actions/workflow/status/dymaptic/GeoBlazor/main-release-build.yml?logo=github)](https://github.com/dymaptic/GeoBlazor/actions/workflows/main-release-build.yml)
 [![Issues](https://img.shields.io/github/issues/dymaptic/GeoBlazor?logo=github)](https://github.com/dymaptic/GeoBlazor/issues)
@@ -80,6 +55,14 @@ Or for the Pro version with additional features:
 ```
 
 > **Note:** *.NET 9 can cause __very slow__ build times due to its new static asset compression. If you need faster builds, we recommend staying on .NET 8 for now, and using a global.json file to pin your SDK build version to .NET 8. See our [open request for a fix here](https://github.com/dotnet/aspnetcore/issues/59014).*
+> 
+> *If you decide to stay with .NET 9, we suggest adding the following line to your `csproj` file to disable the new compression feature:*
+> 
+> ```xml
+>    <PropertyGroup>
+>        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
+>    </PropertyGroup>
+> ```
 
 ## 🏁 Getting Started
 
