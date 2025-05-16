@@ -88,7 +88,8 @@ export {
     normalizeUtils,
     Portal,
     SimpleRenderer,
-    buildJsLayer
+    buildJsLayer,
+    reactiveUtils
 };
 
 export const arcGisObjectRefs: Record<string, any> = {};
@@ -1127,7 +1128,11 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<any>
 
 export function closePopup(viewId: string): void {
     const view = arcGisObjectRefs[viewId] as MapView;
-    view.popup?.close();
+    try {
+        view.popup?.close();
+    } catch {
+        // ignore
+    }
 }
 
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {

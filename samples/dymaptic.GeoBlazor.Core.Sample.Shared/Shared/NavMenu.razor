@@ -5,8 +5,7 @@
     <div class="container-fluid">
         <label>
             <span id="search-icon" class="oi oi-magnifying-glass" aria-hidden="true"></span>
-            <input type="search" style="width: 180px; padding-left: 0.5rem;"
-                   @ref="_searchField"
+            <input type="search" style="width: 180px; padding-left: 0.5rem;" 
                    @oninput="UpdateSearchFilter"
                    @onkeyup="SearchFilterKeyUp" />
         </label>
@@ -16,22 +15,20 @@
     </div>
 </div>
 
-<div id="nav-item-container" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div id="nav-container" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         @foreach (PageLink page in FilteredPages)
         {
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="@(page.Href)" Match="NavLinkMatch.All">
-                    @if (page.IconClass is not null)
-                    {
-                        <text><span class="oi @(page.IconClass)" aria-hidden="true"></span>&nbsp;@(page.Title)</text>
-                    }
-                    else
-                    {
-                        <text><span class="oi"><img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/@(page.ImageFile)" alt="@(page.Title)" /></span>&nbsp;@(page.Title)</text>
-                    }
-                </NavLink>
-            </div>
+            <a class="@(page.Pro ? "pro" :  "")" href="@(page.Href)">
+                @if (page.IconClass is not null)
+                {
+                    <text><span class="oi @(page.IconClass)" aria-hidden="true"></span>&nbsp;@(page.Title)</text>
+                }
+                else
+                {
+                    <text><span class="oi"><img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/@(page.ImageFile)" alt="@(page.Title)" /></span>&nbsp;@(page.Title)</text>
+                }
+            </a>
         }
     </nav>
 </div>
@@ -71,7 +68,6 @@
     }
 
     private bool _collapseNavMenu = true;
-    private ElementReference _searchField;
     private string _searchValue = string.Empty;
     public static readonly PageLink[] Pages =
     {

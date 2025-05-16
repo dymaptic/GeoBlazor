@@ -1,0 +1,67 @@
+/*Colors from dy-licensing*/
+:root {
+    color-scheme: light dark;
+    --code-green: #b3ffb3;
+    --code-dark-green: #1a681a;
+    --code-blue: #b1fffc;
+    --code-dark-blue: #24605e;
+    --code-orange: #9a3e1f;
+    --code-dark-purple: #341a67;
+    --error: #FF0022;
+    --text-emphasis: #FFF;
+    --text: #DDD;
+    --light-background: #ddd7ff;
+    --text-disabled: #AAA;
+    --text-button: #FFF;
+    --text-button-outline: #FFF;
+    --text-mega-title: #FFF;
+    --code-background: #000;
+    --geoblazor-primary: #693CB2;
+    --geoblazor-primary-hover: #7845CC;
+    --geoblazor-primary-disabled: #504660;
+    --geoblazor-secondary: #928AC1;
+    --geoblazor-secondary-hover: #B7ADF2;
+    --geoblazor-accent: #E76439;
+    --geoblazor-accent-emphasis: #ff7c39;
+    --geoblazor-accent-hover: #FF8861;
+    --geoblazor-gradient-dark-hover: #121212;
+    --background-grey-1: #121212;
+    --background-grey-1-alpha: rgba(18, 18, 18, 0.9);
+    --background-grey-2: #252525;
+    --background-grey-3: #46414C;
+    --background-grey-4: #696969;
+    --background-grey-4-alpha: rgba(105, 105, 105, 0.9);
+    --geoblazor-gradient-horizontal: linear-gradient(90deg, var(--geoblazor-primary), var(--geoblazor-accent));
+    --geoblazor-gradient-horizontal-hover: linear-gradient(90deg, var(--geoblazor-primary-hover), var(--geoblazor-accent-hover));
+    --geoblazor-gradient-vertical: linear-gradient(180deg, var(--geoblazor-primary), var(--geoblazor-accent));
+    --torchy-gradient-a: #9747FF;
+    --torchy-gradient-b: #554C8B;
+    --torchy-gradient-c: #E76439;
+    --torchy-gradient-a-hover: #B47AFF;
+    --torchy-gradient-b-hover: #6B61A8;
+    --torchy-gradient-c-hover: #EC8664;
+    --torchy-gradient-horizontal: linear-gradient(90deg, var(--torchy-gradient-a), var(--torchy-gradient-b), var(--torchy-gradient-c));
+    --torchy-gradient-vertical: linear-gradient(180deg, var(--torchy-gradient-a), var(--torchy-gradient-b), var(--torchy-gradient-c));
+    --torchy-gradient-horizontal-hover: linear-gradient(90deg, var(--torchy-gradient-a-hover), var(--torchy-gradient-b-hover), var(--torchy-gradient-c-hover));
+    --torchy-gradient-vertical-hover: linear-gradient(180deg, var(--torchy-gradient-a-hover), var(--torchy-gradient-b-hover), var(--torchy-gradient-c-hover));
+    --box-radius: 0.5rem;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --error: #C0392B;
+        --text: #121212;
+        --text-button-outline: #121212;
+        --text-disabled: #46414C;
+        --text-emphasis: #121212;
+
+        --geoblazor-gradient-dark-hover: #FFF;
+
+        --background-grey-1: #F5F5F5;
+        --background-grey-1-alpha: rgba(245, 245, 245, 0.9);
+        --background-grey-2: #EEEEEE;
+        --background-grey-3: #DCD8E3;
+        --background-grey-4: #B0B0B0;
+        --background-grey-4-alpha: rgba(176, 176, 176, 0.9);
+    }
+}

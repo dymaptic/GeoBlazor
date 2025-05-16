@@ -6,8 +6,16 @@
     top: 0;
     right: 0;
     background: rgba(255, 255, 255, 0.8);
+    color: black;
     width: fit-content;
     padding: 0 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .dymaptic-branding {
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+    }
 }
 
 .map-wrapper {

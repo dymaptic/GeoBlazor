@@ -2,7 +2,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-image: url("images/GradientBackground.jpg");
     background-size: cover;
 }
 
@@ -18,7 +17,6 @@ main {
 
 .sidebar {
     z-index: 2000;
-    background-image: linear-gradient(180deg, var(--geoblazor-tertiary) 0%, var(--geoblazor-primary) 100%);
 }
 
 .top-row {

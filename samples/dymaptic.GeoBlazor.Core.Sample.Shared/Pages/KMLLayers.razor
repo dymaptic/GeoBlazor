@@ -6,13 +6,18 @@
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">ArcGIS API for JavaScript</a>
     <a class="btn btn-primary" target="_blank" href="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">USGS Earthquake Hazards Program Monitoring Center</a>
 </div>
-<Label>The sample KML Layer uses a URL to see major earthquakes for latest 30 days from USGS to the map database :</Label>
-<InputText @bind-Value="_kmlLayerUrl"></InputText>
-<br />
-<Label>Click the buttons below to see the different ways to display a KML layer</Label>
-<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveKMLLayer())">Add or Remove KML Layer in code</button>
-<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new KML Layer in Markup</button>
-
+<p class="instructions">
+    The sample KML Layer uses a URL to see major earthquakes for latest 30 days from USGS to the map database
+</p>
+<div class="spaced-row">
+    Enter KML Layer URL:
+    <input type="text" @bind="_kmlLayerUrl" style="width: 100%;" />
+</div>
+<p>Click the buttons below to see the different ways to display a KML layer</p>
+<div class="spaced-row">
+    <button type="button" class="btn btn-primary" disabled="@(!_mapRendered)" @onclick="AddRemoveKMLLayer">Add or Remove KML Layer in code</button>
+    <button type="button" class="btn btn-accent" disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new KML Layer in Markup</button>
+</div>
 
 <MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered" Scale="0">
     <Map>

@@ -7,10 +7,13 @@
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">ArcGIS API for JavaScript</a>
     <a class="btn btn-primary" target="_blank" href="something">NOAA Sea Surface Temperature Charts</a>
 </div>
-<Label>Add the sample WCS Layer URL to see a visualization of global sea surface temperature data with or without color rendering using the RasterStretch:</Label>
-<br />
-<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add/Remove the WCS Layer with color ramp enabled</button>
-<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add/Remove new WCS Layer in Markup without colorizing</button>
+<p class="instructions">
+    Add the sample WCS Layer URL to see a visualization of global sea surface temperature data with or without color rendering using the RasterStretch:
+</p>
+<div class="spaced-row">
+    <button type="button" class="btn btn-primary" disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add/Remove the WCS Layer with color ramp enabled</button>
+    <button type="button" class="btn btn-accent" disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add/Remove new WCS Layer in Markup without colorizing</button>
+</div>
 
 <MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">
     <Map>

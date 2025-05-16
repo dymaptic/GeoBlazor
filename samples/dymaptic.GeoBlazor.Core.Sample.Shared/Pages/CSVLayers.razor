@@ -9,9 +9,11 @@
 <p class="instructions">
     This sample shows a CSV layer of earthquake data. You can add a new CSV layer by entering a CSV url in the input below.
 </p>
-<label>Enter CSV Layer URL:</label>
-<InputText @bind-Value="_csvLayerUrl"></InputText>
-<button disabled="@(!_viewRendered)" @onclick="AddLayer">Add new CSV Layer!</button>
+<div class="spaced-row">
+    <label>Enter CSV Layer URL:</label>
+    <InputText @bind-Value="_csvLayerUrl"></InputText>
+    <button type="button" class="btn btn-accent" disabled="@(!_viewRendered)" @onclick="AddLayer">Add new CSV Layer!</button>
+</div>
 
 
 <SceneView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">

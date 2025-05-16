@@ -6,6 +6,16 @@
 @inject IJSRuntime JsRuntime
 
 <PageTitle>dymaptic.GeoBlazor.Core</PageTitle>
+<HeadContent>
+    @if (_isDarkMode)
+    {
+        <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/dark/main.css" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
+    }
+</HeadContent>
 
 <div class="page">
     <div class="sidebar">
@@ -75,6 +85,8 @@
             Configuration["LoggedIn"] = "true";
             NavigationManager.NavigateTo(callbackUri);
         }
+        
+        _isDarkMode = await JsRuntime.InvokeAsync<bool>("window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -125,5 +137,5 @@
     }
 
     private record TokenResponse([property: JsonPropertyName("access_token")] string AccessToken);
-
+    private bool _isDarkMode;
 }

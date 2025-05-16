@@ -1,7 +1,863 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('variables.css');
 
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+@font-face {
+    font-family: "Aller";
+    src: url("../fonts/Aller_Std_Rg.ttf") format('truetype');
+}
+
+body {
+    background-color: var(--background-grey-1);
+}
+
+footer {
+    display: none;
+}
+
+summary {
+    display: list-item;
+    list-style-position: outside;
+}
+
+summary a {
+    margin-left: -2rem;
+}
+
+.esri-feature-templates {
+    background: unset;
+}
+
+.esri-feature-form {
+    background-color: var(--background-grey-1);
+}
+
+.esri-widget {
+    color: unset;
+}
+
+.esri-button {
+    color: unset;
+    background-color: unset;
+    border: 0.125rem solid transparent;
+}
+
+.esri-button:hover {
+    color: unset;
+    border-color: var(--geoblazor-accent-hover);
+}
+
+.nav-link {
+    color: unset;
+}
+
+.nav-link:hover {
+    color: unset;
+}
+
+.nav-list-link .oi {
+    top: 2px;
+}
+
+.container {
+    background-color: unset;
+}
+
+/*** TYPOGRAPHY ***/
+
+h1, h2, h3, h4, h5, h6, .mega-title {
+    font-family: 'Aller', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: var(--text-emphasis);
+}
+
+h1 {
+    font-size: 2.25rem;
+
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+}
+
+h4 {
+    font-size: 1rem;
+}
+
+h5 {
+    font-size: 0.875rem;
+}
+
+h6 {
+    font-size: 0.75rem;
+}
+
+td, th {
+    background-color: unset;
+}
+
+.mega-title {
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--text-mega-title);
+    text-transform: uppercase;
+    line-height: unset;
+}
+
+p, label, ol, ul, li, th, td, span {
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.75rem;
+}
+
+ul.validation-errors li.validation-message {
+    list-style: none;
+}
+
+a {
+    color: var(--geoblazor-accent);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+:not(pre, figure) > code {
+    background-color: var(--code-background);
+    color: var(--geoblazor-accent);
+    display: inline;
+    font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+    padding: 0.25rem;
+    border: none;
+}
+
+code {
+    background-color: var(--code-background);
+    color: var(--geoblazor-accent);
+    display: inline;
+    font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+    padding: 0.25rem;
+}
+
+pre, .highlight pre, .highlight {
+    background-color: var(--code-background);
+}
+
+code.large-code-block {
+    padding: 0;
+
+    pre {
+        background-color: var(--code-background);
+    }
+}
+
+i.icon {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    background-size: cover;
+    background-position: center;
+}
+
+i.icon.plus {background-image: url('../images/icons/plus.svg');}
+i.icon.check {background-image: url('../images/icons/check.svg');}
+i.icon.close--accent {background-image: url('../images/icons/close-accent.svg');}
+i.icon.close {background-image: url('../images/icons/close.svg');}
+i.icon.info {background-image: url('../images/icons/info.svg');}
+i.icon.edit {background-image: url('../images/icons/edit.svg');}
+i.icon.save {background-image: url('../images/icons/save.svg');}
+
+@media (prefers-color-scheme: light) {
+    i.icon.info {background-image: url('../images/icons/info.svg');}
+}
+
+.error {
+    color: var(--error);
+}
+
+hr {
+    border-bottom: 0.125rem solid var(--text-emphasis);
+    opacity: 1;
+    width: 100%;
+}
+
+
+/*** CONTROLS ***/
+
+body {   /* body tag added to help overwrite Bootstrap */
+
+    text-wrap: pretty;
+    color: var(--text);
+    
+    .btn {
+        color: var(--text-button);
+        font-family: 'Aller', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 200;
+        font-size: 1.25rem;
+        background-color: var(--geoblazor-primary);
+        border-radius: var(--box-radius);
+        border: none;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 4rem;
+        margin: 0.5rem;
+        text-wrap: pretty;
+
+        i.icon {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .btn:disabled {
+        background-color: var(--geoblazor-primary-disabled);
+        /* color: var(--text-disabled); */
+    }
+
+    .btn-small {
+        padding: 0.25rem 2rem;
+    }
+
+    .btn-tiny {
+        border-radius: 0.5rem;
+        padding: 0.25rem;
+        font-size: 0.875rem;
+
+    }
+
+    .btn:hover,
+    .btn-small:hover,
+    .btn-tiny:hover {
+        color: var(--text-button);
+    }
+
+    .btn-primary {
+        background-color: var(--geoblazor-primary);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:active,
+    .btn-primary:focus,
+    .btn-primary:focus-visible,
+    :not(.btn-check)+.btn.btn-primary:active,  /* Bootstrap override */
+    .btn-primary:first-child:active {
+        background-color: var(--geoblazor-primary-hover);
+    }
+
+    .btn-secondary {
+        background-color: var(--geoblazor-secondary);
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:active,
+    .btn-secondary:focus,
+    .btn-secondary:focus-visible,
+    :not(.btn-check)+.btn.btn-secondary:active,  /* Bootstrap override */
+    .btn-secondary:first-child:active {
+        background-color: var(--geoblazor-secondary-hover);
+    }
+
+    .btn-accent {
+        background-color: var(--geoblazor-accent);
+    }
+
+    .btn-accent:hover,
+    .btn-accent:active,
+    .btn-accent:focus,
+    .btn-accent:focus-visible,
+    :not(.btn-check)+.btn.btn-accent:active,  /* Bootstrap override */
+    .btn-accent:first-child:active {
+        background-color: var(--geoblazor-accent-hover);
+    }
+
+    .btn-gradient {
+        background-color: unset;
+        background: var(--torchy-gradient-horizontal);
+    }
+
+    .btn-gradient:hover,
+    .btn-gradient:active,
+    .btn-gradient:focus,
+    .btn-gradient:focus-visible,
+    :not(.btn-check)+.btn.btn-gradient:active,  /* Bootstrap override */
+    .btn-gradient:first-child:active {
+        background-color: unset;
+        background: var(--torchy-gradient-horizontal-hover);
+    }
+
+    .btn-gradient-dark {
+        background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
+        var(--torchy-gradient-horizontal) border-box;
+        border: 0.125rem solid transparent;
+        padding: 0.75rem 3.75rem;
+        color: var(--text-button-outline);
+    }
+
+    .btn-gradient-dark:hover,
+    .btn-gradient-dark:active,
+    .btn-gradient-dark:focus,
+    .btn-gradient-dark:focus-visible,
+    :not(.btn-check)+.btn.btn-gradient-dark:active,  /* Bootstrap override */
+    .btn-gradient-dark:first-child:active {
+        background: linear-gradient(var(--geoblazor-gradient-dark-hover), var(--geoblazor-gradient-dark-hover)) padding-box,
+        var(--torchy-gradient-horizontal-hover) border-box;
+        color: var(--text-button-outline);
+    }
+
+    @media (prefers-color-scheme: light) {
+        .btn-gradient-dark,
+        .btn-gradient-dark:hover,
+        .btn-gradient-dark:active,
+        .btn-gradient-dark:focus,
+        .btn-gradient-dark:focus-visible,
+        :not(.btn-check)+.btn.btn-gradient-dark:active,  /* Bootstrap override */
+        .btn-gradient-dark:first-child:active {
+            color: var(--geoblazor-primary);
+        }
+    }
+
+    .btn-danger {
+        background-color: var(--background-grey-1);
+        border: 0.125rem solid var(--error);
+        padding: 0.75rem 3.75rem;
+        color: var(--text-button-outline);
+    }
+
+    .btn-danger:hover, .btn-danger.btn-small:hover,
+    .btn-danger:active, .btn-danger.btn-small:active,
+    .btn-danger:focus, .btn-danger.btn-small:focus,
+    .btn-danger:focus-visible, .btn-danger.btn-small:focus-visible,
+    :not(.btn-check)+.btn.btn-danger:active,  /* Bootstrap override */
+    .btn-danger:first-child:active, .btn-danger.btn-small:first-child:active {
+        background-color: var(--error);
+    }
+
+    .btn-danger.btn-small {
+        background-color: var(--background-grey-1);
+        border: 0.125rem solid var(--error);
+        padding: 0.125rem 1.875rem;
+    }
+
+    .btn-danger.btn-tiny {
+        padding: 0.25rem;
+    }
+
+}
+
+.spaced-row {
+    margin: 1rem 0; 
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-evenly;
+    align-items: center;
+    background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
+    var(--geoblazor-gradient-horizontal) border-box;
+    border: 0.125rem solid transparent;
+    border-radius: var(--box-radius);
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 200;
+    padding: 0.5rem 2rem;
+    min-width: 8rem;
+
+    label {
+        display: block;
+    }
+}
+
+.highlight {
+    .err {
+        color: var(--error);
+        background-color: unset;
+    }
+
+    .k {
+        color: var(--geoblazor-secondary);
+    }
+
+    .m {
+        color: var(--code-blue);
+    }
+
+    .n, .nt {
+        color: var(--geoblazor-accent);
+    }
+
+    .na {
+        color: var(--geoblazor-accent-hover);
+    }
+
+    .nl, .nf {
+        color: var(--geoblazor-secondary-hover);
+    }
+
+    .nx {
+        color: var(--geoblazor-secondary);
+    }
+
+    .p {
+        color: var(--text-light);
+    }
+
+    .kc, .s {
+        color: var(--code-green);
+    }
+}
+
+
+/*** INPUT FIELDS ***/
+
+body {   /* body tag added to help overwrite Bootstrap */
+
+    input,
+    select,
+    textarea {
+        background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
+        var(--geoblazor-gradient-horizontal) border-box;
+        border: 0.125rem solid transparent;
+        border-radius: var(--box-radius);
+        color: var(--text);
+        font-family: 'Roboto', sans-serif;
+        font-size: 1rem;
+        font-weight: 200;
+    }
+
+    select,
+    textarea {
+        padding: 0.5rem 2rem;
+        min-width: 8rem;
+    }
+    
+    input:not([type="checkbox"]) {
+        padding: 0.5rem 2rem;
+        min-width: 8rem;
+    }
+
+    select option {
+        background-color: var(--background-grey-2);
+        color: var(--text-emphasis);
+    }
+
+    input.invalid,
+    select.invalid,
+    textarea.invalid {
+        background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
+        var(--error) border-box;
+    }
+
+    input:focus, input:focus-visible,
+    select:focus, select:focus-visible,
+    textarea:focus, textarea:focus-visible {
+        outline-color: var(--geoblazor-accent);
+    }
+
+    input:focus, input:focus-visible,
+    select:focus, select:focus-visible {
+        border-color: var(--geoblazor-accent);
+        background-color: unset;
+        color: var(--text);
+    }
+
+    select.unselected {
+        color: var(--text-disabled);
+    }
+
+    textarea::-webkit-resizer {
+        background-image: url(../images/icons/resize-handle.svg);
+    }
+
+    ::-webkit-calendar-picker-indicator {
+        background-image: url('../images/icons/calendar.svg');
+    }
+
+    ::placeholder {
+        color: var(--text-disabled);
+    }
+
+    @media (prefers-color-scheme: light) {
+        textarea::-webkit-resizer {
+            background-image: url(../images/icons/resize-handle-dark.svg);
+        }
+
+        ::-webkit-calendar-picker-indicator {
+            background-image: url('../images/icons/calendar-dark.svg');
+        }
+    }
+
+}
+
+/*** FORMS ***/
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
+    var(--geoblazor-gradient-horizontal) border-box;
+    border: 0.125rem solid transparent;
+    border-radius: var(--box-radius);
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 200;
+    padding: 0.5rem 2rem;
+    min-width: 8rem;
+
+    label {
+        display: block;
+    }
+}
+
+.form-group__tooltip-field {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.form-group__tooltip-field i.icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* container query for forms inside Split Layout that couldn't be selected
+   within SplitLayout css due to css isolation string generation */
+.split-layout-form {
+    container: split-layout-form / inline-size;
+
+    @container (width < 490px) {
+        .form-row {
+            flex-direction: column;
+            gap: initial;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .modal__content .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+/*** TABLES ***/
+body {
+    table {
+        tr {
+            background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
+            var(--torchy-gradient-horizontal) border-box;
+            border: solid transparent;
+            border-width: 0 0 0.125rem;
+        }
+        td, th {
+            padding: 0.65rem;
+        }
+        th {
+            color: var(--text-emphasis);
+            font-size: 1.25rem;
+        }
+        td {
+            color: var(--text);
+        }
+    }
+}
+
+a,
+a:not([href]):not([class]), a:not([href]):not([class]):hover {
+    text-decoration: underline;
+    color: var(--text-emphasis);
+    cursor: pointer;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.row > * {
+    max-width: unset;
+    width: unset;
+}
+
+.validation-errors {
+    color: var(--error);
+}
+
+.questionnaire-form label {
+    display: flex;
+    flex-direction: column;
+}
+
+.questionnaire-form textarea {
+    width: 100%;
+
+}
+
+
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 3.5rem;
+    top: 0.5rem;
+}
+
+.blazor-error-boundary {
+    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+    padding: 1rem 1rem 1rem 3.7rem;
+    color: white;
+}
+
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+::-webkit-scrollbar-track {
+    background: var(--background-grey-2);
+    border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--background-grey-3);
+    border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--background-grey-4);
+}
+
+.main-header {
+    background-color: unset;
+    border-bottom: unset;
+}
+
+.site-logo {
+    height: 70px;
+}
+
+.site-title {
+    padding: 0;
+    margin: 0;
+}
+
+.site-title:hover {
+    background-image: unset;
+}
+
+.side-bar {
+    background: var(--background-grey-2);
+}
+
+.nav-list {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.nav-list .nav-list-item {
+    min-height: 4rem;
+    margin-bottom: 0.5rem;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: var(--box-radius);
+    list-style: none;
+    padding: 1rem;
+}
+
+.nav-list .nav-list-item .nav-list-link {
+    font-family: 'Aller', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+    color: var(--text-emphasis);
+    text-decoration: none;
+}
+
+.nav-list .nav-list-item:has(.nav-list-link.active) {
+    background-color: var(--background-grey-3);
+}
+
+.nav-list .nav-list-item .nav-list-link.active {
+    background-image: unset;
+}
+
+.nav-list .nav-list-item:hover {
+    background-color: var(--background-grey-1);
+}
+
+.nav-list .nav-list-item .nav-list-link:hover {
+    background-image: unset;
+}
+
+.nav-list .nav-list-item .nav-list-expander {
+    color: var(--geoblazor-secondary);
+}
+
+.nav-list .nav-list-item .nav-list-expander:hover {
+    color: var(--geoblazor-secondary-hover);
+    background-image: unset;
+}
+
+.nav-list .nav-list-item > .nav-list .nav-list-item .nav-list-link {
+    color: var(--text-emphasis);
+    font-size: 1rem;
+}
+
+.nav-list .nav-list-item .nav-list-expander svg {
+    transform: rotate(0);
+}
+
+.nav-list .nav-list-item.active .nav-list-expander svg {
+    transform: rotate(90deg);
+}
+
+.side-bar a {
+    color: var(--text-emphasis);
+}
+
+.main-content a {
+    color: var(--geoblazor-secondary);
+}
+
+.main-content a:visited {
+    color: var(--geoblazor-secondary-hover);
+}
+
+.main-content a:hover {
+    color: var(--geoblazor-secondary-hover);
+}
+
+.aux-nav .aux-nav-list {
+    display: none;
+}
+
+.navbar__logo {
+    height: 100%;
+    width: 100%;
+    background-size: contain;
+    background-repeat:  no-repeat;
+    background-position: center center;
+    background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px.png');
+}
+
+@media (min-width: 66.5rem) {
+    .side-bar {
+        width: 20rem;
+    }
+
+    .side-bar + .main {
+        margin-left: max(20rem, (100% - 100rem) / 2 + 20rem);
+    }
+
+    .site-header {
+        width: 24rem;
+        height: 8rem;
+        max-height: unset;
+        min-height: 8rem;
+        border: unset;
+        margin: 2rem 0 1rem;
+    }
+
+    .site-nav {
+        width: 20rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .main {
+        max-width: 80rem;
+    }
+}
+
+@media (min-width: 50rem) {
+    .side-bar + .main .main-header {
+        background-color: unset;
+    }
+
+    .site-nav {
+        padding: 0.5rem;
+    }
+
+    .search-input-wrap {
+        border-radius: var(--box-radius);
+        top: 0.5rem;
+        left: 1rem;
+    }
+
+    .nav-list .nav-list-item {
+        font-size: 1.25rem !important;
+    }
+
+    .main-header {
+        height: 3.5rem;
+        padding: 0.5rem 0;
+    }
+
+    .site-header {
+        width: 100%;
+        height: 8rem;
+        min-height: 8rem;
+        max-height: unset;
+        border: unset;
+        margin: 0;
+    }
+
+    .site-title {
+        height: 70px;
+    }
+
+    .nav-list .nav-list-item .nav-list-expander {
+        padding: 0.2rem;
+    }
+}
+
+@media (min-width: 31.25rem) {
+    .nav-list .nav-list-item {
+        font-size: 1.25rem !important;
+    }
+
+    .breadcrumb-nav-list-item {
+        font-size: 1rem !important;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .navbar__logo {
+        background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px-dark.png');
+    }
 }
 
 .map-view {
@@ -14,8 +870,6 @@ html, body {
     margin: 2rem 0 0 0;
     padding: 2rem 0.5rem 0.5rem 0.5rem;
     border-radius: 0.5rem;
-    box-shadow: gray;
-    background-image: linear-gradient(180deg, var(--geoblazor-tertiary) 0%, var(--geoblazor-primary) 100%);
 }
 
 .dymaptic-branding {
@@ -34,14 +888,6 @@ h1:focus {
     outline: none;
 }
 
-a, .btn-link {
-    color: var(--geoblazor-primary);
-}
-
-a:hover, .btn-link:hover {
-    color: black;
-}
-
 .btn, input {
     border-radius: 0.5rem;
     border: 1px solid black;
@@ -53,30 +899,6 @@ a:hover, .btn-link:hover {
 
 input {
     padding: 0.2rem;
-}
-
-code {
-    color: var(--geoblazor-primary);
-    font-weight: bold;
-}
-
-.btn-primary {
-    color: black;
-    background-color: var(--geoblazor-secondary);
-}
-
-.btn-primary:hover {
-    color: white;
-    background-color: var(--geoblazor-tertiary);
-}
-
-.btn-secondary {
-    background-color: black;
-    color: white;
-}
-
-.btn-secondary:hover {
-    background-color: var(--geoblazor-primary);
 }
 
 .content {
@@ -91,14 +913,33 @@ code {
     margin-bottom: 1.5rem;
 }
 
-.form-check-input {
+input[type=checkbox] {
     width: 1.25rem;
     height: 1.25rem;
 }
 
+form {
+    align-items: start;
+}
+
+input:checked[type=checkbox] {
+    background-image: unset;
+    background-color: var(--geoblazor-accent);
+    border-color: var(--geoblazor-accent-emphasis);
+}
+
 .form-check-input:checked[type=checkbox] {
     background-image: unset;
-    background-color: var(--geoblazor-primary);
+    border-color: var(--geoblazor-accent-emphasis);
+}
+
+.form-check-input:focus[type=checkbox] {
+    border-color: var(--geoblazor-accent-emphasis);
+    box-shadow: 0 0 0 0.25rem 
+}
+
+.form-check-input:hover[type=checkbox] {
+    border-color: var(--geoblazor-accent-hover);
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -118,10 +959,6 @@ code {
     padding-right: 1rem;
 }
 
-.radio-container input:checked ~ .radio-box {
-    background-color: var(--geoblazor-primary);
-}
-
 .radio-box {
     display: inline;
     height: 1.25rem;
@@ -130,7 +967,21 @@ code {
     border-radius: 0.25rem;
     position: absolute;
     right: 0;
-    background-color: white;
+    background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
+    var(--geoblazor-gradient-horizontal) border-box;
+}
+
+.radio-container input:checked ~ .radio-box {
+    background: var(--geoblazor-accent);
+    border-color: var(--geoblazor-accent-emphasis)
+}
+
+.radio-container input:focus ~ .radio-box {
+    border-color: var(--geoblazor-accent-emphasis)
+}
+
+.radio-container input:hover ~ .radio-box {
+    border-color: var(--geoblazor-accent-hover)
 }
 
 input[type=radio] {
@@ -172,18 +1023,8 @@ input[type=radio] {
     font-size: 1em
 }
 
-input[type="text"]:not(.esri-search__input), input[type="number"]:not(.esri-search__input) {
-    width: 8rem;
-}
-
 #land-cover {
     padding: 1rem;
-}
-
-:root {
-    --geoblazor-primary: #512e84;
-    --geoblazor-secondary: #cae9fb;
-    --geoblazor-tertiary: #125a8d;
 }
 
 @media (max-width: 799px) {
