@@ -57,10 +57,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Remove="appsettings.json"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <MauiImage Include="Resources\Splash\geoblazor.png"/>
     </ItemGroup>
 
@@ -74,6 +70,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="appsettings.json" />
+      <EmbeddedResource Include="appsettings.json" />
     </ItemGroup>
 
     <ProjectExtensions>

@@ -682,7 +682,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 
 #nav-container {
     overflow-y: auto;
-    height: 100%;
+    height: calc(100vh - 6rem);
     padding: 0.5rem 0;
 }
 
@@ -865,6 +865,10 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 
     .top-row.navbar {
         height: 8rem;
+    }
+
+    #nav-container {
+        height: calc(100vh - 8rem);
     }
 
     .site-nav {
