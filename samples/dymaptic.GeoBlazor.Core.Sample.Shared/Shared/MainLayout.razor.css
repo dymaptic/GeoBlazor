@@ -29,15 +29,6 @@ main {
     height: 12rem;
 }
 
-.top-row .btn {
-    font-size: 1.5rem;
-}
-
-.top-row ::deep a, .top-row .btn-link, .top-row button, .top-row label {
-    white-space: nowrap;
-    margin-left: 1.5rem;
-}
-
 .top-row a:first-child {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -46,14 +37,6 @@ main {
 @media (min-width: 800px) {
     .page {
         flex-direction: row;
-    }
-
-    .sidebar {
-        width: 280px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-        overflow-y: auto;
     }
 
     .top-row {

@@ -6,7 +6,8 @@
 @inject IJSRuntime JsRuntime
 
 <PageTitle>dymaptic.GeoBlazor.Core</PageTitle>
-<HeadContent>
+@if (JsRuntime.GetType().Name.Contains("WebView"))
+{
     @if (_isDarkMode)
     {
         <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/dark/main.css" rel="stylesheet" />
@@ -15,20 +16,51 @@
     {
         <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
     }
-</HeadContent>
+    <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
+    <script>
+        window.isDarkMode = () => {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+    </script>
+}
+else
+{
+    <HeadContent>
+        @if (_isDarkMode)
+        {
+            <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/dark/main.css" rel="stylesheet" />
+        }
+        else
+        {
+            <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
+        }
+        <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
+        <script>
+        window.isDarkMode = () => {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+    </script>
+    </HeadContent>
+}
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
+    <div class="side-bar">
+        <NavMenu SearchText="@_searchText" EnterKeyPressed="_enterKeyPressed" />
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/geoblazor_logo_with_title.png"
-                 width="280" alt="dymaptic" />
-            <div>
+        <main>
+            <div class="top-row px-4">
+                <div class="search-input-wrap">
+                    <input type="search" id="search-input"
+                           placeholder="Search for sample..."
+                           @oninput="UpdateSearchFilter"
+                           @onkeyup="SearchFilterKeyUp" />
+                    <label for="search-input" class="search-label">
+                        <img src="/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/search.svg" alt="Search" />
+                    </label>
+                </div>
                 @if (!NavigationManager.Uri.Contains("source-code") &&
-                    (NavigationManager.Uri != NavigationManager.BaseUri) &&
+                    NavigationManager.Uri != NavigationManager.BaseUri &&
                     !NavigationManager.Uri.Contains("about"))
                 {
                     <button type="button" class="btn btn-primary" @onclick="ViewPageSource">Source Code</button>
@@ -43,6 +75,7 @@
                 {
                     <label>Enter ArcGIS API Key:<input id="api-key-field" type="text" @bind="ApiKey" /></label>
                     <button id="api-key-go" @onclick="StateHasChanged">GO</button>
+
                     if (!string.IsNullOrWhiteSpace(clientId))
                     {
                         <span>&nbsp;OR&nbsp;</span>
@@ -54,8 +87,6 @@
                     <button @onclick="LoginToArcGis">Login to ArcGIS</button>
                 }
             </div>
-
-        </div>
 
         <article class="content px-4">
             @Body
@@ -85,8 +116,6 @@
             Configuration["LoggedIn"] = "true";
             NavigationManager.NavigateTo(callbackUri);
         }
-        
-        _isDarkMode = await JsRuntime.InvokeAsync<bool>("window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -99,6 +128,12 @@
                 Configuration["ArcGISApiKey"] = localStorageCopy;
                 StateHasChanged();
             }
+        }
+
+        if (firstRender)
+        {
+            _isDarkMode = await JsRuntime.InvokeAsync<bool>("isDarkMode");
+            StateHasChanged();
         }
     }
 
@@ -135,7 +170,22 @@
     {
         NavigationManager.NavigateTo("https://github.com/dymaptic/GeoBlazor");
     }
+    
+    private void UpdateSearchFilter(ChangeEventArgs arg)
+    {
+        _searchText = arg.Value?.ToString() ?? string.Empty;
+    }
+
+    private void SearchFilterKeyUp(KeyboardEventArgs arg)
+    {
+        if (arg.Key.Equals("Enter"))
+        {
+            _enterKeyPressed = true;
+        }
+    }
 
     private record TokenResponse([property: JsonPropertyName("access_token")] string AccessToken);
     private bool _isDarkMode;
+    private string _searchText = string.Empty;
+    private bool _enterKeyPressed;
 }

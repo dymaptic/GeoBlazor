@@ -9,8 +9,7 @@
 }
 
 ::deep .radio-container {
-    width: 100%;
-    margin: 1rem;
+    width: 525px;
 }
 
 ::deep input[type=radio] {

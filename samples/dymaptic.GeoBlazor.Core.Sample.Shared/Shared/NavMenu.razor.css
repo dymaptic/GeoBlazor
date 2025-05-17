@@ -17,7 +17,11 @@
     width: 2rem;
     font-size: 1.1rem;
     vertical-align: text-top;
-    top: -2px;
+    top: 2px;
+}
+
+.oi img {
+    height: 18px;
 }
 
 .nav-item {
@@ -38,7 +42,6 @@
 }
 
 .nav-item ::deep a {
-    border-radius: 4px;
     height: 3rem;
     display: flex;
     align-items: center;

@@ -7,59 +7,64 @@
 }
 
 body {
-    background-color: var(--background-grey-1);
+background-color: var(--background-grey-1);
 }
 
 footer {
-    display: none;
+display: none;
 }
 
 summary {
-    display: list-item;
-    list-style-position: outside;
+display: list-item;
+list-style-position: outside;
 }
 
 summary a {
-    margin-left: -2rem;
+margin-left: -2rem;
 }
 
 .esri-feature-templates {
-    background: unset;
+background: unset;
 }
 
 .esri-feature-form {
-    background-color: var(--background-grey-1);
+background-color: var(--background-grey-1);
 }
 
 .esri-widget {
-    color: unset;
+color: unset;
 }
 
 .esri-button {
-    color: unset;
-    background-color: unset;
-    border: 0.125rem solid transparent;
+color: unset;
+background-color: unset;
+border: 0.125rem solid transparent;
 }
 
 .esri-button:hover {
-    color: unset;
-    border-color: var(--geoblazor-accent-hover);
+color: unset;
+border-color: var(--geoblazor-accent-hover);
 }
 
 .nav-link {
-    color: unset;
+color: unset;
 }
 
 .nav-link:hover {
-    color: unset;
+color: unset;
 }
 
 .nav-list-link .oi {
-    top: 2px;
+top: 2px;
+height: 18px;
+}
+
+.nav-list-link.pro .oi {
+color: gold;
 }
 
 .container {
-    background-color: unset;
+background-color: unset;
 }
 
 /*** TYPOGRAPHY ***/
@@ -209,7 +214,7 @@ body {   /* body tag added to help overwrite Bootstrap */
         display: inline-flex;
         justify-content: center;
         align-items: center;
-        padding: 1rem 4rem;
+        padding: 1rem 2rem;
         margin: 0.5rem;
         text-wrap: pretty;
 
@@ -357,6 +362,7 @@ body {   /* body tag added to help overwrite Bootstrap */
     margin: 1rem 0; 
     display: flex; 
     flex-direction: row; 
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
     background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
@@ -476,10 +482,6 @@ body {   /* body tag added to help overwrite Bootstrap */
         background-image: url(../images/icons/resize-handle.svg);
     }
 
-    ::-webkit-calendar-picker-indicator {
-        background-image: url('../images/icons/calendar.svg');
-    }
-
     ::placeholder {
         color: var(--text-disabled);
     }
@@ -487,10 +489,6 @@ body {   /* body tag added to help overwrite Bootstrap */
     @media (prefers-color-scheme: light) {
         textarea::-webkit-resizer {
             background-image: url(../images/icons/resize-handle-dark.svg);
-        }
-
-        ::-webkit-calendar-picker-indicator {
-            background-image: url('../images/icons/calendar-dark.svg');
         }
     }
 
@@ -679,7 +677,13 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 }
 
 .side-bar {
-    background: var(--background-grey-2);
+    background-color: var(--background-grey-2);
+}
+
+#nav-container {
+    overflow-y: auto;
+    height: 100%;
+    padding: 0.5rem 0;
 }
 
 .nav-list {
@@ -765,13 +769,65 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     display: none;
 }
 
+.top-row.navbar {
+    height: 6rem;
+    border-bottom: 0.25rem solid var(--geoblazor-primary);
+    padding: 1rem 0;
+}
+
+.navbar-toggler {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 1rem;
+}
+
+.navbar-toggler:hover {
+    background-color: var(--background-grey-3);
+
+    .navbar-toggler-icon {
+        filter: brightness(2);
+    }
+}
+
+.navbar-toggler-icon {
+    background-image: url('../images/menu.svg');
+}
+
+.container-fluid {
+    height: 100%;
+    position: relative;
+}
+
 .navbar__logo {
     height: 100%;
     width: 100%;
     background-size: contain;
     background-repeat:  no-repeat;
-    background-position: center center;
+    background-position: left center;
     background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px.png');
+}
+
+.search-label {
+    position: absolute;
+    display: flex;
+    height: 20px;
+    width: 20px;
+    padding-left: 1rem;
+    top: 14px;
+    left: 0;
+}
+
+#search-input {
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem 2rem 0.5rem 3.5rem;
+}
+
+.search-input-wrap {
+    position: relative;
+    width: 340px;
+    height: 48px;
 }
 
 @media (min-width: 66.5rem) {
@@ -807,14 +863,17 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
         background-color: unset;
     }
 
+    .top-row.navbar {
+        height: 8rem;
+    }
+
     .site-nav {
         padding: 0.5rem;
     }
 
-    .search-input-wrap {
-        border-radius: var(--box-radius);
-        top: 0.5rem;
-        left: 1rem;
+    .search-label {
+        padding-left: 2rem;
+        transition: padding-left linear 200ms;
     }
 
     .nav-list .nav-list-item {
@@ -842,6 +901,25 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     .nav-list .nav-list-item .nav-list-expander {
         padding: 0.2rem;
     }
+
+    .page {
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .side-bar {
+        position: sticky;
+        height: 100vh;
+        align-items: flex-end;
+        background: linear-gradient(var(--background-grey-2), var(--background-grey-2)) padding-box,
+        var(--geoblazor-gradient-vertical) border-box;
+        border-right: 0.25rem solid transparent;
+    }
+
+    .navbar__logo {
+        width: 100%;
+        background-position: center center;
+    }
 }
 
 @media (min-width: 31.25rem) {
@@ -854,9 +932,44 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     }
 }
 
+@media (max-width: 799px) {
+    main .top-row.px-4 {
+        display: none;
+    }
+}
+
 @media (prefers-color-scheme: light) {
     .navbar__logo {
         background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px-dark.png');
+    }
+    
+    .side-bar {
+        background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box, 
+        var(--geoblazor-gradient-vertical) border-box;
+    }
+
+    .nav-list .nav-list-item:hover {
+        background-color: var(--background-grey-3);
+    }
+
+    .nav-list .nav-list-item:has(.nav-list-link.active) {
+        background-color: var(--background-grey-4);
+    }
+
+    .nav-list .nav-list-item:has(.pro) {
+        background-color: var(--geoblazor-secondary);
+    }
+
+    .nav-list .nav-list-item:has(.pro):hover {
+        background-color: var(--geoblazor-secondary-hover);
+    }
+
+    .nav-list .nav-list-item:has(.active.pro) {
+        background-color: var(--geoblazor-primary);
+    }
+    
+    .oi img:not(.pro .oi img) {
+        filter: invert(1);
     }
 }
 
@@ -1027,9 +1140,17 @@ input[type=radio] {
     padding: 1rem;
 }
 
-@media (max-width: 799px) {
+@media (max-width: 49.9rem) {
     input[type="text"], input[type="number"] {
         width: 5.5rem;
+    }
+    
+    .links-div {
+        flex-direction: column;
+    }
+    
+    .spaced-row {
+        flex-direction: column;
     }
 }
 
