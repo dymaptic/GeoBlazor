@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>8fd6e776-4434-4649-b202-09b0c3b479f5</UserSecretsId>
-        <CompressionEnabled Condition="$(Configuration) == 'DEBUG'">false</CompressionEnabled>
+        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
     </PropertyGroup>
 
     <ItemGroup>
