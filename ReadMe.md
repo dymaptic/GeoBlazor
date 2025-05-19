@@ -47,6 +47,9 @@ GeoBlazor brings the power of the ArcGIS Maps SDK for JavaScript into your Blazo
 
 [![Discord](https://img.shields.io/discord/1027907220949717033?color=%235865F2&label=chat&logo=discord&logoColor=white)](https://discord.gg/hcmbPzn4VW)
 
+## ‼️Important Version Information
+The below documentation is for GeoBlazor version 4.x. To view the documentation for previous versions, switch to the main branch, or go to the [Documentation](https://docs.geoblazor.com) page.
+
 ## ✨ Key Features
 
 - **Pure C# Development**: Access the complete ArcGIS Maps SDK without writing a single line of JavaScript
@@ -157,11 +160,18 @@ Or for the Pro version with additional features:
    ```csharp
    builder.Services.AddGeoBlazor(builder.Configuration);
    ```
+8. GeoBlazor requires Interactive server-side rendering enabled. Verify that the following lines are present in your `Program.cs`:
 
+   ```csharp
+      .AddInteractiveServerComponents(); // this should be in the Services section
+
+      .AddInteractiveServerRenderMode(); // this should be in the app section
+   ```
 8. Create a Razor Component page with a map:
 
    ```html
    @page "/"
+   @rendermode InteractiveServer
 
    <MapView Longitude="-118.805" Latitude="34.027" Zoom="11" Style="height: 400px; width: 100%;"> 
        <WebMap>
