@@ -98,8 +98,8 @@ internal static class StringExtensions
                         nextUpper = true;
                         offset++;
                         break;
-                    case '/': // handle slashes as dashes
-                    case '.': // handle dots as dashes
+                    case '/': // handle slashes as underscores
+                    case '.': // handle dots as underscores
                         span[i - offset] = '_';
                         nextUpper = true;
                         break;
