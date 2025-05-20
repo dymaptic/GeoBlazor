@@ -44,12 +44,6 @@
     --torchy-gradient-vertical: linear-gradient(180deg, var(--torchy-gradient-a), var(--torchy-gradient-b), var(--torchy-gradient-c));
     --torchy-gradient-horizontal-hover: linear-gradient(90deg, var(--torchy-gradient-a-hover), var(--torchy-gradient-b-hover), var(--torchy-gradient-c-hover));
     --torchy-gradient-vertical-hover: linear-gradient(180deg, var(--torchy-gradient-a-hover), var(--torchy-gradient-b-hover), var(--torchy-gradient-c-hover));
-    --pro-gradient-a: #c799ff;
-    --pro-gradient-b: #E76439;
-    --pro-gradient-a-hover: #e3c9ff;
-    --pro-gradient-b-hover: #EC8664;
-    --pro-gradient-horizontal: linear-gradient(90deg, var(--pro-gradient-a), var(--pro-gradient-b));
-    --pro-gradient-horizontal-hover: linear-gradient(90deg, var(--pro-gradient-a-hover), var(--pro-gradient-b-hover));
     --box-radius: 0.5rem;
 }
 
@@ -67,9 +61,5 @@
         --background-grey-3: #DCD8E3;
         --background-grey-4: #B0B0B0;
         --background-grey-4-alpha: rgba(176, 176, 176, 0.9);
-        --pro-gradient-a: #693CB2;
-        --pro-gradient-b: #e34914;
-        --pro-gradient-a-hover: #7845CC;
-        --pro-gradient-b-hover: #FF8861;
     }
 }

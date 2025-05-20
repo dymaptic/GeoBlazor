@@ -701,32 +701,38 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 }
 
 .nav-list .nav-list-item .nav-list-link {
-    font-family: 'Aller', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.2rem;
-    color: var(--text-emphasis);
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.75rem;
     text-decoration: none;
 }
 
-.nav-list .nav-list-item:has(.nav-list-link.pro) {
-    
-} 
+.nav-item-title {
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.75rem;
+}
 
 .nav-list .nav-list-item .nav-list-link.pro .nav-item-title, .nav-list .nav-list-item .nav-list-link.pro.active .nav-item-title {
-    background: var(--pro-gradient-horizontal);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--geoblazor-accent);
 }
 
 .nav-list .nav-list-item .nav-list-link.pro .oi, .nav-list .nav-list-item .nav-list-link.pro .oi {
-    color: var(--torchy-gradient-a);
+    color: var(--geoblazor-accent);
 }
 
 .nav-list .nav-list-item:hover .nav-list-link.pro .nav-item-title {
-    background: var(--pro-gradient-horizontal-hover);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--geoblazor-accent-emphasis);
+}
+
+.nav-list .nav-list-item:hover .nav-list-link.pro .oi, .nav-list .nav-list-item .nav-list-link.pro .oi {
+    color: var(--geoblazor-accent-emphasis);
 }
 
 .nav-list .nav-list-item:has(.nav-list-link.active) {

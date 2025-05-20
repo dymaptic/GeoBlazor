@@ -11,10 +11,10 @@
     <!-- All layers with the mask applied -->
     <g mask="url(#pinMask)">
         <!-- Base layer rectangle -->
-        <rect x="0" y="2.5" width="6" height="4" fill="#9747FF" opacity="0.7"/>
+        <rect x="0" y="2.5" width="6" height="4" fill="#E76439" opacity="0.7"/>
         <!-- Middle layer rectangle -->
-        <rect x="0.5" y="1.25" width="6" height="4" fill="#9747FF" opacity="0.85"/>
+        <rect x="0.5" y="1.25" width="6" height="4" fill="#E76439" opacity="0.85"/>
         <!-- Top layer rectangle -->
-        <rect x="1" y="0" width="6" height="4" fill="#9747FF"/>
+        <rect x="1" y="0" width="6" height="4" fill="#E76439"/>
     </g>
 </svg>
