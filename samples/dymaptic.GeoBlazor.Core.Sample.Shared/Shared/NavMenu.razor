@@ -9,7 +9,7 @@
         </button>
     </div>
 </div>
-
+<hr>
 <div id="nav-container" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav-list">
         @foreach (PageLink page in FilteredPages)
@@ -19,11 +19,11 @@
                 <NavLink class="@linkClass" href="@(page.Href)" @onclick:preventDefault="true" Match="NavLinkMatch.All">
                     @if (page.IconClass is not null)
                     {
-                        <text><span class="oi @(page.IconClass)" aria-hidden="true"></span>&nbsp;@(page.Title)</text>
+                        <text><span class="oi @(page.IconClass)" aria-hidden="true"></span><span class="nav-item-title">@(page.Title)</span>)</text>
                     }
                     else
                     {
-                        <text><span class="oi"><img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/@(page.ImageFile)" alt="@(page.Title)" /></span>&nbsp;@(page.Title)</text>
+                        <text><span class="oi"><img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/@(page.ImageFile)" alt="@(page.Title)" /></span><span class="nav-item-title">@(page.Title)</span></text>
                     }
                 </NavLink>
             </li>

@@ -59,10 +59,6 @@ top: 2px;
 height: 18px;
 }
 
-.nav-list-link.pro .oi {
-color: gold;
-}
-
 .container {
 background-color: unset;
 }
@@ -711,6 +707,28 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     text-decoration: none;
 }
 
+.nav-list .nav-list-item:has(.nav-list-link.pro) {
+    
+} 
+
+.nav-list .nav-list-item .nav-list-link.pro .nav-item-title, .nav-list .nav-list-item .nav-list-link.pro.active .nav-item-title {
+    background: var(--pro-gradient-horizontal);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-list .nav-list-item .nav-list-link.pro .oi, .nav-list .nav-list-item .nav-list-link.pro .oi {
+    color: var(--torchy-gradient-a);
+}
+
+.nav-list .nav-list-item:hover .nav-list-link.pro .nav-item-title {
+    background: var(--pro-gradient-horizontal-hover);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 .nav-list .nav-list-item:has(.nav-list-link.active) {
     background-color: var(--background-grey-3);
 }
@@ -771,8 +789,12 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 
 .top-row.navbar {
     height: 6rem;
+}
+
+.side-bar>hr {
     border-bottom: 0.25rem solid var(--geoblazor-primary);
-    padding: 1rem 0;
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
 }
 
 .navbar-toggler {
@@ -801,7 +823,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 
 .navbar__logo {
     height: 100%;
-    width: 100%;
+    width: calc(100% - 3.5rem);
     background-size: contain;
     background-repeat:  no-repeat;
     background-position: left center;
@@ -958,18 +980,6 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 
     .nav-list .nav-list-item:has(.nav-list-link.active) {
         background-color: var(--background-grey-4);
-    }
-
-    .nav-list .nav-list-item:has(.pro) {
-        background-color: var(--geoblazor-secondary);
-    }
-
-    .nav-list .nav-list-item:has(.pro):hover {
-        background-color: var(--geoblazor-secondary-hover);
-    }
-
-    .nav-list .nav-list-item:has(.active.pro) {
-        background-color: var(--geoblazor-primary);
     }
     
     .oi img:not(.pro .oi img) {

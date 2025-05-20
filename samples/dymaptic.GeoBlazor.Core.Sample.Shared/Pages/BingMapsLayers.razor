@@ -1,5 +1,4 @@
 ﻿@page "/bingmaps-layer"
-@using dymaptic.GeoBlazor.Core.Enums
 <PageTitle>BingMapsLayer</PageTitle>
 <h1>Bing Maps Layer</h1>
 <div class="links-div">
@@ -12,7 +11,7 @@
 
 <div class="spaced-row">
     <label>Enter a valid Bing Maps Key:</label>
-    <input type="text" @bind="_bingMapsKey" style="width: 100%;" />
+    <input type="text" id="bing-maps-key-field" @bind="_bingMapsKey" />
 </div>
 
 <div class="spaced-row">
@@ -24,14 +23,7 @@
         <select @onchange="OnStyleChanged">
             @foreach (BingImageryStyle style in Enum.GetValues(typeof(BingImageryStyle)).Cast<BingImageryStyle>())
             {
-                if (style == _style)
-                {
-                    <option value="@style" selected>@style</option>
-                }
-                else
-                {
-                    <option value="@style">@style</option>
-                }
+                <option value="@style" selected="@(style == _style)">@style</option>
             }
         </select>
     </div>

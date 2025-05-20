@@ -1,3 +1,31 @@
+.map-wrapper {
+    --geoblazor-light: #ddd7ff;
+    --geoblazor-dark: #121212;
+    --error: #FF0022;
+}
+
+@media (prefers-color-scheme: light) {
+    .dymaptic-branding {
+        background: var(--geoblazor-light);
+        color: var(--geoblazor-dark);
+        
+        a, a:visited {
+            color: var(--geoblazor-dark);
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .dymaptic-branding {
+        background: var(--geoblazor-dark);
+        color: var(--geoblazor-light);
+        
+        a, a:visited {
+            color: var(--geoblazor-light);
+        }
+    }
+}
+
 .dymaptic-branding {
     text-align: right;
     font-weight: 400;
@@ -5,17 +33,8 @@
     position: absolute;
     top: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.8);
-    color: black;
     width: fit-content;
     padding: 0 0.5rem;
-}
-
-@media (prefers-color-scheme: dark) {
-    .dymaptic-branding {
-        background: rgba(0, 0, 0, 0.8);
-        color: white;
-    }
 }
 
 .map-wrapper {
@@ -32,10 +51,10 @@
     padding: 1rem;
     background-color: white;
     border-radius: 1rem;
-    color: red;
+    color: var(--error);
     
     a {
-        color: red;
+        color: var(--error);
         text-decoration: underline;
         margin: 5rem;
         max-width: 90%;
