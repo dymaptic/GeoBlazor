@@ -4,12 +4,15 @@ let Color;
 export let Portal;
 export let SimpleRenderer;
 
+let esriConfig;
+
 export function initialize(core) {
     Core = core;
     arcGisObjectRefs = Core.arcGisObjectRefs;
     Color = Core.Color;
     Portal = Core.Portal;
     SimpleRenderer = Core.SimpleRenderer;
+    esriConfig = Core.esriConfig;
 }
 
 export function setJsTimeout(time, methodName) {
@@ -284,5 +287,11 @@ export function assertBasemapHasPortalItemId(methodName, portalItemId) {
     let view = getView(methodName);
     if (view.map.basemap.portalItem.id !== portalItemId) {
         throw new Error("Basemap does not have expected portalItemId");
+    }
+}
+
+export function assertApiKeyAdded(methodName) {
+    if (esriConfig.apiKey === undefined || esriConfig.apiKey === null) {
+        throw new Error("API key not added");
     }
 }

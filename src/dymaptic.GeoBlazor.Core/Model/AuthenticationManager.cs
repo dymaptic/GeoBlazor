@@ -150,6 +150,12 @@ public class AuthenticationManager
                 TrustedServers, FontsUrl);
         }
 
+        // since we have to remove the ApiKey for some public WebMaps, this re-adds it for each new map view.
+        if (ApiKey is not null)
+        {
+            await _module.InvokeVoidAsync("setApiKey", _cancellationTokenSource.Token, ApiKey);
+        }
+
         return true;
     }
 

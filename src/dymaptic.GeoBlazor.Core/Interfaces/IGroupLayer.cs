@@ -3,6 +3,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///   For reading GroupLayer layers from GeoBlazor Pro.
 /// </summary>
+[JsonConverter(typeof(MultiTypeConverter<IGroupLayer>))]
 public interface IGroupLayer
 {
     /// <summary>

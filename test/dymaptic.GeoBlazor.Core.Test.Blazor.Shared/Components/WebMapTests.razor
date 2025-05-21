@@ -1,0 +1,113 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestPublicAgoWebMaps(Action renderHandler)
+    {
+        foreach (string portalItemId in _publicPortalItemIds)
+        {
+            AddMapRenderFragment(
+                @<MapView class="map-view" OnViewRendered="renderHandler">
+                    <WebMap>
+                        <PortalItem PortalItemId="@portalItemId" />
+                    </WebMap>
+                </MapView>);
+            await WaitForMapToRender();
+            await CleanupTest(nameof(TestPublicAgoWebMaps));
+        }
+    }
+    
+    [TestMethod]
+    public async Task TestDymapticAgoWebMaps(Action renderHandler)
+    {
+        foreach (string portalItemId in _dymapticAgoPortalItemIds)
+        {
+            AddMapRenderFragment(
+                @<MapView class="map-view" OnViewRendered="renderHandler">
+                    <WebMap>
+                        <PortalItem PortalItemId="@portalItemId" />
+                    </WebMap>
+                </MapView>);
+            await WaitForMapToRender();
+            await CleanupTest(nameof(TestDymapticAgoWebMaps));
+        }
+    }
+    
+    [TestMethod]
+    public async Task TestDymapticEnterpriseWebMaps(Action renderHandler)
+    {
+        foreach (string portalItemId in _dymapticEnterprisePortalItemIds)
+        {
+            AddMapRenderFragment(
+                @<MapView class="map-view" OnViewRendered="renderHandler">
+                    <WebMap>
+                        <PortalItem PortalItemId="@portalItemId">
+                            <Portal Url="https://arcgis.dymaptic.com/portal" />
+                        </PortalItem>
+                    </WebMap>
+                </MapView>);
+            await WaitForMapToRender();
+            await CleanupTest(nameof(TestDymapticEnterpriseWebMaps));
+        }
+    }
+
+    [TestMethod]
+    public async Task TestPublicWebMapThatDoesNotWantApiKeyForLayer(Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <WebMap>
+                    <PortalItem PortalItemId="96c74962b8cf44b6b8137db9660a32da"
+                                ExcludeApiKey="true" />
+                </WebMap>
+            </MapView>);
+        await WaitForMapToRender();
+        await CleanupTest(nameof(TestPublicWebMapThatDoesNotWantApiKeyForLayer));
+        
+        // verify that the token is re-added
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisCommunity" />
+                    </Basemap>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertApiKeyAdded");
+    }
+
+    private readonly string[] _publicPortalItemIds =
+    [
+        "4cf31bd86c6e44778bee1c990458dd8b",
+        "7dd7a8d81a38489da869b61c7e2eddd6",
+        "da21867d21994cb3bcf472d09455de69",
+        "5fa568ba43af4b999ff3e7b8e98d6045",
+        "5fa568ba43af4b999ff3e7b8e98d6045",
+        "1e39688ae6ce4197b88d5a9e98547ad0",
+        "a847f1f4cfa34cb487f6b17f151b9362",
+        "8d493c99bb624b489e2785c0e323585b",
+        "08355b47bd3543c586a3906536181855",
+        "1717b19de68f49029345b54e9e90be46"
+    ];
+
+    private readonly string[] _dymapticAgoPortalItemIds =
+    [
+        "54d44bf1f0554a3897cdb35e5673642f",
+        "6467a9f4a97148d1a263805e810c72cd",
+        "015e1818217948159427c51f19abcba5",
+        "f64b6844e4024cd59d2b638d7780bef6",
+        "0bb2f6b0c4704b5bb27b89527a66e2ad"
+    ];
+
+    private readonly string[] _dymapticEnterprisePortalItemIds =
+    [
+        "a9a9190bf26c4ecdae4b057cdbfc4000",
+        "95ac5f8269c44e378fb7ca62e17133c2"
+    ];
+}
