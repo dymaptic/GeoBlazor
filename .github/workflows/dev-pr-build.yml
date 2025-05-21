@@ -33,14 +33,25 @@ jobs:
       run: |
         ./bumpVersion.ps1
         
+    - name: Restore dependencies
+      run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
+        
     - name: Update NPM
       uses: actions/setup-node@v4
       with:
         node-version: '>=22.11.0'
         check-latest: 'true'
-    
-    - name: Restore dependencies
-      run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
+          
+    # This step will install the NPM dependencies and build the JS files with ESBuild
+    # The assetCopy.ps1 script will copy the ArcGIS Asset files to the correct location
+    - name: Copy Assets and Generate JS
+      shell: pwsh
+      run: |
+        cd ./src/dymaptic.GeoBlazor.Core
+        npm install
+        npm run releaseBuild
+        ./assetCopy.ps1
+        cd ../..
     
     - name: Build Core
       run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=true /p:UpdateTemplates=true -c Release
