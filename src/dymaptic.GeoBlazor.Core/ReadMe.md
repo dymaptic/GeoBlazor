@@ -68,13 +68,12 @@ Or for the Pro version with additional features:
 
 (from https://docs.geoblazor.com/pages/gettingStarted.html)
 
-1. Create a new Blazor Web App (.NET 8), Blazor Server, Blazor Wasm, or Blazor Hybrid (MAUI) project.
+1. Create a new Blazor Web App, Blazor Server, Blazor Wasm, or Blazor Hybrid (MAUI) project.
 
-2. Add a `PackageReference` to the latest version of the `dymaptic.GeoBlazor.Core` package via your IDE's Nuget Package
-   Manager or `dotnet add package dymaptic.GeoBlazor.Core`.
+2. Add a `PackageReference` to the latest version of the `dymaptic.GeoBlazor.Core` or `dymaptic.GeoBlazor.Pro` ([pro is a paid version with more features](pro)) package via your IDE's Nuget Package Manager or from the command line with `dotnet add package dymaptic.GeoBlazor.Core` (or `dotnet add package dymaptic.GeoBlazor.Pro`). For Blazor Web Apps supporting WebAssembly, add this reference to the `.Client` WebAssembly project, or a Razor Class Library where you intend to write your mapping Razor components.
 
-3. Get an API Key from the [ArcGIS Portal](https://developers.arcgis.com/documentation/security-and-authentication/api-key-authentication/). For Blazor Server, place it in your
-   appsettings.json:
+3. Get an API Key from the [ArcGIS Location Platform](https://location.arcgis.com/). Place this in your
+   `appsettings.json`, `secrets.json` (user secrets), or `environment variables`.:
 
    ```json
    {
@@ -94,15 +93,18 @@ Or for the Pro version with additional features:
     }
 ```
 
-5. In the root file that defines your html (`_Layout.cshtml`, `index.html`, or `App.razor`), add the following to the `<head>` section:
+5. In the root file that defines your html (`App.razor` for Blazor Web Apps, `_Layout.cshtml` for older Blazor Server apps, and `index.html` only for standalone Blazor WebAssembly apps), add the following to the `<head>` section:
 
-    ```html
-    <link href="_content/dymaptic.GeoBlazor.Core"/>
-    <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
-    <link href="YourProject.styles.css" rel="stylesheet" />
-    ```
+   ```html
+   <link href="_content/dymaptic.GeoBlazor.Core"/>
+   <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
+   <link href="YourProject.styles.css" rel="stylesheet" />
+   ```
+   The `YourProject.styles.css` is the default stylesheet for your project, this line should already be present in your template, but is important for GeoBlazor to function correctly.
+   For dark mode, replace `assets/esri/themes/light/main.css` with `assets/esri/themes/dark/main.css`.
 
-6. In `_Imports.razor`, add the GeoBlazor namespaces:
+
+6. In `_Imports.razor` (for both Server and Client projects, if applicable), add the GeoBlazor namespaces:
 
    ```csharp
    @using dymaptic.GeoBlazor.Core
@@ -126,26 +128,65 @@ Or for the Pro version with additional features:
    @using dymaptic.GeoBlazor.Core.Results
    ```
 
-7. In `Program.cs`, register the GeoBlazor services:
+7. In `Program.cs` (for both Server and Client projects, if applicable), register the GeoBlazor services:
 
    ```csharp
    builder.Services.AddGeoBlazor(builder.Configuration);
    ```
+8. GeoBlazor requires Interactive Server or WebAssembly rendering enabled when using the modern `Blazor Web App` templates. Verify that the following lines are present in your `Program.cs`.
+   (This is not relevant if you are using the older `Blazor Server` template, and does not apply to WebAssembly projects).
 
-8. Create a Razor Component page with a map:
+   ```csharp
+   // Server
+   builder.Services.AddRazorComponents()
+       .AddInteractiveServerComponents();
 
+   // or WebAssembly
+   builder.Services.AddRazorComponents
+       .AddInteractiveWebAssemblyComponents();
+   
+   // or both
+   builder.Services.AddRazorComponents()
+       .AddInteractiveServerComponents()
+       .AddInteractiveWebAssemblyComponents();
+   ```
+   
+   and in the lower portion of the file:
+
+   ```csharp
+   // Server
+   app.MapRazorComponents<App>()
+       .AddInteractiveServerRenderMode();
+
+   // or WebAssembly
+   app.MapRazorComponents<App>()
+       .AddInteractiveWebAssemblyRenderMode()
+       .AddAdditionalAssemblies(typeof(Counter).Assembly);
+   
+   // or both
+   app.MapRazorComponents<App>()
+       .AddInteractiveServerRenderMode()
+       .AddInteractiveWebAssemblyRenderMode()
+       .AddAdditionalAssemblies(typeof(Counter).Assembly);
+   ```
+9. Create a Razor Component page with a map. Again for Blazor Web Apps, be sure that the `@rendermode` is defined at the 
+   page or app level (line 2 of the example below). This should be `InteractiveServer` for Blazor Server, 
+   `InteractiveWebAssembly` for Blazor WebAssembly, or `InteractiveAuto` for the automatic switching between modes. 
+   [Learn more about Blazor render modes](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes).
+   
    ```html
-   @page "/"
+   @page "/map"
+   @rendermode InteractiveServer
 
    <MapView Longitude="-118.805" Latitude="34.027" Zoom="11" Style="height: 400px; width: 100%;"> 
        <WebMap>
-           <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
+           <PortalItem PortalItemId="4a6cb60ebbe3483a805999d481c2daa5" />
        </WebMap>
        <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
    </MapView>
    ```
 
-8. Run your application and see your map!
+10. Run your application and see your map!
 
 For complete documentation, please visit [https://docs.geoblazor.com](https://docs.geoblazor.com)
 
