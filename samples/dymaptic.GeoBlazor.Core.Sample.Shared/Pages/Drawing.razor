@@ -10,7 +10,7 @@
     Toggle each section below, then use the "Draw" button to add a graphic. To move a graphic, change the value in the
     latitude/logitude fields. Click "Remove" to clear the graphic from the map.
 </p>
-<div id="control-set">
+<div id="control-set" class="spaced-row">
     <div class="form-group">
         <label class="draw-label" @onclick="@(() => _showPointSection = !_showPointSection)">
             Draw a Point
@@ -64,7 +64,7 @@
             </table>
             <button class="btn btn-primary" @onclick="DrawLine">@(_showLine ? "Remove" : "Draw")</button>
             <button class="btn btn-secondary" @onclick="AddPoint">Add Pt</button>
-            <button class="btn btn-danger" @onclick="RemovePoint">Remove Pt</button>
+            <button class="btn btn-accent" @onclick="RemovePoint">Remove Pt</button>
         </div>
     </div>
     <div class="form-group">
@@ -102,7 +102,7 @@
             </table>
             <button class="btn btn-primary" @onclick="DrawPolygon">@(_showPolygon ? "Remove" : "Draw")</button>
             <button class="btn btn-secondary" @onclick="AddPolygonPoint">Add Pt</button>
-            <button class="btn btn-danger" @onclick="RemovePolygonPoint">Remove Pt</button>
+            <button class="btn btn-accent" @onclick="RemovePolygonPoint">Remove Pt</button>
             <h3>Click on Polygon to see Popup!</h3>
         </div>
     </div>
@@ -117,10 +117,11 @@
     </Map>
 </MapView>
 
-<br />
-<button class="btn btn-info" @onclick="GetPoint">Get Point Data</button>
-<button class="btn btn-info" @onclick="GetPolyLine">Get Polyline Data</button>
-<button class="btn btn-info" @onclick="GetPolygon">Get Polygon Data</button>
+<div class="spaced-row">
+    <button class="btn btn-primary" @onclick="GetPoint">Get Point Data</button>
+    <button class="btn btn-secondary" @onclick="GetPolyLine">Get Polyline Data</button>
+    <button class="btn btn-accent" @onclick="GetPolygon">Get Polygon Data</button>
+</div>
 @_geometry
 
 

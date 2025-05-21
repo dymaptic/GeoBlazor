@@ -5,3 +5,10 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+@media (max-width: 799px) {
+    .toggle-row {
+        flex-direction: column;
+        align-items: center;
+    }
+}

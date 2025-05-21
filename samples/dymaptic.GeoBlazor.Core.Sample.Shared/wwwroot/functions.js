@@ -1,6 +1,6 @@
 ﻿window.scrollToNav = (page) => {
     let navItems = document.getElementsByTagName('a');
-    let navItem = Array.from(navItems).find(i => i.href === page);
+    let navItem = Array.from(navItems).find(i => i.href.endsWith(page));
     if (navigator.userAgent.indexOf('Firefox') === -1) {
         // only do this when not in FireFox
         navItem?.scrollIntoViewIfNeeded();
