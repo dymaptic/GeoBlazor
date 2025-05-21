@@ -27,10 +27,19 @@ if ($publish)
     {
         throw "Cannot publish a beta version. Please update the version in Directory.Build.props to a release version."
     }
-    
-    ## Check the latest version on Nuget.org
-    $nugetDetails = Invoke-Expression "nuget search dymaptic.GeoBlazor.Core -source https://api.nuget.org/v3/index.json -verbosity quiet -take 1" | Out-String
-    $nugetDetails -match '(\d+)\.(\d+)\.(\d+)\.?(\d*)?(-beta-)?(\d*)?[\s\n]*?$'
+
+    ## Check the latest version on Nuget.org using web API
+    $nugetUrl = "https://azuresearch-usnc.nuget.org/query?q=dymaptic.geoblazor.core&prerelease=false"
+    $response = Invoke-RestMethod -Uri $nugetUrl -Method Get
+    $latestVersion = $null
+    if ($response.data.Count -gt 0) {
+        # Find the highest version (should be first, but sort just in case)
+        $latestVersion = ($response.data | Sort-Object { [version]$_.version } -Descending)[0].version
+    }
+    if ($null -eq $latestVersion) {
+        throw "Could not determine latest version from NuGet API."
+    }
+    $latestVersion -match '(\d+)\.(\d+)\.(\d+)\.?(\d*)?(-beta-)?(\d*)?'
     $nugetMajorVersion = [int]$matches[1]
     $nugetMinorVersion = [int]$matches[2]
     $nugetPatchVersion = [int]$matches[3]
