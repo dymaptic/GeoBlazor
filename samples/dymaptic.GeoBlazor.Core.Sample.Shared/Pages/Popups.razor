@@ -11,35 +11,31 @@
     Use the radio buttons to toggle features with three different types of popups.
     Once the features are rendered, click on a feature to see the popup.
 </p>
-<div class="form-group">
-    <div class="form-group">
-        <EditForm Model="this">
-            <InputRadioGroup disabled="@(MapView is null)" Name="points" @bind-Value="_showPopupOption" @bind:after="@(() => MapView!.ClosePopup())">
-                <div class="form-group">
-                    <label class="radio-container">
-                        Display Attributes Popup:
-                        <InputRadio Name="points" Value="1" />
-                        <div class="radio-box" />
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label class="radio-container">
-                        Display Elevation Chart Popup:
-                        <InputRadio Name="points" Value="2" />
-                        <div class="radio-box" />
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label class="radio-container">
-                        Display Table Popup:
-                        <InputRadio Name="points" Value="3" />
-                        <div class="radio-box" />
-                    </label>
-                </div>
-            </InputRadioGroup>
-        </EditForm>
-    </div>
-</div>
+<EditForm Model="this">
+    <InputRadioGroup disabled="@(MapView is null)" Name="points" @bind-Value="_showPopupOption" @bind:after="@(() => MapView!.ClosePopup())">
+        <div class="form-group">
+            <label class="radio-container">
+                Display Attributes Popup:
+                <InputRadio Name="points" Value="1" />
+                <div class="radio-box"></div>
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="radio-container">
+                Display Elevation Chart Popup:
+                <InputRadio Name="points" Value="2" />
+                <div class="radio-box"></div>
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="radio-container">
+                Display Table Popup:
+                <InputRadio Name="points" Value="3" />
+                <div class="radio-box"></div>
+            </label>
+        </div>
+    </InputRadioGroup>
+</EditForm>
 
 <MapView @ref="MapView" Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
     <Map>

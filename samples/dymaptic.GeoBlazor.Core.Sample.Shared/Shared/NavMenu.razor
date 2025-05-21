@@ -1,78 +1,101 @@
 ﻿@inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
 
-<div class="top-row ps-3 navbar navbar-dark">
+<div class="top-row navbar">
     <div class="container-fluid">
-        <label>
-            <span id="search-icon" class="oi oi-magnifying-glass" aria-hidden="true"></span>
-            <input type="search" style="width: 180px; padding-left: 0.5rem;"
-                   @ref="_searchField"
-                   @oninput="UpdateSearchFilter"
-                   @onkeyup="SearchFilterKeyUp" />
-        </label>
+        <div class="navbar__logo" aria-label="GeoBlazor Logo"></div>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
-
-<div id="nav-item-container" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
+<hr>
+<div id="nav-container" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav-list">
         @foreach (PageLink page in FilteredPages)
         {
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="@(page.Href)" Match="NavLinkMatch.All">
+            string linkClass = $"nav-list-link{(page.Pro ? " pro" : "")}";
+            <li class="nav-list-item" @onclick="@(() => NavigateTo(page.Href))">
+                <NavLink class="@linkClass" href="@(page.Href)" @onclick:preventDefault="true" Match="NavLinkMatch.All">
                     @if (page.IconClass is not null)
                     {
-                        <text><span class="oi @(page.IconClass)" aria-hidden="true"></span>&nbsp;@(page.Title)</text>
+                        <text><span class="oi @(page.IconClass)" aria-hidden="true"></span><span class="nav-item-title">@(page.Title)</span>)</text>
                     }
                     else
                     {
-                        <text><span class="oi"><img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/@(page.ImageFile)" alt="@(page.Title)" /></span>&nbsp;@(page.Title)</text>
+                        <text><span class="oi"><img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/@(page.ImageFile)" alt="@(page.Title)" /></span><span class="nav-item-title">@(page.Title)</span></text>
                     }
                 </NavLink>
-            </div>
+            </li>
         }
-    </nav>
+    </ul>
 </div>
 
 @code {
+    [Parameter]
+    public string? SearchText { get; set; }
+    
+    [Parameter]
+    public bool EnterKeyPressed { get; set; }
+    
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-    private IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(_searchValue)
+    private IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(SearchText)
         ? Pages
-        : Pages.Where(p => p.Title.Contains(_searchValue, StringComparison.OrdinalIgnoreCase));
+        : Pages.Where(p => p.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        NavigationManager.RegisterLocationChangingHandler(LocationChanged);
+    }
+
+    private ValueTask LocationChanged(LocationChangingContext arg)
+    {
+        StateHasChanged();
+        return ValueTask.CompletedTask;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (!_collapseNavMenu)
+
+        if (firstRender)
         {
-            string currentPage = NavigationManager.Uri.Replace("source-code/", "");
-            await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
+            StateHasChanged();
+        }
+        
+        string currentPage = NavigationManager
+            .ToBaseRelativePath(NavigationManager.Uri)
+            .Replace("source-code/", "");
+        await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
+
+        if (EnterKeyPressed)
+        {
+            EnterKeyPressed = false;
+            if (FilteredPages.Count() == 1)
+            {
+                NavigationManager.NavigateTo(FilteredPages.First().Href);
+            }
         }
     }
-
+    
     private void ToggleNavMenu()
     {
         _collapseNavMenu = !_collapseNavMenu;
     }
-
-    private void UpdateSearchFilter(ChangeEventArgs arg)
+    
+    private async Task NavigateTo(string href)
     {
-        _searchValue = arg.Value?.ToString() ?? string.Empty;
-    }
-
-    private void SearchFilterKeyUp(KeyboardEventArgs arg)
-    {
-        if (arg.Key.Equals("Enter") && (FilteredPages.Count() == 1))
+        await InvokeAsync(() =>
         {
-            NavigationManager.NavigateTo(FilteredPages.First().Href);
-        }
+            NavigationManager.NavigateTo(href);
+            StateHasChanged();
+        });
     }
 
     private bool _collapseNavMenu = true;
-    private ElementReference _searchField;
-    private string _searchValue = string.Empty;
+    
     public static readonly PageLink[] Pages =
     {
         new("", "Home", "oi-home"),

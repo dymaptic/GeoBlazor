@@ -1,5 +1,4 @@
 ﻿@page "/bingmaps-layer"
-@using dymaptic.GeoBlazor.Core.Enums
 <PageTitle>BingMapsLayer</PageTitle>
 <h1>Bing Maps Layer</h1>
 <div class="links-div">
@@ -10,29 +9,24 @@
     A simple demo displaying a Bing Maps Layer. You can generate a free Bing Maps Key <a target="_blank" href="https://www.bingmapsportal.com/">here</a>.
 </p>
 
-<div class="form-group">
-    <Label>Enter a valid Bing Maps Key:</Label>
-    <InputText @bind-Value="_bingMapsKey"></InputText>
-    <button @onclick="AddRemoveLayer">
-        @(_bingMapsLayer is null ? "Add Bing Maps Basemap Layer" : "Remove Bing Maps Layer")
-    </button>
+<div class="spaced-row">
+    <label>Enter a valid Bing Maps Key:</label>
+    <input type="text" id="bing-maps-key-field" @bind="_bingMapsKey" />
 </div>
 
-<div class="form-group">
-    <label>Select an Imagery Style</label>
-    <select @onchange="OnStyleChanged">
-        @foreach (BingImageryStyle style in Enum.GetValues(typeof(BingImageryStyle)).Cast<BingImageryStyle>())
-        {
-            if (style == _style)
+<div class="spaced-row">
+    <button @onclick="AddRemoveLayer" type="button" class="btn btn-accent">
+        @(_bingMapsLayer is null ? "Add Bing Maps Basemap Layer" : "Remove Bing Maps Layer")
+    </button>
+    <div class="form-group">
+        <label>Select an Imagery Style</label>
+        <select @onchange="OnStyleChanged">
+            @foreach (BingImageryStyle style in Enum.GetValues(typeof(BingImageryStyle)).Cast<BingImageryStyle>())
             {
-                <option value="@style" selected>@style</option>
+                <option value="@style" selected="@(style == _style)">@style</option>
             }
-            else
-            {
-                <option value="@style">@style</option>
-            }
-        }
-    </select>
+        </select>
+    </div>
 </div>
 
 <MapView @ref="_view" OnViewRendered="OnViewRendered"

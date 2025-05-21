@@ -2,7 +2,14 @@
     padding: 0.5rem 0;
     flex-direction: column;
     display: flex;
-    border-bottom: 1px solid black;
+}
+
+::deep form {
+    align-items: start;
+}
+
+::deep .radio-container {
+    width: 525px;
 }
 
 ::deep input[type=radio] {

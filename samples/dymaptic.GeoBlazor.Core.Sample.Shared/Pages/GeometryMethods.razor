@@ -3,61 +3,51 @@
 <PageTitle>Geometry Methods</PageTitle>
 <h1>Geometry Methods</h1>
 
-<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+<div class="form-group">
     <h2>Extent Methods</h2>
     <code>Extent extent = new Extent(xmax: 4120960.074670904, xmin: -3412935.278412999, ymax: 8963926.222211033, ymin: 6049459.93475111)</code>
-    <br />
     <label>
         Center Extent At Point Long: <input type="number" @bind="_centerLong" /> Lat: <input type="number" @bind="_centerLat" />
-        <button @onclick="CenterExtent">Center</button>
+        <button type="button" class="btn btn-primary" @onclick="CenterExtent">Center</button>
     </label>
-    <br />
     <label>
         Centered Extent: <code>@_centeredExtent</code>
     </label>
-    <br />
     <label>
         Expand Extent by factor: <input type="number" @bind="_expandFactor" />
-        <button @onclick="ExpandExtent">Expand</button>
+        <button type="button" class="btn btn-secondary" @onclick="ExpandExtent">Expand</button>
     </label>
-    <br />
     <label>
         Expanded Extent: <code>@_expandedExtent</code>
     </label>
-    <br />
     <label>
         Offset Extent by distance X: <input type="number" @bind="_dx" /> Y: <input type="number" @bind="_dy" />
-        <button @onclick="OffsetExtent">Offset</button>
+        <button type="button" class="btn btn-accent" @onclick="OffsetExtent">Offset</button>
     </label>
-    <br />
     <label>
         Offset Extent: <code>@_offsetExtent</code>
     </label>
 </div>
-<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+<div class="form-group">
     <h2>Point Methods</h2>
     <p>
         <i>JSON methods are avaible for all geometry types</i>
     </p>
     <code>Point point = new Point(longitude: -117.08, latitude: 34.1)</code>
-    <br />
     <label>
-        Point to JSON: <button @onclick="PointToJson">Convert</button>
+        Point to JSON: <button type="button" class="btn btn-primary" @onclick="PointToJson">Convert</button>
     </label>
-    <br />
     <label>
         JSON: <code>@_pointJson</code>
     </label>
-    <br />
     <label>
-        JSON to Point: <button disabled="@(_pointJson is null)" @onclick="JsonToPoint">Convert</button>
+        JSON to Point: <button type="button" class="btn btn-secondary" disabled="@(_pointJson is null)" @onclick="JsonToPoint">Convert</button>
     </label>
-    <br />
     <label>
         C# Point: <code>@_jsonToPointSuccess</code>
     </label>
 </div>
-<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+<div class="form-group">
     <h2>PolyLine Methods</h2>
     <code>
         PolyLine polyline = new PolyLine(new[]
@@ -70,23 +60,18 @@
                 new MapPoint(11, 56))
         });
     </code>
-    <br />
     <label>
-        Add Path: <button @onclick="AddPath">Add Path</button>
+        Add Path: <button type="button" class="btn btn-primary" @onclick="AddPath">Add Path</button>
     </label>
-    <br />
     <label>
         New Path: <code>@_addedPath</code>
     </label>
-    <br />
     <label>
-        Get Point: <button @onclick="GetLinePoint">Get Point</button>
+        Get Point: <button type="button" class="btn btn-secondary" @onclick="GetLinePoint">Get Point</button>
     </label>
-    <br />
     <label>
         Point: <code>@_linePoint</code>
     </label>
-    <br />
     <code>
         Polygon _polygon = new(new MapPath[]
         {
@@ -100,30 +85,25 @@
         }
         });
     </code>
-    <br />
     <label>
-        Insert Point: <button @onclick="InsertPoint">Insert Point</button>
+        Insert Point: <button type="button" class="btn btn-accent" @onclick="InsertPoint">Insert Point</button>
     </label>
-    <br />
     <label>
         New Polygon: <code>@_insertPoint</code>
     </label>
 </div>
-<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+<div class="form-group">
     <h2>Polygon Methods</h2>
     <code>Extent extent = new Extent(xmax: 4120960.074670904, xmin: -3412935.278412999, ymax: 8963926.222211033, ymin: 6049459.93475111)</code>
     <label>
-        Polygon from Extent: <button @onclick="PolygonFromExtent">Convert</button>
+        Polygon from Extent: <button type="button" class="btn btn-primary" @onclick="PolygonFromExtent">Convert</button>
     </label>
-    <br />
     <label>
         Polygon: @_newPolygon
     </label>
-    <br />
     <label>
-        Check if Clockwise: <button @onclick="IsClockwise">Check</button>
+        Check if Clockwise: <button type="button" class="btn btn-secondary" @onclick="IsClockwise">Check</button>
     </label>
-    <br />
     <label>
         Is Clockwise: <code>@_isClockwise</code>
     </label>
