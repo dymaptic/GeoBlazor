@@ -1,4 +1,6 @@
 param([switch]$publish, [string]$test)
+# example: .\bumpVersion.ps1 -test 1.2.3 ---- would test the version bump from 1.2.3 to 1.2.4
+# example: .\bumpVersion.ps1 -publish ---- compares against nuget, increments the 3rd number by one
 
 ## Read Directory.Build.Props to get the version number and increment it
 $DirectoryBuildPropsPath = Join-Path -Path $PSScriptRoot "./Directory.Build.props"
