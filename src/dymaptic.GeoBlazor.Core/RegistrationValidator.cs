@@ -74,6 +74,9 @@ internal class RegistrationValidator(GeoBlazorSettings settings) : IAppValidator
     private bool _validating;
 }
 
+/// <summary>
+///     Identifies whether the application is running in Server, WebAssembly, or MAUI Hybrid
+/// </summary>
 public enum BlazorMode
 {
 #pragma warning disable CS1591

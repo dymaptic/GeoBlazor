@@ -12,8 +12,8 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? value = reader.GetString()?
-            .Replace("-", string.Empty)
-            .Replace("esri", string.Empty)
+            .KebabToPascalCase()
+            .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace(typeof(T).Name, string.Empty);
 
         try
@@ -42,9 +42,9 @@ internal class SimpleLineSymbolStyleConverter : EnumToKebabCaseStringConverter<S
     public override SimpleLineSymbolStyle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? value = reader.GetString()?
-            .Replace("-", string.Empty)
-            .Replace("SLS", string.Empty)
-            .Replace("esri", string.Empty);
+            .KebabToPascalCase()
+            .Replace("SLS", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase);
 
         return value is not null ? (SimpleLineSymbolStyle)Enum.Parse(typeof(SimpleLineSymbolStyle), value, true) : default;
     }
@@ -60,8 +60,8 @@ public class LabelPlacementStringConverter : EnumToKebabCaseStringConverter<Labe
     public override LabelPlacement Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? value = reader.GetString()
-            ?.Replace("-", string.Empty)
-            .Replace("esriServerPointLabelPlacement", string.Empty);
+            ?.KebabToPascalCase()
+            .Replace("esriServerPointLabelPlacement", string.Empty, StringComparison.OrdinalIgnoreCase);
 
         try
         {
@@ -87,9 +87,9 @@ public class DrawingToolStringConverter : EnumToKebabCaseStringConverter<Drawing
     public override DrawingTool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? value = reader.GetString()
-            ?.Replace("-", string.Empty)
-            .Replace("esriFeatureEditTool", string.Empty)
-            .Replace("FeatureEditTool", string.Empty);
+            ?.KebabToPascalCase()
+            .Replace("esriFeatureEditTool", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("FeatureEditTool", string.Empty, StringComparison.OrdinalIgnoreCase);
 
         try
         {
@@ -111,10 +111,10 @@ internal class EnumRelationshipConverter<T> : EnumToKebabCaseStringConverter<T> 
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? value = reader.GetString()
-            ?.Replace("-", string.Empty)
-            .Replace("Rel", string.Empty)
-            .Replace("Role", string.Empty)
-            .Replace("esri", string.Empty)
+            ?.KebabToPascalCase()
+            .Replace("Rel", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("Role", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace(nameof(Cardinality), string.Empty);
 
         return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;

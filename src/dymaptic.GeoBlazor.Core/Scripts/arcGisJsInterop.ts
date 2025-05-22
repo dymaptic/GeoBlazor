@@ -244,7 +244,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                                    zIndex?: number, tilt?: number)
     : Promise<void> {
     try {
-        console.debug("render map");
         await setCursor('wait');
         notifyExtentChanged = false;
         userChangedViewExtent = false;
@@ -586,6 +585,12 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
                 isReferenceLayer: isReferenceLayer
+            }
+            
+            if (!hasValue(result.layer)) {
+                // some layer types are only deserialized in GeoBlazor Pro, so we need to check if the layer is null
+                // here and exit out if it is not supported.
+                return;
             }
 
             const layerUid = evt.layer.id;
@@ -1725,7 +1730,6 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                         widgetListenerAdded = true;
                     }
 
-                    console.debug(new Date() + " - View Render Complete");
                     try {
                         rendering = true;
                         await dotNetRef.invokeMethodAsync('OnJsViewRendered');

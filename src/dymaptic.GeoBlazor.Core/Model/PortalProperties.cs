@@ -8,11 +8,13 @@ public record PortalProperties
     /// <summary>
     /// Gets or sets the links section of the organization settings.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalLinks>))]
     public PortalLinks? Links { get; init; }
 
     /// <summary>
     /// Gets or sets the shared theme configuration for the organization.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalSharedTheme>))]
     public PortalSharedTheme? SharedTheme { get; init; }
 
     /// <summary>
@@ -23,11 +25,13 @@ public record PortalProperties
     /// <summary>
     /// Gets or sets the Open Data configuration for the organization.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalOpenData>))]
     public PortalOpenData? OpenData { get; init; }
 
     /// <summary>
     /// Gets or sets the Hub configuration for the organization.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalHub>))]
     public PortalHub? Hub { get; init; }
 
     /// <summary>
@@ -54,6 +58,7 @@ public record PortalLinks
     /// <summary>
     /// Gets or sets the contact us link information.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalLink>))]
     public PortalLink? ContactUs { get; init; }
 }
 
@@ -81,21 +86,25 @@ public record PortalSharedTheme
     /// <summary>
     /// Gets or sets the header theming options.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalSharedThemeHeader>))]
     public PortalSharedThemeHeader? Header { get; init; }
 
     /// <summary>
     /// Gets or sets the body theming options.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalSharedThemeBody>))]
     public PortalSharedThemeBody? Body { get; init; }
 
     /// <summary>
     /// Gets or sets the button theming options.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalSharedThemeButton>))]
     public PortalSharedThemeButton? Button { get; init; }
 
     /// <summary>
     /// Gets or sets the logo configuration.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalSharedThemeLogo>))]
     public PortalSharedThemeLogo? Logo { get; init; }
 }
 
@@ -155,6 +164,7 @@ public record PortalOpenData
     /// <summary>
     /// Gets or sets the settings for Open Data.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalOpenDataSettings>))]
     public PortalOpenDataSettings? Settings { get; init; }
 }
 
@@ -166,6 +176,7 @@ public record PortalOpenDataSettings
     /// <summary>
     /// Gets or sets the migration settings for Open Data.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalOpenDataMigrations>))]    
     public PortalOpenDataMigrations? Migrations { get; init; }
 
     /// <summary>
@@ -198,6 +209,7 @@ public record PortalHub
     /// <summary>
     /// Gets or sets the settings for Hub.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalHubSettings>))]
     public PortalHubSettings? Settings { get; init; }
 }
 
@@ -214,11 +226,13 @@ public record PortalHubSettings
     /// <summary>
     /// Gets or sets the community organization configuration.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalHubCommunityOrg>))]
     public PortalHubCommunityOrg? CommunityOrg { get; init; }
 
     /// <summary>
     /// Gets or sets the events configuration.
     /// </summary>
+    [JsonConverter(typeof(NullablePropertyConverter<PortalHubEvents>))]
     public PortalHubEvents? Events { get; init; }
 }
 

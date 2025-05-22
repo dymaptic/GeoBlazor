@@ -241,4 +241,13 @@ public partial class PortalItem : MapComponent
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
     }
+    
+    /// <summary>
+    ///     For WebMaps and layers that are public and throw an error when given an ApiKey or Token,
+    ///     this setting allows you to exclude the ApiKey or Token from the WebMap request.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public bool? ExcludeApiKey { get; set; }
 }
