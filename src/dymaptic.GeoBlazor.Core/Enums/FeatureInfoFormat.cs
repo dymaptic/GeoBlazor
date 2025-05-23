@@ -9,6 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#featureInfoFormat">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [CodeGenerationIgnore]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<FeatureInfoFormat>))]
 public enum FeatureInfoFormat
 {
     /// <summary>

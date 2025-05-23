@@ -5,9 +5,9 @@
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-hosted-imagerytilelayer-landcover/">ArcGIS API for JavaScript</a>
     <a class="btn btn-primary" target="_blank" href="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2">States Feature Layer</a>
-    <a class="btn btn-outline-primary" target="_blank" href="https://tiledimageservices.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NLCD_2016_Land_Cover_L48_20190424/ImageServer">Land Cover Imagery Tile Layer</a>
+    <a class="btn btn-accent" target="_blank" href="https://tiledimageservices.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NLCD_2016_Land_Cover_L48_20190424/ImageServer">Land Cover Imagery Tile Layer</a>
 </div>
-<p>
+<p class="instructions">
     This sample shows how to add an instance of a hosted ImageryTileLayer to a Map in a MapView. The ImageryTileLayer in this sample shows the National Land Cover Database (NLCD) 2016 land cover types for the United States.
 </p>
 
@@ -35,13 +35,12 @@
     </Map>
     <CustomOverlay Position="OverlayPosition.TopRight">
         <div id="land-cover" class="esri-widget">
-            <h4 id="titleText" class="esri-widget__heading esri-editor__title">
+            <h4 id="titleText">
                 Land cover types - 2016
             </h4>
-            <br>
+            <h5 id="land-type-subheader">Select land type:</h5>
             <div class="esri-widget">
                 <calcite-label>
-                    <b>Select land type:</b>
                     <calcite-radio-button-group name="Select land type" layout="vertical"
                                                 id="landCoverTypeSelect" scale="s">
                         <calcite-label layout="inline" 
@@ -50,27 +49,27 @@
                                                   value="forests"
                                                   checked>
                             </calcite-radio-button>
-                            <span style="color: black">Forested Areas</span>
+                            <span>Forested Areas</span>
                         </calcite-label>
                         <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("developed"))">
                             <calcite-radio-button value="developed">
                             </calcite-radio-button>
-                            <span style="color: black">Developed Areas</span>
+                            <span>Developed Areas</span>
                         </calcite-label>
                         <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("crops"))">
                             <calcite-radio-button value="crops">
                             </calcite-radio-button>
-                            <span style="color: black">Cultivated Areas</span>
+                            <span>Cultivated Areas</span>
                         </calcite-label>
                         <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("hay"))">
                             <calcite-radio-button value="hay">
                             </calcite-radio-button>
-                            <span style="color: black">Hay/Pasture Areas</span>
+                            <span>Hay/Pasture Areas</span>
                         </calcite-label>
                         <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("wetlands"))">
                             <calcite-radio-button value="wetlands">
                             </calcite-radio-button>
-                            <span style="color: black">Wetlands</span>
+                            <span>Wetlands</span>
                         </calcite-label>
                     </calcite-radio-button-group>
                 </calcite-label>

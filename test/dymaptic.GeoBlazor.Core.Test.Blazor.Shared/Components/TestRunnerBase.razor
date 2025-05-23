@@ -271,14 +271,11 @@
         }
     }
 
-    private async Task CleanupTest(string testName)
+    protected async Task CleanupTest(string testName)
     {
         _methodsWithRenderedMaps.Remove(testName);
         _testResults[testName] = _resultBuilder.ToString();
-        if (_testRenderFragments.ContainsKey(testName))
-        {
-            _testRenderFragments.Remove(testName);
-        }
+        _testRenderFragments.Remove(testName);
         await InvokeAsync(async () =>
         {
             StateHasChanged();

@@ -37,6 +37,10 @@ export default class AuthenticationManager {
         this.dotNetRef = dotNetReference;
     }
 
+    setApiKey(apiKey: string): void {
+        esriConfig.apiKey = apiKey;
+    }
+    
     async isLoggedIn(): Promise<boolean> {
         try {
             await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");

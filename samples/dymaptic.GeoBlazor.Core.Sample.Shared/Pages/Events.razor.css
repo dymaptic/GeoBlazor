@@ -5,7 +5,9 @@
     padding: 0.5rem;
     margin: 0.5rem;
     max-height: 25rem;
+    max-width: 49%;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .form-group {

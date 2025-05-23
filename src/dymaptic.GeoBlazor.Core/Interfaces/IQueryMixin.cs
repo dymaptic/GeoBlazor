@@ -8,6 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     Interface for types AttributeBinsQuery
 /// </summary>
 [CodeGenerationIgnore]
+[JsonConverter(typeof(MultiTypeConverter<IQueryMixin>))]
 public interface IQueryMixin
 {
 #region Properties

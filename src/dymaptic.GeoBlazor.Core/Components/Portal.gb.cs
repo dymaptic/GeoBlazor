@@ -960,16 +960,6 @@ public partial class Portal
     public PortalMode? PortalMode { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalportalproperties-property">GeoBlazor Docs</a>
-    ///     Properties specific to the organization, for example the "contact us" link.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#portalProperties">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalProperties? PortalProperties { get; set; }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalrecyclebinenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the recycle bin is enabled for the organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#recycleBinEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -999,16 +989,6 @@ public partial class Portal
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? RestUrl { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalrotatorpanels-property">GeoBlazor Docs</a>
-    ///     Custom HTML for the home page.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#rotatorPanels">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<RotatorPanel>? RotatorPanels { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalshowhomepagedescription-property">GeoBlazor Docs</a>

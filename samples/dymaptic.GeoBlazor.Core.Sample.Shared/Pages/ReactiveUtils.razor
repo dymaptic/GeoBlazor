@@ -31,7 +31,7 @@ else
                 <div class="form-group">
                     <label class="react-label">
                         Popup is open:
-                        <input type="checkbox" @onclick="TogglePopupHandler" />
+                        <input type="checkbox" class="form-check-input" @onclick="TogglePopupHandler" />
                     </label>
                     <div style="margin-left: 1rem;">
                         <b>@(_handlePopups ? _popupOpen : "")</b>
@@ -40,7 +40,7 @@ else
                 <div class="form-group">
                     <label class="react-label">
                         Center:
-                        <input type="checkbox" @onclick="ToggleCenterHandler" />
+                        <input type="checkbox" class="form-check-input" @onclick="ToggleCenterHandler" />
                     </label>
                     <div style="margin-left: 1rem;">
                         @if (_handleCenter)
@@ -77,7 +77,7 @@ else
                 <div class="form-group">
                     <label class="react-label">
                         Extent:
-                        <input type="checkbox" @onclick="ToggleExtentHandler" />
+                        <input type="checkbox" class="form-check-input" @onclick="ToggleExtentHandler" />
                     </label>
                     <div style="margin-left: 1rem;">
                         @if (_handleExtent)
@@ -99,7 +99,7 @@ else
                 <div class="form-group">
                     <label class="react-label">
                         Layers:
-                        <input type="checkbox" @onclick="ToggleLayerHandler" />
+                        <input type="checkbox" class="form-check-input" @onclick="ToggleLayerHandler" />
                     </label>
                     <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
                         @if (_handleLayers)
@@ -118,7 +118,7 @@ else
                 <div class="form-group">
                     <label class="react-label">
                         One-Time Zoom Watcher:
-                        <input type="checkbox" @bind="_zoomWatcherAttached" @onclick="AttachZoomWatcher" />
+                        <input type="checkbox" class="form-check-input" @bind="_zoomWatcherAttached" @onclick="AttachZoomWatcher" />
                     </label>
                     <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
                         <b>Zoom Value: @_zoomValue</b>
@@ -135,7 +135,7 @@ else
                 <div class="form-group">
                     <label class="react-label">
                         Click:
-                        <input type="checkbox" @onclick="ToggleClickHandler" />
+                        <input type="checkbox" class="form-check-input" @onclick="ToggleClickHandler" />
                     </label>
                     <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
                         @if (_handleClicks)
@@ -147,7 +147,7 @@ else
                 <div class="form-group">
                     <label class="react-label">
                         Drag:
-                        <input type="checkbox" @onclick="ToggleDragHandler" />
+                        <input type="checkbox" class="form-check-input" @onclick="ToggleDragHandler" />
                     </label>
                     <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
                         @if (_handleDrags)
@@ -166,11 +166,11 @@ else
             <div class="form-group @(_showWaiterSection ? "" : "collapse")">
                 <label class="react-label">
                     Track Home Widget:
-                    <input type="checkbox" @onclick="ToggleHomeWaiter" />
+                    <input type="checkbox" class="form-check-input" @onclick="ToggleHomeWaiter" />
                 </label>
                 <label>
                     Show Home Widget:
-                    <input type="checkbox" @onclick="ShowHomeWidget" />
+                    <input type="checkbox" class="form-check-input" @onclick="ShowHomeWidget" />
                 </label>
                 <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
                     @if (_handleHomeWidget)

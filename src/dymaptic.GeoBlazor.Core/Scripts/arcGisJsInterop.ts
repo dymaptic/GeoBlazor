@@ -88,7 +88,8 @@ export {
     normalizeUtils,
     Portal,
     SimpleRenderer,
-    buildJsLayer
+    buildJsLayer,
+    reactiveUtils
 };
 
 export const arcGisObjectRefs: Record<string, any> = {};
@@ -243,7 +244,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                                    zIndex?: number, tilt?: number)
     : Promise<void> {
     try {
-        console.debug("render map");
         await setCursor('wait');
         notifyExtentChanged = false;
         userChangedViewExtent = false;
@@ -325,6 +325,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                     rotation: rotation
                 });
                 break;
+        }
+        
+        if (!hasValue(view.container)) {
+            // someone navigated away or rerendered the page, the view is no longer valid
+            return;
         }
 
         if (hasValue(backgroundColor)) {
@@ -580,6 +585,12 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
                 isReferenceLayer: isReferenceLayer
+            }
+            
+            if (!hasValue(result.layer)) {
+                // some layer types are only deserialized in GeoBlazor Pro, so we need to check if the layer is null
+                // here and exit out if it is not supported.
+                return;
             }
 
             const layerUid = evt.layer.id;
@@ -1127,7 +1138,11 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<any>
 
 export function closePopup(viewId: string): void {
     const view = arcGisObjectRefs[viewId] as MapView;
-    view.popup?.close();
+    try {
+        view.popup?.close();
+    } catch {
+        // ignore
+    }
 }
 
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
@@ -1693,41 +1708,44 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
 function waitForRender(viewId: string, dotNetRef: any): void {
     const view = arcGisObjectRefs[viewId] as View;
 
-    view.when().then(_ => {
-        let isRendered = false;
-        let rendering = false;
-        const interval = setInterval(async () => {
-            if (view === undefined || view === null) {
-                clearInterval(interval);
-                return;
-            }
-            if (!view.updating && !isRendered && !rendering) {
-                notifyExtentChanged = true;
-                // listen for click on zoom widget
-                if (!widgetListenerAdded) {
-                    let widgetQuery = '[title="Zoom in"], [title="Zoom out"], [title="Find my location"], [class="esri-bookmarks__list"], [title="Default map view"], [title="Reset map orientation"]';
-                    let widgetButtons = document.querySelectorAll(widgetQuery);
-                    for (let i = 0; i < widgetButtons.length; i++) {
-                        widgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
-                        widgetButtons[i].addEventListener('click', setUserChangedViewExtent);
+    try {
+        view.when().then(_ => {
+            let isRendered = false;
+            let rendering = false;
+            const interval = setInterval(async () => {
+                if (view === undefined || view === null) {
+                    clearInterval(interval);
+                    return;
+                }
+                if (!view.updating && !isRendered && !rendering) {
+                    notifyExtentChanged = true;
+                    // listen for click on zoom widget
+                    if (!widgetListenerAdded) {
+                        let widgetQuery = '[title="Zoom in"], [title="Zoom out"], [title="Find my location"], [class="esri-bookmarks__list"], [title="Default map view"], [title="Reset map orientation"]';
+                        let widgetButtons = document.querySelectorAll(widgetQuery);
+                        for (let i = 0; i < widgetButtons.length; i++) {
+                            widgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
+                            widgetButtons[i].addEventListener('click', setUserChangedViewExtent);
+                        }
+                        widgetListenerAdded = true;
                     }
-                    widgetListenerAdded = true;
-                }
 
-                console.debug(new Date() + " - View Render Complete");
-                try {
-                    rendering = true;
-                    await dotNetRef.invokeMethodAsync('OnJsViewRendered');
-                } catch {
-                    // we must be disconnected
+                    try {
+                        rendering = true;
+                        await dotNetRef.invokeMethodAsync('OnJsViewRendered');
+                    } catch {
+                        // we must be disconnected
+                    }
+                    rendering = false;
+                    isRendered = true;
+                } else if (isRendered && view.updating) {
+                    isRendered = false;
                 }
-                rendering = false;
-                isRendered = true;
-            } else if (isRendered && view.updating) {
-                isRendered = false;
-            }
-        }, 100);
-    })
+            }, 100);
+        })
+    } catch {
+        // failure on navigation
+    }
 }
 
 let widgetListenerAdded = false;

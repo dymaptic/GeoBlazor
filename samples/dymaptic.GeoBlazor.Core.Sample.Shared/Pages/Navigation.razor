@@ -13,7 +13,7 @@
     Note that once a user drags or zooms the map manually, the Razor Markup bindings to our input fields must be ignored, otherwise the map would "snap back".
     You can always call <code>MapView.SetExtent</code> to set the extent again, or <code>MapView.Refresh</code> to re-enable bindings.
 </p>
-<div class="form-group">
+<div class="form-group spaced-row">
     <label>Latitude:&nbsp;<input type="number" step="0.01" @bind="_latitude" /></label>
     <label>Longitude:&nbsp;<input type="number" step="0.01" @bind="_longitude" /></label>
     <label>Zoom:&nbsp;<input type="number" @bind="_zoom" /></label>
@@ -35,7 +35,7 @@
 </MapView>
 
 <div class="form-group">
-    <button @onclick="GetExtent">Get Extent</button>
+    <button type="button" class="btn btn-accent" @onclick="GetExtent">Get Extent</button>
     @if (!string.IsNullOrEmpty(_extentJson))
     {
         <div>@((MarkupString)_extentJson)</div>

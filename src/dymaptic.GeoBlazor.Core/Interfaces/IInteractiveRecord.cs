@@ -3,6 +3,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///     Defines a type that has methods calling to JavaScript but is not a MapComponent
 /// </summary>
+[JsonConverter(typeof(MultiTypeConverter<IInteractiveRecord>))]
 public interface IInteractiveRecord
 {
     /// <summary>
