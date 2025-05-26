@@ -82,6 +82,7 @@
         <Content Remove="package.json" />
         <Content Remove="package-lock.json" />
         <Content Remove="tsconfig.json" />
+        <Content Remove="DefaultDocumentation.json" />
         <None Include="package.json" Pack="false" />
         <None Include="package-lock.json" Pack="false" />
         <None Include="tsconfig.json" Pack="false" />
