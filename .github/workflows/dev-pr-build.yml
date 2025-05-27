@@ -54,7 +54,7 @@ jobs:
         cd ../..
     
     - name: Build Core
-      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=true /p:UpdateTemplates=true -c Release
+      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=true -c Release
 
     - name: Add & Commit
       continue-on-error: true
