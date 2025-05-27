@@ -14,8 +14,7 @@ export async function buildJsPrintSubmitEventGenerated(dotNetObject: any, layerI
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPrintSubmitEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPrintSubmitEvent;
     arcGisObjectRefs[dotNetObject.id] = jsPrintSubmitEvent;
     
     return jsPrintSubmitEvent;

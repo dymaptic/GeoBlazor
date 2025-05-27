@@ -14,8 +14,7 @@ export async function buildJsPrintCompleteEventGenerated(dotNetObject: any, laye
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPrintCompleteEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPrintCompleteEvent;
     arcGisObjectRefs[dotNetObject.id] = jsPrintCompleteEvent;
     
     return jsPrintCompleteEvent;
