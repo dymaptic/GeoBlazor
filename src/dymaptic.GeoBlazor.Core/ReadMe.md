@@ -84,14 +84,14 @@ Or for the Pro version with additional features:
 4. Register at [licensing.dymaptic.com](https://licensing.dymaptic.com) for a free GeoBlazor Core Registration key.
    Add the key to `appsettings.json`:
 
-```json
-    {
-        "ArcGISApiKey": "YourArcGISApiKey",
-        "GeoBlazor": {
-            "RegistrationKey": "YourGeoBlazorRegistrationKey"
-        }
-    }
-```
+   ```json
+       {
+           "ArcGISApiKey": "YourArcGISApiKey",
+           "GeoBlazor": {
+               "RegistrationKey": "YourGeoBlazorRegistrationKey"
+           }
+       }
+   ```
 
 5. In the root file that defines your html (`App.razor` for Blazor Web Apps, `_Layout.cshtml` for older Blazor Server apps, and `index.html` only for standalone Blazor WebAssembly apps), add the following to the `<head>` section:
 
@@ -103,6 +103,15 @@ Or for the Pro version with additional features:
    The `YourProject.styles.css` is the default stylesheet for your project, this line should already be present in your template, but is important for GeoBlazor to function correctly.
    For dark mode, replace `assets/esri/themes/light/main.css` with `assets/esri/themes/dark/main.css`.
 
+   Starting in .NET 9, there is also a new static asset compression feature that uses an `Assets` dictionary. If you see
+   this pattern, follow the same pattern for GeoBlazor links:
+
+   ```html
+   <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]"/>
+   <link href="@Assets["_content/dymaptic.GeoBlazor.Pro"]" />
+   <link href="@Assets["_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css"]" rel="stylesheet" />
+   <link href="@Assets["YourProject.styles.css"]" rel="stylesheet" />
+   ```
 
 6. In `_Imports.razor` (for both Server and Client projects, if applicable), add the GeoBlazor namespaces:
 
