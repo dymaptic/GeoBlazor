@@ -23,7 +23,8 @@ internal class RegistrationValidator(GeoBlazorSettings settings) : IAppValidator
 
         _validating = true;
 
-        string? registration = settings.RegistrationKey;
+        // users reading Pro documentation might use the name LicenseKey instead of RegistrationKey
+        string? registration = settings.RegistrationKey ?? settings.LicenseKey;
         
         if (registration == null)
         {
