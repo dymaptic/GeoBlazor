@@ -1,6 +1,5 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-[Experimental("GeoBlazor_Untested", UrlFormat = "https://docs.geoblazor.com/pages/untested.html")]
 public partial class WFSLayer
 {
    // Add custom code to this file to override generated code
@@ -52,5 +51,21 @@ public partial class WFSLayer
    {
       base.ValidateRequiredChildren();
       FeatureReduction?.ValidateRequiredChildren();
+   }
+   
+   public static WFSLayer FromWFSLayerInfo(WFSLayerInfo wfsLayerInfo)
+   {
+      return new WFSLayer
+      {
+         Url = wfsLayerInfo.Url,
+         Name = wfsLayerInfo.Name,
+         NamespaceUri = wfsLayerInfo.NamespaceUri,
+         SpatialReference = wfsLayerInfo.SpatialReference,
+         CustomParameters = wfsLayerInfo.CustomParameters,
+         Fields = wfsLayerInfo.Fields?.ToList(),
+         GeometryType = wfsLayerInfo.GeometryType,
+         ObjectIdField = wfsLayerInfo.ObjectIdField,
+         WfsCapabilities = wfsLayerInfo.WfsCapabilities
+      };
    }
 }
