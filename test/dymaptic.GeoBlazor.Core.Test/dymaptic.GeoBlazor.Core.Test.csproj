@@ -25,4 +25,13 @@
         <ProjectReference Include="..\..\samples\dymaptic.GeoBlazor.Core.Sample.Server\dymaptic.GeoBlazor.Core.Sample.Server.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Portal.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="WFSCapabilities.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
