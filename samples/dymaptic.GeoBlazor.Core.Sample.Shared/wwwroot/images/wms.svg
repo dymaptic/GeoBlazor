@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 7 7">
+  <!-- Longitude lines -->
+  <ellipse cx="3.5" cy="3.5" rx="3" ry="1.1" fill="none" stroke="white" stroke-width="0.18"/>
+  <ellipse cx="3.5" cy="3.5" rx="1.1" ry="3" fill="none" stroke="white" stroke-width="0.18"/>
+  <!-- Latitude lines -->
+  <ellipse cx="3.5" cy="3.5" rx="2.3" ry="3" fill="none" stroke="white" stroke-width="0.12"/>
+  <ellipse cx="3.5" cy="3.5" rx="3" ry="2.3" fill="none" stroke="white" stroke-width="0.12"/>
+</svg>
