@@ -1160,6 +1160,10 @@ input[type=radio] {
     padding: 1rem;
 }
 
+.esri-view .esri-view-surface:focus:after {
+    z-index: 0;
+}
+
 @media (max-width: 49.9rem) {
     input[type="text"], input[type="number"] {
         width: 5.5rem;
