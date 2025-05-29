@@ -488,6 +488,12 @@ public abstract partial class Layer : MapComponent
     /// </summary>
     public async Task UpdateLayer()
     {
+        if (JsComponentReference is null || CoreJsModule is null || !MapRendered || IsDisposed)
+        {
+            // don't update until the component has been returned from JavaScript
+            return;
+        }
+        
         if (MapRendered && !_delayedUpdate)
         {
             // for components added after the map has rendered, wait one render cycle to get all children before updating
@@ -498,26 +504,6 @@ public abstract partial class Layer : MapComponent
         }
         
         _delayedUpdate = false;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null || !MapRendered || IsDisposed)
-        {
-            return;
-        }
 
         // ReSharper disable once RedundantCast
         await JsComponentReference!.InvokeAsync<string?>("updateComponent", CancellationTokenSource.Token, (object)this);

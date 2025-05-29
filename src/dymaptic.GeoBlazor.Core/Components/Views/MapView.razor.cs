@@ -1882,8 +1882,15 @@ public partial class MapView : MapComponent
     {
         if (!Widgets.Any(w => w is PopupWidget) && CoreJsModule is not null)
         {
-            var popupWidget = new PopupWidget();
-            AddWidget(popupWidget);
+            // add as custom logic since this is before `MapRendered` and calling `AddWidget` will exit early
+            var popupWidget = new PopupWidget
+            {
+                Parent = this,
+                View = this,
+                CoreJsModule = CoreJsModule
+            };
+            _newWidgets.Add(popupWidget);
+            StateHasChanged();
         }
 
         return Task.FromResult(Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget);
@@ -2399,11 +2406,12 @@ public partial class MapView : MapComponent
                 DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
+            
+            // must be after main render, but before the boolean flags are set
+            await GetPopupWidget();
 
             Rendering = false;
             MapRendered = true;
-            // must be after `Rendering = false`
-            await GetPopupWidget();
         });
     }
 #endregion

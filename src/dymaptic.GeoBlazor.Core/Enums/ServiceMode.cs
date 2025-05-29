@@ -8,11 +8,30 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     default "RESTful"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#serviceMode">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<ServiceMode>))]
+[JsonConverter(typeof(ServiceModeConverter))]
 public enum ServiceMode
 {
 #pragma warning disable CS1591
     RESTful,
     KVP
 #pragma warning restore CS1591
+}
+
+// custom converter, this type keeps exact casing from enum
+internal class ServiceModeConverter : JsonConverter<ServiceMode>
+{
+    public override ServiceMode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return reader.GetString() switch
+        {
+            "RESTful" => ServiceMode.RESTful,
+            "KVP" => ServiceMode.KVP,
+            _ => throw new JsonException($"Unknown service mode: {reader.GetString()}")
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, ServiceMode value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value.ToString());
+    }
 }
