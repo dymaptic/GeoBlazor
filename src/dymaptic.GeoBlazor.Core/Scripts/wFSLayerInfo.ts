@@ -1,9 +1,9 @@
-export async function buildJsWFSLayerInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWFSLayerInfo(dotNetObject: any): Promise<any> {
     let {buildJsWFSLayerInfoGenerated} = await import('./wFSLayerInfo.gb');
-    return await buildJsWFSLayerInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsWFSLayerInfoGenerated(dotNetObject);
 }
 
-export async function buildDotNetWFSLayerInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSLayerInfo(jsObject: any): Promise<any> {
     let {buildDotNetWFSLayerInfoGenerated} = await import('./wFSLayerInfo.gb');
-    return await buildDotNetWFSLayerInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetWFSLayerInfoGenerated(jsObject);
 }

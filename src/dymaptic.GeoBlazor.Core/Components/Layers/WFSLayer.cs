@@ -4,6 +4,16 @@ public partial class WFSLayer
 {
    // Add custom code to this file to override generated code
    
+   /// <summary>
+   ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerwfscapabilities-property">GeoBlazor Docs</a>
+   ///     WFS service information about the available layers and operations.
+   ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#wfsCapabilities">ArcGIS Maps SDK for JavaScript</a>
+   /// </summary>
+   [ArcGISProperty]
+   [CodeGenerationIgnore]
+   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+   public WFSCapabilities? WfsCapabilities { get; set; }
+   
    /// <inheritdoc />
    public override async Task RegisterChildComponent(MapComponent child)
    {
@@ -51,21 +61,5 @@ public partial class WFSLayer
    {
       base.ValidateRequiredChildren();
       FeatureReduction?.ValidateRequiredChildren();
-   }
-   
-   public static WFSLayer FromWFSLayerInfo(WFSLayerInfo wfsLayerInfo)
-   {
-      return new WFSLayer
-      {
-         Url = wfsLayerInfo.Url,
-         Name = wfsLayerInfo.Name,
-         NamespaceUri = wfsLayerInfo.NamespaceUri,
-         SpatialReference = wfsLayerInfo.SpatialReference,
-         CustomParameters = wfsLayerInfo.CustomParameters,
-         Fields = wfsLayerInfo.Fields?.ToList(),
-         GeometryType = wfsLayerInfo.GeometryType,
-         ObjectIdField = wfsLayerInfo.ObjectIdField,
-         WfsCapabilities = wfsLayerInfo.WfsCapabilities
-      };
    }
 }

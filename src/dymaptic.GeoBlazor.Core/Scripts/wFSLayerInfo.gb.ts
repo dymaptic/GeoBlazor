@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetWFSLayerInfo } from './wFSLayerInfo';
 
-export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWFSLayerInfoGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -54,7 +54,7 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetWFSLayerInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSLayerInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -74,11 +74,6 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any, layerId: s
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         dotNetWFSLayerInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-    }
-    
-    if (hasValue(jsObject.wfsCapabilities)) {
-        let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-        dotNetWFSLayerInfo.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities);
     }
     
     if (hasValue(jsObject.customParameters)) {
