@@ -11,7 +11,7 @@ let options = {
     entryPoints: ['./Scripts/arcGisJsInterop.ts'],
     external: ['./multipoint', './mesh'],
     bundle: true,
-    sourcemap: isDebug || isWatch,
+    sourcemap: true,
     format: 'esm',
     outdir: 'wwwroot/js',
     splitting: true,
