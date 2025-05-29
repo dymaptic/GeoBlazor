@@ -31,6 +31,8 @@ export async function buildJsWMSLayer(dotNetObject: any, layerId: string | null,
             }
             if (!hasValue(jsSublayer)) {
                 // find in current sublayers by name
+                // currentJsSublayers was just built from the dotNetObject.sublayers in the generated file
+                // so this should always find a sublayer
                 jsSublayer = currentJsSublayers.find(s => s.name === sublayer.name);
             }
             
