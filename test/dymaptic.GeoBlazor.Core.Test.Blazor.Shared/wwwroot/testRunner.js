@@ -1,13 +1,38 @@
-﻿let Core;
+﻿export let Core;
 export let arcGisObjectRefs;
 let Color;
+export let Portal;
+export let SimpleRenderer;
+
+let esriConfig;
 
 export function initialize(core) {
     Core = core;
     arcGisObjectRefs = Core.arcGisObjectRefs;
     Color = Core.Color;
+    Portal = Core.Portal;
+    SimpleRenderer = Core.SimpleRenderer;
+    esriConfig = Core.esriConfig;
 }
 
+export function setJsTimeout(time, methodName) {
+    delete timeouts[methodName];
+    setTimeout(() => {
+        timeouts[methodName] = true;
+    }, time);
+}
+
+export function timeoutComplete(methodName) {
+    return timeouts[methodName] === true;
+}
+
+let timeouts = {};
+
+export async function dispatchEvent(methodName, objectId, eventName) {
+    let obj = arcGisObjectRefs[objectId];
+    let event = new Event(eventName);
+    obj.dispatchEvent(event);
+}
 export function assertBasemapHasTwoLayers(methodName) {
     let view = getView(methodName);
     if (view.map.basemap.baseLayers.length !== 2) {
@@ -17,7 +42,7 @@ export function assertBasemapHasTwoLayers(methodName) {
 
 export function assertWidgetExists(methodName, widgetClass) {
     let view = getView(methodName);
-    let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass)
+    let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass);
     if (!widget) {
         throw new Error(`Widget ${widgetClass} does not exist`);
     }
@@ -94,16 +119,17 @@ export function assertSymbolOnLayer(methodName, layerId, symbolType, dnSymbol) {
                     break;
                 case "font":
                     let dnFont = dnSymbol[propertyName];
-                    isMatch = layer.renderer.symbol[propertyName].family === dnFont.family;
+                    isMatch = layer.renderer.symbol[propertyName]?.family === dnFont.family;
                     break;
                 case "id":
-                    isMatch = true;
-                    break;
+                case "layerId":
+                case "viewId":
                 case "proProperties":
+                case "dotNetComponentReference":
                     isMatch = true;
                     break;
                 default:
-                    isMatch = layer.renderer.symbol[propertyName].toString() === dnSymbol[propertyName].toString();
+                    isMatch = layer.renderer.symbol[propertyName]?.toString() === dnSymbol[propertyName]?.toString();
                     break;
             }
 
@@ -124,6 +150,23 @@ export function assertLayerExists(methodName, layerType) {
         }
     }
 
+    throw new Error(`Expected layer of type ${layerType} but found none`);
+}
+
+export function assertGroupLayerHasLayer(methodName, layerType) {
+    let view = getView(methodName);
+    let layers = view.map.layers;
+    let groupLayer = layers.find(l => l.type === 'group');
+    if (groupLayer === undefined) {
+        throw new Error(`Expected group layer but found none`);
+    }
+    for (let i = 0; i < groupLayer.layers.items.length; i++) {
+        let layer = groupLayer.layers.items[i];
+        if (layer.type === layerType) {
+            return;
+        }
+    }
+    
     throw new Error(`Expected layer of type ${layerType} but found none`);
 }
 
@@ -179,7 +222,9 @@ export async function clickOnGraphicPopupAction(methodName) {
 }
 
 export async function triggerSearchHandlers() {
-    let searchInput = document.querySelector('.esri-search__input');
+    let searchInput = document.querySelector('.esri-search__autocomplete')
+        .shadowRoot.querySelector('calcite-input')
+        .shadowRoot.querySelector('input');
     searchInput.value = 'testFromJavascript';
     searchInput.dispatchEvent(new Event('input'));
     await new Promise(resolve => setTimeout(resolve, 100));
@@ -228,5 +273,25 @@ export function assertImageExists(methodName, elementId) {
     }
     if (element.tagName !== 'IMG') {
         throw new Error(`Element with id ${elementId} is not an image`);
+    }
+}
+
+export function assertBasemapHasStyle(methodName, style) {
+    let view = getView(methodName);
+    if (view.map.basemap.style.id !== style) {
+        throw new Error("Basemap does not have expected style");
+    }
+}
+
+export function assertBasemapHasPortalItemId(methodName, portalItemId) {
+    let view = getView(methodName);
+    if (view.map.basemap.portalItem.id !== portalItemId) {
+        throw new Error("Basemap does not have expected portalItemId");
+    }
+}
+
+export function assertApiKeyAdded(methodName) {
+    if (esriConfig.apiKey === undefined || esriConfig.apiKey === null) {
+        throw new Error("API key not added");
     }
 }

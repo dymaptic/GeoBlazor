@@ -13,8 +13,10 @@
     Chunk sizes are set by default to 200 (Server, WASM) and 100 (MAUI) based on internal testing.
 </p>
 
-<label>Number of Graphics: <input disabled="@_generating" @bind="_numberOfGraphics" @bind:after="SetGraphics" /></label>
-<label>Chunk Size: <input disabled="@_generating" @bind="_chunkSize" /></label>
+<div class="spaced-row">
+    <label>Number of Graphics: <input disabled="@_generating" @bind="_numberOfGraphics" @bind:after="SetGraphics" /></label>
+    <label>Chunk Size: <input disabled="@_generating" @bind="_chunkSize" /></label>
+</div>
 
 <MapView @ref="_view" Style="height: 600px; width: 100%;" GraphicSerializationChunkSize="_chunkSize">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
@@ -25,17 +27,19 @@
         <OpenStreetMapLayer />
     </Map>
 </MapView>
-<button disabled="@_generating" @onclick="AddGraphicsToView">Add Graphics To View</button>
-<button disabled="@_generating" @onclick="AddGraphicsToLayer">Add Graphics To Layer</button>
-<button @onclick="ClearGraphics">Clear Graphics</button>
-<label>
-    Select Geometry Type:
-    <select disabled="@_generating" @bind="_geometryType" @bind:after="SetGraphics">
-        <option value="Point">Point</option>
-        <option value="Polyline">Polyline</option>
-        <option value="Polygon">Polygon</option>
-    </select>
-</label>
+<div class="spaced-row">
+    <label>
+        Select Geometry Type:
+        <select disabled="@_generating" @bind="_geometryType" @bind:after="SetGraphics">
+            <option value="Point">Point</option>
+            <option value="Polyline">Polyline</option>
+            <option value="Polygon">Polygon</option>
+        </select>
+    </label>
+    <button type="button" class="btn btn-primary" disabled="@_generating" @onclick="AddGraphicsToView">Add Graphics To View</button>
+    <button type="button" class="btn btn-secondary" disabled="@_generating" @onclick="AddGraphicsToLayer">Add Graphics To Layer</button>
+    <button type="button" class="btn btn-accent" @onclick="ClearGraphics">Clear Graphics</button>
+</div>
 
 @code {
 
@@ -122,9 +126,9 @@
         return new Point(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0);
     }
 
-    private PolyLine GeneratePolyline()
+    private Polyline GeneratePolyline()
     {
-        return new PolyLine(new MapPath[]
+        return new Polyline(new MapPath[]
         {
             new(new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0), new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0))
         });
@@ -146,7 +150,7 @@
 
     private Symbol GenerateSimpleLine()
     {
-        return new SimpleLineSymbol(new MapColor("blue"), 2, LineStyle.Solid);
+        return new SimpleLineSymbol(new MapColor("blue"), 2, SimpleLineSymbolStyle.Solid);
     }
 
     private Symbol GenerateSimpleFill()

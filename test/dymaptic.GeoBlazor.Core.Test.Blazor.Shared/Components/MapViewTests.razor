@@ -7,6 +7,27 @@
 @code {
 
     [TestMethod]
+    public async Task TestMapRenderedSetBeforeOnViewRenderedCallback(Action renderHandler)
+    {
+        MapView? view = null;
+        void OnViewRendered()
+        {
+            Assert.IsNotNull(view);
+            Assert.IsTrue(view.MapRendered);
+            renderHandler.Invoke();
+        }
+        AddMapRenderFragment(
+            @<MapView @ref="view" class="map-view" OnViewRendered="OnViewRendered">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+    }
+    
+    [TestMethod]
     public async Task TestCanSetCenter(Action renderHandler)
     {
         MapView? view = null;
@@ -37,7 +58,7 @@
             @<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
                 <Map>
                     <FeatureLayer @ref="countriesLayer" Title="Countries">
-                        <PortalItem Id="ac80670eb213440ea5899bbf92a04998"/>
+                        <PortalItem PortalItemId="ac80670eb213440ea5899bbf92a04998"/>
                     </FeatureLayer>
                 </Map>
             </MapView>);
@@ -87,7 +108,7 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
                     </Basemap>
                     <FeatureLayer @ref="layer" Title="Countries">
-                        <PortalItem Id="ac80670eb213440ea5899bbf92a04998"/>
+                        <PortalItem PortalItemId="ac80670eb213440ea5899bbf92a04998"/>
                     </FeatureLayer>
                 </Map>
             </MapView>);

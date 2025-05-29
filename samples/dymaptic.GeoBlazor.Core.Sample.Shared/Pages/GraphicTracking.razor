@@ -11,13 +11,15 @@
     which updates quickly in a loop. Use the buttons to start, stop, reset, and center the view on the points.
 </p>
 
-<button disabled="@(!_mapRendered)" @onclick="ToggleMovement">@(_mapRendered ? _isMoving ? "Stop" : "Start" : "Wait...")</button>
-<button @onclick="ResetGraphics">Reset</button>
-<button @onclick="CenterView">Center</button>
+<div class="spaced-row">
+    <button type="button" class="btn btn-primary" disabled="@(!_mapRendered)" @onclick="ToggleMovement">@(_mapRendered ? _isMoving ? "Stop" : "Start" : "Wait...")</button>
+    <button type="button" class="btn btn-secondary" @onclick="ResetGraphics">Reset</button>
+    <button type="button" class="btn btn-accent" @onclick="CenterView">Center</button>
+</div>
 <MapView @ref="_view" Class="map-view" Latitude="_lat" Longitude="_lon" Zoom="13" OnViewRendered="OnViewRendered">
     <Map>
         <Basemap>
-            <PortalItem Id="d582a9e953c44c09bb998c7d9b66f8d4" />
+            <PortalItem PortalItemId="d582a9e953c44c09bb998c7d9b66f8d4" />
         </Basemap>
         <GraphicsLayer @ref="_graphicsLayer" />
     </Map>

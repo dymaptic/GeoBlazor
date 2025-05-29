@@ -1,4 +1,5 @@
-﻿@attribute [TestClass]
+﻿@using Environment = System.Environment
+@attribute [TestClass]
 <div class="result-section" id="@ClassName">
     <h2>@Extensions.CamelCaseToSpaces(ClassName)</h2>
     <div @onclick="@(() => _collapsed = !_collapsed)" style="cursor: pointer; display: inline; font-weight: bold; color: white; padding: 5px; border-radius: 5px; margin-bottom: 5px;">@(_collapsed ? "\u25b6" : "\u25bc")</div>
@@ -10,11 +11,13 @@
     <p>
         @if (_running)
         {
-            <span style="color: orange; font-weight: bold">Running...&nbsp;</span>
+            <span style="color: orange; font-weight: bold">Running... @Remaining tests pending</span>
+            <span>, </span>
         }
         @if (_passed.Any() || _failed.Any())
         {
-            <span style="color: green;">Passed: @_passed.Count,</span>
+            <span style="color: green;">Passed: @_passed.Count</span>
+            <span>, </span>
             <span style="color: red;">Failed: @_failed.Count</span>
         }
     </p>
@@ -61,6 +64,9 @@
 @code {
     [Inject]
     public IJSRuntime JsRuntime { get; set; } = null!;
+    
+    [Inject]
+    public JsModuleManager JsModuleManager { get; set; } = null!;
 
     [Parameter]
     public EventCallback<TestResult> OnTestResults { get; set; }
@@ -164,20 +170,46 @@
     }
 
     protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string methodName = "", 
-        params object[] args)
+        int retryCount = 0, params object[] args)
     {
-        List<object> jsArgs = new() { methodName };
-        jsArgs.AddRange(args);
-        if (jsAssertFunction.Contains("."))
+        try
         {
-            string[] parts = jsAssertFunction.Split('.');
-            IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
-                $"./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/{parts[0]}.js");
-            await module.InvokeVoidAsync(parts[1], jsArgs.ToArray());
+            List<object> jsArgs = [methodName];
+            jsArgs.AddRange(args);
+
+            if (jsAssertFunction.Contains("."))
+            {
+                string[] parts = jsAssertFunction.Split('.');
+
+                IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+                    $"./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/{parts[0]}.js");
+                await module.InvokeVoidAsync(parts[1], jsArgs.ToArray());
+            }
+            else
+            {
+                await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());
+            }
         }
-        else
+        catch (Exception)
         {
-            await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());   
+            if (retryCount < 4)
+            {
+                await Task.Delay(500);
+                await AssertJavaScript(jsAssertFunction, methodName, retryCount + 1, args);
+            }
+            else
+            {
+                throw;
+            }
+        }
+    }
+    
+    protected async Task WaitForJsTimeout(long time, [CallerMemberName] string methodName = "")
+    {
+        await _jsObjectReference!.InvokeVoidAsync("setJsTimeout", time, methodName);
+        while (!await _jsObjectReference!.InvokeAsync<bool>("timeoutComplete", methodName))
+        {
+            await Task.Delay(100);
         }
     }
 
@@ -191,6 +223,7 @@
         _testRenderFragments.Remove(methodInfo.Name);
         _mapRenderingExceptions.Remove(methodInfo.Name);
         _methodsWithRenderedMaps.Remove(methodInfo.Name);
+        Console.WriteLine($"Running test {methodInfo.Name}");
         try
         {
             bool hasParameters = methodInfo.GetParameters().Any();
@@ -238,18 +271,16 @@
         }
     }
 
-    private async Task CleanupTest(string testName)
+    protected async Task CleanupTest(string testName)
     {
         _methodsWithRenderedMaps.Remove(testName);
         _testResults[testName] = _resultBuilder.ToString();
-        if (_testRenderFragments.ContainsKey(testName))
-        {
-            _testRenderFragments.Remove(testName);
-        }
+        _testRenderFragments.Remove(testName);
         await InvokeAsync(async () =>
         {
             StateHasChanged();
-            await OnTestResults.InvokeAsync(new TestResult(ClassName, _passed, _failed));
+            await OnTestResults.InvokeAsync(
+                new TestResult(ClassName, _methodInfos!.Length, _passed, _failed));
         });
         _interactionToggles[testName] = false;
         _currentTest = null;
@@ -261,6 +292,7 @@
     }
 
     private string ClassName => GetType().Name;
+    private int Remaining => _methodInfos is null ? 0 : _methodInfos.Length - (_passed.Count + _failed.Count);
     private IJSObjectReference? _jsObjectReference;
     private StringBuilder _resultBuilder = new();
     private MethodInfo[]? _methodInfos;

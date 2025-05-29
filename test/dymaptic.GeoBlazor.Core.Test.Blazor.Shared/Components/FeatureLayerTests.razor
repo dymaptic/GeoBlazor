@@ -10,27 +10,27 @@
     public async Task TestCanSetFeatureLayerVisibility(Action renderHandler)
     {
         MapView? mapView = null;
-        async Task OnViewInitialized()
-        {
-            await mapView!.AddLayer(
-    new FeatureLayer("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0",
-        title: "Test"));
-        }
+        
         AddMapRenderFragment(
-    @<MapView OnViewInitialized="@OnViewInitialized" @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-        </Map>
-    </MapView>);
+		    @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+		        <Map>
+		            <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+		            </Basemap>
+		        </Map>
+		    </MapView>);
         await WaitForMapToRender();
+        
+        await mapView!.AddLayer(
+            new FeatureLayer("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0",
+                title: "Test"));
+        await Task.Delay(100);
         await AssertJavaScript("assertLayerExists", args: "feature");
 
         FeatureLayer? featureLayer = mapView!.Map!.Layers.OfType<FeatureLayer>().SingleOrDefault();
 
         Assert.IsNotNull(featureLayer);
-        Assert.IsNotNull(featureLayer.JsModule);
+        Assert.IsNotNull(featureLayer.CoreJsModule);
 
         await featureLayer.SetVisibility(false);
 
@@ -41,11 +41,11 @@
     public async Task TestCanRenderFeatureLayer(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0" />
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0" />
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
     }
@@ -66,17 +66,17 @@
             graphics.Add(graphic);
         }
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-            <FeatureLayer @ref="layer" Source="graphics"
-                          GeometryType="GeometryType.Point"
-                          ObjectIdField="OBJECT_ID">
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+		    @<MapView class="map-view" OnViewRendered="renderHandler">
+		        <Map>
+		            <Basemap>
+		                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+		            </Basemap>
+		            <FeatureLayer @ref="layer" Source="graphics"
+                                  GeometryType="FeatureGeometryType.Point"
+		                          ObjectIdField="OBJECT_ID">
+		            </FeatureLayer>
+		        </Map>
+		    </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]);
@@ -96,13 +96,16 @@
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
-        <Map>
-            <FeatureLayer @ref="layer">
-                <PortalItem Id="449887ea7d60429fbf6f0c67881f2758" />
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer">
+                        <PortalItem PortalItemId="449887ea7d60429fbf6f0c67881f2758" />
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
 
@@ -119,17 +122,19 @@
         query.OutFields = ["*"];
         FeatureSet? featureSet = await layer!.QueryFeatures(query);
         Assert.IsNotNull(featureSet);
+        Assert.AreEqual(5, featureSet.Features!.Count);
         foreach (Graphic feature in featureSet.Features!)
         {
-            FeatureType? featureType = await layer!.GetFeatureType(feature);
-            Assert.IsNotNull(featureType);
+            // we don't know for sure that these all have a feature type
+            // but we want to call it to make sure it doesn't throw an error
+            FeatureType? _ = await layer!.GetFeatureType(feature);
         }
         var fieldName = "strinsur";
         Field? field = await layer.GetField(fieldName);
         Assert.IsNotNull(field);
         Domain? domain = await layer.GetFieldDomain(fieldName);
         Assert.IsNotNull(domain);
-        FeatureLayerCapabilities capabilities = await layer.GetCapabilities();
+        FeatureLayerCapabilities? capabilities = await layer.GetCapabilities();
         Assert.IsNotNull(capabilities);
     }
 
@@ -138,25 +143,28 @@
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-            <FeatureLayer @ref="layer" Source="@([])"
-                          GeometryType="GeometryType.Point"
-                          ObjectIdField="OBJECT_ID">
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+		    @<MapView class="map-view" OnViewRendered="renderHandler">
+		        <Map>
+		            <Basemap>
+		                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+		            </Basemap>
+		            <FeatureLayer @ref="layer" Source="@([])"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  ObjectIdField="OBJECT_ID"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  OutFields="@(["*"])">
+		            </FeatureLayer>
+		        </Map>
+		    </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
         FeatureEdits edits = new()
                 {
-                    AddFeatures = [
-                                    new Graphic(new Point(0, 0),
-                    new SimpleMarkerSymbol(color: new MapColor("black")))
-                                ]
+                    AddFeatures = 
+                    [
+                        new Graphic(new Point(0, 0),
+                            new SimpleMarkerSymbol(color: new MapColor("black")))
+                    ]
                 };
         await layer!.ApplyEdits(edits);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 1]);
@@ -167,17 +175,19 @@
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-            <FeatureLayer @ref="layer" Source="@([])"
-                          GeometryType="GeometryType.Point"
-                          ObjectIdField="OBJECT_ID">
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer" Source="@([])"
+                                  OutFields="@(["*"])"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  ObjectIdField="OBJECT_ID">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
@@ -191,17 +201,19 @@
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-            <FeatureLayer @ref="layer" Source="@([])"
-                          GeometryType="GeometryType.Point"
-                          ObjectIdField="OBJECT_ID">
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer" Source="@([])"
+                                  OutFields="@(["*"])"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  ObjectIdField="OBJECT_ID">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
@@ -228,17 +240,19 @@
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-            <FeatureLayer @ref="layer" Source="@([])"
-                          GeometryType="GeometryType.Point"
-                          ObjectIdField="OBJECT_ID">
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer" Source="@([])"
+                                  OutFields="@(["*"])"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  ObjectIdField="OBJECT_ID">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
@@ -279,23 +293,26 @@
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-            <FeatureLayer @ref="layer" Source="@([])"
-                          GeometryType="GeometryType.Point"
-                          ObjectIdField="OBJECT_ID">
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer" Source="@( [])"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  OutFields="@( ["*"])"
+                                  ObjectIdField="OBJECT_ID">
+                        <Field Name="OBJECT_ID" Type="FieldType.Integer" />
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
         List<Graphic> graphics = [];
         Random random = new();
-        for (var i = 0; i < 2000; i++)
+        for (var i = 1; i <= 2000; i++)
         {
             AttributesDictionary attributes = new();
             await attributes.AddOrUpdate("OBJECT_ID", i);
@@ -304,20 +321,20 @@
             graphics.Add(graphic);
         }
         FeatureEdits edits = new()
-                {
-                    AddFeatures = graphics
-                };
+        {
+            AddFeatures = graphics
+        };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]);
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
 
         edits = new()
-                {
-                    DeleteFeatures = graphics
-                };
+        {
+            DeleteFeatures = graphics
+        };
         result = await layer!.ApplyEdits(edits);
         await Assert.ThrowsExceptionAsync<JSException>(async () =>
-        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]));
+            await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]));
         Assert.AreEqual(2000, result.DeleteFeatureResults.Length);
     }
 
@@ -332,7 +349,7 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })">
-                <PortalItem Id="234d2e3f6f554e0e84757662469c26d3" />
+                <PortalItem PortalItemId="234d2e3f6f554e0e84757662469c26d3" />
             </FeatureLayer>
         </Map>
         <Extent Xmax="-13620669.8431"
@@ -348,7 +365,7 @@
                 {
                     Geometry = point,
                     Distance = 0.5,
-                    Units = LinearUnit.Miles,
+                    Units = QueryUnits.Miles,
                     SpatialRelationship = SpatialRelationship.Intersects,
                     ReturnGeometry = false,
                     ReturnQueryGeometry = true,
@@ -356,7 +373,7 @@
                 };
         FeatureSet? result = await layer!.QueryFeatures(query);
         Assert.IsNotNull(result);
-        Assert.IsTrue(result.Features!.Length > 0);
+        Assert.IsTrue(result.Features!.Count > 0);
     }
 
     [TestMethod]
@@ -364,16 +381,16 @@
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler" Longitude="-98.5795" Latitude="39.8282">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-            <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })">
-                <PortalItem Id="7a301e848a7c4bfcaefdac4fe98a7f99" />
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler" Longitude="-98.5795" Latitude="39.8282">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })">
+                        <PortalItem PortalItemId="7a301e848a7c4bfcaefdac4fe98a7f99" />
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
         Point point = new(x: -10469946.852199763, y: 4738582.470785314, spatialReference: new(102100));
         var query = new Query
@@ -383,15 +400,15 @@
                     SpatialRelationship = SpatialRelationship.Intersects,
                     ReturnGeometry = false
                 };
-        int[] objectIds = await layer!.QueryObjectIds(query);
+        ObjectId[] objectIds = await layer!.QueryObjectIds(query);
         Assert.IsTrue(objectIds.Length > 0);
         var relationshipQuery = new RelationshipQuery
-                {
-                    OutFields = ["NAME", "SUM_POPULATION"],
-                    RelationshipId = layer.Relationships?.FirstOrDefault()?.Id,
-                    ObjectIds = objectIds
-                };
-        Dictionary<int, FeatureSet?>? result = await layer.QueryRelatedFeatures(relationshipQuery);
+        {
+            OutFields = ["NAME", "SUM_POPULATION"],
+            RelationshipId = layer.Relationships?.FirstOrDefault()?.RelationshipId,
+            ObjectIds = objectIds
+        };
+        RelatedFeaturesQueryResult? result = await layer.QueryRelatedFeatures(relationshipQuery);
         Assert.IsNotNull(result);
         Assert.IsTrue(result.Count > 0);
     }
@@ -401,34 +418,29 @@
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler" Longitude="-97.75188" Latitude="37.23308">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-            <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })"
-                          Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler" Longitude="-97.75188" Latitude="37.23308">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
         string[] orderByField = ["TOTAL DESC"];
         TopFeaturesQuery query = new()
-            {
-                TopFilter = new TopFilter
-                {
-                    TopCount = 3,
-                    GroupByFields = ["State"],
-                    OrderByFields = orderByField
-                },
-                ReturnGeometry = true,
-                OutFields = ["State, TOTAL, F2018, F2019, F2020, Park"],
-                OrderByFields = orderByField,
-                CacheHint = false
-            };
-
+        {
+            TopFilter = new TopFilter(["State"], orderByField, 3),
+            ReturnGeometry = true,
+            OutFields = ["State, TOTAL, F2018, F2019, F2020, Park"],
+            OrderByFields = orderByField,
+            CacheHint = false
+        };
+        
         FeatureSet? results = await layer!.QueryTopFeatures(query);
         Assert.IsNotNull(results);
-        Assert.IsTrue(results.Features!.Length > 0);
+        Assert.IsTrue(results.Features!.Count > 0);
     }
 }

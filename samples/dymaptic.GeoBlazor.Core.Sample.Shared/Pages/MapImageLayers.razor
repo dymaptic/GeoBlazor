@@ -1,5 +1,6 @@
 ﻿@page "/map-image-layers"
 @using dymaptic.GeoBlazor.Core.Extensions
+@using dymaptic.GeoBlazor.Core.Functions
 <PageTitle>Map Image Layers</PageTitle>
 <h1>Map Image Layers</h1>
 
@@ -9,7 +10,8 @@
 </div>
 <p class="instructions">
     MapImageLayer allows you to display and analyze data from sublayers defined in a map service, exporting images instead of features. Map service images are dynamically generated on the server based on a request.
-    <br />
+</p>
+<p class="instructions">
     Use the radio buttons to toggle various Map Image layers.
 </p>
 <div>
@@ -21,25 +23,21 @@
                     <InputRadio Name="points" Value="1" />
                     <div class="radio-box"></div>
                 </label>
-                <br />
                 <label class="radio-container">
                     Show Toggleable Highways, Cities, Railroad Layers:
                     <InputRadio Name="points" Value="2" />
                     <div class="radio-box"></div>
                 </label>
-                <br />
                 <label class="radio-container">
                     Show Cities Layer by Population with Slider:
                     <InputRadio Name="points" Value="3" />
                     <div class="radio-box"></div>
                 </label>
-                <br/>
                 <label class="radio-container">
                     Show Sublayers with Custom Renderers:
                     <InputRadio Name="points" Value="4" />
                     <div class="radio-box"></div>
                 </label>
-                <br/>
                 <label class="radio-container">
                     Show Sublayers with Custom Labels:
                     <InputRadio Name="points" Value="5" />
@@ -64,7 +62,7 @@
                 </Basemap>
 
                 <MapImageLayer @key="_layerIndex">
-                    <PortalItem Id="d7892b3c13b44391992ecd42bfa92d01" />
+                    <PortalItem PortalItemId="d7892b3c13b44391992ecd42bfa92d01" />
                 </MapImageLayer>
 
                 break;
@@ -87,7 +85,7 @@
                                 <SimpleRenderer>
                                     <SimpleLineSymbol Color="@(new MapColor(255, 255, 255, 0.5))"
                                                       Width="@(new Dimension(0.75))"
-                                                      LineStyle="@LineStyle.LongDashDotDot" />
+                                                      Style="@SimpleLineSymbolStyle.LongDashDotDot" />
                                 </SimpleRenderer>
                                 <DynamicDataLayer>
                                     <TableDataSource WorkspaceId="MyDatabaseWorkspaceIDSSR2"
@@ -121,7 +119,7 @@
                                       Visible="true"
                                       Opacity="0.4">
                                 <SimpleRenderer Label="State boundaries">
-                                    <SimpleFillSymbol FillStyle="FillStyle.None">
+                                    <SimpleFillSymbol Style="SimpleFillSymbolStyle.None">
                                         <Outline Width="@(0.5)"
                                                  Color="@(new MapColor("gray"))" />
                                     </SimpleFillSymbol>
@@ -132,7 +130,7 @@
                                       Visible="true"
                                       Opacity="0.8">
                                 <SimpleRenderer Label="Interstate highway">
-                                    <SimpleLineSymbol LineStyle="LineStyle.None"
+                                    <SimpleLineSymbol Style="SimpleLineSymbolStyle.None"
                                                       Width="@(0.7)"
                                                       Color="@(new MapColor("white"))" />
                                 </SimpleRenderer>
@@ -144,7 +142,7 @@
                                 <SimpleRenderer Label="Cities">
                                     <SimpleMarkerSymbol Size="@(3)"
                                                         Color="@(new MapColor("white"))"
-                                                        MarkerStyle="@SimpleMarkerStyle.Circle">
+                                                        Style="@SimpleMarkerSymbolStyle.Circle">
                                         <Outline Width="@(0.5)"
                                                  Color="@(new MapColor("gray"))" />
                                     </SimpleMarkerSymbol>
@@ -158,7 +156,7 @@
                                       Visible="true"
                                       Opacity="0.5">
                                 <SimpleRenderer Label="County boundaries">
-                                    <SimpleFillSymbol FillStyle="FillStyle.None">
+                                    <SimpleFillSymbol Style="SimpleFillSymbolStyle.None">
                                         <Outline Width="@(0.5)"
                                                  Color="@(new MapColor("white"))" />
                                     </SimpleFillSymbol>
@@ -178,7 +176,7 @@
                                       Visible="true"
                                       Opacity="0.7">
                                 <SimpleRenderer Label="State boundaries">
-                                    <SimpleFillSymbol FillStyle="FillStyle.None">
+                                    <SimpleFillSymbol Style="SimpleFillSymbolStyle.None">
                                         <Outline Width="@(2)"
                                                  Color="@(new MapColor("white"))" />
                                     </SimpleFillSymbol>
@@ -198,13 +196,13 @@
                                     <TextSymbol Color="@(new MapColor(255, 255, 255, 0.85))"
                                                 HaloColor="@(new MapColor("blue"))"
                                                 HaloSize="@(1)">
-                                        <MapFont Size="@(14)" Weight="bold" />
+                                        <MapFont Size="@(14)" Weight="FontWeight.Bold" />
                                     </TextSymbol>
                                 </Label>
                             </Sublayer>
                             <Sublayer SublayerId="0">
                                 <SimpleRenderer Label="Cities">
-                                    <SimpleMarkerSymbol MarkerStyle="@SimpleMarkerStyle.Circle"
+                                    <SimpleMarkerSymbol Style="@SimpleMarkerSymbolStyle.Circle"
                                                         Size="@(0.5)"
                                                         Color="@(new MapColor("white"))" />
                                 </SimpleRenderer>
@@ -313,14 +311,14 @@
         StateHasChanged();
     }
 
-    private void OnSliderThumbDrag(SliderThumbDragEvent dragEvent)
+    private async Task OnSliderThumbDrag(SliderThumbDragEvent dragEvent)
     {
         _selectedPopulation = dragEvent.Value;
 
         if (dragEvent.State == SliderThumbDragState.Stop)
         {
             _cityDefinitionExpression = $"pop2000 > {_selectedPopulation}";
-            _cities!.Refresh();
+            await _cities!.Refresh();
         }
     }
 

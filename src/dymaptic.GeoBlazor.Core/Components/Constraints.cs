@@ -1,13 +1,7 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///     Specifies constraints to scale, zoom, and rotation that may be applied to the MapView. The constraints.lods should
-///     be set in the MapView constructor, if the map does not have a basemap or when the basemap does not have tileInfo.
+///     Specifies constraints to scale, zoom, and rotation that may be applied to the MapView. The constraints.lods should be set in the MapView constructor, if the map does not have a basemap or when the basemap does not have tileInfo.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#constraints">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class Constraints : MapComponent
@@ -33,8 +27,7 @@ public class Constraints : MapComponent
     public double? MinScale { get; set; }
 
     /// <summary>
-    ///     The maximum scale the user is allowed to zoom to within the view. Setting this value to 0 allows the user to
-    ///     overzoom layer tiles.
+    ///     The maximum scale the user is allowed to zoom to within the view. Setting this value to 0 allows the user to overzoom layer tiles.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -48,16 +41,14 @@ public class Constraints : MapComponent
     public double? MinZoom { get; set; }
 
     /// <summary>
-    ///     The maximum zoom level the user is allowed to zoom to within the view. Setting this value to 0 allows the user to
-    ///     over-zoom layer tiles.
+    ///     The maximum zoom level the user is allowed to zoom to within the view. Setting this value to 0 allows the user to over-zoom layer tiles.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxZoom { get; set; }
 
     /// <summary>
-    ///     When true, the view snaps to the next LOD when zooming in or out. When false, the zoom is continuous. This does not
-    ///     apply when zooming in/out using two finger pinch in/out.
+    ///     When true, the view snaps to the next LOD when zooming in or out. When false, the zoom is continuous. This does not apply when zooming in/out using two finger pinch in/out.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -76,7 +67,7 @@ public class Constraints : MapComponent
         switch (child)
         {
             case LOD lod:
-                Lods ??= new List<LOD>();
+                Lods ??= [];
 
                 if (!Lods.Contains(lod))
                 {
@@ -124,7 +115,7 @@ public class Constraints : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Geometry?.ValidateRequiredChildren();

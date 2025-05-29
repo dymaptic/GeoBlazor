@@ -13,31 +13,31 @@
 </p>
 <h1>Attributes</h1>
 <div class="links-div">
-    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#attributes">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-accent" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#attributes">ArcGIS API for JavaScript Reference</a>
 </div>
 <p class="instructions">
     The popup template is bound to the graphic's attributes. The attributes are updated when the input fields are changed.
 </p>
 
 <div class="form-group">
-    <label>
-        Popup Title: <input disabled="@(!_rendered)" width="100px;" type="text" value="@(_graphic1Attributes["Name"])" @onchange="@(v => UpdateAttribute(v, "Name"))" />
-    </label>
-    <label>
-        Popup Description: <input disabled="@(!_rendered)" width="140px;" type="text" value="@(_graphic1Attributes["Description"])" @onchange="@(v => UpdateAttribute(v, "Description"))" />
-    </label>
-    <label>
-        Popup Number: <input disabled="@(!_rendered)" width="60px;" type="number" value="@(_graphic1Attributes["Number"])" @onchange="@(v => UpdateAttribute(v, "Number"))" />
-    </label>
-    <label>
-        Popup Date: <input disabled="@(!_rendered)" width="100px;" type="date" value="@(((DateTime)_graphic1Attributes["Date"]!).ToString("yyyy-MM-dd"))" @onchange="@(v => UpdateAttribute(v, "Date"))" />
-    </label>
-    <label>
-        Popup Time: <input disabled="@(!_rendered)" width="100px;" type="time" value="@(((DateTime)_graphic1Attributes["Date"]!).ToString("HH:mm"))" @onchange="@(v => UpdateAttribute(v, "Time"))" />
-    </label>
-    <label>
-        Popup Boolean: <input disabled="@(!_rendered)" width="100px;" type="checkbox" checked="@(_graphic1Attributes["Boolean"])" @onchange="@(v => UpdateAttribute(v, "Boolean"))" />
-    </label>
+    <div class="row">
+        <label>Popup Title:</label><input disabled="@(!_rendered)" width="300px;" type="text" value="@(_graphic1Attributes["Name"])" @onchange="@(v => UpdateAttribute(v, "Name"))" />
+    </div>
+    <div class="row">
+        <label>Popup Description:</label><input disabled="@(!_rendered)" width="300px;" type="text" value="@(_graphic1Attributes["Description"])" @onchange="@(v => UpdateAttribute(v, "Description"))" />
+    </div>
+    <div class="row">
+        <label>Popup Number:</label><input disabled="@(!_rendered)" width="60px;" type="number" value="@(_graphic1Attributes["Number"])" @onchange="@(v => UpdateAttribute(v, "Number"))" />
+    </div>
+    <div class="row">
+        <label>Popup Date:</label><input disabled="@(!_rendered)" width="100px;" type="date" value="@(((DateTime)_graphic1Attributes["Date"]!).ToString("yyyy-MM-dd"))" @onchange="@(v => UpdateAttribute(v, "Date"))" />
+    </div>
+    <div class="row">
+        <label>Popup Time:</label><input disabled="@(!_rendered)" width="100px;" type="time" value="@(((DateTime)_graphic1Attributes["Date"]!).ToString("HH:mm"))" @onchange="@(v => UpdateAttribute(v, "Time"))" />
+    </div>
+    <div class="row">
+        <label>Popup Boolean:</label><input disabled="@(!_rendered)" type="checkbox" class="form-check-input" checked="@(_graphic1Attributes["Boolean"])" @onchange="@(v => UpdateAttribute(v, "Boolean"))" />
+    </div>
 </div>
 <div class="form-group" style="margin-top: 2rem;">
     <label>Test Object type in C#: </label><br />
@@ -118,7 +118,8 @@
         new MapPoint(-118.806796597377, 34.0215816298725),
         new MapPoint(-118.791432890735, 34.0163883241613),
         new MapPoint(-118.79596686535, 34.008564864635),
-        new MapPoint(-118.808558110679, 34.0035027131376));
+        new MapPoint(-118.808558110679, 34.0035027131376),
+        new MapPoint(-118.818984489994, 34.0137559967283));
     private readonly AttributesDictionary _graphic1Attributes = new(new Dictionary<string, object?>
     {
         { "Name", "This is a Title" },

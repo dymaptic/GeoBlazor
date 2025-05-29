@@ -1,29 +1,36 @@
-﻿import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
-import BaseTileLayerWrapper from "./baseTileLayer";
-import {buildJsEffect} from "./jsBuilder";
-import {buildDotNetEffect, buildDotNetTileInfo} from "./dotNetBuilder";
+import BingMapsLayer from '@arcgis/core/layers/BingMapsLayer';
+import BingMapsLayerGenerated from './bingMapsLayer.gb';
 
-export default class BingMapsLayerWrapper extends BaseTileLayerWrapper {
-    public layer: BingMapsLayer;
-    
-    constructor(bmLayer: BingMapsLayer) {
-        super(bmLayer);
-        this.layer = bmLayer;
+export default class BingMapsLayerWrapper extends BingMapsLayerGenerated {
+
+    constructor(layer: BingMapsLayer) {
+        super(layer);
     }
-    
+
     getBingLogo() {
         return this.layer.bingLogo;
     }
-    
+
     getCopyright() {
         return this.layer.copyright;
     }
-    
+
     hasAttributionData() {
         return this.layer.hasAttributionData;
     }
-    
-    getTileInfo() {
+
+    async getTileInfo() {
+        let {buildDotNetTileInfo} = await import('./tileInfo');
         return buildDotNetTileInfo(this.layer.tileInfo);
     }
+}
+
+export async function buildJsBingMapsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let {buildJsBingMapsLayerGenerated} = await import('./bingMapsLayer.gb');
+    return await buildJsBingMapsLayerGenerated(dotNetObject, layerId, viewId);
+}
+
+export async function buildDotNetBingMapsLayer(jsObject: any): Promise<any> {
+    let {buildDotNetBingMapsLayerGenerated} = await import('./bingMapsLayer.gb');
+    return await buildDotNetBingMapsLayerGenerated(jsObject);
 }

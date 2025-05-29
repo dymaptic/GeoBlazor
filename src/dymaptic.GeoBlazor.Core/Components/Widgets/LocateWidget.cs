@@ -1,20 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     Provides a simple widget that animates the View to the user's current location. The view rotates according to the
-///     direction where the tracked device is heading towards.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class LocateWidget : Widget
+public partial class LocateWidget : Widget
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "locate";
+    public override WidgetType Type => WidgetType.Locate;
     
     /// <summary>
     ///    Indicates whether the widget will automatically rotate to the device heading based on the Geolocation APIs GeolocationCoordinates.heading property. The map will not rotate if the speed is 0, or if the device is unable to provide heading information.
@@ -22,40 +11,51 @@ public class LocateWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Deprecated since GeoBlazor v4. Use Track widget instead")]
     public bool? RotationEnabled { get; set; }
 
     /// <summary>
-    ///     Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is
-    ///     returned from the track event.
+    ///     Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is returned from the track event.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Scale { get; set; } = 2500;
-    
-        
+
     /// <summary>
-    ///     This function provides the ability to override either the MapView goTo() or SceneView goTo() methods with your own implementation.
+    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
+    [ArcGISProperty]
     [Parameter]
     [JsonIgnore]
-    public Action<GoToOverrideParameters>? GoToOverride { get; set; }
+    [CodeGenerationIgnore]
+    public GoToOverride? GoToOverride { get; set; }
+
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref = "GoToOverride"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        GoToOverrideParameters goToParameters = JsonSerializer.Deserialize<GoToOverrideParameters>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        if (GoToOverride is not null)
+        {
+            await GoToOverride.Invoke(goToParameters);
+        }
+    }
 
     /// <summary>
     ///     Identifies whether a custom <see cref="GoToOverride" /> was registered.
     /// </summary>
+    [CodeGenerationIgnore]
     public bool HasGoToOverride => GoToOverride is not null;
-    
-    /// <summary>
-    ///     A .NET object reference for calling this class from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<LocateWidget> LocateWidgetObjectReference => DotNetObjectReference.Create(this);
-    
-    /// <summary>
-    ///     JavaScript-invokable method for internal use
-    /// </summary>
-    [JSInvokable]
-    public void OnJavaScriptGoToOverride(GoToOverrideParameters goToOverrideParams)
-    {
-        GoToOverride?.Invoke(goToOverrideParams);
-    }
 }

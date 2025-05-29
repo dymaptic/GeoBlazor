@@ -1,52 +1,63 @@
-using Microsoft.JSInterop;
-
 namespace dymaptic.GeoBlazor.Core;
 
 /// <summary>
 ///     Static class for managing the JavaScript modules used by GeoBlazor.
 /// </summary>
-public static class JsModuleManager
+public class JsModuleManager
 {
     /// <summary>
     ///     Retrieves the main entry point for the GeoBlazor Core JavaScript module.
     /// </summary>
-    public static async Task<IJSObjectReference> GetArcGisJsCore(IJSRuntime jsRuntime, IJSObjectReference? proModule, CancellationToken cancellationToken)
+    public async ValueTask<IJSObjectReference> GetArcGisJsCore(IJSRuntime jsRuntime, IJSObjectReference? proModule, CancellationToken cancellationToken)
     {
-        Version? version = System.Reflection.Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
-
-        IJSObjectReference core;
-
-        if (proModule is null)
+        if (_coreModule is null)
         {
-            core = await jsRuntime
+            if (proModule is null)
+            {
+                Version? version = Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
+                _coreModule = await jsRuntime
                     .InvokeAsync<IJSObjectReference>("import", cancellationToken, 
                         $"./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js?v={version}");
-        }
-        else
-        {
-            core = await proModule.InvokeAsync<IJSObjectReference>("getCore", cancellationToken);    
+            }
+            else
+            {
+                _coreModule = await proModule.InvokeAsync<IJSObjectReference>("getCore", cancellationToken);    
+            }
         }
 
-        return core;
+        return _coreModule;
     }
 
     /// <summary>
     ///     Retrieves the main entry point for the optional GeoBlazor Pro JavaScript module.
     /// </summary>
-    public static async Task<IJSObjectReference?> GetArcGisJsPro(IJSRuntime jsRuntime, CancellationToken cancellationToken)
+    public async ValueTask<IJSObjectReference?> GetArcGisJsPro(IJSRuntime jsRuntime, CancellationToken cancellationToken)
     {
-        Version? version = System.Reflection.Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
-
-        LicenseType licenseType = Licensing.GetLicenseType();
-
-        switch ((int)licenseType)
+        if (_proModule is null && !_proChecked)
         {
-            case >= 100:
+            string version = Assembly.GetAssembly(typeof(JsModuleManager))!
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
+                .InformationalVersion;
+
+            LicenseType licenseType = Licensing.GetLicenseType();
+
+            switch ((int)licenseType)
+            {
+                case >= 100:
                 
-                return await jsRuntime.InvokeAsync<IJSObjectReference>("import", cancellationToken,
-                    $"./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js?v={version}");
-            default:
-                return null;
+                    _proModule = await jsRuntime.InvokeAsync<IJSObjectReference>("import", cancellationToken,
+                        $"./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js?v={version}");
+                    break;
+                default:
+                    _proChecked = true;
+                    return null;
+            }
         }
+
+        return _proModule;
     }
+    
+    private IJSObjectReference? _proModule;
+    private IJSObjectReference? _coreModule;
+    private bool _proChecked;
 }

@@ -9,11 +9,11 @@
     Click anywhere to see a point added to the map. Click on the point again to see a popup. Click on the popup action to add the point to the list below.
 </p>
 
-<MapView Class="map-view" OnClick="OnClick" Zoom="4">
+<MapView @ref="_mapView" Class="map-view" OnClick="OnClick" Zoom="4">
     <Map>
         <Basemap>
             <TileLayer>
-                <PortalItem Id="1e126e7520f9466c9ca28b8f28b5e500" />
+                <PortalItem PortalItemId="1e126e7520f9466c9ca28b8f28b5e500" />
             </TileLayer>
         </Basemap>
         <GraphicsLayer @ref="_graphicsLayer" />
@@ -32,6 +32,15 @@
     private async Task OnClick(ClickEvent arg)
     {
         Point point = arg.MapPoint;
+        
+        HitTestResult result = await _mapView!.HitTest(arg);
+        
+        if (result.Results is { Length: > 0 } && result.Results[0] is GraphicHit)
+        {
+            // already added this point
+            return;
+        }
+        
         if (_graphic is null)
         {
             _graphic = new Graphic(point);
@@ -45,7 +54,7 @@
             "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/dymaptic_logo.png", "test-1", AddPoint);
         PopupTemplate popupTemplate = new PopupTemplate(
             $"New Point at Long: {point.Longitude!.Value:N2} Lat: {point.Latitude!.Value:N2}", 
-            actions: new[]{ actionButton });
+            actions: [actionButton]);
         
         await _graphic.SetPopupTemplate(popupTemplate);
         await _graphic.SetSymbol(symbol);
@@ -60,5 +69,6 @@
 
     private Graphic? _graphic;
     private GraphicsLayer? _graphicsLayer;
-    private readonly List<Point> _points = new();
+    private MapView? _mapView;
+    private readonly List<Point> _points = [];
 }

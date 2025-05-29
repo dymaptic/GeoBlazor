@@ -22,11 +22,14 @@ export default class AuthenticationManager {
         } else if (apiKey !== null) {
             esriConfig.apiKey = apiKey;
         }
-        
+        if (portalUrl !== undefined && portalUrl !== null) {
+            esriConfig.portalUrl = portalUrl;
+        }
+
         if (trustedServers !== null) {
             esriConfig.request.trustedServers = esriConfig.request.trustedServers !== undefined ? esriConfig.request.trustedServers.concat(trustedServers) : trustedServers;
         }
-        
+
         if (fontsUrl !== null) {
             esriConfig.fontsUrl = fontsUrl;
         }
@@ -34,6 +37,10 @@ export default class AuthenticationManager {
         this.dotNetRef = dotNetReference;
     }
 
+    setApiKey(apiKey: string): void {
+        esriConfig.apiKey = apiKey;
+    }
+    
     async isLoggedIn(): Promise<boolean> {
         try {
             await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");

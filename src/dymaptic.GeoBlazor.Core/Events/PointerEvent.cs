@@ -7,8 +7,7 @@
 ///     The event type.
 /// </param>
 /// <param name="PointerId">
-///     Uniquely identifies a pointer between multiple down, move, and up events. Ids might get reused after a pointer-up
-///     event.
+///     Uniquely identifies a pointer between multiple down, move, and up events. Ids might get reused after a pointer-up event.
 /// </param>
 /// <param name="PointerType">
 ///     Indicates the pointer type.

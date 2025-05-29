@@ -25,7 +25,24 @@
 	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <CompressionEnabled>false</CompressionEnabled>
+        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
+        <SkipStaticWebAssets Condition="$(SkipStaticWebAssets) == 'true'">false</SkipStaticWebAssets>
+        <NoWarn>GeoBlazor_Untested</NoWarn>
+    </PropertyGroup>
+
+    <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
+        Must be commented out for successful builds. Also comment out the <NoWarn> below. -->
+    <!--    <ItemGroup>-->
+    <!--        <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">-->
+    <!--	        <PrivateAssets>all</PrivateAssets>-->
+    <!--	        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
+    <!--        </PackageReference>-->
+    <!--    </ItemGroup>-->
+
+    <!--    Comment out this section when you uncomment the section above to trigger 
+            the public API analyzer warnings/errors -->
+    <PropertyGroup>
+        <NoWarn>GeoBlazor_Untested;RS0016;RS0037</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -36,33 +53,39 @@
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.CodeGen" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
-        <PackageReference Include="protobuf-net" Version="3.2.30" />
+        <PackageReference Include="protobuf-net" Version="3.2.45" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.15" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     </ItemGroup>
-    <PropertyGroup Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <PropertyGroup Condition="$(Configuration) == 'RELEASE'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
         <DefaultDocumentationGeneratedPages>Types</DefaultDocumentationGeneratedPages>
         <DefaultDocumentationGeneratedAccessModifiers>Public</DefaultDocumentationGeneratedAccessModifiers>
+        <DefaultDocumentationIncludeUndocumentedItems>true</DefaultDocumentationIncludeUndocumentedItems>
+        <DefaultDocumentationConfigurationFile>DefaultDocumentation.json</DefaultDocumentationConfigurationFile>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="Blazor-API-500px.png" Pack="true" PackagePath="" />
+        <None Include="gb_white_text_300px.png" Pack="true" PackagePath="" />
+        <None Include="Go-GeoBlazor-Pro.png" Pack="true" PackagePath="" />
         <Content Remove="package.json" />
         <Content Remove="package-lock.json" />
         <Content Remove="tsconfig.json" />
-        <Content Include="package.json" Pack="false" />
-        <Content Include="package-lock.json" Pack="false" />
-        <Content Include="tsconfig.json" Pack="false" />
+        <Content Remove="DefaultDocumentation.json" />
+        <None Include="package.json" Pack="false" />
+        <None Include="package-lock.json" Pack="false" />
+        <None Include="tsconfig.json" Pack="false" />
         <None Remove="ReadMe.md" />
         <None Include="ReadMe.md" Pack="true" PackagePath="" />
     </ItemGroup>
@@ -72,52 +95,37 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+      <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Folder Include="wwwroot/assets/" />
         <Folder Include="wwwroot/js/" />
         <Folder Include="Documentation/" />
     </ItemGroup>
 
-    <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
+    <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
         <Message Importance="high" Text="Running NPM Install" />
         <Exec Command="npm install" />
     </Target>
 
-    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <Message Importance="high" Text="Copying Asset files" />
-        <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
+        <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>
 
-    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <Message Importance="high" Text="Copying Asset files" />
         <Exec Command="pwsh ./assetCopy.ps1" ContinueOnError="false" />
     </Target>
 
-    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <!-- Runs asynchronously to speed up build during development -->
-        <Message Importance="high" Text="Launching Async NPM Build Script" />
-        <ExecAsync FilePath="pwsh" Arguments="./npmDebugBuild.ps1" />
+    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
+        <Message Importance="high" Text="Launching NPM Build Script" />
+        <Exec Command="pwsh ./npmDebugBuild.ps1" />
     </Target>
 
-    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
+    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <Exec Command="npm run releaseBuild" ContinueOnError="false" />
     </Target>
-
-    <!--Launch a Process in Parallel-->
-    <UsingTask TaskName="ExecAsync" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
-        <ParameterGroup>
-            <FilePath ParameterType="System.String" Required="true" />
-            <Arguments ParameterType="System.String" Required="true" />
-        </ParameterGroup>
-        <Task>
-            <Code Type="Fragment" Language="cs">
-                <![CDATA[ 
-  System.Diagnostics.ProcessStartInfo processStartInfo = new System.Diagnostics.ProcessStartInfo(FilePath, Arguments);
-  processStartInfo.UseShellExecute = true;
-  System.Diagnostics.Process.Start(processStartInfo);
-  ]]>
-            </Code>
-        </Task>
-    </UsingTask>
 </Project>

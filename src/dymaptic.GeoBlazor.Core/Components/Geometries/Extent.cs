@@ -1,15 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
-/// <summary>
-///     The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a
-///     MapView. When working in a SceneView, Camera is used to define the visible part of the map within the view.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class Extent : Geometry
+public partial class Extent : Geometry
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -49,8 +40,17 @@ public class Extent : Geometry
     /// <param name="spatialReference">
     ///     The <see cref="SpatialReference" /> of the geometry.
     /// </param>
+    /// <param name="hasM">
+    ///     Indicates if the geometry has M values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasM">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="hasZ">
+    ///     Indicates if the geometry has z-values (elevation).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public Extent(double xmax, double xmin, double ymax, double ymin, double? zmax = null, double? zmin = null,
-        double? mmax = null, double? mmin = null, SpatialReference? spatialReference = null)
+        double? mmax = null, double? mmin = null, SpatialReference? spatialReference = null, bool? hasM = null,
+        bool? hasZ = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -63,6 +63,8 @@ public class Extent : Geometry
         Mmax = mmax;
         Mmin = mmin;
         SpatialReference = spatialReference;
+        HasM = hasM;
+        HasZ = hasZ;
 #pragma warning restore BL0005
     }
 
@@ -70,24 +72,28 @@ public class Extent : Geometry
     ///     The maximum X-coordinate of an extent envelope.
     /// </summary>
     [Parameter]
+    [CodeGenerationIgnore]
     public double Xmax { get; set; }
 
     /// <summary>
     ///     The minimum X-coordinate of an extent envelope.
     /// </summary>
     [Parameter]
+    [CodeGenerationIgnore]
     public double Xmin { get; set; }
 
     /// <summary>
     ///     The maximum Y-coordinate of an extent envelope.
     /// </summary>
     [Parameter]
+    [CodeGenerationIgnore]
     public double Ymax { get; set; }
 
     /// <summary>
     ///     The minimum Y-coordinate of an extent envelope.
     /// </summary>
     [Parameter]
+    [CodeGenerationIgnore]
     public double Ymin { get; set; }
 
     /// <summary>
@@ -115,7 +121,7 @@ public class Extent : Geometry
     public double? Mmin { get; set; }
 
     /// <inheritdoc />
-    public override string Type => "extent";
+    public override GeometryType Type => GeometryType.Extent;
 
     /// <summary>
     ///     Returns a deep clone of the geometry.
@@ -127,7 +133,8 @@ public class Extent : Geometry
 
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new GeometrySerializationRecord(Type, null, SpatialReference?.ToSerializationRecord())
+        return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), null, 
+            SpatialReference?.ToSerializationRecord())
         {
             Xmax = Xmax,
             Xmin = Xmin,
@@ -136,7 +143,9 @@ public class Extent : Geometry
             Zmax = Zmax,
             Zmin = Zmin,
             Mmax = Mmax,
-            Mmin = Mmin
+            Mmin = Mmin,
+            HasM = HasM,
+            HasZ = HasZ
         };
     }
 }

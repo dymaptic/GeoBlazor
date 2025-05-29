@@ -1,13 +1,9 @@
-.navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
 .top-row {
     height: 5rem;
 }
 
 #search-icon {
-    color: white;
+    color: var(--text);
 }
 
 .navbar-brand {
@@ -21,7 +17,11 @@
     width: 2rem;
     font-size: 1.1rem;
     vertical-align: text-top;
-    top: -2px;
+    top: 2px;
+}
+
+.oi img {
+    height: 18px;
 }
 
 .nav-item {
@@ -42,22 +42,10 @@
 }
 
 .nav-item ::deep a {
-    color: #d7d7d7;
-    border-radius: 4px;
     height: 3rem;
     display: flex;
     align-items: center;
     line-height: 3rem;
-}
-
-.nav-item ::deep a.active {
-    background-color: rgba(255, 255, 255, 0.25);
-    color: white;
-}
-
-.nav-item ::deep a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
 }
 
 @media (min-width: 800px) {

@@ -1,22 +1,12 @@
-﻿using ProtoBuf;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-/// <summary>
-///     Abstract base class, PopupContent elements define what should display within the PopupTemplate content.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-Content.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
 [JsonConverter(typeof(PopupContentConverter))]
-public abstract class PopupContent : MapComponent
+public abstract partial class PopupContent : MapComponent
 {
     /// <summary>
     ///     The type of Popup Content
     /// </summary>
-    [JsonPropertyName("type")]
-    public abstract string Type { get; }
+    public abstract PopupContentType Type { get; }
 
     internal abstract PopupContentSerializationRecord ToSerializationRecord();
 }
@@ -28,9 +18,10 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
     {
     }
     
-    public PopupContentSerializationRecord(string Type)
+    public PopupContentSerializationRecord(string Id, string Type)
     {
         this.Type = Type;
+        this.Id = Id;
     }
 
     [ProtoMember(1)]
@@ -52,7 +43,7 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
     public FieldInfoSerializationRecord[]? FieldInfos { get; init; }
 
     [ProtoMember(7)]
-    public string? ActiveMediaInfoIndex { get; init; }
+    public int? ActiveMediaInfoIndex { get; init; }
 
     [ProtoMember(8)]
     public MediaInfoSerializationRecord[]? MediaInfos { get; init; }
@@ -64,27 +55,40 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
     public RelatedRecordsInfoFieldOrderSerializationRecord[]? OrderByFields { get; init; }
 
     [ProtoMember(11)]
-    public int? RelationshipId { get; init; }
+    public long? RelationshipId { get; init; }
 
     [ProtoMember(12)]
     public string? Text { get; init; }
+    
+    [ProtoMember(13)]
+    public string? Id { get; set; }
 
     public PopupContent FromSerializationRecord()
     {
+        Guid id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out Guid guidId))
+        {
+            id = guidId;
+        }
         return Type switch
         {
             "fields" => new FieldsPopupContent(FieldInfos?.Select(i => 
-                    i.FromSerializationRecord()).ToArray() ?? Array.Empty<FieldInfo>(),
-                Description, Title),
-            "text" => new TextPopupContent(Text),
-            "attachments" => new AttachmentsPopupContent(Title, Description, DisplayType),
-            "expression" => new ExpressionPopupContent(ExpressionInfo),
+                    i.FromSerializationRecord()).ToArray() ?? [],
+                Description, Title) { Id = id },
+            "text" => new TextPopupContent(Text){ Id = id },
+            "attachments" => new AttachmentsPopupContent(Title, Description, 
+                DisplayType is null ? null : Enum.Parse<AttachmentsPopupContentDisplayType>(DisplayType))
+            {
+                Id = id
+            },
+            "expression" => new ExpressionPopupContent(ExpressionInfo) { Id = id },
             "media" => new MediaPopupContent(Title, Description,
                 MediaInfos?.Select(i => i.FromSerializationRecord()).ToArray(),
-                ActiveMediaInfoIndex),
+                ActiveMediaInfoIndex) { Id = id },
             "relationship" => new RelationshipPopupContent(Title, Description, DisplayCount,
                 DisplayType, OrderByFields?.Select(x => x.FromSerializationRecord()).ToList(),
-                RelationshipId),
+                RelationshipId) { Id = id },
             _ => throw new NotSupportedException($"PopupContent type {Type} is not supported")
         };
     }

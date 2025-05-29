@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Views;
-
-
-namespace dymaptic.GeoBlazor.Core.Events;
+﻿namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Fires when browser focus is moved away from the view.

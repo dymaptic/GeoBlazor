@@ -1,87 +1,7 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
-using ProtoBuf;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-/// <summary>
-///     A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a
-///     LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent
-///     real-world phenomena.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class GraphicsLayer : Layer
+public partial class GraphicsLayer : Layer
 {
-    /// <summary>
-    ///     Parameterless constructor for use as a razor component
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public GraphicsLayer()
-    {
-    }
-
-    /// <summary>
-    ///     Constructor for use in code
-    /// </summary>
-    /// <param name="graphics">
-    ///     A collection of <see cref="Graphic" />s in the layer.
-    /// </param>
-    /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
-    /// </param>
-    /// <param name="opacity">
-    ///     The opacity of the layer.
-    /// </param>
-    /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
-    ///     referenced in a view, but its features will not be visible in the view.
-    /// </param>
-    /// <param name="listMode">
-    ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
-    /// </param>
-    /// <param name="persistenceEnabled">
-    ///     Indicates if the layer will allow the client to save the layer's state to local storage.
-    /// </param>
-    /// <param name="minScale">
-    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
-    /// </param>
-    /// <param name="maxScale">
-    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
-    /// </param>
-    /// <param name="screenSizePerspectiveEnabled">
-    ///     Indicates if the layer will display in a perspective view in a SceneView.
-    /// </param>
-    /// <param name="blendMode">
-    ///     Blend modes are used to blend layers together to create an interesting effect in a layer
-    /// </param>
-    public GraphicsLayer(IReadOnlyCollection<Graphic>? graphics = null, string? title = null,
-        double? opacity = null, bool? visible = null, ListMode? listMode = null,
-        bool? persistenceEnabled = null, double? minScale = null, double? maxScale = null,
-        bool? screenSizePerspectiveEnabled = null, BlendMode? blendMode = null)
-    {
-#pragma warning disable BL0005
-        Title = title;
-        Opacity = opacity;
-        Visible = visible;
-        ListMode = listMode;
-        PersistenceEnabled = persistenceEnabled;
-        MinScale = minScale;
-        MaxScale = maxScale;
-        ScreenSizePerspectiveEnabled = screenSizePerspectiveEnabled;
-        BlendMode = blendMode;
-
-        if (graphics is not null)
-        {
-            Graphics = graphics;
-        }
-#pragma warning restore BL0005
-    }
-    
     /// <summary>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
     /// </summary>
@@ -121,15 +41,15 @@ public class GraphicsLayer : Layer
     ///     A collection of <see cref="Graphic" />s in the layer.
     /// </summary>
     [JsonConverter(typeof(GraphicsToSerializationConverter))]
+    [CodeGenerationIgnore]
     public IReadOnlyCollection<Graphic> Graphics
     {
         get => _graphics;
-        set => _graphics = new HashSet<Graphic>(value);
+        init => _graphics = [..value];
     }
 
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "graphics";
+    public override LayerType Type => LayerType.Graphics;
 
     /// <summary>
     ///     Add a graphic to the current layer
@@ -137,9 +57,11 @@ public class GraphicsLayer : Layer
     /// <param name="graphic">
     ///     The graphic to add
     /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
     public Task Add(Graphic graphic)
     {
-        return Add(new[] { graphic });
+        return Add([graphic]);
     }
 
     /// <summary>
@@ -151,6 +73,7 @@ public class GraphicsLayer : Layer
     /// <param name="cancellationToken">
     ///     A CancellationToken to cancel the operation
     /// </param>
+    [CodeGenerationIgnore]
     public async Task Add(IEnumerable<Graphic> graphics, CancellationToken cancellationToken = default)
     {
         AllowRender = false;
@@ -160,27 +83,29 @@ public class GraphicsLayer : Layer
         foreach (Graphic graphic in newGraphics)
         {
             graphic.View = View;
-            graphic.JsModule = JsModule;
+            graphic.Layer = this;
             graphic.LayerId = Id;
             graphic.Parent = this;
         }
 
-        if (JsModule is null || View is null)
+        if (View is null || !View.MapRendered)
         {
-            LayerChanged = true;
+            if (MapRendered)
+            {
+                await UpdateLayer();
+            }
             UpdateState();
 
             return;
         }
-
-        var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
+        
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
-        AbortManager ??= new AbortManager(JsRuntime);
+        AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (View.IsWebAssembly)
         {
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -191,7 +116,7 @@ public class GraphicsLayer : Layer
                 }
 
                 ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -204,15 +129,16 @@ public class GraphicsLayer : Layer
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                ((IJSInProcessObjectReference)JsModule!).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), 
-                    View.Id, Id);
+                ((IJSInProcessObjectReference)CoreJsModule!).InvokeVoid("addGraphicsSynchronously", 
+                    ms.ToArray(), View.Id, Id);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
             }
         }
         else if (View.IsMaui)
         {
-            for (var index = 0; index < records.Count; index += chunkSize)
+            // MAUI at least on windows seems to occasionally throw an exception when adding graphics from multiple threads
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -221,9 +147,9 @@ public class GraphicsLayer : Layer
                 {
                     return;
                 }
-
-                GraphicSerializationRecord[] recordChunk = records.Skip(skip).Take(chunkSize).ToArray();
-                ProtoGraphicCollection collection = new(recordChunk);
+                
+                ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                    .Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -238,15 +164,15 @@ public class GraphicsLayer : Layer
                 ms.Seek(0, SeekOrigin.Begin);
                 using DotNetStreamReference streamRef = new(ms);
 
-                await JsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                await CoreJsModule!.InvokeVoidAsync("addGraphicsFromStream",
                     cancellationToken, streamRef, View?.Id, abortSignal, Id);
             }
         }
         else
         {
-            List<Task> serializationTasks = new();
+            List<Task> serializationTasks = [];
 
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -257,9 +183,9 @@ public class GraphicsLayer : Layer
                     {
                         return;
                     }
-
-                    GraphicSerializationRecord[] recordChunk = records.Skip(skip).Take(chunkSize).ToArray();
-                    ProtoGraphicCollection collection = new(recordChunk);
+                    
+                    ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord(true)).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
 
@@ -274,13 +200,27 @@ public class GraphicsLayer : Layer
                     ms.Seek(0, SeekOrigin.Begin);
                     using DotNetStreamReference streamRef = new(ms);
 
-                    await JsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                    await CoreJsModule!.InvokeVoidAsync("addGraphicsFromStream",
                         cancellationToken, streamRef, View?.Id, abortSignal, Id);
                 }, cancellationToken));
             }
 
             await Task.WhenAll(serializationTasks);
         }
+    }
+    
+    /// <summary>
+    ///     Adds an array of graphics to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#addMany">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="graphics">
+    ///     The graphic(s) to add to the layer.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public Task AddMany(IReadOnlyCollection<Graphic> graphics)
+    {
+        return Add(graphics);
     }
 
     /// <summary>
@@ -289,9 +229,42 @@ public class GraphicsLayer : Layer
     /// <param name="graphic">
     ///     The graphic to remove
     /// </param>
-    public Task Remove(Graphic graphic)
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task Remove(Graphic graphic)
     {
-        return UnregisterChildComponent(graphic);
+        if (!_graphics.Remove(graphic))
+        {
+            // graphic was not in layer
+            return;
+        }
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                            
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+         
+        AllowRender = false;
+        await JsComponentReference!.InvokeVoidAsync(
+            "remove", 
+            CancellationTokenSource.Token,
+            graphic);
+        AllowRender = true;
     }
 
     /// <summary>
@@ -300,26 +273,101 @@ public class GraphicsLayer : Layer
     /// <param name="graphics">
     ///     The graphics to remove
     /// </param>
-    public async Task Remove(IEnumerable<Graphic> graphics)
+    [CodeGenerationIgnore]
+    public Task Remove(IReadOnlyCollection<Graphic> graphics)
+    {
+        return RemoveMany(graphics);
+    }
+    
+    /// <summary>
+    ///     Removes an array of graphics from the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#removeMany">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="graphics">
+    ///     The graphics to remove from the layer.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task RemoveMany(IReadOnlyCollection<Graphic> graphics)
     {
         AllowRender = false;
-        var removedGraphics = graphics.ToList();
-        var wrapperIds = removedGraphics.Select(g => g.Id).ToList();
-        await JsModule!.InvokeVoidAsync("removeGraphics", wrapperIds, View?.Id, Id);
-        _graphics.ExceptWith(removedGraphics);
+        _graphics.ExceptWith(graphics);
+        
+        if (CoreJsModule is null)
+        {
+            AllowRender = true;
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                            
+        if (JsComponentReference is null)
+        {
+            AllowRender = true;
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "removeMany", 
+            CancellationTokenSource.Token,
+            graphics);
+        AllowRender = true;
+    }
+    
+    /// <summary>
+    ///     Clears all the graphics from the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#removeAll">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task RemoveAll()
+    {
+        AllowRender = false;
+        _graphics.Clear();
+        
+        if (CoreJsModule is null)
+        {
+            AllowRender = true;
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                            
+        if (JsComponentReference is null)
+        {
+            AllowRender = true;
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "removeAll", 
+            CancellationTokenSource.Token);
         AllowRender = true;
     }
 
     /// <summary>
     ///     Removes all graphics from the current layer
     /// </summary>
-    public async Task Clear()
+    [CodeGenerationIgnore]
+    public Task Clear()
     {
-        AllowRender = false;
-        _graphicsToRender.Clear();
-        _graphics.Clear();
-        await JsModule!.InvokeVoidAsync("clearGraphics", View!.Id, Id);
-        AllowRender = true;
+        return RemoveAll();
     }
 
     /// <inheritdoc />
@@ -328,8 +376,7 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                _graphicsToRender.Add(graphic);
-                UpdateState(false);
+                await Add(graphic);
 
                 break;
             default:
@@ -345,23 +392,17 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (_graphics.Remove(graphic) && JsModule is not null)
+                if (_graphics.Remove(graphic) && CoreJsModule is not null && !graphic.IsDisposed)
                 {
                     try
                     {
-                        _graphicsToRender.Remove(graphic);
-
-                        await JsModule.InvokeVoidAsync("removeGraphic",
-                            CancellationTokenSource.Token, graphic.Id, View?.Id, Id);
+                        await CoreJsModule.InvokeVoidAsync("removeGraphic",
+                            CancellationTokenSource.Token, graphic.Id);
                     }
                     catch
                     {
                         // object disposed
                     }
-                }
-                else
-                {
-                    LayerChanged = true;
                 }
 
                 break;
@@ -380,13 +421,14 @@ public class GraphicsLayer : Layer
         foreach (Graphic graphic in graphics)
         {
             _graphics.Add(graphic);
-            graphic.JsModule = JsModule;
             graphic.Parent = this;
+            graphic.View = View;
+            graphic.Layer = Layer;
         }
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 
@@ -402,24 +444,7 @@ public class GraphicsLayer : Layer
         await base.UpdateFromJavaScript(renderedLayer);
     }
 
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (!firstRender && _graphicsToRender.Any() && !_rendering)
-        {
-            _rendering = true;
-            AllowRender = false;
-            await Add(_graphicsToRender);
-            _graphicsToRender.Clear();
-            AllowRender = true;
-            _rendering = false;
-        }
-    }
-
-    private HashSet<Graphic> _graphics = new();
-    private HashSet<Graphic> _graphicsToRender = new();
-    private bool _rendering;
+    private HashSet<Graphic> _graphics = [];
 }
 
 internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollection<Graphic>>
@@ -432,7 +457,7 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
             return null;
         }
 
-        List<Graphic> graphics = new();
+        List<Graphic> graphics = [];
 
         while (reader.Read())
         {
@@ -454,7 +479,7 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
 
         foreach (Graphic graphic in value)
         {
-            JsonSerializer.Serialize(writer, graphic.ToSerializationRecord(), options);
+            JsonSerializer.Serialize(writer, graphic.ToSerializationRecord(true), options);
         }
 
         writer.WriteEndArray();
@@ -464,7 +489,6 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
 [ProtoContract]
 internal record ProtoGraphicCollection
 {
-    [ActivatorUtilitiesConstructor]
     public ProtoGraphicCollection()
     {
     }
@@ -475,5 +499,5 @@ internal record ProtoGraphicCollection
     }
 
     [property: ProtoMember(1)]
-    public GraphicSerializationRecord[] Graphics { get; set; } = Array.Empty<GraphicSerializationRecord>();
+    public GraphicSerializationRecord[] Graphics { get; set; } = [];
 }

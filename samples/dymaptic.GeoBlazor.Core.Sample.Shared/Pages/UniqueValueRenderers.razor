@@ -11,13 +11,13 @@
     <Constraints SnapToZoom="false" />
     <Map>
         <Basemap>
-            <PortalItem Id="9cc4e190b8764e8880bd77cb16b9a30a" />
+            <PortalItem PortalItemId="9cc4e190b8764e8880bd77cb16b9a30a" />
         </Basemap>
         <FeatureLayer Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/TIGER_Roads_2021_view/FeatureServer/0"
                       Title="USA Freeway System"
                       MinScale="0" MaxScale="0"
                       DefinitionExpression="MTFC = 'Primary Road'">
-            <OrderedLayerOrderBy Order="SortOrder.Ascending"
+            <OrderByInfo Order="SortOrder.Ascending"
                                  ValueExpression="@(@"Decode( $feature.RTTYP,
                       ""I"", 1,
                       ""U"", 2,
@@ -25,24 +25,32 @@
                       ""M"", 4,
                     100 );")" />
             <UniqueValueRenderer Field="RTTYP" DefaultLabel="Other">
-                <UniqueValueRendererLegendOptions Title="Freeway type" />
-                <DefaultSymbol>
-                    <SimpleLineSymbol Width="@(4)" LineStyle="LineStyle.Solid" Color="@(new MapColor("#f260a1"))" />
-                </DefaultSymbol>
+                <UniqueValueRendererLegendOptions Title="Route type" />
+                <SimpleLineSymbol Width="@(4)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#f260a1"))" />
                 <UniqueValueInfo Value="I" Label="Interstate">
-                    <SimpleLineSymbol Width="@(4)" LineStyle="LineStyle.Solid" Color="@(new MapColor("#d92b30"))" />
+                    <SimpleLineSymbol Width="@(4)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#d92b30"))" />
                 </UniqueValueInfo>
                 <UniqueValueInfo Value="U" Label="US Highway">
-                    <SimpleLineSymbol Width="@(4)" LineStyle="LineStyle.Solid" Color="@(new MapColor("#3cccb4"))" />
+                    <SimpleLineSymbol Width="@(4)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#3cccb4"))" />
                 </UniqueValueInfo>
                 <UniqueValueInfo Value="S" Label="State Highway">
-                    <SimpleLineSymbol Width="@(6)" LineStyle="LineStyle.Solid" Color="@(new MapColor("#ffdf3c"))" />
+                    <SimpleLineSymbol Width="@(6)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#ffdf3c"))" />
                 </UniqueValueInfo>
                 <UniqueValueInfo Value="M" Label="Major road">
-                    <SimpleLineSymbol Width="@(4)" LineStyle="LineStyle.Solid" Color="@(new MapColor("#c27c30"))" />
+                    <SimpleLineSymbol Width="@(4)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#c27c30"))" />
                 </UniqueValueInfo>
             </UniqueValueRenderer>
         </FeatureLayer>
     </Map>
-    <LegendWidget Position="OverlayPosition.BottomLeft" />
+    @if (_showLegend)
+    {
+        <LegendWidget Position="OverlayPosition.BottomLeft" />
+    }
 </MapView>
+<button @onclick="() => _showLegend = !_showLegend" class="btn btn-primary">Toggle Legend</button>
+
+@code {
+    
+    
+    private bool _showLegend;
+}

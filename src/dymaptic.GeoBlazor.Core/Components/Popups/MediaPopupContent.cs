@@ -1,66 +1,18 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-/// <summary>
-///     A MediaContent popup element contains an individual or array of chart and/or image media elements to display within
-///     a popup's content.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class MediaPopupContent : PopupContent
+public partial class MediaPopupContent : PopupContent
 {
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public MediaPopupContent()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for creating content in C# code.
-    /// </summary>
-    /// <param name="title">
-    ///     Heading indicating what the media's content represents.
-    /// </param>
-    /// <param name="description">
-    ///     Describes the media's content in detail.
-    /// </param>
-    /// <param name="mediaInfos">
-    ///     Contains the media elements representing images or charts to display within the PopupTemplate. This can be an
-    /// </param>
-    /// <param name="activeMediaInfoIndex">
-    ///     Index of the current active media within the popup's media content. This will be the media that is currently viewed
-    /// </param>
-    public MediaPopupContent(string? title = null, string? description = null, 
-        IReadOnlyList<MediaInfo>? mediaInfos = null, string? activeMediaInfoIndex = null)
-    {
-#pragma warning disable BL0005
-        Title = title;
-        Description = description;
-        ActiveMediaInfoIndex = activeMediaInfoIndex;
-#pragma warning restore BL0005
-
-        if (mediaInfos is not null)
-        {
-            MediaInfos = new List<MediaInfo>(mediaInfos);
-        }
-        
-    }
     
     /// <inheritdoc />
-    public override string Type => "media";
+    public override PopupContentType Type => PopupContentType.Media;
 
     /// <summary>
-    ///     Index of the current active media within the popup's media content. This will be the media that is currently viewed
-    ///     when displayed.
+    ///     Index of the current active media within the popup's media content. This will be the media that is currently viewed when displayed.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ActiveMediaInfoIndex { get; set; }
+    public int? ActiveMediaInfoIndex { get; set; }
 
     /// <summary>
     ///     Describes the media's content in detail.
@@ -75,13 +27,16 @@ public class MediaPopupContent : PopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-
+    
     /// <summary>
-    ///     Contains the media elements representing images or charts to display within the PopupTemplate. This can be an
-    ///     individual chart or image element, or an array containing a combination of any of these types.
+    ///     Contains the media elements representing images or charts to display within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html#mediaInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
+    [ArcGISProperty]
+    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IList<MediaInfo>? MediaInfos { get; set; }
+    public IReadOnlyList<MediaInfo>? MediaInfos { get; set; }
+
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -89,8 +44,8 @@ public class MediaPopupContent : PopupContent
         switch (child)
         {
             case MediaInfo mediaInfo:
-                MediaInfos ??= new List<MediaInfo>();
-                MediaInfos.Add(mediaInfo);
+                MediaInfos ??= [];
+                MediaInfos = [..MediaInfos, mediaInfo];
 
                 break;
             default:
@@ -106,7 +61,7 @@ public class MediaPopupContent : PopupContent
         switch (child)
         {
             case MediaInfo mediaInfo:
-                MediaInfos?.Remove(mediaInfo);
+                MediaInfos = MediaInfos?.Except([mediaInfo]).ToList();
 
                 break;
             default:
@@ -116,23 +71,10 @@ public class MediaPopupContent : PopupContent
         }
     }
 
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-
-        if (MediaInfos is not null)
-        {
-            foreach (MediaInfo mediaInfo in MediaInfos)
-            {
-                mediaInfo.ValidateRequiredChildren();
-            }
-        }
-    }
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type)
+        return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             ActiveMediaInfoIndex = ActiveMediaInfoIndex,
             Description = Description,

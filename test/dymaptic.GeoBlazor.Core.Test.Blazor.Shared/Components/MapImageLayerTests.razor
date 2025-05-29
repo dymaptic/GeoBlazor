@@ -16,11 +16,53 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisDarkGray" />
                     </Basemap>
                     <MapImageLayer>
-                        <PortalItem Id="d7892b3c13b44391992ecd42bfa92d01" />
+                        <PortalItem PortalItemId="d7892b3c13b44391992ecd42bfa92d01" />
                     </MapImageLayer>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "map-image");
+    }
+    
+    [TestMethod]
+    public async Task TestCanRenderMapImageLayerWithUrlAndNestedSublayers(Action renderHandler)
+    {
+        MapImageLayer? layer = null;
+        MapView? mapView = null;
+        bool layerViewCreated = false;
+
+        async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
+        {
+            Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+            MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+            Assert.AreEqual(layer?.Id, createdLayer.Id);
+            Sublayer firstSublayer = layer!.Sublayers!.First(l => l.Sublayers is { Count: > 0 });
+            Sublayer firstSubSublayer = firstSublayer.Sublayers![0];
+            Assert.IsNotNull(firstSubSublayer);
+            await firstSublayer.SetPopupEnabled(false);
+            await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
+            layerViewCreated = true;
+        }
+        AddMapRenderFragment(
+            @<MapView @ref="mapView"
+                      class="map-view"
+                      OnViewRendered="renderHandler"
+                      OnLayerViewCreate="OnLayerViewCreated">
+                <Map>
+                    <MapImageLayer @ref="layer" Title="Encroachments" 
+                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/Military/MapServer" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        int tries = 100;
+        while (!layerViewCreated && tries > 0)
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsTrue(layerViewCreated);
+        Assert.IsTrue(layer!.Sublayers!.Count > 0);
+        Assert.IsTrue(layer.AllSublayers!.Count > 0);
         await AssertJavaScript("assertLayerExists", args: "map-image");
     }
 }

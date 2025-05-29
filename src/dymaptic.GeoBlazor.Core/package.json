@@ -2,20 +2,27 @@
   "name": "dymaptic.GeoBlazor.Core",
   "description": "https://www.geoblazor.com",
   "main": "arcGisInterop.js",
+  "type": "module",
   "scripts": {
-    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --splitting",
-    "watchBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --watch --splitting",
-    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --minify --sourcemap --outdir=wwwroot/js --splitting"
+    "debugBuild": "node ./esbuild.js --debug",
+    "watchBuild": "node ./esbuild.js --watch",
+    "releaseBuild": "node ./esbuild.js --release"
   },
   "keywords": [],
   "author": "dymaptic",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "4.30.9",
-    "esbuild": "0.23.0",
-    "protobufjs": "7.3.2"
+    "@arcgis/core": "4.32.9",
+    "esbuild": "0.25.2",
+    "esbuild-clean-plugin": "^2.0.0",
+    "protobufjs": "7.4.0"
   },
   "devDependencies": {
-    "@types/node": "^20.14.11"
+    "@eslint/js": "9.24.0",
+    "@types/node": "^22.14.0",
+    "esbuild-plugin-eslint": "^0.3.12",
+    "eslint": "9.24.0",
+    "globals": "^16.0.0",
+    "typescript-eslint": "^8.29.0"
   }
 }

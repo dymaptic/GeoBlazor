@@ -14,6 +14,7 @@ using View = Android.Views.View;
 using WebView = Android.Webkit.WebView;
 
 
+// ReSharper disable once CheckNamespace
 namespace dymaptic.GeoBlazor.Core.Sample.Maui.Platforms.Android;
 
 /// <summary>

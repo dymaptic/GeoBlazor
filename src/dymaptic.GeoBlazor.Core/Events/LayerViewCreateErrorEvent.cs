@@ -1,9 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Exceptions;
-
-
 namespace dymaptic.GeoBlazor.Core.Events;
-
 /// <summary>
 ///     Fires when an error emits during the creation of a LayerView after a layer has been added to the map.
 /// </summary>
@@ -13,4 +8,5 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="Error">
 ///     An error object describing why the layer view failed to create.
 /// </param>
+[CodeGenerationIgnore]
 public record LayerViewCreateErrorEvent(Layer Layer, JavascriptError Error);

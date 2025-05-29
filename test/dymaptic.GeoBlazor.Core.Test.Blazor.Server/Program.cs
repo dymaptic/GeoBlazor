@@ -3,7 +3,7 @@ using dymaptic.GeoBlazor.Core;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddGeoBlazor();
+builder.Services.AddGeoBlazor(builder.Configuration);
 builder.Configuration.AddCommandLine(args);
 
 WebApplication app = builder.Build();

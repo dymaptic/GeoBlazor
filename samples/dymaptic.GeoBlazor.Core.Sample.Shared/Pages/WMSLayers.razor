@@ -1,0 +1,33 @@
+@page "/wmslayers"
+
+
+<h3>WMS Layers</h3>
+@* /*********************************** *@
+@* * Data attribution: *@
+@* *  OpenStreetMap WMS by terrestris GmbH and Co. KG. Following sources were used: *@
+@* *  (c) OpenStreetMap contributors (http://www.openstreetmap.org/copyright) *@
+@* *  (c) OpenStreetMap Data (http://openstreetmapdata.com) *@
+@* *  (c) Natural Earth Data (http://www.naturalearthdata.com) *@
+@* *  (c) ASTER GDEM 30m (https://asterweb.jpl.nasa.gov/gdem.asp) *@
+@* *  (c) SRTM 450m by ViewfinderPanoramas (http://viewfinderpanoramas.org/) *@
+@* *  (c) Great Lakes Bathymetry by NGDC (http://www.ngdc.noaa.gov/mgg/greatlakes/) *@
+@* *  (c) SRTM 30m by NASA EOSDIS Land Processes Distributed Active Archive Center (LP DAAC, https://lpdaac.usgs.gov/) *@
+@* *********************************/ *@
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-wms/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://ows.terrestris.de/osm/service">OpenStreetMap WMS</a>
+</div>
+<p class="instructions">
+    This sample shows how to access a WMS Service using WMSLayer and add it to a scene as a Basemap. The WMSLayer is used to create layers based on OGC Web Map Services (WMS).
+</p>
+
+<SceneView class="map-view">
+    <SpatialReference Wkid="102100" />
+    <Map>
+        <Basemap>
+            <WMSLayer Url="https://ows.terrestris.de/osm/service">
+                <WMSSublayer Name="OSM-WMS" />
+            </WMSLayer>
+        </Basemap>
+    </Map>
+</SceneView>

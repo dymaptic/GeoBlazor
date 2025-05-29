@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
     </PropertyGroup>
 
 
@@ -11,21 +12,21 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Markdig" Version="0.37.0" />
+        <PackageReference Include="Markdig" Version="0.41.1" />
         <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.7"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.15" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.15" />
         <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="8.0.0"/>
     </ItemGroup>
 
     <Choose>
-        <When Condition="$(Configuration) == 'RELEASE' AND '$(UsePackageReferences)' == 'true'">
-            <ItemGroup Condition="$(Configuration) == 'RELEASE'">
+        <When Condition="'$(UsePackageReferences)' == 'true'">
+            <ItemGroup>
                 <PackageReference Include="dymaptic.GeoBlazor.Core"  Version="$(CoreVersion)" />
             </ItemGroup>
         </When>
         <Otherwise>
-            <ItemGroup Condition="$(Configuration) == 'DEBUG' OR '$(UsePackageReferences)' != 'true'">
+            <ItemGroup>
                 <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
             </ItemGroup>
         </Otherwise>

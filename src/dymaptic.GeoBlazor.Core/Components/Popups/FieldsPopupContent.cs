@@ -1,54 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-/// <summary>
-///     A FieldsContent popup element represents the FieldInfo associated with a feature. If this is not set within the
-///     content, it will revert to whatever may be set within the PopupTemplate.fieldInfos property.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class FieldsPopupContent : PopupContent
+public partial class FieldsPopupContent : PopupContent
 {
-    /// <summary>
-    ///     Parameterless constructor for using as a razor component
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public FieldsPopupContent()
-    {
-    }
 
-    /// <summary>
-    ///     Constructs a new PopupContent in code with parameters
-    /// </summary>
-    /// <param name="fieldInfos">
-    ///     A collection of <see cref="FieldInfo" />
-    /// </param>
-    /// <param name="description">
-    ///     Describes the field's content in detail.
-    /// </param>
-    /// <param name="title">
-    ///     Heading indicating what the field's content represents.
-    /// </param>
-    public FieldsPopupContent(FieldInfo[] fieldInfos, string? description = null, string? title = null)
-    {
-#pragma warning disable BL0005
-        if (fieldInfos.Any())
-        {
-            FieldInfos = new HashSet<FieldInfo>();
-
-            foreach (FieldInfo info in fieldInfos)
-            {
-                FieldInfos.Add(info);
-            }
-        }
-
-        Description = description;
-        Title = title;
-#pragma warning restore BL0005
-    }
 
     /// <summary>
     ///     Describes the field's content in detail.
@@ -65,13 +19,8 @@ public class FieldsPopupContent : PopupContent
     public string? Title { get; set; }
 
     /// <inheritdoc />
-    public override string Type => "fields";
+    public override PopupContentType Type => PopupContentType.Fields;
 
-    /// <summary>
-    ///     Array of <see cref="FieldInfo" />s
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<FieldInfo>? FieldInfos { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -79,9 +28,8 @@ public class FieldsPopupContent : PopupContent
         switch (child)
         {
             case FieldInfo fieldInfo:
-                FieldInfos ??= new HashSet<FieldInfo>();
-
-                FieldInfos.Add(fieldInfo);
+                FieldInfos ??= [];
+                FieldInfos = [..FieldInfos, fieldInfo];
 
                 break;
             default:
@@ -97,10 +45,7 @@ public class FieldsPopupContent : PopupContent
         switch (child)
         {
             case FieldInfo fieldInfo:
-                if (FieldInfos?.Contains(fieldInfo) == true)
-                {
-                    FieldInfos.Remove(fieldInfo);
-                }
+                FieldInfos = FieldInfos?.Except([fieldInfo]).ToList();
 
                 break;
             default:
@@ -110,23 +55,10 @@ public class FieldsPopupContent : PopupContent
         }
     }
 
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-
-        if (FieldInfos != null)
-        {
-            foreach (FieldInfo info in FieldInfos)
-            {
-                info.ValidateRequiredChildren();
-            }
-        }
-    }
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type)
+        return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             FieldInfos = FieldInfos?.Select(i => i.ToSerializationRecord()).ToArray(), 
             Description = Description, Title = Title

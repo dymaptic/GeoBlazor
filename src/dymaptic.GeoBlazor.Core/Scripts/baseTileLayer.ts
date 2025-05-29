@@ -1,27 +1,33 @@
-﻿import BaseTileLayer from "@arcgis/core/layers/BaseTileLayer";
-import {buildDotNetEffect} from "./dotNetBuilder";
-import {buildJsEffect} from "./jsBuilder";
-import {IPropertyWrapper} from "./definitions";
+import BaseTileLayerGenerated from './baseTileLayer.gb';
+import BaseTileLayer from '@arcgis/core/layers/BaseTileLayer';
 
-export default class BaseTileLayerWrapper implements IPropertyWrapper {
-    public layer: BaseTileLayer;
+export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 
-    constructor(btLayer: BaseTileLayer) {
-        this.layer = btLayer;
+    constructor(layer: BaseTileLayer) {
+        super(layer);
     }
 
-    unwrap() {
-        return this.layer;
-    }
     getTileBounds(level: number, row: number, col: number): any {
         return this.layer.getTileBounds(level, row, col);
     }
-    
-    setEffect(effect: any) {
+
+    async setEffect(effect: any) {
+        let {buildJsEffect} = await import('./effect');
         this.layer.effect = buildJsEffect(effect);
     }
 
-    setProperty(prop: string, value: any): void {
-        this.layer[prop] = value;
+    async setSpatialReference(spatialReference: any): Promise<void> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
     }
+}
+
+export async function buildJsBaseTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let {buildJsBaseTileLayerGenerated} = await import('./baseTileLayer.gb');
+    return await buildJsBaseTileLayerGenerated(dotNetObject, layerId, viewId);
+}
+
+export async function buildDotNetBaseTileLayer(jsObject: any): Promise<any> {
+    let {buildDotNetBaseTileLayerGenerated} = await import('./baseTileLayer.gb');
+    return await buildDotNetBaseTileLayerGenerated(jsObject);
 }

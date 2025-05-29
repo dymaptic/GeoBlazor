@@ -1,24 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Components.Popups;
-using dymaptic.GeoBlazor.Core.Components.Symbols;
-using dymaptic.GeoBlazor.Core.Components.Widgets;
-using dymaptic.GeoBlazor.Core.Events;
-using dymaptic.GeoBlazor.Core.Exceptions;
-using dymaptic.GeoBlazor.Core.Model;
-using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
-using ProtoBuf;
-using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.Json;
-
-
-// ReSharper disable RedundantCast
+﻿// ReSharper disable RedundantCast
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 
@@ -36,23 +16,22 @@ public partial class MapView : MapComponent
 {
 #region Injected Services
     /// <summary>
-    ///     A set of key/value application configuration properties, that can be populated from `appsettings.json, environment
-    ///     variables, or other sources.
+    ///     A set of key/value application configuration properties, that can be populated from `appsettings.json, environment variables, or other sources.
     /// </summary>
     [Inject]
-    public IConfiguration Configuration { get; set; } = default!;
+    public IConfiguration Configuration { get; set; } = null!;
 
     /// <summary>
     ///     Handles OAuth authentication
     /// </summary>
     [Inject]
-    public AuthenticationManager AuthenticationManager { get; set; } = default!;
+    public AuthenticationManager AuthenticationManager { get; set; } = null!;
 
     /// <summary>
     ///     Validates GeoBlazor Registration or Pro Licensing
     /// </summary>
     [Inject]
-    private IAppValidator AppValidator { get; set; } = default!;
+    private IAppValidator AppValidator { get; set; } = null!;
 #endregion
     
 
@@ -98,6 +77,12 @@ public partial class MapView : MapComponent
         }
     }
 #pragma warning restore BL0007
+    
+    /// <summary>
+    ///     The background color of the MapView. If the view's map changes, the view's background is reset to the map's background, even if the user set it previously.
+    /// </summary>
+    [Parameter]
+    public MapColor? BackgroundColor { get; set; }
 
     /// <summary>
     ///     Represents the level of detail (LOD) at the center of the view.
@@ -124,26 +109,22 @@ public partial class MapView : MapComponent
     public bool? AllowDefaultEsriLogin { get; set; }
 
     /// <summary>
-    ///     Boolean flag that can be set to false to prevent the MapView from automatically rendering with the Blazor
-    ///     components.
+    ///     Boolean flag that can be set to false to prevent the MapView from automatically rendering with the Blazor components.
     /// </summary>
     [Parameter]
     public bool LoadOnRender { get; set; } = true;
 
     /// <summary>
-    ///     Provides an override for the default behavior of requiring an API key. By setting to "false", all calls to ArcGIS
-    ///     services will trigger a sign-in popup.
+    ///     Provides an override for the default behavior of requiring an API key. By setting to "false", all calls to ArcGIS services will trigger a sign-in popup.
     /// </summary>
     /// <remarks>
-    ///     Setting this to "false" is the same as setting <see cref="AllowDefaultEsriLogin" /> to "true". This is provided
-    ///     simply for convenience of discovery.
+    ///     Setting this to "false" is the same as setting <see cref="AllowDefaultEsriLogin" /> to "true". This is provided simply for convenience of discovery.
     /// </remarks>
     [Parameter]
     public bool? PromptForArcGISKey { get; set; }
 
     /// <summary>
-    ///     If you set an `AppId` in your configuration, setting this to true will cause the app to attempt to auto-login
-    ///     using ArcGIS OAuth.
+    ///     If you set an `AppId` in your configuration, setting this to true will cause the app to attempt to auto-login using ArcGIS OAuth.
     /// </summary>
     [Parameter]
     public bool? PromptForOAuthLogin { get; set; }
@@ -159,34 +140,45 @@ public partial class MapView : MapComponent
 #region Public Properties
 
     /// <summary>
+    ///     The reference to arcGisJsInterop.ts from .NET
+    /// </summary>
+    [Obsolete("Use CoreJsModule instead.")]
+    public IJSObjectReference? ViewJsModule => CoreJsModule;
+
+    /// <summary>
+    ///     The reference to arcGisJsInterop.ts from .NET
+    /// </summary>
+    [Obsolete("Use ProJsModule instead.")]
+    public IJSObjectReference? ProViewJsModule => ProJsModule;
+
+    /// <summary>
     ///     The collection of <see cref="Widget" />s in the view.
     /// </summary>
     public IReadOnlyCollection<Widget> Widgets
     {
         get => _widgets;
-        private set => _widgets = new HashSet<Widget>(value);
+        private set => _widgets = [..value];
     }
 
     /// <summary>
-    ///     The collection of <see cref="Graphic" />s in the view. These are directly on the view itself, not in a
-    ///     <see cref="GraphicsLayer" />.
+    ///     The collection of <see cref="Graphic" />s in the view. These are directly on the view itself, not in a <see cref="GraphicsLayer" />.
     /// </summary>
     public IReadOnlyCollection<Graphic> Graphics
     {
         get => _graphics;
-        private set => _graphics = new HashSet<Graphic>(value);
+        private set => _graphics = [..value];
     }
 
     /// <summary>
     ///     An instance of a <see cref="Map" /> object to display in the view.
     /// </summary>
     [RequiredProperty]
-    public virtual Map? Map { get; private set; }
+    public Map? Map { get; private set; }
     
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
-    public bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
+    public bool IsServer => JsRuntime!.GetType().Name.Contains("Remote");
 
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
@@ -196,11 +188,10 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
     /// </summary>
-    public bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
+    public bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
     
     /// <summary>
-    ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be
-    ///     modifiable by markup until <see cref="Refresh" /> is called
+    ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be modifiable by markup until <see cref="Refresh" /> is called
     /// </summary>
     public bool ExtentChangedInJs { get; set; }
     
@@ -228,9 +219,7 @@ public partial class MapView : MapComponent
     protected string? ErrorMessage { get; set; }
 
     /// <summary>
-    ///     Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a
-    ///     feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the
-    ///     shadow of the highlighted feature is displayed in a darker shade.
+    ///     Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the shadow of the highlighted feature is displayed in a darker shade.
     /// </summary>
     protected HighlightOptions? HighlightOptions { get; private set; }
 
@@ -251,12 +240,6 @@ public partial class MapView : MapComponent
         get => AuthenticationManager.AppId;
         set => AuthenticationManager.AppId = value;
     }
-
-    /// <summary>
-    ///     A .NET Object Reference to this view for use in JavaScript calls.
-    /// </summary>
-    protected DotNetObjectReference<MapView> DotNetObjectReference =>
-        Microsoft.JSInterop.DotNetObjectReference.Create(this);
 
 #endregion
 
@@ -314,8 +297,7 @@ public partial class MapView : MapComponent
     ///     The <see cref="ClickEvent" /> return meta object.
     /// </param>
     /// <remarks>
-    ///     Fires after a user clicks on the view. This event emits slightly slower than an immediate-click event to make sure
-    ///     that a double-click event isn't triggered instead. The immediate-click event can be used for responding to a click
+    ///     Fires after a user clicks on the view. This event emits slightly slower than an immediate-click event to make sure that a double-click event isn't triggered instead. The immediate-click event can be used for responding to a click
     ///     event without delay.
     /// </remarks>
     [JSInvokable]
@@ -529,8 +511,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Handler delegate for pointer leave events on the view. Must take in a <see cref="Point" /> and return a
-    ///     <see cref="Task" />.
+    ///     Handler delegate for pointer leave events on the view. Must take in a <see cref="Point" /> and return a <see cref="Task" />.
     /// </summary>
     /// <remarks>
     ///     Fires after a mouse cursor leaves the view, or a display touch ends.
@@ -552,8 +533,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Handler delegate for point move events on the view. Must take in a <see cref="Point" /> and return a
-    ///     <see cref="Task" />.
+    ///     Handler delegate for point move events on the view. Must take in a <see cref="Point" /> and return a <see cref="Task" />.
     /// </summary>
     /// <remarks>
     ///     The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.
@@ -583,8 +563,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Handler delegate for pointer up events on the view. Must take in a <see cref="Point" /> and return a
-    ///     <see cref="Task" />.
+    ///     Handler delegate for pointer up events on the view. Must take in a <see cref="Point" /> and return a <see cref="Task" />.
     /// </summary>
     /// <remarks>
     ///     Fires after a mouse button is released, or a display touch ends.
@@ -658,8 +637,17 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJsViewRendered()
     {
-        if (_isDisposed) return;
+        if (_isDisposed || _waitingForRender) return;
+        
+        _waitingForRender = true;
+
+        while (!MapRendered)
+        {
+            // wait for the RenderView method to complete
+            await Task.Delay(50);
+        }
         await OnViewRendered.InvokeAsync(Id);
+        _waitingForRender = false;
     }
 
     /// <summary>
@@ -792,13 +780,13 @@ public partial class MapView : MapComponent
     ///     JS-Invokable method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid,
-        IJSObjectReference layerRef, IJSObjectReference layerViewRef, bool isBasemapLayer)
+    public async Task<Guid?> OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid,
+        IJSObjectReference layerRef, IJSObjectReference layerViewRef, bool isBasemapLayer, bool isReferenceLayer)
     {
-        if (_isDisposed) return;
+        if (_isDisposed) return null;
         try
         {
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
+            JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
             Layer layer = JsonSerializer.Deserialize<Layer>(_layerCreateData[layerUid].ToString(), options)!;
 
             LayerView layerView =
@@ -806,12 +794,14 @@ public partial class MapView : MapComponent
 
             LayerViewCreateInternalEvent createEvent =
                 new(layerRef, layerViewRef, geoBlazorLayerId ?? Guid.Empty, layer,
-                    layerView, isBasemapLayer);
-            await OnJavascriptLayerViewCreate(createEvent);
+                    layerView, isBasemapLayer, isReferenceLayer);
+            return await OnJavascriptLayerViewCreate(createEvent);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
+
+            return null;
         }
     }
 
@@ -822,32 +812,43 @@ public partial class MapView : MapComponent
     ///     The new <see cref="LayerViewCreateEvent" />
     /// </param>
     [JSInvokable]
-    public async Task OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent layerViewCreateEvent)
+    public async Task<Guid?> OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent layerViewCreateEvent)
     {
-        if (_isDisposed) return;
+        if (_isDisposed) return null;
         LayerView? layerView = layerViewCreateEvent.Layer switch
         {
-            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(JsRuntime)),
+            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(CoreJsModule!)),
             _ => layerViewCreateEvent.LayerView
         };
 
         if (layerView is not null)
         {
-            layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
+            layerView.View = this;
+            layerView.Parent = this;
+            layerView.CoreJsModule = CoreJsModule;
+            layerView.JsComponentReference = layerViewCreateEvent.LayerViewObjectRef;
         }
 
         Layer? createdLayer = layerViewCreateEvent.IsBasemapLayer
-            ? Map?.Basemap?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
-            : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
+            ? Map?.Basemap?.BaseLayers?.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
+            : layerViewCreateEvent.IsReferenceLayer
+                ? Map?.Basemap?.ReferenceLayers?.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
+                : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
+                ?? Map?.Layers.OfType<IGroupLayer>()
+                    .Select(g => 
+                        g.Layers?.FirstOrDefault(sl => sl.Id == layerViewCreateEvent.LayerGeoBlazorId))
+                    .FirstOrDefault(l => l is not null);
 
-        if (createdLayer is not null) // layer already exists in C#
+        if (createdLayer is not null) // layer already exists in GeoBlazor
         {
             createdLayer.LayerView = layerView;
+            createdLayer.Loaded = true;
 
-            createdLayer.JsLayerReference ??= layerViewCreateEvent.LayerObjectRef;
-
-            createdLayer.AbortManager = new AbortManager(JsRuntime);
-            await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer!);
+            if (layerViewCreateEvent.Layer is not null)
+            {
+                createdLayer.CopyProperties(layerViewCreateEvent.Layer!);
+                await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer!);
+            }
 
             if (layerView is not null)
             {
@@ -861,11 +862,13 @@ public partial class MapView : MapComponent
             if (layer is not null)
             {
                 layer.LayerView = layerView;
-                layer.AbortManager = new AbortManager(JsRuntime);
-                layer.JsLayerReference = layerViewCreateEvent.LayerObjectRef;
-                layer.JsModule = ViewJsModule;
-                layer.ProJsModule = ProJsViewModule;
+                layer.AbortManager = new AbortManager(CoreJsModule!);
+                layer.JsComponentReference = layerViewCreateEvent.LayerObjectRef;
+                layer.CoreJsModule = CoreJsModule;
+                layer.ProJsModule = ProJsModule;
+                layer.AbortManager = new AbortManager(CoreJsModule!);
                 layer.Imported = true;
+                layer.Loaded = true;
 
                 if (layerView is not null)
                 {
@@ -878,7 +881,18 @@ public partial class MapView : MapComponent
                 {
                     if (Map?.Basemap is not null)
                     {
-                        Map!.Basemap!.Layers.Add(layer);
+#pragma warning disable BL0005
+                        Map!.Basemap!.BaseLayers ??= [];
+                        Map.Basemap.BaseLayers = [..Map.Basemap.BaseLayers, layer];
+                    }
+                }
+                else if (layerViewCreateEvent.IsReferenceLayer)
+                {
+                    if (Map?.Basemap is not null)
+                    {
+                        Map!.Basemap!.ReferenceLayers ??= [];
+                        Map.Basemap.ReferenceLayers = [..Map.Basemap.ReferenceLayers, layer];
+#pragma warning restore BL0005
                     }
                 }
                 else
@@ -889,11 +903,13 @@ public partial class MapView : MapComponent
                     }
                 }
                 
-                await JsModule!.InvokeVoidAsync("registerGeoBlazorObject", layerViewCreateEvent.LayerObjectRef, layer.Id);
+                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject", layerViewCreateEvent.LayerObjectRef, layer.Id);
             }
         }
 
         await OnLayerViewCreate.InvokeAsync(new LayerViewCreateEvent(layerView?.Layer, layerView));
+
+        return layerView?.Id;
     }
 
     /// <summary>
@@ -916,8 +932,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer
-    ///     is removed from the map of the view.
+    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
     /// </summary>
     [Parameter]
     public EventCallback<LayerViewDestroyEvent> OnLayerViewDestroy { get; set; }
@@ -933,19 +948,16 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer
-    ///     is removed from the map of the view.
+    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
     /// </summary>
     [Parameter]
     public EventCallback<LayerViewCreateErrorEvent> OnLayerViewCreateError { get; set; }
 
     /// <summary>
-    ///     Set this parameter to limit the rate at which recurring events are returned. Applies to <see cref="OnDrag" />,
-    ///     <see cref="OnPointerMove" />, <see cref="OnMouseWheel" />, <see cref="OnResize" />, and
-    ///     <see cref="OnExtentChanged" />
+    ///     Set this parameter to limit the rate at which recurring events are returned. Applies to <see cref="OnDrag" />, <see cref="OnPointerMove" />, <see cref="OnMouseWheel" />, <see cref="OnResize" />, and <see cref="OnExtentChanged" />
     /// </summary>
     [Parameter]
-    public int? EventRateLimitInMilliseconds { get; set; } = 100;
+    public int EventRateLimitInMilliseconds { get; set; } = 100;
 
     /// <summary>
     ///    Optional setting to control the number of graphics that are serialized in a single chunk. Tuning this value might help with performance when adding large graphic sets.
@@ -954,8 +966,7 @@ public partial class MapView : MapComponent
     public int? GraphicSerializationChunkSize { get; set; }
     
     /// <summary>
-    ///     The maximum size of query results that will be returned in a stream. Note that setting this to a smaller
-    ///     value might create errors in query returns.
+    ///     The maximum size of query results that will be returned in a stream. Note that setting this to a smaller value might create errors in query returns.
     /// </summary>
     [Parameter]
     public long QueryResultsMaxSizeLimit { get; set; } = 1_000_000_000L;
@@ -970,18 +981,17 @@ public partial class MapView : MapComponent
     public bool? PopupEnabled { get; set; }
 
     /// <summary>
-    ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for a <see cref="PopupTemplate"/>
-    ///     and returns it to JavaScript.
+    ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for a <see cref="PopupTemplate"/> and returns it to JavaScript.
     /// </summary>
     [JSInvokable]
-    public DotNetObjectReference<PopupTemplate>? GetDotNetPopupTemplateObjectReference(Guid popupTemplateId)
+    public DotNetObjectReference<MapComponent>? GetDotNetPopupTemplateObjectReference(Guid popupTemplateId)
     {
         if (_isDisposed) return null;
         foreach (Graphic graphic in Graphics)
         {
             if (graphic.PopupTemplate?.Id == popupTemplateId)
             {
-                return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                return graphic.PopupTemplate.DotNetComponentReference;
             }
         }
 
@@ -997,7 +1007,7 @@ public partial class MapView : MapComponent
                 case FeatureLayer featureLayer:
                     if (featureLayer.PopupTemplate?.Id == popupTemplateId)
                     {
-                        return featureLayer.PopupTemplate.DotNetPopupTemplateReference;
+                        return featureLayer.PopupTemplate.DotNetComponentReference;
                     }
 
                     if (featureLayer.Source is not null)
@@ -1006,7 +1016,7 @@ public partial class MapView : MapComponent
                         {
                             if (graphic.PopupTemplate?.Id == popupTemplateId)
                             {
-                                return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                                return graphic.PopupTemplate.DotNetComponentReference;
                             }
                         }
                     }
@@ -1017,7 +1027,7 @@ public partial class MapView : MapComponent
                     {
                         if (graphic.PopupTemplate?.Id == popupTemplateId)
                         {
-                            return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                            return graphic.PopupTemplate.DotNetComponentReference;
                         }
                     }
 
@@ -1025,7 +1035,108 @@ public partial class MapView : MapComponent
                 case IPopupTemplateLayer templateLayer:
                     if (templateLayer.PopupTemplate?.Id == popupTemplateId)
                     {
-                        return templateLayer.PopupTemplate.DotNetPopupTemplateReference;
+                        return templateLayer.PopupTemplate.DotNetComponentReference;
+                    }
+
+                    break;
+            }
+        }
+
+        return null;
+    }
+    
+    /// <summary>
+    ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for an <see cref="ActionBase"/> and returns it to JavaScript.
+    /// </summary>
+    [JSInvokable]
+    public DotNetObjectReference<MapComponent>? GetDotNetActionObjectReference(Guid actionId)
+    {
+        if (_isDisposed) return null;
+        foreach (Graphic graphic in Graphics)
+        {
+            if (graphic.PopupTemplate?.Actions is null)
+            {
+                continue;
+            }
+            
+            foreach (ActionBase action in graphic.PopupTemplate.Actions)
+            {
+                if (action.Id == actionId)
+                {
+                    return action.DotNetComponentReference;
+                }
+            }
+        }
+
+        if (Map is null)
+        {
+            return null;
+        }
+
+        foreach (Layer layer in Map!.Layers)
+        {
+            switch (layer)
+            {
+                case FeatureLayer featureLayer:
+                    if (featureLayer.PopupTemplate?.Actions is { } actions)
+                    {
+                        foreach (ActionBase action in actions)
+                        {
+                            if (action.Id == actionId)
+                            {
+                                return action.DotNetComponentReference;
+                            }
+                        }
+                    }
+
+                    if (featureLayer.Source is not null)
+                    {
+                        foreach (Graphic graphic in featureLayer.Source)
+                        {
+                            if (graphic.PopupTemplate?.Actions is not { } graphicActions)
+                            {
+                                continue;
+                            }
+
+                            foreach (ActionBase action in graphicActions)
+                            {
+                                if (action.Id == actionId)
+                                {
+                                    return action.DotNetComponentReference;
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+                case GraphicsLayer graphicsLayer:
+                    foreach (Graphic graphic in graphicsLayer.Graphics)
+                    {
+                        if (graphic.PopupTemplate?.Actions is not { } graphicActions)
+                        {
+                            continue;
+                        }
+
+                        foreach (ActionBase action in graphicActions)
+                        {
+                            if (action.Id == actionId)
+                            {
+                                return action.DotNetComponentReference;
+                            }
+                        }
+                    }
+
+                    break;
+                case IPopupTemplateLayer templateLayer:
+                    if (templateLayer.PopupTemplate?.Actions is { } templateLayerActions)
+                    {
+                        foreach (ActionBase action in templateLayerActions)
+                        {
+                            if (action.Id == actionId)
+                            {
+                                return action.DotNetComponentReference;
+                            }
+                        }
                     }
 
                     break;
@@ -1041,12 +1152,13 @@ public partial class MapView : MapComponent
 #region Public Methods
 
     /// <inheritdoc />
-    public override void Refresh()
+    public override ValueTask Refresh()
     {
         NeedsRender = true;
         ExtentSetByCode = false;
         ExtentChangedInJs = false;
         StateHasChanged();
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>
@@ -1078,7 +1190,7 @@ public partial class MapView : MapComponent
     public async Task QueryFeatures(Query query, FeatureLayer featureLayer, Symbol displaySymbol,
         PopupTemplate popupTemplate)
     {
-        await ViewJsModule!.InvokeVoidAsync("queryFeatureLayer",
+        await CoreJsModule!.InvokeVoidAsync("queryFeatureLayer",
             CancellationTokenSource.Token, (object)query,
             (object)featureLayer, (object)displaySymbol, (object)popupTemplate, Id);
     }
@@ -1097,7 +1209,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task FindPlaces(AddressQuery query, Symbol displaySymbol, PopupTemplate popupTemplate)
     {
-        await ViewJsModule!.InvokeVoidAsync("findPlaces", CancellationTokenSource.Token,
+        await CoreJsModule!.InvokeVoidAsync("findPlaces", CancellationTokenSource.Token,
             (object)query, (object)displaySymbol, (object)popupTemplate, Id);
     }
 
@@ -1112,7 +1224,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task ShowPopup(PopupTemplate template, Point location)
     {
-        await ViewJsModule!.InvokeVoidAsync("showPopup", CancellationTokenSource.Token,
+        await CoreJsModule!.InvokeVoidAsync("showPopup", CancellationTokenSource.Token,
             (object)template, (object)location, Id);
     }
 
@@ -1127,30 +1239,27 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task ShowPopupWithGraphic(Graphic graphic, PopupOptions options)
     {
-        await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", CancellationTokenSource.Token,
+        await CoreJsModule!.InvokeVoidAsync("showPopupWithGraphic", CancellationTokenSource.Token,
             (object)graphic, (object)options, Id);
     }
 
     /// <summary>
-    ///     Opens the popup at the given location with content defined either explicitly with content or driven from the
-    ///     PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively
-    ///     open the popup by directly setting the visible property to true.
+    ///     Opens the popup at the given location with content defined either explicitly with content or driven from the PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively open the popup by directly setting the visible property to true.
     /// </summary>
     /// <param name="options">
     ///     Defines the location and content of the popup when opened.
     /// </param>
     public async Task OpenPopup(PopupOpenOptions? options = null)
     {
-        await ViewJsModule!.InvokeVoidAsync("openPopup", CancellationTokenSource.Token, Id, options);
+        await CoreJsModule!.InvokeVoidAsync("openPopup", CancellationTokenSource.Token, Id, options);
     }
 
     /// <summary>
-    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly
-    ///     setting the visible property to false.
+    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly setting the visible property to false.
     /// </summary>
     public async Task ClosePopup()
     {
-        await ViewJsModule!.InvokeVoidAsync("closePopup", CancellationTokenSource.Token, Id);
+        await CoreJsModule!.InvokeVoidAsync("closePopup", CancellationTokenSource.Token, Id);
     }
 
     /// <summary>
@@ -1165,20 +1274,18 @@ public partial class MapView : MapComponent
         foreach (Graphic graphic in newGraphics)
         {
             graphic.View = this;
-            graphic.JsModule = ViewJsModule;
             graphic.Parent = this;
             graphic.AllowRender = false;
         }
 
-        if (ViewJsModule is null) return;
-
-        var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
+        if (CoreJsModule is null || !MapRendered) return;
+        
         int chunkSize = GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (IsWebAssembly)
         {
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1189,7 +1296,7 @@ public partial class MapView : MapComponent
                 }
 
                 ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1202,7 +1309,8 @@ public partial class MapView : MapComponent
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                ((IJSInProcessObjectReference)JsModule!).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), Id, null);
+                ((IJSInProcessObjectReference)CoreJsModule).InvokeVoid("addGraphicsSynchronously", 
+                    ms.ToArray(), Id, null);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
             }
@@ -1210,7 +1318,7 @@ public partial class MapView : MapComponent
         else if (IsMaui)
         {
             // MAUI at least on windows seems to occasionally throw an exception when adding graphics from multiple threads
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1219,9 +1327,9 @@ public partial class MapView : MapComponent
                 {
                     return;
                 }
-
-                ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                
+                ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                    .Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1236,15 +1344,15 @@ public partial class MapView : MapComponent
                 ms.Seek(0, SeekOrigin.Begin);
                 using DotNetStreamReference streamRef = new(ms);
 
-                await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
+                await CoreJsModule.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
                     streamRef, Id, abortSignal, null);
             }
         }
         else
         {
-            List<Task> serializationTasks = new();
+            List<Task> serializationTasks = [];
 
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1255,9 +1363,9 @@ public partial class MapView : MapComponent
                     {
                         return;
                     }
-
-                    ProtoGraphicCollection collection =
-                        new(records.Skip(skip).Take(chunkSize).ToArray());
+                    
+                    ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord(true)).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
 
@@ -1272,7 +1380,7 @@ public partial class MapView : MapComponent
                     ms.Seek(0, SeekOrigin.Begin);
                     using DotNetStreamReference streamRef = new(ms);
 
-                    await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
+                    await CoreJsModule.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
                         streamRef, Id, abortSignal, null);
                 }, cancellationToken));
             }
@@ -1294,20 +1402,19 @@ public partial class MapView : MapComponent
         if (!_graphics.Any(g => g.Equals(graphic)))
         {
             graphic.View = this;
-            graphic.JsModule = ViewJsModule;
             graphic.Parent = this;
             _graphics.Add(graphic);
 
-            if (ViewJsModule is null) return;
+            if (CoreJsModule is null) return;
 
-            ProtoGraphicCollection collection = new(new[] { graphic.ToSerializationRecord() });
+            ProtoGraphicCollection collection = new([graphic.ToSerializationRecord(true)]);
             MemoryStream ms = new();
             Serializer.Serialize(ms, collection);
             ms.Seek(0, SeekOrigin.Begin);
             using DotNetStreamReference streamRef = new(ms);
 
-            await ViewJsModule!.InvokeVoidAsync("addGraphic", CancellationTokenSource.Token,
-                streamRef, Id, null); // layerId is null
+            await CoreJsModule.InvokeVoidAsync("addGraphic", CancellationTokenSource.Token,
+                streamRef, Id, null);
         }
     }
 
@@ -1319,9 +1426,9 @@ public partial class MapView : MapComponent
         AllowRender = false;
 
         _graphics.Clear();
-        if (ViewJsModule is not null)
+        if (CoreJsModule is not null)
         {
-            await ViewJsModule!.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id);    
+            await CoreJsModule!.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id);    
         }
         
         AllowRender = true;
@@ -1336,13 +1443,28 @@ public partial class MapView : MapComponent
     /// <param name="isBasemapLayer">
     ///     If true, adds the layer as a Basemap. If there is no Basemap yet, one will be created.
     /// </param>
-    public async Task AddLayer(Layer layer, bool isBasemapLayer = false)
+    /// <param name="isBasemapReferenceLayer">
+    ///     If true, adds the layer as a Basemap Reference Layer.
+    /// </param>
+    public Task AddLayer(Layer layer, bool isBasemapLayer = false, bool isBasemapReferenceLayer = false)
     {
-        if (isBasemapLayer)
+        if (isBasemapLayer && layer.IsBasemapReferenceLayer != true)
         {
             Map!.Basemap ??= new Basemap();
-            Map.Basemap.Layers.Add(layer);
+            
+#pragma warning disable BL0005
+            Map.Basemap.BaseLayers ??= [];
+            Map.Basemap.BaseLayers = [..Map.Basemap.BaseLayers, layer];
             layer.Parent ??= Map.Basemap;
+        }
+        else if (isBasemapReferenceLayer || layer.IsBasemapReferenceLayer == true)
+        {
+            Map!.Basemap ??= new Basemap();
+            Map.Basemap.ReferenceLayers ??= [];
+            Map.Basemap.ReferenceLayers = [..Map.Basemap.ReferenceLayers, layer];
+            layer.Parent ??= Map.Basemap;
+            layer.IsBasemapReferenceLayer = true;
+#pragma warning restore BL0005
         }
         else
         {
@@ -1351,20 +1473,12 @@ public partial class MapView : MapComponent
         }
         
         layer.View ??= this;
-        layer.JsModule ??= ViewJsModule;
 
-        if (ViewJsModule is null) return;
+        if (CoreJsModule is null || !MapRendered) return Task.CompletedTask;
 
-        if (ProJsViewModule is not null && layer.GetType().Namespace!.Contains("Pro"))
-        {
-            await ProJsViewModule!.InvokeVoidAsync("addProLayer", CancellationTokenSource.Token, 
-                (object)layer, Id, isBasemapLayer);
-        }
-        else
-        {
-            await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
-                (object)layer, Id, isBasemapLayer);
-        }
+        _newLayers.Add((layer, isBasemapLayer, isBasemapReferenceLayer));
+        StateHasChanged();
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1376,15 +1490,29 @@ public partial class MapView : MapComponent
     /// <param name="isBasemapLayer">
     ///     If true, removes the layer as a Basemap
     /// </param>
-    public async Task RemoveLayer(Layer layer, bool isBasemapLayer = false)
+    /// <param name="isReferenceLayer">
+    ///     If true, removes the layer as a Basemap Reference Layer
+    /// </param>
+    public async Task RemoveLayer(Layer layer, bool isBasemapLayer = false, bool isReferenceLayer = false)
     {
         var removed = false;
 
-        if (isBasemapLayer)
+        if (isBasemapLayer && layer.IsBasemapReferenceLayer != true)
         {
-            if (Map?.Basemap?.Layers.Contains(layer) == true)
+            if (Map?.Basemap?.BaseLayers?.Contains(layer) == true)
             {
-                Map.Basemap.Layers.Remove(layer);
+#pragma warning disable BL0005
+                Map.Basemap.BaseLayers = Map.Basemap.BaseLayers.Except([layer]).ToList();
+                layer.Parent = null;
+                removed = true;
+            }
+        }
+        if (isReferenceLayer || layer.IsBasemapReferenceLayer == true)
+        {
+            if (Map?.Basemap?.ReferenceLayers?.Contains(layer) == true)
+            {
+                Map.Basemap.ReferenceLayers = Map.Basemap.ReferenceLayers.Except([layer]).ToList();
+#pragma warning restore BL0005
                 layer.Parent = null;
                 removed = true;
             }
@@ -1399,29 +1527,10 @@ public partial class MapView : MapComponent
             }
         }
 
-        if (ViewJsModule is null || !removed) return;
+        if (CoreJsModule is null || !removed) return;
 
-        await ViewJsModule!.InvokeVoidAsync("removeLayer", CancellationTokenSource.Token,
-            layer.Id, Id, isBasemapLayer);
-    }
-
-    /// <summary>
-    ///     A custom method to set up the interaction for clicking a start and end point, and have the view render a driving
-    ///     route. Also returns a set of <see cref="Direction" />s for display.
-    /// </summary>
-    /// <param name="routeSymbol">
-    ///     The <see cref="Symbol" /> used to render the route.
-    /// </param>
-    /// <param name="routeUrl">
-    ///     A routing service url for calculating the route.
-    /// </param>
-    /// <returns>
-    ///     A collection of <see cref="Direction" /> steps to follow the route.
-    /// </returns>
-    public async Task<Direction[]> DrawRouteAndGetDirections(Symbol routeSymbol, string routeUrl)
-    {
-        return await ViewJsModule!.InvokeAsync<Direction[]?>("drawRouteAndGetDirections",
-            CancellationTokenSource.Token, routeUrl, (object)routeSymbol, Id) ?? Array.Empty<Direction>();
+        await CoreJsModule.InvokeVoidAsync("removeLayer", CancellationTokenSource.Token,
+            layer.Id, Id, isBasemapLayer, isReferenceLayer);
     }
 
     /// <summary>
@@ -1438,7 +1547,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task SolveServiceArea(string serviceAreaUrl, double[] driveTimeCutOffs, Symbol serviceAreaSymbol)
     {
-        await ViewJsModule!.InvokeVoidAsync("solveServiceArea", CancellationTokenSource.Token,
+        await CoreJsModule!.InvokeVoidAsync("solveServiceArea", CancellationTokenSource.Token,
             serviceAreaUrl, driveTimeCutOffs, serviceAreaSymbol, Id);
     }
 
@@ -1452,10 +1561,10 @@ public partial class MapView : MapComponent
     {
         _graphics.Remove(graphic);
 
-        if (ViewJsModule is null) return;
+        if (CoreJsModule is null) return;
 
-        await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-            graphic.Id, Id, null);
+        await CoreJsModule.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
+            graphic.Id, Id);
         graphic.Parent = null;
         graphic.View = null;
     }
@@ -1478,10 +1587,10 @@ public partial class MapView : MapComponent
             graphic.Parent = null;
         }
 
-        if (ViewJsModule is null) return;
+        if (CoreJsModule is null) return;
 
-        await ViewJsModule!.InvokeVoidAsync("removeGraphics", CancellationTokenSource.Token,
-            oldGraphics.Select(g => g.Id), View!.Id);
+        await CoreJsModule.InvokeVoidAsync("removeGraphics", CancellationTokenSource.Token,
+            oldGraphics.Select(g => g.Id), Id);
         AllowRender = true;
     }
 
@@ -1497,10 +1606,10 @@ public partial class MapView : MapComponent
             Latitude = point.Latitude;
             Longitude = point.Longitude;
 
-            if (ViewJsModule is null || !MapRendered) return;
+            if (CoreJsModule is null || !MapRendered) return;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setCenter",
+                await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setCenter",
                     CancellationTokenSource.Token, (object)point, Id);
             Extent = change.Extent;
             Zoom = change.Zoom;
@@ -1511,15 +1620,29 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
+    ///     Sets the background color of the view.
+    /// </summary>
+    public async Task SetBackgroundColor(MapColor backgroundColor)
+    {
+        BackgroundColor = backgroundColor;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setBackgroundColor", CancellationTokenSource.Token, Id, backgroundColor);
+    }
+
+    /// <summary>
     ///     Returns the center <see cref="Point" /> of the current view extent.
     /// </summary>
     public async Task<Point?> GetCenter()
     {
         Point? center = null;
 
-        if (ViewJsModule is not null && MapRendered)
+        if (CoreJsModule is not null && MapRendered)
         {
-            center = await ViewJsModule!.InvokeAsync<Point?>("getCenter", CancellationTokenSource.Token, Id);
+            center = await CoreJsModule.InvokeAsync<Point?>("getCenter", CancellationTokenSource.Token, Id);
 
             if (center is not null)
             {
@@ -1542,13 +1665,13 @@ public partial class MapView : MapComponent
     {
         Zoom = zoom;
 
-        if (ViewJsModule is not null && MapRendered)
+        if (CoreJsModule is not null && MapRendered)
         {
             ShouldUpdate = false;
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", CancellationTokenSource.Token, Zoom, Id);
+                await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setZoom", CancellationTokenSource.Token, Zoom, Id);
             Extent = change.Extent;
             Latitude = change.Center?.Latitude;
             Longitude = change.Center?.Longitude;
@@ -1563,9 +1686,9 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<double?> GetZoom()
     {
-        if (ViewJsModule is not null)
+        if (CoreJsModule is not null)
         {
-            Zoom = await ViewJsModule!.InvokeAsync<double>("getZoom", CancellationTokenSource.Token, Id);
+            Zoom = await CoreJsModule.InvokeAsync<double>("getZoom", CancellationTokenSource.Token, Id);
         }
 
         return Zoom;
@@ -1578,13 +1701,13 @@ public partial class MapView : MapComponent
     {
         Scale = scale;
 
-        if (ViewJsModule is not null && MapRendered)
+        if (CoreJsModule is not null && MapRendered)
         {
             ShouldUpdate = false;
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setScale",
+                await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setScale",
                     CancellationTokenSource.Token, Scale, Id);
             Extent = change.Extent;
             Latitude = change.Center?.Latitude;
@@ -1600,9 +1723,9 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<double?> GetScale()
     {
-        if (ViewJsModule is not null)
+        if (CoreJsModule is not null)
         {
-            Scale = await ViewJsModule!.InvokeAsync<double>("getScale", CancellationTokenSource.Token, Id);
+            Scale = await CoreJsModule.InvokeAsync<double>("getScale", CancellationTokenSource.Token, Id);
         }
 
         return Scale;
@@ -1615,13 +1738,13 @@ public partial class MapView : MapComponent
     {
         Rotation = rotation;
 
-        if (ViewJsModule is not null && MapRendered)
+        if (CoreJsModule is not null && MapRendered)
         {
             ShouldUpdate = false;
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setRotation",
+                await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setRotation",
                     CancellationTokenSource.Token, Rotation, Id);
             Extent = change.Extent;
             Latitude = change.Center?.Latitude;
@@ -1637,9 +1760,9 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<double?> GetRotation()
     {
-        if (ViewJsModule is not null)
+        if (CoreJsModule is not null)
         {
-            Rotation = await ViewJsModule!.InvokeAsync<double>("getRotation", CancellationTokenSource.Token, Id);
+            Rotation = await CoreJsModule.InvokeAsync<double>("getRotation", CancellationTokenSource.Token, Id);
         }
 
         return Rotation;
@@ -1654,13 +1777,13 @@ public partial class MapView : MapComponent
         {
             Extent = extent;
 
-            if (ViewJsModule is null || !MapRendered) return;
+            if (CoreJsModule is null || !MapRendered) return;
 
             ShouldUpdate = false;
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent",
+                await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setExtent",
                     CancellationTokenSource.Token, (object)Extent, Id);
             Latitude = change.Center?.Latitude;
             Longitude = change.Center?.Longitude;
@@ -1676,9 +1799,9 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<Extent?> GetExtent()
     {
-        if (ViewJsModule is not null)
+        if (CoreJsModule is not null)
         {
-            Extent = await ViewJsModule!.InvokeAsync<Extent?>("getExtent", CancellationTokenSource.Token, Id);
+            Extent = await CoreJsModule.InvokeAsync<Extent?>("getExtent", CancellationTokenSource.Token, Id);
         }
 
         return Extent;
@@ -1693,11 +1816,13 @@ public partial class MapView : MapComponent
         {
             Constraints = constraints;
 
-            if (ViewJsModule is null) return;
+            if (CoreJsModule is null) return;
 
-            await ViewJsModule!.InvokeVoidAsync("setConstraints",
+            await CoreJsModule.InvokeVoidAsync("setConstraints",
                 CancellationTokenSource.Token, (object)Constraints, Id);
         }
+        
+        ModifiedParameters[nameof(Constraints)] = constraints;
     }
 
     /// <summary>
@@ -1709,11 +1834,13 @@ public partial class MapView : MapComponent
         {
             HighlightOptions = highlightOptions;
 
-            if (ViewJsModule is null) return;
+            if (CoreJsModule is null) return;
 
-            await ViewJsModule!.InvokeVoidAsync("setHighlightOptions",
+            await CoreJsModule.InvokeVoidAsync("setHighlightOptions",
                 CancellationTokenSource.Token, (object)HighlightOptions, Id);
         }
+        
+        ModifiedParameters[nameof(HighlightOptions)] = highlightOptions;
     }
 
     /// <summary>
@@ -1725,11 +1852,13 @@ public partial class MapView : MapComponent
         {
             SpatialReference = spatialReference;
 
-            if (ViewJsModule is null) return;
+            if (CoreJsModule is null) return;
 
-            await ViewJsModule!.InvokeVoidAsync("setSpatialReference",
+            await CoreJsModule.InvokeVoidAsync("setSpatialReference",
                 CancellationTokenSource.Token, (object)SpatialReference, Id);
         }
+        
+        ModifiedParameters[nameof(SpatialReference)] = spatialReference;
     }
 
     /// <summary>
@@ -1737,9 +1866,9 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<SpatialReference?> GetSpatialReference()
     {
-        if (ViewJsModule is not null)
+        if (CoreJsModule is not null)
         {
-            SpatialReference = await ViewJsModule!.InvokeAsync<SpatialReference?>("getSpatialReference",
+            SpatialReference = await CoreJsModule.InvokeAsync<SpatialReference?>("getSpatialReference",
                 CancellationTokenSource.Token, Id);
         }
 
@@ -1749,15 +1878,22 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Retrieves the Popup Widget for the view.
     /// </summary>
-    public async Task<PopupWidget?> GetPopupWidget()
+    public Task<PopupWidget?> GetPopupWidget()
     {
-        if (!Widgets.Any(w => w is PopupWidget) && ViewJsModule is not null)
+        if (!Widgets.Any(w => w is PopupWidget) && CoreJsModule is not null)
         {
-            var popupWidget = new PopupWidget();
-            await AddWidget(popupWidget);
+            // add as custom logic since this is before `MapRendered` and calling `AddWidget` will exit early
+            var popupWidget = new PopupWidget
+            {
+                Parent = this,
+                View = this,
+                CoreJsModule = CoreJsModule
+            };
+            _newWidgets.Add(popupWidget);
+            StateHasChanged();
         }
 
-        return Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget;
+        return Task.FromResult(Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget);
     }
 
     /// <summary>
@@ -1768,13 +1904,13 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task GoTo(Extent extent)
     {
-        if (ViewJsModule is null || !MapRendered) return;
+        if (CoreJsModule is null || !MapRendered) return;
 
         ShouldUpdate = false;
         ExtentSetByCode = true;
 
         ViewExtentUpdate change =
-            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToExtent",
+            await CoreJsModule.InvokeAsync<ViewExtentUpdate>("goToExtent",
                 CancellationTokenSource.Token, extent, Id);
         Extent = change.Extent;
         Latitude = change.Center?.Latitude;
@@ -1793,13 +1929,13 @@ public partial class MapView : MapComponent
     /// </param>
     public virtual async Task GoTo(IEnumerable<Graphic> graphics)
     {
-        if (ViewJsModule is null || !MapRendered) return;
+        if (CoreJsModule is null || !MapRendered) return;
 
         ShouldUpdate = false;
         ExtentSetByCode = true;
 
         ViewExtentUpdate change =
-            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics",
+            await CoreJsModule.InvokeAsync<ViewExtentUpdate>("goToGraphics",
                 CancellationTokenSource.Token, graphics, Id);
         Extent = change.Extent;
         Latitude = change.Center?.Latitude;
@@ -1811,8 +1947,18 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="clickEvent">
+    ///     The click event to test for hits.
+    /// </param>
+    public async Task<HitTestResult> HitTest(ClickEvent clickEvent)
+    {
+        return await HitTest(clickEvent, null);
+    }
+
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="clickEvent">
     ///     The click event to test for hits.
@@ -1820,14 +1966,24 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options)
     {
         return await HitTestImplementation(new ScreenPoint(clickEvent.X, clickEvent.Y), options);
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="pointerEvent">
+    ///     The pointer event to test for hits.
+    /// </param>
+    public async Task<HitTestResult> HitTest(PointerEvent pointerEvent)
+    {
+        return await HitTest(pointerEvent, null);
+    }
+
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="pointerEvent">
     ///     The pointer event to test for hits.
@@ -1835,14 +1991,24 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options)
     {
         return await HitTestImplementation(new ScreenPoint(pointerEvent.X, pointerEvent.Y), options);
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="screenPoint">
+    ///     The screen point to check for hits.
+    /// </param>
+    public async Task<HitTestResult> HitTest(ScreenPoint screenPoint)
+    {
+        return await HitTest(screenPoint, null);
+    }
+
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="screenPoint">
     ///     The screen point to check for hits.
@@ -1850,14 +2016,24 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options)
     {
         return await HitTestImplementation(screenPoint, options);
     }
-    
+
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The map point, in the same projection as the map, to check for hits.
+    /// </param>
+    public async Task<HitTestResult> HitTest(Point mapPoint)
+    {
+        return await HitTest(mapPoint, null);
+    }
+
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="mapPoint">
     ///     The map point, in the same projection as the map, to check for hits.
@@ -1865,7 +2041,7 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(Point mapPoint, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(Point mapPoint, HitTestOptions? options)
     {
         ScreenPoint screenPoint = await ToScreen(mapPoint);
         return await HitTestImplementation(screenPoint, options);
@@ -1876,7 +2052,7 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<Point> ToMap(ScreenPoint screenPoint)
     {
-        return await ViewJsModule!.InvokeAsync<Point>("toMap",
+        return await CoreJsModule!.InvokeAsync<Point>("toMap",
             CancellationTokenSource.Token, screenPoint, Id);
     }
 
@@ -1885,7 +2061,7 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<ScreenPoint> ToScreen(Point mapPoint)
     {
-        return await ViewJsModule!.InvokeAsync<ScreenPoint>("toScreen",
+        return await CoreJsModule!.InvokeAsync<ScreenPoint>("toScreen",
             CancellationTokenSource.Token, mapPoint, Id);
     }
 
@@ -1894,7 +2070,7 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<string> GetCursor()
     {
-        return await ViewJsModule!.InvokeAsync<string>("getCursor",
+        return await CoreJsModule!.InvokeAsync<string>("getCursor",
             CancellationTokenSource.Token, Id);
     }
     
@@ -1903,7 +2079,7 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task SetCursor(string cursor)
     {
-        await ViewJsModule!.InvokeVoidAsync("setCursor",
+        await CoreJsModule!.InvokeVoidAsync("setCursor",
             CancellationTokenSource.Token, cursor, Id);
     }
 
@@ -1935,15 +2111,23 @@ public partial class MapView : MapComponent
     {
         try
         {
-            if (ViewJsModule != null)
+            if (CoreJsModule != null)
             {
-                await ViewJsModule.InvokeVoidAsync("disposeView",
+                await CoreJsModule.InvokeVoidAsync("disposeView",
                     CancellationTokenSource.Token, Id);
             }
         }
+        catch (TaskCanceledException)
+        {
+            // user cancelled
+        }
         catch (JSDisconnectedException)
         {
-            // ignore, dispose is called by Blazor too early
+            // lost connection (page navigation)
+        }
+        catch (JSException)
+        {
+            // instance already destroyed
         }
 
         _isDisposed = true;
@@ -1952,46 +2136,21 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Adds a widget to the view.
     /// </summary>
-    public async Task AddWidget(Widget widget)
+    public Task AddWidget(Widget widget)
     {
         if (_widgets.Add(widget))
         {
             widget.Parent ??= this;
             widget.View ??= this;
-            widget.JsModule ??= ViewJsModule;
+            widget.CoreJsModule ??= CoreJsModule;
         }
 
-        if (ViewJsModule is null || !widget.ArcGisWidget) return;
+        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return Task.CompletedTask;
 
-        while (Rendering)
-        {
-            await Task.Delay(100);
-        }
+        _newWidgets.Add(widget);
+        StateHasChanged();
 
-        await InvokeAsync(async () =>
-        {
-            if (widget.GetType().Namespace!.Contains("Core"))
-            {
-                await ViewJsModule!.InvokeVoidAsync("addWidget",
-                    CancellationTokenSource.Token, widget, Id);
-            }
-            else
-            {
-                await ProJsViewModule!.InvokeVoidAsync("addProWidget",
-                    CancellationTokenSource.Token, widget, Id);
-            }
-        });
-
-        if (widget is PopupWidget)
-        {
-            // we have to update the layers to make sure the popupTemplates aren't unset by this action
-            foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
-            {
-                // ReSharper disable once RedundantCast
-                await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
-                    (object)layer, Id);
-            }
-        }
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1999,7 +2158,7 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task RemoveWidget(Widget widget)
     {
-        if (ViewJsModule is null) return;
+        if (CoreJsModule is null) return;
 
         if (_widgets.Contains(widget))
         {
@@ -2011,7 +2170,7 @@ public partial class MapView : MapComponent
         {
             try
             {
-                await ViewJsModule!.InvokeVoidAsync("removeWidget",
+                await CoreJsModule.InvokeVoidAsync("removeWidget",
                     CancellationTokenSource.Token, widget.Id, Id);
             }
             catch (JSDisconnectedException)
@@ -2034,7 +2193,7 @@ public partial class MapView : MapComponent
     {
         try
         {
-            JsScreenshot jsScreenshot = await ViewJsModule!.InvokeAsync<JsScreenshot>("takeScreenshot",
+            JsScreenshot jsScreenshot = await CoreJsModule!.InvokeAsync<JsScreenshot>("takeScreenshot",
                 CancellationTokenSource.Token, Id, options);
             Stream mapStream = await jsScreenshot.Stream.OpenReadStreamAsync(1_000_000_000L);
             MemoryStream ms = new();
@@ -2103,7 +2262,8 @@ public partial class MapView : MapComponent
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        AbortManager ??= new AbortManager(JsRuntime);
+        await base.OnAfterRenderAsync(firstRender);
+        AbortManager ??= new AbortManager(CoreJsModule!);
 
         if (!LoadOnRender && !_renderCalled)
         {
@@ -2112,20 +2272,15 @@ public partial class MapView : MapComponent
 
         if (firstRender)
         {
-            ProJsViewModule = await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationTokenSource.Token);
-
-            ViewJsModule = await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsViewModule, CancellationTokenSource.Token);
-
-            JsModule = ViewJsModule;
-
             try
             {
                 await AppValidator.ValidateLicense();
             }
             catch (Exception ex)
             {
-                // only write exceptions out, don't throw.
-                Console.WriteLine(ex);
+                ErrorMessage = ex.Message;
+                StateHasChanged();
+                throw;
             }
 
             // the first render never has all the child components registered
@@ -2147,6 +2302,42 @@ public partial class MapView : MapComponent
         {
             await RenderView();
         }
+
+        if (MapRendered)
+        {
+            if (_newLayers.Any())
+            {
+                (Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)[] newLayers = _newLayers.ToArray();
+                _newLayers.Clear();
+                foreach ((Layer newLayer, bool isBasemapLayer, bool isBasemapReferenceLayer) in newLayers)
+                {
+                    await CoreJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
+                        (object)newLayer, Id, isBasemapLayer, isBasemapReferenceLayer);
+                }
+            }
+
+
+            if (_newWidgets.Any())
+            {
+                Widget[] newWidgets = _newWidgets.ToArray();
+                _newWidgets.Clear();
+                foreach (Widget newWidget in newWidgets)
+                {
+                    await CoreJsModule!.InvokeVoidAsync("addWidget",
+                        CancellationTokenSource.Token, newWidget, Id);
+
+                    if (newWidget is PopupWidget && Map is not null)
+                    {
+                        // we have to update the layers to make sure the popupTemplates aren't unset by this action
+                        foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
+                        {
+                            // ReSharper disable once RedundantCast
+                            await layer.UpdateLayer();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -2157,7 +2348,7 @@ public partial class MapView : MapComponent
             return;
         }
 
-        if (!AuthenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
+        if (!AuthenticationInitialized || Rendering || Map is null || CoreJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
@@ -2179,7 +2370,14 @@ public partial class MapView : MapComponent
 
         Rendering = true;
         Map.Layers.RemoveAll(l => l.Imported);
-        Map.Basemap?.Layers.RemoveAll(l => l.Imported);
+
+        if (Map.Basemap is not null)
+        {
+#pragma warning disable BL0005
+            Map.Basemap!.BaseLayers = Map.Basemap.BaseLayers?.Where(l => !l.Imported).ToList();
+            Map.Basemap!.ReferenceLayers = Map.Basemap!.ReferenceLayers?.Where(l => !l.Imported).ToList();
+#pragma warning restore BL0005 
+        }
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -2195,28 +2393,25 @@ public partial class MapView : MapComponent
 
             NeedsRender = false;
 
-            await ViewJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
+            await CoreJsModule.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
                 Configuration.GetValue<string?>("ArcGISAssetsPath",
                     "/_content/dymaptic.GeoBlazor.Core/assets"));
 
-            await ViewJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
-                DotNetObjectReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+            while (Map is null) // race condition in WebAssembly causes the map to be disposed while creating child components within it.
+            {
+                await Task.Delay(1);
+            }
+
+            await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
+                DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
+            
+            // must be after main render, but before the boolean flags are set
+            await GetPopupWidget();
 
             Rendering = false;
             MapRendered = true;
-
-            if (ProJsViewModule is not null)
-            {
-                // register pro widgets
-                foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
-                {
-                    await AddWidget(widget);
-                }
-            }
-           
-          
         });
     }
 #endregion
@@ -2234,7 +2429,7 @@ public partial class MapView : MapComponent
 
         ShouldUpdate = false;
 
-        ViewExtentUpdate? change = await ViewJsModule!.InvokeAsync<ViewExtentUpdate?>("updateView",
+        ViewExtentUpdate? change = await CoreJsModule!.InvokeAsync<ViewExtentUpdate?>("updateView",
             CancellationTokenSource.Token,
             new
             {
@@ -2350,7 +2545,7 @@ public partial class MapView : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Map?.ValidateRequiredChildren();
@@ -2372,7 +2567,7 @@ public partial class MapView : MapComponent
     private async Task<HitTestResult> HitTestImplementation(ScreenPoint screenPoint, HitTestOptions? options)
     {
         Guid hitTestId = Guid.NewGuid();
-        HitTestResult result = await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
+        HitTestResult result = await CoreJsModule!.InvokeAsync<HitTestResult>("hitTest",
             CancellationTokenSource.Token, screenPoint, Id, options, hitTestId);
 
         if (_activeHitTests.TryGetValue(hitTestId, out ViewHit[]? viewHits))
@@ -2429,12 +2624,11 @@ public partial class MapView : MapComponent
     }
     
     /// <summary>
-    ///     Retrieves all <see cref="EventCallback" />s and <see cref="Func{TResult}" />s that are listening for JavaScript
-    ///     events.
+    ///     Retrieves all <see cref="EventCallback" />s and <see cref="Func{TResult}" />s that are listening for JavaScript events.
     /// </summary>
     protected List<string> GetActiveEventHandlers()
     {
-        List<string> activeHandlers = new();
+        List<string> activeHandlers = [];
 
         var properties = GetType().GetProperties();
 
@@ -2450,7 +2644,7 @@ public partial class MapView : MapComponent
 
             if(callback is not null)
             {
-                var hasDelegate = callback switch
+                bool hasDelegate = callback switch
                 {
                     EventCallback e => e.HasDelegate,
                     EventCallback<ClickEvent> e => e.HasDelegate,
@@ -2484,15 +2678,6 @@ public partial class MapView : MapComponent
 #endregion
     
 #region Internal Fields
-    /// <summary>
-    ///     A reference to the arcGisJsInterop module
-    /// </summary>
-    protected IJSObjectReference? ViewJsModule;
-
-    /// <summary>
-    ///     Optional reference to the Pro library JS module
-    /// </summary>
-    protected IJSObjectReference? ProJsViewModule;
 
     /// <summary>
     ///     A boolean flag to indicate that rendering is underway
@@ -2509,18 +2694,14 @@ public partial class MapView : MapComponent
     /// </summary>
     protected bool ShouldUpdate = true;
     /// <summary>
-    ///     A boolean flag to indicate that the map extent has been modified in code, and therefore should not be modifiable by
-    ///     markup until <see cref="Refresh" /> is called
+    ///     A boolean flag to indicate that the map extent has been modified in code, and therefore should not be modifiable by markup until <see cref="Refresh" /> is called
     /// </summary>
     protected bool ExtentSetByCode = false;
     /// <summary>
     ///     Indicates that the pointer is currently down, to prevent updating the extent during this action.
     /// </summary>
     protected bool PointerDown;
-    /// <summary>
-    ///     A reference to the JavaScript AbortManager for this component.
-    /// </summary>
-    protected AbortManager? AbortManager; 
+    
     /// <summary>
     ///     Marks that the authentication has been initialized.
     /// </summary>
@@ -2532,11 +2713,14 @@ public partial class MapView : MapComponent
     private bool _shouldRender = true;
     private Dictionary<string, StringBuilder> _layerCreateData = new();
     private Dictionary<string, StringBuilder> _layerViewCreateData = new();
-    private HashSet<Graphic> _graphics = new();
-    private HashSet<Widget> _widgets = new();
+    private HashSet<Graphic> _graphics = [];
+    private HashSet<Widget> _widgets = [];
+    private HashSet<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
+    private HashSet<Widget> _newWidgets = [];
     private bool? _isPro;
     private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;
-    
+    private bool _waitingForRender;
+
 #endregion
 }

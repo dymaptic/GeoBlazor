@@ -1,36 +1,35 @@
 ﻿@inherits MapComponent
 
-<div class="validation-message">@((MarkupString)(ErrorMessage ?? string.Empty))</div>
 <CascadingValue Name="View" Value="this">
     <CascadingValue Name="Parent" Value="this">
-        <CascadingValue Name="JsModule" Value="ViewJsModule">
-            <CascadingValue Name="ProJsModule" Value="ProJsViewModule">
-                <CascadingValue Name="MapRendered" Value="MapRendered">
-                    <div class="@Class map-wrapper" style="@Style">
-                        <div class="map-container" id="@($"map-container-{Id}")">
-                            @ChildContent
-                        </div>
-                        @if (WhiteLabel is null || !IsPro())
-                        {
-                            <div class="dymaptic-branding">
-                                <a href="https://www.geoblazor.com">
-                                    <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/Blazor-API-60px.png" /> GeoBlazor
-                                </a>
-                                by
-                                <a href="https://www.dymaptic.com">
-                                    <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-logo-circle-icon.png" /> dymaptic
-                                </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="white-label">
-                                @((MarkupString)WhiteLabel)
-                            </div>
-                        }
+        <CascadingValue Name="MapRendered" Value="MapRendered">
+            <div class="@Class map-wrapper" style="@Style">
+                <div class="map-container" id="@($"map-container-{Id}")">
+                    @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                    {
+                        <div class="validation-message">@((MarkupString)ErrorMessage)</div>
+                    }
+                    @ChildContent
+                </div>
+                @if (WhiteLabel is null || !IsPro())
+                {
+                    <div class="dymaptic-branding">
+                        <a href="https://www.geoblazor.com">
+                            <img alt="GeoBlazor Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/Blazor-API-60px.png"/> GeoBlazor
+                        </a>
+                        by
+                        <a href="https://www.dymaptic.com">
+                            <img alt="dymaptic Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-logo-circle-icon.png"/> dymaptic
+                        </a>
                     </div>
-                </CascadingValue>
-            </CascadingValue>
+                }
+                else
+                {
+                    <div class="white-label">
+                        @((MarkupString)WhiteLabel)
+                    </div>
+                }
+            </div>
         </CascadingValue>
     </CascadingValue>
 </CascadingValue>

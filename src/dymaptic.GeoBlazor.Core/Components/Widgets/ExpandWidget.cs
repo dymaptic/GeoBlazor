@@ -1,18 +1,14 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The Expand widget acts as a clickable button for opening a widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public class ExpandWidget : Widget
 {
     /// <inheritdoc />
-    public override string WidgetType => "expand";
+    public override WidgetType Type => WidgetType.Expand;
 
     /// <summary>
     ///     Internal mark for GeoBlazor rendering
@@ -41,8 +37,7 @@ public class ExpandWidget : Widget
     public bool? AutoCollapse { get; set; }
 
     /// <summary>
-    ///     When true, the Expand widget will close after the Escape key is pressed when the keyboard focus is within its
-    ///     content.
+    ///     When true, the Expand widget will close after the Escape key is pressed when the keyboard focus is within its content.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -62,8 +57,7 @@ public class ExpandWidget : Widget
     ///     The content to display within the expanded Expand widget.
     /// </summary>
     /// <remarks>
-    ///     If adding a Slider, HistogramRangeSlider, or TimeSlider as content to the Expand widget, the container or parent
-    ///     container of the widget must have a width set in CSS for it to render inside the Expand widget.
+    ///     If adding a Slider, HistogramRangeSlider, or TimeSlider as content to the Expand widget, the container or parent container of the widget must have a width set in CSS for it to render inside the Expand widget.
     /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Widget? WidgetContent { get; set; }
@@ -93,8 +87,8 @@ public class ExpandWidget : Widget
     ///   The mode in which the widget displays.
     /// </summary>
     [Parameter]
-    public Mode Mode { get; set; } = Mode.Auto;
-
+    public ExpandMode Mode { get; set; } = ExpandMode.Auto;
+    
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -129,20 +123,4 @@ public class ExpandWidget : Widget
                 break;
         }
     }
-}
-
-
-/// <summary>
-/// The mode in which the Expander widget displays. These modes are listed below.
-/// Possible Values:"auto"|"floating"|"drawer"
-/// Default Value:"auto"
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<Mode>))]
-public enum Mode
-{
-#pragma warning disable CS1591
-    Auto,
-    Floating,
-    Drawer
-#pragma warning restore CS1591
 }

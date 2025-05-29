@@ -19,13 +19,13 @@
     <div class="form-group">
         <label>
             Toggle Reference Layers Visibility in Widget
-            <input type="checkbox" @bind="_showReferenceLayers" />
+            <input type="checkbox" class="form-check-input" checked @onchange="ToggleReferenceLayersVisibility" />
         </label>
     </div>
     <div class="form-group">
         <label>
             Toggle Base Layers Visibility in Widget
-            <input type="checkbox" @bind="_showBaseLayers" />
+            <input type="checkbox" class="form-check-input" checked @onchange="ToggleBaseLayersVisibility" />
         </label>
     </div>
 </div>
@@ -36,12 +36,9 @@
     {
         <SceneView Class="map-view">
             <WebScene>
-                <PortalItem Id="bfefe7a603c94fc29edca0f4a6662b44" />
+                <PortalItem PortalItemId="bfefe7a603c94fc29edca0f4a6662b44" />
             </WebScene>
-            <BasemapLayerListWidget Position="OverlayPosition.TopRight">
-                <BasemapLayerListWidgetVisibleElements BaseLayers="_showBaseLayers"
-                                                       ReferenceLayers="_showReferenceLayers" />
-            </BasemapLayerListWidget>
+            <BasemapLayerListWidget @ref="_widget" Position="OverlayPosition.TopRight" />
         </SceneView>
     }
     else // for mobile, move the widget off of the map so you can see the whole map
@@ -49,12 +46,9 @@
         <div id="widget-holder" />
         <SceneView Class="map-view">
             <WebScene>
-                <PortalItem Id="bfefe7a603c94fc29edca0f4a6662b44" />
+                <PortalItem PortalItemId="bfefe7a603c94fc29edca0f4a6662b44" />
             </WebScene>
-            <BasemapLayerListWidget ContainerId="widget-holder">
-                <BasemapLayerListWidgetVisibleElements BaseLayers="_showBaseLayers"
-                                                       ReferenceLayers="_showReferenceLayers" />
-            </BasemapLayerListWidget>
+            <BasemapLayerListWidget @ref="_widget" ContainerId="widget-holder" />
         </SceneView>
     }
 }
@@ -70,9 +64,25 @@
             StateHasChanged();
         }
     }
+    
+    private async Task ToggleReferenceLayersVisibility()
+    {
+        BasemapLayerListWidgetVisibleElements visibleElements = await _widget!.GetVisibleElements()
+            ?? new BasemapLayerListWidgetVisibleElements(baseLayers: true, referenceLayers: true);
+        
+        await visibleElements.SetReferenceLayers(!visibleElements.ReferenceLayers ?? false);
+        await _widget.SetVisibleElements(visibleElements);
+    }
+    
+    private async Task ToggleBaseLayersVisibility()
+    {
+        BasemapLayerListWidgetVisibleElements visibleElements = await _widget!.GetVisibleElements()
+            ?? new BasemapLayerListWidgetVisibleElements(baseLayers: true, referenceLayers: true);
+        
+        await visibleElements.SetBaseLayers(!visibleElements.BaseLayers);
+        await _widget.SetVisibleElements(visibleElements);
+    }
 
     private int? _windowWidth;
-    private bool _showReferenceLayers = true;
-    private bool _showBaseLayers = true;
-
+    private BasemapLayerListWidget? _widget;
 }

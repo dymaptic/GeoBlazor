@@ -10,16 +10,16 @@
     public async Task TestCanRenderBasemapGalleryWidget(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <BasemapGalleryWidget />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <BasemapGalleryWidget />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapGallery");
@@ -47,22 +47,22 @@
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <TileLayer>
-                    <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
-                </TileLayer>
-                <VectorTileLayer Opacity="0.75" IsBasemapReferenceLayer="true">
-                    <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
-                </VectorTileLayer>
-            </Basemap>
-        </Map>
-        <BasemapLayerListWidget OnReferenceListItemCreatedHandler="OnReferenceListItemCreatedHandler"
-                                OnBaseListItemCreatedHandler="OnBaseListItemCreatedHandler" />
+                <Map>
+                    <Basemap>
+                        <TileLayer>
+                            <PortalItem PortalItemId="1b243539f4514b6ba35e7d995890db1d" />
+                        </TileLayer>
+                        <VectorTileLayer Opacity="0.75" IsBasemapReferenceLayer="true">
+                            <PortalItem PortalItemId="6976148c11bd497d8624206f9ee03e30" />
+                        </VectorTileLayer>
+                    </Basemap>
+                </Map>
+                <BasemapLayerListWidget OnReferenceListItemCreatedHandler="OnReferenceListItemCreatedHandler"
+                                        OnBaseListItemCreatedHandler="OnBaseListItemCreatedHandler" />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapLayerList");
@@ -74,21 +74,21 @@
     public async Task TestCanRenderBasemapLayerListWidgetWithoutHandler(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <TileLayer>
-                    <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
-                </TileLayer>
-                <VectorTileLayer Opacity="0.75">
-                    <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
-                </VectorTileLayer>
-            </Basemap>
-        </Map>
-        <BasemapLayerListWidget />
+                <Map>
+                    <Basemap>
+                        <TileLayer>
+                            <PortalItem PortalItemId="1b243539f4514b6ba35e7d995890db1d" />
+                        </TileLayer>
+                        <VectorTileLayer Opacity="0.75">
+                            <PortalItem PortalItemId="6976148c11bd497d8624206f9ee03e30" />
+                        </VectorTileLayer>
+                    </Basemap>
+                </Map>
+                <BasemapLayerListWidget />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapLayerList");
@@ -98,35 +98,35 @@
     public async Task TestBasemapToggleFailsWithoutNextBasemap(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <BasemapToggleWidget />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <BasemapToggleWidget />
 
-    </MapView>);
+            </MapView>);
 
         await Assert.ThrowsExceptionAsync<AggregateException>(async () =>
-        await WaitForMapToRender());
+            await WaitForMapToRender());
     }
 
     [TestMethod]
     public async Task TestCanRenderBasemapToggleWidget(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <BasemapToggleWidget NextBasemapName="arcgis-topographic" />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <BasemapToggleWidget NextBasemapStyle="BasemapStyleName.ArcgisTopographic" />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapToggle");
@@ -136,16 +136,16 @@
     public async Task TestCanRenderCompassWidget(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <CompassWidget />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <CompassWidget />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Compass");
@@ -155,16 +155,16 @@
     public async Task TestCanRenderHomeWidget(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <HomeWidget />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <HomeWidget />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Home");
@@ -179,18 +179,19 @@
         {
             Assert.IsNotNull(item);
             handlerWasCalled = true;
+
             return Task.FromResult(item);
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <WebMap>
-            <PortalItem Id="31cfc5b138e24dee866c457948773ac4" />
-        </WebMap>
-        <LayerListWidget OnListItemCreatedHandler="OnListItemCreatedHandler" />
+                <WebMap>
+                    <PortalItem PortalItemId="237b9584339446a0b56317b5962a4971" />
+                </WebMap>
+                <LayerListWidget OnListItemCreatedHandler="OnListItemCreatedHandler" />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.LayerList");
@@ -222,10 +223,12 @@
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <MeasurementWidget LinearUnit="LengthUnit.NauticalMiles" />
-
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <MeasurementWidget LinearUnit="SystemOrLengthUnit.NauticalMiles" />
             </MapView>
     );
         await WaitForMapToRender();
@@ -237,10 +240,12 @@
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <MeasurementWidget AreaUnit="AreaUnit.SquareKilometers" />
-
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <MeasurementWidget AreaUnit="SystemOrAreaUnit.SquareKilometers" />
             </MapView>
     );
         await WaitForMapToRender();
@@ -252,10 +257,12 @@
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
                 <MeasurementWidget />
-
             </MapView>
         );
         await WaitForMapToRender();
@@ -326,16 +333,16 @@
     public async Task TestCanRenderSearchWidget(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <SearchWidget />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <SearchWidget />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -347,31 +354,35 @@
         SearchWidget? widget = null;
         var resultsHandlerWasCalled = false;
 
-        Task<IList<SearchResult>> GetResultsHandler(GetResultsParameters parameters)
+        Task<IReadOnlyList<SearchResult>> GetResultsHandler(bool? exactMatch, Point? location, int? maxResults, 
+            int? sourceIndex, SpatialReference? spatialReference, SuggestResult suggestResult, Guid? viewId)
         {
-            Assert.IsNotNull(parameters);
+            Assert.IsNotNull(viewId);
             resultsHandlerWasCalled = true;
-            return Task.FromResult<IList<SearchResult>>(new List<SearchResult>());
+
+            return Task.FromResult<IReadOnlyList<SearchResult>>(new List<SearchResult>());
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <SearchWidget @ref="widget">
-            <SearchSource GetResultsHandler="GetResultsHandler" />
-        </SearchWidget>
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <SearchWidget @ref="widget">
+                    <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+                                         GetResultsHandler="GetResultsHandler" />
+                </SearchWidget>
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
         await widget!.Search("test");
         await WaitForMapToRender();
+        await Task.Delay(1000);
         Assert.IsTrue(resultsHandlerWasCalled);
     }
 
@@ -380,37 +391,42 @@
     {
         var suggestionsHandlerWasCalled = false;
 
-        Task<IList<SuggestResult>> GetSuggestionsHandler(GetSuggestionsParameters parameters)
+        Task<IReadOnlyList<SuggestResult>> GetSuggestionsHandler(int? maxSuggestions, int? sourceIndex, 
+            SpatialReference? spatialReference, string? suggestTerm, Guid? viewId)
         {
-            Assert.IsNotNull(parameters);
+            Assert.IsNotNull(viewId);
             suggestionsHandlerWasCalled = true;
-            return Task.FromResult<IList<SuggestResult>>(new List<SuggestResult>());
+
+            return Task.FromResult<IReadOnlyList<SuggestResult>>(new List<SuggestResult>());
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <SearchWidget>
-            <SearchSource GetSuggestionsHandler="GetSuggestionsHandler" />
-        </SearchWidget>
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <SearchWidget>
+                    <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer" 
+                                         GetSuggestionsHandler="GetSuggestionsHandler" />
+                </SearchWidget>
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
         await AssertJavaScript("triggerSearchHandlers");
 
         var tries = 50;
+
         while (!suggestionsHandlerWasCalled && (tries > 0))
         {
             await Task.Delay(100);
             tries--;
         }
+
         Assert.IsTrue(suggestionsHandlerWasCalled);
     }
 
@@ -420,39 +436,39 @@
         SearchWidget? widget = null;
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <SearchWidget @ref="widget" />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <SearchWidget @ref="widget" />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
         await widget!.SetSearchTerm("testSearchTerm");
-        string searchTerm = await widget.GetSearchTerm();
+        string? searchTerm = await widget.GetSearchTerm();
         Assert.AreEqual("testSearchTerm", searchTerm);
         SuggestResponse suggestResponse = await widget!.Suggest("test");
         Assert.IsNotNull(suggestResponse);
         SearchResponse searchResponse = await widget!.Search("test");
         Assert.IsNotNull(searchResponse);
-        IReadOnlyList<SearchResultResponse> searchResultResponse = await widget.GetResults();
+        IReadOnlyList<SearchResultResponse>? searchResultResponse = await widget.GetResults();
         Assert.IsNotNull(searchResultResponse);
-        SuggestResult[] suggestResults = await widget.GetSuggestions();
+        IReadOnlyList<SuggestResult>? suggestResults = await widget.GetSuggestions();
         Assert.IsNotNull(suggestResults);
-        SearchMenu activeMenu = await widget.GetActiveMenu();
+        SearchMenu? activeMenu = await widget.GetActiveMenu();
         Assert.IsNotNull(activeMenu);
         SearchSource? activeSource = await widget.GetActiveSource();
         Assert.IsNotNull(activeSource);
-        int activeSourceIndex = await widget.GetActiveSourceIndex();
+        int? activeSourceIndex = await widget.GetActiveSourceIndex();
         Assert.AreEqual(0, activeSourceIndex);
-        IReadOnlyList<SearchSource> allSources = await widget.GetAllSources();
+        IReadOnlyList<SearchSource> allSources = (await widget.GetAllSources())!;
         Assert.AreEqual(1, allSources.Count);
-        IReadOnlyList<SearchSource> defaultSources = await widget.GetDefaultSources();
+        IReadOnlyList<SearchSource> defaultSources = (await widget.GetDefaultSources())!;
         Assert.AreEqual(1, defaultSources.Count);
         Graphic resultGraphic = (await widget.GetResultGraphic())!;
         Assert.IsNotNull(resultGraphic);
@@ -484,10 +500,12 @@
     </div>);
 
         await WaitForMapToRender();
+
         while (!widgetCreated)
         {
             await Task.Delay(100);
         }
+
         await AssertJavaScript("elementExists", args: $"widget-container-{homeWidget!.Id}");
     }
 
@@ -519,24 +537,27 @@
             widgetCreated = true;
         }
         AddMapRenderFragment(
-    @<div>
-        <div id="external-container" />
-        <MapView class="map-view" OnViewRendered="renderHandler">
-            <Map>
-                <Basemap>
-                    <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                </Basemap>
-            </Map>
-            <HomeWidget @ref="homeWidget" ContainerId="external-container"
-                        OnWidgetCreated="OnWidgetCreated" />
-        </MapView>
-    </div>);
+            @<div>
+                <div id="external-container"></div>
+                <MapView class="map-view" OnViewRendered="renderHandler">
+                    <Map>
+                        <Basemap>
+                            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                        </Basemap>
+                    </Map>
+                    <HomeWidget @ref="homeWidget" ContainerId="external-container"
+                                OnWidgetCreated="OnWidgetCreated" />
+                </MapView>
+            </div>);
 
         await WaitForMapToRender();
+
         while (!widgetCreated)
         {
             await Task.Delay(100);
         }
+
         await AssertJavaScript("elementExists", args: $"widget-container-{homeWidget!.Id}");
     }
+
 }

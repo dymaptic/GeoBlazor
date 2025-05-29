@@ -19,9 +19,9 @@
          Style="padding-right: 380px">
     <Map>
         <Basemap>
-            <PortalItem Id="4f2e99ba65e34bb8af49733d9778fb8e" />
+            <PortalItem PortalItemId="4f2e99ba65e34bb8af49733d9778fb8e" />
         </Basemap>
-        <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })"
+        <FeatureLayer @ref="_featureLayer" OutFields="@(["*"])"
                       Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">
             <SimpleRenderer>
                 <PictureMarkerSymbol Url="https://upload.wikimedia.org/wikipedia/commons/9/9e/Emojione_1F332.svg"
@@ -52,7 +52,7 @@
     </Map>
 
     <CustomOverlay Position="OverlayPosition.Manual">
-        <calcite-panel id="infoDiv" class="calcite-theme-dark">
+        <calcite-panel id="infoDiv" class="calcite-mode-auto">
             <h5 class="heading" slot="header-content">
                 Most or least visited parks by states
             </h5>
@@ -64,14 +64,17 @@
                         appearance="outline"
                         scale="m"
                         width="auto">
-                        <calcite-radio-group-item value="DESC" checked=""
+                        <calcite-label layout="inline">
+                            <calcite-radio-button checked
                                                   @onclick="@(() => _orderDirectionSelected = "DESC")">
+                            </calcite-radio-button>
                             Most visited
-                        </calcite-radio-group-item>
-                        <calcite-radio-group-item value="ASC"
-                                                  @onclick="@(() => _orderDirectionSelected = "ASC")">
+                        </calcite-label>
+                        <calcite-label layout="inline">
+                            <calcite-radio-button @onclick="@(() => _orderDirectionSelected = "ASC")">
+                            </calcite-radio-button>
                             Least visited
-                        </calcite-radio-group-item>
+                        </calcite-label>
                     </calcite-radio-group>
                 </label>
                 <br /><br />
@@ -121,12 +124,12 @@
                 @if (_results is not null)
                 {
                     <h5 class="heading" id="resultsHeading" slot="header-content">
-                        Results: @_results!.Features!.Length parks
+                        Results: @_results!.Features!.Count parks
                     </h5>
                     <div id="results">
-                        @for (var i = 0; i < _results.Features.Length; i++)
+                        @for (var i = 0; i < _results.Features!.Count; i++)
                         {
-                            Graphic result = _results.Features[i];
+                            Graphic result = _results.Features![i];
                             int index = i;
                             <calcite-pick-list-item label="@result.Attributes["Park"]"
                                                     value="@i"
@@ -160,29 +163,22 @@
         _clearQueryBtnAppearance = "outline";
         _queryParksBtnAppearance = "solid";
         _orderByFieldSelected = await GetTimeRange();
-        string[] orderByField = { $"{_orderByFieldSelected} {_orderDirectionSelected}" };
+        string[] orderByField = [$"{_orderByFieldSelected} {_orderDirectionSelected}"];
         var query = new TopFeaturesQuery
         {
-            TopFilter = new TopFilter
-            {
-                TopCount = int.Parse(await GetTopCount()),
-                GroupByFields = new[] { "State" },
-                OrderByFields = orderByField
-            },
+            TopFilter = new TopFilter(["State"], orderByField, 
+                int.Parse(await GetTopCount())),
             ReturnGeometry = true,
-            OutFields = new[] { "State, TOTAL, F2018, F2019, F2020, Park" },
+            OutFields = ["State, TOTAL, F2018, F2019, F2020, Park"],
             OrderByFields = orderByField,
             CacheHint = false
         };
 
         _results = await _featureLayer!.QueryTopFeatures(query);
 
-        query.OrderByFields = new[] { "" };
-        int[] objectIds = await _featureLayer!.QueryTopObjectIds(query);
-        await _layerView!.SetFilter(new FeatureFilter
-        {
-            ObjectIds = objectIds
-        });
+        query.OrderByFields = [""];
+        ObjectId[] objectIds = await _featureLayer!.QueryTopObjectIds(query);
+        await _layerView!.SetFilter(new FeatureFilter(objectIds: objectIds));
     }
 
     private async Task OnParkResultClicked(int index)
@@ -190,8 +186,8 @@
         Graphic feature = _results!.Features![index];
         var options = new PopupOpenOptions
         {
-            Location = await feature.GetGeometry(),
-            Features = new[] { feature }
+            Location = await feature.GetGeometry() as Point,
+            Features = [feature]
         };
         await _mapView!.ClosePopup();
         await _mapView!.OpenPopup(options);

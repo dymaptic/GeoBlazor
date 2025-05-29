@@ -14,7 +14,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddScoped<HttpClient>();
 builder.Services.AddScoped<SharedFileProvider>();
-builder.Services.AddGeoBlazor();
+builder.Services.AddGeoBlazor(builder.Configuration);
 builder.Configuration.AddInMemoryCollection();
 
 WebApplication app = builder.Build();

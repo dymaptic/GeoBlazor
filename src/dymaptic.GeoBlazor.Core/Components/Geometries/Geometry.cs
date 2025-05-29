@@ -1,38 +1,51 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Serialization;
-using ProtoBuf;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
-/// <summary>
-///     The base class for geometry objects. This class has no constructor. To construct geometries see
-///     <see cref="Point" />, <see cref="PolyLine" />, or <see cref="Polygon" />.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
 [JsonConverter(typeof(GeometryConverter))]
-public abstract class Geometry : MapComponent
+public abstract partial class Geometry : MapComponent
 {
     /// <summary>
-    ///     The <see cref="Extent" /> of the geometry.
+    ///     The <see cref = "Extent"/> of the geometry.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Extent? Extent { get; set; }
+    [CodeGenerationIgnore]
+    [JsonInclude]
+    public Extent? Extent { get; internal set; }
 
     /// <summary>
-    ///     The <see cref="SpatialReference" /> of the geometry.
+    ///     Indicates if the geometry has M values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasM">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
+    [ArcGISProperty]
+    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SpatialReference? SpatialReference { get; set; }
+    public bool? HasM { get; set; }
 
+    /// <summary>
+    ///     Indicates if the geometry has z-values (elevation).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? HasZ { get; set; }
+
+    /// <summary>
+    ///     The spatial reference of the geometry.
+    ///     default WGS84 (wkid: 4326)
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public SpatialReference? SpatialReference { get; set; }
     /// <summary>
     ///     The Geometry "type", used internally to render.
     /// </summary>
-    public virtual string Type => default!;
+    public abstract GeometryType Type { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    [CodeGenerationIgnore]
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -45,8 +58,7 @@ public abstract class Geometry : MapComponent
 
                 break;
             case SpatialReference spatialReference:
-                // ReSharper disable once RedundantCast
-                if (!((object)spatialReference).Equals(SpatialReference))
+                if (!spatialReference.Equals(SpatialReference))
                 {
                     SpatialReference = spatialReference;
                 }
@@ -54,51 +66,61 @@ public abstract class Geometry : MapComponent
                 break;
             default:
                 await base.RegisterChildComponent(child);
-
                 break;
         }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    [CodeGenerationIgnore]
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
         {
             case Extent _:
                 Extent = null;
-
                 break;
             case SpatialReference _:
                 SpatialReference = null;
-
                 break;
             default:
                 await base.UnregisterChildComponent(child);
-
                 break;
         }
     }
 
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    /// <inheritdoc/>
+    [CodeGenerationIgnore]
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Extent?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
     }
 
-    internal abstract GeometrySerializationRecord ToSerializationRecord();
-
-    /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SpatialReference property.
+    /// </summary>
+    public async Task<Extent?> GetExtent()
     {
-        await base.OnParametersSetAsync();
-
-        if (Parent is not null)
+        if (CoreJsModule is null)
         {
-            await Parent.RegisterChildComponent(this);
+            return Extent;
         }
+
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return Extent;
+        }
+
+        // get the property value
+#pragma warning disable BL0005
+        Extent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty", CancellationTokenSource.Token, JsComponentReference, "extent");
+#pragma warning restore BL0005
+        return Extent;
     }
+
+    internal abstract GeometrySerializationRecord ToSerializationRecord();
 }
 
 [ProtoContract(Name = "Geometry")]
@@ -107,11 +129,11 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
     public GeometrySerializationRecord()
     {
     }
-    
-    public GeometrySerializationRecord(string Type,
-        GeometrySerializationRecord? Extent,
+
+    public GeometrySerializationRecord(string Id, string Type, GeometrySerializationRecord? Extent, 
         SpatialReferenceSerializationRecord? SpatialReference)
     {
+        this.Id = Id;
         this.Type = Type;
         this.Extent = Extent;
         this.SpatialReference = SpatialReference;
@@ -119,11 +141,11 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
 
     [ProtoMember(1)]
     public string Type { get; set; } = string.Empty;
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public GeometrySerializationRecord? Extent { get; set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public SpatialReferenceSerializationRecord? SpatialReference { get; set; }
@@ -173,116 +195,86 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
     [ProtoMember(18)]
     public double? Mmin { get; set; }
 
+    [ProtoMember(19)]
+    public bool? HasM { get; set; }
+
+    [ProtoMember(20)]
+    public bool? HasZ { get; set; }
+
+    [ProtoMember(21)]
+    public double? M { get; set; }
+
+    [ProtoMember(22)]
+    public GeometrySerializationRecord? Centroid { get; set; }
+
+    [ProtoMember(23)]
+    public bool? IsSelfIntersecting { get; set; }
+    
+    [ProtoMember(24)]
+    public GeometrySerializationRecord? Center { get; set; }
+    
+    [ProtoMember(25)]
+    public bool? Geodesic { get; set; }
+    
+    [ProtoMember(26)]
+    public int? NumberOfPoints { get; set; }
+    
+    [ProtoMember(27)]
+    public double? Radius { get; set; }
+    
+    [ProtoMember(28)]
+    public string? RadiusUnit { get; set; }
+    
+    [ProtoMember(29)]
+    public string? Id { get; set; }
+
     public Geometry FromSerializationRecord()
     {
+        Extent? extent = Extent?.FromSerializationRecord() as Extent;
+        Guid id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out Guid guidId))
+        {
+            id = guidId;
+        }
         return Type switch
         {
-            "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(),
-                Extent?.FromSerializationRecord() as Extent),
-            "polyline" => new PolyLine(Paths!.Select(x => x.FromSerializationRecord()).ToArray(),
-                SpatialReference?.FromSerializationRecord(),
-                Extent?.FromSerializationRecord() as Extent),
-            "polygon" => new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
-                SpatialReference?.FromSerializationRecord(),
-                Extent?.FromSerializationRecord() as Extent),
-            "extent" => new Extent(Xmax!.Value, Xmin!.Value, Ymax!.Value, Ymin!.Value, Zmax, Zmin, 
-                Mmax, Mmin, SpatialReference?.FromSerializationRecord()),
+            "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(), HasM, HasZ, M)
+            {
+                Extent = extent,
+                Id = id
+            },
+            "polyline" => new Polyline(Paths!.Select(x => x.FromSerializationRecord()).ToArray(),
+                SpatialReference?.FromSerializationRecord(), HasM, HasZ)
+            {
+                Extent = extent,
+                Id = id
+            },
+            "polygon" => Center is not null && Radius is not null
+            ? new Circle((Point)Center.FromSerializationRecord(), Radius.Value, 
+                Centroid?.FromSerializationRecord() as Point, 
+                Geodesic, HasM, HasZ, IsSelfIntersecting, NumberOfPoints, 
+                RadiusUnit is null ? null : Enum.Parse<RadiusUnit>(RadiusUnit),
+                Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
+                SpatialReference?.FromSerializationRecord())
+                {
+                    Extent = extent,
+                    Id = id
+                }
+            : new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(), 
+                SpatialReference?.FromSerializationRecord(), 
+                Centroid?.FromSerializationRecord() as Point, 
+                HasM, HasZ, IsSelfIntersecting)
+                {
+                    Extent = extent,
+                    Id = id
+                },
+            "extent" => new Extent(Xmax!.Value, Xmin!.Value, Ymax!.Value, Ymin!.Value, Zmax, 
+                Zmin, Mmax, Mmin, SpatialReference?.FromSerializationRecord(), HasM, HasZ)
+            {
+                Id = id
+            },
             _ => throw new ArgumentOutOfRangeException()
         };
-    }
-}
-
-internal class GeometryConverter : JsonConverter<Geometry>
-{
-    public override Geometry? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-
-        Utf8JsonReader cloneReader = reader;
-
-        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
-            IDictionary<string, object?> temp)
-        {
-            return null;
-        }
-
-        if (temp.TryGetValue("type", out object? typeValue))
-        {
-            switch (typeValue?.ToString())
-            {
-                case "extent":
-                    return JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);
-                case "point":
-                    return JsonSerializer.Deserialize<Point>(ref cloneReader, newOptions);
-                case "polygon":
-                    return JsonSerializer.Deserialize<Polygon>(ref cloneReader, newOptions);
-                case "polyline":
-                    return JsonSerializer.Deserialize<PolyLine>(ref cloneReader, newOptions);
-            }
-        }
-
-        if (temp.ContainsKey("rings"))
-        {
-            return JsonSerializer.Deserialize<Polygon>(ref cloneReader, newOptions);
-        }
-
-        if (temp.ContainsKey("paths"))
-        {
-            return JsonSerializer.Deserialize<PolyLine>(ref cloneReader, newOptions);
-        }
-
-        if (temp.ContainsKey("latitude") || temp.ContainsKey("x"))
-        {
-            return JsonSerializer.Deserialize<Point>(ref cloneReader, newOptions);
-        }
-
-        if (temp.ContainsKey("xmax"))
-        {
-            return JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);
-        }
-
-        return null;
-    }
-
-    public override void Write(Utf8JsonWriter writer, Geometry value, JsonSerializerOptions options)
-    {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
-    }
-}
-
-/// <summary>
-///     Possible types of geometries
-/// </summary>
-[JsonConverter(typeof(GeometryTypeConverter))]
-public enum GeometryType
-{
-#pragma warning disable CS1591
-    Point,
-    Multipoint,
-    Polyline,
-    Polygon,
-    Multipatch,
-    Mesh
-#pragma warning restore CS1591
-}
-
-internal class GeometryTypeConverter : EnumToKebabCaseStringConverter<GeometryType>
-{
-    public override GeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        string? value = reader.GetString()
-            ?.Replace("-", string.Empty)
-            .Replace("esri", string.Empty)
-            .Replace("Geometry", string.Empty)
-            .Replace("Type", string.Empty);
-
-        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default(GeometryType);
     }
 }

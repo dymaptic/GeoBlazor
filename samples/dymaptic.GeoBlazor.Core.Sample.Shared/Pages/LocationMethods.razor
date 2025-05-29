@@ -1,87 +1,62 @@
 ﻿@page "/locator-methods"
-@inject Locator Locator
+@inject LocationService LocationService
 <PageTitle>Locator Methods</PageTitle>
 <h1>Locator Methods</h1>
 
 
-<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+<div class="form-group">
 
     <h2>Addresses To Locations method</h2>
     <code>var locations =  _locations2 = await Location.AddressesToLocations([new Address("380 New York Street", "Redlands", "CA", "92373"), new Address("400 New York Street", "Redlands", "CA", "92373")]);</code>
-    <br />
-    <br />
     <label>
 
-        <button @onclick="AddressesToLocations">Addresses To Locations</button>
-        <br />
+        <button type="button" class="btn btn-primary" @onclick="AddressesToLocations">Addresses To Locations</button>
         <b>Address Candidates:</b>
         @foreach (var location in _locations2)
         {
             <div>@location?.Address  @location?.Score</div>
-            <br />
         }
     </label>
 </div>
-<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+<div class="form-group">
 
     <h2>Address To Locations method</h2>
     <code>var locations = await Locator.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"), outFields:new(){"*"});</code>
-    <br />
-    <br />
     <label>
 
-        <button @onclick="AddressToLocations">Address To Locations</button>
-        <br />
+        <button type="button" class="btn btn-secondary" @onclick="AddressToLocations">Address To Locations</button>
         <b>Address Candidates:</b>
         @foreach (var location in _locations1)
         {
-            <div>@location?.Address  @location?.Score</div>
-            <br />
+            <div>@location.Address  @location.Score</div>
         }
     </label>
 </div>
-<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+<div class="form-group">
 
     <h2>Location To Address method</h2>
     <code>var address = await Location.LocationToAddress(new Point(longitude: -111.93, latitude: 40.74));</code>
-    <br />
-    <br />
     <label>
 
-        <button @onclick="LocationToAddress">Location To Address</button>
-        <br />
+        <button type="button" class="btn btn-accent" @onclick="LocationToAddress">Location To Address</button>
         <b>Address:</b>
-
         <div>@_address?.Address  @_address?.Score</div>
-        <br />
-
     </label>
 </div>
-<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
-
-    <br />
+<div class="form-group">
     <h2>Suggest Locations method</h2>
     <code>List&lt;SuggestionResult&gt; results = await Location.SuggestLocations(new Point(longitude: -111.93, latitude: 40.74), "1");</code>
-    <br />
-    <br />
     <label>
-        <button @onclick="SuggestLocations">Suggest Locations</button>
-        <br />
+        <button type="button" class="btn btn-primary" @onclick="SuggestLocations">Suggest Locations</button>
         <b>Suggestions:</b>
         @foreach (var suggestion in _suggestions)
         {
             <div>@suggestion.Text</div>
-            <br />
         }
     </label>
-    <br />
 
 </div>
 @code {
-
-    Point point1 = new Point(longitude: -117.08, latitude: 34.1);
-    Point point2 = new Point(longitude: -111.93, latitude: 40.74);
-
 
     List<SuggestionResult> _suggestions = new();
     AddressCandidate? _address = null;
@@ -93,22 +68,22 @@
 
     private async Task AddressesToLocations()
     {
-        _locations2 = await Locator.AddressesToLocations([new Address("380 New York Street", "Redlands", "CA", "92373"), new Address("400 New York Street", "Redlands", "CA", "92373")]);
+        _locations2 = await LocationService.AddressesToLocations([new Address("380 New York Street", "Redlands", "CA", "92373"), new Address("400 New York Street", "Redlands", "CA", "92373")]);
     }
 
     private async Task AddressToLocations()
     {
-        _locations1 = await Locator.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"), outFields: new() { "*" });
+        _locations1 = await LocationService.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"), outFields: ["*"]);
     }
 
     private async Task SuggestLocations()
     {
-        _suggestions = await Locator.SuggestLocations(new Point(longitude: -111.93, latitude: 40.74), "1");
+        _suggestions = await LocationService.SuggestLocations(new Point(longitude: -111.93, latitude: 40.74), "1");
     }
 
     private async Task LocationToAddress()
     {
-        _address = await Locator.LocationToAddress(new Point(longitude: -111.93, latitude: 40.74));
+        _address = await LocationService.LocationToAddress(new Point(longitude: -111.93, latitude: 40.74));
     }
 
 

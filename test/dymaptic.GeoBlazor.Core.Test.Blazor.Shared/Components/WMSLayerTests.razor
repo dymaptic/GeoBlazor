@@ -1,0 +1,48 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@* ReSharper disable once InconsistentNaming *@
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderWMSLayerWithFeatureInfoFormats(Action renderHandler)
+    {
+#pragma warning disable GeoBlazor_Untested
+        WMSLayer? layer = null;
+        SceneView? sceneView = null;
+        bool layerViewCreated = false;
+
+        async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
+        {
+            Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+            WMSLayer createdLayer = (WMSLayer)createEvent.Layer;
+            Assert.AreEqual(layer?.Id, createdLayer.Id);
+            layerViewCreated = true;
+        }
+        AddMapRenderFragment(
+            @<SceneView @ref="sceneView"
+                                  class="map-view"
+                                  OnViewRendered="renderHandler"
+                                  OnLayerViewCreate="OnLayerViewCreated">
+                <Map>
+                    <WMSLayer @ref="layer" Url="https://wms.onmaps.de/?key=8e353de86b08dce9e2c4ca0f0f55c67c"
+                              SpatialReference="new SpatialReference(102100)">
+                    </WMSLayer>
+                </Map>
+            </SceneView>);
+        await WaitForMapToRender();
+        int tries = 100;
+        while (!layerViewCreated && tries > 0)
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsTrue(layerViewCreated);
+        await AssertJavaScript("assertLayerExists", args: "wms");
+#pragma warning restore GeoBlazor_Untested
+    }
+}

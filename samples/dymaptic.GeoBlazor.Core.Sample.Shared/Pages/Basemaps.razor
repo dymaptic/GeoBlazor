@@ -30,7 +30,7 @@
             From Portal Id
             <input type="radio"
                    name="basemap-type" @onclick="@(() => SetBasemap(1))" />
-            <div class="radio-box" />
+            <div class="radio-box"></div>
         </label>
         @if (_basemapType == 1)
         {
@@ -56,9 +56,9 @@
                    name="basemap-type" @onclick="@(() => SetBasemap(2))" />
             <div class="radio-box" />
         </label>
-        <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1b243539f4514b6ba35e7d995890db1d">World Hillshade Tile Layer</a>
+        <a class="btn btn-secondary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1b243539f4514b6ba35e7d995890db1d">World Hillshade Tile Layer</a>
         &nbsp;&nbsp;
-        <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=6976148c11bd497d8624206f9ee03e30">Forest and Parks Canvas Tile Layer</a>
+        <a class="btn btn-accent" target="_blank" href="https://www.arcgis.com/home/item.html?id=6976148c11bd497d8624206f9ee03e30">Forest and Parks Canvas Tile Layer</a>
     </div>
 </div>
 @switch (_basemapType)
@@ -76,7 +76,7 @@
         <MapView @ref="_mapView2" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
-                    <PortalItem Id="@_basemapId" />
+                    <PortalItem PortalItemId="@_basemapId" />
                 </Basemap>
             </Map>
         </MapView>
@@ -86,10 +86,10 @@
             <Map>
                 <Basemap>
                     <VectorTileLayer Opacity="0.75">
-                        <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
+                        <PortalItem PortalItemId="6976148c11bd497d8624206f9ee03e30" />
                     </VectorTileLayer>
                     <TileLayer>
-                        <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
+                        <PortalItem PortalItemId="1b243539f4514b6ba35e7d995890db1d" />
                     </TileLayer>
                 </Basemap>
             </Map>
@@ -104,16 +104,16 @@
         _basemapType = val;
     }
     
-    private void SelectStyleMapChanged(ChangeEventArgs obj)
+    private async Task SelectStyleMapChanged(ChangeEventArgs obj)
     {
         _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!, true);
-        _mapView1?.Refresh();
+        await _mapView1!.Refresh();
     }
 
-    private void SelectPortalMapChanged(ChangeEventArgs obj)
+    private async Task SelectPortalMapChanged(ChangeEventArgs obj)
     {
         _basemapId = obj.Value?.ToString() ?? "55ebf90799fa4a3fa57562700a68c405";
-        _mapView2?.Refresh();
+        await _mapView2!.Refresh();
     }
 
     private MapView? _mapView1;

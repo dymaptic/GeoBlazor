@@ -17,10 +17,10 @@
          PopupEnabled="false">
     <Map>
         <Basemap>
-            <PortalItem Id="00c8181753cd4673810a1ede1f52a922" />
+            <PortalItem PortalItemId="00c8181753cd4673810a1ede1f52a922" />
         </Basemap>
-        <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })">
-            <PortalItem Id="7a301e848a7c4bfcaefdac4fe98a7f99" />
+        <FeatureLayer @ref="_featureLayer" OutFields="@(["*"])">
+            <PortalItem PortalItemId="7a301e848a7c4bfcaefdac4fe98a7f99" />
         </FeatureLayer>
     </Map>
     <ExpandWidget ExpandTooltip="Show Legend" Position="OverlayPosition.TopRight">
@@ -96,12 +96,12 @@
         var query = new Query
         {
             Geometry = point,
-            OutFields = new[] { "*" },
+            OutFields = ["*"],
             SpatialRelationship = SpatialRelationship.Intersects,
             ReturnGeometry = false
         };
 
-        int[] objectIds = await _featureLayer!.QueryObjectIds(query);
+        ObjectId[] objectIds = await _featureLayer!.QueryObjectIds(query);
         if (!objectIds.Any())
         {
             return;
@@ -118,8 +118,8 @@
 
         var relationshipQuery = new RelationshipQuery
         {
-            OutFields = new[] { "NAME", "SUM_POPULATION" },
-            RelationshipId = _featureLayer.Relationships?.FirstOrDefault()?.Id,
+            OutFields = ["NAME", "SUM_POPULATION"],
+            RelationshipId = _featureLayer.Relationships?.FirstOrDefault()?.RelationshipId,
             ObjectIds = objectIds
         };
 
@@ -127,6 +127,6 @@
     }
 
     private FeatureLayer? _featureLayer;
-    private HighlightHandle? _highlight;
-    Dictionary<int, FeatureSet?>? _relatedFeatures;
+    private Handle? _highlight;
+    RelatedFeaturesQueryResult? _relatedFeatures;
 }

@@ -1,37 +1,160 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     The Basemap ListItem class represents two of the operational Items in the LayerList ViewModel. In the Basemap
-///     LayerList widget UI, the list items represent any base or reference layers displayed in the view. To display the
-///     ListItems as separate types, a developer will need to specify a base or reference. It provides access to the
-///     associated layer's properties, allows the developer to configure actions related to the layer, and allows the
-///     developer to add content to the item related to the layer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class BasemapLayerListWidget : Widget
+public partial class BasemapLayerListWidget : Widget
 {
-    /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "basemapLayerList";
-
     /// <summary>
-    ///     The widget's default label.
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Label { get; set; }
-
+    /// <param name="baseFilterText">
+    ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
+    ///     default ""
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseFilterText">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="baseListItemCreatedFunction">
+    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a> representing a base layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="basemapTitle">
+    ///     The current basemap's title.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#basemapTitle">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="catalogOptions">
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html">CatalogLayer</a> specific properties.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="collapsed">
+    ///     Indicates whether the widget is collapsed.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#collapsed">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="dragEnabled">
+    ///     Indicates whether <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a> may be reordered within the list by dragging and dropping.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#dragEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="editingTitle">
+    ///     Indicates whether the form to edit the basemap's title is currently visible.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#editingTitle">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="filterPlaceholder">
+    ///     Placeholder text used in the filter input if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
+    ///     default ""
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#filterPlaceholder">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="headingLevel">
+    ///     Indicates the heading level to use for the widget title (i.e.
+    ///     default 2
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="icon">
+    ///     Icon which represents the widget.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="label">
+    ///     The widget's label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="minFilterItems">
+    ///     The minimum number of list items required to display the visibleElements.filter input box.
+    ///     default 10
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#minFilterItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="referenceFilterText">
+    ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
+    ///     default ""
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceFilterText">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="referenceListItemCreatedFunction">
+    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a> representing a reference layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="selectedItems">
+    ///     A collection of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing basemap layers selected by the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectedItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="selectionMode">
+    ///     Specifies the selection mode.
+    ///     default "none"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectionMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="viewModel">
+    ///     The view model for this widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visibilityAppearance">
+    ///     Determines the icons used to indicate visibility.
+    ///     default "default"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibilityAppearance">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visibleElements">
+    ///     The visible elements that are displayed within the widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="widgetId">
+    ///     The unique ID assigned to the widget when the widget is created.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    [CodeGenerationIgnore]
+    public BasemapLayerListWidget(
+        string? baseFilterText = null,
+        Func<ListItem, Task<ListItem>>? baseListItemCreatedFunction = null,
+        string? basemapTitle = null,
+        BasemapLayerListCatalogOptions? catalogOptions = null,
+        bool? collapsed = null,
+        bool? dragEnabled = null,
+        bool? editingTitle = null,
+        string? filterPlaceholder = null,
+        int? headingLevel = null,
+        string? icon = null,
+        string? label = null,
+        double? minFilterItems = null,
+        string? referenceFilterText = null,
+        Func<ListItem, Task<ListItem>>? referenceListItemCreatedFunction = null,
+        IReadOnlyList<ListItem>? selectedItems = null,
+        SelectionMode? selectionMode = null,
+        BasemapLayerListViewModel? viewModel = null,
+        VisibilityAppearance? visibilityAppearance = null,
+        BasemapLayerListWidgetVisibleElements? visibleElements = null,
+        string? widgetId = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        BaseFilterText = baseFilterText;
+        OnBaseListItemCreatedHandler = baseListItemCreatedFunction;
+        BasemapTitle = basemapTitle;
+        CatalogOptions = catalogOptions;
+        Collapsed = collapsed;
+        DragEnabled = dragEnabled;
+        EditingTitle = editingTitle;
+        FilterPlaceholder = filterPlaceholder;
+        HeadingLevel = headingLevel;
+        Icon = icon;
+        Label = label;
+        MinFilterItems = minFilterItems;
+        ReferenceFilterText = referenceFilterText;
+        OnReferenceListItemCreatedHandler = referenceListItemCreatedFunction;
+        SelectedItems = selectedItems;
+        SelectionMode = selectionMode;
+        ViewModel = viewModel;
+        VisibilityAppearance = visibilityAppearance;
+        VisibleElements = visibleElements;
+        WidgetId = widgetId;
+#pragma warning restore BL0005    
+    }
+    
+    /// <inheritdoc />
+    public override WidgetType Type => WidgetType.BasemapLayerList;
+    
     /// <summary>
     ///     A delegate to implement a custom handler for setting up a base type of<see cref="ListItem" />.
     ///     Function must take in a ListItem and return a Task with the designated base type of item.
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public Func<ListItem, Task<ListItem>>? OnBaseListItemCreatedHandler { get; set; }
     
     /// <summary>
@@ -39,6 +162,7 @@ public class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public string? BasemapTitle { get; set; }
     
     /// <summary>
@@ -47,6 +171,8 @@ public class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Deprecated since GeoBlazor V4. Use SelectionMode, VisibleElements.EditTitleButton, and DragEnabled instead.")]
+    [CodeGenerationIgnore]
     public bool? EditingEnabled { get; set; }
     
     /// <summary>
@@ -55,6 +181,7 @@ public class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public int? HeadingLevel { get; set; }
     
     /// <summary>
@@ -63,23 +190,15 @@ public class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Deprecated since GeoBlazor v4. Use SelectionMode instead.")]
+    [CodeGenerationIgnore]
     public bool? MultipleSelectionEnabled { get; set; }
 
-    /// <summary>
-    ///     The visible elements that are displayed within the widget. This property provides the ability to turn individual elements of the widget's display on/off.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BasemapLayerListWidgetVisibleElements? VisibleElements { get; set; }
-
-    /// <summary>
-    ///     The .Net object reference to this class for calling from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<BasemapLayerListWidget> BaseLayerListWidgetObjectReference =>
-        DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="OnBaseListItemCreatedHandler" /> was registered.
     /// </summary>
+    [CodeGenerationIgnore]
     public bool HasCustomBaseListHandler => OnBaseListItemCreatedHandler is not null;
 
     /// <summary>
@@ -88,12 +207,13 @@ public class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public Func<ListItem, Task<ListItem>>? OnReferenceListItemCreatedHandler { get; set; }
 
     /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="OnReferenceListItemCreatedHandler" /> was
-    ///     registered.
+    ///     A convenience property that signifies whether a custom <see cref="OnReferenceListItemCreatedHandler" /> was registered.
     /// </summary>
+    [CodeGenerationIgnore]
     public bool HasCustomReferenceListHandler => OnReferenceListItemCreatedHandler is not null;
 
     /// <summary>
@@ -109,16 +229,17 @@ public class BasemapLayerListWidget : Widget
     ///     For internal use only. This returns an object simply for JavaScript serialization purposes.
     /// </remarks>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task<object> OnBaseListItemCreated(ListItem item)
     {
+        item.Parent = this;
         ListItem result = await OnBaseListItemCreatedHandler!.Invoke(item);
 
         return (object)result;
     }
 
     /// <summary>
-    ///     A JavaScript invokable method that is triggered whenever a reference type ListItem is created and a handler is
-    ///     attached.
+    ///     A JavaScript invokable method that is triggered whenever a reference type ListItem is created and a handler is attached.
     /// </summary>
     /// <param name="item">
     ///     The <see cref="ListItem" /> from the original source.
@@ -127,86 +248,56 @@ public class BasemapLayerListWidget : Widget
     ///     Returns the modified reference <see cref="ListItem" />
     /// </returns>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task<object> OnReferenceListItemCreated(ListItem item)
     {
+        item.Parent = this;
         ListItem result = await OnReferenceListItemCreatedHandler!.Invoke(item);
         
         return (object)result;
     }
-
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
+    
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
-        switch (child)
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        BasemapLayerListTriggerActionEvent triggerActionEvent = JsonSerializer.Deserialize<BasemapLayerListTriggerActionEvent>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        if (BaseItems is not null)
         {
-            case BasemapLayerListWidgetVisibleElements visibleElements:
-                VisibleElements = visibleElements;
-                WidgetChanged = true;
-                
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
+            foreach (ListItem listItem in BaseItems)
+            {
+                if (listItem.ActionsSections is not null)
+                {
+                    foreach (ActionBase action in listItem.ActionsSections.SelectMany(s => s))
+                    {
+                        if (action.ActionId == triggerActionEvent.Action?.ActionId && action.CallbackFunction is not null)
+                        {
+                            await action.CallbackFunction.Invoke();
+                        }
+                    }
+                }
+            }
         }
+        
+        await OnTriggerAction.InvokeAsync(triggerActionEvent);
     }
     
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case BasemapLayerListWidgetVisibleElements _:
-                VisibleElements = null;
-                WidgetChanged = true;
+    /// <summary>
+    ///     Event Listener for TriggerAction.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<BasemapLayerListTriggerActionEvent> OnTriggerAction { get; set; }
 
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
-    
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        VisibleElements?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
-    }
-}
-
-/// <summary>
-///     The visible elements that are displayed within the widget. This property provides the ability to turn individual elements of the widget's display on/off.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class BasemapLayerListWidgetVisibleElements: MapComponent
-{
-    /// <summary>
-    ///     Indicates whether to the status indicators will be displayed. Default is true.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? StatusIndicators { get; set; }
-    
-    /// <summary>
-    ///     Indicates whether to the base layers will be displayed. Default is true.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? BaseLayers { get; set; }
-    
-    /// <summary>
-    ///     Indicates whether the reference layers will be displayed. Default is true.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ReferenceLayers { get; set; }
-    
-    /// <summary>
-    ///     Indicates whether layer load errors will be displayed. Default is false.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Errors { get; set; }
 }
