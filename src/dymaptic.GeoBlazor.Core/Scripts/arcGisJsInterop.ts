@@ -112,7 +112,6 @@ const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
 let loadedLayers: string[] = [];
-let loadedWidgets: string[] = [];
 
 export let Pro: any;
 
@@ -254,10 +253,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             mapObject.layers.concat(mapObject.basemap?.layers ?? [])
                 .filter(l => !loadedLayers.includes(l.type)), id);
         loadedLayers = loadedLayers.concat(newLayers);
-        let newWidgets = await preloadWidgetTypes(widgets
-            .filter(w => !loadedWidgets.includes(w.type)), id);
-        loadedWidgets = loadedWidgets.concat(newWidgets);
-        if (newLayers.length > 0 || newWidgets.length > 0){
+        if (newLayers.length > 0){
             await delayTask(200);
         }
 
