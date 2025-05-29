@@ -68,8 +68,12 @@ public partial class Basemap : MapComponent, IPortalLayer
         switch (child)
         {
             case Layer layer:
-                await View!.RemoveLayer(layer, layer.IsBasemapReferenceLayer != true, 
-                    layer.IsBasemapReferenceLayer == true);
+                // Basemap might be declared outside the view for BasemapToggleWidget
+                if (View is not null)
+                {
+                    await View!.RemoveLayer(layer, layer.IsBasemapReferenceLayer != true, 
+                        layer.IsBasemapReferenceLayer == true);
+                }
                 
                 break;
             default:

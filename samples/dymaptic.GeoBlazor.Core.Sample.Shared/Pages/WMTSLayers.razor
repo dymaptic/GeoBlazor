@@ -1,0 +1,41 @@
+@page "/wmtslayers"
+
+
+<h3>WMTS Layers</h3>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-wmts/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.ign.es/web/ign/portal">Instituto Geográfico Nacional</a>
+</div>
+<p class="instructions">
+    This sample shows how to add an instance of WMTSLayer. The WMTSLayer is used to create layers based on OGC Web Map Tile Service (WMTS). Typically, a WMTS service acts as a directory of WMTS layers, you can set a specific layer using the activeLayer property, (or else it will default to the first sublayer). The WMTSLayer initially executes a WMTS GetCapabilities request, which might require CORS or a proxy page.
+</p>
+<p class="instructions">
+    The layers used in this sample are from <a target="_blank" href="https://www.ign.es/">Instituto Geográfico Nacional</a>. Use the Basemap Toggle component to toggle between the layers.
+</p>
+
+<Basemap @ref="_orthoIGNBasemap" 
+         ThumbnailUrl="https://www.ign.es/wmts/mapa-raster?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=MTN&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=GoogleMapsCompatible&TILEMATRIX=6&TILEROW=24&TILECOL=31">
+    <WMTSLayer Url="https://www.ign.es/wmts/mapa-raster"
+               ActiveLayer="@(new WMTSSublayer(wMTSSublayerId: "MTN", tileMatrixSetId: "GoogleMapsCompatible"))"
+               ServiceMode="ServiceMode.KVP"
+               Copyright="@("<a href=\"https://www.ign.es/\" target=\"_blank\">Instituto Geográfico Nacional</a>")"/>
+</Basemap>
+
+<MapView class="map-view" Scale="4622333" Longitude="-3.7038" Latitude="40.4168">
+    <Map>
+        <Basemap @ref="_plainIGNBasemap" 
+                 ThumbnailUrl="https://www.ign.es/wmts/ign-base?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=IGNBase-gris&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=GoogleMapsCompatible&TILEMATRIX=6&TILEROW=24&TILECOL=31">
+            <WMTSLayer Url="https://www.ign.es/wmts/ign-base"
+                       ActiveLayer="@(new WMTSSublayer(wMTSSublayerId: "IGNBase-gris", tileMatrixSetId: "GoogleMapsCompatible"))"
+                       ServiceMode="ServiceMode.KVP"
+                       Copyright="@("<a href=\"https://www.ign.es/\" target=\"_blank\">Instituto Geográfico Nacional</a>")"/>
+        </Basemap>
+    </Map>
+    <BasemapToggleWidget Position="OverlayPosition.BottomLeft" NextBasemap="_orthoIGNBasemap" />
+</MapView>
+
+@code {
+    private Basemap? _plainIGNBasemap;
+    private Basemap? _orthoIGNBasemap;
+}
