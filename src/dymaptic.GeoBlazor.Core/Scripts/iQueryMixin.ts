@@ -1,8 +1,8 @@
 
 export async function buildJsIQueryMixin(dotNetObject: any): Promise<any> {
-    // NOT NEEDED
+    // NOT USED
 }     
 
 export async function buildDotNetIQueryMixin(jsObject: any): Promise<any> {
-    // NOT NEEDED
+    // NOT USED
 }

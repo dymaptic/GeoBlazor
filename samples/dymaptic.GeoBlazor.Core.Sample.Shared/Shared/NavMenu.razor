@@ -19,7 +19,7 @@
                 <NavLink class="@linkClass" href="@(page.Href)" @onclick:preventDefault="true" Match="NavLinkMatch.All">
                     @if (page.IconClass is not null)
                     {
-                        <text><span class="oi @(page.IconClass)" aria-hidden="true"></span><span class="nav-item-title">@(page.Title)</span>)</text>
+                        <text><span class="oi @(page.IconClass)" aria-hidden="true"></span><span class="nav-item-title">@(page.Title)</span></text>
                     }
                     else
                     {
@@ -120,6 +120,7 @@
         new("georss-layer", "GeoRSS Layer", "oi-rss"),
         new("osm-layer", "OpenStreetMaps Layer", null, "osm.png"),
         new("wcslayers", "WCS Layers", "oi-project"),
+        new("wfslayers", "WFS Layers", null, "wfs.svg"),
         new("bingmaps-layer", "Bing Maps Layer", null, "bing.png"),
         new("imagerylayer", "Imagery Layers", "oi-image"),
         new("imagery-tile-layer", "Imagery Tile Layers", null, "tile.png"),

@@ -1347,7 +1347,7 @@ export function lookupGeoBlazorId(jsObject: any): string | null {
             continue;
         }
         if (item === jsObject
-            || item.uid === jsObject.uid) {
+            || (hasValue(jsObject.uid) && item.uid === jsObject.uid)) {
             return key;
         }
     }
@@ -1368,7 +1368,7 @@ export function lookupGeoBlazorGraphicId(jsObject: any): string | null {
                 continue;
             }
             if (item === jsObject
-                || (item as any).uid === jsObject.uid) {
+                || (hasValue(jsObject.uid) && item.uid === jsObject.uid)) {
                 return k2;
             }
         }
