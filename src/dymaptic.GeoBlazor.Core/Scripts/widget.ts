@@ -101,6 +101,14 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
             } catch (e) {
                 throw e;
             }
+        case 'print':
+            try {
+                // @ts-ignore only available in GeoBlazor Pro
+                let {buildJsPrintWidget} = await import('./printWidget');
+                return await buildJsPrintWidget(dotNetObject, layerId, viewId);
+            } catch (e) {
+                throw e;
+            }
         case 'sketch':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
