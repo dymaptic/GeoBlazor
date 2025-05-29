@@ -713,16 +713,6 @@ public partial class WFSLayer : Layer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
     
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerwfscapabilities-property">GeoBlazor Docs</a>
-    ///     WFS service information about the available layers and operations.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#wfsCapabilities">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public WFSCapabilities? WfsCapabilities { get; set; }
-    
 #endregion
 
 #region Property Getters
@@ -3618,14 +3608,6 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetWfsCapabilities(WFSCapabilities? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         WfsCapabilities = value;
 #pragma warning restore BL0005
@@ -4000,18 +3982,6 @@ public partial class WFSLayer : Layer,
                 }
                 
                 return true;
-            case WFSCapabilities wfsCapabilities:
-                if (wfsCapabilities != WfsCapabilities)
-                {
-                    WfsCapabilities = wfsCapabilities;
-                    ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -4066,10 +4036,6 @@ public partial class WFSLayer : Layer,
                 TrackInfo = null;
                 ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
                 return true;
-            case WFSCapabilities _:
-                WfsCapabilities = null;
-                ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
-                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -4108,7 +4074,6 @@ public partial class WFSLayer : Layer,
         Renderer?.ValidateRequiredGeneratedChildren();
         SpatialReference?.ValidateRequiredGeneratedChildren();
         TrackInfo?.ValidateRequiredGeneratedChildren();
-        WfsCapabilities?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       
