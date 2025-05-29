@@ -22,6 +22,8 @@ If ((Test-Path -Path $OutputRegex) -eq $false)
     Try
     {
         Write-Output "Copying Assets to wwwroot/assets"
+        # run NPM install to ensure the assets are available
+        npm install
         Copy-Item -Path $SourceFiles -Destination $OutputDir -Recurse
     }
     Catch
