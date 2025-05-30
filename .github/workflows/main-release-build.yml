@@ -91,17 +91,6 @@ jobs:
             Exit 1
         }
         
-    - name: Add & Commit
-      # Only run this step if the branch is main
-      if: github.ref == 'refs/heads/main'
-      continue-on-error: true
-      run: |
-        git config --global user.name "dymaptic"
-        git config --global user.email "geoblazor@dymaptic.com"
-        git add .
-        git commit -m "Pipeline Build Commit of Nuget Version Bump"
-        git push
-        
       # This step will copy the PR description to an environment variable
     - name: Copy PR Release Notes
       run: |
