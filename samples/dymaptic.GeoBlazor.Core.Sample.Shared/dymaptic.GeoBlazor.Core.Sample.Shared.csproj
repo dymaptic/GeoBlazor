@@ -43,7 +43,7 @@
         <Folder Include="wwwroot\pages"/>
     </ItemGroup>
 
-    <Target Name="Copy Razor Files" AfterTargets="Build" Condition="$(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="Copy Razor Files" AfterTargets="Build" Condition="$(Configuration) == 'DEBUG'">
         <Exec Command="pwsh ./razorCopy.ps1"/>
     </Target>
 </Project>

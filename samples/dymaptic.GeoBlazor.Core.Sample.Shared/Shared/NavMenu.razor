@@ -32,11 +32,20 @@
 </div>
 
 @code {
+    [Inject]
+    public required JsModuleManager JsModuleManager { get; set; }
+    
     [Parameter]
     public string? SearchText { get; set; }
     
     [Parameter]
     public bool EnterKeyPressed { get; set; }
+    
+    [JSInvokable]
+    public void OnViewReady()
+    {
+        _viewReady = true;
+    }
     
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
     private IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(SearchText)
@@ -47,13 +56,20 @@
     {
         base.OnInitialized();
 
-        NavigationManager.RegisterLocationChangingHandler(LocationChanged);
+        _navDisposer = NavigationManager.RegisterLocationChangingHandler(LocationChanged);
     }
 
-    private ValueTask LocationChanged(LocationChangingContext arg)
+    private async ValueTask LocationChanged(LocationChangingContext arg)
     {
+        int tries = 0;
+        while (!_viewReady && tries < 10)
+        {
+            tries++;
+            // Wait until the view is ready before disposing all views
+            await Task.Delay(100);
+        }
+        _ = await JsRuntime.InvokeAsync<bool>("disposeAllViews");
         StateHasChanged();
-        return ValueTask.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -62,6 +78,9 @@
 
         if (firstRender)
         {
+            IJSObjectReference? pro = await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationToken.None);
+            IJSObjectReference core = await JsModuleManager.GetArcGisJsCore(JsRuntime, pro, CancellationToken.None);
+            await JsRuntime.InvokeVoidAsync("initializeGeoBlazor", core);
             StateHasChanged();
         }
         
@@ -69,6 +88,7 @@
             .ToBaseRelativePath(NavigationManager.Uri)
             .Replace("source-code/", "");
         await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
+        await JsRuntime.InvokeVoidAsync("checkMapViewReady", DotNetObjectReference.Create(this));
 
         if (EnterKeyPressed)
         {
@@ -87,14 +107,24 @@
     
     private async Task NavigateTo(string href)
     {
-        await InvokeAsync(() =>
+        await JsRuntime.InvokeVoidAsync("setWaitCursor", true);
+        await InvokeAsync(async () =>
         {
+            _viewReady = false;
             NavigationManager.NavigateTo(href);
+            await JsRuntime.InvokeVoidAsync("setWaitCursor", false);
             StateHasChanged();
         });
     }
+    
+    public void Dispose()
+    {
+        _navDisposer?.Dispose();
+    }
 
+    private bool _viewReady;
     private bool _collapseNavMenu = true;
+    private IDisposable? _navDisposer;
     
     public static readonly PageLink[] Pages =
     {

@@ -284,6 +284,11 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
             }
     }
 
+    // check again, navigation or other changes may cause the layer to be null
+    if (!hasValue(jsObject.layer)) {
+        return null;
+    }
+    
     dnLayerView.type = jsObject.layer.type;
     dnLayerView.layerId = layerId;
 

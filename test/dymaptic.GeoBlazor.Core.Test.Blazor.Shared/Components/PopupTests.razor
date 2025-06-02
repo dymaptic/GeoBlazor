@@ -99,4 +99,69 @@
         await Task.Delay(1000);
         Assert.AreEqual(2, callbackCalled);
     }
+
+    [TestMethod]
+    public async Task TestPopupsWithFieldInfoContent(Action renderHandler)
+    {
+        Random random = new();
+        List<Graphic> graphics = [];
+        for (int i = 0; i < 100; i++)
+        {
+            Point location = new(random.Next(-180, 180), random.Next(-90, 90));
+            Symbol symbol = new SimpleMarkerSymbol(new Outline(new MapColor("black"), 1), 
+                new MapColor("green"));
+            PopupTemplate popupTemplate = new("{Name}",
+                content:
+                [
+                    new FieldsPopupContent(
+                    [
+                        new FieldInfo("Category"),
+                        new FieldInfo("SubCategory"),
+                        new FieldInfo("Latitude"),
+                        new FieldInfo("Longitude"),
+                        new FieldInfo("Quantity"),
+                        new FieldInfo("Weight")
+                    ])
+                ]);
+            AttributesDictionary attributes = new(new Dictionary<string, object?>
+            {
+                { "OBJECT_ID", random.Next(1, 1000) },
+                { "Category", "shipment" },
+                { "SubCategory", "stuff" },
+                { "Name", "my stuff" },
+                { "Latitude", location.Latitude },
+                { "Longitude", location.Longitude },
+                { "Quantity", random.Next(1, 100) },
+                { "Weight", random.Next(1, 1000) }
+            });
+
+            Graphic graphic = new(location, symbol, popupTemplate, attributes);
+            graphics.Add(graphic);
+        }
+
+        GraphicsLayer? layer = null;
+        
+        AddMapRenderFragment(
+            @<MapView Class="map-view" OnViewRendered="renderHandler">
+                <PopupWidget DefaultPopupTemplateEnabled="true" />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisStreetsReliefBase" />
+                    </Basemap>
+                    <GraphicsLayer @ref="layer">
+
+                    </GraphicsLayer>
+                </Map>
+            </MapView>);
+        
+        await WaitForMapToRender();
+        
+        Assert.IsNotNull(layer);
+        
+        await layer!.AddMany(graphics);
+        
+        await Task.Delay(500); // Allow time for the graphics to render
+
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer.Id, "point", 100]);
+    }
 }
