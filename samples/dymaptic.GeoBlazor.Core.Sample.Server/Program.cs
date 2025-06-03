@@ -6,11 +6,8 @@ using Microsoft.AspNetCore.StaticFiles;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<HttpClient>();
-builder.Services.AddScoped<SharedFileProvider>();
 builder.Services.AddGeoBlazor(builder.Configuration);
 builder.Configuration.AddInMemoryCollection();
 

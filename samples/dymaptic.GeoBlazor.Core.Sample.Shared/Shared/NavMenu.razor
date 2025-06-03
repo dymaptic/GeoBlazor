@@ -1,4 +1,5 @@
-﻿@inject IJSRuntime JsRuntime
+﻿@implements IDisposable
+@inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
 
 <div class="top-row navbar">
@@ -81,13 +82,13 @@
             IJSObjectReference? pro = await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationToken.None);
             IJSObjectReference core = await JsModuleManager.GetArcGisJsCore(JsRuntime, pro, CancellationToken.None);
             await JsRuntime.InvokeVoidAsync("initializeGeoBlazor", core);
+            string currentPage = NavigationManager
+                .ToBaseRelativePath(NavigationManager.Uri)
+                .Replace("source-code/", "");
+            await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
             StateHasChanged();
         }
         
-        string currentPage = NavigationManager
-            .ToBaseRelativePath(NavigationManager.Uri)
-            .Replace("source-code/", "");
-        await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
         await JsRuntime.InvokeVoidAsync("checkMapViewReady", DotNetObjectReference.Create(this));
 
         if (EnterKeyPressed)
