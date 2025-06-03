@@ -69,6 +69,9 @@
             // Wait until the view is ready before disposing all views
             await Task.Delay(100);
         }
+        
+        // Blazor will sometimes remove DOM elements before all the asynchronous disposal is complete on navigation.
+        // This will ensure that all views are disposed before the navigation can occur.
         _ = await JsRuntime.InvokeAsync<bool>("disposeAllViews");
         StateHasChanged();
     }
@@ -79,6 +82,7 @@
 
         if (firstRender)
         {
+            // instantiate GeoBlazor modules here so we can initialize our JS and register the views
             IJSObjectReference? pro = await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationToken.None);
             IJSObjectReference core = await JsModuleManager.GetArcGisJsCore(JsRuntime, pro, CancellationToken.None);
             await JsRuntime.InvokeVoidAsync("initializeGeoBlazor", core);
