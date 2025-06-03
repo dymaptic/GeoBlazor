@@ -44,3 +44,51 @@ function elementIsVisible(item) {
     return (eleTop >= 0 && eleBottom <= window.innerHeight);
 }
 
+let Core;
+let arcGisObjectRefs = {};
+
+window.initializeGeoBlazor = (core) => {
+    Core = core;
+    arcGisObjectRefs = Core.arcGisObjectRefs;
+}
+
+window.checkMapViewReady = (dotNetRef) => {
+    const mapDivs = document.getElementsByClassName('map-container');
+    for (let i = 0; i < mapDivs.length; i++) {
+        const mapContainer = mapDivs[i];
+        if (mapContainer.id && mapContainer.id.startsWith('map-container-')) {
+            const viewId = mapContainer.id.replace('map-container-', '');
+            if (arcGisObjectRefs.hasOwnProperty(viewId)) {
+                const view = arcGisObjectRefs[viewId];
+                if (view && view.ready) {
+                    dotNetRef.invokeMethodAsync('OnViewReady', viewId);
+                }
+            }
+        }
+    }
+}
+
+window.disposeAllViews = async () => {
+    setWaitCursor(true);
+    
+    const mapDivs = document.getElementsByClassName('map-container');
+    
+    for (let i = 0; i < mapDivs.length; i++) {
+        const mapContainer = mapDivs[i];
+        if (mapContainer.id && mapContainer.id.startsWith('map-container-')) {
+            const viewId = mapContainer.id.replace('map-container-', '');
+            if (arcGisObjectRefs.hasOwnProperty(viewId)) {
+                for (const id in arcGisObjectRefs) {
+                    if (id === viewId) {
+                        continue;
+                    }
+                    await Core.disposeMapComponent(id);
+                }
+                await Core.disposeView(viewId);
+            }
+        }
+    }
+    
+    setWaitCursor(false);
+    return true;
+}

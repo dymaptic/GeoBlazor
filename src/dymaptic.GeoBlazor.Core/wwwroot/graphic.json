@@ -586,10 +586,6 @@
                           "type": "string",
                           "id": 1
                         },
-                        "returnType": {
-                          "type": "string",
-                          "id": 2
-                        },
                         "title": {
                           "type": "string",
                           "id": 3

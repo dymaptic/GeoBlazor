@@ -12,8 +12,6 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<HttpClient>();
-builder.Services.AddScoped<SharedFileProvider>();
 builder.Services.AddGeoBlazor(builder.Configuration);
 builder.Configuration.AddInMemoryCollection();
 

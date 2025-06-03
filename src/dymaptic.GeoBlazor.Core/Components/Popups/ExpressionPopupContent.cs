@@ -18,7 +18,7 @@ public partial class ExpressionPopupContent : PopupContent
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
-            ExpressionInfo = ExpressionInfo
+            ExpressionInfo = ExpressionInfo?.ToSerializationRecord()
         };
     }
 }
