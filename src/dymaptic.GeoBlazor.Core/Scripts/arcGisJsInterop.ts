@@ -818,49 +818,53 @@ export function toScreen(mapPoint: any, viewId: string): ScreenPoint {
 }
 
 export function disposeView(viewId: string): void {
-    const view = arcGisObjectRefs[viewId] as MapView;
-    view?.destroy();
-    delete arcGisObjectRefs[viewId];
-    delete dotNetRefs[viewId];
-    for (const key in arcGisObjectRefs) {
-        const component = arcGisObjectRefs[key];
-        if (!hasValue(component) || component.destroyed) {
-            delete arcGisObjectRefs[key];
+    try {
+        const view = arcGisObjectRefs[viewId] as MapView;
+        view?.destroy();
+        delete arcGisObjectRefs[viewId];
+        delete dotNetRefs[viewId];
+        for (const key in arcGisObjectRefs) {
+            const component = arcGisObjectRefs[key];
+            if (!hasValue(component) || component.destroyed) {
+                delete arcGisObjectRefs[key];
+            }
         }
-    }
-    for (const key in jsObjectRefs) {
-        const component = jsObjectRefs[key];
-        if (!hasValue(component) || component.destroyed) {
-            delete jsObjectRefs[key];
+        for (const key in jsObjectRefs) {
+            const component = jsObjectRefs[key];
+            if (!hasValue(component) || component.destroyed) {
+                delete jsObjectRefs[key];
+            }
         }
-    }
-    for (const key in dotNetRefs) {
-        const component = dotNetRefs[key];
-        if (!hasValue(component) || component.destroyed) {
-            delete dotNetRefs[key];
+        for (const key in dotNetRefs) {
+            const component = dotNetRefs[key];
+            if (!hasValue(component) || component.destroyed) {
+                delete dotNetRefs[key];
+            }
         }
-    }
-    for (const key in popupTemplateRefs) {
-        const component = popupTemplateRefs[key];
-        if (!hasValue(component) || component.destroyed) {
-            delete popupTemplateRefs[key];
+        for (const key in popupTemplateRefs) {
+            const component = popupTemplateRefs[key];
+            if (!hasValue(component) || component.destroyed) {
+                delete popupTemplateRefs[key];
+            }
         }
-    }
-    for (const key in graphicsRefs) {
-        const component = graphicsRefs[key];
-        if (!hasValue(component) || component.destroyed) {
-            delete graphicsRefs[key];
+        for (const key in graphicsRefs) {
+            const component = graphicsRefs[key];
+            if (!hasValue(component) || component.destroyed) {
+                delete graphicsRefs[key];
+            }
         }
-    }
-    for (const key in actionHandlers) {
-        const component = actionHandlers[key];
-        if (!hasValue(component) || component.destroyed) {
-            delete actionHandlers[key];
+        for (const key in actionHandlers) {
+            const component = actionHandlers[key];
+            if (!hasValue(component) || component.destroyed) {
+                delete actionHandlers[key];
+            }
         }
-    }
-    if (triggerActionHandlers.hasOwnProperty(viewId)) {
-        triggerActionHandlers[viewId].remove();
-        delete triggerActionHandlers[viewId];
+        if (triggerActionHandlers.hasOwnProperty(viewId)) {
+            triggerActionHandlers[viewId].remove();
+            delete triggerActionHandlers[viewId];
+        }
+    } catch {
+        // ignore
     }
 }
 
@@ -898,8 +902,7 @@ export async function disposeMapComponent(componentId: string, viewId: string): 
         view?.ui?.remove(component as any);
         component.destroy();
     }
-    catch
-    {
+    catch {
         // ignore
     }
 }
