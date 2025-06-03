@@ -2109,6 +2109,7 @@ public partial class MapView : MapComponent
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {
+        await CancellationTokenSource.CancelAsync();
         try
         {
             if (CoreJsModule != null)

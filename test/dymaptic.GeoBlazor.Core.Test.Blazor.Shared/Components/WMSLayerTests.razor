@@ -16,7 +16,7 @@
         SceneView? sceneView = null;
         bool layerViewCreated = false;
 
-        async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
+        void OnLayerViewCreated(LayerViewCreateEvent createEvent)
         {
             Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
             WMSLayer createdLayer = (WMSLayer)createEvent.Layer;

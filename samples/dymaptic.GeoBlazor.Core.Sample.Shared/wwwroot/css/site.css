@@ -149,18 +149,6 @@ code {
     padding: 0.25rem;
 }
 
-pre, .highlight pre, .highlight {
-    background-color: var(--code-background);
-}
-
-code.large-code-block {
-    padding: 0;
-
-    pre {
-        background-color: var(--code-background);
-    }
-}
-
 i.icon {
     display: inline-block;
     width: 1rem;

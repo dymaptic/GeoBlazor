@@ -1,6 +1,7 @@
 // override generated code in this file
 import PortalItemGenerated from './portalItem.gb';
 import PortalItem from '@arcgis/core/portal/PortalItem';
+import { hasValue, esriConfig } from './arcGisJsInterop';
 
 export default class PortalItemWrapper extends PortalItemGenerated {
 
@@ -10,6 +11,11 @@ export default class PortalItemWrapper extends PortalItemGenerated {
 }
 
 export async function buildJsPortalItem(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (hasValue(dotNetObject.apiKey)) {
+        esriConfig.apiKey = null;
+        // this will be re-added in GeoBlazor's `AuthenticationManager` on the next MapView.
+    }
+
     let {buildJsPortalItemGenerated} = await import('./portalItem.gb');
     return await buildJsPortalItemGenerated(dotNetObject, layerId, viewId);
 }

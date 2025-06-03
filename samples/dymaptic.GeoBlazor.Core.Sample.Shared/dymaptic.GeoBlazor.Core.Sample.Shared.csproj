@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
     </PropertyGroup>
@@ -38,12 +38,4 @@
             <BaseSize>300,293</BaseSize>
         </Content>
     </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="wwwroot\pages"/>
-    </ItemGroup>
-
-    <Target Name="Copy Razor Files" AfterTargets="Build" Condition="$(TargetFrameworks.StartsWith($(TargetFramework)))">
-        <Exec Command="pwsh ./razorCopy.ps1"/>
-    </Target>
 </Project>

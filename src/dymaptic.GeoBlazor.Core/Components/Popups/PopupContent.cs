@@ -37,7 +37,7 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
     public string? Title { get; init; }
 
     [ProtoMember(5)]
-    public ElementExpressionInfo? ExpressionInfo { get; init; }
+    public ElementExpressionInfoSerializationRecord? ExpressionInfo { get; init; }
 
     [ProtoMember(6)]
     public FieldInfoSerializationRecord[]? FieldInfos { get; init; }
@@ -82,7 +82,7 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
             {
                 Id = id
             },
-            "expression" => new ExpressionPopupContent(ExpressionInfo) { Id = id },
+            "expression" => new ExpressionPopupContent(ExpressionInfo?.FromSerializationRecord()) { Id = id },
             "media" => new MediaPopupContent(Title, Description,
                 MediaInfos?.Select(i => i.FromSerializationRecord()).ToArray(),
                 ActiveMediaInfoIndex) { Id = id },

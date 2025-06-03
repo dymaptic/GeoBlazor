@@ -1,4 +1,5 @@
-﻿@inject IJSRuntime JsRuntime
+﻿@implements IDisposable
+@inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
 
 <div class="top-row navbar">
@@ -32,11 +33,20 @@
 </div>
 
 @code {
+    [Inject]
+    public required JsModuleManager JsModuleManager { get; set; }
+    
     [Parameter]
     public string? SearchText { get; set; }
     
     [Parameter]
     public bool EnterKeyPressed { get; set; }
+    
+    [JSInvokable]
+    public void OnViewReady()
+    {
+        _viewReady = true;
+    }
     
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
     private IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(SearchText)
@@ -47,13 +57,23 @@
     {
         base.OnInitialized();
 
-        NavigationManager.RegisterLocationChangingHandler(LocationChanged);
+        _navDisposer = NavigationManager.RegisterLocationChangingHandler(LocationChanged);
     }
 
-    private ValueTask LocationChanged(LocationChangingContext arg)
+    private async ValueTask LocationChanged(LocationChangingContext arg)
     {
+        int tries = 0;
+        while (!_viewReady && tries < 10)
+        {
+            tries++;
+            // Wait until the view is ready before disposing all views
+            await Task.Delay(100);
+        }
+        
+        // Blazor will sometimes remove DOM elements before all the asynchronous disposal is complete on navigation.
+        // This will ensure that all views are disposed before the navigation can occur.
+        _ = await JsRuntime.InvokeAsync<bool>("disposeAllViews");
         StateHasChanged();
-        return ValueTask.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -62,13 +82,18 @@
 
         if (firstRender)
         {
+            // instantiate GeoBlazor modules here so we can initialize our JS and register the views
+            IJSObjectReference? pro = await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationToken.None);
+            IJSObjectReference core = await JsModuleManager.GetArcGisJsCore(JsRuntime, pro, CancellationToken.None);
+            await JsRuntime.InvokeVoidAsync("initializeGeoBlazor", core);
+            string currentPage = NavigationManager
+                .ToBaseRelativePath(NavigationManager.Uri)
+                .Replace("source-code/", "");
+            await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
             StateHasChanged();
         }
         
-        string currentPage = NavigationManager
-            .ToBaseRelativePath(NavigationManager.Uri)
-            .Replace("source-code/", "");
-        await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
+        await JsRuntime.InvokeVoidAsync("checkMapViewReady", DotNetObjectReference.Create(this));
 
         if (EnterKeyPressed)
         {
@@ -87,17 +112,27 @@
     
     private async Task NavigateTo(string href)
     {
-        await InvokeAsync(() =>
+        await JsRuntime.InvokeVoidAsync("setWaitCursor", true);
+        await InvokeAsync(async () =>
         {
+            _viewReady = false;
             NavigationManager.NavigateTo(href);
+            await JsRuntime.InvokeVoidAsync("setWaitCursor", false);
             StateHasChanged();
         });
     }
-
-    private bool _collapseNavMenu = true;
     
-    public static readonly PageLink[] Pages =
+    public void Dispose()
     {
+        _navDisposer?.Dispose();
+    }
+
+    private bool _viewReady;
+    private bool _collapseNavMenu = true;
+    private IDisposable? _navDisposer;
+    
+    public virtual PageLink[] Pages =>
+    [
         new("", "Home", "oi-home"),
         new("navigation", "Navigation", "oi-compass"),
         new("drawing", "Drawing", "oi-pencil"),
@@ -149,7 +184,7 @@
         new("locator-methods", "Locator Methods", "oi-task"),
         new("search-multi-source", "Search Multiple Sources", "oi-magnifying-glass"),
         new("reverse-geolocator", "GeoLocator", "oi-arrow-circle-bottom")
-    };
+    ];
 
     public record PageLink(string Href, string Title, string? IconClass, string? ImageFile = null, bool Pro = false);
 }

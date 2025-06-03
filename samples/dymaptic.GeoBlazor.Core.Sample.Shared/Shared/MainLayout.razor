@@ -59,13 +59,6 @@ else
                         <img src="/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/search.svg" alt="Search" />
                     </label>
                 </div>
-                @if (!NavigationManager.Uri.Contains("source-code") &&
-                    NavigationManager.Uri != NavigationManager.BaseUri &&
-                    !NavigationManager.Uri.Contains("about"))
-                {
-                    <button type="button" class="btn btn-primary" @onclick="ViewPageSource">Source Code</button>
-                }
-                <button type="button" class="btn btn-secondary" @onclick="ViewRepositorySource">GitHub Repo</button>
                 @{
                     string? apiKey = Configuration["ArcGISApiKey"];
                     string? loggedIn = Configuration["LoggedIn"];
@@ -158,17 +151,6 @@ else
         string loginUrl = $"https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id={Configuration["ClientId"]}" +
             $"&response_type=code&expiration=3600&redirect_uri={callback}";
         NavigationManager.NavigateTo(loginUrl);
-    }
-
-    private void ViewPageSource()
-    {
-        string currentPageUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        NavigationManager.NavigateTo($"source-code/{currentPageUrl}");
-    }
-
-    private void ViewRepositorySource()
-    {
-        NavigationManager.NavigateTo("https://github.com/dymaptic/GeoBlazor");
     }
     
     private void UpdateSearchFilter(ChangeEventArgs arg)
