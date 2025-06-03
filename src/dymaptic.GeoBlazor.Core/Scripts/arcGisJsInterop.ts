@@ -295,7 +295,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                     basemap: basemap,
                     ground: mapObject.ground
                 });
-                
                 view = new SceneView({
                     container: `map-container-${id}`,
                     map: scene
