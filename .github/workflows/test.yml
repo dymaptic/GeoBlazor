@@ -1,0 +1,50 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Test Recreate Issue with .NET 9 Blazor Web App
+
+on:
+  push:
+    branches: [ "pipeline-test" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      # Get the current version of .NET
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+
+      # Get the current version of NPM
+      - name: Update NPM
+        uses: actions/setup-node@v4
+        with:
+          node-version: '>=22.11.0'
+          check-latest: 'true'
+        
+        # This step will install the NPM dependencies and build the JS files with ESBuild
+        # The assetCopy.ps1 script will copy the ArcGIS Asset files to the correct location
+      - name: Copy Assets and Generate JS
+        shell: pwsh
+        run: |
+          cd ./src/dymaptic.GeoBlazor.Core
+          npm install
+          npm run releaseBuild
+          ./assetCopy.ps1
+          cd ../..
+        
+        # Builds the Samples project
+      - name: Restore Samples
+        run: dotnet restore ./samples/dymaptic.GeoBlazor.Core.Sample.WebApp/dymaptic.GeoBlazor.Core.Sample.WebApp.csproj
+      - name: Build Samples
+        run: dotnet build ./samples/dymaptic.GeoBlazor.Core.Sample.WebApp/dymaptic.GeoBlazor.Core.Sample.WebApp.csproj -c Release --no-restore /p:OptOutFromCoreEsBuild=true /p:GeneratePackage=false
+      - name: Publish Samples
+        run: dotnet publish ./samples/dymaptic.GeoBlazor.Core.Sample.WebApp/dymaptic.GeoBlazor.Core.Sample.WebApp.csproj -c Release --no-restore --no-build /p:OptOutFromCoreEsBuild=true /p:GeneratePackage=false --output samples/dymaptic.GeoBlazor.Core.Sample.WebApp/published
