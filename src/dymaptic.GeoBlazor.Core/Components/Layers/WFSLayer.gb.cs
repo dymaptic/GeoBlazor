@@ -2165,45 +2165,6 @@ public partial class WFSLayer : Layer,
         return Url;
     }
     
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the WfsCapabilities property.
-    /// </summary>
-    public async Task<WFSCapabilities?> GetWfsCapabilities()
-    {
-        if (CoreJsModule is null)
-        {
-            return WfsCapabilities;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return WfsCapabilities;
-        }
-
-        WFSCapabilities? result = await JsComponentReference.InvokeAsync<WFSCapabilities?>(
-            "getWfsCapabilities", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            WfsCapabilities = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
-        }
-        
-        return WfsCapabilities;
-    }
-    
 #endregion
 
 #region Property Setters
@@ -3598,43 +3559,6 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the WfsCapabilities property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetWfsCapabilities(WFSCapabilities? value)
-    {
-#pragma warning disable BL0005
-        WfsCapabilities = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(WfsCapabilities)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setWfsCapabilities", 
-            CancellationTokenSource.Token, value);
     }
     
 #endregion
