@@ -12,8 +12,10 @@
     Popup actions create custom buttons or toggles within the popup, and allow the developer to call back to a custom function.
 </p>
 
-<MapView @ref="MapView" OnViewRendered="OnViewRendered"
-         Center="new Point(-117.08, 34.1)" Zoom="11" Class="map-view">
+<MapView @ref="MapView"
+         Center="new Point(-117.08, 34.1)" 
+         Zoom="11" 
+         Class="map-view">
     <Map>
         <Basemap>
             <PortalItem PortalItemId="f35ef07c9ed24020aadd65c8a65d3754" />
@@ -27,15 +29,11 @@
             </PopupTemplate>
         </FeatureLayer>
     </Map>
+    <PopupWidget @ref="_popup" />
 </MapView>
 
 @code {
     private MapView? MapView { get; set; }
-
-    private async Task OnViewRendered()
-    {
-        _popup = await MapView!.GetPopupWidget();
-    }
 
     private async Task MeasureThis()
     {

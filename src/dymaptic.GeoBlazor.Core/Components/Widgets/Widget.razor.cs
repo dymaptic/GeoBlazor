@@ -436,6 +436,12 @@ public abstract partial class Widget : MapComponent
 
         if (View is null && MapView is not null && !_externalWidgetRegistered)
         {
+            int tries = 10;
+            while (!MapRendered && !IsDisposed && tries > 0)
+            {
+                await Task.Delay(200);
+                tries--;
+            }
             await MapView!.AddWidget(this);
             _externalWidgetRegistered = true;
         }
