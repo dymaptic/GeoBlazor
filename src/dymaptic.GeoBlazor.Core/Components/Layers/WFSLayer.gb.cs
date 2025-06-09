@@ -3600,43 +3600,6 @@ public partial class WFSLayer : Layer,
             JsComponentReference, "url", value);
     }
     
-    /// <summary>
-    ///    Asynchronously set the value of the WfsCapabilities property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetWfsCapabilities(WFSCapabilities? value)
-    {
-#pragma warning disable BL0005
-        WfsCapabilities = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(WfsCapabilities)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setWfsCapabilities", 
-            CancellationTokenSource.Token, value);
-    }
-    
 #endregion
 
 #region Add to Collection Methods

@@ -858,30 +858,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         await base.SetParametersAsync(parameters);
         
         _layerId ??= Layer?.Id;
-
-        if (_layerId is not null && Layer is null && View?.Map is not null)
-        {
-            foreach (Layer layer in View.Map.Layers)
-            {
-                if (layer.Id == _layerId)
-                {
-                    Layer = layer;
-                    break;
-                }
-
-                if (layer is IGroupLayer { Layers: not null } groupLayer)
-                {
-                    foreach (Layer subLayer in groupLayer.Layers)
-                    {
-                        if (subLayer.Id == _layerId)
-                        {
-                            Layer = subLayer;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
         
         foreach (KeyValuePair<string, object?> kvp in ModifiedParameters)
         {
