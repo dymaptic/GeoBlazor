@@ -691,10 +691,6 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
-    if (hasValue(dotNetObject.wfsCapabilities)) {
-        let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
-        properties.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities) as any;
-    }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
         properties.id = dotNetObject.arcGISLayerId;

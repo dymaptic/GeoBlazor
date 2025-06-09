@@ -2165,6 +2165,45 @@ public partial class WFSLayer : Layer,
         return Url;
     }
     
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the WfsCapabilities property.
+    /// </summary>
+    public async Task<WFSCapabilities?> GetWfsCapabilities()
+    {
+        if (CoreJsModule is null)
+        {
+            return WfsCapabilities;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return WfsCapabilities;
+        }
+
+        WFSCapabilities? result = await JsComponentReference.InvokeAsync<WFSCapabilities?>(
+            "getWfsCapabilities", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            WfsCapabilities = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
+        }
+        
+        return WfsCapabilities;
+    }
+    
 #endregion
 
 #region Property Setters
