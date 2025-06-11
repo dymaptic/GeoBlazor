@@ -57,7 +57,7 @@ export default class AuthenticationManager {
 
     async getToken(): Promise<string | null> {
         if (this.appId === undefined) {
-            return esriConfig.apiKey;
+            return esriConfig.apiKey as string;
         }
         try {
             let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
@@ -68,5 +68,21 @@ export default class AuthenticationManager {
             return null;
         }
 
+    }
+    
+    registerToken(token: string, expires) {
+        let server: string;
+        if (this.info?.portalUrl !== undefined && this.info?.portalUrl !== null) {
+            server = this.info.portalUrl + "/portal/sharing/rest";
+        } else {
+            server = "https://www.arcgis.com/sharing/rest";
+        }
+        
+        IdentityManager.registerToken({
+            expires: expires,
+            server: server,
+            ssl: true,
+            token: token
+        });
     }
 }
