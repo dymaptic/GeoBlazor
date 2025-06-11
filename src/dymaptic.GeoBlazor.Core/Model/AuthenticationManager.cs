@@ -71,7 +71,7 @@ public class AuthenticationManager
     }
 
     /// <summary>
-    ///     The current ArcGIS API Key or OAuth token. This is used to authenticate requests to the ArcGIS REST API.
+    ///     Get or set the ArcGIS Application Api Key.
     /// </summary>
     public string? ApiKey
     {
