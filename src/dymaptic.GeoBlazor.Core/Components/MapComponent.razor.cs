@@ -1281,32 +1281,27 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="watchExpression">
     ///     The tracked expression that was triggered.
     /// </param>
-    /// <param name="value">
+    /// <param name="jsStreamReference">
     ///     The return value of the watcher callback.
     /// </param>
 #pragma warning restore CS1574, CS0419
     [JSInvokable]
-    public void OnReactiveWatcherUpdate(string watchExpression, JsonElement? value)
+    public async Task OnReactiveWatcherUpdate(string watchExpression, IJSStreamReference? jsStreamReference)
     {
         Delegate handler = _watchers[watchExpression].Handler;
         Type returnType = handler.Method.GetParameters()[0].ParameterType;
         object? typedValue = null;
 
-        if (value.HasValue)
+        if (jsStreamReference is not null)
         {
-            var stringValue = value.Value.ToString();
-            JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
-
-            typedValue = value.Value.ValueKind switch
-            {
-                JsonValueKind.Object => value.Value.Deserialize(returnType, options),
-                JsonValueKind.Array => value.Value.Deserialize(returnType, options),
-                JsonValueKind.False => false,
-                JsonValueKind.True => true,
-                JsonValueKind.Number => Convert.ChangeType(stringValue, returnType),
-                JsonValueKind.String => stringValue,
-                _ => typedValue
-            };
+            await using Stream stream = await jsStreamReference
+                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using MemoryStream ms = new();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            byte[] encodedJson = ms.ToArray();
+            string jsonValue = Encoding.UTF8.GetString(encodedJson);
+            typedValue = JsonSerializer.Deserialize(jsonValue, returnType, GeoBlazorSerialization.JsonSerializerOptions);
         }
 
         handler.DynamicInvoke(typedValue);
@@ -1422,32 +1417,27 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="eventName">
     ///     The tracked event that was triggered.
     /// </param>
-    /// <param name="value">
+    /// <param name="jsStreamReference">
     ///     The return value of the watcher callback.
     /// </param>
 #pragma warning restore CS1574, CS0419
     [JSInvokable]
-    public void OnReactiveListenerTriggered(string eventName, JsonElement? value)
+    public async Task OnReactiveListenerTriggered(string eventName, IJSStreamReference? jsStreamReference)
     {
         Delegate handler = _listeners[eventName].Handler;
         Type returnType = handler.Method.GetParameters()[0].ParameterType;
         object? typedValue = null;
-
-        if (value.HasValue)
+        
+        if (jsStreamReference is not null)
         {
-            var stringValue = value.Value.ToString();
-            JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
-
-            typedValue = value.Value.ValueKind switch
-            {
-                JsonValueKind.Object => value.Value.Deserialize(returnType, options),
-                JsonValueKind.Array => value.Value.Deserialize(returnType, options),
-                JsonValueKind.False => false,
-                JsonValueKind.True => true,
-                JsonValueKind.Number => Convert.ChangeType(stringValue, returnType),
-                JsonValueKind.String => stringValue,
-                _ => typedValue
-            };
+            await using Stream stream = await jsStreamReference
+                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            await using MemoryStream ms = new();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            byte[] encodedJson = ms.ToArray();
+            string jsonValue = Encoding.UTF8.GetString(encodedJson);
+            typedValue = JsonSerializer.Deserialize(jsonValue, returnType);
         }
 
         handler.DynamicInvoke(typedValue);
