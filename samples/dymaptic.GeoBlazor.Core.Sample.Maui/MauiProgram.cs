@@ -23,6 +23,7 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 
+        builder.Services.AddScoped<HttpClient>();
         builder.Configuration.AddInMemoryCollection();
 
         var executingAssembly = Assembly.GetExecutingAssembly();
