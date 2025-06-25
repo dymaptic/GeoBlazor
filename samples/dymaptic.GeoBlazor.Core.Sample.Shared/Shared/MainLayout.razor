@@ -8,6 +8,7 @@
 <PageTitle>dymaptic.GeoBlazor.Core</PageTitle>
 @if (JsRuntime.GetType().Name.Contains("WebView"))
 {
+    // in MAUI or other Hybrid apps, we can inject the styles directly into the body
     @if (_isDarkMode)
     {
         <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/dark/main.css" rel="stylesheet" />
@@ -16,15 +17,10 @@
     {
         <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
     }
-    <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
-    <script>
-        window.isDarkMode = () => {
-            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        }
-    </script>
 }
 else
 {
+    // in Blazor WebAssembly or Server, we use the HeadContent component
     <HeadContent>
         @if (_isDarkMode)
         {
@@ -34,12 +30,6 @@ else
         {
             <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
         }
-        <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
-        <script>
-            window.isDarkMode = () => {
-                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            }
-        </script>
     </HeadContent>
 }
 
