@@ -54,6 +54,11 @@ export default class AuthenticationManager {
     doLogin(): void {
         IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
     }
+    
+    doLogout(): void {
+        IdentityManager.destroyCredentials();
+        window.location.reload();
+    }
 
     async getToken(): Promise<string | null> {
         if (this.appId === undefined) {
