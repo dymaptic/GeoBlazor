@@ -191,6 +191,21 @@ export function testThrow() {
     throw new Error("Test throw");
 }
 
+export async function clickOnMap(methodName, lon, lat) {
+    let view = getView(methodName);
+    let point = view.spatialReference.isWGS84
+        ? { type: "point", longitude: lon, latitude: lat }
+        : { type: "point", x: lon, y: lat, spatialReference: view.spatialReference };
+    let screenPoint = await view.toScreen(point);
+    const event = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        clientX: screenPoint.x,
+        clientY: screenPoint.y,
+    });
+    view.container.dispatchEvent(event);
+}
+
 export async function clickOnPopupAction(methodName) {
     let view = getView(methodName);
     let layer = view.map.layers.items[0];

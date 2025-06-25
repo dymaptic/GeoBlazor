@@ -6,26 +6,17 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
     </PropertyGroup>
-
-
+    
     <ItemGroup>
         <SupportedPlatform Include="browser" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.15" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.6.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.6" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.6" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.9.3" />
     </ItemGroup>
-
-    <ItemGroup>
-        <AdditionalFiles Include="Components\BaseMapTests.razor" />
-        <AdditionalFiles Include="Components\GeometryTests.razor" />
-        <AdditionalFiles Include="Components\GraphicsTests.razor" />
-        <AdditionalFiles Include="Components\TestRunnerBase.razor" />
-        <AdditionalFiles Include="Components\WidgetTests.razor" />
-    </ItemGroup>
-
+    
     <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'DEBUG' OR $(UseProjectReference) == 'true'">
         <Message Importance="high" Text="Using GeoBlazor Core Project Reference" />
     </Target>
@@ -38,49 +29,5 @@
     <ItemGroup Condition="$(Configuration) == 'RELEASE' AND $(UseProjectReference) != 'true'">
         <PackageReference Include="dymaptic.GeoBlazor.Core" Version="$(CoreVersion)" />
     </ItemGroup>
-    <ItemGroup>
-      <UpToDateCheckInput Remove="GeneratedTestSamples\AreaMeasurement2DWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\BasemapGalleryWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\BasemapLayerListWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\BasemapToggleWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\BaseTileLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\BingMapsLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\BookmarksWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\CompassWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\CSVLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\DistanceMeasurement2DWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\ExpandWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\FeatureLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\GeoJSONLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\GeoRSSLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\GraphicsLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\HomeWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\ImageryLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\ImageryTileLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\KMLLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\LayerListWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\LegendWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\ListItemPanelWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\LocateWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\MapImageLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\MeasurementWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\OpenStreetMapLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\PopupWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\ScaleBarWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\SearchWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\SliderWidgetGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\TileLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\VectorTileLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\WCSLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\WebTileLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\WFSLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\WMSLayerGeneratedTests.razor" />
-      <UpToDateCheckInput Remove="GeneratedTestSamples\WMTSLayerGeneratedTests.razor" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="GeneratedTestSamples\" />
-    </ItemGroup>
-    
-    
     
 </Project>

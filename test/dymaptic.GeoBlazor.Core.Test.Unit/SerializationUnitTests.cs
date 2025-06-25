@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 using Point = dymaptic.GeoBlazor.Core.Components.Geometries.Point;
 
 
-namespace dymaptic.GeoBlazor.Core.Test;
+namespace dymaptic.GeoBlazor.Core.Test.Unit;
 
 [TestClass]
 public class SerializationUnitTests

@@ -4,7 +4,7 @@ using Microsoft.Playwright;
 using System.Diagnostics;
 
 
-namespace dymaptic.GeoBlazor.Core.Test;
+namespace dymaptic.GeoBlazor.Core.Test.Unit;
 
 [TestClass]
 public class PlaywrightTests

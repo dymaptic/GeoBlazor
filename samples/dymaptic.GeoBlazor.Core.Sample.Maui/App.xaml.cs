@@ -9,8 +9,6 @@ public partial class App
     {
         _configuration = configuration;
         InitializeComponent();
-
-        MainPage = new MainPage();
     }
 
     protected override void OnSleep()
@@ -23,6 +21,11 @@ public partial class App
         }
 
         base.OnSleep();
+    }
+    
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(new MainPage()) { Title = "GeoBlazor Samples" };
     }
 
     private readonly IConfiguration _configuration;

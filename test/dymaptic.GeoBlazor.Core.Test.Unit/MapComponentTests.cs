@@ -1,7 +1,7 @@
 using dymaptic.GeoBlazor.Core.Components;
 using dymaptic.GeoBlazor.Core.Exceptions;
 
-namespace dymaptic.GeoBlazor.Core.Test;
+namespace dymaptic.GeoBlazor.Core.Test.Unit;
 
 [TestClass]
 public class MapComponentTests

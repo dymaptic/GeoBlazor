@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 
-namespace dymaptic.GeoBlazor.Core.Test.Blazor.Wasm;
+
+namespace dymaptic.GeoBlazor.Core.Test.WebApp.Client;
 
 public class WasmApplicationLifetime: IHostApplicationLifetime
 {

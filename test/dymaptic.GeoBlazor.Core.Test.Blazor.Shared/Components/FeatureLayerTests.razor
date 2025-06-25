@@ -443,4 +443,43 @@
         Assert.IsNotNull(results);
         Assert.IsTrue(results.Features!.Count > 0);
     }
+    
+    [TestMethod]
+    public async Task TestCanRenderFeatureLayersInALoop(Action renderHandler)
+    {
+        List<string> portalIds = [
+            "7afec250e02845868db89c83949a672f",
+            "7a7d92cef2c442c1a352d902e1f2f577",
+            "f6adcf5dcb8244258db5cb421a7f3a97",
+            "2be4ad6652c649cbaea2be211555b1cf"
+        ];
+        MapView? mapView = null;
+        bool clickHandlerCalled = false;
+
+        void OnClickHandler()
+        {
+            clickHandlerCalled = true;
+        }
+        
+        AddMapRenderFragment(
+            @<MapView @ref="mapView" class="map-view" 
+                      OnViewRendered="renderHandler"
+                      OnClick="OnClickHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+                    @foreach (string id in portalIds)
+                    {
+                        <FeatureLayer>
+                            <PortalItem PortalItemId="@id" />
+                        </FeatureLayer>
+                    }
+                </Map>
+            </MapView>);
+        
+        await WaitForMapToRender();
+        await AssertJavaScript("clickOnMap", args: [0, 0]);
+        await AssertJavaScript("assertLayerExists", args: "feature");
+    }
 }
