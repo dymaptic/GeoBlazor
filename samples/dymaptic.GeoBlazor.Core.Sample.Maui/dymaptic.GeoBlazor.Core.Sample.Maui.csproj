@@ -7,9 +7,7 @@
         <RootNamespace>dymaptic.GeoBlazor.Core.Sample.Maui</RootNamespace>
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
-        <ImplicitUsings>enable</ImplicitUsings>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
         <NoWarn>PRI249</NoWarn>
 
@@ -31,8 +29,6 @@
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <DefaultLanguage>en</DefaultLanguage>
         <UserSecretsId>bc0064d4-5c37-4d55-bf88-ae9d58312baa</UserSecretsId>
-        <Nullable>enable</Nullable>
-        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
     </PropertyGroup>
 
     <ItemGroup>

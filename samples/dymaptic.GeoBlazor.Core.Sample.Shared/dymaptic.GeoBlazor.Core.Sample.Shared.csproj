@@ -2,8 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
     </PropertyGroup>
 
 

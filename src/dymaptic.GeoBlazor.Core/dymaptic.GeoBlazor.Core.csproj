@@ -22,10 +22,6 @@
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE' AND $(GeneratePackage) != 'false'">true</GeneratePackageOnBuild>
         <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
         <NoWarn>GeoBlazor_Untested</NoWarn>
     </PropertyGroup>
 
