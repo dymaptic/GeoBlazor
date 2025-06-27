@@ -30,15 +30,15 @@
 
 @code {
     [Inject]
-    private IConfiguration Configuration { get; set; } = default!;
+    public required IConfiguration Configuration { get; set; }
 
     [Inject]
-    private IJSRuntime JSRuntime { get; set; } = default!;
+    public required IJSRuntime JSRuntime { get; set; }
     
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode") switch
+        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode", "Auto") switch
         {
             "Server" => InteractiveServer,
             "WebAssembly" => InteractiveWebAssembly,

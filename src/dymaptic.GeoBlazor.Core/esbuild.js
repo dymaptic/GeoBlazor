@@ -11,6 +11,7 @@ const isRelease = args.includes('--release');
 
 const TIMESTAMP_FILE = '.esbuild-timestamp.json';
 const SCRIPTS_DIR = path.resolve('./Scripts');
+const OUTPUT_DIR = path.resolve('./wwwroot/js');
 
 function getAllScriptFiles(dir) {
     let results = [];
@@ -68,11 +69,25 @@ let options = {
         cleanPlugin()]
 }
 
+// check if output directory exists
+if (!fs.existsSync(OUTPUT_DIR)) {
+    console.log('Output directory does not exist. Creating it.');
+    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+}
+
 if (!isWatch) {
     const lastTimestamp = getLastBuildTimestamp();
     if (!scriptsModifiedSince(lastTimestamp)) {
-        console.log('No changes in Scripts folder since last build. Skipping build.');
-        process.exit(0);
+        console.log('No changes in Scripts folder since last build.');
+        
+        // check output directory for existing files
+        const outputFiles = fs.readdirSync(OUTPUT_DIR);
+        if (outputFiles.length > 0) {
+            console.log('Output directory is not empty. Skipping build.');
+            process.exit(0);
+        } else {
+            console.log('Output directory is empty. Proceeding with build.');
+        }
     }
 }
 

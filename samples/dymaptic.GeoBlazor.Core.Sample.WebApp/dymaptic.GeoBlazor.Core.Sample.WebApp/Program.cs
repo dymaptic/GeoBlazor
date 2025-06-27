@@ -1,8 +1,8 @@
 using dymaptic.GeoBlazor.Core;
-using dymaptic.GeoBlazor.Core.Sample.Shared;
 using dymaptic.GeoBlazor.Core.Sample.Shared.Shared;
 using dymaptic.GeoBlazor.Core.Sample.WebApp.Client;
 using dymaptic.GeoBlazor.Core.Sample.WebApp.Components;
+using Microsoft.AspNetCore.StaticFiles;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -13,6 +13,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddGeoBlazor(builder.Configuration);
+builder.Services.AddScoped<HttpClient>();
 builder.Configuration.AddInMemoryCollection();
 
 WebApplication app = builder.Build();
@@ -28,7 +29,19 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+#if ENABLE_COMPRESSION
+app.MapStaticAssets();
+#else
+var provider = new FileExtensionContentTypeProvider
+{
+    Mappings = { [".wsv"] = "application/octet-stream" }
+};
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = provider
+});
+#endif
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()

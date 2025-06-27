@@ -62,7 +62,6 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        IComponentRenderMode? oldRenderMode = _configuredRenderMode;
         _configuredRenderMode = Configuration.GetValue<string?>("RenderMode", "Auto") switch
         {
             "Server" => InteractiveServer,
@@ -70,11 +69,6 @@
             "Auto" => InteractiveAuto,
             _ => null
         };
-        
-        if (oldRenderMode != _configuredRenderMode)
-        {
-            StateHasChanged();
-        }
     }
 #endif
 
