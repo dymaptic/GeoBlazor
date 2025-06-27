@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Sample.Shared;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
 
