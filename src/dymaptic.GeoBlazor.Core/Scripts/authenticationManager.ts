@@ -70,7 +70,7 @@ export default class AuthenticationManager {
 
     }
     
-    registerToken(token: string, expires) {
+    registerToken(token: string, expires: number) {
         let server: string;
         if (this.info?.portalUrl !== undefined && this.info?.portalUrl !== null) {
             server = this.info.portalUrl + "/portal/sharing/rest";
