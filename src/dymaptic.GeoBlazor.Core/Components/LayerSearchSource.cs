@@ -26,6 +26,15 @@ public partial class LayerSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SuggestionTemplate { get; set; }
 
+    /// <summary>
+    ///     JS-invokable method to get the layer from JavaScript. For internal use only.
+    /// </summary>
+    [JSInvokable]
+    public Layer? GetLayerFromJs()
+    {
+        return Layer;
+    }
+
     /// <inheritdoc/>
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -35,6 +44,7 @@ public partial class LayerSearchSource : SearchSource
                 if (!layer.Equals(Layer))
                 {
                     Layer = layer;
+                    LayerId = layer.Id;
                 }
 
                 break;
@@ -51,6 +61,7 @@ public partial class LayerSearchSource : SearchSource
         {
             case Layer _:
                 Layer = null;
+                LayerId = null;
                 break;
             default:
                 await base.UnregisterChildComponent(child);

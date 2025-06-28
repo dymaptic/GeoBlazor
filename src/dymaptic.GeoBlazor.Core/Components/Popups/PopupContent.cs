@@ -158,6 +158,7 @@ internal class PopupContentConverter : JsonConverter<PopupContent>
 
                 break;
             case "custom":
+                // CustomPopupContent is in GeoBlazor Pro assembly, so we need to use reflection to get the type
                 Type? customType = Type.GetType("dymaptic.GeoBlazor.Pro.Components.Popups.CustomPopupContent, dymaptic.GeoBlazor.Pro");
 
                 if (customType is not null)
