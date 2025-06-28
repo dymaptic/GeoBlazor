@@ -115,11 +115,11 @@ public abstract class LogicComponent : IDisposable
     /// <param name="method">
     ///     The name of the JS function to call.
     /// </param>
-    /// <param name="parameters">
-    ///     The collection of parameters to pass to the JS call.
-    /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    /// <param name="parameters">
+    ///     The collection of parameters to pass to the JS call.
     /// </param>
     protected virtual async Task<T> InvokeAsync<T>(string method, CancellationToken cancellationToken, params object?[] parameters)
     {

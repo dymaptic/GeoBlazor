@@ -77,9 +77,10 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
 
         if (Type == "custom")
         {
+            // CustomPopupContent is in GeoBlazor Pro assembly, so we need to use reflection to get the type
             Type? customType = System.Type.GetType("dymaptic.GeoBlazor.Pro.Components.Popups.CustomPopupContent, dymaptic.GeoBlazor.Pro");
 
-            if (customType is not null)
+            if (customType is not null && customType.IsSubclassOf(typeof(PopupContent)))
             {
                 PopupContent? customContent = Activator.CreateInstance(customType, args: [null, OutFields]) as PopupContent;
 
@@ -161,7 +162,7 @@ internal class PopupContentConverter : JsonConverter<PopupContent>
                 // CustomPopupContent is in GeoBlazor Pro assembly, so we need to use reflection to get the type
                 Type? customType = Type.GetType("dymaptic.GeoBlazor.Pro.Components.Popups.CustomPopupContent, dymaptic.GeoBlazor.Pro");
 
-                if (customType is not null)
+                if (customType is not null && customType.IsSubclassOf(typeof(PopupContent)))
                 {
                     content =
                         JsonSerializer.Deserialize(jsonDoc.RootElement.GetRawText(), customType, options) as PopupContent;
