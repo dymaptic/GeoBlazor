@@ -10,20 +10,6 @@
     overflow-x: hidden;
 }
 
-.form-group {
-    border: 1px solid black;
-    padding: 0.5rem 2rem;
-    background-image: linear-gradient(180deg, var(--geoblazor-tertiary) 0%, var(--geoblazor-primary) 100%);
-    margin: 1rem;
-    color: white;
-    min-width: 30rem;
-    height: 10rem;
-}
-
-.form-group .table {
-    color: white;
-}
-
 .react-label {
     display: block;
     font-size: 1.3rem;
