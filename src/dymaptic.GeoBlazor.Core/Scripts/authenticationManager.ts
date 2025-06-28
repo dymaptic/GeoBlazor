@@ -70,7 +70,20 @@ export default class AuthenticationManager {
 
     }
     
-    registerToken(token: string, expires: number) {
+    getTokenExpires(): number | null {
+        if (this.appId === undefined) {
+            return null;
+        }
+        try {
+            let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
+            return credential.expires;
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    }
+    
+    registerToken(token: string, expires: number): void {
         let server: string;
         if (this.info?.portalUrl !== undefined && this.info?.portalUrl !== null) {
             server = this.info.portalUrl + "/portal/sharing/rest";

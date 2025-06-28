@@ -237,6 +237,7 @@ public class AuthenticationManager
     public async Task RegisterToken(string token, DateTimeOffset expires)
     {
         await Initialize();
+        TokenExpirationDateTime = expires.DateTime;
         await _module!.InvokeVoidAsync("registerToken", token, expires.ToUnixTimeMilliseconds());
     }
     
@@ -250,7 +251,11 @@ public class AuthenticationManager
             return TokenExpirationDateTime;
         }
         await Initialize();
-        TokenExpirationDateTime = await _module!.InvokeAsync<DateTime?>("getTokenExpirationDateTime");
+        long? expiresInMilliseconds = await _module!.InvokeAsync<long?>("getTokenExpires");
+        if (expiresInMilliseconds is not null)
+        {
+            TokenExpirationDateTime = DateTimeOffset.FromUnixTimeMilliseconds(expiresInMilliseconds.Value).UtcDateTime;
+        }
         
         return TokenExpirationDateTime;
     }
