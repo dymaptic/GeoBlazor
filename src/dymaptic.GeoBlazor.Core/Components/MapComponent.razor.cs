@@ -648,18 +648,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         try
         {
-            await using Stream stream = await jsonStreamReference
-                .OpenReadStreamAsync(1_000_000_000L);
-            await using MemoryStream ms = new();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            byte[] encodedJson = ms.ToArray();
-            string instantiatedComponentJson = Encoding.UTF8.GetString(encodedJson);
-            // deserialize to this type
-            JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
-
-            if (JsonSerializer.Deserialize(instantiatedComponentJson, MapComponentType, options) 
-                is MapComponent deserialized)
+            if (await ReadJsStreamReference(jsonStreamReference, MapComponentType) is MapComponent deserialized)
             {
                 instantiatedComponent = deserialized;
                 CopyProperties(instantiatedComponent);
@@ -947,6 +936,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             await Parent.RenderView(forceRender);
         }
+    }
+
+    private async Task<object?> ReadJsStreamReference(IJSStreamReference jsStreamReference, Type returnType)
+    {
+        await using Stream stream = await jsStreamReference
+            .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        return JsonSerializer.Deserialize(json, returnType, GeoBlazorSerialization.JsonSerializerOptions);
     }
 
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
@@ -1297,14 +1298,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         if (jsStreamReference is not null)
         {
-            await using Stream stream = await jsStreamReference
-                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
-            using MemoryStream ms = new();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            byte[] encodedJson = ms.ToArray();
-            string jsonValue = Encoding.UTF8.GetString(encodedJson);
-            typedValue = JsonSerializer.Deserialize(jsonValue, returnType, GeoBlazorSerialization.JsonSerializerOptions);
+            typedValue = await ReadJsStreamReference(jsStreamReference, returnType);
         }
 
         handler.DynamicInvoke(typedValue);
@@ -1433,14 +1427,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         
         if (jsStreamReference is not null)
         {
-            await using Stream stream = await jsStreamReference
-                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
-            await using MemoryStream ms = new();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            byte[] encodedJson = ms.ToArray();
-            string jsonValue = Encoding.UTF8.GetString(encodedJson);
-            typedValue = JsonSerializer.Deserialize(jsonValue, returnType);
+            typedValue = await ReadJsStreamReference(jsStreamReference, returnType);
         }
 
         handler.DynamicInvoke(typedValue);
