@@ -913,8 +913,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             await Parent.RenderView(forceRender);
         }
     }
+    
+    protected async Task<T?> ReadJsStreamReference<T>(IJSStreamReference jsStreamReference)
+    {
+        return (T?)await ReadJsStreamReference(jsStreamReference, typeof(T));
+    }
 
-    private async Task<object?> ReadJsStreamReference(IJSStreamReference jsStreamReference, Type returnType)
+    protected async Task<object?> ReadJsStreamReference(IJSStreamReference jsStreamReference, Type returnType)
     {
         await using Stream stream = await jsStreamReference
             .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
