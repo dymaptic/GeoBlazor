@@ -914,11 +914,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
     }
     
+    /// <summary>
+    ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific .NET type.
+    /// </summary>
     protected async Task<T?> ReadJsStreamReference<T>(IJSStreamReference jsStreamReference)
     {
         return (T?)await ReadJsStreamReference(jsStreamReference, typeof(T));
     }
 
+    /// <summary>
+    ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific .NET type.
+    ///     This overload returns an <see cref="object" />, so the type does not need to be known at compile time.
+    /// </summary>
     protected async Task<object?> ReadJsStreamReference(IJSStreamReference jsStreamReference, Type returnType)
     {
         await using Stream stream = await jsStreamReference
