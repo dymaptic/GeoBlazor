@@ -1,0 +1,43 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    [TestMethod]
+    public async Task TestCanDetectAddBookmarkEvent(Action renderHandler)
+    {
+        BookmarksWidget? widget = null;
+        bool addHandlerInvoked = false;
+
+        async Task OnViewRendered()
+        {
+            await widget!.AddReactiveListener<object>("bookmarks.after-add", 
+                async _ =>
+                {
+                    IReadOnlyList<Bookmark> bookmarks = await widget!.GetBookmarks() ?? [];
+                    Console.WriteLine("Bookmarks changed:");
+                    Console.WriteLine(string.Join(", ", bookmarks.Select(b => b.Name)));
+                    addHandlerInvoked = true;
+                });
+            Console.WriteLine("AddBookmark event handler registered.");
+            renderHandler();
+        }
+        
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="OnViewRendered">);
+                <WebMap>
+                    <PortalItem PortalItemId="70b726074af04a7e9839d8a07f64c039"/>
+                </WebMap>
+                <BookmarksWidget @ref="widget" Position="OverlayPosition.TopRight">
+                    <BookmarksVisibleElements AddBookmarkButton="true" />
+                </BookmarksWidget>
+            </MapView>);
+        
+        await WaitForMapToRender();
+        await AssertJavaScript("reactiveUtils.clickOnAddBookmarkButton");
+        await Task.Delay(500); // Wait for the bookmark to be added
+        Assert.IsTrue(addHandlerInvoked, "AddBookmark event handler was not invoked.");
+    }
+}
