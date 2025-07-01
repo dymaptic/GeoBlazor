@@ -749,7 +749,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [RequiredProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Url { get; set; } = null!;
+    public virtual string Url { get; set; } = null!;
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeruseviewtime-property">GeoBlazor Docs</a>

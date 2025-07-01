@@ -563,15 +563,23 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             let jsLayer: any = evt.layer;
             let jsLayerView: any = evt.layerView;
 
-            if (jsLayer.type == 'feature') {
-                const {default: FeatureLayerWrapper} = await import('./featureLayer');
-                jsLayer = new FeatureLayerWrapper(jsLayer);
-                const {default: FeatureLayerViewWrapper} = await import('./featureLayerView');
-                jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
+            switch (jsLayer.type) {
+                case 'feature':
+                    const {default: FeatureLayerWrapper} = await import('./featureLayer');
+                    jsLayer = new FeatureLayerWrapper(jsLayer);
+                    const {default: FeatureLayerViewWrapper} = await import('./featureLayerView');
+                    jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
+                    break;
+                case 'geojson':
+                    const {default: GeoJSONLayerWrapper} = await import('./geoJSONLayer');
+                    jsLayer = new GeoJSONLayerWrapper(jsLayer);
+                    const {default: GeoJSONLayerViewWrapper} = await import('./geoJSONLayerView');
+                    jsLayerView = new GeoJSONLayerViewWrapper(jsLayerView);
+                    break;
             }
 
-                        const layerRef = DotNet.createJSObjectReference(jsLayer);
-                        const layerViewRef = DotNet.createJSObjectReference(jsLayerView);
+            const layerRef = DotNet.createJSObjectReference(jsLayer);
+            const layerViewRef = DotNet.createJSObjectReference(jsLayerView);
 
             const result = {
                 layerObjectRef: layerRef,
@@ -2064,6 +2072,15 @@ function updateGeometryForProtobuf(geometry) {
         });
     } else {
         geometry.rings = [];
+    }
+    if (hasValue(geometry.points)) {
+        geometry.points = geometry.points.map(pt => {
+            return {
+                coordinates: pt
+            }
+        });
+    } else {
+        geometry.points = [];
     }
 }
 

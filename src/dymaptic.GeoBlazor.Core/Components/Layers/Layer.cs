@@ -477,6 +477,7 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender);
         if (_delayedUpdate)
         {
             await UpdateLayer();

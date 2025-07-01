@@ -60,6 +60,12 @@ public class Outline : SimpleLineSymbol
     {
         AllowRender = false;
     }
+
+    public Outline(SimpleLineSymbol symbol): base(symbol.Color, symbol.Width, symbol.Style, symbol.Cap, symbol.Join, 
+        symbol.Marker, symbol.MiterLimit)
+    {
+        AllowRender = false;
+    }
 }
 
 internal class OutlineConverter : JsonConverter<Outline>
