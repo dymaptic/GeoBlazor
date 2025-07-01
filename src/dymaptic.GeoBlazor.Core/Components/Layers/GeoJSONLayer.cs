@@ -25,6 +25,17 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     public IFeatureReduction? FeatureReduction { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerurl-property">GeoBlazor Docs</a>
+    ///     The URL of the GeoJSON file.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [RequiredProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public virtual string Url { get; set; } = null!;
+    
+    /// <summary>
     ///    Asynchronously set the value of the FeatureReduction property after render.
     /// </summary>
     /// <param name="value">
