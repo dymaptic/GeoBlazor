@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="16" viewBox="0 0 7 6">
+    <defs>
+        <mask id="popupMask">
+            <rect width="7" height="6" fill="gold" />
+            <!-- Speech bubble outline with pointer -->
+            <path d="M1.5,1 h4 a0.7,0.7 0 0 1 0.7,0.7 v2.1 a0.7,0.7 0 0 1 -0.7,0.7 h-1.8 l-0.7,1 l-0.7,-1 h-0.8 a0.7,0.7 0 0 1 -0.7,-0.7 v-2.1 a0.7,0.7 0 0 1 0.7,-0.7 z" fill="none" stroke="black" stroke-width="0.15" />
+            
+            <!-- Horizontal lines representing text -->
+            <line x1="2" y1="1.8" x2="5" y2="1.8" stroke="black" stroke-width="0.15" />
+            <line x1="2" y1="2.5" x2="5" y2="2.5" stroke="black" stroke-width="0.15" />
+            <line x1="2" y1="3.2" x2="4" y2="3.2" stroke="black" stroke-width="0.15" />
+        </mask>
+    </defs>
+
+    <!-- Apply the popup mask to the colored rectangle -->
+    <g mask="url(#popupMask)">
+        <!-- Main rectangle with the same color as groupLayer.svg -->
+        <rect x="0" y="0" width="7" height="6" fill="#E76439"/>
+    </g>
+</svg>

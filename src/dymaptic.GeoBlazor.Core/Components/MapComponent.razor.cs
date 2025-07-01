@@ -849,30 +849,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         await base.SetParametersAsync(parameters);
         
         _layerId ??= Layer?.Id;
-
-        if (_layerId is not null && Layer is null && View?.Map is not null)
-        {
-            foreach (Layer layer in View.Map.Layers)
-            {
-                if (layer.Id == _layerId)
-                {
-                    Layer = layer;
-                    break;
-                }
-
-                if (layer is IGroupLayer { Layers: not null } groupLayer)
-                {
-                    foreach (Layer subLayer in groupLayer.Layers)
-                    {
-                        if (subLayer.Id == _layerId)
-                        {
-                            Layer = subLayer;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
         
         foreach (KeyValuePair<string, object?> kvp in ModifiedParameters)
         {
@@ -937,8 +913,20 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             await Parent.RenderView(forceRender);
         }
     }
+    
+    /// <summary>
+    ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific .NET type.
+    /// </summary>
+    protected async Task<T?> ReadJsStreamReference<T>(IJSStreamReference jsStreamReference)
+    {
+        return (T?)await ReadJsStreamReference(jsStreamReference, typeof(T));
+    }
 
-    private async Task<object?> ReadJsStreamReference(IJSStreamReference jsStreamReference, Type returnType)
+    /// <summary>
+    ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific .NET type.
+    ///     This overload returns an <see cref="object" />, so the type does not need to be known at compile time.
+    /// </summary>
+    protected async Task<object?> ReadJsStreamReference(IJSStreamReference jsStreamReference, Type returnType)
     {
         await using Stream stream = await jsStreamReference
             .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
