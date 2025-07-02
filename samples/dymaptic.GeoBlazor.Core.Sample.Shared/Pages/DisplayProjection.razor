@@ -41,7 +41,7 @@
         </GeoJSONLayer>
     </Map>
     <CustomOverlay Position="OverlayPosition.TopRight">
-        <select id="wkid" class="esri-widget esri-select" @onchange="UpdateSpatialReference">
+        <select id="wkid" @onchange="UpdateSpatialReference">
             <option value="3857" disabled>Select a projection</option>
             <optgroup label="Equidistant (maintain length)">
                 <option value="4326" selected>WGS84 (GCS) -> pseudo Plate Carrée (Cylindrical)</option>
