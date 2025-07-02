@@ -1,5 +1,5 @@
 // override generated code in this file
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import { hasValue } from "./arcGisJsInterop";
 import { buildJsWidget } from "./widget";
 
 export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
@@ -18,6 +18,9 @@ export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: str
         properties.content = dotNetObject.stringContent;
     } else if (hasValue(dotNetObject.showLegendContent)) {
         properties.content = 'legend';
+    } else if (hasValue(dotNetObject.htmlElementContent)) {
+        // direct HTML element reference
+        properties.content = dotNetObject.htmlElementContent;
     }
     
     if (hasValue(dotNetObject.disabled)) {
