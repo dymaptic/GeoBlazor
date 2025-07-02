@@ -26,6 +26,7 @@ internal class MultiTypeConverter<T> : JsonConverter<T>
 
         if (possibleTypes.Length == 0)
         {
+            reader.Skip(); // Consume the object JSON
             return default;
         }
         if (possibleTypes.Length == 1)
@@ -42,6 +43,7 @@ internal class MultiTypeConverter<T> : JsonConverter<T>
         if (properties is null || properties.Count == 0)
         {
             // No properties found, return null
+            reader.Skip(); // Consume the object JSON
             return default;
         }
 
@@ -79,6 +81,7 @@ internal class MultiTypeConverter<T> : JsonConverter<T>
         }
 
         // Return null if the type is not available
+        reader.Skip(); // Consume the object JSON
         return default;
     }
 

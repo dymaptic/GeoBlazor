@@ -38,9 +38,19 @@
     public async Task TestCanGetAndSetAMapComponentProperty(Action renderHandler)
     {
         FeatureLayer? layer = null;
+        bool createdEventCalled = false;
+
+        void LayerCreatedHandler(LayerViewCreateEvent createEvent)
+        {
+            if (createEvent.Layer is FeatureLayer)
+            {
+                createdEventCalled = true;
+            }
+        }
 
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler"
+                      OnLayerViewCreate="LayerCreatedHandler">
                 <Map>
                     <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
@@ -54,7 +64,16 @@
             </MapView>);
 
         await WaitForMapToRender();
+
+        int tries = 50;
+        while (!createdEventCalled && tries > 0)
+        {
+            // wait for the layer to be created
+            await Task.Delay(100);
+            tries--;
+        }
         
+        Assert.IsTrue(createdEventCalled);
         Assert.IsNotNull(layer);
         Assert.AreNotEqual("#008000", ((SimpleRenderer)layer.Renderer!).Symbol!.Color!.HexOrNameValue);
         await layer.SetProperty(nameof(FeatureLayer.Renderer), 
