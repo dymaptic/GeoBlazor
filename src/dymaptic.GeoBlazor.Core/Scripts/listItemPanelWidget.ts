@@ -1,6 +1,6 @@
 // override generated code in this file
-import ListItemPanel from '@arcgis/core/widgets/LayerList/ListItemPanel';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import { buildJsWidget } from "./widget";
 
 export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
@@ -11,8 +11,8 @@ export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.containerId)) {
         let contentDiv = document.getElementById(dotNetObject.containerId);
         properties.content = contentDiv;
-    } else if (hasValue(dotNetObject.contentWidgetId)) {
-        let contentWidget = arcGisObjectRefs[dotNetObject.contentWidgetId];
+    } else if (hasValue(dotNetObject.widgetContent)) {
+        let contentWidget = await buildJsWidget(dotNetObject.widgetContent, layerId, viewId);
         properties.content = contentWidget;
     } else if (hasValue(dotNetObject.stringContent)) {
         properties.content = dotNetObject.stringContent;
