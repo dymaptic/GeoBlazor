@@ -159,5 +159,8 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         FeatureReduction?.ValidateRequiredChildren();
     }
 
+    /// <summary>
+    ///     For internal use only, tracks returning queries from ArcGIS
+    /// </summary>
     public Dictionary<Guid, Graphic[]> ActiveQueries = new();
 }
