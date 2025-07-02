@@ -11,15 +11,15 @@ instead to use the Blazor Test Runner.
 
 This consists of 3 libraries, just like the samples:
 - dymaptic.GeoBlazor.Core.Test.Blazor.Shared: Includes all the test runner logic and tests.
-- dymaptic.GeoBlazor.Core.Test.Blazor.Server: Runner for testing with Blazor Server.
-- dymaptic.GeoBlazor.Core.Test.Blazor.Wasm: Runner for testing with Blazor WebAssembly.
+- dymaptic.GeoBlazor.Core.Test.WebApp: Runner for testing GeoBlazor in the browser.
+- dymaptic.GeoBlazor.Core.Test.WebApp.Client: Client for the test runner, which allows for switching between Server and WebAssembly modes.
 
 The test runner is a Blazor application that runs the tests in the browser. It is
 designed to mimic an IDE test runner, yet you can also see the maps in the view.
 
 ### Running the Test Runner
 
-To run the test runner, simply run `dymaptic.GeoBlazor.Core.Test.Server` or `dymaptic.GeoBlazor.Core.Test.Wasm`.
+To run the test runner, simply run `dymaptic.GeoBlazor.Core.Test.WebApp`.
 You will see a web page in the browser with options for running tests, either all together, by class, or individually.
 Errors are displayed inline with the tests, and include a full stack trace.
 

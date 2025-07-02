@@ -9,5 +9,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddGeoBlazor(builder.Configuration);
+builder.Configuration.AddInMemoryCollection();
+builder.Services.AddScoped<HttpClient>();
 
 await builder.Build().RunAsync();

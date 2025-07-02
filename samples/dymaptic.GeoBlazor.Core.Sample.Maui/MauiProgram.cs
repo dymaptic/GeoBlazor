@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Sample.Shared;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
 
@@ -23,6 +22,7 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 
+        builder.Services.AddScoped<HttpClient>();
         builder.Configuration.AddInMemoryCollection();
 
         var executingAssembly = Assembly.GetExecutingAssembly();

@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    @{
+#if ENABLE_COMPRESSION
+    }
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["dymaptic.GeoBlazor.Core.Sample.OAuth.styles.css"]" />
+    <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]"/>
+    <link rel="stylesheet" href="@Assets["_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css"]" />
+    <ImportMap />
+    @{
+#else
+    }
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="dymaptic.GeoBlazor.Core.Sample.OAuth.styles.css" />
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    <link rel="stylesheet" href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" />
+    @{
+#endif
+    }
+    
+    <link rel="icon" type="image/ico" href="favicon.ico" />
+    <HeadOutlet @rendermode="InteractiveAuto" />
+</head>
+
+<body>
+    <RenderModeSelector @rendermode="@InteractiveServer" />
+    <Routes @rendermode="_configuredRenderMode" />
+    <script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>
+
+@code {
+    
+    [Inject]
+    public required IConfiguration Configuration { get; set; }
+    
+#if DEBUG
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode", "Auto") switch
+        {
+            "Server" => InteractiveServer,
+            "WebAssembly" => InteractiveWebAssembly,
+            _ => InteractiveAuto
+        };
+    }
+#endif
+
+    private IComponentRenderMode _configuredRenderMode = InteractiveAuto;
+    private string AppVersion => typeof(MapView).Assembly.GetName().Version?.ToString() ?? "unknown";
+}

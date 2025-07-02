@@ -1,0 +1,47 @@
+﻿<div class="render-mode-selector-row">
+    <label>Blazor Web App Render Mode:&nbsp;&nbsp;</label>
+    <select id="render-select" @onchange="SaveModeAndReload">
+        <option value="Server" selected="@(_configuredRenderMode == InteractiveServer)">Server</option>
+        <option value="WebAssembly" selected="@(_configuredRenderMode == InteractiveWebAssembly)">WebAssembly</option>
+    </select>
+    <label>
+        &nbsp;&nbsp;
+        @{
+            switch (_configuredRenderMode)
+            {
+                case InteractiveWebAssemblyRenderMode:
+                    <span>Page and components will be rendered in the browser</span>
+                    break;
+                case InteractiveServerRenderMode:
+                    <span>Page and components will be rendered on the server and updated via SignalR</span>
+                    break;
+            }
+        }
+    </label>
+</div>
+
+@code {
+    [Inject]
+    public required IConfiguration Configuration { get; set; }
+
+    [Inject]
+    public required IJSRuntime JsRuntime { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode") switch
+        {
+            "WebAssembly" => InteractiveWebAssembly,
+            _ => InteractiveServer
+        };
+    }
+
+    private async Task SaveModeAndReload(ChangeEventArgs args)
+    {
+        Configuration["RenderMode"] = args.Value!.ToString();
+        await JsRuntime.InvokeVoidAsync("location.reload");
+    }
+    
+    private IComponentRenderMode? _configuredRenderMode;
+}

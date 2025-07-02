@@ -1,0 +1,59 @@
+@page "/login"
+@inject AuthenticationManager AuthenticationManager
+
+<h1>Login</h1>
+<p>
+    This page demonstrates using the GeoBlazor <code>AuthenticationManager</code> class to log in and out of
+    an application using OAuth.
+</p>
+<p>
+    Currently your login status is:
+</p>
+<p>@_isLoggedIn</p>
+
+@if (_isLoggedIn is not null)
+{
+    if (!_isLoggedIn.Value)
+    {
+        <button class="btn btn-primary" @onclick="AuthenticationManager.Login">Login</button>
+    }
+    else
+    {
+        <div>You are Logged in.</div>
+        <div>Your token is: @_token</div>
+        <button class="btn btn-secondary" @onclick="AuthenticationManager.Logout">Logout</button>
+
+        <MapView Latitude="0" Longitude="0" Zoom="2" Style="height: 500px; width: 100%;">
+            <Map>
+                <Basemap>
+                    <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                </Basemap>
+            </Map>
+            <SearchWidget Position="OverlayPosition.TopRight" />
+        </MapView>
+    }
+}
+
+@code {
+
+    private bool? _isLoggedIn;
+    private string? _token = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        bool isNowLoggedIn = await AuthenticationManager.IsLoggedIn();
+
+        if (_isLoggedIn != isNowLoggedIn)
+        {
+            _isLoggedIn = isNowLoggedIn;
+
+            if (_isLoggedIn.Value)
+            {
+                _token = await AuthenticationManager.GetCurrentToken();
+            }
+
+            StateHasChanged();
+        }
+    }
+
+}
