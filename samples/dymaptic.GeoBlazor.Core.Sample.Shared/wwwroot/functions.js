@@ -36,6 +36,10 @@ window.setWaitCursor = (wait) => {
     }
 }
 
+window.isDarkMode = () => {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
 function elementIsVisible(item) {
 
     let eleTop = item.offsetTop;

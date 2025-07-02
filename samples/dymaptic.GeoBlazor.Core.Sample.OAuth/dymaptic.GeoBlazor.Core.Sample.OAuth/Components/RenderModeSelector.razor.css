@@ -1,0 +1,14 @@
+﻿.render-mode-selector-row {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    font-weight: bold;
+}
+
+select {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+}

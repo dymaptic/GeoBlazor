@@ -112,6 +112,11 @@
     
     private async Task NavigateTo(string href)
     {
+        if (href == NavigationManager.ToBaseRelativePath(NavigationManager.Uri))
+        {
+            // If the user clicks on the current page, we don't want to navigate away.
+            return;
+        }
         await JsRuntime.InvokeVoidAsync("setWaitCursor", true);
         await InvokeAsync(async () =>
         {

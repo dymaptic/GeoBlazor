@@ -73,6 +73,15 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? PopupEnabled { get; set; }
+    
+    /// <summary>
+    ///     For layers that are public and throw an error when given an ApiKey or Token,
+    ///     this setting allows you to exclude the ApiKey or Token from this layer's request.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public bool? ExcludeApiKey { get; set; }
 
 
     /// <inheritdoc />

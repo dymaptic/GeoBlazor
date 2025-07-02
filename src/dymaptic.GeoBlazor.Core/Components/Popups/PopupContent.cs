@@ -62,6 +62,9 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
     
     [ProtoMember(13)]
     public string? Id { get; set; }
+    
+    [ProtoMember(14)]
+    public string[]? OutFields { get; init; }
 
     public PopupContent FromSerializationRecord()
     {
@@ -71,6 +74,26 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
         {
             id = guidId;
         }
+
+        if (Type == "custom")
+        {
+            // CustomPopupContent is in GeoBlazor Pro assembly, so we need to use reflection to get the type
+            Type? customType = System.Type.GetType("dymaptic.GeoBlazor.Pro.Components.Popups.CustomPopupContent, dymaptic.GeoBlazor.Pro");
+
+            if (customType is not null && customType.IsSubclassOf(typeof(PopupContent)))
+            {
+                PopupContent? customContent = Activator.CreateInstance(customType, args: [null, OutFields]) as PopupContent;
+
+                if (customContent is null)
+                {
+                    throw new InvalidOperationException("CustomPopupContent could not be created. Ensure the type is correct and the assembly is loaded.");
+                }
+                customContent.Id = id;
+
+                return customContent;
+            }
+        }
+        
         return Type switch
         {
             "fields" => new FieldsPopupContent(FieldInfos?.Select(i => 
@@ -133,6 +156,17 @@ internal class PopupContentConverter : JsonConverter<PopupContent>
             case "relationship":
                 content = JsonSerializer.Deserialize<RelationshipPopupContent>(jsonDoc.RootElement.GetRawText(),
                     options);
+
+                break;
+            case "custom":
+                // CustomPopupContent is in GeoBlazor Pro assembly, so we need to use reflection to get the type
+                Type? customType = Type.GetType("dymaptic.GeoBlazor.Pro.Components.Popups.CustomPopupContent, dymaptic.GeoBlazor.Pro");
+
+                if (customType is not null && customType.IsSubclassOf(typeof(PopupContent)))
+                {
+                    content =
+                        JsonSerializer.Deserialize(jsonDoc.RootElement.GetRawText(), customType, options) as PopupContent;
+                }
 
                 break;
         }

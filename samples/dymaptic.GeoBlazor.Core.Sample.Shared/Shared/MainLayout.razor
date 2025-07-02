@@ -1,13 +1,10 @@
 ﻿@using System.Text.Json.Serialization
 @inherits LayoutComponentBase
-@inject IConfiguration Configuration
-@inject NavigationManager NavigationManager
-@inject HttpClient HttpClient
-@inject IJSRuntime JsRuntime
 
-<PageTitle>dymaptic.GeoBlazor.Core</PageTitle>
+<PageTitle>GeoBlazor Samples</PageTitle>
 @if (JsRuntime.GetType().Name.Contains("WebView"))
 {
+    // in MAUI or other Hybrid apps, we can inject the styles directly into the body
     @if (_isDarkMode)
     {
         <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/dark/main.css" rel="stylesheet" />
@@ -16,15 +13,10 @@
     {
         <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
     }
-    <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
-    <script>
-        window.isDarkMode = () => {
-            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        }
-    </script>
 }
 else
 {
+    // in Blazor WebAssembly or Server, we use the HeadContent component
     <HeadContent>
         @if (_isDarkMode)
         {
@@ -34,12 +26,6 @@ else
         {
             <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
         }
-        <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
-        <script>
-            window.isDarkMode = () => {
-                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            }
-        </script>
     </HeadContent>
 }
 
@@ -88,6 +74,20 @@ else
 </div>
 
 @code {
+    [Inject]
+    public required IConfiguration Configuration { get; set; }
+    
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
+    
+    [Inject]
+    public required HttpClient HttpClient { get; set; }
+    
+    [Inject]
+    public required IJSRuntime JsRuntime { get; set; }
+    
+    [CascadingParameter(Name="PageRouteData")]
+    public required RouteData RouteData { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

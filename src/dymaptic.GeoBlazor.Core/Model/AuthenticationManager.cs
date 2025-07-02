@@ -174,6 +174,19 @@ public class AuthenticationManager
     }
 
     /// <summary>
+    ///     Logs the user out of the current session, clearing any stored tokens or keys, and reloads the page to reflect the changes.
+    /// </summary>
+    public async Task Logout()
+    {
+        if (await IsLoggedIn() != true)
+        {
+            return;
+        }
+
+        await _module!.InvokeVoidAsync("doLogout");
+    }
+
+    /// <summary>
     ///     Provides an implementation-agnostic way to fetch the current authentication token, whether it's an OAuth token or an API Key
     /// </summary>
     public async Task<string?> GetCurrentToken()

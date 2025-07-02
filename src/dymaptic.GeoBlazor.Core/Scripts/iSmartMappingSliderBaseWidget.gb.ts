@@ -226,27 +226,27 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
     }
     jsSmartMappingSliderBase.on('max-change', async (evt: any) => {
         let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', streamRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsMaxChange', streamRef);
     });
     
     jsSmartMappingSliderBase.on('segment-drag', async (evt: any) => {
         let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsegmentDrag', streamRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSegmentDrag', streamRef);
     });
     
     jsSmartMappingSliderBase.on('thumb-change', async (evt: any) => {
         let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbChange', streamRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsThumbChange', streamRef);
     });
     
     jsSmartMappingSliderBase.on('thumb-drag', async (evt: any) => {
         let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbDrag', streamRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsThumbDrag', streamRef);
     });
     
     jsSmartMappingSliderBase.on('min-change', async (evt: any) => {
         let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsinChange', streamRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsMinChange', streamRef);
     });
     
 

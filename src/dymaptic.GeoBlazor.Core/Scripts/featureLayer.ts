@@ -14,7 +14,7 @@ import {
     DotNetTopFeaturesQuery
 } from "./definitions";
 import {
-    decodeProtobufGraphics,
+    decodeProtobufGraphics, esriConfig,
     getGraphicsFromProtobufStream,
     getProtobufGraphicStream,
     hasValue,
@@ -382,6 +382,11 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 }
 
 export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (hasValue(dotNetObject.apiKey) || (hasValue(dotNetObject.excludeApiKey) && dotNetObject.excludeApiKey)) {
+        esriConfig.apiKey = null;
+        // this will be re-added in GeoBlazor's `AuthenticationManager` on the next MapView.
+    }
+    
     let {buildJsFeatureLayerGenerated} = await import('./featureLayer.gb');
     let jsFeatureLayer = await buildJsFeatureLayerGenerated(dotNetObject, layerId, viewId);
 
