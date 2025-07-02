@@ -55,7 +55,6 @@ function scriptsModifiedSince(lastTimestamp) {
 
 let options = {
     entryPoints: ['./Scripts/arcGisJsInterop.ts'],
-    external: ['./multipoint', './mesh'],
     bundle: true,
     sourcemap: true,
     format: 'esm',
