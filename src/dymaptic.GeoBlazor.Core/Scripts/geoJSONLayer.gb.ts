@@ -252,14 +252,6 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
             options);
     }
 
-    async queryFeatures(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
-        return await this.layer.queryFeatures(jsQuery,
-            options);
-    }
-
     async queryObjectIds(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');

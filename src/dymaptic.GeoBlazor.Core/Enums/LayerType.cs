@@ -39,6 +39,7 @@ public enum LayerType
     OpenStreetMap,
     OrientedImagery,
     PointCloud,
+    ProGeoJSON,
     Route,
     Scene,
     Stream,
@@ -113,6 +114,10 @@ internal class LayerTypeConverter : JsonConverter<LayerType>
                 break;
             case LayerType.WMTS:
                 writer.WriteStringValue("wmts");
+
+                break;
+            case LayerType.ProGeoJSON:
+                writer.WriteStringValue("pro-geojson");
 
                 break;
              default:

@@ -437,6 +437,11 @@ body {   /* body tag added to help overwrite Bootstrap */
         background-color: var(--background-grey-2);
         color: var(--text-emphasis);
     }
+    
+    select optgroup {
+        background-color: var(--background-grey-3);
+        color: var(--text-emphasis);
+    }
 
     input.invalid,
     select.invalid,

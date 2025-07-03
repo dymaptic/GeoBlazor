@@ -29,6 +29,16 @@ internal class GeometryConverter : JsonConverter<Geometry>
                     return JsonSerializer.Deserialize<Polygon>(ref cloneReader, newOptions);
                 case "polyline":
                     return JsonSerializer.Deserialize<Polyline>(ref cloneReader, newOptions);
+                case "multipoint":
+                    // multipoint is in GeoBlazor Pro and must be loaded via Reflection
+                    Type? multipointType = Type.GetType("dymaptic.GeoBlazor.Pro.Components.Geometries.Multipoint, " +
+                        "dymaptic.GeoBlazor.Pro");
+                    if (multipointType is not null)
+                    {
+                        return (Geometry?)JsonSerializer.Deserialize(ref cloneReader, multipointType, newOptions);
+                    }
+
+                    return null;
             }
         }
 

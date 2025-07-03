@@ -60,6 +60,15 @@ public class Outline : SimpleLineSymbol
     {
         AllowRender = false;
     }
+
+    /// <summary>
+    ///     Convenience constructor for creating an outline from a <see cref="SimpleLineSymbol" />.
+    /// </summary>
+    public Outline(SimpleLineSymbol symbol): base(symbol.Color, symbol.Width, symbol.Style, symbol.Cap, symbol.Join, 
+        symbol.Marker, symbol.MiterLimit)
+    {
+        AllowRender = false;
+    }
 }
 
 internal class OutlineConverter : JsonConverter<Outline>
