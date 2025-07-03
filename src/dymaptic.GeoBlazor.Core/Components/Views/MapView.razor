@@ -1,16 +1,21 @@
 ﻿@inherits MapComponent
 
+<!-- Load Calcite Design System -->
+<script type="module" src="https://js.arcgis.com/calcite-components/3.2.1/calcite.esm.js"></script>
+<!-- Load the JavaScript Maps SDK Map components -->
+<script type="module" src="https://js.arcgis.com/4.33/map-components/"></script>
+
 <CascadingValue Name="View" Value="this">
     <CascadingValue Name="Parent" Value="this">
         <CascadingValue Name="MapRendered" Value="MapRendered">
             <div class="@Class map-wrapper" style="@Style">
-                <div class="map-container" id="@($"map-container-{Id}")">
+                <arcgis-map class="map-container" id="@($"map-container-{Id}")">
                     @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                     {
                         <div class="validation-message">@((MarkupString)ErrorMessage)</div>
                     }
                     @ChildContent
-                </div>
+                </arcgis-map>
                 @if (WhiteLabel is null || !IsPro())
                 {
                     <div class="dymaptic-branding">

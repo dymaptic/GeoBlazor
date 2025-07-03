@@ -10,7 +10,7 @@
       "DOM"
     ],
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
