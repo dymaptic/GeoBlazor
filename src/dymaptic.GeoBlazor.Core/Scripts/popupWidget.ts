@@ -63,8 +63,14 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
         return this.widget.visible;
     }
 
-    open() {
-        this.widget.open();
+    async open(options: any) {
+        if (hasValue(options)) {
+            let { buildJsPopupOpenOptions } = await import('./popupOpenOptions');
+            let jsOptions = await buildJsPopupOpenOptions(options, null, this.viewId);
+            this.widget.open(jsOptions);
+        } else {
+            this.widget.open();
+        }
     }
 
     setContent(content: string) {
@@ -72,7 +78,7 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
     }
 
     async setSelectedClusterBoundaryFeatureSymbol(symbol: any) {
-        this.widget.viewModel.selectedClusterBoundaryFeature.symbol = await buildJsSymbol(symbol) as Symbol;
+        this.widget.viewModel.selectedClusterBoundaryFeature.symbol = await buildJsSymbol(symbol) as any;
     }
 
 

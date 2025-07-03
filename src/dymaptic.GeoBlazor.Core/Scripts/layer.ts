@@ -24,6 +24,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
             let {buildJsFeatureLayer} = await import('./featureLayer');
             return await buildJsFeatureLayer(dotNetObject, layerId, viewId);
         case 'geojson':
+        case 'pro-geojson':
             let {buildJsGeoJSONLayer} = await import('./geoJSONLayer');
             return await buildJsGeoJSONLayer(dotNetObject, layerId, viewId);
         case 'geo-rss':

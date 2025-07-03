@@ -268,7 +268,7 @@ public abstract partial class Layer : MapComponent
     ///     A cancellation token to cancel the operation.
     /// </param>
     [CodeGenerationIgnore]
-    public async Task Load(IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
+    public virtual async Task Load(IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
         CancellationToken cancellationToken)
     {
         JsRuntime ??= jsRuntime;
@@ -283,7 +283,7 @@ public abstract partial class Layer : MapComponent
     ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls
     ///     return the same promise.
     /// </summary>
-    public Task Load()
+    public virtual Task Load()
     {
         return Load(CancellationToken.None);
     }
@@ -297,7 +297,7 @@ public abstract partial class Layer : MapComponent
     /// <remarks>
     ///     It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is aborted, the instance does not stop its loading process, only cancelLoad can abort it.
     /// </remarks>
-    public async Task Load(CancellationToken cancellationToken)
+    public virtual async Task Load(CancellationToken cancellationToken)
     {
         if (CoreJsModule is null)
         {
@@ -477,6 +477,7 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender);
         if (_delayedUpdate)
         {
             await UpdateLayer();

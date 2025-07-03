@@ -742,11 +742,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             object? value = requiredParameter.GetValue(this);
             string propName = requiredParameter.Name;
 
-            var attr =
-                (RequiredPropertyAttribute)requiredParameter.GetCustomAttributes(typeof(RequiredPropertyAttribute),
-                    true)[0];
+            object[] attributes = requiredParameter.GetCustomAttributes(typeof(RequiredPropertyAttribute), true);
 
-            if (attr.OtherOptions is not null && attr.OtherOptions.Any())
+            if (attributes.Length > 0 && attributes[0] is RequiredPropertyAttribute { OtherOptions: not null } attr 
+                && attr.OtherOptions.Any())
             {
                 ComponentOption? optionSet = options.FirstOrDefault(o =>
                     o.Options.Contains(propName));

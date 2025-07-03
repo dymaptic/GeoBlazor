@@ -226,6 +226,11 @@
                         "id": {
                           "type": "string",
                           "id": 29
+                        },
+                        "points": {
+                          "rule": "repeated",
+                          "type": "MapPoint",
+                          "id": 30
                         }
                       }
                     },
