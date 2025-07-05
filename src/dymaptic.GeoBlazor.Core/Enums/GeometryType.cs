@@ -9,6 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(GeometryTypeConverter))]
+[CodeGenerationIgnore]
 public enum GeometryType
 {
 #pragma warning disable CS1591

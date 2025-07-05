@@ -3,13 +3,14 @@ import eslint from 'esbuild-plugin-eslint';
 import { cleanPlugin } from 'esbuild-clean-plugin';
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 
 const args = process.argv.slice(2);
 const isDebug = args.includes('--debug');
 const isWatch = args.includes('--watch');
 const isRelease = args.includes('--release');
 
-const TIMESTAMP_FILE = '.esbuild-timestamp.json';
+const RECORD_FILE = path.resolve('../../.esbuild-record.json');
 const SCRIPTS_DIR = path.resolve('./Scripts');
 const OUTPUT_DIR = path.resolve('./wwwroot/js');
 
@@ -28,18 +29,36 @@ function getAllScriptFiles(dir) {
     return results;
 }
 
-function getLastBuildTimestamp() {
-    if (!fs.existsSync(TIMESTAMP_FILE)) return 0;
+function getCurrentGitBranch() {
     try {
-        const data = fs.readFileSync(TIMESTAMP_FILE, 'utf-8');
-        return JSON.parse(data).timestamp || 0;
-    } catch {
-        return 0;
+        // Execute git command to get current branch name
+        const branch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
+        return branch;
+    } catch (error) {
+        console.warn('Failed to get git branch name:', error.message);
+        return 'unknown';
     }
 }
 
-function saveBuildTimestamp() {
-    fs.writeFileSync(TIMESTAMP_FILE, JSON.stringify({ timestamp: Date.now() }), 'utf-8');
+function getLastBuildRecord() {
+    if (!fs.existsSync(RECORD_FILE)) return { timestamp: 0, branch: 'unknown' };
+    try {
+        const data = fs.readFileSync(RECORD_FILE, 'utf-8');
+        const parsed = JSON.parse(data);
+        return {
+            timestamp: parsed.timestamp || 0,
+            branch: parsed.branch || 'unknown'
+        };
+    } catch {
+        return { timestamp: 0, branch: 'unknown' };
+    }
+}
+
+function saveBuildRecord() {
+    fs.writeFileSync(RECORD_FILE, JSON.stringify({
+        timestamp: Date.now(),
+        branch: getCurrentGitBranch()
+    }), 'utf-8');
 }
 
 function scriptsModifiedSince(lastTimestamp) {
@@ -75,10 +94,15 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 }
 
 if (!isWatch) {
-    const lastTimestamp = getLastBuildTimestamp();
-    if (!scriptsModifiedSince(lastTimestamp)) {
+    const lastBuild = getLastBuildRecord();
+    const currentBranch = getCurrentGitBranch();
+    const branchChanged = currentBranch !== lastBuild.branch;
+
+    if (branchChanged) {
+        console.log(`Git branch changed from "${lastBuild.branch}" to "${currentBranch}". Rebuilding...`);
+    } else if (!scriptsModifiedSince(lastBuild.timestamp)) {
         console.log('No changes in Scripts folder since last build.');
-        
+
         // check output directory for existing files
         const outputFiles = fs.readdirSync(OUTPUT_DIR);
         if (outputFiles.length > 0) {
@@ -87,14 +111,16 @@ if (!isWatch) {
         } else {
             console.log('Output directory is empty. Proceeding with build.');
         }
+    } else {
+        console.log('Changes detected in Scripts folder. Proceeding with build.');
     }
 }
 
 if (isWatch) {
     let ctx = await esbuild.context(options);
     await ctx.watch();
-    saveBuildTimestamp();
+    saveBuildRecord();
 } else {
     await esbuild.build(options);
-    saveBuildTimestamp();
+    saveBuildRecord();
 }

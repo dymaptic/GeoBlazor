@@ -146,3 +146,75 @@ internal class EnumRelationshipConverter<T> : EnumToKebabCaseStringConverter<T> 
         return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
     }
 }
+
+internal class EnumToKebabCaseReadOnlyListConverter<T> : JsonConverter<IReadOnlyList<T>>
+{
+    public override IReadOnlyList<T> Read(ref Utf8JsonReader reader, Type typeToConvert, 
+        JsonSerializerOptions options)
+    {
+        if (reader.TokenType != JsonTokenType.StartArray)
+        {
+            // check if the value is a single string
+            if (reader.TokenType == JsonTokenType.String)
+            {
+                string? value = reader.GetString();
+                if (value is not null)
+                {
+                    return (List<T>) [(T)Enum.Parse(typeof(T), 
+                        value.Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+                            .Replace(typeof(T).Name, string.Empty)
+                            .KebabToPascalCase(), true)];
+                }
+            }
+            
+            throw new JsonException("Expected start of array or a single string value.");
+        }
+
+        List<T> values = [];
+
+        while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+        {
+            if (reader.TokenType == JsonTokenType.String)
+            {
+                string? value = reader.GetString();
+                if (value is not null)
+                {
+                    values.Add((T)Enum.Parse(typeof(T), 
+                        value.Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+                            .Replace(typeof(T).Name, string.Empty)
+                            .KebabToPascalCase(), true));
+                }
+            }
+            else
+            {
+                throw new JsonException("Expected string value in array.");
+            }
+        }
+
+        return values;
+    }
+
+    public override void Write(Utf8JsonWriter writer, IReadOnlyList<T>? value, JsonSerializerOptions options)
+    {
+        if (value is null || !value.Any())
+        {
+            writer.WriteStartArray();
+            writer.WriteEndArray();
+            return;
+        }
+
+        writer.WriteStartArray();
+        foreach (T item in value)
+        {
+            if (item is not null)
+            {
+                string? stringVal = Enum.GetName(typeof(T), item);
+                if (stringVal is not null)
+                {
+                    writer.WriteStringValue(stringVal.ToKebabCase());
+                }
+            }
+        }
+        writer.WriteEndArray();
+    }
+}
