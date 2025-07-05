@@ -11,16 +11,23 @@ export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.containerId)) {
         let contentDiv = document.getElementById(dotNetObject.containerId);
         properties.content = contentDiv;
-    } else if (hasValue(dotNetObject.widgetContent)) {
-        let contentWidget = await buildJsWidget(dotNetObject.widgetContent, layerId, viewId);
-        properties.content = contentWidget;
-    } else if (hasValue(dotNetObject.stringContent)) {
-        properties.content = dotNetObject.stringContent;
     } else if (hasValue(dotNetObject.showLegendContent)) {
         properties.content = 'legend';
-    } else if (hasValue(dotNetObject.htmlElementContent)) {
-        // direct HTML element reference
-        properties.content = dotNetObject.htmlElementContent;
+    } else if (hasValue(dotNetObject.content)) {
+        let panelContent: any = [];
+        for (let i = 0; i < dotNetObject.content.length; i++) {
+            let content = dotNetObject.content[i];
+            if (hasValue(content.widgetContent)) {
+                let contentWidget = await buildJsWidget(content.widgetContent, layerId, viewId);
+                panelContent.push(contentWidget);
+            } else if (hasValue(content.stringContent)) {
+                panelContent.push(content.stringContent);
+            } else if (hasValue(content.htmlElementContent)) {
+                // direct HTML element reference
+                panelContent.push(content.htmlElementContent);
+            }
+        }
+        properties.content = panelContent;
     }
     
     if (hasValue(dotNetObject.disabled)) {

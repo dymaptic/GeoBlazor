@@ -19,17 +19,8 @@ public partial class ListItemPanelWidget: Widget
     /// <param name="containerId">
     ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
     /// </param>
-    /// <param name="stringContent">
-    ///     The content displayed in the ListItem panel as a string.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="widgetContent">
-    ///     The content displayed in the ListItem panel as a widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="htmlElementContent">
-    ///     The content displayed in the ListItem panel as an HTML Element.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// <param name="content">
+    ///     The content of the panel as a list of <see cref="ListItemPanelContent"/> items. Use this to add multiple content items to the panel in an ordered manner. Accepts strings, widgets, and HTML element references.
     /// </param>
     /// <param name="showLegendContent">
     ///     Display a LegendWidget as the content of the panel.
@@ -83,9 +74,7 @@ public partial class ListItemPanelWidget: Widget
     [CodeGenerationIgnore]
     public ListItemPanelWidget(
         string? containerId = null,
-        string? stringContent = null,
-        Widget? widgetContent = null,
-        ElementReference? htmlElementContent = null,
+        IReadOnlyList<ListItemPanelContent>? content = null,
         bool? showLegendContent = null,
         bool? disabled = null,
         bool? flowEnabled = null,
@@ -102,9 +91,12 @@ public partial class ListItemPanelWidget: Widget
         AllowRender = false;
 #pragma warning disable BL0005
         ContainerId = containerId;
-        StringContent = stringContent;
-        WidgetContent = widgetContent;
-        HtmlElementContent = htmlElementContent;
+
+        if (content is not null)
+        {
+            Content = content;
+        }
+        
         ShowLegendContent = showLegendContent;
         Disabled = disabled;
         FlowEnabled = flowEnabled;
@@ -131,65 +123,7 @@ public partial class ListItemPanelWidget: Widget
    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
    public bool? ShowLegendContent { get; set; }
    
-   /// <summary>
-   ///     The content of the panel as a string.
-   /// </summary>
    [Parameter]
-   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-   public string? StringContent { get; set; }
-    
-   /// <summary>
-   ///     The content of the panel as a Widget.
-   /// </summary>
-   [Parameter]
-   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-   public Widget? WidgetContent { get; set; }
-    
-   /// <summary>
-   ///     The content of the panel as an HTMLElement.
-   /// </summary>
-   [Parameter]
-   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-   public ElementReference? HtmlElementContent { get; set; }
+   public IReadOnlyList<ListItemPanelContent> Content { get; set; } = [];
 
-   /// <inheritdoc />
-   public override async Task RegisterChildComponent(MapComponent child)
-   {
-       switch (child)
-       {
-           case Widget widget:
-               WidgetContent = widget;
-               break;
-           default:
-               await base.RegisterChildComponent(child);
-
-               break;
-       }
-   }
-
-   /// <inheritdoc />
-   public override async Task UnregisterChildComponent(MapComponent child)
-   {
-       switch (child)
-       {
-           case Widget widget:
-               if (WidgetContent == widget)
-               {
-                   WidgetContent = null;
-               }
-
-               break;
-           default:
-               await base.UnregisterChildComponent(child);
-
-               break;
-       }
-   }
-
-   /// <inheritdoc />
-   public override void ValidateRequiredChildren()
-   {
-       base.ValidateRequiredChildren();
-       WidgetContent?.ValidateRequiredChildren();
-   }
 }

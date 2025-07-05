@@ -10,7 +10,7 @@ const isDebug = args.includes('--debug');
 const isWatch = args.includes('--watch');
 const isRelease = args.includes('--release');
 
-const RECORD_FILE = '../../.esbuild-record.json';
+const RECORD_FILE = path.resolve('../../.esbuild-record.json');
 const SCRIPTS_DIR = path.resolve('./Scripts');
 const OUTPUT_DIR = path.resolve('./wwwroot/js');
 
