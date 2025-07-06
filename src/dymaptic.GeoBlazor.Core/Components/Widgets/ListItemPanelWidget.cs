@@ -123,6 +123,9 @@ public partial class ListItemPanelWidget: Widget
    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
    public bool? ShowLegendContent { get; set; }
    
+   /// <summary>
+   ///      The content of the panel as a list of <see cref="ListItemPanelContent"/> items. Use this to add multiple content items to the panel in an ordered manner. Accepts strings, widgets, and HTML element references.
+   /// </summary>
    [Parameter]
    public IReadOnlyList<ListItemPanelContent> Content { get; set; } = [];
 
