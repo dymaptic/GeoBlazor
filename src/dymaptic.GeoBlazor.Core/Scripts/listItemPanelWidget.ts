@@ -1,6 +1,6 @@
 // override generated code in this file
-import ListItemPanel from '@arcgis/core/widgets/LayerList/ListItemPanel';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import { hasValue } from "./arcGisJsInterop";
+import { buildJsWidget } from "./widget";
 
 export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
@@ -11,13 +11,23 @@ export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.containerId)) {
         let contentDiv = document.getElementById(dotNetObject.containerId);
         properties.content = contentDiv;
-    } else if (hasValue(dotNetObject.contentWidgetId)) {
-        let contentWidget = arcGisObjectRefs[dotNetObject.contentWidgetId];
-        properties.content = contentWidget;
-    } else if (hasValue(dotNetObject.stringContent)) {
-        properties.content = dotNetObject.stringContent;
     } else if (hasValue(dotNetObject.showLegendContent)) {
         properties.content = 'legend';
+    } else if (hasValue(dotNetObject.content)) {
+        let panelContent: any = [];
+        for (let i = 0; i < dotNetObject.content.length; i++) {
+            let content = dotNetObject.content[i];
+            if (hasValue(content.widgetContent)) {
+                let contentWidget = await buildJsWidget(content.widgetContent, layerId, viewId);
+                panelContent.push(contentWidget);
+            } else if (hasValue(content.stringContent)) {
+                panelContent.push(content.stringContent);
+            } else if (hasValue(content.htmlElementContent)) {
+                // direct HTML element reference
+                panelContent.push(content.htmlElementContent);
+            }
+        }
+        properties.content = panelContent;
     }
     
     if (hasValue(dotNetObject.disabled)) {

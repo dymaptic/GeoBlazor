@@ -28,6 +28,7 @@ jobs:
           timeout_minutes: "60"
           direct_prompt: |
             Please review this pull request and provide comprehensive feedback.
+            If there is a previous Claude review, only review the changes made since that review.
 
             Focus on:
             - Code quality and best practices
