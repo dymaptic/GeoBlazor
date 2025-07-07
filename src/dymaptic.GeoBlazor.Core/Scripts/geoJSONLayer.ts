@@ -1,7 +1,9 @@
 // override generated code in this file
+import Query from "@arcgis/core/rest/support/Query";
 import GeoJSONLayerGenerated from './geoJSONLayer.gb';
 import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer';
-import {hasValue} from "./arcGisJsInterop";
+import {getProtobufGraphicStream, hasValue} from "./arcGisJsInterop";
+import {DotNetFeatureSet, DotNetQuery} from "./definitions";
 
 export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
 
@@ -42,14 +44,57 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
         let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
         this.layer.templates = await Promise.all(value.map(async i => await buildJsIFeatureTemplate(i))) as any;
     }
+
+    async queryFeatures(query: DotNetQuery | null, options: any, dotNetRef: any, queryId: string):
+        Promise<DotNetFeatureSet | null> {
+        try {
+            let jsQuery: Query | undefined = undefined;
+
+            if (hasValue(query)) {
+                let { buildJsQuery} = await import('./query');
+                jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+            }
+
+            let featureSet = await this.layer.queryFeatures(jsQuery, options);
+
+            let {buildDotNetFeatureSet} = await import('./featureSet');
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, this.viewId);
+            if (dotNetFeatureSet.features.length > 0) {
+                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
+                await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
+                dotNetFeatureSet.features = [];
+            }
+
+            return dotNetFeatureSet;
+        } catch (error) {
+            console.debug(error);
+            throw error;
+        }
+    }
 }
 
+let proGeoJSONLayerIds = [];
+
 export async function buildJsGeoJSONLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (dotNetObject.type === 'pro-geojson') {
+        proGeoJSONLayerIds.push(dotNetObject.id);
+    }
+    
+    if (!hasValue(dotNetObject.url) && hasValue(dotNetObject.sourceJSON)) {
+        const blob = new Blob([dotNetObject.sourceJSON], { type: "application/json" });
+        dotNetObject.url = URL.createObjectURL(blob);
+    }
+    
     let {buildJsGeoJSONLayerGenerated} = await import('./geoJSONLayer.gb');
     return await buildJsGeoJSONLayerGenerated(dotNetObject, layerId, viewId);
 }
 
 export async function buildDotNetGeoJSONLayer(jsObject: any): Promise<any> {
     let {buildDotNetGeoJSONLayerGenerated} = await import('./geoJSONLayer.gb');
-    return await buildDotNetGeoJSONLayerGenerated(jsObject);
+    let dnGeoJSONLayer = await buildDotNetGeoJSONLayerGenerated(jsObject);
+    if (hasValue(dnGeoJSONLayer.id) && proGeoJSONLayerIds.includes(dnGeoJSONLayer.id)) {
+        dnGeoJSONLayer.type = 'pro-geojson';
+    }
+    
+    return dnGeoJSONLayer;
 }

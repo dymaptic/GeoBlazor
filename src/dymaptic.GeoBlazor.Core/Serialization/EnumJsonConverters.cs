@@ -37,6 +37,32 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
     }
 }
 
+internal class GeometryTypeConverter : EnumToKebabCaseStringConverter<GeometryType>
+{
+    public override GeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()?
+            .KebabToPascalCase()
+            .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("Geometry", string.Empty, StringComparison.OrdinalIgnoreCase);
+
+        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default;
+    }
+}
+
+internal class SimpleGeometryTypeConverter : EnumToKebabCaseStringConverter<SimpleGeometryType>
+{
+    public override SimpleGeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()?
+            .KebabToPascalCase()
+            .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("Geometry", string.Empty, StringComparison.OrdinalIgnoreCase);
+
+        return value is not null ? (SimpleGeometryType)Enum.Parse(typeof(SimpleGeometryType), value, true) : default;
+    }
+}
+
 internal class SimpleLineSymbolStyleConverter : EnumToKebabCaseStringConverter<SimpleLineSymbolStyle>
 {
     public override SimpleLineSymbolStyle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

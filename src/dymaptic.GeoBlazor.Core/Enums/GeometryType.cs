@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///          Possible types of geometries
 ///      </summary>
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<GeometryType>))]
+[JsonConverter(typeof(GeometryTypeConverter))]
 public enum GeometryType
 {
 #pragma warning disable CS1591

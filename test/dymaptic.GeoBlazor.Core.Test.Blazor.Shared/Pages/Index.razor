@@ -88,7 +88,7 @@
         }
         foreach (Type type in types.Where(t => !t.Name.EndsWith("GeneratedTests")))
         {
-            if (type.IsDefined(typeof(TestClassAttribute), true) && (type.Name != nameof(TestRunnerBase)))
+            if (type.IsAssignableTo(typeof(TestRunnerBase)) && (type.Name != nameof(TestRunnerBase)))
             {
                 _testClassTypes.Add(type);
                 _testClasses[type.Name] = null;

@@ -42,31 +42,48 @@ export default class AuthenticationManager {
     }
     
     async isLoggedIn(): Promise<boolean> {
-        try {
-            await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");
-            return true;
-        } catch (e) {
-            console.log(e);
-            return false;
-        }
+        await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");
+        return true;
     }
 
     doLogin(): void {
         IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
     }
+    
+    doLogout(): void {
+        IdentityManager.destroyCredentials();
+        window.location.reload();
+    }
 
     async getToken(): Promise<string | null> {
         if (this.appId === undefined) {
-            return esriConfig.apiKey;
+            return esriConfig.apiKey as string;
         }
-        try {
-            let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
-            return credential.token;
-        } catch (e) {
-            console.log(e);
-            await this.dotNetRef.invokeMethodAsync("LoginFailed", e);
+        let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
+        return credential.token;
+    }
+    
+    async getTokenExpires(): Promise<number | null> {
+        if (this.appId === undefined) {
             return null;
         }
-
+        let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
+        return credential.expires;
+    }
+    
+    registerToken(token: string, expires: number): void {
+        let server: string;
+        if (this.info?.portalUrl !== undefined && this.info?.portalUrl !== null) {
+            server = this.info.portalUrl + "/portal/sharing/rest";
+        } else {
+            server = "https://www.arcgis.com/sharing/rest";
+        }
+        
+        IdentityManager.registerToken({
+            expires: expires,
+            server: server,
+            ssl: true,
+            token: token
+        });
     }
 }

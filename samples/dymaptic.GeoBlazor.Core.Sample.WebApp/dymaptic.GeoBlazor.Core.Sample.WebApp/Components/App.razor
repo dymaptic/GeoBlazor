@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="/" />
+        @{
+#if ENABLE_COMPRESSION
+        }
+        <link rel="icon" href="@Assets["_content/dymaptic.GeoBlazor.Core.Sample.Shared/favicon.ico"]" />
+        <link href="@Assets[$"_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css"]" rel="stylesheet" />
+        <link href="@Assets["dymaptic.GeoBlazor.Core.Sample.WebApp.styles.css"]" rel="stylesheet" />
+        <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]" />
+        <link href="@Assets["_content/dymaptic.GeoBlazor.Core.Sample.Shared"]" />
+        <script src="@Assets["_content/dymaptic.GeoBlazor.Core.Sample.Shared/functions.js"]"></script>
+        <script src="@Assets["https://js.arcgis.com/calcite-components/3.2.1/calcite.esm.js"]"
+                type="module"></script>
+        <link href="@Assets["https://js.arcgis.com/calcite-components/3.2.1/calcite.css"]"
+              rel="stylesheet" type="text/css" />
+        <ImportMap />
+        @{
+#else
+        }
+        <link rel="icon" href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/favicon.ico" />
+        <link rel="stylesheet" href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/bootstrap/bootstrap.min.css" />
+        <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
+        <link href="dymaptic.GeoBlazor.Core.Sample.WebApp.styles.css" rel="stylesheet" />
+        <link href="_content/dymaptic.GeoBlazor.Core" />
+        <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared" />
+        <script src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/functions.js"></script>
+        <script type="module" src="https://js.arcgis.com/calcite-components/3.2.1/calcite.esm.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/3.2.1/calcite.css" />
+        @{
+#endif
+        }
+        
+        <HeadOutlet @rendermode="@_configuredRenderMode" />
+        
+    </head>
+
+    <body>
+    @{
+#if DEBUG
+        // This should always be set to Server mode so that it can toggle on the server.
+    }
+        <RenderModeSelector @rendermode="@InteractiveServer" />
+    @{
+#endif
+    }
+        <Routes @rendermode="@_configuredRenderMode" />
+        <script src="_framework/blazor.web.js"></script>
+    </body>
+</html>
+
+@code {
+    
+    [Inject]
+    public required IConfiguration Configuration { get; set; }
+    
+#if DEBUG
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode", "Auto") switch
+        {
+            "Server" => InteractiveServer,
+            "WebAssembly" => InteractiveWebAssembly,
+            "Auto" => InteractiveAuto,
+            _ => null
+        };
+    }
+#endif
+
+    private IComponentRenderMode? _configuredRenderMode = InteractiveAuto;
+}

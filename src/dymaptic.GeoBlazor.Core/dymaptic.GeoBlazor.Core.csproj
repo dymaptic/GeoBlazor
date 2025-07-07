@@ -22,11 +22,6 @@
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE' AND $(GeneratePackage) != 'false'">true</GeneratePackageOnBuild>
         <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
-        <SkipStaticWebAssets Condition="$(SkipStaticWebAssets) == 'true'">false</SkipStaticWebAssets>
         <NoWarn>GeoBlazor_Untested</NoWarn>
     </PropertyGroup>
 
@@ -49,7 +44,7 @@
         <SupportedPlatform Include="browser" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Unit" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
@@ -57,11 +52,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
-        <PackageReference Include="protobuf-net" Version="3.2.45" />
+        <PackageReference Include="DefaultDocumentation" Version="1.1.1" PrivateAssets="all" />
+        <PackageReference Include="protobuf-net" Version="3.2.52" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.15" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.17" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />

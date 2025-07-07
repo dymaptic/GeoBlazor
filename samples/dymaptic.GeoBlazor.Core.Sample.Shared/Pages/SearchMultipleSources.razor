@@ -1,5 +1,4 @@
 ﻿@page "/search-multi-source"
-@using dymaptic.GeoBlazor.Core.Functions
 
 <PageTitle>Search with Multiple Sources</PageTitle>
 <h1>Search with Multiple Sources</h1>
@@ -23,20 +22,20 @@
     <SearchWidget AllPlaceholder="District or Senator"
                   IncludeDefaultSources="false"
                   Position="OverlayPosition.TopRight">
-        <LayerSearchSource SearchFields="@(new [] {"DISTRICTID"})"
+        <LayerSearchSource SearchFields="@(["DISTRICTID"])"
                            DisplayField="DISTRICTID"
                            ExactMatch="false"
-                           OutFields="@(new [] {"DISTRICTID", "NAME", "PARTY"})"
+                           OutFields="@(["DISTRICTID", "NAME", "PARTY"])"
                            Name="Congressional Districts"
                            Placeholder="example: 3708">
             <FeatureLayer Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_117th_Congressional_Districts_all/FeatureServer/0">
                 <PopupTemplate Title="Congressional District {DISTRICTID} </br>{NAME}, ({PARTY})" OverwriteActions="true" />
             </FeatureLayer>
         </LayerSearchSource>
-        <LayerSearchSource SearchFields="@(new [] {"Name", "Party"})"
+        <LayerSearchSource SearchFields="@(["Name", "Party"])"
                            SuggestionTemplate="{Name}, Party: {Party}"
                            ExactMatch="false"
-                           OutFields="@(new [] {"*"})"
+                           OutFields="@(["*"])"
                            Name="Senators"
                            Placeholder="example: Casey"
                            ZoomScale="500000">
