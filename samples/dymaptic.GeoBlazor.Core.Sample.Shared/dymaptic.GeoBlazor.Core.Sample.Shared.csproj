@@ -31,7 +31,7 @@
     </Choose>
 
     <ItemGroup>
-        <Content Update="wwwroot\images\dymaptic_logo.png">
+        <Content Update="wwwroot\images\dymaptic_logo.webp">
             <Color>Black</Color>
             <BaseSize>300,293</BaseSize>
         </Content>
