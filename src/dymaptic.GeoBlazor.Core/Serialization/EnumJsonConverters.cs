@@ -22,7 +22,8 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
 
             return default!;
         }
@@ -97,7 +98,8 @@ public class LabelPlacementStringConverter : EnumToKebabCaseStringConverter<Labe
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
 
             return default;
         }
@@ -125,7 +127,8 @@ public class DrawingToolStringConverter : EnumToKebabCaseStringConverter<Drawing
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
 
             return default;
         }
@@ -147,6 +150,10 @@ internal class EnumRelationshipConverter<T> : EnumToKebabCaseStringConverter<T> 
     }
 }
 
+/// <summary>
+///     Used to convert an IReadOnlyList<T> where T is an enum to an array of kebab case strings. In the case of a single
+///     string value in the Read method, it will return a list with a single item.
+/// </summary>
 internal class EnumToKebabCaseReadOnlyListConverter<T> : JsonConverter<IReadOnlyList<T>>
 {
     public override IReadOnlyList<T> Read(ref Utf8JsonReader reader, Type typeToConvert, 
