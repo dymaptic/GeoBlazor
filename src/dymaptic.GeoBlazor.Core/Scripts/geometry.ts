@@ -2,6 +2,8 @@ import {buildDotNetPoint, buildJsPoint} from "./point";
 import {buildDotNetPolygon, buildJsPolygon} from "./polygon";
 import {buildDotNetPolyline, buildJsPolyline} from "./polyline";
 import {buildDotNetExtent, buildJsExtent} from "./extent";
+import {buildDotNetMultipoint, buildJsMultipoint} from "./multipoint";
+import {buildDotNetMesh, buildJsMesh} from "./mesh";
 import {hasValue} from "./arcGisJsInterop";
 
 export function buildDotNetGeometry(geometry): any {
@@ -18,21 +20,9 @@ export function buildDotNetGeometry(geometry): any {
         case "extent":
             return buildDotNetExtent(geometry);
         case "multipoint":
-            try {
-                // @ts-ignore
-                let {buildDotNetMultipoint} = import("./multipoint");
-                return buildDotNetMultipoint(geometry);
-            } catch {
-                throw new Error("Multipoint requires GeoBlazor Pro");
-            }
+            return buildDotNetMultipoint(geometry);
         case "mesh":
-            try {
-                // @ts-ignore
-                let {buildDotNetMesh} = import("./mesh");
-                return buildDotNetMesh(geometry);
-            } catch {
-                throw new Error("Mesh requires GeoBlazor Pro");
-            }
+            return buildDotNetMesh(geometry);
     }
 }
 
@@ -50,21 +40,9 @@ export function buildJsGeometry(geometry): any {
         case "extent":
             return buildJsExtent(geometry);
         case "multipoint":
-            try {
-                // @ts-ignore
-                let { buildJsMultipoint } = import("./multipoint");
-                return buildJsMultipoint(geometry);
-            } catch {
-                throw new Error("Multipoint requires GeoBlazor Pro");
-            }
+            return buildJsMultipoint(geometry);
         case "mesh":
-            try {
-                // @ts-ignore
-                let { buildJsMesh } = import("./mesh");
-                return buildJsMesh(geometry);
-            } catch {
-                throw new Error("Mesh requires GeoBlazor Pro");
-            }
+            return buildJsMesh(geometry);
     }
 
     return geometry as any;

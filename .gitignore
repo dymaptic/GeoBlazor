@@ -377,3 +377,4 @@ MigrationBackup/
 !/samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth.Client/wwwroot/appsettings.json
 !/samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth/appsettings.json
 /src/dymaptic.GeoBlazor.Core/.esbuild-timestamp.json
+.esbuild-record.json

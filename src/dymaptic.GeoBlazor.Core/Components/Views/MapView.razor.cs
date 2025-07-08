@@ -827,6 +827,7 @@ public partial class MapView : MapComponent
             layerView.Parent = this;
             layerView.CoreJsModule = CoreJsModule;
             layerView.JsComponentReference = layerViewCreateEvent.LayerViewObjectRef;
+            layerView.AbortManager = AbortManager;
         }
 
         Layer? createdLayer = layerViewCreateEvent.IsBasemapLayer
@@ -866,7 +867,6 @@ public partial class MapView : MapComponent
                 layer.JsComponentReference = layerViewCreateEvent.LayerObjectRef;
                 layer.CoreJsModule = CoreJsModule;
                 layer.ProJsModule = ProJsModule;
-                layer.AbortManager = new AbortManager(CoreJsModule!);
                 layer.Imported = true;
                 layer.Loaded = true;
 
