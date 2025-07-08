@@ -151,7 +151,7 @@ internal class EnumRelationshipConverter<T> : EnumToKebabCaseStringConverter<T> 
 }
 
 /// <summary>
-///     Used to convert an IReadOnlyList<T> where T is an enum to an array of kebab case strings. In the case of a single
+///     Used to convert an IReadOnlyList of T where T is an enum to an array of kebab case strings. In the case of a single
 ///     string value in the Read method, it will return a list with a single item.
 /// </summary>
 internal class EnumToKebabCaseReadOnlyListConverter<T> : JsonConverter<IReadOnlyList<T>>
