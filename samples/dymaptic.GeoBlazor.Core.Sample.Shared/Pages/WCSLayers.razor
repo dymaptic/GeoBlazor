@@ -22,7 +22,8 @@
         </Basemap>
         @if (_markup)
         {
-            <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer"></WCSLayer>
+            <WCSLayer ExcludeApiKey="true" 
+                      Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer"></WCSLayer>
         }
 
     </Map>
@@ -38,7 +39,9 @@
         {
             _wcsSampleRenderer = CreateRenderer();
             _wcsSampleDimensionalDefinition = CreateDimensionalDefinition();
-            _wcsSampleLayer = new(_wcsLayerUrl, _wcsSampleDimensionalDefinition, _wcsSampleRenderer, _wcsSampleOpacity, _wcsSampleTitle);
+
+            _wcsSampleLayer = new(_wcsLayerUrl, _wcsSampleDimensionalDefinition, _wcsSampleRenderer,
+                _wcsSampleOpacity, _wcsSampleTitle);
             await _view.AddLayer(_wcsSampleLayer);
         }
         else
@@ -50,11 +53,11 @@
     public List<DimensionalDefinition> CreateDimensionalDefinition()
     {
         // initializes the dimensional filter for the raster display
-        List<DimensionalDefinition> multidimensionalDefinition = new()
-            {
-                new DimensionalDefinition(dimensionName: "StdZ", variableName: "water_temp", values: new List<long> { 0 }), 
-                new(dimensionName: "Std_Time", variableName: "temperature", values: new List<long>{ 1396828800000 } )
-            };
+        List<DimensionalDefinition> multidimensionalDefinition =
+        [
+            new(dimensionName: "StdZ", variableName: "water_temp", values: new List<long> { 0 }),
+            new(dimensionName: "Std_Time", variableName: "temperature", values: new List<long> { 1396828800000 })
+        ];
         return multidimensionalDefinition;
     }
 

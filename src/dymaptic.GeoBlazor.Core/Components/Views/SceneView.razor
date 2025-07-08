@@ -1,4 +1,4 @@
-﻿@inherits MapComponent
+@inherits MapView
 
 <!-- Load Calcite Design System -->
 <script type="module" src="https://js.arcgis.com/calcite-components/3.2.1/calcite.esm.js"></script>
@@ -7,13 +7,13 @@
     <CascadingValue Name="Parent" Value="this">
         <CascadingValue Name="MapRendered" Value="MapRendered">
             <div class="@Class map-wrapper" style="@Style">
-                <arcgis-map class="map-container" id="@($"map-container-{Id}")">
+                <arcgis-scene class="map-container" id="@($"map-container-{Id}")">
                     @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                     {
                         <div class="validation-message">@((MarkupString)ErrorMessage)</div>
                     }
                     @ChildContent
-                </arcgis-map>
+                </arcgis-scene>
                 @if (WhiteLabel is null || !IsPro())
                 {
                     <div class="dymaptic-branding">

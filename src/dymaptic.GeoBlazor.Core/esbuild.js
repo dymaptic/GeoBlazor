@@ -9,10 +9,19 @@ const args = process.argv.slice(2);
 const isDebug = args.includes('--debug');
 const isWatch = args.includes('--watch');
 const isRelease = args.includes('--release');
+const force = args.includes('--force');
 
 const RECORD_FILE = path.resolve('../../.esbuild-record.json');
 const SCRIPTS_DIR = path.resolve('./Scripts');
 const OUTPUT_DIR = path.resolve('./wwwroot/js');
+
+if (force) {
+    // delete the record file if --force is specified
+    if (fs.existsSync(RECORD_FILE)) {
+        console.log('Force rebuild: Deleting existing record file.');
+        fs.unlinkSync(RECORD_FILE);
+    }
+}
 
 function getAllScriptFiles(dir) {
     let results = [];

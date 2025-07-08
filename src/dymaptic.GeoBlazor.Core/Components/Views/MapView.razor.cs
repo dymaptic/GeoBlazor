@@ -128,6 +128,12 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public bool? PromptForOAuthLogin { get; set; }
+
+    /// <summary>
+    ///     Determines if the view should automatically show the zoom widget controls (+/-) in the top left corner of the view. Defaults to true.
+    /// </summary>
+    [Parameter]
+    public bool ShowZoomWidget { get; set; } = true;
     
     [Parameter]
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -2264,7 +2270,6 @@ public partial class MapView : MapComponent
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        AbortManager ??= new AbortManager(CoreJsModule!);
 
         if (!LoadOnRender && !_renderCalled)
         {
@@ -2379,6 +2384,17 @@ public partial class MapView : MapComponent
             Map.Basemap!.ReferenceLayers = Map.Basemap!.ReferenceLayers?.Where(l => !l.Imported).ToList();
 #pragma warning restore BL0005 
         }
+        
+        if (ShowZoomWidget && !Widgets.Any(w => w is ZoomWidget))
+        {
+            await AddWidget(new ZoomWidget(position: OverlayPosition.TopLeft)
+            {
+                Parent = this,
+                View = this,
+                CoreJsModule = CoreJsModule
+            });
+        }
+        
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -2604,8 +2620,7 @@ public partial class MapView : MapComponent
         }
     }
 
-    
-    private bool IsPro()
+    protected bool IsPro()
     {
         if (_isPro is null)
         {

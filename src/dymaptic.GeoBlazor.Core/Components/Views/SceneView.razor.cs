@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/web-scene">Sample - Web Scene</a>
 /// </example>
-public class SceneView : MapView
+public partial class SceneView : MapView
 {
     /// <summary>
     ///     The Z-Index (elevation) of the camera position over the view.

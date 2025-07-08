@@ -1,8 +1,0 @@
-@inherits Widget
-
-<CascadingValue Name="Parent" Value="this">
-    <arcgis-search @ref="WebComponentReference"></arcgis-search>
-    <div id="@($"widget-container-{Id}")" class="esri-widget" hidden="@Hidden">
-        @ChildContent
-    </div>
-</CascadingValue>

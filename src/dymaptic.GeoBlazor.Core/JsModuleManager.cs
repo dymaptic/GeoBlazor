@@ -14,10 +14,9 @@ public class JsModuleManager
         {
             if (proModule is null)
             {
-                Version? version = Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
                 _coreModule = await jsRuntime
                     .InvokeAsync<IJSObjectReference>("import", cancellationToken, 
-                        $"./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js?v={version}");
+                        $"./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js?v={_version}");
             }
             else
             {
@@ -35,10 +34,6 @@ public class JsModuleManager
     {
         if (_proModule is null && !_proChecked)
         {
-            string version = Assembly.GetAssembly(typeof(JsModuleManager))!
-                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
-                .InformationalVersion;
-
             LicenseType licenseType = Licensing.GetLicenseType();
 
             switch ((int)licenseType)
@@ -46,7 +41,7 @@ public class JsModuleManager
                 case >= 100:
                 
                     _proModule = await jsRuntime.InvokeAsync<IJSObjectReference>("import", cancellationToken,
-                        $"./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js?v={version}");
+                        $"./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js?v={_version}");
                     break;
                 default:
                     _proChecked = true;
@@ -60,4 +55,7 @@ public class JsModuleManager
     private IJSObjectReference? _proModule;
     private IJSObjectReference? _coreModule;
     private bool _proChecked;
+    private readonly string _version = Assembly.GetAssembly(typeof(JsModuleManager))!
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
+        .InformationalVersion;
 }

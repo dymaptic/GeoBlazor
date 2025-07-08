@@ -61,6 +61,9 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
         case 'slider':
             let {buildJsSliderWidget} = await import('./sliderWidget');
             return await buildJsSliderWidget(dotNetObject, layerId, viewId);
+        case 'zoom':
+            let {buildJsZoomWidget} = await import('./zoomWidget');
+            return await buildJsZoomWidget(dotNetObject, layerId, viewId);
         case 'catalog-layer-list':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
