@@ -32,6 +32,7 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [ArcGISProperty]
     [Parameter]
     [RequiredProperty]
+    [CodeGenerationIgnore]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public virtual string Url { get; set; } = null!;
     
