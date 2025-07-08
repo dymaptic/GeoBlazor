@@ -131,10 +131,11 @@
                         {
                             Graphic result = _results.Features![i];
                             int index = i;
-                            <calcite-pick-list-item label="@result.Attributes["Park"]"
-                                                    value="@i"
-                                                    description="@($"Total visitors: {result.Attributes[_orderByFieldSelected!]}\nState: {result.Attributes["State"]}")"
-                                                    @onclick="@(() => OnParkResultClicked(index))" />
+                            <calcite-list-item label="@result.Attributes["Park"]"
+                                               selection-mode="none"
+                                               value="@i"
+                                               description="@($"Total visitors: {result.Attributes[_orderByFieldSelected!]}\nState: {result.Attributes["State"]}")"
+                                               @onclick="@(() => OnParkResultClicked(index))" />
                         }
                     </div>
                 }
