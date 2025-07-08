@@ -45,9 +45,9 @@ function getLastBuildRecord() {
     try {
         const data = fs.readFileSync(RECORD_FILE, 'utf-8');
         const parsed = JSON.parse(data);
-        return {
-            timestamp: parsed.timestamp || 0,
-            branch: parsed.branch || 'unknown'
+        return { 
+            timestamp: parsed.timestamp || 0, 
+            branch: parsed.branch || 'unknown' 
         };
     } catch {
         return { timestamp: 0, branch: 'unknown' };
@@ -55,7 +55,7 @@ function getLastBuildRecord() {
 }
 
 function saveBuildRecord() {
-    fs.writeFileSync(RECORD_FILE, JSON.stringify({
+    fs.writeFileSync(RECORD_FILE, JSON.stringify({ 
         timestamp: Date.now(),
         branch: getCurrentGitBranch()
     }), 'utf-8');
@@ -97,12 +97,12 @@ if (!isWatch) {
     const lastBuild = getLastBuildRecord();
     const currentBranch = getCurrentGitBranch();
     const branchChanged = currentBranch !== lastBuild.branch;
-
+    
     if (branchChanged) {
         console.log(`Git branch changed from "${lastBuild.branch}" to "${currentBranch}". Rebuilding...`);
     } else if (!scriptsModifiedSince(lastBuild.timestamp)) {
         console.log('No changes in Scripts folder since last build.');
-
+        
         // check output directory for existing files
         const outputFiles = fs.readdirSync(OUTPUT_DIR);
         if (outputFiles.length > 0) {

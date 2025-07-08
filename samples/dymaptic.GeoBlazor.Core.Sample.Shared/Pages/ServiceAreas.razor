@@ -7,7 +7,7 @@
 <p class="instructions">
     Click on any point on the map to be shown a set of "Service Areas". Service Areas are drivable distances in 5, 10, and 15 minute bands.
 </p>
-<MapView @ref="View" Longitude="135.5023"
+<MapView @ref="_mapView" Longitude="135.5023"
          Latitude="34.6937"
          Zoom="11"
          Class="map-view"
@@ -19,26 +19,19 @@
     </Map>
 </MapView>
 
-<Graphic @ref="AreaGraphic">
-    <SimpleMarkerSymbol Color="@(new MapColor("white"))" Size="8" />
-</Graphic>
-
-<SimpleFillSymbol @ref="AreaFillSymbol" Color="@(new MapColor("rgba(81, 46, 132,.25)"))" />
-
 @code {
-    public MapView? View { get; set; }
-    public Graphic? AreaGraphic { get; set; }
-    public Symbol? AreaFillSymbol { get; set; }
-
-    private readonly string _serviceAreaUrl =
-        "https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea";
 
     private async Task OnClick(ClickEvent clickEvent)
     {
-        await AreaGraphic!.SetGeometry(clickEvent.MapPoint);
-        await View!.ClearGraphics();
-        await View.AddGraphic(AreaGraphic);
-        await View.SolveServiceArea(_serviceAreaUrl, new double[] { 5, 10, 15 }, AreaFillSymbol!);
+        await _areaGraphic.SetGeometry(clickEvent.MapPoint);
+        await _mapView!.ClearGraphics();
+        await _mapView.AddGraphic(_areaGraphic);
+        await _mapView.SolveServiceArea(_serviceAreaUrl, [5, 10, 15], _areaFillSymbol);
     }
 
+    private MapView? _mapView;
+    private readonly Graphic _areaGraphic = new(symbol: new SimpleMarkerSymbol(color: new MapColor("white"), size: 8));
+    private readonly SimpleFillSymbol _areaFillSymbol = new(color: new MapColor(81, 46, 132, 0.25));
+    private readonly string _serviceAreaUrl =
+        "https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea";
 }
