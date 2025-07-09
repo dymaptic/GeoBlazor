@@ -100,7 +100,7 @@
         <Folder Include="Documentation/" />
     </ItemGroup>
 
-    <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
+    <Target Name="NPM Install" BeforeTargets="BuildOnlySettings" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
         <Message Importance="high" Text="Running NPM Install" />
         <Exec Command="npm install" />
     </Target>
