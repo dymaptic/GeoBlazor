@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+        <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.6"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj" />
+    </ItemGroup>
+
+</Project>

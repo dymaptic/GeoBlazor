@@ -25,6 +25,18 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     public IFeatureReduction? FeatureReduction { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerurl-property">GeoBlazor Docs</a>
+    ///     The URL of the GeoJSON file.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [RequiredProperty]
+    [CodeGenerationIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public virtual string Url { get; set; } = null!;
+    
+    /// <summary>
     ///    Asynchronously set the value of the FeatureReduction property after render.
     /// </summary>
     /// <param name="value">
@@ -74,6 +86,31 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         await JsComponentReference.InvokeVoidAsync("setFeatureReduction", 
             CancellationTokenSource.Token, value);
     }
+    
+    /// <summary>
+    ///     Internal use callback from JavaScript
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId)
+    {
+        try
+        {
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
+
+            ActiveQueries[queryId] = graphics;
+        }
+        catch (Exception ex)
+        {
+            throw new SerializationException("Error deserializing graphics from stream.", ex);   
+        }
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -122,4 +159,9 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         base.ValidateRequiredChildren();
         FeatureReduction?.ValidateRequiredChildren();
     }
+
+    /// <summary>
+    ///     For internal use only, tracks returning queries from ArcGIS
+    /// </summary>
+    public Dictionary<Guid, Graphic[]> ActiveQueries = new();
 }

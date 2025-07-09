@@ -9,8 +9,15 @@
 </div>
 <p class="instructions">
     A simple demo of loading multiple layers into the LayerList widget.
+</p>
+<p class="instructions">
     Select the right arrow to open the sublayers within the layer.
+</p>
+<p class="instructions">
     Select the "eye" icons to toggle a layer's visibility on the basemap.
+</p>
+<p class="instructions">
+    Select the "legend" icon to open the legend for that layer.
 </p>
 
 @if (_windowWidth is not null)
@@ -48,11 +55,10 @@
         }
     }
 
-    private int? _windowWidth;
-
     private async Task<ListItem> OnListItemCreated(ListItem item)
     {
         await item.SetVisibility(true);
+        await item.SetPanel(new ListItemPanelWidget(showLegendContent: true));
         if (item.Title?.StartsWith("Transit") ?? false)
         {
             await item.SetTitle($"Mass {item.Title}");
@@ -60,4 +66,5 @@
         return item;
     }
 
+    private int? _windowWidth;
 }

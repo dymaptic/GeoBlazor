@@ -135,6 +135,11 @@ public class AuthenticationManager
             }
         }
     }
+    
+    /// <summary>
+    ///     The expiration date and time of the current token. This is used to determine when the token should be refreshed or removed. If the token is an API Key, this will be null.
+    /// </summary>
+    public DateTime? TokenExpirationDateTime { get; set; }
 
     /// <summary>
     ///     Initializes authentication based on either an OAuth App ID or an API Key. This is called automatically by <see cref="MapView" /> on first render, but can also be called manually for other actions such as rest calls.
@@ -166,6 +171,19 @@ public class AuthenticationManager
     {
         await Initialize();
         await _module!.InvokeVoidAsync("doLogin");
+    }
+
+    /// <summary>
+    ///     Logs the user out of the current session, clearing any stored tokens or keys, and reloads the page to reflect the changes.
+    /// </summary>
+    public async Task Logout()
+    {
+        if (await IsLoggedIn() != true)
+        {
+            return;
+        }
+
+        await _module!.InvokeVoidAsync("doLogout");
     }
 
     /// <summary>
@@ -218,6 +236,41 @@ public class AuthenticationManager
         IJSObjectReference arcGisJsInterop = await _jsModuleManager.GetArcGisJsCore(_jsRuntime, arcGisPro, CancellationToken.None);
         
         return arcGisJsInterop;
+    }
+
+    /// <summary>
+    ///     Registers the given OAuth 2.0 access token or ArcGIS Server token with the AuthenticationManager. The RegisterToken method is an advanced workflow for pre-registering long-term tokens for when you don't want users to sign in. See <a target="_blank" href="https://docs.geoblazor.com/pages/authentication.html#app-authentication">App Authentication</a> for more information.
+    /// </summary>
+    /// <param name="token">
+    ///     The access token.
+    /// </param>
+    /// <param name="expires">
+    ///     The expiration date and time of the token. This is used to determine when the token should be refreshed or removed.
+    /// </param>
+    public async Task RegisterToken(string token, DateTimeOffset expires)
+    {
+        await Initialize();
+        TokenExpirationDateTime = expires.DateTime;
+        await _module!.InvokeVoidAsync("registerToken", token, expires.ToUnixTimeMilliseconds());
+    }
+    
+    /// <summary>
+    ///     Retrieves the expiration date and time of the current token. This is used to determine when the token should be refreshed or removed. If the token is an API Key, this will always return null.
+    /// </summary>
+    public async Task<DateTime?> GetTokenExpirationDateTime()
+    {
+        if (TokenExpirationDateTime is not null)
+        {
+            return TokenExpirationDateTime;
+        }
+        await Initialize();
+        long? expiresInMilliseconds = await _module!.InvokeAsync<long?>("getTokenExpires");
+        if (expiresInMilliseconds is not null)
+        {
+            TokenExpirationDateTime = DateTimeOffset.FromUnixTimeMilliseconds(expiresInMilliseconds.Value).UtcDateTime;
+        }
+        
+        return TokenExpirationDateTime;
     }
 
     private readonly IJSRuntime _jsRuntime;

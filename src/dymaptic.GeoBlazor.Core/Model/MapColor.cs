@@ -71,7 +71,10 @@ public class MapColor : IEquatable<MapColor>
         {
             _rgbaValues = value;
             Color? color = ToSystemColor();
-            HexOrNameValue ??= color is null ? null : ToHex();
+            if (color is not null && (HexOrNameValue is null || HexOrNameValue.Length == 0))
+            {
+                HexOrNameValue = ToHex();
+            }
         }
     }
 
@@ -86,7 +89,10 @@ public class MapColor : IEquatable<MapColor>
         {
             _hexOrNameValue = value;
             Color? color = ToSystemColor();
-            RgbaValues ??= color is null ? [] : [color.Value.R, color.Value.G, color.Value.B, color.Value.A / 255.0];
+            if (color is not null && (RgbaValues is null || RgbaValues.Length == 0))
+            {
+                RgbaValues = [color.Value.R, color.Value.G, color.Value.B, color.Value.A / 255.0];
+            }
         }
     }
 

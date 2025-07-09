@@ -110,6 +110,25 @@ public abstract class LogicComponent : IDisposable
     }
     
     /// <summary>
+    ///     Convenience method to invoke a JS function from the .NET logic component class.
+    /// </summary>
+    /// <param name="method">
+    ///     The name of the JS function to call.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    /// <param name="parameters">
+    ///     The collection of parameters to pass to the JS call.
+    /// </param>
+    protected virtual async Task<T> InvokeAsync<T>(string method, CancellationToken cancellationToken, params object?[] parameters)
+    {
+        await Initialize();
+
+        return await Component!.InvokeAsync<T>(method, cancellationToken, parameters);
+    }
+    
+    /// <summary>
     ///    The reference to the Authentication Manager.
     /// </summary>
     protected readonly AuthenticationManager AuthenticationManager;

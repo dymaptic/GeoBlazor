@@ -29,7 +29,7 @@ export async function buildJsBookmark(dnBookmark): Promise<Bookmark | null> {
     if (hasValue(dnBookmark.thumbnail)) {
         //ArcGIS has this as an "object" with url property
         bookmark.thumbnail = {
-            url: dnBookmark.thumbnail
+            url: dnBookmark.thumbnail.url
         };
     }
 

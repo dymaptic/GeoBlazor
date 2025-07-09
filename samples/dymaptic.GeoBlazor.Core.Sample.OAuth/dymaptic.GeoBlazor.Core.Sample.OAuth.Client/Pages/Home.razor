@@ -1,0 +1,31 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<div class="welcome-message" style="margin-top: 1rem;">
+    <h2>OAuth Sample</h2>
+    <p>
+        This sample demonstrates how to use ArcGIS OAuth (User Authentication) with GeoBlazor. In order to use these, you
+        would <em>not</em> use an API key. Instead, you must 
+        <a target="_blank" href="https://docs.geoblazor.com/pages/arcgis.html#oauth2-credentials-user-and-app-authentication">
+            set up an ArcGIS OAuth application
+        </a> in the ArcGIS Location Platform, ArcGIS Online, or ArcGIS Enterprise, get an AppId, and place it in your appsettings.
+        
+    </p>
+    
+    <pre>
+        <code>
+            {
+                "ArcGISAppId": "YOUR_APP_ID"
+            }
+        </code>
+    </pre>
+    
+    <p>
+        There are two pages. <a href="login">Login</a> gives you a button to log in to ArcGIS Online or ArcGIS Enterprise. 
+        <a href="auto-login">Auto Login</a> automatically prompts you to log in if you have not done so already.
+    </p>
+    <p>
+        In both cases, once the user is logged in, the sample will use their token to display a map.
+    </p>
+</div>

@@ -227,6 +227,12 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
     
     [ProtoMember(29)]
     public string? Id { get; set; }
+    
+    /// <summary>
+    ///     Multipoint geometry points.
+    /// </summary>
+    [ProtoMember(30)]
+    public MapPointSerializationRecord[]? Points { get; set; }
 
     public Geometry FromSerializationRecord()
     {
@@ -237,6 +243,37 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
         {
             id = guidId;
         }
+        
+        if (Type == "multipoint")
+        {
+            // Multipoint is in GeoBlazor Pro assembly, so we need to use reflection to get the type
+            Type? multipointType = System.Type.GetType("dymaptic.GeoBlazor.Pro.Components.Geometries.Multipoint, " +
+                "dymaptic.GeoBlazor.Pro");
+
+            if (multipointType is not null && multipointType.IsSubclassOf(typeof(Geometry)))
+            {
+                Point[]? points = Points?.Select(p =>
+                    {
+                        MapPoint mp = p.FromSerializationRecord();
+
+                        return new Point(x: mp[0], y: mp[1]);
+                    })
+                    .ToArray();
+
+                if (Activator.CreateInstance(multipointType, 
+                        args: [HasM, HasZ, points, SpatialReference?.FromSerializationRecord()]) 
+                    is not Geometry multipoint)
+                {
+                    throw new InvalidOperationException(
+                        "Multipoint could not be created. Ensure the type is correct and the assembly is loaded.");
+                }
+                multipoint.Extent = extent;
+                multipoint.Id = id;
+
+                return multipoint;
+            }
+        }
+        
         return Type switch
         {
             "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(), HasM, HasZ, M)

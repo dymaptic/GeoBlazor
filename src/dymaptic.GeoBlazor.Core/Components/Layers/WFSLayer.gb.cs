@@ -223,10 +223,6 @@ public partial class WFSLayer : Layer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="wfsCapabilities">
-    ///     WFS service information about the available layers and operations.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#wfsCapabilities">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     public WFSLayer(
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
@@ -270,8 +266,7 @@ public partial class WFSLayer : Layer,
         TrackInfo? trackInfo = null,
         string? url = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null,
-        WFSCapabilities? wfsCapabilities = null)
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -318,7 +313,6 @@ public partial class WFSLayer : Layer,
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-        WfsCapabilities = wfsCapabilities;
 #pragma warning restore BL0005    
     }
     
@@ -712,6 +706,16 @@ public partial class WFSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerwfscapabilities-property">GeoBlazor Docs</a>
+    ///     WFS service information about the available layers and operations.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#wfsCapabilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public WFSCapabilities? WfsCapabilities { get; protected set; }
     
 #endregion
 
@@ -3598,43 +3602,6 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the WfsCapabilities property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetWfsCapabilities(WFSCapabilities? value)
-    {
-#pragma warning disable BL0005
-        WfsCapabilities = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(WfsCapabilities)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setWfsCapabilities", 
-            CancellationTokenSource.Token, value);
     }
     
 #endregion

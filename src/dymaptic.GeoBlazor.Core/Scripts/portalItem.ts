@@ -11,7 +11,7 @@ export default class PortalItemWrapper extends PortalItemGenerated {
 }
 
 export async function buildJsPortalItem(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    if (hasValue(dotNetObject.apiKey)) {
+    if (hasValue(dotNetObject.apiKey) || (hasValue(dotNetObject.excludeApiKey) && dotNetObject.excludeApiKey)) {
         esriConfig.apiKey = null;
         // this will be re-added in GeoBlazor's `AuthenticationManager` on the next MapView.
     }

@@ -563,15 +563,23 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             let jsLayer: any = evt.layer;
             let jsLayerView: any = evt.layerView;
 
-            if (jsLayer.type == 'feature') {
-                const {default: FeatureLayerWrapper} = await import('./featureLayer');
-                jsLayer = new FeatureLayerWrapper(jsLayer);
-                const {default: FeatureLayerViewWrapper} = await import('./featureLayerView');
-                jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
+            switch (jsLayer.type) {
+                case 'feature':
+                    const {default: FeatureLayerWrapper} = await import('./featureLayer');
+                    jsLayer = new FeatureLayerWrapper(jsLayer);
+                    const {default: FeatureLayerViewWrapper} = await import('./featureLayerView');
+                    jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
+                    break;
+                case 'geojson':
+                    const {default: GeoJSONLayerWrapper} = await import('./geoJSONLayer');
+                    jsLayer = new GeoJSONLayerWrapper(jsLayer);
+                    const {default: GeoJSONLayerViewWrapper} = await import('./geoJSONLayerView');
+                    jsLayerView = new GeoJSONLayerViewWrapper(jsLayerView);
+                    break;
             }
 
-                        const layerRef = DotNet.createJSObjectReference(jsLayer);
-                        const layerViewRef = DotNet.createJSObjectReference(jsLayerView);
+            const layerRef = DotNet.createJSObjectReference(jsLayer);
+            const layerViewRef = DotNet.createJSObjectReference(jsLayerView);
 
             const result = {
                 layerObjectRef: layerRef,
@@ -1804,21 +1812,38 @@ export function addReactiveWatcher(targetId: string, targetName: string, watchEx
                                    initial: boolean, dotNetRef: any): any {
     const target = arcGisObjectRefs[targetId];
     console.debug(`Adding watch: "${watchExpression}"`);
-    const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
+    const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef', 'generateSerializableJson', 'buildJsStreamReference',
         `return reactiveUtils.watch(() => ${watchExpression},
-        (value) => dotNetRef.invokeMethodAsync('OnReactiveWatcherUpdate', '${watchExpression}', value),
+        (value) => { 
+            let jsonValue = generateSerializableJson(value);
+            let jsStreamRef = buildJsStreamReference(jsonValue);
+            dotNetRef.invokeMethodAsync('OnReactiveWatcherUpdate', '${watchExpression}', jsStreamRef);
+        },
         {once: ${once}, initial: ${initial}});`);
-    return watcherFunc(target, reactiveUtils, dotNetRef);
+    return watcherFunc(target, reactiveUtils, dotNetRef, generateSerializableJson, buildJsStreamReference);
 }
 
 export function addReactiveListener(targetId: string, eventName: string, once: boolean, dotNetRef: any): any {
     const target = arcGisObjectRefs[targetId];
-    console.debug(`Adding listener: "${eventName}"`);
-    const listenerFunc = new Function('target', 'reactiveUtils', 'dotNetRef',
-        `return reactiveUtils.on(() => target, '${eventName}',
-        (value) => dotNetRef.invokeMethodAsync('OnReactiveListenerTriggered', '${eventName}', value),
+    let targetName = 'target';
+    let fullEventName = eventName;
+    if (eventName.includes('.')) {
+        let lastIndexOfDot = eventName.lastIndexOf('.');
+        // split the event name into the target and the event name
+        targetName = 'target.' + eventName.substring(0, lastIndexOfDot);
+        eventName = eventName.substring(lastIndexOfDot + 1);
+    }
+    
+    console.debug(`Adding listener: "${eventName}" to target: "${targetName}"`);
+    const listenerFunc = new Function('target', 'reactiveUtils', 'dotNetRef', 'generateSerializableJson', 'buildJsStreamReference',
+        `return reactiveUtils.on(() => ${targetName}, '${eventName}',
+        (value) => {
+            let jsonValue = generateSerializableJson(value);
+            let jsStreamRef = buildJsStreamReference(jsonValue);
+            dotNetRef.invokeMethodAsync('OnReactiveListenerTriggered', '${fullEventName}', jsStreamRef);
+        },
         {once: ${once}, onListenerRemove: () => console.debug('Removing listener: ${eventName}')});`);
-    return listenerFunc(target, reactiveUtils, dotNetRef);
+    return listenerFunc(target, reactiveUtils, dotNetRef, generateSerializableJson, buildJsStreamReference);
 }
 
 export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string): Promise<any> {
@@ -2047,6 +2072,15 @@ function updateGeometryForProtobuf(geometry) {
         });
     } else {
         geometry.rings = [];
+    }
+    if (hasValue(geometry.points)) {
+        geometry.points = geometry.points.map(pt => {
+            return {
+                coordinates: pt
+            }
+        });
+    } else {
+        geometry.points = [];
     }
 }
 

@@ -112,6 +112,11 @@
     
     private async Task NavigateTo(string href)
     {
+        if (href == NavigationManager.ToBaseRelativePath(NavigationManager.Uri))
+        {
+            // If the user clicks on the current page, we don't want to navigate away.
+            return;
+        }
         await JsRuntime.InvokeVoidAsync("setWaitCursor", true);
         await InvokeAsync(async () =>
         {
@@ -153,14 +158,14 @@
         new("csv-layer", "CSV Layers", "oi-grid-four-up"),
         new("kmllayers", "KML Layers", "oi-excerpt"),
         new("georss-layer", "GeoRSS Layer", "oi-rss"),
-        new("osm-layer", "OpenStreetMaps Layer", null, "osm.png"),
+        new("osm-layer", "OpenStreetMaps Layer", null, "osm.webp"),
         new("wcslayers", "WCS Layers", "oi-project"),
         new("wfslayers", "WFS Layers", null, "wfs.svg"),
         new("wmslayers", "WMS Layers", null, "wms.svg"),
         new("wmtslayers", "WMTS Layers", null, "wmts.svg"),
-        new("bingmaps-layer", "Bing Maps Layer", null, "bing.png"),
+        new("bingmaps-layer", "Bing Maps Layer", null, "bing.webp"),
         new("imagerylayer", "Imagery Layers", "oi-image"),
-        new("imagery-tile-layer", "Imagery Tile Layers", null, "tile.png"),
+        new("imagery-tile-layer", "Imagery Tile Layers", null, "tile.webp"),
         new("web-map", "Web Map", "oi-browser"),
         new("web-scene", "Web Scene", "oi-box"),
         new("events", "Events", "oi-flash"),
@@ -177,7 +182,7 @@
         new("projection", "Display Projection", "oi-sun"),
         new("projection-tool", "Projection Tool", "oi-cog"),
         new("basemap-projections", "Basemap Projections", "oi-bullhorn"),
-        new("unique-value", "Unique Renderers", "oi-brush"),
+        new("unique-value", "Unique Renderers", "oi-eyedropper"),
         new("marker-rotation", "Marker Rotation", "oi-loop-circular"),
         new("graphic-tracking", "Graphic Tracking", "oi-move"),
         new("geometry-methods", "Geometry Methods", "oi-task"),

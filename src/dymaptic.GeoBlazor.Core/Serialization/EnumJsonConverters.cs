@@ -22,7 +22,8 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
 
             return default!;
         }
@@ -34,6 +35,32 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
         string? stringVal = Enum.GetName(typeof(T), value);
         string resultString = stringVal!.ToKebabCase();
         writer.WriteStringValue(resultString);
+    }
+}
+
+internal class GeometryTypeConverter : EnumToKebabCaseStringConverter<GeometryType>
+{
+    public override GeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()?
+            .KebabToPascalCase()
+            .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("Geometry", string.Empty, StringComparison.OrdinalIgnoreCase);
+
+        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default;
+    }
+}
+
+internal class SimpleGeometryTypeConverter : EnumToKebabCaseStringConverter<SimpleGeometryType>
+{
+    public override SimpleGeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()?
+            .KebabToPascalCase()
+            .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace("Geometry", string.Empty, StringComparison.OrdinalIgnoreCase);
+
+        return value is not null ? (SimpleGeometryType)Enum.Parse(typeof(SimpleGeometryType), value, true) : default;
     }
 }
 
@@ -71,7 +98,8 @@ public class LabelPlacementStringConverter : EnumToKebabCaseStringConverter<Labe
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
 
             return default;
         }
@@ -99,7 +127,8 @@ public class DrawingToolStringConverter : EnumToKebabCaseStringConverter<Drawing
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
 
             return default;
         }
@@ -118,5 +147,81 @@ internal class EnumRelationshipConverter<T> : EnumToKebabCaseStringConverter<T> 
             .Replace(nameof(Cardinality), string.Empty);
 
         return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
+    }
+}
+
+/// <summary>
+///     Used to convert an IReadOnlyList of T where T is an enum to an array of kebab case strings. In the case of a single
+///     string value in the Read method, it will return a list with a single item.
+/// </summary>
+internal class EnumToKebabCaseReadOnlyListConverter<T> : JsonConverter<IReadOnlyList<T>>
+{
+    public override IReadOnlyList<T> Read(ref Utf8JsonReader reader, Type typeToConvert, 
+        JsonSerializerOptions options)
+    {
+        if (reader.TokenType != JsonTokenType.StartArray)
+        {
+            // check if the value is a single string
+            if (reader.TokenType == JsonTokenType.String)
+            {
+                string? value = reader.GetString();
+                if (value is not null)
+                {
+                    return (List<T>) [(T)Enum.Parse(typeof(T), 
+                        value.Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+                            .Replace(typeof(T).Name, string.Empty)
+                            .KebabToPascalCase(), true)];
+                }
+            }
+            
+            throw new JsonException("Expected start of array or a single string value.");
+        }
+
+        List<T> values = [];
+
+        while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+        {
+            if (reader.TokenType == JsonTokenType.String)
+            {
+                string? value = reader.GetString();
+                if (value is not null)
+                {
+                    values.Add((T)Enum.Parse(typeof(T), 
+                        value.Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+                            .Replace(typeof(T).Name, string.Empty)
+                            .KebabToPascalCase(), true));
+                }
+            }
+            else
+            {
+                throw new JsonException("Expected string value in array.");
+            }
+        }
+
+        return values;
+    }
+
+    public override void Write(Utf8JsonWriter writer, IReadOnlyList<T>? value, JsonSerializerOptions options)
+    {
+        if (value is null || !value.Any())
+        {
+            writer.WriteStartArray();
+            writer.WriteEndArray();
+            return;
+        }
+
+        writer.WriteStartArray();
+        foreach (T item in value)
+        {
+            if (item is not null)
+            {
+                string? stringVal = Enum.GetName(typeof(T), item);
+                if (stringVal is not null)
+                {
+                    writer.WriteStringValue(stringVal.ToKebabCase());
+                }
+            }
+        }
+        writer.WriteEndArray();
     }
 }

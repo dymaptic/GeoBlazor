@@ -2,8 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
     </PropertyGroup>
 
 
@@ -12,11 +10,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Markdig" Version="0.41.1" />
+        <PackageReference Include="Markdig" Version="0.41.3" />
         <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.15" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.15" />
-        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.6" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="9.0.6" />
     </ItemGroup>
 
     <Choose>
@@ -33,7 +31,7 @@
     </Choose>
 
     <ItemGroup>
-        <Content Update="wwwroot\images\dymaptic_logo.png">
+        <Content Update="wwwroot\images\dymaptic_logo.webp">
             <Color>Black</Color>
             <BaseSize>300,293</BaseSize>
         </Content>
