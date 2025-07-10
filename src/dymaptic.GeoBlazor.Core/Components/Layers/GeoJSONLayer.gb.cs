@@ -2322,45 +2322,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Url property.
-    /// </summary>
-    public async Task<string?> GetUrl()
-    {
-        if (CoreJsModule is null)
-        {
-            return Url;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Url;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "url");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Url = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
-        }
-         
-        return Url;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
     public async Task<bool?> GetUseViewTime()
@@ -3817,43 +3778,6 @@ public partial class GeoJSONLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setTrackInfo", 
             CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Url property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetUrl(string value)
-    {
-#pragma warning disable BL0005
-        Url = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Url)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "url", value);
     }
     
     /// <summary>

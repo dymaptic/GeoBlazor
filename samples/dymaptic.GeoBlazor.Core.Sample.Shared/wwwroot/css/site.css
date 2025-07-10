@@ -827,7 +827,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     background-size: contain;
     background-repeat:  no-repeat;
     background-position: left center;
-    background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px.png');
+    background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px.webp');
 }
 
 .search-label {
@@ -966,7 +966,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 
 @media (prefers-color-scheme: light) {
     .navbar__logo {
-        background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px-dark.png');
+        background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px-dark.webp');
     }
     
     .side-bar {

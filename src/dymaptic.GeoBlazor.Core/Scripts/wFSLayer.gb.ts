@@ -81,10 +81,6 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
             let { buildJsTimeExtent } = await import('./timeExtent');
             this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
-        if (hasValue(dotNetObject.wfsCapabilities)) {
-            let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
-            this.layer.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities) as any;
-        }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
             this.layer.id = dotNetObject.arcGISLayerId;
@@ -608,11 +604,6 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         
         let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
         return await buildDotNetWFSCapabilities(this.layer.wfsCapabilities);
-    }
-    
-    async setWfsCapabilities(value: any): Promise<void> {
-        let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
-        this.layer.wfsCapabilities = await  buildJsWFSCapabilities(value);
     }
     
     getProperty(prop: string): any {
