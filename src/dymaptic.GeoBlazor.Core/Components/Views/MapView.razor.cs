@@ -2120,8 +2120,8 @@ public partial class MapView : MapComponent
         {
             if (CoreJsModule != null)
             {
-                await CoreJsModule.InvokeVoidAsync("disposeView",
-                    CancellationTokenSource.Token, Id);
+                // await CoreJsModule.InvokeVoidAsync("disposeView",
+                //     CancellationTokenSource.Token, Id);
             }
         }
         catch (TaskCanceledException)

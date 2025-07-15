@@ -268,6 +268,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         // disposeView(id);
         dotNetRefs[id] = dotNetRef;
         let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${id}`) as ArcgisMap | ArcgisScene;
+        if (!hasValue(mapComponent)) {
+            // if the map component is not found, we cannot create a view
+            throw new Error(`Map component with id ${id} not found.`);
+        }
         let view: MapView | SceneView;
         
         // check that there is either a webmap, webscene, or basemap to load the map
@@ -308,7 +312,9 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 await mapComponent.viewOnReady();
             }
             (mapComponent.view as MapView).rotation = rotation;
-        } else if (mapComponent instanceof ArcgisScene) {
+        } else // this check is required for ESBuild to not throw away the ArcgisScene import
+            // noinspection SuspiciousTypeOfGuard
+            if (mapComponent instanceof ArcgisScene) {
             if (mapType === 'webscene') {
                 let {buildJsWebScene} = await import('./webScene');
                 const webScene = await buildJsWebScene(mapObject, null, id);
@@ -794,7 +800,7 @@ export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
 
 export async function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
     const layer = arcGisObjectRefs[layerId] as TileLayer;
-    let sublayer = layer.allSublayers.find(sl => sl.id === sublayerId);
+    let sublayer = layer?.allSublayers?.find(sl => sl.id === sublayerId);
     if (!hasValue(sublayer)) {
         return null;
     }
@@ -837,57 +843,6 @@ export function toMap(screenPoint: any, viewId: string): DotNetPoint | null {
 export function toScreen(mapPoint: any, viewId: string): ScreenPoint {
     const view = arcGisObjectRefs[viewId] as MapView;
     return view.toScreen(buildJsPoint(mapPoint) as Point) as ScreenPoint;
-}
-
-export function disposeView(viewId: string): void {
-    try {
-        const view = arcGisObjectRefs[viewId] as MapView;
-        view?.destroy();
-        delete arcGisObjectRefs[viewId];
-        delete dotNetRefs[viewId];
-        for (const key in arcGisObjectRefs) {
-            const component = arcGisObjectRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete arcGisObjectRefs[key];
-            }
-        }
-        for (const key in jsObjectRefs) {
-            const component = jsObjectRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete jsObjectRefs[key];
-            }
-        }
-        for (const key in dotNetRefs) {
-            const component = dotNetRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete dotNetRefs[key];
-            }
-        }
-        for (const key in popupTemplateRefs) {
-            const component = popupTemplateRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete popupTemplateRefs[key];
-            }
-        }
-        for (const key in graphicsRefs) {
-            const component = graphicsRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete graphicsRefs[key];
-            }
-        }
-        for (const key in actionHandlers) {
-            const component = actionHandlers[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete actionHandlers[key];
-            }
-        }
-        if (triggerActionHandlers.hasOwnProperty(viewId)) {
-            triggerActionHandlers[viewId].remove();
-            delete triggerActionHandlers[viewId];
-        }
-    } catch {
-        // ignore
-    }
 }
 
 export async function disposeMapComponent(componentId: string, viewId: string): Promise<void> {

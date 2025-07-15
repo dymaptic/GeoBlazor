@@ -1,5 +1,4 @@
-﻿@implements IDisposable
-@inject IJSRuntime JsRuntime
+﻿@inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
 
 <div class="top-row navbar">
@@ -42,39 +41,10 @@
     [Parameter]
     public bool EnterKeyPressed { get; set; }
     
-    [JSInvokable]
-    public void OnViewReady()
-    {
-        _viewReady = true;
-    }
-    
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
     private IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(SearchText)
         ? Pages
         : Pages.Where(p => p.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        _navDisposer = NavigationManager.RegisterLocationChangingHandler(LocationChanged);
-    }
-
-    private async ValueTask LocationChanged(LocationChangingContext arg)
-    {
-        int tries = 0;
-        while (!_viewReady && tries < 10)
-        {
-            tries++;
-            // Wait until the view is ready before disposing all views
-            await Task.Delay(100);
-        }
-        
-        // Blazor will sometimes remove DOM elements before all the asynchronous disposal is complete on navigation.
-        // This will ensure that all views are disposed before the navigation can occur.
-        _ = await JsRuntime.InvokeAsync<bool>("disposeAllViews");
-        StateHasChanged();
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -120,21 +90,13 @@
         await JsRuntime.InvokeVoidAsync("setWaitCursor", true);
         await InvokeAsync(async () =>
         {
-            _viewReady = false;
             NavigationManager.NavigateTo(href);
             await JsRuntime.InvokeVoidAsync("setWaitCursor", false);
             StateHasChanged();
         });
     }
-    
-    public void Dispose()
-    {
-        _navDisposer?.Dispose();
-    }
 
-    private bool _viewReady;
     private bool _collapseNavMenu = true;
-    private IDisposable? _navDisposer;
     
     public virtual PageLink[] Pages =>
     [
@@ -163,7 +125,6 @@
         new("wfslayers", "WFS Layers", null, "wfs.svg"),
         new("wmslayers", "WMS Layers", null, "wms.svg"),
         new("wmtslayers", "WMTS Layers", null, "wmts.svg"),
-        new("bingmaps-layer", "Bing Maps Layer", null, "bing.webp"),
         new("imagerylayer", "Imagery Layers", "oi-image"),
         new("imagery-tile-layer", "Imagery Tile Layers", null, "tile.webp"),
         new("web-map", "Web Map", "oi-browser"),
