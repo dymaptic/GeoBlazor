@@ -1,4 +1,4 @@
-dymaptic.geoblazor.core
+
 M:dymaptic.GeoBlazor.Core.DependencyExtension.AddGeoBlazor(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)|dymaptic.GeoBlazor.Core.DependencyExtension.md#dymaptic.GeoBlazor.Core.DependencyExtension.AddGeoBlazor(thisMicrosoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)|AddGeoBlazor(this IServiceCollection, IConfiguration)
 N:dymaptic.GeoBlazor.Core|index.md#dymaptic.GeoBlazor.Core|dymaptic.GeoBlazor.Core
 T:dymaptic.GeoBlazor.Core.DependencyExtension|dymaptic.GeoBlazor.Core.DependencyExtension.md|DependencyExtension
