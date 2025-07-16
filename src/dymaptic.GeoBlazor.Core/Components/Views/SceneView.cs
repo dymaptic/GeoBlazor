@@ -179,6 +179,7 @@ public class SceneView : MapView
         ShouldUpdate = true;
     }
     
+    /// <inheritdoc />
     protected override ValueTask BuildMapView()
     {
         string mapType = Map is WebScene ? "webscene" : "scene";

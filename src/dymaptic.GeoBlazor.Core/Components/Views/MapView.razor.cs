@@ -2405,6 +2405,9 @@ public partial class MapView : MapComponent
         });
     }
 
+    /// <summary>
+    ///     Calls the ArcGIS Maps SDK for JavaScript to build the map view.
+    /// </summary>
     protected virtual ValueTask BuildMapView()
     {
         string mapType = Map is WebMap ? "webmap" : "map";
@@ -2602,7 +2605,7 @@ public partial class MapView : MapComponent
         }
     }
 
-    protected bool IsPro()
+    private bool IsPro()
     {
         if (_isPro is null)
         {
