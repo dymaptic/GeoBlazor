@@ -178,72 +178,15 @@ public partial class SceneView : MapView
         }
         ShouldUpdate = true;
     }
-
-    /// <inheritdoc />
-    protected override async Task RenderView(bool forceRender = false)
+    
+    protected override ValueTask BuildMapView()
     {
-        if (!NeedsRender && !forceRender)
-        {
-            return;
-        }
-
-        if (!AuthenticationInitialized || Rendering || Map is null || CoreJsModule is null) return;
-
-        if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
-            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
-        {
-            var newErrorMessage =
-                "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
-
-            if (ErrorMessage == newErrorMessage)
-            {
-                return;
-            }
-
-            ErrorMessage = newErrorMessage;
-            Debug.WriteLine(ErrorMessage);
-            StateHasChanged();
-
-            return;
-        }
-
-        Rendering = true;
-        Map.Layers.RemoveAll(l => l.Imported);
-        if (Map.Basemap is not null)
-        {
-#pragma warning disable BL0005
-            Map.Basemap!.BaseLayers = Map.Basemap.BaseLayers?.Where(l => !l.Imported).ToList();
-            Map.Basemap!.ReferenceLayers = Map.Basemap!.ReferenceLayers?.Where(l => !l.Imported).ToList();
-#pragma warning restore BL0005 
-        }
-        ValidateRequiredChildren();
-
-        await InvokeAsync(async () =>
-        {
-            Console.WriteLine("Rendering View");
-
-            if (Map is null)
-            {
-                throw new MissingMapException();
-            }
-
-            string mapType = Map is WebScene ? "webscene" : "scene";
-
-            NeedsRender = false;
-
-            await CoreJsModule.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
-                Configuration.GetValue<string?>("ArcGISAssetsPath",
-                    "/_content/dymaptic.GeoBlazor.Core/assets"));
-
-            await CoreJsModule.InvokeVoidAsync("buildMapView",
-                CancellationTokenSource.Token, Id, DotNetComponentReference,
-                Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
-                PopupEnabled, ZIndex, Tilt);
-            
-            Rendering = false;
-            MapRendered = true;
-        });
+        string mapType = Map is WebScene ? "webscene" : "scene";
+        return CoreJsModule!.InvokeVoidAsync("buildMapView",
+            CancellationTokenSource.Token, Id, DotNetComponentReference,
+            Longitude, Latitude, Rotation, Map, Zoom, Scale,
+            mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
+            EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
+            PopupEnabled, ZIndex, Tilt);
     }
 }

@@ -2405,8 +2405,6 @@ public partial class MapView : MapComponent
                 throw new MissingMapException();
             }
 
-            string mapType = Map is WebMap ? "webmap" : "map";
-
             NeedsRender = false;
 
             await CoreJsModule.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
@@ -2418,10 +2416,7 @@ public partial class MapView : MapComponent
                 await Task.Delay(1);
             }
 
-            await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
-                DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
+            await BuildMapView();
             
             // must be after main render, but before the boolean flags are set
             await GetPopupWidget();
@@ -2429,6 +2424,15 @@ public partial class MapView : MapComponent
             Rendering = false;
             MapRendered = true;
         });
+    }
+
+    protected virtual ValueTask BuildMapView()
+    {
+        string mapType = Map is WebMap ? "webmap" : "map";
+        return CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
+            DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
+            mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
+            EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
     }
 #endregion
     
