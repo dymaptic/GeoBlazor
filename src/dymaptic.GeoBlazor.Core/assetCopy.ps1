@@ -13,8 +13,9 @@ $ArcGISComponentsOutputDir = Join-Path $ArcGISOutputDir "map-components"
 $CalciteOutputDir = Join-Path $ArcGISOutputDir "calcite"
 $OutputDeleteRegex = Join-Path $OutputRootDir "*"
 
-if ((Test-Path -Path "$OutputRootDir/ArcGISAssetsVersion.txt") -eq $false -or `
- (Get-Content "$OutputRootDir/ArcGISAssetsVersion.txt") -ne $ArcGISVersion)
+if (((Test-Path -Path "$OutputRootDir/ArcGISAssetsVersion.txt") -eq $false -or `
+    (Get-Content "$OutputRootDir/ArcGISAssetsVersion.txt") -ne $ArcGISVersion) -and `
+    (Test-Path -Path $OutputDeleteRegex) -eq $true)
 {
     Write-Output "Deleting old assets"
     Remove-Item $OutputDeleteRegex -Recurse
