@@ -17,13 +17,15 @@
 
         async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
         {
-            Assert.IsInstanceOfType<TileLayer>(createEvent.Layer);
-            TileLayer createdLayer = (TileLayer)createEvent.Layer;
-            Assert.AreEqual(layer?.Id, createdLayer.Id);
-            Sublayer firstSublayer = layer!.Sublayers![0];
-            await firstSublayer.SetPopupEnabled(false);
-            await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
-            layerViewCreated = true;
+
+            if (createEvent.Layer is TileLayer createdLayer)
+            {
+                Assert.AreEqual(layer?.Id, createdLayer.Id);
+                Sublayer firstSublayer = layer!.Sublayers![0];
+                await firstSublayer.SetPopupEnabled(false);
+                await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
+                layerViewCreated = true;
+            }
         }
         AddMapRenderFragment(
             @<MapView @ref="mapView"
@@ -58,15 +60,16 @@
 
         async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
         {
-            Assert.IsInstanceOfType<TileLayer>(createEvent.Layer);
-            TileLayer createdLayer = (TileLayer)createEvent.Layer;
-            Assert.AreEqual(layer?.Id, createdLayer.Id);
-            Sublayer firstSublayer = layer!.Sublayers!.First(l => l.Sublayers is { Count: > 0 });
-            Sublayer firstSubSublayer = firstSublayer.Sublayers![0];
-            Assert.IsNotNull(firstSubSublayer);
-            await firstSublayer.SetPopupEnabled(false);
-            await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
-            layerViewCreated = true;
+            if (createEvent.Layer is TileLayer createdLayer)
+            {
+                Assert.AreEqual(layer?.Id, createdLayer.Id);
+                Sublayer firstSublayer = layer!.Sublayers!.First(l => l.Sublayers is { Count: > 0 });
+                Sublayer firstSubSublayer = firstSublayer.Sublayers![0];
+                Assert.IsNotNull(firstSubSublayer);
+                await firstSublayer.SetPopupEnabled(false);
+                await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
+                layerViewCreated = true;
+            }
         }
         AddMapRenderFragment(
             @<MapView @ref="mapView"
