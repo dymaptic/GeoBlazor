@@ -1,5 +1,8 @@
 {
   "DelegateDocItem": {
     "FileNameFactory": "NameAndMd5Mix"
-  }
+  },
+  "LinksBaseUrl": "",
+  "LinksOutputFilePath": "DefaultDocsLinks",
+  "Markdown.MarkdownSanitizationRegex": "\\`"
 }
