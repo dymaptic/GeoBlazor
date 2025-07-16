@@ -1,61 +1,82 @@
-﻿$SourceFiles = Join-Path $PSScriptRoot "node_modules/@arcgis/core/assets/"
+﻿$ArcGISSourceFiles = Join-Path $PSScriptRoot "node_modules/@arcgis/core/assets/*"
+$ArcGISComponentsSourceFiles = Join-Path $PSScriptRoot "node_modules/@arcgis/map-components/dist/cdn/assets/*"
+$CalciteSourceFiles = Join-Path $PSScriptRoot "node_modules/@esri/calcite-components/dist/calcite/assets/*"
 
 $packageJson = (Get-Content (Join-Path $PSScriptRoot "package.json") -Raw) | ConvertFrom-Json
 # read the version from package.json
-$ArcGISVersion = $packageJson.dependencies."@arcgis/core"
-# remove the ^ from the version
-$ArcGISVersion = $ArcGISVersion.Replace("^", "")
+$ArcGISVersion = $packageJson.dependencies."@arcgis/core".Replace("^", "")
+$ArcGISComponentsVersion = $packageJson.dependencies."@arcgis/map-components".Replace("^", "")
+$CalciteVersion = $packageJson.dependencies."@esri/calcite-components".Replace("^", "")
 
 $OutputRootDir = Join-Path $PSScriptRoot "wwwroot/assets"
 
-$OutputDir = Join-Path $OutputRootDir $ArcGISVersion.Replace(".", "_")
+$ArcGISOutputDir = Join-Path $OutputRootDir $ArcGISVersion.Replace(".", "_")
+$ArcGISComponentsOutputDir = Join-Path $ArcGISOutputDir "map-components"
+$CalciteOutputDir = Join-Path $ArcGISOutputDir "calcite"
 $OutputDeleteRegex = Join-Path $OutputRootDir "*"
 
-if ((Test-Path -Path "$OutputRootDir/ArcGISAssetsVersion.txt") -eq $true)
+if ((Test-Path -Path "$OutputRootDir/ArcGISAssetsVersion.txt") -eq $false -or `
+ (Get-Content "$OutputRootDir/ArcGISAssetsVersion.txt") -ne $ArcGISVersion)
 {
-    If ((Get-Content "$OutputRootDir/ArcGISAssetsVersion.txt") -ne $ArcGISVersion)
-    {
-        Write-Output "Deleting old assets"
-        Remove-Item $OutputDeleteRegex -Recurse
-    }
+    Write-Output "Deleting old assets"
+    Remove-Item $OutputDeleteRegex -Recurse
 }
 
 If ((Test-Path -Path $OutputDeleteRegex) -eq $false)
 {
     Try
     {
-        Write-Output "Copying Assets to $OutputDir"
+        Write-Output "Copying ArcGIS Assets to $ArcGISOutputDir"
         # create the output directory if it does not exist
-        If ((Test-Path -Path $OutputDir) -eq $false)
+        If ((Test-Path -Path $ArcGISOutputDir) -eq $false)
         {
-            New-Item -ItemType Directory -Path $OutputDir | Out-Null
+            New-Item -ItemType Directory -Path $ArcGISOutputDir | Out-Null
         }
         
         # run NPM install to ensure the assets are available
         npm install
-        Copy-Item -Path $SourceFiles -Destination $OutputDir -Recurse
+        Copy-Item -Path $ArcGISSourceFiles -Destination $ArcGISOutputDir -Recurse
+        
+        # Copy the Themes folder to the old un-versioned location, since this is referred in a <link> tag
+        # and we don't want this to be a breaking change.
+        # In future versions, we should move the theme selection out of link tags and into our managed code
+        $ThemesSource = Join-Path $ArcGISOutputDir "esri/themes"
+        $ThemesDestination = Join-Path $OutputRootDir "esri/themes"
+        
+        If ((Test-Path -Path $ThemesDestination) -eq $false)
+        {
+            New-Item -ItemType Directory -Path "$OutputRootDir/esri" | Out-Null
+        }
+        Move-Item -Path $ThemesSource -Destination $ThemesDestination
+        
+        Write-Output "Copying ArcGIS Map Components Assets to $ArcGISComponentsOutputDir"
+        # create the map-components directory if it does not exist
+        If ((Test-Path -Path $ArcGISComponentsOutputDir) -eq $false)
+        {
+            New-Item -ItemType Directory -Path $ArcGISComponentsOutputDir | Out-Null
+        }
+        
+        Copy-Item -Path $ArcGISComponentsSourceFiles -Destination $ArcGISComponentsOutputDir -Recurse
+        
+        Write-Output "Copying Calcite Assets to $CalciteOutputDir"
+        # create the calcite directory if it does not exist
+        If ((Test-Path -Path $CalciteOutputDir) -eq $false)
+        {
+            New-Item -ItemType Directory -Path $CalciteOutputDir | Out-Null
+        }
+        Copy-Item -Path $CalciteSourceFiles -Destination $CalciteOutputDir -Recurse
     }
     Catch
     {
         Write-Output $_
         Write-Output "We ran into an issue while copying assets to wwwroot/assets. Deleting the copied files..."
         Remove-Item $OutputDeleteRegex -Recurse
-        pause
+        return
     }
 
-    Write-Output $ArcGISVersion | Out-File -FilePath "$OutputDir/ArcGISAssetsVersion.txt"
+    Write-Output $ArcGISVersion | Out-File -FilePath "$OutputRootDir/ArcGISAssetsVersion.txt"
 }
 Else
 {
     Write-Output "Asset files already copied. To update, delete wwwroot/assets contents and run again"
-}
-
-# if there is a folder called `assets` inside the assets folder, delete it
-# and move everything to the root of the assets folder
-$assetsFolder = "$OutputDir/assets"
-if ((Test-Path -Path $assetsFolder) -eq $true)
-{
-    Write-Output "Moving assets to root of assets folder"
-    Get-ChildItem -Path $assetsFolder -Recurse | Move-Item -Destination $OutputDir
-    Remove-Item -Path $assetsFolder -Recurse
 }

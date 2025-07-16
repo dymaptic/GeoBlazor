@@ -16,6 +16,8 @@ import {
     DotNetViewHit,
     MapCollection
 } from './definitions';
+import * as MapComponents from '@arcgis/map-components';
+import * as Calcite from "@esri/calcite-components";
 import * as esriNS from "@arcgis/core/kernel.js";
 import * as locator from "@arcgis/core/rest/locator";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
@@ -207,7 +209,15 @@ export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number
 
 export function setAssetsPath(path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
-        esriConfig.assetsPath = `${path}/${esriNS.fullVersion.replaceAll('.', '_')}`;
+        if (path === '/_content/dymaptic.GeoBlazor.Core/assets') {
+            let esriVersionPath = esriNS.fullVersion.replaceAll('.', '_');
+            esriConfig.assetsPath = `${path}/${esriVersionPath}`;
+            MapComponents.setAssetPath(`${path}/map-components/${esriVersionPath}`);
+            Calcite.setAssetPath(`${path}/calcite/${esriVersionPath}`);
+        } else {
+            // custom path provided by GeoBlazor user
+            esriConfig.assetsPath = path;
+        }
     }
 }
 
