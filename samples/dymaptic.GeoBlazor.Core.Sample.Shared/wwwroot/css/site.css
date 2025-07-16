@@ -28,7 +28,7 @@ background: unset;
 }
 
 .esri-feature-form {
-background-color: var(--background-grey-1);
+    background-color: var(--background-grey-1);
 }
 
 .esri-widget {
@@ -44,6 +44,14 @@ border: 0.125rem solid transparent;
 .esri-button:hover {
 color: unset;
 border-color: var(--geoblazor-accent-hover);
+}
+
+:root {
+    --calcite-block-heading-text-color: var(--text-emphasis);
+    --calcite-block-heading-text-color-press: var(--text-emphasis);
+    --calcite-color-text-2: var(--text);
+    --calcite-color-text-3: var(--text-disabled);
+    --calcite-color-foreground-2: var(--background-grey-2);
 }
 
 .nav-link {
@@ -411,9 +419,11 @@ body {   /* body tag added to help overwrite Bootstrap */
 
     input,
     select,
-    textarea {
+    textarea,
+    input.esri-button {
         background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
         var(--geoblazor-gradient-horizontal) border-box;
+        background-color: unset;
         border: 0.125rem solid transparent;
         border-radius: var(--box-radius);
         color: var(--text);

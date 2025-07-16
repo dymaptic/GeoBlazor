@@ -114,7 +114,6 @@ let notifyExtentChanged: boolean = true;
 const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
-let loadedLayers: string[] = [];
 
 export let Pro: any;
 
@@ -252,14 +251,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         blazorServer = isServer;
         const dotNetRef = dotNetReference;
 
-        let newLayers = await preloadLayerTypes(
-            mapObject.layers.concat(mapObject.basemap?.layers ?? [])
-                .filter(l => !loadedLayers.includes(l.type)), id);
-        loadedLayers = loadedLayers.concat(newLayers);
-        if (newLayers.length > 0){
-            await delayTask(200);
-        }
-
         if (ProtoGraphicCollection === undefined) {
             await loadProtobuf();
         }
@@ -295,6 +286,13 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             : hasValue(mapObject.arcGISDefaultBasemap)
                 ? mapObject.arcGISDefaultBasemap
                 : undefined;
+
+        let spatialRef: SpatialReference | null = null;
+        if (hasValue(spatialReference)) {
+            let {buildJsSpatialReference} = await import('./spatialReference');
+            spatialRef = buildJsSpatialReference(spatialReference) as SpatialReference;
+            mapComponent.spatialReference = spatialRef;
+        }
         
         if (mapComponent instanceof ArcgisMap) {
             if (mapType === 'webmap') {
@@ -391,13 +389,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         for (let i = 0; i < graphics.length; i++) {
             const graphicObject = graphics[i];
             await addGraphic(graphicObject, id, null);
-        }
-
-        let spatialRef: SpatialReference | null = null;
-        if (hasValue(spatialReference)) {
-            let {buildJsSpatialReference} = await import('./spatialReference');
-            spatialRef = buildJsSpatialReference(spatialReference);
-            view.spatialReference = spatialRef!;
         }
 
         if (view instanceof MapView) {

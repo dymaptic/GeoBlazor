@@ -13,10 +13,13 @@
     {
         <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
     }
+    // load the GeoBlazor styles after the theme so they apply last
+    <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet"/>
 }
 else
 {
     // in Blazor WebAssembly or Server, we use the HeadContent component
+    // which we place before the GeoBlazor styles
     <HeadContent>
         @if (_isDarkMode)
         {

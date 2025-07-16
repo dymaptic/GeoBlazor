@@ -123,6 +123,10 @@ public partial class PortalItem : MapComponent
     ///     The service URL of this item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     For WebMaps and layers that are public and throw an error when given an ApiKey or Token,
+    ///     this setting allows you to exclude the ApiKey or Token from the WebMap request.
+    /// </param>
     [CodeGenerationIgnore]
     public PortalItem(
         string portalItemId,
@@ -151,7 +155,8 @@ public partial class PortalItem : MapComponent
         IReadOnlyList<string>? tags = null,
         string? title = null,
         IReadOnlyList<string>? typeKeywords = null,
-        string? url = null)
+        string? url = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -182,6 +187,7 @@ public partial class PortalItem : MapComponent
         Title = title;
         TypeKeywords = typeKeywords;
         Url = url;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
 

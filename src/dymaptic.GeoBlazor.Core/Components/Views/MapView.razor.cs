@@ -160,11 +160,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     The collection of <see cref="Widget" />s in the view.
     /// </summary>
-    public IReadOnlyCollection<Widget> Widgets
-    {
-        get => _widgets;
-        private set => _widgets = [..value];
-    }
+    public IReadOnlyCollection<Widget> Widgets => _widgets;
 
     /// <summary>
     ///     The collection of <see cref="Graphic" />s in the view. These are directly on the view itself, not in a <see cref="GraphicsLayer" />.
@@ -672,7 +668,6 @@ public partial class MapView : MapComponent
     public async Task OnJavascriptSpatialReferenceChanged(SpatialReference spatialReference)
     {
         if (_isDisposed) return;
-        _spatialReference = spatialReference;
         await OnSpatialReferenceChanged.InvokeAsync(spatialReference);
     }
 
@@ -2145,8 +2140,9 @@ public partial class MapView : MapComponent
     /// </summary>
     public Task AddWidget(Widget widget)
     {
-        if (_widgets.Add(widget))
+        if (!_widgets.Contains(widget))
         {
+            _widgets.Add(widget);
             widget.Parent ??= this;
             widget.View ??= this;
             widget.CoreJsModule ??= CoreJsModule;
@@ -2387,12 +2383,15 @@ public partial class MapView : MapComponent
         
         if (ShowZoomWidget && !Widgets.Any(w => w is ZoomWidget))
         {
-            await AddWidget(new ZoomWidget(position: OverlayPosition.TopLeft)
+            ZoomWidget zoom = new(position: OverlayPosition.TopLeft)
             {
-                Parent = this,
-                View = this,
+                Parent = this, 
+                View = this, 
                 CoreJsModule = CoreJsModule
-            });
+            };
+            
+            // should be inserted first so it is added at the top of the left corner
+            _widgets.Insert(0, zoom);
         }
         
         ValidateRequiredChildren();
@@ -2712,7 +2711,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     A boolean flag to indicate that the map extent has been modified in code, and therefore should not be modifiable by markup until <see cref="Refresh" /> is called
     /// </summary>
-    protected bool ExtentSetByCode = false;
+    protected bool ExtentSetByCode;
     /// <summary>
     ///     Indicates that the pointer is currently down, to prevent updating the extent during this action.
     /// </summary>
@@ -2723,18 +2722,17 @@ public partial class MapView : MapComponent
     /// </summary>
     protected bool AuthenticationInitialized;
     
-    private SpatialReference? _spatialReference;
-    private Dictionary<Guid, StringBuilder> _hitTestResults = new();
+    private readonly Dictionary<Guid, StringBuilder> _hitTestResults = new();
     private bool _renderCalled;
-    private bool _shouldRender = true;
-    private Dictionary<string, StringBuilder> _layerCreateData = new();
-    private Dictionary<string, StringBuilder> _layerViewCreateData = new();
+    private readonly bool _shouldRender = true;
+    private readonly Dictionary<string, StringBuilder> _layerCreateData = new();
+    private readonly Dictionary<string, StringBuilder> _layerViewCreateData = new();
     private HashSet<Graphic> _graphics = [];
-    private HashSet<Widget> _widgets = [];
-    private HashSet<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
-    private HashSet<Widget> _newWidgets = [];
+    private readonly List<Widget> _widgets = [];
+    private readonly List<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
+    private readonly List<Widget> _newWidgets = [];
     private bool? _isPro;
-    private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
+    private readonly Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;
     private bool _waitingForRender;
 

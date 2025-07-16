@@ -1,4 +1,33 @@
-﻿window.scrollToNav = (page) => {
+﻿let navbarRef;
+let navbar;
+
+window.trackScrollPosition = (navbarElem, dotNetRef) => {
+    navbar = navbarElem;
+    navbarRef = dotNetRef;
+    navbar.addEventListener('scroll', onScroll);
+    // Initial call to set the position
+    _ = onScroll();
+}
+
+window.removeScrollTracking = () => {
+    if (navbar) {
+        navbar.removeEventListener('scroll', onScroll);
+        navbar = null;
+    }
+    navbarRef = null;
+}
+
+window.scrollToPosition = (position) => {
+    if (navbar) {
+        navbar.scrollTop = position;
+    }
+}
+
+async function  onScroll() {
+    await navbarRef.invokeMethodAsync('OnScroll', navbar.scrollTop);
+}
+
+window.scrollToNav = (page) => {
     let navItems = document.getElementsByTagName('a');
     let navItem = Array.from(navItems).find(i => i.href.endsWith(page));
     if (navigator.userAgent.indexOf('Firefox') === -1) {
@@ -54,20 +83,4 @@ let arcGisObjectRefs = {};
 window.initializeGeoBlazor = (core) => {
     Core = core;
     arcGisObjectRefs = Core.arcGisObjectRefs;
-}
-
-window.checkMapViewReady = (dotNetRef) => {
-    const mapDivs = document.getElementsByClassName('map-container');
-    for (let i = 0; i < mapDivs.length; i++) {
-        const mapContainer = mapDivs[i];
-        if (mapContainer.id && mapContainer.id.startsWith('map-container-')) {
-            const viewId = mapContainer.id.replace('map-container-', '');
-            if (arcGisObjectRefs.hasOwnProperty(viewId)) {
-                const view = arcGisObjectRefs[viewId];
-                if (view && view.ready) {
-                    dotNetRef.invokeMethodAsync('OnViewReady', viewId);
-                }
-            }
-        }
-    }
 }
