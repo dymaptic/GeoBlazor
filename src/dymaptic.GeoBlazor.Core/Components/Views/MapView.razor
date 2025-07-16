@@ -4,13 +4,26 @@
     <CascadingValue Name="Parent" Value="this">
         <CascadingValue Name="MapRendered" Value="MapRendered">
             <div class="@Class map-wrapper" style="@Style">
-                <arcgis-map class="map-container" id="@($"map-container-{Id}")">
-                    @if (!string.IsNullOrWhiteSpace(ErrorMessage))
-                    {
-                        <div class="validation-message">@((MarkupString)ErrorMessage)</div>
-                    }
-                    @ChildContent
-                </arcgis-map>
+                @if (MapComponentType == typeof(SceneView))
+                {
+                    <arcgis-scene class="map-container" id="@($"map-container-{Id}")">
+                        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                        {
+                            <div class="validation-message">@((MarkupString)ErrorMessage)</div>
+                        }
+                        @ChildContent
+                    </arcgis-scene>
+                }
+                else
+                {
+                    <arcgis-map class="map-container" id="@($"map-container-{Id}")">
+                        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                        {
+                            <div class="validation-message">@((MarkupString)ErrorMessage)</div>
+                        }
+                        @ChildContent
+                    </arcgis-map>
+                }
                 @if (WhiteLabel is null || !IsPro())
                 {
                     <div class="dymaptic-branding">

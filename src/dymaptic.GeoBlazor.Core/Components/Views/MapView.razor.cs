@@ -2111,27 +2111,6 @@ public partial class MapView : MapComponent
     public override async ValueTask DisposeAsync()
     {
         await CancellationTokenSource.CancelAsync();
-        try
-        {
-            if (CoreJsModule != null)
-            {
-                // await CoreJsModule.InvokeVoidAsync("disposeView",
-                //     CancellationTokenSource.Token, Id);
-            }
-        }
-        catch (TaskCanceledException)
-        {
-            // user cancelled
-        }
-        catch (JSDisconnectedException)
-        {
-            // lost connection (page navigation)
-        }
-        catch (JSException)
-        {
-            // instance already destroyed
-        }
-
         _isDisposed = true;
     }
 

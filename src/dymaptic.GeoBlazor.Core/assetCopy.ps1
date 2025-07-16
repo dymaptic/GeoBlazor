@@ -5,8 +5,6 @@ $CalciteSourceFiles = Join-Path $PSScriptRoot "node_modules/@esri/calcite-compon
 $packageJson = (Get-Content (Join-Path $PSScriptRoot "package.json") -Raw) | ConvertFrom-Json
 # read the version from package.json
 $ArcGISVersion = $packageJson.dependencies."@arcgis/core".Replace("^", "")
-$ArcGISComponentsVersion = $packageJson.dependencies."@arcgis/map-components".Replace("^", "")
-$CalciteVersion = $packageJson.dependencies."@esri/calcite-components".Replace("^", "")
 
 $OutputRootDir = Join-Path $PSScriptRoot "wwwroot/assets"
 

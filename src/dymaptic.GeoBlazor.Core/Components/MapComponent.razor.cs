@@ -937,11 +937,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         return JsonSerializer.Deserialize(json, returnType, GeoBlazorSerialization.JsonSerializerOptions);
     }
     
-    /// <summary>
-    ///     Indicates whether the component is an ArcGIS Web Component as opposed to a pure JavaScript component.
-    /// </summary>
-    protected virtual bool IsArcGISWebComponent => false;
-
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();

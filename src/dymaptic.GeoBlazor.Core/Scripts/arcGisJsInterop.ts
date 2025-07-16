@@ -263,7 +263,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         checkConnectivity(id);
-        // disposeView(id);
+        
         dotNetRefs[id] = dotNetRef;
         let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${id}`) as ArcgisMap | ArcgisScene;
         if (!hasValue(mapComponent)) {

@@ -494,9 +494,6 @@ public abstract partial class Widget : MapComponent
         await JsComponentReference!.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
     }
     
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ElementReference? WebComponentReference { get; set; }
-
     private bool _externalWidgetRegistered;
     private bool _delayedUpdate;
 }
