@@ -143,10 +143,9 @@
         _testRenderFragments[methodName] = fragment;
     }
 
-    protected async Task WaitForMapToRender([CallerMemberName] string methodName = "")
+    protected async Task WaitForMapToRender([CallerMemberName] string methodName = "", int tries = 100)
     {
         await InvokeAsync(StateHasChanged);
-        var tries = 100;
         while (!_methodsWithRenderedMaps.Contains(methodName) && (tries > 0))
         {
             if (_mapRenderingExceptions.Remove(methodName, out Exception? ex))
