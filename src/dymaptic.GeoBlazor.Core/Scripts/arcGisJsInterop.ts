@@ -16,6 +16,7 @@ import {
     DotNetViewHit,
     MapCollection
 } from './definitions';
+import * as esriNS from "@arcgis/core/kernel.js";
 import * as locator from "@arcgis/core/rest/locator";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import * as route from "@arcgis/core/rest/route";
@@ -123,10 +124,6 @@ export async function setPro(pro): Promise<void> {
     Pro = pro;
 }
 
-export async function getGeometryEngine() {
-    
-}
-
 // we have to wrap the JsObjectReference because a null will throw an error
 // https://github.com/dotnet/aspnetcore/issues/52070
 export async function getObjectRefForProperty(obj: any, prop: string): Promise<any> {
@@ -210,7 +207,7 @@ export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number
 
 export function setAssetsPath(path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
-        esriConfig.assetsPath = path;
+        esriConfig.assetsPath = `${path}/${esriNS.fullVersion.replaceAll('.', '_')}`;
     }
 }
 
