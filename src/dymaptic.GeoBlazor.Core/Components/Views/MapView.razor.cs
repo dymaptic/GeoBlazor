@@ -134,7 +134,13 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public bool ShowZoomWidget { get; set; } = true;
-    
+
+    /// <summary>
+    ///     Set the base theme to dark or light for all widgets and components in the view.
+    /// </summary>
+    [Parameter]
+    public ArcGISTheme? Theme { get; set; }
+
     [Parameter]
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public string? WhiteLabel { get; set; }
@@ -2274,6 +2280,38 @@ public partial class MapView : MapComponent
                 await AuthenticationManager.Login();
             }
 
+            if (HasBundledAssets())
+            {
+                string assetsPath = Configuration.GetValue<string>("ArcGISAssetsPath",
+                    "/_content/dymaptic.GeoBlazor.BundledAssets/assets")!;
+                
+                // customers hosting their app in a subdirectory may have a different assets path
+                // and won't have this updated to the new bundled assets path
+                if (assetsPath.EndsWith("_content/dymaptic.GeoBlazor.Core/assets/"))
+                {
+                    assetsPath = assetsPath.Replace("_content/dymaptic.GeoBlazor.Core", 
+                        "_content/dymaptic.GeoBlazor.BundledAssets");
+                }
+                
+                await CoreJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token, assetsPath);
+            }
+            else if (Theme is null)
+            {
+                // In the new pattern we will teach users to set the Theme property/parameter,
+                // but this will check for the old pattern of placing the links manually in the head.
+                // This call not only looks for those links, but also removes them and copies the setting (dark or light).
+                string? linkedTheme = await CoreJsModule!.InvokeAsync<string?>("removeLinkedThemePath");
+                Theme = linkedTheme switch
+                {
+                    "dark" => ArcGISTheme.Dark,
+                    // if we hit this path repeatedly, like with multiple views, 
+                    // the JS method returns null so we don't add the same theme multiple times
+                    null => null,
+                    // default to light theme
+                    _ => ArcGISTheme.Light
+                };
+            }
+
             StateHasChanged();
 
             return;
@@ -2385,14 +2423,6 @@ public partial class MapView : MapComponent
             }
 
             NeedsRender = false;
-            
-#if NO_ASSETS
-            await CoreJsModule.InvokeVoidAsync("setCdnAssetsPath", CancellationTokenSource.Token); 
-#else
-            string assetsPath = Configuration.GetValue<string>("ArcGISAssetsPath",
-                $"/_content/{PackageInfo.PackageId}/assets")!;
-            await CoreJsModule.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token, assetsPath);
-#endif
 
             while (Map is null) // race condition in WebAssembly causes the map to be disposed while creating child components within it.
             {
@@ -2627,6 +2657,25 @@ public partial class MapView : MapComponent
         
         return _isPro.Value;
     }
+
+    private bool HasBundledAssets()
+    {
+        if (_hasBundledAssets is null)
+        {
+            try
+            {
+                Assembly _ = Assembly.Load("dymaptic.GeoBlazor.BundledAssets");
+
+                _hasBundledAssets = true;
+            }
+            catch
+            {
+                _hasBundledAssets = false;
+            }
+        }
+
+        return _hasBundledAssets.Value;
+    }
     
     /// <summary>
     ///     Retrieves all <see cref="EventCallback" />s and <see cref="Func{TResult}" />s that are listening for JavaScript events.
@@ -2722,6 +2771,7 @@ public partial class MapView : MapComponent
     private readonly List<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
     private readonly List<Widget> _newWidgets = [];
     private bool? _isPro;
+    private bool? _hasBundledAssets;
     private readonly Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;
     private bool _waitingForRender;

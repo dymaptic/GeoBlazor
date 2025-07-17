@@ -16,7 +16,7 @@ public class JsModuleManager
             {
                 _coreModule = await jsRuntime
                     .InvokeAsync<IJSObjectReference>("import", cancellationToken, 
-                        $"./_content/{PackageInfo.PackageId}/js/arcGisJsInterop.js?v={_version}");
+                        $"./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js?v={_version}");
             }
             else
             {

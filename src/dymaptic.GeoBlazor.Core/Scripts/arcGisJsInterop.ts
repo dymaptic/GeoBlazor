@@ -64,7 +64,7 @@ import Widget from "@arcgis/core/widgets/Widget";
 import {load} from "protobufjs";
 import {buildDotNetExtent, buildJsExtent} from './extent';
 import {buildJsGraphic} from './graphic';
-import {buildDotNetLayer, buildJsLayer, preloadLayerTypes} from './layer';
+import {buildDotNetLayer, buildJsLayer} from './layer';
 import {buildDotNetPoint, buildJsPoint} from './point';
 import {buildDotNetLayerView} from './layerView';
 import {buildDotNetSpatialReference} from './spatialReference';
@@ -117,7 +117,6 @@ let notifyExtentChanged: boolean = true;
 const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
-let geoBlazorCorePackageId: string | null = null;
 
 export let Pro: any;
 
@@ -127,6 +126,36 @@ export function getArcGISVersion() {
 }
 export async function setPro(pro): Promise<void> {
     Pro = pro;
+}
+
+let alreadyRemovedLinkedThemes = false;
+
+export function removeLinkedThemePath(): string | null {
+    // possibly already removed the linked themes, so we can return null
+    // to avoid a loop or issues with multiple views
+    if (alreadyRemovedLinkedThemes) {
+        return null;
+    }
+    
+    alreadyRemovedLinkedThemes = true;
+    
+    const lightMode = 
+        document.querySelector('link[href*="esri/themes/light/main.css"]');
+    
+    if (lightMode) {
+        // remove the light mode theme link
+        lightMode.remove();
+        return "light";
+    }
+    const darkMode = 
+        document.querySelector('link[href*="esri/themes/dark/main.css"]');
+    
+    if (darkMode) {
+        // remove the dark mode theme link
+        return "dark";
+    }
+    
+    return "light";
 }
 
 // we have to wrap the JsObjectReference because a null will throw an error
@@ -210,18 +239,10 @@ export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number
     }
 }
 
-export function setPackageId(packageId: string): void {
-    geoBlazorCorePackageId = packageId;
-}
-
-export function setCdnAssetsPath() {
-    esriConfig.assetsPath = `https://js.arcgis.com/${esriNS.version}/@arcgis/core/assets`;
-}
-
 export function setAssetsPath(path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
         // some customers use a custom path to get to a sub-folder like `/mySite/_content/dymaptic.GeoBlazor.Core/assets`
-        if (path.endsWith(`/_content/${geoBlazorCorePackageId}/assets`)) {
+        if (path.endsWith('/_content/dymaptic.GeoBlazor.BundledAssets/assets')) {
             let esriVersionPath = esriNS.fullVersion.replaceAll('.', '_');
             esriConfig.assetsPath = `${path}/${esriVersionPath}`;
             MapComponents.setAssetPath(`${path}/map-components/${esriVersionPath}`);
@@ -1919,7 +1940,7 @@ export let ProtoGraphicCollection;
 export let ProtoViewHitCollection;
 
 export async function loadProtobuf() {
-    load(`_content/${geoBlazorCorePackageId}/graphic.json`, function (err, root) {
+    load('_content/dymaptic.GeoBlazor.Core/graphic.json', function (err, root) {
         if (err) {
             throw err;
         }

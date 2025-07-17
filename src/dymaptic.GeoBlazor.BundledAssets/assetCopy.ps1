@@ -36,18 +36,6 @@ If ((Test-Path -Path $OutputDeleteRegex) -eq $false)
         npm install
         Copy-Item -Path $ArcGISSourceFiles -Destination $ArcGISOutputDir -Recurse
         
-        # Copy the Themes folder to the old un-versioned location, since this is referred in a <link> tag
-        # and we don't want this to be a breaking change.
-        # In future versions, we should move the theme selection out of link tags and into our managed code
-        $ThemesSource = Join-Path $ArcGISOutputDir "esri/themes"
-        $ThemesDestination = Join-Path $OutputRootDir "esri/themes"
-        
-        If ((Test-Path -Path $ThemesDestination) -eq $false)
-        {
-            New-Item -ItemType Directory -Path "$OutputRootDir/esri" | Out-Null
-        }
-        Move-Item -Path $ThemesSource -Destination $ThemesDestination
-        
         Write-Output "Copying ArcGIS Map Components Assets to $ArcGISComponentsOutputDir"
         # create the map-components directory if it does not exist
         If ((Test-Path -Path $ArcGISComponentsOutputDir) -eq $false)

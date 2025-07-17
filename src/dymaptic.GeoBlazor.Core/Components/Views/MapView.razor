@@ -1,5 +1,21 @@
 ﻿@inherits MapComponent
 
+@if (!HasBundledAssets())
+{
+    <HeadContent>
+        <link rel="stylesheet" href="@($"https://js.arcgis.com/calcite-components/{ArcGISSDKVersionInfo.CalciteVersion}/calcite.css")" />
+        @if (Theme == ArcGISTheme.Light)
+        {
+            <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISVersion}/@@arcgis/core/assets/esri/themes/light/main.css")" />
+        }
+        else if (Theme == ArcGISTheme.Dark)
+        {
+            <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISVersion}/@@arcgis/core/assets/esri/themes/dark/main.css")" />
+        }
+        <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISMapComponentsVersion}/map-components/main.css")" />
+    </HeadContent>
+}
+
 <CascadingValue Name="View" Value="this">
     <CascadingValue Name="Parent" Value="this">
         <CascadingValue Name="MapRendered" Value="MapRendered">
@@ -28,11 +44,11 @@
                 {
                     <div class="dymaptic-branding">
                         <a href="https://www.geoblazor.com">
-                            <img alt="GeoBlazor Logo" height="12" src="@($"_content/{PackageInfo.PackageId}/images/Blazor-API-60px.png")"/> GeoBlazor
+                            <img alt="GeoBlazor Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/Blazor-API-60px.png"/> GeoBlazor
                         </a>
                         by
                         <a href="https://www.dymaptic.com">
-                            <img alt="dymaptic Logo" height="12" src="@($"_content/{PackageInfo.PackageId}/images/dymaptic-logo-circle-icon.png")"/> dymaptic
+                            <img alt="dymaptic Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-logo-circle-icon.png"/> dymaptic
                         </a>
                     </div>
                 }

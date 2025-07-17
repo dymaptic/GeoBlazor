@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <PackageId>dymaptic.GeoBlazor.BundledAssets</PackageId>
+        <Description>
+            GeoBlazor is moving to using hosted CDN assets to reduce the size and build time of the library.
+            This project contains the bundled assets, if you would like to continue to use those as in the past,
+            you can do so by referencing this package.
+        </Description>
+        <Title>GeoBlazor Bundled Assets</Title>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageVersion>$(CoreVersion)</PackageVersion>
+        <Version>$(CoreVersion)</Version>
+        <Authors>dymaptic</Authors>
+        <Company>dymaptic</Company>
+        <Copyright>©2025 by dymaptic</Copyright>
+        <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/dymaptic/GeoBlazor</RepositoryUrl>
+        <PackageProjectUrl>https://geoblazor.com</PackageProjectUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageIcon>Blazor-API-500px.png</PackageIcon>
+        <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE' AND $(GeneratePackage) != 'false'">true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.18"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Remove="package.json" />
+        <Content Remove="package-lock.json" />
+        <None Include="package.json" Pack="false" />
+        <None Include="package-lock.json" Pack="false" />
+        <None Remove="ReadMe.md" />
+        <None Include="ReadMe.md" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot/assets/" />
+    </ItemGroup>
+
+    <Target Name="NPM Install" BeforeTargets="CoreGenerateAssemblyInfo">
+        <Message Importance="high" Text="Running NPM Install" />
+        <Exec Command="npm install" />
+    </Target>
+
+    <Target Name="Copy Assets Debug" AfterTargets="NPM Install">
+        <Message Importance="high" Text="Copying Asset files" />
+        <Exec Command="pwsh ./assetCopy.ps1" />
+    </Target>
+
+    <Target Name="Copy Assets Release" AfterTargets="NPM Install">
+        <Message Importance="high" Text="Copying Asset files" />
+        <Exec Command="pwsh ./assetCopy.ps1" ContinueOnError="false" />
+    </Target>
+</Project>

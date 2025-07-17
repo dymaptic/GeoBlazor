@@ -21,6 +21,9 @@
     "paths": {
       "@arcgis/*": [
         "/lib/*"
+      ],
+      "@esri/*": [
+        "/lib/*"
       ]
     },
     "allowSyntheticDefaultImports": true,
