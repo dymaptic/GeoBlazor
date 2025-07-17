@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <PackageId>dymaptic.GeoBlazor.Core</PackageId>
+        <PackageId Condition="'$(NoAssets)' != 'true'">dymaptic.GeoBlazor.Core.Bundled</PackageId>
+        <PackageId Condition="'$(NoAssets)' == 'true'">dymaptic.GeoBlazor.Core</PackageId>
+        <RootNamespace>dymaptic.GeoBlazor.Core</RootNamespace>
         <PackageTags>Blazor;ArcGIS;JsInterop;Javascript;Asp.NET</PackageTags>
         <Description>
             GeoBlazor is a GIS Component Library and SDK for building interactive maps in Blazor, powered by ArcGIS.
@@ -23,6 +25,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoWarn>GeoBlazor_Untested</NoWarn>
+        <DefineConstants Condition="$(NoAssets) == 'true'">$(DefineConstants);NO_ASSETS</DefineConstants>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -97,10 +100,11 @@
     <ItemGroup>
         <Folder Include="wwwroot/assets/" />
         <Folder Include="wwwroot/js/" />
+        <Folder Include="wwwroot/css/" />
         <Folder Include="Documentation/" />
     </ItemGroup>
 
-    <Target Name="NPM Install" BeforeTargets="BuildOnlySettings" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
+    <Target Name="NPM Install" BeforeTargets="CoreGenerateAssemblyInfo" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
         <Message Importance="high" Text="Running NPM Install" />
         <Exec Command="npm install" />
     </Target>
@@ -122,5 +126,18 @@
 
     <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <Exec Command="npm run releaseBuild" ContinueOnError="false" />
+    </Target>
+
+    <Target Name="GeneratePackageInfo" BeforeTargets="BeforeBuild">
+        <PropertyGroup>
+            <GeneratedCodePath>$(IntermediateOutputPath)PackageInfo.g.cs</GeneratedCodePath>
+        </PropertyGroup>
+        <ItemGroup>
+            <Generated Include="$(GeneratedCodePath)" />
+        </ItemGroup>
+        <Exec Command="pwsh ./generatePackageInfo.ps1 -packageId $(PackageId) -path $(GeneratedCodePath)" ContinueOnError="false" />
+        <ItemGroup>
+            <Compile Include="$(GeneratedCodePath)" />
+        </ItemGroup>
     </Target>
 </Project>

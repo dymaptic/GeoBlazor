@@ -117,11 +117,14 @@ let notifyExtentChanged: boolean = true;
 const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
+let geoBlazorCorePackageId: string | null = null;
 
 export let Pro: any;
 
 // region functions
-
+export function getArcGISVersion() {
+    return esriNS.version;
+}
 export async function setPro(pro): Promise<void> {
     Pro = pro;
 }
@@ -207,9 +210,18 @@ export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number
     }
 }
 
+export function setPackageId(packageId: string): void {
+    geoBlazorCorePackageId = packageId;
+}
+
+export function setCdnAssetsPath() {
+    esriConfig.assetsPath = `https://js.arcgis.com/${esriNS.version}/@arcgis/core/assets`;
+}
+
 export function setAssetsPath(path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
-        if (path === '/_content/dymaptic.GeoBlazor.Core/assets') {
+        // some customers use a custom path to get to a sub-folder like `/mySite/_content/dymaptic.GeoBlazor.Core/assets`
+        if (path.endsWith(`/_content/${geoBlazorCorePackageId}/assets`)) {
             let esriVersionPath = esriNS.fullVersion.replaceAll('.', '_');
             esriConfig.assetsPath = `${path}/${esriVersionPath}`;
             MapComponents.setAssetPath(`${path}/map-components/${esriVersionPath}`);
@@ -1907,7 +1919,7 @@ export let ProtoGraphicCollection;
 export let ProtoViewHitCollection;
 
 export async function loadProtobuf() {
-    load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
+    load(`_content/${geoBlazorCorePackageId}/graphic.json`, function (err, root) {
         if (err) {
             throw err;
         }

@@ -2385,10 +2385,14 @@ public partial class MapView : MapComponent
             }
 
             NeedsRender = false;
-
-            await CoreJsModule.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
-                Configuration.GetValue<string?>("ArcGISAssetsPath",
-                    "/_content/dymaptic.GeoBlazor.Core/assets"));
+            
+#if NO_ASSETS
+            await CoreJsModule.InvokeVoidAsync("setCdnAssetsPath", CancellationTokenSource.Token); 
+#else
+            string assetsPath = Configuration.GetValue<string>("ArcGISAssetsPath",
+                $"/_content/{PackageInfo.PackageId}/assets")!;
+            await CoreJsModule.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token, assetsPath);
+#endif
 
             while (Map is null) // race condition in WebAssembly causes the map to be disposed while creating child components within it.
             {
