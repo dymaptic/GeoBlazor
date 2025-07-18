@@ -4,13 +4,16 @@
 {
     <HeadContent>
         <link rel="stylesheet" href="@($"https://js.arcgis.com/calcite-components/{ArcGISSDKVersionInfo.CalciteVersion}/calcite.css")" />
-        @if (Theme == ArcGISTheme.Light)
+        @switch (Theme)
         {
-            <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISVersion}/@@arcgis/core/assets/esri/themes/light/main.css")" />
-        }
-        else if (Theme == ArcGISTheme.Dark)
-        {
-            <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISVersion}/@@arcgis/core/assets/esri/themes/dark/main.css")" />
+            case ArcGISTheme.Light:
+                <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISVersion}/@@arcgis/core/assets/esri/themes/light/main.css")" />
+
+                break;
+            case ArcGISTheme.Dark:
+                <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISVersion}/@@arcgis/core/assets/esri/themes/dark/main.css")" />
+
+                break;
         }
         <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISMapComponentsVersion}/map-components/main.css")" />
     </HeadContent>

@@ -152,6 +152,7 @@ export function removeLinkedThemePath(): string | null {
     
     if (darkMode) {
         // remove the dark mode theme link
+        darkMode.remove();
         return "dark";
     }
     
