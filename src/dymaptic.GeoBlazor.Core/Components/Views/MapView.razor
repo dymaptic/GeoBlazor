@@ -7,11 +7,11 @@
         @switch (Theme)
         {
             case ArcGISTheme.Light:
-                <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISVersion}/@@arcgis/core/assets/esri/themes/light/main.css")" />
+                <link rel="stylesheet" href="@($"https://js.arcgis.com/{string.Join(".", ArcGISSDKVersionInfo.ArcGISVersion.Split('.').Take(2))}/@arcgis/core/assets/esri/themes/light/main.css")" />
 
                 break;
             case ArcGISTheme.Dark:
-                <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISVersion}/@@arcgis/core/assets/esri/themes/dark/main.css")" />
+                <link rel="stylesheet" href="@($"https://js.arcgis.com/{string.Join(".", ArcGISSDKVersionInfo.ArcGISVersion.Split('.').Take(2))}/@arcgis/core/assets/esri/themes/dark/main.css")" />
 
                 break;
         }

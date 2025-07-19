@@ -42,9 +42,7 @@
             </div>
 
             <article class="content px-4">
-                <CascadingValue Name="Theme" Value="@_theme">
-                    @Body
-                </CascadingValue>
+                @Body
             </article>
     </main>
 </div>
@@ -102,7 +100,7 @@
         if (firstRender)
         {
             bool isDarkMode = await JsRuntime.InvokeAsync<bool>("isDarkMode");
-            _theme = isDarkMode ? "dark" : "light";
+            Configuration["GeoBlazor:Theme"] = isDarkMode ? "Dark" : "Light";
             StateHasChanged();
         }
     }
@@ -144,7 +142,6 @@
     }
 
     private record TokenResponse([property: JsonPropertyName("access_token")] string AccessToken);
-    private string _theme = "light";
     private string _searchText = string.Empty;
     private bool _enterKeyPressed;
 }

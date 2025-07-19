@@ -2243,6 +2243,20 @@ public partial class MapView : MapComponent
             }
         }
 
+        if (Theme is null)
+        {
+            string? theme = Configuration.GetValue<string?>("GeoBlazor:Theme");
+            if (theme is not null)
+            {
+                Theme = theme.ToLowerInvariant() switch
+                {
+                    "dark" => ArcGISTheme.Dark,
+                    "light" => ArcGISTheme.Light,
+                    _ => null
+                };
+            }
+        }
+
         await UpdateView();
     }
 
