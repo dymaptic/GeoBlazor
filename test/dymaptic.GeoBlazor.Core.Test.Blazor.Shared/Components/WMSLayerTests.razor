@@ -14,38 +14,69 @@
 #pragma warning disable GeoBlazor_Untested
         WMSLayer? layer = null;
         SceneView? sceneView = null;
-        bool layerViewCreated = false;
 
         void OnLayerViewCreated(LayerViewCreateEvent createEvent)
         {
             Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
             WMSLayer createdLayer = (WMSLayer)createEvent.Layer;
             Assert.AreEqual(layer?.Id, createdLayer.Id);
-            layerViewCreated = true;
+            LayerViewCreated = true;
         }
 
-        AddMapRenderFragment(@<SceneView @ref="sceneView"
-                                         class="map-view"
-                                         OnViewRendered="renderHandler"
-                                         OnLayerViewCreate="OnLayerViewCreated">
+        AddMapRenderFragment(
+            @<SceneView @ref="sceneView" 
+                        class="map-view" 
+                        OnViewRendered="renderHandler"
+                        OnLayerViewCreate="OnLayerViewCreated">
                 <Map>
                     <WMSLayer @ref="layer"
-                              Url="https://ows.terrestris.de/osm/service">
+                              Url="https://ows.terrestris.de/osm/service"
+                              SpatialReference="new SpatialReference(102100)">
                         <WMSSublayer Name="OSM-WMS"/>
+                    </WMSLayer>
+                </Map>
+        </SceneView>);
+        await WaitForMapToRender();
+        await WaitForLayerToRender();
+        
+        Assert.IsTrue(LayerViewCreated);
+        
+        await AssertJavaScript("assertLayerExists", args: "wms");
+#pragma warning restore GeoBlazor_Untested
+    }
+    
+    [TestMethod]
+    public async Task TestWMSLayerSpatialReference(Action renderHandler)
+    {
+#pragma warning disable GeoBlazor_Untested
+        WMSLayer? layer = null;
+        SceneView? sceneView = null;
+        WMSSublayer? subLayer = null;
+
+        void OnLayerViewCreated(LayerViewCreateEvent createEvent)
+        {
+            Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+            WMSLayer createdLayer = (WMSLayer)createEvent.Layer;
+            Assert.AreEqual(layer?.Id, createdLayer.Id);
+            LayerViewCreated = true;
+        }
+
+        AddMapRenderFragment(
+            @<SceneView @ref="sceneView" 
+                        class="map-view" 
+                        OnViewRendered="renderHandler"
+                        OnLayerViewCreate="OnLayerViewCreated">
+                <Map>
+                    <WMSLayer @ref="layer"
+                              Url="https://ows.terrestris.de/osm/service" >
+                        <WMSSublayer @ref="subLayer" Name="OSM-WMS"/>
                     </WMSLayer>
                 </Map>
             </SceneView>);
         await WaitForMapToRender();
-        int tries = 100;
-
-        while (!layerViewCreated && tries > 0)
-        {
-            await Task.Delay(100);
-            tries--;
-        }
-
-        Assert.IsTrue(layerViewCreated);
-        await AssertJavaScript("assertLayerExists", args: "wms");
+        await WaitForLayerToRender();
+        Assert.IsTrue(layer?.SpatialReference == SpatialReference.Wgs84);
+        
 #pragma warning restore GeoBlazor_Untested
     }
 

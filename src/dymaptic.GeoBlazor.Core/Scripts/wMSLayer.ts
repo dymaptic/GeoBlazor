@@ -1,7 +1,7 @@
 // override generated code in this file
 import WMSLayerGenerated from './wMSLayer.gb';
 import WMSLayer from '@arcgis/core/layers/WMSLayer';
-import {arcGisObjectRefs, generateSerializableJson, hasValue} from './arcGisJsInterop';
+import {hasValue} from './arcGisJsInterop';
 
 export default class WMSLayerWrapper extends WMSLayerGenerated {
 

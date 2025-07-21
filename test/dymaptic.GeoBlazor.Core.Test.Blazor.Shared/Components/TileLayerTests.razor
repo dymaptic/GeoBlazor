@@ -13,7 +13,6 @@
     {
         TileLayer? layer = null;
         MapView? mapView = null;
-        bool layerViewCreated = false;
 
         async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
         {
@@ -23,7 +22,7 @@
             Sublayer firstSublayer = layer!.Sublayers![0];
             await firstSublayer.SetPopupEnabled(false);
             await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
-            layerViewCreated = true;
+            LayerViewCreated = true;
         }
         AddMapRenderFragment(
             @<MapView @ref="mapView"
@@ -37,13 +36,8 @@
                 </Map>
             </MapView>);
         await WaitForMapToRender();
-        int tries = 100;
-        while (!layerViewCreated && tries > 0)
-        {
-            await Task.Delay(100);
-            tries--;
-        }
-        Assert.IsTrue(layerViewCreated);
+        await WaitForLayerToRender();
+        Assert.IsTrue(LayerViewCreated);
         Assert.IsTrue(layer!.Sublayers!.Count > 0);
         Assert.IsTrue(layer.AllSublayers!.Count > 0);
         await AssertJavaScript("assertLayerExists", args: "tile");
@@ -54,7 +48,6 @@
     {
         TileLayer? layer = null;
         MapView? mapView = null;
-        bool layerViewCreated = false;
 
         async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
         {
@@ -66,7 +59,7 @@
             Assert.IsNotNull(firstSubSublayer);
             await firstSublayer.SetPopupEnabled(false);
             await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
-            layerViewCreated = true;
+            LayerViewCreated = true;
         }
         AddMapRenderFragment(
             @<MapView @ref="mapView"
@@ -79,13 +72,9 @@
                 </Map>
             </MapView>);
         await WaitForMapToRender();
-        int tries = 100;
-        while (!layerViewCreated && tries > 0)
-        {
-            await Task.Delay(100);
-            tries--;
-        }
-        Assert.IsTrue(layerViewCreated);
+        
+        await WaitForLayerToRender();
+        Assert.IsTrue(LayerViewCreated);
         Assert.IsTrue(layer!.Sublayers!.Count > 0);
         Assert.IsTrue(layer.AllSublayers!.Count > 0);
         await AssertJavaScript("assertLayerExists", args: "tile");
