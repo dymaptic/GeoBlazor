@@ -2294,20 +2294,9 @@ public partial class MapView : MapComponent
                 await AuthenticationManager.Login();
             }
 
-            if (HasBundledAssets())
+            if (HasCustomAssetPath())
             {
-                string assetsPath = Configuration.GetValue<string>("ArcGISAssetsPath",
-                    "/_content/dymaptic.GeoBlazor.BundledAssets/assets")!;
-                
-                // customers hosting their app in a subdirectory may have a different assets path
-                // and won't have this updated to the new bundled assets path
-                if (assetsPath.EndsWith("_content/dymaptic.GeoBlazor.Core/assets/"))
-                {
-                    assetsPath = assetsPath.Replace("_content/dymaptic.GeoBlazor.Core", 
-                        "_content/dymaptic.GeoBlazor.BundledAssets");
-                }
-                
-                await CoreJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token, assetsPath);
+                await CoreJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token, _customAssetsPath);
             }
             else if (Theme is null)
             {
@@ -2672,23 +2661,24 @@ public partial class MapView : MapComponent
         return _isPro.Value;
     }
 
-    private bool HasBundledAssets()
+    private bool HasCustomAssetPath()
     {
-        if (_hasBundledAssets is null)
+        if (_hasCustomAssetPath is null)
         {
             try
             {
-                Assembly _ = Assembly.Load("dymaptic.GeoBlazor.BundledAssets");
+                _customAssetsPath = Configuration.GetValue<string?>("ArcGISAssetsPath",
+                    "/_content/dymaptic.GeoBlazor.BundledAssets/assets");
 
-                _hasBundledAssets = true;
+                _hasCustomAssetPath = _customAssetsPath is not null;
             }
             catch
             {
-                _hasBundledAssets = false;
+                _hasCustomAssetPath = false;
             }
         }
 
-        return _hasBundledAssets.Value;
+        return _hasCustomAssetPath.Value;
     }
     
     /// <summary>
@@ -2785,7 +2775,8 @@ public partial class MapView : MapComponent
     private readonly List<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
     private readonly List<Widget> _newWidgets = [];
     private bool? _isPro;
-    private bool? _hasBundledAssets;
+    private bool? _hasCustomAssetPath;
+    private string? _customAssetsPath;
     private readonly Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;
     private bool _waitingForRender;

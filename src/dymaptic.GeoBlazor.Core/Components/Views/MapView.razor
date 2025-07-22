@@ -1,6 +1,6 @@
 ﻿@inherits MapComponent
 
-@if (!HasBundledAssets())
+@if (!HasCustomAssetPath())
 {
     <HeadContent>
         <link rel="stylesheet" href="@($"https://js.arcgis.com/calcite-components/{ArcGISSDKVersionInfo.CalciteVersion}/calcite.css")" />
@@ -16,6 +16,22 @@
                 break;
         }
         <link rel="stylesheet" href="@($"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISMapComponentsVersion}/map-components/main.css")" />
+    </HeadContent>
+}
+else
+{
+    <HeadContent>
+        <link rel="stylesheet" href="@($"{_customAssetsPath}/calcite.css")" />
+        @switch (Theme)
+        {
+            case ArcGISTheme.Light:
+                <link rel="stylesheet" href="@($"{_customAssetsPath}/esri/themes/light/main.css")" />
+                break;
+            case ArcGISTheme.Dark:
+                <link rel="stylesheet" href="@($"{_customAssetsPath}/esri/themes/dark/main.css")" />
+                break;
+        }
+        <link rel="stylesheet" href="@($"{_customAssetsPath}/map-components/main.css")" />
     </HeadContent>
 }
 
