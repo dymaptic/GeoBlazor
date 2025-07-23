@@ -104,7 +104,7 @@
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
-    <Target Name="NPM Install" BeforeTargets="CoreGenerateAssemblyInfo" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
+    <Target Name="NPM Install" BeforeTargets="BeforeCompile" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
         <Message Importance="high" Text="Running NPM Install" />
         <Exec Command="npm install" />
     </Target>

@@ -242,16 +242,9 @@ export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number
 
 export function setAssetsPath(path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
-        // some customers use a custom path to get to a sub-folder like `/mySite/_content/dymaptic.GeoBlazor.Core/assets`
-        if (path.endsWith('/_content/dymaptic.GeoBlazor.BundledAssets/assets')) {
-            let esriVersionPath = esriNS.fullVersion.replaceAll('.', '_');
-            esriConfig.assetsPath = `${path}/${esriVersionPath}`;
-            MapComponents.setAssetPath(`${path}/map-components/${esriVersionPath}`);
-            Calcite.setAssetPath(`${path}/calcite/${esriVersionPath}`);
-        } else {
-            // custom path provided by GeoBlazor user
-            esriConfig.assetsPath = path;
-        }
+        esriConfig.assetsPath = path;
+        MapComponents.setAssetPath(path);
+        Calcite.setAssetPath(path);
     }
 }
 
@@ -1941,7 +1934,7 @@ export let ProtoGraphicCollection;
 export let ProtoViewHitCollection;
 
 export async function loadProtobuf() {
-    load('_content/dymaptic.GeoBlazor.Core/graphic.json', function (err, root) {
+    load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
         if (err) {
             throw err;
         }
