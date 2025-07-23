@@ -1887,19 +1887,6 @@ public partial class MapView : MapComponent
     /// </summary>
     public Task<PopupWidget?> GetPopupWidget()
     {
-        if (!Widgets.Any(w => w is PopupWidget) && CoreJsModule is not null)
-        {
-            // add as custom logic since this is before `MapRendered` and calling `AddWidget` will exit early
-            var popupWidget = new PopupWidget
-            {
-                Parent = this,
-                View = this,
-                CoreJsModule = CoreJsModule
-            };
-            _newWidgets.Add(popupWidget);
-            StateHasChanged();
-        }
-
         return Task.FromResult(Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget);
     }
 
@@ -2414,6 +2401,17 @@ public partial class MapView : MapComponent
             _widgets.Insert(0, zoom);
         }
         
+        if (!Widgets.Any(w => w is PopupWidget))
+        {
+            var popupWidget = new PopupWidget
+            {
+                Parent = this,
+                View = this,
+                CoreJsModule = CoreJsModule
+            };
+            _widgets.Add(popupWidget);
+        }
+        
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -2433,9 +2431,6 @@ public partial class MapView : MapComponent
             }
 
             await BuildMapView();
-            
-            // must be after main render, but before the boolean flags are set
-            await GetPopupWidget();
 
             Rendering = false;
             MapRendered = true;
@@ -2667,8 +2662,7 @@ public partial class MapView : MapComponent
         {
             try
             {
-                _customAssetsPath = Configuration.GetValue<string?>("ArcGISAssetsPath",
-                    "/_content/dymaptic.GeoBlazor.BundledAssets/assets");
+                _customAssetsPath = Configuration.GetValue<string?>("ArcGISAssetsPath");
 
                 _hasCustomAssetPath = _customAssetsPath is not null;
             }

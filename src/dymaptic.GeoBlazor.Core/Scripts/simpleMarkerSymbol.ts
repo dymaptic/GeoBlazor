@@ -1,6 +1,6 @@
 // override generated code in this file
 import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 import {buildDotNetSimpleLineSymbol, buildJsOutline} from "./simpleLineSymbol";
 
@@ -77,13 +77,10 @@ export function buildDotNetSimpleMarkerSymbol(jsObject: any): any {
         dotNetSimpleMarkerSymbol.yoffset = jsObject.yoffset;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSimpleMarkerSymbol.id = k;
-                break;
-            }
-        }
+    let geoblazorId = lookupGeoBlazorId(jsObject);
+    
+    if (hasValue(geoblazorId)) {
+        dotNetSimpleMarkerSymbol.id = geoblazorId;
     }
 
     return dotNetSimpleMarkerSymbol;
