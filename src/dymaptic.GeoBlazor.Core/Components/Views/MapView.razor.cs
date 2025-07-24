@@ -2483,7 +2483,7 @@ public partial class MapView : MapComponent
     /// <inheritdoc />
     protected override bool ShouldRender()
     {
-        return _shouldRender;
+        return AllowRender;
     }
 
     /// <inheritdoc />
