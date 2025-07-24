@@ -73,7 +73,7 @@ export function buildDotNetTextSymbol(jsObject: any): any {
     }
 
     let dotNetTextSymbol: any = {
-                jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.backgroundColor)) {
         dotNetTextSymbol.backgroundColor = buildDotNetMapColor(jsObject.backgroundColor);

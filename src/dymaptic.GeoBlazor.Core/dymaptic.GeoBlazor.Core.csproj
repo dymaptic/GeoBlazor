@@ -101,20 +101,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" 
+                          OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
-
-    <Target Name="NPM Install" BeforeTargets="BeforeCompile" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
-        <Message Importance="high" Text="Running NPM Install" />
-        <Exec Command="npm install" />
-    </Target>
-
-    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <Message Importance="high" Text="Launching NPM Build Script" />
-        <Exec Command="pwsh ./npmDebugBuild.ps1" />
-    </Target>
-
-    <Target Name="NPM Release Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <Exec Command="npm run releaseBuild" ContinueOnError="false" />
-    </Target>
 </Project>

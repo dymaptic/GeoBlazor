@@ -915,7 +915,6 @@ public partial class MapView : MapComponent
         }
 
         await OnLayerViewCreate.InvokeAsync(new LayerViewCreateEvent(layerView?.Layer, layerView));
-
         return layerView?.Id;
     }
 
@@ -2761,7 +2760,6 @@ public partial class MapView : MapComponent
     
     private readonly Dictionary<Guid, StringBuilder> _hitTestResults = new();
     private bool _renderCalled;
-    private readonly bool _shouldRender = true;
     private readonly Dictionary<string, StringBuilder> _layerCreateData = new();
     private readonly Dictionary<string, StringBuilder> _layerViewCreateData = new();
     private HashSet<Graphic> _graphics = [];
