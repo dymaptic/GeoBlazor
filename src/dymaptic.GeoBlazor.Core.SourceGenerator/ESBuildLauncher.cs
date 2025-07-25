@@ -30,22 +30,21 @@ public class ESBuildLauncher : IIncrementalGenerator
                 return (projectDirectory, configuration);
             });
         
-        context.RegisterSourceOutput(optionsProvider, SetProjectDirectory);
+        context.RegisterSourceOutput(optionsProvider, SetProjectDirectoryAndConfiguration);
         context.RegisterSourceOutput(provider, LaunchESBuild);
     }
 
-    private void SetProjectDirectory(SourceProductionContext sourceProductionContext, (string? projectDirectory, string? configuration) options)
+    private void SetProjectDirectoryAndConfiguration(SourceProductionContext sourceProductionContext, 
+        (string? projectDirectory, string? configuration) options)
     {
         if (options.projectDirectory is { } projectDirectory)
         {
-            if (projectDirectory.EndsWith("Pro"))
+            _corePath = Path.GetFullPath(projectDirectory);
+            if (_corePath.Contains("GeoBlazor.Pro"))
             {
-                _proPath = Path.GetFullPath(projectDirectory);
-                _isPro = true;
-            }
-            else
-            {
-                _corePath = Path.GetFullPath(projectDirectory);
+                // we are inside the Pro submodule, we can also set the Pro path
+                _proPath = Path.GetFullPath(Path.Combine(_corePath, "..", "..", "..", "src", 
+                    "dymaptic.GeoBlazor.Pro"));
             }
         }
         
@@ -64,58 +63,10 @@ public class ESBuildLauncher : IIncrementalGenerator
 
         try
         {
-            StringBuilder results = new();
-            if (_isPro)
-            {
-                ProcessStartInfo proStartInfo = new()
-                {
-                    FileName = "pwsh",
-                    Arguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{Path.Combine(_proPath!, "coreTypeScriptCopy.ps1")}\" -build{(
-                        string.Equals(_configuration, "Release", StringComparison.OrdinalIgnoreCase) ? " -release" : string.Empty)}",
-                    WorkingDirectory = _proPath!,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
+            StringBuilder results = new("Starting Core ESBuild process...");
+            results.AppendLine();
 
-                var proProcess = Process.Start(proStartInfo);
-
-                if (proProcess == null)
-                {
-                    context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor("GB0001", "ESBuild Error",
-                            "Failed to start ESBuild process.", "Build",
-                            DiagnosticSeverity.Error, true),
-                        Location.None));
-
-                    return;
-                }
-
-                while (!proProcess.StandardOutput.EndOfStream
-                    && !context.CancellationToken.IsCancellationRequested
-                    && !proProcess.HasExited)
-                {
-                    string line = proProcess.StandardOutput.ReadLine()
-                        ?? proProcess.StandardError.ReadLine()
-                        ?? string.Empty;
-
-                    if (!string.IsNullOrWhiteSpace(line))
-                    {
-                        results.AppendLine(line);
-                    }
-                }
-
-                if (!proProcess.StandardOutput.EndOfStream)
-                {
-                    results.AppendLine(proProcess.StandardOutput.ReadLine());
-                }
-
-                if (!proProcess.StandardError.EndOfStream)
-                {
-                    results.AppendLine(proProcess.StandardError.ReadLine());
-                }
-            }
-            else
+            if (_proPath is null)
             {
                 ProcessStartInfo processStartInfo = new()
                 {
@@ -165,7 +116,62 @@ public class ESBuildLauncher : IIncrementalGenerator
                     results.AppendLine(process.StandardError.ReadLine());
                 }
             }
+            else
+            {
+                string proScriptPath = Path.Combine(_proPath, "coreTypeScriptCopy.ps1");
+                
+                ProcessStartInfo proStartInfo = new()
+                {
+                    FileName = "pwsh",
+                    Arguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{proScriptPath}\" -build{(
+                        string.Equals(_configuration, "Release", StringComparison.OrdinalIgnoreCase) ? " -release" : string.Empty)}",
+                    WorkingDirectory = _proPath,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
 
+                results.AppendLine();
+                results.AppendLine("Starting Pro ESBuild process...");
+                
+                var proProcess = Process.Start(proStartInfo);
+
+                if (proProcess == null)
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor("GB0001", "ESBuild Error",
+                            "Failed to start ESBuild process.", "Build",
+                            DiagnosticSeverity.Error, true),
+                        Location.None));
+
+                    return;
+                }
+
+                while (!proProcess.StandardOutput.EndOfStream
+                    && !context.CancellationToken.IsCancellationRequested
+                    && !proProcess.HasExited)
+                {
+                    string line = proProcess.StandardOutput.ReadLine()
+                        ?? proProcess.StandardError.ReadLine()
+                        ?? string.Empty;
+
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        results.AppendLine(line);
+                    }
+                }
+
+                if (!proProcess.StandardOutput.EndOfStream)
+                {
+                    results.AppendLine(proProcess.StandardOutput.ReadLine());
+                }
+
+                if (!proProcess.StandardError.EndOfStream)
+                {
+                    results.AppendLine(proProcess.StandardError.ReadLine());
+                }
+            }
+            
             Process gitBranchProc = Process.Start(new  ProcessStartInfo
             {
                 WorkingDirectory = _corePath!,
@@ -176,21 +182,31 @@ public class ESBuildLauncher : IIncrementalGenerator
                 UseShellExecute = false,
                 CreateNoWindow = true
             })!;
-            string? gitBranch = gitBranchProc.StandardOutput.ReadLine()?.Trim();
             
-            context.AddSource("ESBuildRecord.g.cs", 
-                $$"""
-                 /// <auto-generated/>
-                 
-                 namespace dymaptic.GeoBlazor.{{(_isPro ? "Pro" : "Core")}};
-                 
-                 internal class ESBuildRecord
-                 {
-                     private const long Timestamp = {{DateTime.UtcNow.Ticks}};
-                     private const string GitBranch = "{{gitBranch}}";
-                     private const string Configuration = "{{_configuration}}";
-                 }
-                 """);
+            string? gitBranch = gitBranchProc.StandardOutput.ReadLine()?.Trim();
+
+            results.AppendLine();
+            
+            results.AppendLine($"ESBuild completed successfully for branch '{gitBranch}' with configuration '{_configuration}'.");
+
+            string source = $$"""
+                              /// <auto-generated/>
+
+                              namespace dymaptic.GeoBlazor.Core;
+
+                              internal class ESBuildRecord
+                              {
+                                  private const long Timestamp = {{DateTime.UtcNow.Ticks}};
+                                  private const string GitBranch = "{{gitBranch}}";
+                                  private const string Configuration = "{{_configuration}}";
+                                  private const bool IncludeProBuild = {{(_proPath is not null).ToString().ToLower()}};
+                              }
+                              """;
+            
+            context.AddSource("ESBuildRecord.g.cs", source);
+            
+            results.AppendLine();
+            results.AppendLine(source);
             
             context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor("GB0000", "ESBuild Results",
                     $"ESBuild completed successfully.\n\n{results}", 
@@ -207,7 +223,6 @@ public class ESBuildLauncher : IIncrementalGenerator
         }
     }
 
-    private static bool _isPro;
     private static string? _corePath;
     private static string? _proPath;
     private static string? _configuration;

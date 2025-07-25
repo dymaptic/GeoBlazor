@@ -2243,6 +2243,11 @@ public partial class MapView : MapComponent
             }
         }
 
+        if (MapRendered && Theme != _lastTheme)
+        {
+            await SetTheme();
+        }
+
         await UpdateView();
     }
 
@@ -2280,25 +2285,28 @@ public partial class MapView : MapComponent
                 await AuthenticationManager.Login();
             }
 
+            // we load CSS programmatically to avoid issues with devs adding or forgetting to add the links
+            // so we can check and ensure at runtime, especially since we are changing the behavior in version 4.2.0
             if (HasCustomAssetPath())
             {
-                await CoreJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token, _customAssetsPath);
+                // set custom assets path
+                await CoreJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token, 
+                    _customAssetsPath);
+                // import calcite css from custom path
+                await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
+                    $"{_customAssetsPath}/calcite.css");
+                // import map component css from custom path
+                await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
+                    $"{_customAssetsPath}/map-components/main.css");
             }
-            else if (Theme is null)
+            else // default CDN CSS Paths
             {
-                // In the new pattern we will teach users to set the Theme property/parameter,
-                // but this will check for the old pattern of placing the links manually in the head.
-                // This call not only looks for those links, but also removes them and copies the setting (dark or light).
-                string? linkedTheme = await CoreJsModule!.InvokeAsync<string?>("removeLinkedThemePath");
-                Theme = linkedTheme switch
-                {
-                    "dark" => ArcGISTheme.Dark,
-                    // if we hit this path repeatedly, like with multiple views, 
-                    // the JS method returns null so we don't add the same theme multiple times
-                    null => null,
-                    // default to light theme
-                    _ => ArcGISTheme.Light
-                };
+                // import calcite css
+                await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
+                    $"https://js.arcgis.com/calcite-components/{ArcGISSDKVersionInfo.CalciteVersion}/calcite.css");
+                // import map component css
+                await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
+                    $"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISMapComponentsVersion}/map-components/main.css");
             }
 
             StateHasChanged();
@@ -2323,7 +2331,6 @@ public partial class MapView : MapComponent
                         (object)newLayer, Id, isBasemapLayer, isBasemapReferenceLayer);
                 }
             }
-
 
             if (_newWidgets.Any())
             {
@@ -2433,6 +2440,8 @@ public partial class MapView : MapComponent
 
             Rendering = false;
             MapRendered = true;
+
+            await SetTheme();
         });
     }
 
@@ -2445,7 +2454,30 @@ public partial class MapView : MapComponent
         return CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
             DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
             mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
-            EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
+            EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
+            Theme?.ToString().ToLowerInvariant());
+    }
+
+    private async Task SetTheme()
+    {
+        string? theme = await CoreJsModule!.InvokeAsync<string?>("setTheme", 
+            Theme.ToString()!.ToLowerInvariant(), Id);
+        ArcGISTheme? newTheme = theme switch
+        {
+            "dark" => ArcGISTheme.Dark,
+            // if we hit this path repeatedly, like with multiple views, 
+            // the JS method returns null so we don't add the same theme multiple times
+            null => null,
+            // default to light theme
+            _ => ArcGISTheme.Light
+        };
+                
+        if (newTheme is not null && Theme != newTheme)
+        {
+            // set these both so they don't cause a render loop
+            _lastTheme = newTheme;
+            Theme = newTheme;
+        }
     }
 #endregion
     
@@ -2772,6 +2804,7 @@ public partial class MapView : MapComponent
     private readonly Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;
     private bool _waitingForRender;
+    private ArcGISTheme? _lastTheme;
 
 #endregion
 }

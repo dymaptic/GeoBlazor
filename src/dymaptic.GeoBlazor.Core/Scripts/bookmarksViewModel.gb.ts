@@ -187,9 +187,9 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         properties.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
+    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
         let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+        properties.goToOverride = buildJsGoToOverride(dotNetObject, viewId) as any;
     }
 
     let jsBookmarksViewModel = new BookmarksViewModel(properties);

@@ -115,9 +115,9 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     }
 
     let properties: any = {};
-    if (hasValue(dotNetObject.goToOverride)) {
+    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
         let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+        properties.goToOverride = buildJsGoToOverride(dotNetObject, viewId) as any;
     }
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');

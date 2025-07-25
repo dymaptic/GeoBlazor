@@ -188,6 +188,6 @@ public class SceneView : MapView
             Longitude, Latitude, Rotation, Map, Zoom, Scale,
             mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
             EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
-            PopupEnabled, ZIndex, Tilt);
+            PopupEnabled, Theme?.ToString().ToLowerInvariant(), ZIndex, Tilt);
     }
 }

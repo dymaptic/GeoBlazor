@@ -1,9 +1,13 @@
 // override generated code in this file
-import {disposeMapComponent, hasValue, removeCircularReferences} from "./arcGisJsInterop";
+import {arcGisObjectRefs, disposeMapComponent, hasValue, removeCircularReferences} from "./arcGisJsInterop";
 
 export async function buildJsWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
+    }
+
+    if (hasValue(dotNetObject.id) && arcGisObjectRefs.hasOwnProperty(dotNetObject.id!)) {
+        return arcGisObjectRefs[dotNetObject.id!];
     }
 
     switch (dotNetObject.type) {

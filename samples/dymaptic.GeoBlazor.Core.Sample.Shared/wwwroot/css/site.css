@@ -47,11 +47,13 @@ border-color: var(--geoblazor-accent-hover);
 }
 
 :root {
-    --calcite-block-heading-text-color: var(--text-emphasis);
-    --calcite-block-heading-text-color-press: var(--text-emphasis);
-    --calcite-color-text-2: var(--text);
-    --calcite-color-text-3: var(--text-disabled);
-    --calcite-color-foreground-2: var(--background-grey-2);
+    --calcite-input-background-color: var(--background-grey-2);
+    --calcite-input-actions-background-color: var(--background-grey-2);
+    --calcite-list-background-color: var(--background-grey-1);
+    --calcite-list-background-color-hover: var(--background-grey-2);
+    --calcite-input-text-color: var(--text-emphasis);
+    --calcite-input-actions-icon-color: var(--text-emphasis);
+    --calcite-list-label-text-color: var(--text-emphasis);
 }
 
 .nav-link {

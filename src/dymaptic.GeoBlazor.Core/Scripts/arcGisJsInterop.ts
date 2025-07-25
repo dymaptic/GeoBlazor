@@ -112,7 +112,6 @@ export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper(fal
 export let projectionEngine: ProjectionWrapper = new ProjectionWrapper(false);
 
 // region module variables
-
 let notifyExtentChanged: boolean = true;
 const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
@@ -126,37 +125,6 @@ export function getArcGISVersion() {
 }
 export async function setPro(pro): Promise<void> {
     Pro = pro;
-}
-
-let alreadyRemovedLinkedThemes = false;
-
-export function removeLinkedThemePath(): string | null {
-    // possibly already removed the linked themes, so we can return null
-    // to avoid a loop or issues with multiple views
-    if (alreadyRemovedLinkedThemes) {
-        return null;
-    }
-    
-    alreadyRemovedLinkedThemes = true;
-    
-    const lightMode = 
-        document.querySelector('link[href*="esri/themes/light/main.css"]');
-    
-    if (lightMode) {
-        // remove the light mode theme link
-        lightMode.remove();
-        return "light";
-    }
-    const darkMode = 
-        document.querySelector('link[href*="esri/themes/dark/main.css"]');
-    
-    if (darkMode) {
-        // remove the dark mode theme link
-        darkMode.remove();
-        return "dark";
-    }
-    
-    return "light";
 }
 
 // we have to wrap the JsObjectReference because a null will throw an error
@@ -248,6 +216,76 @@ export function setAssetsPath(path: string) {
     }
 }
 
+export function setTheme(theme: string | null, viewId: string): string | null {
+    if (hasValue(theme)) {
+        if (theme === 'dark') {
+            removeHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
+            addHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`);
+        } else {
+            removeHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`);
+            addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
+        }
+    } else if (checkHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`)) {
+        theme = 'dark';
+    } else {
+        theme = 'light';
+        addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
+    }
+    
+    if (arcGisObjectRefs.hasOwnProperty(viewId)) {
+        let view = arcGisObjectRefs[viewId] as MapView | SceneView | null;
+        if (hasValue(view)) {
+            view!.container!.style.colorScheme = theme as string;
+            if (theme === 'dark' && view!.ui.container!.classList.contains('calcite-mode-dark')) {
+                // if the view was already rendered, this class is missed and needs adding
+                view!.ui.container!.classList.add('calcite-mode-dark');
+            }
+        }
+    }
+    
+    return theme;
+}
+
+export function checkHeadLink(source: string): boolean {
+    if (!hasValue(source)) {
+        return false;
+    }
+
+    const link = document.querySelector(`link[href="${source}"]`);
+    return link !== null;
+}
+
+export function removeHeadLink(source: string) : boolean {
+    if (!hasValue(source)) {
+        return false;
+    }
+
+    const link = document.querySelector(`link[href="${source}"]`);
+    if (link !== null) {
+        link.remove();
+        return true;
+    }
+    
+    return false;
+}
+
+export function addHeadLink(source: string) {
+    if (!hasValue(source)) {
+        return;
+    }
+
+    if (document.querySelector(`link[href="${source}"]`) !== null) {
+        return;
+    }
+
+    let link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = source;
+
+    let geoblazorLink = document.querySelector('link[href*="_content/dymaptic.GeoBlazor.Core"]');
+    document.head.insertBefore(link, geoblazorLink);
+}
+
 export async function getProjectionEngineWrapper(): Promise<ProjectionWrapper> {
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
@@ -276,7 +314,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                                    spatialReference: any, constraints: any, extent: any, backgroundColor: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                                    isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, 
-                                   zIndex?: number, tilt?: number)
+                                   theme?: string | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     try {
         await setCursor('wait');
@@ -395,6 +433,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         arcGisObjectRefs[id] = view;
         await dotNetRef.invokeMethodAsync('OnJsViewInitialized');
         waitForRender(id, dotNetRef);
+
+        if (hasValue(theme)) {
+            setTheme(theme!, id);
+        }
 
         if (hasValue(highlightOptions)) {
             view.highlightOptions = highlightOptions;

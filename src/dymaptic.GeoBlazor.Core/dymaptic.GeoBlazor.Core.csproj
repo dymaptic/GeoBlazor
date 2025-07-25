@@ -93,6 +93,7 @@
       <AdditionalFiles Include="PublicAPI.Shipped.txt" />
       <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
       <AdditionalFiles Include="package.json" />
+      <AdditionalFiles Include="Scripts\*.ts" />
     </ItemGroup>
 
     <ItemGroup>

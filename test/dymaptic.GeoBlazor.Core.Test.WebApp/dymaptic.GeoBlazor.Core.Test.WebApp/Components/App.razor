@@ -5,27 +5,12 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <base href="/" />
-        @{
-#if ENABLE_COMPRESSION
-        }
         <link rel="icon" href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/favicon.ico"]" />
         <link href="@Assets[$"_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/css/site.css"]" rel="stylesheet" />
         <link href="@Assets["dymaptic.GeoBlazor.Core.Test.WebApp.styles.css"]" rel="stylesheet" />
         <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]" />
         <link href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared"]" />
         <ImportMap />
-        @{
-#else
-        }
-        <link rel="icon" href="_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/favicon.ico" />
-        <link href="_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/css/site.css" rel="stylesheet" />
-        <link href="dymaptic.GeoBlazor.Core.Test.WebApp.styles.css" rel="stylesheet" />
-        <link href="_content/dymaptic.GeoBlazor.Core" />
-        <link href="_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
-        @{
-#endif
-        }
-        
         <HeadOutlet @rendermode="@_configuredRenderMode" />
         
     </head>
