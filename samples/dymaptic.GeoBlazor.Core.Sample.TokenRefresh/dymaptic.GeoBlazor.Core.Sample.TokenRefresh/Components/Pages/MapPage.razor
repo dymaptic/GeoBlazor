@@ -1,0 +1,51 @@
+﻿@page "/map"
+
+@if (!_isInitialized)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <MapView Class="map-view">
+        <Map>
+            <Basemap>
+                    <PortalItem PortalItemId="1bf19e76cb6e45db8ab9739e560e9307" />
+            </Basemap>
+        </Map>
+    </MapView>
+}
+
+@code {
+    [Inject]
+    protected required ArcGisAuthService AuthService { get; set; }
+
+    [Inject]
+    protected required AuthenticationManager AuthenticationManager { get; set; }
+
+    // GeoBlazor AuthenticationManager cannot initialize until after the first render, when JavaScript interop is available.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Get the token from the authentication service
+            TokenResponse tokenResponse = await AuthService.GetTokenAsync(false);
+
+            if (tokenResponse.Success && tokenResponse.AccessToken != null)
+            {
+                // Register the token with the GeoBlazor AuthenticationManager
+                // This will allow the GeoBlazor maps to use the token for authentication
+                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, tokenResponse.Expires);
+                _isInitialized = true;
+                StateHasChanged(); // Trigger a re-render to show the map
+            }
+            else
+            {
+                // Handle error (e.g., show a message to the user)
+                Console.WriteLine($"Error retrieving token: {tokenResponse.ErrorMessage}");
+            }
+        }
+
+    }
+
+    private bool _isInitialized = false;
+}

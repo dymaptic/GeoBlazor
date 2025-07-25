@@ -1,0 +1,55 @@
+﻿@page "/"
+@rendermode InteractiveAuto
+
+<PageTitle>Home</PageTitle>
+
+<MapView Style="height:500px; width:100%;" OnLayerViewCreate="OnLayerViewCreate">
+    <WebMap>
+        <PortalItem PortalItemId="70b726074af04a7e9839d8a07f64c039" />
+    </WebMap>
+    <ExpandWidget Expanded="true" Position="OverlayPosition.TopRight">
+        <BookmarksWidget OnBookmarkSelect="OnBookmarkClick"
+                         DragEnabled="true">
+            <BookmarksVisibleElements EditBookmarkButton="true"
+                                      AddBookmarkButton="true" />
+        </BookmarksWidget>
+    </ExpandWidget>
+</MapView>
+
+<div class="welcome-message" style="margin-top: 1rem;">
+    <h2>Welcome to Your GeoBlazor Adventure!</h2>
+    <p>
+        You're looking at a fully interactive web mapping application powered by GeoBlazor. Try these features to get started:
+    </p>
+        <ul>
+            <li>Zoom and pan the map using your mouse or touch gestures</li>
+            <li>Click the Bookmarks widget in the top-right to explore predefined locations</li>
+            <li>Create your own bookmarks to save your favorite places</li>
+        </ul>
+    <p>
+        Ready to customize? Check out the <a href="https://docs.geoblazor.com" target="_blank">GeoBlazor documentation</a> 
+        and <a href="https://samples.geoblazor.com" target="_blank">samples</a> to unlock more possibilities!
+    </p>
+</div>
+
+@code {
+
+    private void OnLayerViewCreate(LayerViewCreateEvent evt)
+    {
+        if (evt.Layer is not FeatureLayer) return;
+        _layerView = evt.LayerView as FeatureLayerView;
+    }
+
+    private void OnBookmarkClick(BookmarkSelectEvent eventArgs)
+    {
+        if (_layerView is null) return;
+
+        var hurricaneName = eventArgs.Bookmark.Name;
+
+        var featureEffect = new FeatureEffect([new Effect("grayscale(100%) opacity(30%)")],
+            null, new FeatureFilter(where: $"Name = '{hurricaneName!.ToUpper()}'"));
+        _ = _layerView.SetFeatureEffect(featureEffect);
+    }
+
+    private FeatureLayerView? _layerView;
+}
