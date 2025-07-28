@@ -5,13 +5,36 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <base href="/" />
+        @{
+#if ENABLE_COMPRESSION
+        }
         <link rel="icon" href="@Assets["_content/dymaptic.GeoBlazor.Core.Sample.Shared/favicon.ico"]" />
-        <link href="@Assets[$"_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css"]" rel="stylesheet" />
+        <link href="@Assets["_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css"]" rel="stylesheet" />
         <link href="@Assets["dymaptic.GeoBlazor.Core.Sample.WebApp.styles.css"]" rel="stylesheet" />
         <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]" />
         <link href="@Assets["_content/dymaptic.GeoBlazor.Core.Sample.Shared"]" />
         <script src="@Assets["_content/dymaptic.GeoBlazor.Core.Sample.Shared/functions.js"]"></script>
+        <script src="@Assets["https://js.arcgis.com/calcite-components/3.2.1/calcite.esm.js"]"
+                type="module"></script>
+        <link href="@Assets["https://js.arcgis.com/calcite-components/3.2.1/calcite.css"]"
+              rel="stylesheet" type="text/css" />
         <ImportMap />
+        @{
+#else
+        }
+        <link rel="icon" href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/favicon.ico" />
+        <link rel="stylesheet" href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/bootstrap/bootstrap.min.css" />
+        <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
+        <link href="dymaptic.GeoBlazor.Core.Sample.WebApp.styles.css" rel="stylesheet" />
+        <link href="_content/dymaptic.GeoBlazor.Core" />
+        <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared" />
+        <script src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/functions.js"></script>
+        <script type="module" src="https://js.arcgis.com/calcite-components/3.2.1/calcite.esm.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/3.2.1/calcite.css" />
+        @{
+#endif
+        }
+        
         <HeadOutlet @rendermode="@_configuredRenderMode" />
         
     </head>

@@ -2307,7 +2307,7 @@ public partial class MapView : MapComponent
                 // import map component css
                 await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
                     $"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISMapComponentsVersion}/map-components/main.css");
-            }
+            } 
 
             StateHasChanged();
 

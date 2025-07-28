@@ -1138,37 +1138,6 @@ public partial class BookmarksWidget : IGoTo
     /// </summary>
     public bool HasBookmarkEditListener => OnBookmarkEdit.HasDelegate;
     
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsBookmarkSelect(IJSStreamReference jsStreamRef)
-    {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        BookmarkSelectEvent bookmarkSelectEvent = 
-            JsonSerializer.Deserialize<BookmarkSelectEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetonbookmarkselect-property">GeoBlazor Docs</a>
-    ///     Event Listener for BookmarkSelect.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    public EventCallback<BookmarkSelectEvent> OnBookmarkSelect { get; set; }
-   
-    /// <summary>
-    ///     Used in JavaScript layer to determine if the event listener is registered.
-    /// </summary>
-    public bool HasBookmarkSelectListener => OnBookmarkSelect.HasDelegate;
-    
 #endregion
 
 

@@ -236,7 +236,7 @@ export function setTheme(theme: string | null, viewId: string): string | null {
         let view = arcGisObjectRefs[viewId] as MapView | SceneView | null;
         if (hasValue(view)) {
             view!.container!.style.colorScheme = theme as string;
-            if (theme === 'dark' && view!.ui.container!.classList.contains('calcite-mode-dark')) {
+            if (theme === 'dark' && !view!.ui.container!.classList.contains('calcite-mode-dark')) {
                 // if the view was already rendered, this class is missed and needs adding
                 view!.ui.container!.classList.add('calcite-mode-dark');
             }

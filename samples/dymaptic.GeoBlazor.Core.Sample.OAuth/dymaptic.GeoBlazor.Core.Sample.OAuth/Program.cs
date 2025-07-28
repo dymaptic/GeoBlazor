@@ -30,7 +30,11 @@ app.UseHttpsRedirection();
 
 app.UseAntiforgery();
 
+#if ENABLE_COMPRESSION
 app.MapStaticAssets();
+#else
+app.UseStaticFiles();
+#endif
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()

@@ -53,6 +53,7 @@ border-color: var(--geoblazor-accent-hover);
     --calcite-list-background-color-hover: var(--background-grey-2);
     --calcite-input-text-color: var(--text-emphasis);
     --calcite-input-actions-icon-color: var(--text-emphasis);
+    --calcite-label-text-color: var(--text-emphasis);
     --calcite-list-label-text-color: var(--text-emphasis);
 }
 
@@ -471,7 +472,6 @@ body {   /* body tag added to help overwrite Bootstrap */
     input:focus, input:focus-visible,
     select:focus, select:focus-visible {
         border-color: var(--geoblazor-accent);
-        background-color: unset;
         color: var(--text);
     }
 
@@ -697,7 +697,6 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 }
 
 .nav-list .nav-list-item {
-    min-height: 4rem;
     margin-bottom: 0.5rem;
     flex-direction: column;
     justify-content: center;
