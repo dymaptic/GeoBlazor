@@ -25,43 +25,33 @@
     }
     
     [TestMethod]
-    public async Task TestCanRenderMapImageLayerWithUrlAndNestedSublayers(Action renderHandler)
+    public async Task TestCanRenderMapImageLayerWithUrlAndNestedSublayers(Action renderHandler, 
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         MapImageLayer? layer = null;
-        MapView? mapView = null;
-        bool layerViewCreated = false;
 
-        async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
-        {
-            if (createEvent.Layer is MapImageLayer createdLayer)
-            {
-                Assert.AreEqual(layer?.Id, createdLayer.Id);
-                Sublayer firstSublayer = layer!.Sublayers!.First(l => l.Sublayers is { Count: > 0 });
-                Sublayer firstSubSublayer = firstSublayer.Sublayers![0];
-                Assert.IsNotNull(firstSubSublayer);
-                await firstSublayer.SetPopupEnabled(false);
-                await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
-                layerViewCreated = true;
-            }
-        }
         AddMapRenderFragment(
-            @<MapView @ref="mapView"
-                      class="map-view"
+            @<MapView class="map-view"
                       OnViewRendered="renderHandler"
-                      OnLayerViewCreate="OnLayerViewCreated">
+                      OnLayerViewCreate="layerViewCreatedHandler">
                 <Map>
                     <MapImageLayer @ref="layer" Title="Encroachments" 
                                Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/Military/MapServer" />
                 </Map>
             </MapView>);
         await WaitForMapToRender();
-        int tries = 100;
-        while (!layerViewCreated && tries > 0)
-        {
-            await Task.Delay(100);
-            tries--;
-        }
-        Assert.IsTrue(layerViewCreated);
+        
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+        MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+        
+        Sublayer firstSublayer = layer!.Sublayers!.First(l => l.Sublayers is { Count: > 0 });
+        Sublayer firstSubSublayer = firstSublayer.Sublayers![0];
+        Assert.IsNotNull(firstSubSublayer);
+        await firstSublayer.SetPopupEnabled(false);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
+        
         Assert.IsTrue(layer!.Sublayers!.Count > 0);
         Assert.IsTrue(layer.AllSublayers!.Count > 0);
         await AssertJavaScript("assertLayerExists", args: "map-image");
