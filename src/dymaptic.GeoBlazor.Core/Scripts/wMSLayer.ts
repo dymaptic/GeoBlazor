@@ -13,6 +13,42 @@ export default class WMSLayerWrapper extends WMSLayerGenerated {
         let {buildJsSpatialReference} = await import('./spatialReference');
         this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
     }
+
+    async fetchImageAsString(extent: any,
+                             width: any,
+                             height: any,
+                             options: any): Promise<any> {
+        let {buildJsExtent} = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
+
+        let image = await this.layer.fetchImage(jsExtent,
+            width,
+            height,
+            options);
+
+        if (!hasValue(image)) {
+            return null;
+        }
+        return image.outerHTML;
+    }
+
+    async fetchImage(extent: any,
+                     width: any,
+                     height: any,
+                     options: any): Promise<any> {
+        let {buildJsExtent} = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
+
+        let image = await this.layer.fetchImage(jsExtent,
+            width,
+            height,
+            options);
+
+        if (!hasValue(image)) {
+            return null;
+        }
+        return await DotNet.createJSObjectReference(image);
+    }
 }
 
 export async function buildJsWMSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
@@ -35,11 +71,11 @@ export async function buildJsWMSLayer(dotNetObject: any, layerId: string | null,
                 // so this should always find a sublayer
                 jsSublayer = currentJsSublayers.find(s => s.name === sublayer.name);
             }
-            
+
             jsWmsLayer.sublayers.push(jsSublayer);
         }
     }
-    
+
     return jsWmsLayer;
 }
 
@@ -47,3 +83,5 @@ export async function buildDotNetWMSLayer(jsObject: any): Promise<any> {
     let {buildDotNetWMSLayerGenerated} = await import('./wMSLayer.gb');
     return await buildDotNetWMSLayerGenerated(jsObject);
 }
+
+
