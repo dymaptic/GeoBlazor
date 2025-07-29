@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
+[Obsolete("Microsoft has retired the Bing Maps API services. This layer will no longer function, and will be replaced when possible with an AzureMapsLayer. Please refer to the documentation for more information: https://learn.microsoft.com/en-us/bingmaps/rest-services/")]
 public partial class BingMapsLayer : BaseTileLayer
 {
 
