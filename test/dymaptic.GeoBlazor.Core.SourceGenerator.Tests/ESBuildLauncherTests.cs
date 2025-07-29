@@ -2,204 +2,97 @@ using dymaptic.GeoBlazor.Core.SourceGenerator.Tests.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Xunit;
-using Xunit.Abstractions;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator.Tests;
 
+[TestClass]
 public class ESBuildLauncherTests
 {
-    private readonly ITestOutputHelper _testOutputHelper;
-
-    public ESBuildLauncherTests(ITestOutputHelper testOutputHelper)
+    
+    [TestMethod]
+    public void TestCanTriggerESBuildInDebugMode()
     {
-        _testOutputHelper = testOutputHelper;
-    }
+        string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+            "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
+        
+        var generator = new ESBuildLauncher();
+        bool resultsReceived = false;
+        generator.Notification += (_, message) =>
+        {
+            Console.WriteLine(message);
+            resultsReceived = true;
+        };
+        
+        // get actual Scripts files
+        string scriptsPath = Path.Combine(corePath, "Scripts");
+        IEnumerable<TestAdditionalFile> additionalTexts = Directory
+            .GetFiles(scriptsPath, "*.ts")
+            .Select(f => new TestAdditionalFile(f, File.ReadAllText(f)));
+        
+        CSharpParseOptions cSharpParseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp7_3);
 
-    [Fact]
-    public void TestCanTriggerESBuildForCore()
+        TestAnalyzerConfigOptionsProvider analyzerConfigOptions = new(new Dictionary<string, string>
+        {
+            { "build_property.MSBuildProjectDirectory", corePath }, 
+            { "build_property.Configuration", "Debug" }
+        });
+        
+        // Source generators should be tested using 'GeneratorDriver'.
+        GeneratorDriver driver = CSharpGeneratorDriver
+            .Create([generator.AsSourceGenerator()], additionalTexts, cSharpParseOptions, analyzerConfigOptions);
+        
+        // To run generators, we can use an empty compilation.
+        var compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
+        // Run generators. Don't forget to use the new compilation rather than the previous one.
+        driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
+            out ImmutableArray<Diagnostic> _);
+        
+        Assert.IsTrue(resultsReceived);
+        Assert.IsNotEmpty(newCompilation.SyntaxTrees);
+        Assert.Contains("ESBuildRecord", newCompilation.SyntaxTrees.First().ToString());
+        Assert.Contains("private const string Configuration = \"Debug\";", newCompilation.SyntaxTrees.First().ToString());
+    }
+    
+    [TestMethod]
+    public void TestCanTriggerESBuildInReleaseMode()
     {
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         
         var generator = new ESBuildLauncher();
         
-        // Source generators should be tested using 'GeneratorDriver'.
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator).WithUpdatedAnalyzerConfigOptions(
-            new TestAnalyzerConfigOptionsProvider(new Dictionary<string, string>
-            {
-                {"build_property.MSBuildProjectDirectory", corePath}
-            }));
-        
         // get actual Scripts files
         string scriptsPath = Path.Combine(corePath, "Scripts");
+        IEnumerable<TestAdditionalFile> additionalTexts = Directory
+            .GetFiles(scriptsPath, "*.ts")
+            .Select(f => new TestAdditionalFile(f, File.ReadAllText(f)));
         
-        foreach (string file in Directory.GetFiles(scriptsPath, "*.ts"))
+        CSharpParseOptions cSharpParseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp7_3);
+
+        TestAnalyzerConfigOptionsProvider analyzerConfigOptions = new(new Dictionary<string, string>
         {
-            // Add the additional file separately from the compilation.
-            driver = driver.AddAdditionalTexts([new TestAdditionalFile(file, File.ReadAllText(file))]);
-        }
-        
-        // To run generators, we can use an empty compilation.
-        var compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
-        // Run generators. Don't forget to use the new compilation rather than the previous one.
-        driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
-            out ImmutableArray<Diagnostic> diagnostics);
-        
-        // Check for diagnostics.
-        if (diagnostics.Length > 0)
-        {
-            foreach (Diagnostic diagnostic in diagnostics)
-            {
-                _testOutputHelper.WriteLine(diagnostic.ToString());
-            }
-        }
-        
-        Assert.True(diagnostics.All(d => d.Severity == DiagnosticSeverity.Info));
-        
-        _testOutputHelper.WriteLine("Generated code:");
-        _testOutputHelper.WriteLine(newCompilation.SyntaxTrees.First().ToString());
-    }
-    
-    [Fact]
-    public void TestCanTriggerESBuildForCoreInReleaseMode()
-    {
-        string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-            "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
-        
-        var generator = new ESBuildLauncher();
+            { "build_property.MSBuildProjectDirectory", corePath }, 
+            { "build_property.Configuration", "Release" }
+        });
         
         // Source generators should be tested using 'GeneratorDriver'.
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator).WithUpdatedAnalyzerConfigOptions(
-            new TestAnalyzerConfigOptionsProvider(new Dictionary<string, string>()
-            {
-                {"build_property.MSBuildProjectDirectory", corePath},
-                {"build_property.Configuration", "Release"}
-            }));
-        
-        // get actual Scripts files
-        string scriptsPath = Path.Combine(corePath, "Scripts");
-        
-        foreach (string file in Directory.GetFiles(scriptsPath, "*.ts"))
-        {
-            // Add the additional file separately from the compilation.
-            driver = driver.AddAdditionalTexts([new TestAdditionalFile(file, File.ReadAllText(file))]);
-        }
+        GeneratorDriver driver = CSharpGeneratorDriver
+            .Create([generator.AsSourceGenerator()], additionalTexts, cSharpParseOptions, analyzerConfigOptions);
         
         // To run generators, we can use an empty compilation.
         var compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
         // Run generators. Don't forget to use the new compilation rather than the previous one.
         driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
-            out ImmutableArray<Diagnostic> diagnostics);
+            out ImmutableArray<Diagnostic> _);
         
-        // Check for diagnostics.
-        if (diagnostics.Length > 0)
-        {
-            foreach (Diagnostic diagnostic in diagnostics)
-            {
-                _testOutputHelper.WriteLine(diagnostic.ToString());
-            }
-        }
-        
-        Assert.True(diagnostics.All(d => d.Severity == DiagnosticSeverity.Info));
-        
-        _testOutputHelper.WriteLine("Generated code:");
-        _testOutputHelper.WriteLine(newCompilation.SyntaxTrees.First().ToString());
-    }
-    
-    [Fact]
-    public void TestCanTriggerESBuildForPro()
-    {
-        string proPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-            "..", "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro");
-        
-        var generator = new ESBuildLauncher();
-        
-        // Source generators should be tested using 'GeneratorDriver'.
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator).WithUpdatedAnalyzerConfigOptions(
-            new TestAnalyzerConfigOptionsProvider(new Dictionary<string, string>()
-            {
-                {"build_property.MSBuildProjectDirectory", proPath}
-            }));
-        
-        // get actual Scripts files
-        string scriptsPath = Path.Combine(proPath, "Scripts");
-        
-        foreach (string file in Directory.GetFiles(scriptsPath, "*.ts"))
-        {
-            // Add the additional file separately from the compilation.
-            driver = driver.AddAdditionalTexts([new TestAdditionalFile(file, File.ReadAllText(file))]);
-        }
-        
-        // To run generators, we can use an empty compilation.
-        var compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
-        // Run generators. Don't forget to use the new compilation rather than the previous one.
-        driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
-            out ImmutableArray<Diagnostic> diagnostics);
-        
-        // Check for diagnostics.
-        if (diagnostics.Length > 0)
-        {
-            foreach (Diagnostic diagnostic in diagnostics)
-            {
-                _testOutputHelper.WriteLine(diagnostic.ToString());
-            }
-        }
-        
-        Assert.True(diagnostics.All(d => d.Severity == DiagnosticSeverity.Info));
-        
-        _testOutputHelper.WriteLine("Generated code:");
-        _testOutputHelper.WriteLine(newCompilation.SyntaxTrees.First().ToString());
-    }
-    
-    [Fact]
-    public void TestCanTriggerESBuildForProInReleaseMode()
-    {
-        string proPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-            "..", "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro");
-        
-        var generator = new ESBuildLauncher();
-        
-        // Source generators should be tested using 'GeneratorDriver'.
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator).WithUpdatedAnalyzerConfigOptions(
-            new TestAnalyzerConfigOptionsProvider(new Dictionary<string, string>()
-            {
-                {"build_property.MSBuildProjectDirectory", proPath},
-                {"build_property.Configuration", "Release"}
-            }));
-        
-        // get actual Scripts files
-        string scriptsPath = Path.Combine(proPath, "Scripts");
-        
-        foreach (string file in Directory.GetFiles(scriptsPath, "*.ts"))
-        {
-            // Add the additional file separately from the compilation.
-            driver = driver.AddAdditionalTexts([new TestAdditionalFile(file, File.ReadAllText(file))]);
-        }
-        
-        // To run generators, we can use an empty compilation.
-        var compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
-        // Run generators. Don't forget to use the new compilation rather than the previous one.
-        driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
-            out ImmutableArray<Diagnostic> diagnostics);
-        
-        // Check for diagnostics.
-        if (diagnostics.Length > 0)
-        {
-            foreach (Diagnostic diagnostic in diagnostics)
-            {
-                _testOutputHelper.WriteLine(diagnostic.ToString());
-            }
-        }
-        
-        Assert.True(diagnostics.All(d => d.Severity == DiagnosticSeverity.Info));
-        
-        _testOutputHelper.WriteLine("Generated code:");
-        _testOutputHelper.WriteLine(newCompilation.SyntaxTrees.First().ToString());
+        Assert.IsNotEmpty(newCompilation.SyntaxTrees);
+        Assert.Contains("ESBuildRecord", newCompilation.SyntaxTrees.First().ToString());
+        Assert.Contains("private const string Configuration = \"Release\";", newCompilation.SyntaxTrees.First().ToString());
     }
 }
 

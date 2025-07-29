@@ -434,10 +434,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         await dotNetRef.invokeMethodAsync('OnJsViewInitialized');
         waitForRender(id, dotNetRef);
 
-        if (hasValue(theme)) {
-            setTheme(theme!, id);
-        }
-
         if (hasValue(highlightOptions)) {
             view.highlightOptions = highlightOptions;
         }
@@ -498,7 +494,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 }
             }
         }
-        
+
+        // reset at the end to make sure it is applied.
+        if (hasValue(theme)) {
+            setTheme(theme!, id);
+        }
     }
     catch (e) {
         throw e;

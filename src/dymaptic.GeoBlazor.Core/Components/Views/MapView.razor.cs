@@ -2435,13 +2435,13 @@ public partial class MapView : MapComponent
             {
                 await Task.Delay(1);
             }
+            
+            await SetTheme();
 
             await BuildMapView();
 
             Rendering = false;
             MapRendered = true;
-
-            await SetTheme();
         });
     }
 

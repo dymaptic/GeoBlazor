@@ -1,17 +1,16 @@
 using System.Collections.Immutable;
-using System.IO;
-using System.Linq;
 using Microsoft.CodeAnalysis;
 using dymaptic.GeoBlazor.Core.SourceGenerator.Tests.Utils;
 using Microsoft.CodeAnalysis.CSharp;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator.Tests;
 
+[TestClass]
 public class ArcGISVersionInfoSourceGeneratorTests
 {
-    [Fact]
+    [TestMethod]
     public void GenerateClassesBasedOnDDDRegistry()
     {
         // Create an instance of the source generator.
@@ -21,9 +20,7 @@ public class ArcGISVersionInfoSourceGeneratorTests
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
         // Add the additional file separately from the compilation.
-        driver = driver.AddAdditionalTexts(
-            ImmutableArray.Create<AdditionalText>(new TestAdditionalFile("./package.json",
-                PackageJSONText)));
+        driver = driver.AddAdditionalTexts([new TestAdditionalFile("./package.json", PackageJSONText)]);
 
         // To run generators, we can use an empty compilation.
         var compilation = CSharpCompilation.Create(nameof(ArcGISVersionInfoSourceGeneratorTests));
@@ -37,7 +34,7 @@ public class ArcGISVersionInfoSourceGeneratorTests
             .ToArray();
 
         // In this case, it is enough to check the file name.
-        Assert.Equivalent((string[]) ["ArcGISSDKVersionInfo.g.cs"], generatedFiles);
+        Assert.IsTrue(generatedFiles.SequenceEqual((string[]) ["ArcGISSDKVersionInfo.g.cs"]));
     }
     
     private const string PackageJSONText = """
