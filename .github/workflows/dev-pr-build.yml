@@ -44,14 +44,6 @@ jobs:
       with:
         node-version: '>=22.11.0'
         check-latest: 'true'
-          
-    # This step will install the NPM dependencies and build the JS files with ESBuild
-    - name: Generate JS
-      shell: pwsh
-      run: |
-        cd ./src/dymaptic.GeoBlazor.Core
-        ./esBuild.ps1 -release
-        cd ../..
         
     - name: Restore dependencies
       run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
