@@ -34,7 +34,7 @@ else
             {
                 // Register the token with the GeoBlazor AuthenticationManager
                 // This will allow the GeoBlazor maps to use the token for authentication
-                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, tokenResponse.Expires ?? DateTimeOffset.MinValue);
+                if (tokenResponse.Expires != null) await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires);
                 _isInitialized = true;
                 StateHasChanged(); // Trigger a re-render to show the map
             }
