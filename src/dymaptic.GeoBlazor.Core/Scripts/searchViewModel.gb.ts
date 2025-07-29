@@ -314,9 +314,9 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
         let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
         properties.defaultSymbols = await buildJsSearchViewModelDefaultSymbols(dotNetObject.defaultSymbols, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
+    if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject, viewId) as any;
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');

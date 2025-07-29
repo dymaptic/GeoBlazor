@@ -216,7 +216,7 @@ export function setAssetsPath(path: string) {
     }
 }
 
-export function setTheme(theme: string | null, viewId: string): string | null {
+export function setTheme(theme: string | null, viewId): string | null {
     if (hasValue(theme)) {
         if (theme === 'dark') {
             removeHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
@@ -232,6 +232,12 @@ export function setTheme(theme: string | null, viewId: string): string | null {
         addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
     }
     
+    setViewTheme(theme, viewId);
+    
+    return theme;
+}
+
+function setViewTheme(theme, viewId: string): void {
     if (arcGisObjectRefs.hasOwnProperty(viewId)) {
         let view = arcGisObjectRefs[viewId] as MapView | SceneView | null;
         if (hasValue(view)) {
@@ -242,8 +248,6 @@ export function setTheme(theme: string | null, viewId: string): string | null {
             }
         }
     }
-    
-    return theme;
 }
 
 export function checkHeadLink(source: string): boolean {
@@ -418,6 +422,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             return;
         }
 
+        if (hasValue(theme)) {
+            setViewTheme(theme!, id);
+        }
+
         if (hasValue(backgroundColor)) {
             (view as MapView).background = new ColorBackground({ color: await buildJsColor(backgroundColor) });
         }
@@ -493,11 +501,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                     (view as MapView).zoom = zoom as number;
                 }
             }
-        }
-
-        // reset at the end to make sure it is applied.
-        if (hasValue(theme)) {
-            setTheme(theme!, id);
         }
     }
     catch (e) {

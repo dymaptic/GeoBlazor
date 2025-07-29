@@ -397,9 +397,9 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
         let { buildJsAbilities } = await import('./abilities');
         properties.featureViewModelAbilities = await buildJsAbilities(dotNetObject.featureViewModelAbilities, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
+    if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject, viewId) as any;
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');

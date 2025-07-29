@@ -6,8 +6,7 @@
   "scripts": {
     "debugBuild": "node ./esbuild.js --debug",
     "watchBuild": "node ./esbuild.js --watch",
-    "releaseBuild": "node ./esbuild.js --release",
-    "forceDebugBuild": "node ./esbuild.js --debug --force"
+    "releaseBuild": "node ./esbuild.js --release"
   },
   "keywords": [],
   "author": "dymaptic",

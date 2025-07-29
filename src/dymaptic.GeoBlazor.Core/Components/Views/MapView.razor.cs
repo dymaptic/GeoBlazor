@@ -2245,6 +2245,7 @@ public partial class MapView : MapComponent
 
         if (MapRendered && Theme != _lastTheme)
         {
+            // theme has changed, so we need to update it
             await SetTheme();
         }
 

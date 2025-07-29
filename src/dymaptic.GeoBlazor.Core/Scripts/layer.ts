@@ -1,6 +1,5 @@
 // override generated code in this file
 import {arcGisObjectRefs, 
-    disposeMapComponent, 
     hasValue, 
     Pro, 
     removeCircularReferences,

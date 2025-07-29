@@ -76,9 +76,9 @@ export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerI
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
+    if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject, viewId) as any;
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
 
     let jsCompassViewModel = new CompassViewModel(properties);
