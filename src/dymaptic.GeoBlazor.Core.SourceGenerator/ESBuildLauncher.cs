@@ -108,7 +108,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             };
             
             tasks.Add(Task.Run(async () => 
-                buildSuccess = await RunProcess("Core", processStartInfo, context.CancellationToken)));
+                buildSuccess = await RunProcess("Core", processStartInfo, logBuilder, context.CancellationToken)));
 
             if (_proPath is not null)
             {
@@ -129,7 +129,7 @@ public class ESBuildLauncher : IIncrementalGenerator
                 logBuilder.AppendLine("Starting Pro ESBuild process...");
 
                 tasks.Add(Task.Run(async() => 
-                    proBuildSuccess = await RunProcess("Pro", proStartInfo, context.CancellationToken)));
+                    proBuildSuccess = await RunProcess("Pro", proStartInfo, logBuilder, context.CancellationToken)));
             }
 
             string gitBranch = string.Empty;
