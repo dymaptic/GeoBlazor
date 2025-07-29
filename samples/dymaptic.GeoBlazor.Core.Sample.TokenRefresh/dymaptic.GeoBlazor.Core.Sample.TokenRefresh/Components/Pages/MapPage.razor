@@ -6,7 +6,7 @@
 }
 else
 {
-    <MapView Class="map-view">
+    <MapView Class="map-view" PromptForOAuthLogin="true">
         <Map>
             <Basemap>
                     <PortalItem PortalItemId="1bf19e76cb6e45db8ab9739e560e9307" />
@@ -17,10 +17,10 @@ else
 
 @code {
     [Inject]
-    protected required ArcGisAuthService AuthService { get; set; }
+    public required ArcGisAuthService AuthService { get; set; }
 
     [Inject]
-    protected required AuthenticationManager AuthenticationManager { get; set; }
+    public required AuthenticationManager AuthenticationManager { get; set; }
 
     // GeoBlazor AuthenticationManager cannot initialize until after the first render, when JavaScript interop is available.
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -28,13 +28,13 @@ else
         if (firstRender)
         {
             // Get the token from the authentication service
-            TokenResponse tokenResponse = await AuthService.GetTokenAsync(false);
+            TokenResponse tokenResponse = await AuthService.GetTokenAsync(true);
 
             if (tokenResponse.Success && tokenResponse.AccessToken != null)
             {
                 // Register the token with the GeoBlazor AuthenticationManager
                 // This will allow the GeoBlazor maps to use the token for authentication
-                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, tokenResponse.Expires);
+                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, tokenResponse.Expires ?? DateTimeOffset.MinValue);
                 _isInitialized = true;
                 StateHasChanged(); // Trigger a re-render to show the map
             }

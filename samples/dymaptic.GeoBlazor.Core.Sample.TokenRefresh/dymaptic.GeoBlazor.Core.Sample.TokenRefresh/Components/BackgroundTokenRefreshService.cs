@@ -14,6 +14,7 @@
                     if (!tokenResponse.Success)
                     {
                         // Handle error (e.g., log it)
+                        Console.WriteLine(tokenResponse);
                     }
                 }
 

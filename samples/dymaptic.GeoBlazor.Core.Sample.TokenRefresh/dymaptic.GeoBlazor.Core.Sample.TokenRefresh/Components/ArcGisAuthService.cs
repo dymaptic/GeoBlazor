@@ -78,7 +78,7 @@ public class ArcGisAuthService(HttpClient httpClient, IConfiguration config)
     /// </summary>
     private async Task<TokenResponse> RequestTokenAsync()
     {
-        var tokenUrl = "https://www.arcgis.com/sharing/rest/oauth2/token";
+        var tokenUrl = "https://arcgis.dymaptic.com/portal/sharing/rest/oauth2/token";
 
         var parameters = new Dictionary<string, string>
         {

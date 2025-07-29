@@ -68,7 +68,7 @@ export default class AuthenticationManager {
             return null;
         }
         let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
-        return credential.expires;
+        return credential.expires ?? 0;
     }
     
     registerToken(token: string, expires: number): void {
