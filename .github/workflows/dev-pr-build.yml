@@ -6,6 +6,8 @@ name: Develop Branch PR Build
 on:
   pull_request:
     branches: [ "develop" ]
+  push:
+    branches: [ "develop" ]
 
 concurrency:
   group: dev-pr-build
@@ -37,9 +39,6 @@ jobs:
       run: |
         ./bumpVersion.ps1
         
-    - name: Restore dependencies
-      run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
-        
     - name: Update NPM
       uses: actions/setup-node@v4
       with:
@@ -47,12 +46,15 @@ jobs:
         check-latest: 'true'
           
     # This step will install the NPM dependencies and build the JS files with ESBuild
-    - name: Copy Assets and Generate JS
+    - name: Generate JS
       shell: pwsh
       run: |
         cd ./src/dymaptic.GeoBlazor.Core
         ./esBuild.ps1 -release
         cd ../..
+        
+    - name: Restore dependencies
+      run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
     
     - name: Build Core
       run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:GenerateDocs=true -c Release
