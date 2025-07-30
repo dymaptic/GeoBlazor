@@ -51,6 +51,14 @@ jobs:
     - name: Build Core
       run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:GenerateDocs=true -c Release
 
+      # Copies the nuget package to the artifacts directory
+    - name: Upload nuget artifact
+      uses: actions/upload-artifact@v4.6.0
+      with:
+        name: .pro-nuget
+        retention-days: 4
+        path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
+
     - name: Add & Commit
       continue-on-error: true
       run: |

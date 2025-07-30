@@ -43,14 +43,6 @@ jobs:
         node-version: '>=22.11.0'
         check-latest: 'true'
     
-      # This step will install the NPM dependencies and build the JS files with ESBuild
-    - name: Copy Assets and Generate JS
-      shell: pwsh
-      run: |
-        cd ./src/dymaptic.GeoBlazor.Core
-        ./esBuild.ps1 -c Release
-        cd ../..
-    
       # GenerateDocs - this will generate the XML for intellisense in the Nuget package
       # This step also creates the NuGet package
     - name: Build Core
