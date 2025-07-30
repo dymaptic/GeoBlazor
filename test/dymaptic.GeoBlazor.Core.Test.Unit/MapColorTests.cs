@@ -71,7 +71,7 @@ public class MapColorTests
         string hexColor = "#FF573380"; // Example hex color with alpha
         MapColor color = new(hexColor);
         Assert.IsNotNull(color);
-        Assert.IsTrue(color.RgbaValues!.SequenceEqual([255, 87, 51, 0.5019607843137255])); // 80 in hex is 128 in decimal, divided by 255 for alpha
+        Assert.IsTrue(color.RgbaValues!.SequenceEqual([255, 87, 51, 128.0 / 255.0])); // 80 in hex is 128 in decimal, divided by 255 for alpha
     }
     
     [TestMethod]
