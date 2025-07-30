@@ -24,7 +24,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             .Collect();
 
         // Reads the MSBuild properties to get the project directory and configuration.
-        IncrementalValueProvider<(string?, string?)> optionsProvider =
+        IncrementalValueProvider<(string?, string?, string?)> optionsProvider =
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
                 configProvider.GlobalOptions.TryGetValue("build_property.MSBuildProjectDirectory",
@@ -33,20 +33,32 @@ public class ESBuildLauncher : IIncrementalGenerator
                 configProvider.GlobalOptions.TryGetValue("build_property.Configuration",
                     out string? configuration);
 
-                return (projectDirectory, configuration);
+                configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
+                    out string? pipelineBuild);
+
+                return (projectDirectory, configuration, pipelineBuild);
             });
 
         context.RegisterSourceOutput(optionsProvider.Combine(jsFilesProvider), FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((string?, string?) OptionsConfig, ImmutableArray<AdditionalText> _) pipeline)
+        ((string? projectDirectory, string? configuration, string? pipelineBuild) OptionsConfig, ImmutableArray<AdditionalText> _) pipeline)
     {
+        if (pipeline.OptionsConfig.pipelineBuild == "true")
+        {
+            // If the pipeline build is enabled, we skip the ESBuild process.
+            // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
+            Notification?.Invoke(this, "Skipping ESBuild process as PipelineBuild is set to true.");
+            return;
+        }
+        
         SetProjectDirectoryAndConfiguration(pipeline.OptionsConfig);
         LaunchESBuild(context);
     }
 
-    private void SetProjectDirectoryAndConfiguration((string? projectDirectory, string? configuration) options)
+    private void SetProjectDirectoryAndConfiguration((string? projectDirectory, string? configuration, 
+        string? _) options)
     {
         if (options.projectDirectory is { } projectDirectory)
         {
@@ -221,55 +233,59 @@ public class ESBuildLauncher : IIncrementalGenerator
         }
     }
 
-    private async Task<bool> RunProcess(string processName, ProcessStartInfo processStartInfo, StringBuilder logBuider, 
+    private async Task<bool> RunProcess(string processName, ProcessStartInfo processStartInfo, StringBuilder logBuilder, 
         CancellationToken cancellationToken)
     {
-        var process = Process.Start(processStartInfo);
+        using var process = Process.Start(processStartInfo);
 
         if (process == null)
         {
             Notification?.Invoke(this, $"Failed to start ESBuild process for {processName}.");
-            logBuider.AppendLine($"Failed to start ESBuild process for {processName}.");
+            logBuilder.AppendLine($"Failed to start ESBuild process for {processName}.");
             return false;
-        }
-
-        while (!process.StandardOutput.EndOfStream
-            && !cancellationToken.IsCancellationRequested
-            && !process.HasExited)
-        {
-            string line = await process.StandardOutput.ReadLineAsync()
-                ?? await process.StandardError.ReadLineAsync()
-                ?? string.Empty;
-
-            if (!string.IsNullOrWhiteSpace(line))
-            {
-                Notification?.Invoke(this, $"{processName} ESBuild Output: {line}");
-                logBuider.AppendLine($"{processName} ESBuild Output: {line}");
-            }
         }
         
-        process.WaitForExit();
-
-        if (cancellationToken.IsCancellationRequested)
+        // Read both streams concurrently to avoid deadlocks
+        var outputTask = ReadStreamAsync(process!.StandardOutput, $"{processName} ESBuild Output", logBuilder, cancellationToken);
+        var errorTask = ReadStreamAsync(process.StandardError, $"{processName} ESBuild Error", logBuilder, cancellationToken);
+        
+        try
         {
+            // Use Task.Run to make the blocking WaitForExit async-friendly
+            await Task.Run(() => process.WaitForExit(), cancellationToken);
+            await Task.WhenAll(outputTask, errorTask);
+        
+            return process.ExitCode == 0;
+        }
+        catch (OperationCanceledException)
+        {
+            process.Kill();
             return false;
         }
-
-        if (!process.StandardOutput.EndOfStream)
+    }
+    
+    private async Task ReadStreamAsync(StreamReader reader, string prefix, StringBuilder logBuilder, CancellationToken cancellationToken)
+    {
+        try
         {
-            string line = await process.StandardOutput.ReadToEndAsync();
-            Notification?.Invoke(this, $"{processName} ESBuild Output: {line}");
-            logBuider.AppendLine($"{processName} ESBuild Output: {line}");
-        }
-
-        if (!process.StandardError.EndOfStream)
-        {
-            string line = await process.StandardError.ReadToEndAsync();
-            Notification?.Invoke(this, $"{processName} ESBuild Error: {line}");
-            logBuider.AppendLine($"{processName} ESBuild Error: {line}");
-        }
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                string? line = await reader.ReadLineAsync();
+                if (line == null) break;
             
-        return process.ExitCode == 0;
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    Notification?.Invoke(this, $"{prefix}: {line}");
+                    logBuilder.AppendLine($"{prefix}: {line}");
+                }
+            }
+        }
+        catch when (cancellationToken.IsCancellationRequested)
+        {
+            // Expected when cancellation occurs
+            Notification?.Invoke(this, $"{prefix}: Process was cancelled.");
+            logBuilder.AppendLine($"{prefix}: Process was cancelled.");
+        }
     }
 
     private static string? _corePath;

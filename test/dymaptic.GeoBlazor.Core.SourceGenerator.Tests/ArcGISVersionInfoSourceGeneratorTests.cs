@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator.Tests;
 public class ArcGISVersionInfoSourceGeneratorTests
 {
     [TestMethod]
-    public void GenerateClassesBasedOnDDDRegistry()
+    public void TestCanParseNpmPackageVersionsAndBuildStaticClass()
     {
         // Create an instance of the source generator.
         var generator = new ArcGISVersionInfoSourceGenerator();
@@ -35,6 +35,11 @@ public class ArcGISVersionInfoSourceGeneratorTests
 
         // In this case, it is enough to check the file name.
         Assert.IsTrue(generatedFiles.SequenceEqual((string[]) ["ArcGISSDKVersionInfo.g.cs"]));
+        string content = newCompilation.SyntaxTrees.First().ToString();
+        Assert.IsTrue(content.Contains("internal static class ArcGISSDKVersionInfo"));
+        Assert.IsTrue(content.Contains("public const string ArcGISVersion = \"4.33.8\";"));
+        Assert.IsTrue(content.Contains("public const string ArcGISMapComponentsVersion = \"4.33.8\";"));
+        Assert.IsTrue(content.Contains("public const string CalciteVersion = \"3.2.1\";"));
     }
     
     private const string PackageJSONText = """

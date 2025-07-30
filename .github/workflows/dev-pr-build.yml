@@ -45,17 +45,25 @@ jobs:
         node-version: '>=22.11.0'
         check-latest: 'true'
         
+    # This step will install the NPM dependencies and build the JS files with ESBuild
+    - name: Generate JS
+      shell: pwsh
+      run: |
+        cd ./src/dymaptic.GeoBlazor.Core
+        ./esBuild.ps1 -c Release
+        cd ../..
+        
     - name: Restore dependencies
       run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
     
     - name: Build Core
-      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:GenerateDocs=true -c Release
+      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:GenerateDocs=true /p:PipelineBuild=true -c Release
 
       # Copies the nuget package to the artifacts directory
     - name: Upload nuget artifact
       uses: actions/upload-artifact@v4.6.0
       with:
-        name: .pro-nuget
+        name: .core-nuget
         retention-days: 4
         path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
 

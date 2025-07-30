@@ -95,6 +95,7 @@
       <AdditionalFiles Include="package.json" />
       <AdditionalFiles Include="Scripts\*.ts" />
       <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
+      <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
     </ItemGroup>
 
     <ItemGroup>
