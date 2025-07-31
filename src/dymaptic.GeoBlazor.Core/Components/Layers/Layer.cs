@@ -76,6 +76,7 @@ public abstract partial class Layer : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(FullExtentConverter))]
     public Extent? FullExtent { get; set; }
     
     /// <summary>

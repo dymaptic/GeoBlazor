@@ -2243,7 +2243,7 @@ public partial class MapView : MapComponent
             }
         }
 
-        if (MapRendered && Theme != _lastTheme)
+        if (MapRendered && Theme is not null && Theme != _lastTheme)
         {
             // theme has changed, so we need to update it
             await SetTheme();
@@ -2307,7 +2307,7 @@ public partial class MapView : MapComponent
                     $"https://js.arcgis.com/calcite-components/{ArcGISSDKVersionInfo.CalciteVersion}/calcite.css");
                 // import map component css
                 await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
-                    $"https://js.arcgis.com/{ArcGISSDKVersionInfo.ArcGISMapComponentsVersion}/map-components/main.css");
+                    $"https://js.arcgis.com/{string.Join('.', ArcGISSDKVersionInfo.ArcGISMapComponentsVersion.Split('.').Take(2))}/map-components/main.css");
             } 
 
             StateHasChanged();
@@ -2462,7 +2462,7 @@ public partial class MapView : MapComponent
     private async Task SetTheme()
     {
         string? theme = await CoreJsModule!.InvokeAsync<string?>("setTheme", 
-            Theme.ToString()!.ToLowerInvariant(), Id);
+            Theme?.ToString().ToLowerInvariant(), Id);
         ArcGISTheme? newTheme = theme switch
         {
             "dark" => ArcGISTheme.Dark,
