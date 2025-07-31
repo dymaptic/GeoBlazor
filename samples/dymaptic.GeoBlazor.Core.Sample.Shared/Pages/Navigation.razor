@@ -20,7 +20,7 @@
     <label>Rotation (deg):&nbsp;<input type="number" @bind="_rotation" /></label>
 </div>
 
-<MapView @ref="MapView"
+<MapView @ref="_mapView"
          Class="map-view"
          Longitude="_longitude"
          Latitude="_latitude"
@@ -52,7 +52,7 @@
     
     private async Task GetExtent()
     {
-        Extent? extent = await MapView!.GetExtent();
+        Extent? extent = await _mapView!.GetExtent();
         if (extent is null) return;
 
         _extentJson = JsonSerializer.Serialize(extent, new JsonSerializerOptions
@@ -68,5 +68,5 @@
     private double _zoom = 11;
     private double _rotation;
     private string? _extentJson;
-    private MapView? MapView { get; set; }
+    private MapView? _mapView;
 }

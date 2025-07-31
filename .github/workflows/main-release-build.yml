@@ -44,21 +44,17 @@ jobs:
         check-latest: 'true'
     
       # This step will install the NPM dependencies and build the JS files with ESBuild
-      # The assetCopy.ps1 script will copy the ArcGIS Asset files to the correct location
-    - name: Copy Assets and Generate JS
+    - name: Generate JS
       shell: pwsh
       run: |
         cd ./src/dymaptic.GeoBlazor.Core
-        npm install
-        npm run releaseBuild
-        ./assetCopy.ps1
+        ./esBuild.ps1 -c Release
         cd ../..
     
-      # OptOutFromCoreEsBuild - we've already built the JS files in the previous step
       # GenerateDocs - this will generate the XML for intellisense in the Nuget package
       # This step also creates the NuGet package
     - name: Build Core
-      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=true /p:GenerateDocs=true -c Release
+      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:GenerateDocs=true /p:PipelineBuild=true -c Release
     
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint

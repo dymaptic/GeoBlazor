@@ -6,6 +6,8 @@ name: Develop Branch PR Build
 on:
   pull_request:
     branches: [ "develop" ]
+  push:
+    branches: [ "develop" ]
 
 concurrency:
   group: dev-pr-build
@@ -37,28 +39,33 @@ jobs:
       run: |
         ./bumpVersion.ps1
         
-    - name: Restore dependencies
-      run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
-        
     - name: Update NPM
       uses: actions/setup-node@v4
       with:
         node-version: '>=22.11.0'
         check-latest: 'true'
-          
+        
     # This step will install the NPM dependencies and build the JS files with ESBuild
-    # The assetCopy.ps1 script will copy the ArcGIS Asset files to the correct location
-    - name: Copy Assets and Generate JS
+    - name: Generate JS
       shell: pwsh
       run: |
         cd ./src/dymaptic.GeoBlazor.Core
-        npm install
-        npm run releaseBuild
-        ./assetCopy.ps1
+        ./esBuild.ps1 -c Release
         cd ../..
+        
+    - name: Restore dependencies
+      run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
     
     - name: Build Core
-      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=true -c Release
+      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:GenerateDocs=true /p:PipelineBuild=true -c Release
+
+      # Copies the nuget package to the artifacts directory
+    - name: Upload nuget artifact
+      uses: actions/upload-artifact@v4.6.0
+      with:
+        name: .core-nuget
+        retention-days: 4
+        path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
 
     - name: Add & Commit
       continue-on-error: true

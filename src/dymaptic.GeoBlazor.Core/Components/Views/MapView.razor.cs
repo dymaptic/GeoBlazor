@@ -128,7 +128,19 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public bool? PromptForOAuthLogin { get; set; }
-    
+
+    /// <summary>
+    ///     Determines if the view should automatically show the zoom widget controls (+/-) in the top left corner of the view. Defaults to true.
+    /// </summary>
+    [Parameter]
+    public bool ShowZoomWidget { get; set; } = true;
+
+    /// <summary>
+    ///     Set the base theme to dark or light for all widgets and components in the view.
+    /// </summary>
+    [Parameter]
+    public ArcGISTheme? Theme { get; set; }
+
     [Parameter]
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public string? WhiteLabel { get; set; }
@@ -154,11 +166,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     The collection of <see cref="Widget" />s in the view.
     /// </summary>
-    public IReadOnlyCollection<Widget> Widgets
-    {
-        get => _widgets;
-        private set => _widgets = [..value];
-    }
+    public IReadOnlyCollection<Widget> Widgets => _widgets;
 
     /// <summary>
     ///     The collection of <see cref="Graphic" />s in the view. These are directly on the view itself, not in a <see cref="GraphicsLayer" />.
@@ -666,7 +674,6 @@ public partial class MapView : MapComponent
     public async Task OnJavascriptSpatialReferenceChanged(SpatialReference spatialReference)
     {
         if (_isDisposed) return;
-        _spatialReference = spatialReference;
         await OnSpatialReferenceChanged.InvokeAsync(spatialReference);
     }
 
@@ -908,7 +915,6 @@ public partial class MapView : MapComponent
         }
 
         await OnLayerViewCreate.InvokeAsync(new LayerViewCreateEvent(layerView?.Layer, layerView));
-
         return layerView?.Id;
     }
 
@@ -1880,19 +1886,6 @@ public partial class MapView : MapComponent
     /// </summary>
     public Task<PopupWidget?> GetPopupWidget()
     {
-        if (!Widgets.Any(w => w is PopupWidget) && CoreJsModule is not null)
-        {
-            // add as custom logic since this is before `MapRendered` and calling `AddWidget` will exit early
-            var popupWidget = new PopupWidget
-            {
-                Parent = this,
-                View = this,
-                CoreJsModule = CoreJsModule
-            };
-            _newWidgets.Add(popupWidget);
-            StateHasChanged();
-        }
-
         return Task.FromResult(Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget);
     }
 
@@ -2110,27 +2103,6 @@ public partial class MapView : MapComponent
     public override async ValueTask DisposeAsync()
     {
         await CancellationTokenSource.CancelAsync();
-        try
-        {
-            if (CoreJsModule != null)
-            {
-                await CoreJsModule.InvokeVoidAsync("disposeView",
-                    CancellationTokenSource.Token, Id);
-            }
-        }
-        catch (TaskCanceledException)
-        {
-            // user cancelled
-        }
-        catch (JSDisconnectedException)
-        {
-            // lost connection (page navigation)
-        }
-        catch (JSException)
-        {
-            // instance already destroyed
-        }
-
         _isDisposed = true;
     }
 
@@ -2139,8 +2111,9 @@ public partial class MapView : MapComponent
     /// </summary>
     public Task AddWidget(Widget widget)
     {
-        if (_widgets.Add(widget))
+        if (!_widgets.Contains(widget))
         {
+            _widgets.Add(widget);
             widget.Parent ??= this;
             widget.View ??= this;
             widget.CoreJsModule ??= CoreJsModule;
@@ -2256,6 +2229,26 @@ public partial class MapView : MapComponent
             }
         }
 
+        if (Theme is null)
+        {
+            string? theme = Configuration.GetValue<string?>("GeoBlazor:Theme");
+            if (theme is not null)
+            {
+                Theme = theme.ToLowerInvariant() switch
+                {
+                    "dark" => ArcGISTheme.Dark,
+                    "light" => ArcGISTheme.Light,
+                    _ => null
+                };
+            }
+        }
+
+        if (MapRendered && Theme is not null && Theme != _lastTheme)
+        {
+            // theme has changed, so we need to update it
+            await SetTheme();
+        }
+
         await UpdateView();
     }
 
@@ -2264,7 +2257,6 @@ public partial class MapView : MapComponent
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        AbortManager ??= new AbortManager(CoreJsModule!);
 
         if (!LoadOnRender && !_renderCalled)
         {
@@ -2294,6 +2286,30 @@ public partial class MapView : MapComponent
                 await AuthenticationManager.Login();
             }
 
+            // we load CSS programmatically to avoid issues with devs adding or forgetting to add the links
+            // so we can check and ensure at runtime, especially since we are changing the behavior in version 4.2.0
+            if (HasCustomAssetPath())
+            {
+                // set custom assets path
+                await CoreJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token, 
+                    _customAssetsPath);
+                // import calcite css from custom path
+                await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
+                    $"{_customAssetsPath}/calcite.css");
+                // import map component css from custom path
+                await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
+                    $"{_customAssetsPath}/map-components/main.css");
+            }
+            else // default CDN CSS Paths
+            {
+                // import calcite css
+                await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
+                    $"https://js.arcgis.com/calcite-components/{ArcGISSDKVersionInfo.CalciteVersion}/calcite.css");
+                // import map component css
+                await CoreJsModule!.InvokeVoidAsync("addHeadLink", CancellationTokenSource.Token,
+                    $"https://js.arcgis.com/{string.Join('.', ArcGISSDKVersionInfo.ArcGISMapComponentsVersion.Split('.').Take(2))}/map-components/main.css");
+            } 
+
             StateHasChanged();
 
             return;
@@ -2316,7 +2332,6 @@ public partial class MapView : MapComponent
                         (object)newLayer, Id, isBasemapLayer, isBasemapReferenceLayer);
                 }
             }
-
 
             if (_newWidgets.Any())
             {
@@ -2379,6 +2394,31 @@ public partial class MapView : MapComponent
             Map.Basemap!.ReferenceLayers = Map.Basemap!.ReferenceLayers?.Where(l => !l.Imported).ToList();
 #pragma warning restore BL0005 
         }
+        
+        if (ShowZoomWidget && !Widgets.Any(w => w is ZoomWidget))
+        {
+            ZoomWidget zoom = new(position: OverlayPosition.TopLeft)
+            {
+                Parent = this, 
+                View = this, 
+                CoreJsModule = CoreJsModule
+            };
+            
+            // should be inserted first so it is added at the top of the left corner
+            _widgets.Insert(0, zoom);
+        }
+        
+        if (!Widgets.Any(w => w is PopupWidget))
+        {
+            var popupWidget = new PopupWidget
+            {
+                Parent = this,
+                View = this,
+                CoreJsModule = CoreJsModule
+            };
+            _widgets.Add(popupWidget);
+        }
+        
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -2390,30 +2430,55 @@ public partial class MapView : MapComponent
                 throw new MissingMapException();
             }
 
-            string mapType = Map is WebMap ? "webmap" : "map";
-
             NeedsRender = false;
-
-            await CoreJsModule.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
-                Configuration.GetValue<string?>("ArcGISAssetsPath",
-                    "/_content/dymaptic.GeoBlazor.Core/assets"));
 
             while (Map is null) // race condition in WebAssembly causes the map to be disposed while creating child components within it.
             {
                 await Task.Delay(1);
             }
-
-            await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
-                DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
             
-            // must be after main render, but before the boolean flags are set
-            await GetPopupWidget();
+            await SetTheme();
+
+            await BuildMapView();
 
             Rendering = false;
             MapRendered = true;
         });
+    }
+
+    /// <summary>
+    ///     Calls the ArcGIS Maps SDK for JavaScript to build the map view.
+    /// </summary>
+    protected virtual ValueTask BuildMapView()
+    {
+        string mapType = Map is WebMap ? "webmap" : "map";
+        return CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
+            DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
+            mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
+            EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
+            Theme?.ToString().ToLowerInvariant());
+    }
+
+    private async Task SetTheme()
+    {
+        string? theme = await CoreJsModule!.InvokeAsync<string?>("setTheme", 
+            Theme?.ToString().ToLowerInvariant(), Id);
+        ArcGISTheme? newTheme = theme switch
+        {
+            "dark" => ArcGISTheme.Dark,
+            // if we hit this path repeatedly, like with multiple views, 
+            // the JS method returns null so we don't add the same theme multiple times
+            null => null,
+            // default to light theme
+            _ => ArcGISTheme.Light
+        };
+                
+        if (newTheme is not null && Theme != newTheme)
+        {
+            // set these both so they don't cause a render loop
+            _lastTheme = newTheme;
+            Theme = newTheme;
+        }
     }
 #endregion
     
@@ -2451,7 +2516,7 @@ public partial class MapView : MapComponent
     /// <inheritdoc />
     protected override bool ShouldRender()
     {
-        return _shouldRender;
+        return AllowRender;
     }
 
     /// <inheritdoc />
@@ -2604,7 +2669,6 @@ public partial class MapView : MapComponent
         }
     }
 
-    
     private bool IsPro()
     {
         if (_isPro is null)
@@ -2622,6 +2686,25 @@ public partial class MapView : MapComponent
         }
         
         return _isPro.Value;
+    }
+
+    private bool HasCustomAssetPath()
+    {
+        if (_hasCustomAssetPath is null)
+        {
+            try
+            {
+                _customAssetsPath = Configuration.GetValue<string?>("ArcGISAssetsPath");
+
+                _hasCustomAssetPath = _customAssetsPath is not null;
+            }
+            catch
+            {
+                _hasCustomAssetPath = false;
+            }
+        }
+
+        return _hasCustomAssetPath.Value;
     }
     
     /// <summary>
@@ -2697,7 +2780,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     A boolean flag to indicate that the map extent has been modified in code, and therefore should not be modifiable by markup until <see cref="Refresh" /> is called
     /// </summary>
-    protected bool ExtentSetByCode = false;
+    protected bool ExtentSetByCode;
     /// <summary>
     ///     Indicates that the pointer is currently down, to prevent updating the extent during this action.
     /// </summary>
@@ -2708,20 +2791,21 @@ public partial class MapView : MapComponent
     /// </summary>
     protected bool AuthenticationInitialized;
     
-    private SpatialReference? _spatialReference;
-    private Dictionary<Guid, StringBuilder> _hitTestResults = new();
+    private readonly Dictionary<Guid, StringBuilder> _hitTestResults = new();
     private bool _renderCalled;
-    private bool _shouldRender = true;
-    private Dictionary<string, StringBuilder> _layerCreateData = new();
-    private Dictionary<string, StringBuilder> _layerViewCreateData = new();
+    private readonly Dictionary<string, StringBuilder> _layerCreateData = new();
+    private readonly Dictionary<string, StringBuilder> _layerViewCreateData = new();
     private HashSet<Graphic> _graphics = [];
-    private HashSet<Widget> _widgets = [];
-    private HashSet<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
-    private HashSet<Widget> _newWidgets = [];
+    private readonly List<Widget> _widgets = [];
+    private readonly List<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
+    private readonly List<Widget> _newWidgets = [];
     private bool? _isPro;
-    private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
+    private bool? _hasCustomAssetPath;
+    private string? _customAssetsPath;
+    private readonly Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;
     private bool _waitingForRender;
+    private ArcGISTheme? _lastTheme;
 
 #endregion
 }

@@ -1,6 +1,6 @@
 // override generated code in this file
 import TextSymbol from "@arcgis/core/symbols/TextSymbol";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 import {buildDotNetMapFont, buildJsMapFont} from "./mapFont";
 
@@ -73,7 +73,7 @@ export function buildDotNetTextSymbol(jsObject: any): any {
     }
 
     let dotNetTextSymbol: any = {
-                jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.backgroundColor)) {
         dotNetTextSymbol.backgroundColor = buildDotNetMapColor(jsObject.backgroundColor);
@@ -129,14 +129,11 @@ export function buildDotNetTextSymbol(jsObject: any): any {
     if (hasValue(jsObject.yoffset)) {
         dotNetTextSymbol.yoffset = jsObject.yoffset;
     }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetTextSymbol.id = k;
-                break;
-            }
-        }
+    
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    if (hasValue(geoBlazorId)) {
+        dotNetTextSymbol.id = geoBlazorId;
     }
 
     return dotNetTextSymbol;

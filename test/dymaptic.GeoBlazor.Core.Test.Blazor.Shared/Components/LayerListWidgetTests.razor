@@ -138,6 +138,8 @@
         {
             await Task.Delay(100);
         }
+
+        await Task.Delay(1000); // Allow time for the search widgets to render
         await AssertJavaScript("layerListWidgetAsserts.assertHasWidgetContent");
     }
 }

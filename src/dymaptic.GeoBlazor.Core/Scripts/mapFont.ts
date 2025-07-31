@@ -2,7 +2,7 @@
 
 
 import Font from "@arcgis/core/symbols/Font";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 
 export function buildJsMapFont(dotNetObject: any): any {
     let properties: any = {};
@@ -55,13 +55,9 @@ export function buildDotNetMapFont(jsObject: any): any {
         dotNetMapFont.weight = jsObject.weight;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetMapFont.id = k;
-                break;
-            }
-        }
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetMapFont.id = geoBlazorId;
     }
 
     return dotNetMapFont;

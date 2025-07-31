@@ -376,6 +376,15 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchClear', streamRef);
         });
     }
+
+    if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
+        jswidgetsSearch.on('search-complete', async (evt: any) => {
+            let { buildDotNetSearchCompleteEvent } = await import('./searchCompleteEvent');
+            let dnEvent = await buildDotNetSearchCompleteEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
+        });
+    }
     
     if (hasValue(dotNetObject.hasSearchFocusListener) && dotNetObject.hasSearchFocusListener) {
         jswidgetsSearch.on('search-focus', async (evt: any) => {

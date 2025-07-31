@@ -163,6 +163,8 @@ public partial class SearchWidget : Widget
             }
         }
 
+        View!.ExtentChangedInJs = true;
+
         await OnSearchComplete.InvokeAsync(searchCompleteEvent);
     }
     
@@ -177,7 +179,7 @@ public partial class SearchWidget : Widget
     /// <summary>
     ///     Used in JavaScript to determine if the event listener is set.
     /// </summary>
-    public bool HasSearchCompleteListener => OnSearchComplete.HasDelegate;
+    public bool HasSearchCompleteListener => true; // always return true, required event handler
    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.

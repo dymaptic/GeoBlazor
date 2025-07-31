@@ -16,6 +16,9 @@ import {
     DotNetViewHit,
     MapCollection
 } from './definitions';
+import * as MapComponents from '@arcgis/map-components';
+import * as Calcite from "@esri/calcite-components";
+import * as esriNS from "@arcgis/core/kernel.js";
 import * as locator from "@arcgis/core/rest/locator";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import * as route from "@arcgis/core/rest/route";
@@ -35,6 +38,8 @@ import Layer from "@arcgis/core/layers/Layer";
 import LocatorWrapper from "./locationService";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
+import { ArcgisMap } from "@arcgis/map-components/components/arcgis-map";
+import { ArcgisScene } from "@arcgis/map-components/components/arcgis-scene";
 // @ts-ignore
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
 import Point from "@arcgis/core/geometry/Point";
@@ -59,7 +64,7 @@ import Widget from "@arcgis/core/widgets/Widget";
 import {load} from "protobufjs";
 import {buildDotNetExtent, buildJsExtent} from './extent';
 import {buildJsGraphic} from './graphic';
-import {buildDotNetLayer, buildJsLayer, preloadLayerTypes} from './layer';
+import {buildDotNetLayer, buildJsLayer} from './layer';
 import {buildDotNetPoint, buildJsPoint} from './point';
 import {buildDotNetLayerView} from './layerView';
 import {buildDotNetSpatialReference} from './spatialReference';
@@ -71,7 +76,7 @@ import {buildJsAttributes} from './attributes';
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
-import {buildJsWidget, preloadWidgetTypes} from "./widget";
+import {buildJsWidget} from "./widget";
 import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
 import { buildJsColor } from './mapColor';
 import {buildJsBasemap} from "./basemap";
@@ -107,23 +112,19 @@ export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper(fal
 export let projectionEngine: ProjectionWrapper = new ProjectionWrapper(false);
 
 // region module variables
-
 let notifyExtentChanged: boolean = true;
 const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
-let loadedLayers: string[] = [];
 
 export let Pro: any;
 
 // region functions
-
+export function getArcGISVersion() {
+    return esriNS.version;
+}
 export async function setPro(pro): Promise<void> {
     Pro = pro;
-}
-
-export async function getGeometryEngine() {
-    
 }
 
 // we have to wrap the JsObjectReference because a null will throw an error
@@ -210,7 +211,84 @@ export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number
 export function setAssetsPath(path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
         esriConfig.assetsPath = path;
+        MapComponents.setAssetPath(path);
+        Calcite.setAssetPath(path);
     }
+}
+
+export function setTheme(theme: string | null, viewId): string | null {
+    if (hasValue(theme)) {
+        if (theme === 'dark') {
+            removeHeadLink('/esri/themes/light/main.css');
+            addHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`);
+        } else {
+            removeHeadLink('/esri/themes/dark/main.css');
+            addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
+        }
+    } else if (checkHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`)) {
+        theme = 'dark';
+    } else {
+        theme = 'light';
+        addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
+    }
+    
+    setViewTheme(theme, viewId);
+    
+    return theme;
+}
+
+function setViewTheme(theme, viewId: string): void {
+    if (arcGisObjectRefs.hasOwnProperty(viewId)) {
+        let view = arcGisObjectRefs[viewId] as MapView | SceneView | null;
+        if (hasValue(view)) {
+            view!.container!.style.colorScheme = theme as string;
+            if (theme === 'dark' && !view!.ui.container!.classList.contains('calcite-mode-dark')) {
+                // if the view was already rendered, this class is missed and needs adding
+                view!.ui.container!.classList.add('calcite-mode-dark');
+            }
+        }
+    }
+}
+
+export function checkHeadLink(source: string): boolean {
+    if (!hasValue(source)) {
+        return false;
+    }
+
+    const link = document.querySelector(`link[href="${source}"]`);
+    return link !== null;
+}
+
+export function removeHeadLink(source: string) : boolean {
+    if (!hasValue(source)) {
+        return false;
+    }
+
+    // just match the end of the href to allow for versioning or different original sources
+    const link = document.querySelector(`link[href$="${source}"]`);
+    if (link !== null) {
+        link.remove();
+        return true;
+    }
+    
+    return false;
+}
+
+export function addHeadLink(source: string) {
+    if (!hasValue(source)) {
+        return;
+    }
+
+    if (document.querySelector(`link[href="${source}"]`) !== null) {
+        return;
+    }
+
+    let link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = source;
+
+    let geoblazorLink = document.querySelector('link[href*="_content/dymaptic.GeoBlazor.Core"]');
+    document.head.insertBefore(link, geoblazorLink);
 }
 
 export async function getProjectionEngineWrapper(): Promise<ProjectionWrapper> {
@@ -241,7 +319,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                                    spatialReference: any, constraints: any, extent: any, backgroundColor: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                                    isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, 
-                                   zIndex?: number, tilt?: number)
+                                   theme?: string | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     try {
         await setCursor('wait');
@@ -250,22 +328,35 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         blazorServer = isServer;
         const dotNetRef = dotNetReference;
 
-        let newLayers = await preloadLayerTypes(
-            mapObject.layers.concat(mapObject.basemap?.layers ?? [])
-                .filter(l => !loadedLayers.includes(l.type)), id);
-        loadedLayers = loadedLayers.concat(newLayers);
-        if (newLayers.length > 0){
-            await delayTask(200);
-        }
-
         if (ProtoGraphicCollection === undefined) {
             await loadProtobuf();
         }
 
         checkConnectivity(id);
-        disposeView(id);
+        
         dotNetRefs[id] = dotNetRef;
-        let view: View;
+        let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${id}`) as ArcgisMap | ArcgisScene;
+        if (!hasValue(mapComponent)) {
+            // if the map component is not found, we cannot create a view
+            throw new Error(`Map component with id ${id} not found.`);
+        }
+        let view: MapView | SceneView;
+        
+        // check that there is either a webmap, webscene, or basemap to load the map
+        if (mapType !== 'webmap' && mapType !== 'webscene' && !hasValue(mapObject.basemap)
+            && !hasValue(mapObject.arcGISDefaultBasemap)) {
+            // set a default basemap if none is provided, so the map can be created
+            if (mapType === 'scene') {
+                
+                mapObject.basemap = 'gray-3d';
+            } else {
+                mapObject.basemap = {
+                    style : {
+                        name: "arcgis/light-gray"
+                    }
+                }
+            }
+        }
 
         let basemap = hasValue(mapObject.basemap)
             ? await buildJsBasemap(mapObject.basemap, null, id)
@@ -273,60 +364,67 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 ? mapObject.arcGISDefaultBasemap
                 : undefined;
 
-        switch (mapType) {
-            case 'webmap':
+        let spatialRef: SpatialReference | null = null;
+        if (hasValue(spatialReference)) {
+            let {buildJsSpatialReference} = await import('./spatialReference');
+            spatialRef = buildJsSpatialReference(spatialReference) as SpatialReference;
+            mapComponent.spatialReference = spatialRef;
+        }
+        
+        if (mapComponent instanceof ArcgisMap) {
+            if (mapType === 'webmap') {
                 let {buildJsWebMap} = await import('./webMap');
-                let webMap = await buildJsWebMap(mapObject, null, id);
-                view = new MapView({
-                    container: `map-container-${id}`,
-                    map: webMap
-                });
-                break;
-            case 'webscene':
-                let {buildJsWebScene} = await import('./webScene');
-                let webScene = await buildJsWebScene(mapObject, null, id);
-                view = new SceneView({
-                    container: `map-container-${id}`,
-                    map: webScene
-                });
-                break;
-            case 'scene':
-                const scene = new Map({
-                    basemap: basemap,
-                    ground: mapObject.ground
-                });
-                view = new SceneView({
-                    container: `map-container-${id}`,
-                    map: scene
-                });
-                if (hasValue(lat) && hasValue(long)) {
-                    (view as SceneView).camera = {
-                        position: {
-                            x: long as number, //Longitude
-                            y: lat as number, //Latitude
-                            z: zIndex as number //Meters
-                        } as Point,
-                        tilt: tilt as number
-                    } as Camera
-                }
-                break;
-            default:
+                const webMap = await buildJsWebMap(mapObject, null, id);
+                mapComponent.map = webMap;
+            } else {
                 const map = new Map({
                     basemap: basemap,
                     ground: mapObject.ground
                 });
-
-                view = new MapView({
-                    map: map,
-                    container: `map-container-${id}`,
-                    rotation: rotation
+                mapComponent.map = map;
+            }
+            if (!mapComponent.ready) {
+                await mapComponent.viewOnReady();
+            }
+            (mapComponent.view as MapView).rotation = rotation;
+        } else // this check is required for ESBuild to not throw away the ArcgisScene import
+            // noinspection SuspiciousTypeOfGuard
+            if (mapComponent instanceof ArcgisScene) {
+            if (mapType === 'webscene') {
+                let {buildJsWebScene} = await import('./webScene');
+                const webScene = await buildJsWebScene(mapObject, null, id);
+                mapComponent.map = webScene;
+            } else {
+                const scene = new Map({
+                    basemap: basemap,
+                    ground: mapObject.ground
                 });
-                break;
+                mapComponent.map = scene;
+            }
+            if (!mapComponent.ready) {
+                await mapComponent.viewOnReady();
+            }
+            if (hasValue(lat) && hasValue(long)) {
+                (mapComponent.view as SceneView).camera = {
+                    position: {
+                        x: long as number, //Longitude
+                        y: lat as number, //Latitude
+                        z: zIndex as number //Meters
+                    } as Point,
+                    tilt: tilt as number
+                } as Camera
+            }
         }
         
+        view = mapComponent.view;
+
         if (!hasValue(view.container)) {
             // someone navigated away or rerendered the page, the view is no longer valid
             return;
+        }
+
+        if (hasValue(theme)) {
+            setViewTheme(theme!, id);
         }
 
         if (hasValue(backgroundColor)) {
@@ -334,11 +432,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         if (hasValue(popupEnabled)) {
-            (view as MapView).popupEnabled = popupEnabled as boolean;
+            view.popupEnabled = popupEnabled as boolean;
         }
 
         if (hasValue(constraints)) {
-            (view as MapView).constraints = sanitize(constraints);
+            view.constraints = sanitize(constraints);
         }
 
         arcGisObjectRefs[id] = view;
@@ -346,7 +444,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         waitForRender(id, dotNetRef);
 
         if (hasValue(highlightOptions)) {
-            (view as MapView).highlightOptions = highlightOptions;
+            view.highlightOptions = highlightOptions;
         }
 
         await setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers, id);
@@ -374,14 +472,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             await addGraphic(graphicObject, id, null);
         }
 
-        let spatialRef: SpatialReference | null = null;
-        if (hasValue(spatialReference)) {
-            let {buildJsSpatialReference} = await import('./spatialReference');
-            spatialRef = buildJsSpatialReference(spatialReference);
-            view.spatialReference = spatialRef!;
-        }
-
         if (view instanceof MapView) {
+            // set the extent, center, zoom/scale after the spatial reference is set
             if (hasValue(extent) && (hasValue(extent.spatialReference) || hasValue(spatialRef))) {
                 (view as MapView).extent = buildJsExtent(extent, spatialRef);
             } else {
@@ -419,7 +511,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     }
 }
 
-async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
+async function setEventListeners(view: MapView | SceneView, dotNetRef: any, eventRateLimit: number | null,
                                  activeEventHandlers: Array<string>, viewId: string): Promise<void> {
     if (activeEventHandlers.includes('OnClick')) {
         view.on('click', async (evt) => {
@@ -552,10 +644,10 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
 
             let isBasemapLayer = false;
             let isReferenceLayer = false;
-            if (hasValue(view.map.basemap)) {
-                if (view.map.basemap!.baseLayers?.includes(evt.layer)) {
+            if (hasValue(view?.map?.basemap)) {
+                if (view!.map!.basemap!.baseLayers?.includes(evt.layer)) {
                     isBasemapLayer = true;
-                } else if (view.map.basemap!.referenceLayers?.includes(evt.layer)) {
+                } else if (view!.map!.basemap!.referenceLayers?.includes(evt.layer)) {
                     isReferenceLayer = true;
                 }
             }
@@ -779,7 +871,7 @@ export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
 
 export async function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
     const layer = arcGisObjectRefs[layerId] as TileLayer;
-    let sublayer = layer.allSublayers.find(sl => sl.id === sublayerId);
+    let sublayer = layer?.allSublayers?.find(sl => sl.id === sublayerId);
     if (!hasValue(sublayer)) {
         return null;
     }
@@ -822,57 +914,6 @@ export function toMap(screenPoint: any, viewId: string): DotNetPoint | null {
 export function toScreen(mapPoint: any, viewId: string): ScreenPoint {
     const view = arcGisObjectRefs[viewId] as MapView;
     return view.toScreen(buildJsPoint(mapPoint) as Point) as ScreenPoint;
-}
-
-export function disposeView(viewId: string): void {
-    try {
-        const view = arcGisObjectRefs[viewId] as MapView;
-        view?.destroy();
-        delete arcGisObjectRefs[viewId];
-        delete dotNetRefs[viewId];
-        for (const key in arcGisObjectRefs) {
-            const component = arcGisObjectRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete arcGisObjectRefs[key];
-            }
-        }
-        for (const key in jsObjectRefs) {
-            const component = jsObjectRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete jsObjectRefs[key];
-            }
-        }
-        for (const key in dotNetRefs) {
-            const component = dotNetRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete dotNetRefs[key];
-            }
-        }
-        for (const key in popupTemplateRefs) {
-            const component = popupTemplateRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete popupTemplateRefs[key];
-            }
-        }
-        for (const key in graphicsRefs) {
-            const component = graphicsRefs[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete graphicsRefs[key];
-            }
-        }
-        for (const key in actionHandlers) {
-            const component = actionHandlers[key];
-            if (!hasValue(component) || component.destroyed) {
-                delete actionHandlers[key];
-            }
-        }
-        if (triggerActionHandlers.hasOwnProperty(viewId)) {
-            triggerActionHandlers[viewId].remove();
-            delete triggerActionHandlers[viewId];
-        }
-    } catch {
-        // ignore
-    }
 }
 
 export async function disposeMapComponent(componentId: string, viewId: string): Promise<void> {
@@ -1319,7 +1360,7 @@ export function getGraphicAttributes(id: string, layerId: string | null, viewId:
     return null;
 }
 
-export function getObjectIdForGraphic(id: string, layerId: string | null, viewId: string | null): string | null {
+export function getObjectIdForGraphic(id: string, layerId: string | null, viewId: string | null): string | number | null {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (graphic !== null) {
         return graphic.getObjectId() ?? null;
@@ -1382,7 +1423,9 @@ export function lookupGeoBlazorGraphicId(jsObject: any): string | null {
                 delete group[k2];
                 continue;
             }
+            
             if (item === jsObject
+                // @ts-ignore
                 || (hasValue(jsObject.uid) && item.uid === jsObject.uid)) {
                 return k2;
             }
@@ -1411,12 +1454,12 @@ export function setGraphicOrigin(id: string, origin: any, layerId: string | null
 export function getGraphicOrigin(id: string, layerId: string | null, viewId: string | null): any {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (hasValue(graphic?.origin)) {
-        let layerId: any = lookupGeoBlazorId(graphic!.origin.layer);
+        let layerId: any = lookupGeoBlazorId(graphic!.origin!.layer);
 
         return {
             layerId: layerId,
-            arcGISLayerId: graphic!.origin.layerId,
-            layerIndex: graphic!.origin.layerIndex
+            arcGISLayerId: graphic!.origin!.layerId,
+            layerIndex: graphic!.origin!.layerIndex
         };
     }
 
@@ -1446,8 +1489,8 @@ export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: a
 
     const data = await route.solve(routeUrl, routeParams);
     data.routeResults.forEach(function (result) {
-        result.route.symbol = routeSymbol
-        view.graphics.add(result.route);
+        result.route!.symbol = routeSymbol
+        view.graphics.add(result.route!);
     });
     const directions: any[] = [];
     if (data.routeResults.length > 0) {
@@ -1467,6 +1510,7 @@ export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: a
 }
 
 export function solveServiceArea(url: string, driveTimeCutoffs: number[], serviceAreaSymbol: any, viewId: string): void {
+    let jsServiceAreaSymbol = buildJsSymbol(serviceAreaSymbol);
     const view = arcGisObjectRefs[viewId] as View;
     const featureSet = new FeatureSet({
         features: [(view.graphics as MapCollection).items[0]]
@@ -1480,9 +1524,9 @@ export function solveServiceArea(url: string, driveTimeCutoffs: number[], servic
 
     serviceArea.solve(url, taskParameters)
         .then(function (result) {
-            if (result.serviceAreaPolygons.features.length) {
-                result.serviceAreaPolygons.features.forEach(function (graphic) {
-                    graphic.symbol = serviceAreaSymbol;
+            if (result.serviceAreaPolygons!.features.length) {
+                result.serviceAreaPolygons!.features.forEach(function (graphic) {
+                    graphic.symbol = jsServiceAreaSymbol;
                     view.graphics.add(graphic, 0);
                 })
             }
@@ -1589,13 +1633,13 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
     queryLayer.queryFeatures(query)
         .then((results) => {
             results.features.map((feature) => {
-                feature.symbol = symbol;
+                feature.symbol = symbol as any;
                 feature.popupTemplate = popupTemplate;
                 return feature;
             });
-            const view = arcGisObjectRefs[viewId] as View;
+            const view = arcGisObjectRefs[viewId] as MapView | SceneView;
 
-            view.popup.close();
+            view.popup?.close();
             view.graphics.removeAll();
             view.graphics.addMany(results.features);
         }).catch((error) => {
@@ -1630,7 +1674,7 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
             newWidget.container = innerContainer;
         } else {
             // check if widget is defined inside mapview
-            const inMapWidget = view.container?.querySelector(`#widget-container-${widget.id}`);
+            const inMapWidget = view.container?.parentElement?.querySelector(`#widget-container-${widget.id}`);
             const widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
             if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
                 view.ui.add(newWidget, widget.position);
@@ -1675,12 +1719,12 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 
         if (isBasemapLayer) {
             if (layerObject.isBasemapReferenceLayer) {
-                view.map?.basemap.referenceLayers.push(newLayer);
+                view.map?.basemap?.referenceLayers.push(newLayer);
             } else {
-                view.map?.basemap.baseLayers.push(newLayer);
+                view.map?.basemap?.baseLayers.push(newLayer);
             }
         } else if (isReferenceLayer) {
-            view.map?.basemap.referenceLayers.push(newLayer);
+            view.map?.basemap?.referenceLayers.push(newLayer);
         } else if (isQueryLayer) {
             queryLayer = newLayer as FeatureLayer;
             if (callback !== undefined) {
@@ -1698,9 +1742,9 @@ export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boo
     const layer = arcGisObjectRefs[layerId] as Layer;
     const view = arcGisObjectRefs[viewId] as MapView;
     if (isBasemapLayer) {
-        view.map?.basemap.baseLayers.remove(layer);
+        view.map?.basemap?.baseLayers.remove(layer);
     } else if (isReferenceLayer) {
-        view.map?.basemap.referenceLayers.remove(layer);
+        view.map?.basemap?.referenceLayers.remove(layer);
     } else {
         view.map?.remove(layer);
     }
@@ -1708,7 +1752,7 @@ export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boo
     delete arcGisObjectRefs[layerId];
 }
 
-async function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Point {
+async function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Promise<Point> {
     let projectOperator = await import('@arcgis/core/geometry/operators/projectOperator');
     if (!projectOperator.isLoaded()) {
         await projectOperator.load();
@@ -1754,7 +1798,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 }
             }, 100);
         }).catch((error) => !promiseUtils.isAbortError(error) && console.error(error));
-    } catch (error) {
+    } catch (error: any) {
         if (!promiseUtils.isAbortError(error)) {
             console.error(error);
         }
@@ -1890,7 +1934,7 @@ function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapV
     const hitOptions: MapViewHitTestOptions = {};
     let hitIncludeOptions: Array<any> = [];
     let hitExcludeOptions: Array<any> = [];
-    const layers = (view.map.layers as MapCollection).items as Array<Layer>;
+    const layers = (view.map!.layers as MapCollection).items as Array<Layer>;
     const graphicsLayers = layers.filter(l => l.type === "graphics") as Array<GraphicsLayer>;
 
     if (options.includeByGeoBlazorId !== null) {
@@ -2096,7 +2140,7 @@ export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, 
 
 export function getCursor(viewId: string): string {
     const view = arcGisObjectRefs[viewId] as MapView;
-    return view.container.style.cursor;
+    return view.container!.style.cursor;
 }
 
 export async function setCursor(cursorType: string, viewId: string | null = null) {
@@ -2241,20 +2285,29 @@ export function removeCircularReferences(jsObject: any) {
         return jsObject;
     }
     let json = generateSerializableJson(jsObject);
-    return JSON.parse(json);
+    if (!hasValue(json)) {
+        return null;
+    }
+    return JSON.parse(json!);
 }
 
 export function buildJsStreamReference(dnObject: any) {
     let json = generateSerializableJson(dnObject);
+    if (!hasValue(json)) {
+        return null;
+    }
     let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json);
+    let encodedArray = encoder.encode(json!);
     return DotNet.createJSStreamReference(encodedArray);
 }
 
 export function buildEncodedJson(object: any) {
     let json = generateSerializableJson(object);
+    if (!hasValue(json)) {
+        return null;
+    }
     let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json);
+    let encodedArray = encoder.encode(json!);
     return encodedArray;
 }
 

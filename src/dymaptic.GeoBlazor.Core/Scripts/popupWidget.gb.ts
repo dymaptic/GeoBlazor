@@ -486,11 +486,6 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         dotNetPopupWidget.dockOptions = await buildDotNetPopupDockOptions(jsObject.dockOptions);
     }
     
-    if (hasValue(jsObject.features)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetPopupWidget.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-    }
-    
     if (hasValue(jsObject.location)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetPopupWidget.location = buildDotNetPoint(jsObject.location);
@@ -499,11 +494,6 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     if (hasValue(jsObject.selectedDrillInFeature)) {
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetPopupWidget.selectedDrillInFeature = buildDotNetGraphic(jsObject.selectedDrillInFeature, layerId, viewId);
-    }
-    
-    if (hasValue(jsObject.selectedFeature)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetPopupWidget.selectedFeature = buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
     }
     
     if (hasValue(jsObject.viewModel)) {

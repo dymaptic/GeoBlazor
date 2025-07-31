@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <PackageId>dymaptic.GeoBlazor.Core</PackageId>
+        <PackageId >dymaptic.GeoBlazor.Core</PackageId>
+        <RootNamespace>dymaptic.GeoBlazor.Core</RootNamespace>
         <PackageTags>Blazor;ArcGIS;JsInterop;Javascript;Asp.NET</PackageTags>
         <Description>
             GeoBlazor is a GIS Component Library and SDK for building interactive maps in Blazor, powered by ArcGIS.
@@ -13,12 +14,12 @@
         <Version>$(CoreVersion)</Version>
         <Authors>dymaptic</Authors>
         <Company>dymaptic</Company>
-        <Copyright>©2024 by dymaptic</Copyright>
+        <Copyright>©2025 by dymaptic</Copyright>
         <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/dymaptic/GeoBlazor</RepositoryUrl>
         <PackageProjectUrl>https://geoblazor.com</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageIcon>Blazor-API-500px.png</PackageIcon>
+        <PackageIcon>GeoBlazor-Icon-500px.png</PackageIcon>
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE' AND $(GeneratePackage) != 'false'">true</GeneratePackageOnBuild>
         <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -71,7 +72,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="Blazor-API-500px.png" Pack="true" PackagePath="" />
+        <None Include="GeoBlazor-Icon-500px.png" Pack="true" PackagePath="" />
         <None Include="gb_white_text_300px.png" Pack="true" PackagePath="" />
         <None Include="Go-GeoBlazor-Pro.png" Pack="true" PackagePath="" />
         <Content Remove="package.json" />
@@ -79,7 +80,6 @@
         <Content Remove="tsconfig.json" />
         <Content Remove="DefaultDocumentation.json" />
         <None Include="package.json" Pack="false" />
-        <None Include="package-lock.json" Pack="false" />
         <None Include="tsconfig.json" Pack="false" />
         <None Remove="ReadMe.md" />
         <None Include="ReadMe.md" Pack="true" PackagePath="" />
@@ -92,35 +92,19 @@
     <ItemGroup>
       <AdditionalFiles Include="PublicAPI.Shipped.txt" />
       <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+      <AdditionalFiles Include="package.json" />
+      <AdditionalFiles Include="Scripts\*.ts" />
+      <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
+      <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot/assets/" />
         <Folder Include="wwwroot/js/" />
         <Folder Include="Documentation/" />
     </ItemGroup>
 
-    <Target Name="NPM Install" BeforeTargets="BuildOnlySettings" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
-        <Message Importance="high" Text="Running NPM Install" />
-        <Exec Command="npm install" />
-    </Target>
-
-    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <Message Importance="high" Text="Copying Asset files" />
-        <Exec Command="pwsh ./assetCopy.ps1" />
-    </Target>
-
-    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <Message Importance="high" Text="Copying Asset files" />
-        <Exec Command="pwsh ./assetCopy.ps1" ContinueOnError="false" />
-    </Target>
-
-    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <Message Importance="high" Text="Launching NPM Build Script" />
-        <Exec Command="pwsh ./npmDebugBuild.ps1" />
-    </Target>
-
-    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <Exec Command="npm run releaseBuild" ContinueOnError="false" />
-    </Target>
+    <ItemGroup>
+        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" 
+                          OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
 </Project>

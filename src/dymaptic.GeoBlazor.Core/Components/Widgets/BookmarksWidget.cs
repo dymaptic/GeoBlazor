@@ -64,6 +64,41 @@ public partial class BookmarksWidget : Widget
     /// </summary>
     [CodeGenerationIgnore]
     public bool HasGoToOverride => GoToOverride is not null;
+    
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsBookmarkSelect(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        BookmarkSelectEvent bookmarkSelectEvent = 
+            JsonSerializer.Deserialize<BookmarkSelectEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        View!.ExtentChangedInJs = true;
+        await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetonbookmarkselect-property">GeoBlazor Docs</a>
+    ///     Event Listener for BookmarkSelect.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<BookmarkSelectEvent> OnBookmarkSelect { get; set; }
+   
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public bool HasBookmarkSelectListener => true; // always true, we need to update the MapView when a bookmark is selected
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)

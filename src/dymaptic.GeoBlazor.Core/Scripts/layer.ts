@@ -1,5 +1,9 @@
 // override generated code in this file
-import {arcGisObjectRefs, disposeMapComponent, hasValue, Pro, removeCircularReferences} from './arcGisJsInterop';
+import {arcGisObjectRefs, 
+    hasValue, 
+    Pro, 
+    removeCircularReferences,
+    esriConfig} from './arcGisJsInterop';
 
 export async function buildJsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
@@ -8,6 +12,11 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
 
     if (hasValue(dotNetObject.id) && arcGisObjectRefs.hasOwnProperty(dotNetObject.id!)) {
         return arcGisObjectRefs[dotNetObject.id!];
+    }
+
+    if (hasValue(dotNetObject.apiKey) || (hasValue(dotNetObject.excludeApiKey) && dotNetObject.excludeApiKey)) {
+        esriConfig.apiKey = null;
+        // this will be re-added in GeoBlazor's `AuthenticationManager` on the next MapView.
     }
 
     switch (dotNetObject.type) {
@@ -565,15 +574,4 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
         default:
             return removeCircularReferences(jsObject);
     }
-}
-
-export async function preloadLayerTypes(layers: any[], viewId: string): Promise<string[]> {
-    let importedLayers: string[] = [];
-    for (const layer of layers) {
-        let _ = await buildJsLayer(layer, layer.id, viewId);
-        importedLayers.push(layer.type);
-        await disposeMapComponent(layer.id, viewId);
-    }
-    
-    return importedLayers;
 }
