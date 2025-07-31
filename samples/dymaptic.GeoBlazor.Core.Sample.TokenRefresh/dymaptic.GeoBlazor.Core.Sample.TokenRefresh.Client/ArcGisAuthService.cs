@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
 using System.Text.Json;
-namespace dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components;
+namespace dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client;
 
 /// <summary>
 ///     Service for managing ArcGIS authentication tokens.

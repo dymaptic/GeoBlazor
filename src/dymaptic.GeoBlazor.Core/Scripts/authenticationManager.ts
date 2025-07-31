@@ -42,12 +42,12 @@ export default class AuthenticationManager {
     }
     
     async isLoggedIn(): Promise<boolean> {
-        await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");
+        await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/portal/sharing");
         return true;
     }
 
     doLogin(): void {
-        IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
+        IdentityManager.getCredential(this.info?.portalUrl + "/portal/sharing");
     }
     
     doLogout(): void {
@@ -59,7 +59,7 @@ export default class AuthenticationManager {
         if (this.appId === undefined) {
             return esriConfig.apiKey as string;
         }
-        let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
+        let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/portal/sharing");
         return credential.token;
     }
     
@@ -67,7 +67,7 @@ export default class AuthenticationManager {
         if (this.appId === undefined) {
             return null;
         }
-        let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
+        let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/portal/sharing");
         return credential.expires ?? 0;
     }
     

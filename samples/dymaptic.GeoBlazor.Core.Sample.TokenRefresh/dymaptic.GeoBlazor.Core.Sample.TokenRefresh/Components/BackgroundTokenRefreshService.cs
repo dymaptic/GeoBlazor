@@ -1,4 +1,6 @@
-﻿namespace dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components
+﻿using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client;
+
+namespace dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components
 {
     public class BackgroundTokenRefreshService(IServiceProvider serviceProvider, IConfiguration config) : BackgroundService
     {

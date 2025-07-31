@@ -1,5 +1,6 @@
 using dymaptic.GeoBlazor.Core;
 using dymaptic.GeoBlazor.Core.Model;
+using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Pages;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components;
 using Microsoft.AspNetCore.StaticFiles;
