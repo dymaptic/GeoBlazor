@@ -15,6 +15,7 @@ builder.Services.AddScoped<ArcGisAuthService>();
 builder.Services.AddScoped<HttpClient>();
 
 builder.Services.AddGeoBlazor(builder.Configuration);
+builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
 
 var app = builder.Build();
 

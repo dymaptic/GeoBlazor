@@ -27,24 +27,14 @@ else
     {
         if (firstRender)
         {
-            // Get the token from the authentication service
             TokenResponse tokenResponse = await AuthService.GetTokenAsync(true);
-
             if (tokenResponse.Success && tokenResponse.AccessToken != null)
             {
-                // Register the token with the GeoBlazor AuthenticationManager
-                // This will allow the GeoBlazor maps to use the token for authentication
-                if (tokenResponse.Expires != null) await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires);
+                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires!);
                 _isInitialized = true;
-                StateHasChanged(); // Trigger a re-render to show the map
-            }
-            else
-            {
-                // Handle error (e.g., show a message to the user)
-                Console.WriteLine($"Error retrieving token: {tokenResponse.ErrorMessage}");
+                StateHasChanged();
             }
         }
-
     }
 
     private bool _isInitialized = false;
