@@ -13,7 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 public class GeometryEngineTests : TestRunnerBase
 {
     [Inject]
-    public GeometryEngine GeometryEngine { get; set; } = default!;
+    public required GeometryEngine GeometryEngine { get; set; }
 
     [TestMethod]
     public async Task TestBufferWithProjectedPoint()

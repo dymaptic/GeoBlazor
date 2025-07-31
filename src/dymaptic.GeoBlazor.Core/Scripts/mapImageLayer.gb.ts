@@ -159,18 +159,6 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         return generateSerializableJson(result);
     }
 
-    async fetchImage(extent: any,
-        width: any,
-        height: any,
-        options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
-        let jsExtent = buildJsExtent(extent) as any;
-        return await this.layer.fetchImage(jsExtent,
-            width,
-            height,
-            options);
-    }
-
     async findSublayerById(id: any): Promise<any> {
         let result = this.layer.findSublayerById(id);
         let { buildDotNetSublayer } = await import('./sublayer');

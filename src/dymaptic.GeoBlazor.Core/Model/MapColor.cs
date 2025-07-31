@@ -189,6 +189,17 @@ public class MapColor : IEquatable<MapColor>
         
         if (HexOrNameValue.StartsWith("#"))
         {
+            if (HexOrNameValue.Length == 9)
+            {
+                // Assume rgba format
+                // The ColorTranslator.FromHtml method does not support rgba format, so we parse it manually first
+                string alphaHex = HexOrNameValue.Substring(7, 2);
+                if (int.TryParse(alphaHex, NumberStyles.HexNumber, null, out int alphaValue))
+                {
+                    return Color.FromArgb(alphaValue,
+                        ColorTranslator.FromHtml(HexOrNameValue.Substring(0, 7)));
+                }
+            }
             return ColorTranslator.FromHtml(HexOrNameValue);
         }
         
