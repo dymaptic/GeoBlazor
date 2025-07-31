@@ -7,14 +7,14 @@
 <div class="form-group">
 
     <h2>Addresses To Locations method</h2>
-    <code>var locations =  _locations2 = await Location.AddressesToLocations([new Address("380 New York Street", "Redlands", "CA", "92373"), new Address("400 New York Street", "Redlands", "CA", "92373")]);</code>
+    <code>var locations = await Location.AddressesToLocations([new Address("380 New York Street", "Redlands", "CA", "92373"), new Address("400 New York Street", "Redlands", "CA", "92373")]);</code>
     <label>
 
         <button type="button" class="btn btn-primary" @onclick="AddressesToLocations">Addresses To Locations</button>
         <b>Address Candidates:</b>
         @foreach (var location in _locations2)
         {
-            <div>@location?.Address  @location?.Score</div>
+            <div>@location?.Address  @location?.Score - @location?.Location?.Latitude,@location?.Location?.Longitude</div>
         }
     </label>
 </div>
@@ -28,7 +28,7 @@
         <b>Address Candidates:</b>
         @foreach (var location in _locations1)
         {
-            <div>@location.Address  @location.Score</div>
+            <div>@location?.Address  @location?.Score - @location?.Location?.Latitude,@location?.Location?.Longitude</div>
         }
     </label>
 </div>
