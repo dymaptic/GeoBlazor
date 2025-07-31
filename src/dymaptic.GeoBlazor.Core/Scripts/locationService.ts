@@ -89,6 +89,9 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         } else if (typeof address === 'object' && address !== null) {
             // Handle object address (like {street, city, state, zone})
             params = {address: address} as locatorAddressToLocationsParams;
+        } else {
+            // Fallback: ensure params is always initialized
+            params = {address: {}} as locatorAddressToLocationsParams;
         }
 
         if (hasValue(categories)) {
