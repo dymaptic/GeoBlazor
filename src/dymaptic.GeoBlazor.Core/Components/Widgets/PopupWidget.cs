@@ -168,8 +168,10 @@ public partial class PopupWidget : Widget
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Graphic?>("getSelectedFeature",
-            CancellationTokenSource.Token);
+        IJSStreamReference streamRef = await JsComponentReference!.InvokeAsync<IJSStreamReference>(
+            "getSelectedFeature", CancellationTokenSource.Token);
+        SelectedFeature = await ReadJsStreamReference<Graphic?>(streamRef);
+        return SelectedFeature;
     }
 
     /// <summary>

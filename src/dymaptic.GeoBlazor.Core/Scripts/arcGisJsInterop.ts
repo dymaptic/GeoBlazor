@@ -219,10 +219,10 @@ export function setAssetsPath(path: string) {
 export function setTheme(theme: string | null, viewId): string | null {
     if (hasValue(theme)) {
         if (theme === 'dark') {
-            removeHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
+            removeHeadLink('/esri/themes/light/main.css');
             addHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`);
         } else {
-            removeHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`);
+            removeHeadLink('/esri/themes/dark/main.css');
             addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
         }
     } else if (checkHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`)) {
@@ -264,7 +264,8 @@ export function removeHeadLink(source: string) : boolean {
         return false;
     }
 
-    const link = document.querySelector(`link[href="${source}"]`);
+    // just match the end of the href to allow for versioning or different original sources
+    const link = document.querySelector(`link[href$="${source}"]`);
     if (link !== null) {
         link.remove();
         return true;

@@ -100,3 +100,46 @@ internal class LayerConverter : JsonConverter<Layer>
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
     }
 }
+
+internal class FullExtentConverter : JsonConverter<Extent>
+{
+    public override Extent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+
+        Utf8JsonReader cloneReader = reader;
+
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
+            IDictionary<string, object?> temp)
+        {
+            return null;
+        }
+
+        foreach (string propertyName in requiredProperties)
+        {
+            if (!temp.ContainsKey(propertyName) 
+                || temp[propertyName] is null or JsonElement { ValueKind: JsonValueKind.Null })
+            {
+                return null;
+            }
+        }
+        
+        return JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);
+    }
+
+    public override void Write(Utf8JsonWriter writer, Extent value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), options));
+    }
+    
+    private static readonly string[] requiredProperties =
+    [
+        nameof(Extent.Xmax).ToLowerInvariant(),
+        nameof(Extent.Xmin).ToLowerInvariant(),
+        nameof(Extent.Ymax).ToLowerInvariant(),
+        nameof(Extent.Ymin).ToLowerInvariant()
+    ];
+}
