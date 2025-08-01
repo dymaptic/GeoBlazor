@@ -270,12 +270,7 @@ public class LocationService : LogicComponent
     {
         IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url, addresses,
             countryCode, categories, locationType, outSpatialReference, requestOptions);
-        await using Stream stream = await streamRef.OpenReadStreamAsync(1_000_000_000L);
-        using var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        string json = Encoding.UTF8.GetString(ms.ToArray());
-
+        var json = await ConverJsStreamToString(streamRef);
         return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
     }
 
@@ -598,11 +593,7 @@ public class LocationService : LogicComponent
         IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url,
             addresses, addressSearchStringParameterName, countryCode, categories, locationType,
             outSpatialReference, requestOptions);
-        await using Stream stream = await streamRef.OpenReadStreamAsync(1_000_000_000L);
-        using var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        string json = Encoding.UTF8.GetString(ms.ToArray());
+        var json = await ConverJsStreamToString(streamRef);
 
         return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
     }
@@ -1244,11 +1235,7 @@ public class LocationService : LogicComponent
         IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
             categories, countryCode, forStorage, location, locationType, magicKey, maxLocations, outFields,
             outSpatialReference, searchExtent, requestOptions);
-        await using Stream stream = await streamRef.OpenReadStreamAsync(1_000_000_000L);
-        using var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        string json = Encoding.UTF8.GetString(ms.ToArray());
+        var json = await ConverJsStreamToString(streamRef);
 
         return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
     }
@@ -1602,7 +1589,7 @@ public class LocationService : LogicComponent
     ///     Additional options to be used for the data request 
     /// </param>
     /// <param name="addressSearchStringParameterName">
-    ///     the name of the single line address field, defaults to SearchString
+    ///     the name of the single line address field, defaults to Address
     /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories = null,
         string? countryCode = null, bool? forStorage = null, Point? location = null, LocationType? locationType = null,
@@ -1937,13 +1924,9 @@ public class LocationService : LogicComponent
     {
         IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
             addressSearchStringParameterName, categories, countryCode, forStorage, location, locationType, magicKey,
-            maxLocations,
-            outFields, outSpatialReference, searchExtent, requestOptions);
-        await using Stream stream = await streamRef.OpenReadStreamAsync(1_000_000_000L);
-        using var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        string json = Encoding.UTF8.GetString(ms.ToArray());
+            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions);
+
+        var json = await ConverJsStreamToString(streamRef);
 
         return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
     }
@@ -2202,6 +2185,14 @@ public class LocationService : LogicComponent
     {
         return await InvokeAsync<List<SuggestionResult>>("suggestLocations", url, location, text, categories,
             requestOptions);
+    }
+
+    private async Task<string> ConverJsStreamToString(IJSStreamReference streamRef)
+    {
+        await using Stream stream = await streamRef.OpenReadStreamAsync(1_000_000_000L);
+        using var reader = new StreamReader(stream, Encoding.UTF8);
+
+        return await reader.ReadToEndAsync();
     }
 
     private readonly JsonSerializerOptions _jsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, };
