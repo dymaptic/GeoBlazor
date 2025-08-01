@@ -1,55 +1,115 @@
 ﻿@page "/"
 @rendermode InteractiveAuto
 
-<PageTitle>Home</PageTitle>
+<PageTitle>GeoBlazor Token Refresh Sample</PageTitle>
 
-@* <MapView Style="height:500px; width:100%;" OnLayerViewCreate="OnLayerViewCreate">
-    <WebMap>
-        <PortalItem PortalItemId="70b726074af04a7e9839d8a07f64c039" />
-    </WebMap>
-    <ExpandWidget Expanded="true" Position="OverlayPosition.TopRight">
-        <BookmarksWidget OnBookmarkSelect="OnBookmarkClick"
-                         DragEnabled="true">
-            <BookmarksVisibleElements EditBookmarkButton="true"
-                                      AddBookmarkButton="true" />
-        </BookmarksWidget>
-    </ExpandWidget>
-</MapView> *@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">GeoBlazor Token Refresh Sample</h1>
+            
+            <!-- Documentation Section -->
+            <div class="documentation-section mb-4">
+                <p><strong>Token Authentication Process</strong></p>
+                <p>
+                    <strong>This sample demonstrates how to implement automatic token refresh in GeoBlazor applications 
+                    using server-side authentication with ArcGIS Portal or ArcGIS Online.</strong>  
+                    For more details on setting up OAuth credentials in Portal or ArcGIS Online please refer to the following tutorial: 
+                    <a href="https://developers.arcgis.com/documentation/security-and-authentication/app-authentication/tutorials/create-oauth-credentials-app-auth" target="_blank">Create OAuth credentials for app authentication</a>
+                </p>
 
-<div class="welcome-message" style="margin-top: 1rem;">
-    <h2>Welcome to Your GeoBlazor Adventure!</h2>
-    <p>
-        You're looking at a fully interactive web mapping application powered by GeoBlazor. Try these features to get started:
-    </p>
-        <ul>
-            <li>Zoom and pan the map using your mouse or touch gestures</li>
-            <li>Click the Bookmarks widget in the top-right to explore predefined locations</li>
-            <li>Create your own bookmarks to save your favorite places</li>
-        </ul>
-    <p>
-        Ready to customize? Check out the <a href="https://docs.geoblazor.com" target="_blank">GeoBlazor documentation</a> 
-        and <a href="https://samples.geoblazor.com" target="_blank">samples</a> to unlock more possibilities!
-    </p>
+                <p><strong>1. Configuration Setup</strong></p>
+                <p>
+                    Configure your ArcGIS authentication settings in <code>appsettings.json</code> or user secrets:
+                </p>
+                
+                <div class="alert alert-info">
+                    <strong>Current Server Configuration:</strong>
+                    <pre><code>@_currentConfig</code></pre>
+                </div>
+
+                <div class="alert alert-warning">
+                    <strong>Portal vs ArcGIS Online Configuration</strong>
+                    <ul>
+                        <li><strong>ArcGIS Online:</strong> Leave <code>ArcGISPortalUrl</code> set to <code>https://www.arcgis.com/</code> or leave empty since this is the default value in code</li>
+                        <li><strong>Enterprise Portal:</strong> Set <code>ArcGISPortalUrl</code> to your portal URL and <strong>include <code>/portal/</code></strong> at the end as shown above</li>
+                    </ul>
+                </div>
+
+                <p><strong>2. Authentication Flow</strong></p>
+                <p>
+                    The authentication process involves two main components working together:
+                </p>
+                
+                <p><strong>ArcGisAuthService.cs</strong></p>
+                <ul>
+                    <li>Makes HTTP requests to ArcGIS REST API</li>
+                    <li>Handles client credentials flow</li>
+                    <li>Caches tokens to local file</li>
+                    <li>Manages token expiration</li>
+                </ul>
+
+                <p><strong>AuthenticationManager.cs/.ts</strong></p>
+                <ul>
+                    <li>C# wrapper around TypeScript implementation</li>
+                    <li>Integrates with ArcGIS Maps SDK for JavaScript</li>
+                    <li>Registers tokens with ArcGIS Identity Manager</li>
+                    <li>Provides authentication state management</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-primary">
+                <strong>Ready to Test?</strong>
+                <p class="mb-0">
+                    Navigate to the <strong><a href="/map" class="alert-link">Map</a></strong> page to test the token authentication 
+                    with interactive buttons and see the authenticated map in action!
+                </p>
+            </div>
+            
+            <div>
+                <p>
+                    Once your tokens are configured and working, navigate to the <strong>Map</strong> page 
+                    to see the fully authenticated GeoBlazor map in action!
+                </p>
+                <ul>
+                    <li>Automatic token refresh keeps your map sessions active</li>
+                    <li>Secure server-side authentication protects your credentials</li>
+                    <li>Seamless integration with ArcGIS Portal or ArcGIS Online</li>
+                </ul>
+                <p>
+                    Ready to learn more? Check out the <a href="https://docs.geoblazor.com" target="_blank">GeoBlazor documentation</a> 
+                    and <a href="https://samples.geoblazor.com" target="_blank">samples</a> to unlock more possibilities!
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 
 @code {
+    private string _currentConfig = "";
 
-    private void OnLayerViewCreate(LayerViewCreateEvent evt)
+    protected override void OnInitialized()
     {
-        if (evt.Layer is not FeatureLayer) return;
-        _layerView = evt.LayerView as FeatureLayerView;
+        // Show the template configuration as it appears in the sample appsettings.json
+        var configLines = new List<string>
+        {
+            "{",
+            "  \"Logging\": {",
+            "    \"LogLevel\": {",
+            "      \"Default\": \"Information\",",
+            "      \"Microsoft.AspNetCore\": \"Warning\"",
+            "    }",
+            "  },",
+            "  \"ArcGISAppId\": \"Your_ARCGIS_APP_ID\",",
+            "  \"ArcGISClientSecret\": \"Your_ARCGIS_CLIENT_SECRET\",",
+            "  \"ArcGISPortalUrl\": \"https://your-portal-url/portal/\",",
+            "  \"ArcGISAppTokenCacheFile\": \"arcgis_token_cache-file-name.json\",",
+            "  \"ArcGISTokenExpirationMinutes\": \"1440\",",
+            "  \"GeoBlazor\": {",
+            "    \"RegistrationKey\": \"YOUR_GEO_BLAZOR_REGISTRATION_KEY\"",
+            "  }",
+            "}"
+        };
+        _currentConfig = string.Join("\n", configLines);
     }
-
-    private void OnBookmarkClick(BookmarkSelectEvent eventArgs)
-    {
-        if (_layerView is null) return;
-
-        var hurricaneName = eventArgs.Bookmark.Name;
-
-        var featureEffect = new FeatureEffect([new Effect("grayscale(100%) opacity(30%)")],
-            null, new FeatureFilter(where: $"Name = '{hurricaneName!.ToUpper()}'"));
-        _ = _layerView.SetFeatureEffect(featureEffect);
-    }
-
-    private FeatureLayerView? _layerView;
 }

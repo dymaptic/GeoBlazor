@@ -2,31 +2,72 @@
 @using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client
 @rendermode InteractiveServer
 
-<div class="token-test-panel mb-3">
-    <h4>Token Testing Panel</h4>
-    <button class="btn btn-primary me-2" @onclick="TestGetToken" disabled="@_isTestingToken">
-        @if (_isTestingToken)
-        {
-            <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-        }
-        Get Token
-    </button>
-    <button class="btn btn-secondary me-2" @onclick="CheckAuthStatus" disabled="@_isTestingToken">Check Auth Status</button>
-    <button class="btn btn-info me-2" @onclick="GetTokenExpires" disabled="@_isTestingToken">Get Token Expires</button>
-    
-    @if (!string.IsNullOrEmpty(_tokenTestResult))
-    {
-        <div class="alert alert-info mt-2">
-            <strong>Result:</strong> @_tokenTestResult
+<!-- Token Testing Panel -->
+<div class="token-test-panel mb-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>Token Testing Panel</h4>
+            <p>Please replace the portal item found in the razor markup on line 80 in this razor page with a portal item in ArcGIS Online
+                or your ArcGIS Enterprise portal that you have access to. The page should automatically try to use the authentication credentials
+                which you have entered in appsettings or user secrets to initiate a token request from either ArcGIS Online or from your portal.</p>
         </div>
-    }
-    
-    @if (!string.IsNullOrEmpty(_errorMessage))
-    {
-        <div class="alert alert-danger mt-2">
-            <strong>Error:</strong> @_errorMessage
+        <div class="card-body">
+            <div class="btn-group mb-3" role="group">
+                <button class="btn btn-primary" @onclick="TestGetToken" disabled="@_isTestingToken">
+                    @if (_isTestingToken)
+                    {
+                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                    }
+                    Get Token
+                </button>
+                <button class="btn btn-secondary" @onclick="CheckAuthStatus" disabled="@_isTestingToken">Check Auth Status</button>
+                <button class="btn btn-info" @onclick="GetTokenExpires" disabled="@_isTestingToken">Get Token Expires</button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h6>Get Token</h6>
+                            <small>Tests the complete flow: ArcGisAuthService → AuthenticationManager registration → token retrieval</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-secondary">
+                        <div class="card-body">
+                            <h6>Check Auth Status</h6>
+                            <small>Calls AuthenticationManager.IsLoggedIn() to verify authentication state</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-info">
+                        <div class="card-body">
+                            <h6>Get Token Expires</h6>
+                            <small>Retrieves token expiration from AuthenticationManager.GetTokenExpirationDateTime()</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            @if (!string.IsNullOrEmpty(_tokenTestResult))
+            {
+                <div class="alert alert-success mt-3">
+                    <h6>Test Result:</h6>
+                    <pre class="mb-0">@_tokenTestResult</pre>
+                </div>
+            }
+            
+            @if (!string.IsNullOrEmpty(_errorMessage))
+            {
+                <div class="alert alert-danger mt-3">
+                    <h6>Error:</h6>
+                    <pre class="mb-0">@_errorMessage</pre>
+                </div>
+            }
         </div>
-    }
+    </div>
 </div>
 
 @if (!_isInitialized)
@@ -50,6 +91,11 @@ else
 
     [Inject]
     public required AuthenticationManager AuthenticationManager { get; set; }
+
+    private bool _isInitialized = false;
+    private bool _isTestingToken = false;
+    private string _tokenTestResult = "";
+    private string _errorMessage = "";
 
     // GeoBlazor AuthenticationManager cannot initialize until after the first render, when JavaScript interop is available.
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -122,6 +168,17 @@ else
         {
             bool isLoggedIn = await AuthenticationManager.IsLoggedIn();
             _tokenTestResult = $"Auth Status: {(isLoggedIn ? "✅ Logged In" : "❌ Not Logged In")}";
+            
+            if (isLoggedIn)
+            {
+                _tokenTestResult += "\n📋 Authentication Manager indicates user is authenticated";
+                _tokenTestResult += "\n🔗 Ready for ArcGIS API calls and map operations";
+            }
+            else
+            {
+                _tokenTestResult += "\n⚠️ No valid authentication found";
+                _tokenTestResult += "\n💡 Try running 'Get Token' first to authenticate";
+            }
         }
         catch (Exception ex)
         {
@@ -146,7 +203,19 @@ else
             DateTime? expires = await AuthenticationManager.GetTokenExpirationDateTime();
             if (expires.HasValue)
             {
+                var timeRemaining = expires.Value - DateTime.UtcNow;
                 _tokenTestResult = $"Token Expires: {expires.Value:yyyy-MM-dd HH:mm:ss} UTC";
+                
+                if (timeRemaining.TotalMinutes > 0)
+                {
+                    _tokenTestResult += $"\nTime Remaining: {timeRemaining.Days}d {timeRemaining.Hours}h {timeRemaining.Minutes}m";
+                    _tokenTestResult += $"\n✅ Token is still valid";
+                }
+                else
+                {
+                    _tokenTestResult += $"\n❌ Token has expired ({Math.Abs(timeRemaining.TotalMinutes):F0} minutes ago)";
+                    _tokenTestResult += $"\n💡 Run 'Get Token' to refresh";
+                }
             }
             else
             {
@@ -163,9 +232,4 @@ else
             StateHasChanged();
         }
     }
-
-    private bool _isInitialized = false;
-    private bool _isTestingToken = false;
-    private string _tokenTestResult = "";
-    private string _errorMessage = "";
 }
