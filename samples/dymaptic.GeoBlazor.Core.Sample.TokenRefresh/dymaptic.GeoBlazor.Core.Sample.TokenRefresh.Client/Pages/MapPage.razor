@@ -1,15 +1,16 @@
 ﻿@page "/map"
 @using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client
-@rendermode InteractiveServer
+@using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Models
+@rendermode InteractiveWebAssembly
 
 <!-- Token Testing Panel -->
 <div class="token-test-panel mb-4">
     <div class="card">
         <div class="card-header">
             <h4>Token Testing Panel</h4>
-            <p>Please replace the portal item found in the razor markup on line 80 in this razor page with a portal item in ArcGIS Online
-                or your ArcGIS Enterprise portal that you have access to.  The page should automatically try to use the authentication credentials
-                which you have entered in appsettings or user secrets to initiate a token request from either ArcGIS Online or from your portal.</p>
+            <p>This panel demonstrates the token authentication flow. The map below uses a secured portal item
+                that requires authentication. Replace the PortalItemId in the Basemap component with a portal item 
+                from your ArcGIS Online or Enterprise portal that you have access to.</p>
         </div>
         <div class="card-body">
             <div class="btn-group mb-3" role="group">
@@ -87,7 +88,7 @@ else
 
 @code {
     [Inject]
-    public required ArcGisAuthService AuthService { get; set; }
+    public required ArcGisAuthServiceWasm AuthService { get; set; }
 
     [Inject]
     public required AuthenticationManager AuthenticationManager { get; set; }
@@ -97,7 +98,9 @@ else
     private string _tokenTestResult = "";
     private string _errorMessage = "";
 
-    // GeoBlazor AuthenticationManager cannot initialize until after the first render, when JavaScript interop is available.
+    // Initialize authentication after first render when JavaScript interop is available.
+    // This method calls the server API endpoint (/api/auth/token) to get a fresh token,
+    // then registers it with GeoBlazor's AuthenticationManager for use with ArcGIS services.
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)

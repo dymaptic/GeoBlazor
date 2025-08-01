@@ -1,4 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client;
+﻿using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Models;
+using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Services;
+
 
 namespace dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components
 {
@@ -15,8 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components
 
                     if (!tokenResponse.Success)
                     {
-                        // Handle error (e.g., log it)
-                        Console.WriteLine(tokenResponse);
+                        Console.WriteLine($"Token refresh failed: {tokenResponse.ErrorMessage}");
                     }
                 }
 

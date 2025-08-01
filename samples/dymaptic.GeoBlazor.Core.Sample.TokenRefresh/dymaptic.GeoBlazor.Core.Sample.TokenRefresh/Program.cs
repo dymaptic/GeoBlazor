@@ -1,5 +1,6 @@
 using dymaptic.GeoBlazor.Core;
 using dymaptic.GeoBlazor.Core.Model;
+using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Services;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Pages;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components;
@@ -12,7 +13,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddControllers();
+
 builder.Services.AddScoped<ArcGisAuthService>();
+builder.Services.AddScoped<ArcGisAuthServiceWasm>();
 builder.Services.AddScoped<HttpClient>();
 
 builder.Services.AddGeoBlazor(builder.Configuration);
@@ -43,6 +47,8 @@ app.MapStaticAssets();
 FileExtensionContentTypeProvider provider = new() { Mappings = { [".wsv"] = "application/octet-stream" } };
 app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
 #endif
+
+app.MapControllers();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
