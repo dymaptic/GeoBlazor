@@ -2,6 +2,33 @@
 @using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client
 @rendermode InteractiveServer
 
+<div class="token-test-panel mb-3">
+    <h4>Token Testing Panel</h4>
+    <button class="btn btn-primary me-2" @onclick="TestGetToken" disabled="@_isTestingToken">
+        @if (_isTestingToken)
+        {
+            <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+        }
+        Get Token
+    </button>
+    <button class="btn btn-secondary me-2" @onclick="CheckAuthStatus" disabled="@_isTestingToken">Check Auth Status</button>
+    <button class="btn btn-info me-2" @onclick="GetTokenExpires" disabled="@_isTestingToken">Get Token Expires</button>
+    
+    @if (!string.IsNullOrEmpty(_tokenTestResult))
+    {
+        <div class="alert alert-info mt-2">
+            <strong>Result:</strong> @_tokenTestResult
+        </div>
+    }
+    
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger mt-2">
+            <strong>Error:</strong> @_errorMessage
+        </div>
+    }
+</div>
+
 @if (!_isInitialized)
 {
     <p>Loading...</p>
@@ -39,5 +66,106 @@ else
         }
     }
 
+    private async Task TestGetToken()
+    {
+        _isTestingToken = true;
+        _tokenTestResult = "";
+        _errorMessage = "";
+        StateHasChanged();
+
+        try
+        {
+            // Test the ArcGisAuthService first
+            TokenResponse tokenResponse = await AuthService.GetTokenAsync(true);
+            if (tokenResponse.Success && tokenResponse.AccessToken != null)
+            {
+                _tokenTestResult = $"✅ ArcGisAuthService Success!\nToken (first 20 chars): {tokenResponse.AccessToken[..Math.Min(20, tokenResponse.AccessToken.Length)]}...\nExpires: {tokenResponse.Expires}";
+                
+                // Now test the AuthenticationManager
+                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires!);
+                
+                // Try to get the token back from AuthenticationManager
+                string? authManagerToken = await AuthenticationManager.GetCurrentToken();
+                if (!string.IsNullOrEmpty(authManagerToken))
+                {
+                    _tokenTestResult += $"\n✅ AuthenticationManager token retrieved successfully!";
+                }
+                else
+                {
+                    _tokenTestResult += $"\n⚠️ AuthenticationManager returned null token";
+                }
+            }
+            else
+            {
+                _errorMessage = $"❌ Token request failed: {tokenResponse.ErrorMessage}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"❌ Exception occurred: {ex.Message}";
+        }
+        finally
+        {
+            _isTestingToken = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task CheckAuthStatus()
+    {
+        _isTestingToken = true;
+        _tokenTestResult = "";
+        _errorMessage = "";
+        StateHasChanged();
+
+        try
+        {
+            bool isLoggedIn = await AuthenticationManager.IsLoggedIn();
+            _tokenTestResult = $"Auth Status: {(isLoggedIn ? "✅ Logged In" : "❌ Not Logged In")}";
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"❌ Error checking auth status: {ex.Message}";
+        }
+        finally
+        {
+            _isTestingToken = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task GetTokenExpires()
+    {
+        _isTestingToken = true;
+        _tokenTestResult = "";
+        _errorMessage = "";
+        StateHasChanged();
+
+        try
+        {
+            DateTime? expires = await AuthenticationManager.GetTokenExpirationDateTime();
+            if (expires.HasValue)
+            {
+                _tokenTestResult = $"Token Expires: {expires.Value:yyyy-MM-dd HH:mm:ss} UTC";
+            }
+            else
+            {
+                _tokenTestResult = "Token expiration not available (possibly using API key)";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"❌ Error getting token expiration: {ex.Message}";
+        }
+        finally
+        {
+            _isTestingToken = false;
+            StateHasChanged();
+        }
+    }
+
     private bool _isInitialized = false;
+    private bool _isTestingToken = false;
+    private string _tokenTestResult = "";
+    private string _errorMessage = "";
 }
