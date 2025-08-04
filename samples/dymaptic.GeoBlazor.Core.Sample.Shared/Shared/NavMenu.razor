@@ -7,7 +7,7 @@
     </div>
 </div>
 <hr>
-<div id="nav-container" @ref="_navbar" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div id="nav-container" @ref="Navbar" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav-list">
         @foreach (PageLink page in FilteredPages)
         {
