@@ -22,11 +22,6 @@ jobs:
       with:
         dotnet-version: 9.x
 
-    - name: Setup Nuget
-      uses: nuget/setup-nuget@v2
-      with:
-        nuget-version: 'latest'
-
       # This script queries nuget for the current version, and increments the build number by one
     - name: Bump Version
       shell: pwsh

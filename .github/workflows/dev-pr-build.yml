@@ -29,11 +29,6 @@ jobs:
       with:
         dotnet-version: 9.x
 
-    - name: Setup Nuget
-      uses: nuget/setup-nuget@v2
-      with:
-        nuget-version: 'latest'
-
     - name: Bump Version
       shell: pwsh
       run: |
