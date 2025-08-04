@@ -16,9 +16,9 @@ public partial class NavMenu: IDisposable
     public string? SearchText { get; set; }
     [Parameter]
     public bool EnterKeyPressed { get; set; }
-    
-    private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-    private IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(SearchText)
+
+    protected string? NavMenuCssClass => CollapseNavMenu ? "collapse" : null;
+    protected IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(SearchText)
         ? Pages
         : Pages.Where(p => p.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
     
@@ -49,7 +49,7 @@ public partial class NavMenu: IDisposable
                 .Replace("source-code/", "");
             await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
             _dotNetRef = DotNetObjectReference.Create(this);
-            await JsRuntime.InvokeVoidAsync("trackScrollPosition", _navbar, _dotNetRef);
+            await JsRuntime.InvokeVoidAsync("trackScrollPosition", Navbar, _dotNetRef);
             StateHasChanged();
         }
         else
@@ -68,12 +68,12 @@ public partial class NavMenu: IDisposable
         }
     }
 
-    private void ToggleNavMenu()
+    protected void ToggleNavMenu()
     {
-        _collapseNavMenu = !_collapseNavMenu;
+        CollapseNavMenu = !CollapseNavMenu;
     }
 
-    private async Task NavigateTo(string href)
+    protected async Task NavigateTo(string href)
     {
         if (href == NavigationManager.ToBaseRelativePath(NavigationManager.Uri))
         {
@@ -91,8 +91,8 @@ public partial class NavMenu: IDisposable
         });
     }
 
-    private bool _collapseNavMenu = true;
-    private ElementReference? _navbar;
+    protected virtual bool CollapseNavMenu { get; set; } = true;
+    protected ElementReference? Navbar;
     private DotNetObjectReference<NavMenu>? _dotNetRef;
     private double _scrollTop;
     public virtual PageLink[] Pages =>

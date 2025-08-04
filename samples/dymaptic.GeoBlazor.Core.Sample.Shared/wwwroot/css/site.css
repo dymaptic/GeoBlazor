@@ -1152,6 +1152,12 @@ input[type=radio] {
     .spaced-row {
         flex-direction: column;
     }
+    
+    body {
+        .btn {
+            padding: 1rem;
+        }
+    }
 }
 
 /*noinspection CssInvalidMediaFeature*/
