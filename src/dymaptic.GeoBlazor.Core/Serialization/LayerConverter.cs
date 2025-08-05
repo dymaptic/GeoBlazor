@@ -86,6 +86,8 @@ internal class LayerConverter : JsonConverter<Layer>
 
                     break;
             }
+
+            Debug.WriteLine("Unknown layer type encountered: " + typeValue);
         }
 
         temp.TryGetValue("arcGisLayerId", out object? arcGisLayerIdValue);

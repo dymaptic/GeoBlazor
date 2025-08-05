@@ -382,14 +382,12 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         if (mapComponent instanceof ArcgisMap) {
             if (mapType === 'webmap') {
                 let {buildJsWebMap} = await import('./webMap');
-                const webMap = await buildJsWebMap(mapObject, null, id);
-                mapComponent.map = webMap;
+                mapComponent.map = await buildJsWebMap(mapObject, null, id);
             } else {
-                const map = new Map({
+                mapComponent.map = new Map({
                     basemap: basemap,
                     ground: mapObject.ground
                 });
-                mapComponent.map = map;
             }
             if (!mapComponent.ready) {
                 await mapComponent.viewOnReady();
@@ -400,14 +398,14 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             if (mapComponent instanceof ArcgisScene) {
             if (mapType === 'webscene') {
                 let {buildJsWebScene} = await import('./webScene');
-                const webScene = await buildJsWebScene(mapObject, null, id);
-                mapComponent.map = webScene;
+                mapComponent.map = await buildJsWebScene(mapObject, null, id);
             } else {
-                const scene = new Map({
+                mapComponent.map = new Map({
                     basemap: basemap,
-                    ground: mapObject.ground
+                    // a ground is required for a SceneView, so we set a default one if none is provided
+                    // TODO: Make Ground an object in GeoBlazor, give it a default value for Scenes
+                    ground: mapObject.ground ?? 'world-elevation'
                 });
-                mapComponent.map = scene;
             }
             if (!mapComponent.ready) {
                 await mapComponent.viewOnReady();

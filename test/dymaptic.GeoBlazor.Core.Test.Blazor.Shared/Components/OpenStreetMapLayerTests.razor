@@ -12,7 +12,7 @@
     public async Task TestCanRenderOpenStreetMapLayerWithUrlTemplate(Action renderHandler)
     {
         WebTileLayer? layer = null;
-        string[] subdomains = new[] { "a", "b", "c" };
+        string[] subdomains = ["a", "b", "c"];
         AddMapRenderFragment(
     @<SceneView class="map-view"
                     Zoom="1"
