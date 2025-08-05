@@ -192,5 +192,6 @@ public class SceneView : MapView
             EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
             PopupEnabled, Theme?.ToString().ToLowerInvariant(), ZIndex, Tilt);
         await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
+        CancellationTokenSource = new CancellationTokenSource();
     }
 }

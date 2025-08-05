@@ -2453,6 +2453,7 @@ public partial class MapView : MapComponent
             EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
             Theme?.ToString().ToLowerInvariant());
         await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
+        CancellationTokenSource = new CancellationTokenSource();
     }
 
     private async Task SetTheme()

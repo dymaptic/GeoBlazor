@@ -975,7 +975,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Creates a cancellation token to control external calls
     /// </summary>
-    protected internal readonly CancellationTokenSource CancellationTokenSource = new();
+    protected internal CancellationTokenSource CancellationTokenSource = new();
     
 #region Events
 
