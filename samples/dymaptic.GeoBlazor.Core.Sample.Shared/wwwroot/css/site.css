@@ -1002,6 +1002,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     height: 600px;
     max-height: 65vh;
     width: 100%;
+    min-width: 400px;
 }
 
 .map-wrapper {

@@ -313,7 +313,7 @@ export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
     return new LocatorWrapper(locator);
 }
 
-export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
+export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetReference: any, long: number | null, lat: number | null,
                                    rotation: number, mapObject: any, zoom: number | null, scale: number,
                                    mapType: string, widgets: any[], graphics: any,
                                    spatialReference: any, constraints: any, extent: any, backgroundColor: any,
@@ -333,6 +333,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         checkConnectivity(id);
+
+        if (abortSignal.aborted) {
+            return;
+        }
         
         dotNetRefs[id] = dotNetRef;
         let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${id}`) as ArcgisMap | ArcgisScene;
@@ -369,6 +373,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             let {buildJsSpatialReference} = await import('./spatialReference');
             spatialRef = buildJsSpatialReference(spatialReference) as SpatialReference;
             mapComponent.spatialReference = spatialRef;
+        }
+
+        if (abortSignal.aborted) {
+            return;
         }
         
         if (mapComponent instanceof ArcgisMap) {
@@ -415,16 +423,30 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 } as Camera
             }
         }
+
+        if (abortSignal.aborted) {
+            return;
+        }
         
         view = mapComponent.view;
+        
+        if (!view.ui.view) {
+            // this state happens after an internal ArcGIS error, we need to reload everything
+            mapComponent.destroy();
+            throw new Error(`Map component view is in an invalid state. This often occurs after an error on navigation. We suggest catching this exception and re-rendering the MapView.`);
+        }
 
-        if (!hasValue(view.container)) {
+        if (!hasValue(view.container) || abortSignal.aborted) {
             // someone navigated away or rerendered the page, the view is no longer valid
             return;
         }
 
         if (hasValue(theme)) {
             setViewTheme(theme!, id);
+        }
+
+        if (abortSignal.aborted) {
+            return;
         }
 
         if (hasValue(backgroundColor)) {
@@ -440,19 +462,41 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         arcGisObjectRefs[id] = view;
+
+        if (abortSignal.aborted) {
+            return;
+        }
+        
         await dotNetRef.invokeMethodAsync('OnJsViewInitialized');
-        waitForRender(id, dotNetRef);
+
+        if (abortSignal.aborted) {
+            return;
+        }
+        
+        waitForRender(id, dotNetRef, abortSignal);
 
         if (hasValue(highlightOptions)) {
             view.highlightOptions = highlightOptions;
         }
 
+        if (abortSignal.aborted) {
+            return;
+        }
+
         await setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers, id);
 
+        if (abortSignal.aborted) {
+            return;
+        }
+        
         // popup widget needs to be registered before adding layers to not overwrite the popupTemplates
         const popupWidget = widgets.find(w => w.type === 'popup');
         if (hasValue(popupWidget)) {
             await addWidget(popupWidget, id);
+        }
+
+        if (abortSignal.aborted) {
+            return;
         }
 
         if (hasValue(mapObject.layers)) {
@@ -460,16 +504,26 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             for (let i = mapObject.layers.length - 1; i >= 0; i--) {
                 const layerObject = mapObject.layers[i];
                 await addLayer(layerObject, id);
+                if (abortSignal.aborted) {
+                    return;
+                }
             }
         }
 
         for (const widget of widgets.filter(w => w.type !== 'popup')) {
             await addWidget(widget, id);
+            if (abortSignal.aborted) {
+                return;
+            }
         }
 
         for (let i = 0; i < graphics.length; i++) {
             const graphicObject = graphics[i];
             await addGraphic(graphicObject, id, null);
+        }
+
+        if (abortSignal.aborted) {
+            return;
         }
 
         if (view instanceof MapView) {
@@ -502,9 +556,16 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                     (view as MapView).zoom = zoom as number;
                 }
             }
+
+            if (abortSignal.aborted) {
+                return;
+            }
         }
     }
     catch (e) {
+        if (abortSignal.aborted) {
+            return;
+        }
         throw e;
     } finally {
         await setCursor('unset');
@@ -1760,7 +1821,7 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
     return projectOperator.execute(center, spatialReference) as Point;
 }
 
-function waitForRender(viewId: string, dotNetRef: any): void {
+function waitForRender(viewId: string, dotNetRef: any, abortSignal: AbortSignal): void {
     const view = arcGisObjectRefs[viewId] as View;
 
     try {
@@ -1768,7 +1829,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             let isRendered = false;
             let rendering = false;
             const interval = setInterval(async () => {
-                if (view === undefined || view === null) {
+                if (view === undefined || view === null || abortSignal.aborted) {
                     clearInterval(interval);
                     return;
                 }
@@ -1799,7 +1860,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }, 100);
         }).catch((error) => !promiseUtils.isAbortError(error) && console.error(error));
     } catch (error: any) {
-        if (!promiseUtils.isAbortError(error)) {
+        if (!promiseUtils.isAbortError(error) && !abortSignal.aborted) {
             console.error(error);
         }
     }

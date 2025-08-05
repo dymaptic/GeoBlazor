@@ -266,7 +266,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public void OnJavascriptError(JavascriptError error)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
 #if DEBUG
         ErrorMessage = error.Message?.Replace("\n", "<br>") ?? error.Stack;
         StateHasChanged();
@@ -311,7 +311,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptClick(ClickEvent clickEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnClick.InvokeAsync(clickEvent);
     }
 
@@ -330,7 +330,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptDoubleClick(ClickEvent clickEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         ExtentChangedInJs = true;
         await OnDoubleClick.InvokeAsync(clickEvent);
     }
@@ -350,7 +350,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptImmediateClick(ClickEvent clickEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnImmediateClick.InvokeAsync(clickEvent);
     }
 
@@ -369,7 +369,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptImmediateDoubleClick(ClickEvent clickEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnImmediateDoubleClick.InvokeAsync(clickEvent);
     }
 
@@ -388,7 +388,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptHold(ClickEvent holdEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnHold.InvokeAsync(holdEvent);
     }
 
@@ -407,7 +407,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptBlur(BlurEvent blurEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnBlur.InvokeAsync(blurEvent);
     }
 
@@ -426,7 +426,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptFocus(FocusEvent focusEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnFocus.InvokeAsync(focusEvent);
     }
 
@@ -445,7 +445,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptDrag(DragEvent dragEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         ExtentChangedInJs = true;
         await OnDrag.InvokeAsync(dragEvent);
     }
@@ -469,7 +469,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptPointerDown(PointerEvent pointerEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         PointerDown = true;
         await OnPointerDown.InvokeAsync(pointerEvent);
     }
@@ -492,7 +492,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptPointerEnter(PointerEvent pointerEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnPointerEnter.InvokeAsync(pointerEvent);
     }
 
@@ -514,7 +514,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptPointerLeave(PointerEvent pointerEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnPointerLeave.InvokeAsync(pointerEvent);
     }
 
@@ -536,7 +536,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptPointerMove(PointerEvent pointerEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnPointerMove.InvokeAsync(pointerEvent);
     }
 
@@ -565,7 +565,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptPointerUp(PointerEvent pointerEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         PointerDown = false;
         await OnPointerUp.InvokeAsync(pointerEvent);
     }
@@ -588,7 +588,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptKeyDown(KeyDownEvent keyDownEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnKeyDown.InvokeAsync(keyDownEvent);
     }
 
@@ -610,7 +610,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptKeyUp(KeyUpEvent keyUpEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnKeyUp.InvokeAsync(keyUpEvent);
     }
 
@@ -629,7 +629,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJsViewInitialized()
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnViewInitialized.InvokeAsync();
     }
 
@@ -645,7 +645,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJsViewRendered()
     {
-        if (_isDisposed || _waitingForRender) return;
+        if (IsDisposed || _waitingForRender) return;
         
         _waitingForRender = true;
 
@@ -673,7 +673,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptSpatialReferenceChanged(SpatialReference spatialReference)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnSpatialReferenceChanged.InvokeAsync(spatialReference);
     }
 
@@ -690,7 +690,7 @@ public partial class MapView : MapComponent
     public virtual async Task OnJavascriptExtentChanged(Extent extent, Point? center, double zoom, double scale,
         double? rotation = null, double? tilt = null)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         // if extents are set, but don't match, that means the change was done JS-side
         if (Extent is not null && !extent.Equals(Extent))
         {
@@ -722,7 +722,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptResize(ResizeEvent resizeEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnResize.InvokeAsync(resizeEvent);
     }
 
@@ -738,7 +738,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptMouseWheel(MouseWheelEvent mouseWheelEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         ExtentChangedInJs = true;
         await OnMouseWheel.InvokeAsync(mouseWheelEvent);
     }
@@ -755,7 +755,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public void OnJavascriptLayerCreateChunk(string layerUid, string chunk, int chunkIndex)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         if (chunkIndex == 0)
         {
             _layerCreateData[layerUid] = new StringBuilder(chunk);
@@ -772,7 +772,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public void OnJavascriptLayerViewCreateChunk(string layerUid, string chunk, int chunkIndex)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         if (chunkIndex == 0)
         {
             _layerViewCreateData[layerUid] = new StringBuilder(chunk);
@@ -790,7 +790,7 @@ public partial class MapView : MapComponent
     public async Task<Guid?> OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid,
         IJSObjectReference layerRef, IJSObjectReference layerViewRef, bool isBasemapLayer, bool isReferenceLayer)
     {
-        if (_isDisposed) return null;
+        if (IsDisposed) return null;
         try
         {
             JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
@@ -821,7 +821,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task<Guid?> OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent layerViewCreateEvent)
     {
-        if (_isDisposed) return null;
+        if (IsDisposed) return null;
         LayerView? layerView = layerViewCreateEvent.Layer switch
         {
             FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(CoreJsModule!)),
@@ -843,8 +843,8 @@ public partial class MapView : MapComponent
                 ? Map?.Basemap?.ReferenceLayers?.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
                 : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
                 ?? Map?.Layers.OfType<IGroupLayer>()
-                    .Select(g => 
-                        g.Layers?.FirstOrDefault(sl => sl.Id == layerViewCreateEvent.LayerGeoBlazorId))
+                    // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract - disable for safety on deserialization
+                    .Select(g => g.Layers?.FirstOrDefault(sl => sl?.Id == layerViewCreateEvent.LayerGeoBlazorId))
                     .FirstOrDefault(l => l is not null);
 
         if (createdLayer is not null) // layer already exists in GeoBlazor
@@ -933,7 +933,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptLayerViewDestroy(LayerViewDestroyEvent layerViewDestroyEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnLayerViewDestroy.InvokeAsync(layerViewDestroyEvent);
     }
 
@@ -949,7 +949,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptLayerViewCreateError(LayerViewCreateErrorEvent errorEvent)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         await OnLayerViewCreateError.InvokeAsync(errorEvent);
     }
 
@@ -992,7 +992,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public DotNetObjectReference<MapComponent>? GetDotNetPopupTemplateObjectReference(Guid popupTemplateId)
     {
-        if (_isDisposed) return null;
+        if (IsDisposed) return null;
         foreach (Graphic graphic in Graphics)
         {
             if (graphic.PopupTemplate?.Id == popupTemplateId)
@@ -1057,7 +1057,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public DotNetObjectReference<MapComponent>? GetDotNetActionObjectReference(Guid actionId)
     {
-        if (_isDisposed) return null;
+        if (IsDisposed) return null;
         foreach (Graphic graphic in Graphics)
         {
             if (graphic.PopupTemplate?.Actions is null)
@@ -2088,7 +2088,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public void OnJavascriptHitTestResult(Guid eventId, string chunk)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         if (_hitTestResults.TryGetValue(eventId, out StringBuilder? result))
         {
             result.Append(chunk);
@@ -2097,13 +2097,6 @@ public partial class MapView : MapComponent
         {
             _hitTestResults.Add(eventId, new StringBuilder(chunk));
         }
-    }
-
-    /// <inheritdoc />
-    public override async ValueTask DisposeAsync()
-    {
-        await CancellationTokenSource.CancelAsync();
-        _isDisposed = true;
     }
 
     /// <summary>
@@ -2449,14 +2442,17 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Calls the ArcGIS Maps SDK for JavaScript to build the map view.
     /// </summary>
-    protected virtual ValueTask BuildMapView()
+    protected virtual async Task BuildMapView()
     {
         string mapType = Map is WebMap ? "webmap" : "map";
-        return CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
+        CancellationTokenSource.CancelAfter(5000); // 5 seconds timeout for the map view to be built
+        await CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, abortSignal, Id,
             DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
             mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
             EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
             Theme?.ToString().ToLowerInvariant());
+        await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
     }
 
     private async Task SetTheme()
@@ -2650,7 +2646,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnHitTestStreamCallback(IJSStreamReference streamReference, Guid hitTestId)
     {
-        if (_isDisposed) return;
+        if (IsDisposed) return;
         try
         {
             await using Stream stream = await streamReference
@@ -2803,7 +2799,6 @@ public partial class MapView : MapComponent
     private bool? _hasCustomAssetPath;
     private string? _customAssetsPath;
     private readonly Dictionary<Guid, ViewHit[]> _activeHitTests = new();
-    private bool _isDisposed;
     private bool _waitingForRender;
     private ArcGISTheme? _lastTheme;
 
