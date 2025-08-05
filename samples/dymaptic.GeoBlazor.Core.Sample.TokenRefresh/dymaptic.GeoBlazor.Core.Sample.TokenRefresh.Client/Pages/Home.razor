@@ -60,10 +60,27 @@
 
             <div class="alert alert-primary">
                 <strong>Ready to Test?</strong>
-                <p class="mb-0">
-                    Navigate to the <strong><a href="/map" class="alert-link">Map</a></strong> page to test the token authentication 
-                    with interactive buttons and see the authenticated map in action!
-                </p>
+                <p class="mb-2">Choose which render mode demonstration you'd like to see:</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <h6 class="card-title">🚀 InteractiveAuto Mode</h6>
+                                <p class="card-text small">Starts with Server-side rendering, then switches to WebAssembly. Best for initial load performance.</p>
+                                <a href="/map-auto" class="btn btn-primary btn-sm">View Auto Mode Demo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-success">
+                            <div class="card-body">
+                                <h6 class="card-title">💻 InteractiveWebAssembly Mode</h6>
+                                <p class="card-text small">Pure client-side execution. Best for rich interactivity and offline capability.</p>
+                                <a href="/map-webassembly" class="btn btn-success btn-sm">View WebAssembly Demo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div>

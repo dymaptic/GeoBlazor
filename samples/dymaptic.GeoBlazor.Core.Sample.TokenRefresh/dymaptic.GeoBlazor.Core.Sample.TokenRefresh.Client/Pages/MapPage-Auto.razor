@@ -3,12 +3,21 @@
 @using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Models
 @rendermode InteractiveAuto
 
+<!-- Render Mode Information -->
+<div class="alert alert-primary mb-3">
+    <div class="d-flex align-items-center">
+        <strong class="me-2">🚀 InteractiveAuto Mode</strong>
+        <span class="badge bg-primary">Server → WebAssembly</span>
+    </div>
+    <small class="mt-1 d-block">This page starts with server-side rendering for fast initial load, then switches to WebAssembly for enhanced interactivity. Authentication may behave differently during the transition.</small>
+</div>
+
 <!-- Token Testing Panel -->
 <div class="token-test-panel mb-4">
     <div class="card">
         <div class="card-header">
-            <h4>Token Testing Panel</h4>
-            <p>This panel demonstrates the token authentication flow. The map below uses a secured portal item
+            <h4>Token Testing Panel - InteractiveAuto Mode</h4>
+            <p>This panel demonstrates the token authentication flow in <strong>InteractiveAuto</strong> mode. The map below uses a secured portal item
                 that requires authentication. Replace the PortalItemId in the Basemap component with a portal item 
                 from your ArcGIS Online or Enterprise portal that you have access to.</p>
         </div>
