@@ -92,7 +92,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let { buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
         let result = await this.layer.queryObjectIds(jsQuery, options);
-        return result;
+        return result as number[];
     }
 
     async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any,
@@ -317,7 +317,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         }
 
         let { buildDotNetIFeatureTemplate } = await import('./iFeatureTemplate');
-        return await Promise.all(this.layer.templates.map(async i => await buildDotNetIFeatureTemplate(i)));
+        return await Promise.all(this.layer.templates!.map(async i => await buildDotNetIFeatureTemplate(i)));
     }
 
     async setTemplates(value: any): Promise<void> {

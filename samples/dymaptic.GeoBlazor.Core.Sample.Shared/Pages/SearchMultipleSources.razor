@@ -1,4 +1,5 @@
 ﻿@page "/search-multi-source"
+@inject AuthenticationManager AuthenticationManager
 
 <PageTitle>Search with Multiple Sources</PageTitle>
 <h1>Search with Multiple Sources</h1>
@@ -19,23 +20,25 @@
             <BasemapStyle Name="BasemapStyleName.ArcgisDarkGrayBase" />
         </Basemap>
     </Map>
-    <SearchWidget AllPlaceholder="District or Senator"
+    <SearchWidget AllPlaceholder="Senator or World Location Service"
                   IncludeDefaultSources="false"
                   Position="OverlayPosition.TopRight">
-        <LayerSearchSource SearchFields="@(["DISTRICTID"])"
-                           DisplayField="DISTRICTID"
-                           ExactMatch="false"
-                           OutFields="@(["DISTRICTID", "NAME", "PARTY"])"
-                           Name="Congressional Districts"
-                           Placeholder="example: 3708">
-            <FeatureLayer Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_117th_Congressional_Districts_all/FeatureServer/0">
-                <PopupTemplate Title="Congressional District {DISTRICTID} </br>{NAME}, ({PARTY})" OverwriteActions="true" />
-            </FeatureLayer>
-        </LayerSearchSource>
-        <LayerSearchSource SearchFields="@(["Name", "Party"])"
+        @* TODO: FIX the API KEY ISSUE *@
+        @* <LayerSearchSource SearchFields="@(["DISTRICTID"])" *@
+        @*                    DisplayField="DISTRICTID" *@
+        @*                    ExactMatch="false" *@
+        @*                    OutFields="@(["DISTRICTID", "NAME", "PARTY"])" *@
+        @*                    Name="Congressional Districts" *@
+        @*                    Placeholder="example: 3708"> *@
+        @*     <FeatureLayer ExcludeApiKey="true" ApiKey="@AuthenticationManager.ApiKey" *@
+        @*                   Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_117th_Congressional_Districts_all/FeatureServer/0"> *@
+        @*         <PopupTemplate Title="Congressional District {DISTRICTID} </br>{NAME}, ({PARTY})" OverwriteActions="true" /> *@
+        @*     </FeatureLayer> *@
+        @* </LayerSearchSource> *@
+        <LayerSearchSource SearchFields="@( ["Name", "Party"])"
                            SuggestionTemplate="{Name}, Party: {Party}"
                            ExactMatch="false"
-                           OutFields="@(["*"])"
+                           OutFields="@( ["*"])"
                            Name="Senators"
                            Placeholder="example: Casey"
                            ZoomScale="500000">
