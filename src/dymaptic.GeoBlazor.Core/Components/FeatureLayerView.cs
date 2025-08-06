@@ -10,7 +10,7 @@ public partial class FeatureLayerView : LayerView
     public FeatureLayerView()
     {
     }
-    
+
     /// <summary>
     ///     Constructor for use in C# code.
     /// </summary>
@@ -39,8 +39,7 @@ public partial class FeatureLayerView : LayerView
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [CodeGenerationIgnore]
-    internal FeatureLayerView(
-        LayerView layerView,
+    internal FeatureLayerView(LayerView layerView,
         AbortManager abortManager,
         FeatureEffect? featureEffect = null,
         FeatureFilter? filter = null,
@@ -59,13 +58,12 @@ public partial class FeatureLayerView : LayerView
         HighlightOptions = highlightOptions;
         MaximumNumberOfFeatures = maximumNumberOfFeatures;
         MaximumNumberOfFeaturesExceeded = maximumNumberOfFeaturesExceeded;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
+
     /// <inheritdoc />
     public override LayerType? Type => LayerType.Feature;
 
-    
     /// <summary>
     ///     Options for configuring the highlight.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-HighlightLayerViewMixin.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -74,7 +72,7 @@ public partial class FeatureLayerView : LayerView
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public HighlightOptions? HighlightOptions { get; set; }
-    
+
     /// <summary>
     ///     The maximum number of features that can be displayed at a time.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
@@ -83,7 +81,7 @@ public partial class FeatureLayerView : LayerView
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaximumNumberOfFeatures { get; set; }
-    
+
     /// <summary>
     ///     Signifies whether the maximum number of features has been exceeded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
@@ -104,12 +102,11 @@ public partial class FeatureLayerView : LayerView
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
 
         if (JsComponentReference is null) return;
-        await JsComponentReference.InvokeVoidAsync(
-            "setFilter", CancellationTokenSource.Token, filter);
+
+        await JsComponentReference.InvokeVoidAsync("setFilter", CancellationTokenSource.Token, filter);
 
         Filter = filter;
     }
-
 
     /// <summary>
     ///  Sets the <see cref="FeatureEffect" /> for this view.
@@ -117,12 +114,10 @@ public partial class FeatureLayerView : LayerView
     /// <param name="featureEffect">
     /// The new effect (or null to clear) to apply to this view.
     /// </param>
-
     public async Task SetFeatureEffect(FeatureEffect? featureEffect)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
-        await JsComponentReference.InvokeVoidAsync(
-            "setFeatureEffect", CancellationTokenSource.Token, featureEffect);
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", CancellationTokenSource.Token, featureEffect);
 
         FeatureEffect = featureEffect;
     }
@@ -140,9 +135,11 @@ public partial class FeatureLayerView : LayerView
     public async Task<Handle> Highlight(ObjectId objectId)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+
         IJSObjectReference objectRef =
             await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectId);
+
         return new Handle(objectRef);
     }
 
@@ -162,17 +159,19 @@ public partial class FeatureLayerView : LayerView
     public async Task<Handle> Highlight(IReadOnlyCollection<ObjectId> objectIds)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+
         if (objectIds.Count == 0)
         {
             throw new ArgumentException("At least one ObjectID must be provided.", nameof(objectIds));
         }
+
         IJSObjectReference objectRef =
             await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectIds);
 
         return new Handle(objectRef);
     }
-    
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
@@ -190,22 +189,24 @@ public partial class FeatureLayerView : LayerView
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference? objectRef;
+
         if (graphic.Attributes.TryGetValue("OBJECTID", out object? objectId))
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
-                    CancellationTokenSource.Token, objectId);
+                CancellationTokenSource.Token, objectId);
         }
         else
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorId",
                 CancellationTokenSource.Token, graphic.Id);
-            
+
             if (objectRef is null)
             {
-                throw new InvalidOperationException("The graphic does not have an OBJECTID attribute and was not registered with GeoBlazor.");
+                throw new InvalidOperationException(
+                    "The graphic does not have an OBJECTID attribute and was not registered with GeoBlazor.");
             }
         }
-        
+
         return new Handle(objectRef);
     }
 
@@ -231,6 +232,7 @@ public partial class FeatureLayerView : LayerView
         {
             throw new ArgumentException("At least one graphic must be provided.", nameof(graphics));
         }
+
         if (graphics.First().Attributes.TryGetValue("OBJECTID", out _))
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
@@ -240,10 +242,11 @@ public partial class FeatureLayerView : LayerView
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorIds",
                 CancellationTokenSource.Token, graphics.Select(g => g.Id).ToArray());
-            
+
             if (objectRef is null)
             {
-                throw new InvalidOperationException("The graphics do not have the OBJECTID attribute and were not registered with GeoBlazor.");
+                throw new InvalidOperationException(
+                    "The graphics do not have the OBJECTID attribute and were not registered with GeoBlazor.");
             }
         }
 
@@ -258,6 +261,7 @@ public partial class FeatureLayerView : LayerView
     public async Task<Query> CreateQuery()
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+
         return await JsComponentReference.InvokeAsync<Query>("createQuery", CancellationTokenSource.Token);
     }
 
@@ -280,10 +284,14 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<ExtentQueryResult?> QueryExtent(Query query, CancellationToken cancellationToken = default)
     {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
+        JsComponentReference ??=
+            await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ExtentQueryResult? result = await JsComponentReference.InvokeAsync<ExtentQueryResult?>("queryExtent", cancellationToken, query, new { signal = abortSignal });
+
+        ExtentQueryResult? result = await JsComponentReference.InvokeAsync<ExtentQueryResult?>("queryExtent",
+            cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
+
         return result;
     }
 
@@ -309,10 +317,14 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<int?> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
     {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
+        JsComponentReference ??=
+            await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int? result = await JsComponentReference.InvokeAsync<int?>("queryFeatureCount", cancellationToken, query, new { signal = abortSignal });
+
+        int? result = await JsComponentReference.InvokeAsync<int?>("queryFeatureCount", cancellationToken, query,
+            new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
+
         return result;
     }
 
@@ -338,17 +350,20 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
+        JsComponentReference ??=
+            await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
-        FeatureSet result = await JsComponentReference.InvokeAsync<FeatureSet>("queryFeatures", 
+
+        FeatureSet result = await JsComponentReference.InvokeAsync<FeatureSet>("queryFeatures",
             cancellationToken, query, new { signal = abortSignal }, DotNetComponentReference, queryId);
+
         if (_activeQueries.ContainsKey(queryId))
         {
-            result = result with { Features = _activeQueries[queryId]};
+            result = result with { Features = _activeQueries[queryId] };
             _activeQueries.Remove(queryId);
         }
-        
+
         foreach (Graphic graphic in result.Features!)
         {
             graphic.View = View;
@@ -357,6 +372,7 @@ public partial class FeatureLayerView : LayerView
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
+
         return result;
     }
 
@@ -364,23 +380,20 @@ public partial class FeatureLayerView : LayerView
     ///     Internal use callback from JavaScript
     /// </summary>
     [JSInvokable]
-    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId)
+    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference jsStreamRef, Guid queryId)
     {
         try
         {
-            await using Stream stream = await streamReference.OpenReadStreamAsync(
-                Layer?.View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            ProtoGraphicCollection? collection =
+                await jsStreamRef.ReadJsStreamReference<ProtoGraphicCollection>(Layer?.View?.QueryResultsMaxSizeLimit ??
+                    1_000_000_000L);
             Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
 
             _activeQueries[queryId] = graphics;
         }
         catch (Exception ex)
         {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);   
+            throw new SerializationException("Error deserializing graphics from stream.", ex);
         }
     }
 
@@ -396,10 +409,14 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<ObjectId[]?> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
+        JsComponentReference ??=
+            await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ObjectId[]? queryResult = await JsComponentReference.InvokeAsync<ObjectId[]?>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
+
+        ObjectId[]? queryResult = await JsComponentReference.InvokeAsync<ObjectId[]?>("queryObjectIds",
+            cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
+
         return queryResult;
     }
 

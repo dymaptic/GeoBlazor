@@ -268,10 +268,8 @@ public class LocationService : LogicComponent
         string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
         SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
     {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url, addresses,
-            countryCode, categories, locationType, outSpatialReference, requestOptions);
-        var json = await ConverJsStreamToString(streamRef);
-        return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
+        return await AddressesToLocations(url, addresses, countryCode, categories, locationType,
+            outSpatialReference, requestOptions, null);
     }
 
 #endregion
@@ -590,12 +588,8 @@ public class LocationService : LogicComponent
         SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null,
         string? addressSearchStringParameterName = null)
     {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url,
-            addresses, addressSearchStringParameterName, countryCode, categories, locationType,
-            outSpatialReference, requestOptions);
-        var json = await ConverJsStreamToString(streamRef);
-
-        return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
+        return await AddressesToLocations(url, addresses as object, countryCode, categories, locationType,
+            outSpatialReference, requestOptions, addressSearchStringParameterName);
     }
 
 #endregion
@@ -1232,12 +1226,9 @@ public class LocationService : LogicComponent
         List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
         RequestOptions? requestOptions = null)
     {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
-            categories, countryCode, forStorage, location, locationType, magicKey, maxLocations, outFields,
-            outSpatialReference, searchExtent, requestOptions);
-        var json = await ConverJsStreamToString(streamRef);
-
-        return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
+        return await AddressToLocations(url, address, categories, countryCode, forStorage, location,
+            locationType, magicKey, maxLocations,
+            outFields, outSpatialReference, searchExtent, requestOptions, null);
     }
 
 #endregion
@@ -1922,13 +1913,9 @@ public class LocationService : LogicComponent
         List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
         RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null)
     {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
-            addressSearchStringParameterName, categories, countryCode, forStorage, location, locationType, magicKey,
-            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions);
-
-        var json = await ConverJsStreamToString(streamRef);
-
-        return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
+        return await AddressToLocations(url, address as object, categories, countryCode, forStorage, location,
+            locationType, magicKey, maxLocations,
+            outFields, outSpatialReference, searchExtent, requestOptions, addressSearchStringParameterName);
     }
 
 #endregion
@@ -2187,14 +2174,31 @@ public class LocationService : LogicComponent
             requestOptions);
     }
 
-    private async Task<string> ConverJsStreamToString(IJSStreamReference streamRef)
+    private async Task<List<AddressCandidate>> AddressToLocations(string url, object address,
+#pragma warning restore RS0026 // Do not add multiple public overloads with optional parameters
+        List<string>? categories = null, string? countryCode = null, bool? forStorage = null, Point? location = null,
+        LocationType? locationType = null, string? magicKey = null, int? maxLocations = null,
+        List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
+        RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null)
     {
-        await using Stream stream = await streamRef.OpenReadStreamAsync(1_000_000_000L);
-        using var reader = new StreamReader(stream, Encoding.UTF8);
+        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
+            addressSearchStringParameterName, categories, countryCode, forStorage, location, locationType, magicKey,
+            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions);
 
-        return await reader.ReadToEndAsync();
+        return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
     }
 
-    private readonly JsonSerializerOptions _jsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, };
+    public async Task<List<AddressCandidate>> AddressesToLocations(string url, object addresses,
+        string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
+        SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null,
+        string? addressSearchStringParameterName = null)
+    {
+        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url,
+            addresses, addressSearchStringParameterName, countryCode, categories, locationType,
+            outSpatialReference, requestOptions);
+
+        return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
+    }
+
     private const string ESRIGeoLocationUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 }
