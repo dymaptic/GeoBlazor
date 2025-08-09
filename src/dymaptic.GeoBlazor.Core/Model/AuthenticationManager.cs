@@ -273,6 +273,14 @@ public class AuthenticationManager
         return TokenExpirationDateTime;
     }
 
+    /// <summary>
+    ///     Removes the current global API Key from the AuthenticationManager. This is useful for the bug where some public WebMaps require the API Key to be removed before they can be displayed.
+    /// </summary>
+    internal async Task RemoveApiKey()
+    {
+        await _module!.InvokeVoidAsync("removeApiKey");    
+    }
+
     private readonly IJSRuntime _jsRuntime;
     private readonly JsModuleManager _jsModuleManager;
     private readonly IConfiguration _configuration;

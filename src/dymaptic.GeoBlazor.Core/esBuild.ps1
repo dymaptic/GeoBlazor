@@ -11,6 +11,12 @@ if (Test-Path $AssetsPath)
 
 try
 {
+    $OutJsPath = Join-Path -Path $PSScriptRoot "wwwroot/js"
+    if (-not (Test-Path $OutJsPath))
+    {
+        New-Item -Path $OutJsPath -ItemType Directory | Out-Null
+    }
+    
     $Install = npm install 2>&1
     Write-Output $Install
     $HasError = ($Install -like "*Error*")

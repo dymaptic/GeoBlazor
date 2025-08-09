@@ -19,11 +19,11 @@ export function buildJsGraphic(graphicObject: any): Graphic {
     let graphic: Graphic | null = lookupJsGraphicById(graphicObject.id, graphicObject.layerId, graphicObject.viewId);
     if (graphic !== null) {
         graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
-        graphic.symbol = buildJsSymbol(graphicObject.symbol) as Symbol ?? graphic.symbol;
+        graphic.symbol = buildJsSymbol(graphicObject.symbol) as any ?? graphic.symbol;
     } else {
         graphic = new Graphic({
             geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
-            symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
+            symbol: buildJsSymbol(graphicObject.symbol) as any ?? null,
         });
     }
 

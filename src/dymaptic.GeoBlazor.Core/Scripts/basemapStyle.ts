@@ -2,6 +2,10 @@ import {hasValue} from "./arcGisJsInterop";
 
 export async function buildJsBasemapStyle(dotNetObject: any): Promise<any> {
     let jsBasemapStyle: any = {};
+    
+    if (hasValue(dotNetObject.apiKey)) {
+        jsBasemapStyle.apiKey = dotNetObject.apiKey;
+    }
 
     if (hasValue(dotNetObject.language)) {
         jsBasemapStyle.language = dotNetObject.language;

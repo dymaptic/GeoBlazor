@@ -93,16 +93,14 @@
       <AdditionalFiles Include="PublicAPI.Shipped.txt" />
       <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
       <AdditionalFiles Include="package.json" />
-      <AdditionalFiles Include="Scripts\*.ts" />
+      <AdditionalFiles Include="Scripts\*.ts" Watch="false" />
       <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
       <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot/js/" />
         <Folder Include="Documentation/" />
-        <Content Remove="wwwroot/js/**/*" />
-        <Content Include="wwwroot/js/**/*" Watch="false" />
+        <Folder Include="wwwroot/js/" Watch="false" />
     </ItemGroup>
 
     <ItemGroup>

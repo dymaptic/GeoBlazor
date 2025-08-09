@@ -86,4 +86,8 @@ export default class AuthenticationManager {
             token: token
         });
     }
+    
+    removeApiKey(): void {
+        esriConfig.apiKey = undefined;
+    }
 }

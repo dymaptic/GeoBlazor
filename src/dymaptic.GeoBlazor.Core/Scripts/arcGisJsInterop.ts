@@ -379,39 +379,37 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             return;
         }
         
+        let map: Map | WebMap | null = null;
+        
         if (mapComponent instanceof ArcgisMap) {
             if (mapType === 'webmap') {
                 let {buildJsWebMap} = await import('./webMap');
-                mapComponent.map = await buildJsWebMap(mapObject, null, id);
+                map = await buildJsWebMap(mapObject, null, id);
             } else {
-                mapComponent.map = new Map({
+                map = new Map({
                     basemap: basemap,
                     ground: mapObject.ground
                 });
             }
-            if (!mapComponent.ready) {
-                await mapComponent.viewOnReady();
-            }
-            (mapComponent.view as MapView).rotation = rotation;
+            
+            mapComponent.rotation = rotation;
         } else // this check is required for ESBuild to not throw away the ArcgisScene import
             // noinspection SuspiciousTypeOfGuard
             if (mapComponent instanceof ArcgisScene) {
             if (mapType === 'webscene') {
                 let {buildJsWebScene} = await import('./webScene');
-                mapComponent.map = await buildJsWebScene(mapObject, null, id);
+                map = await buildJsWebScene(mapObject, null, id);
             } else {
-                mapComponent.map = new Map({
+                map = new Map({
                     basemap: basemap,
                     // a ground is required for a SceneView, so we set a default one if none is provided
                     // TODO: Make Ground an object in GeoBlazor, give it a default value for Scenes
                     ground: mapObject.ground ?? 'world-elevation'
                 });
             }
-            if (!mapComponent.ready) {
-                await mapComponent.viewOnReady();
-            }
+            
             if (hasValue(lat) && hasValue(long)) {
-                (mapComponent.view as SceneView).camera = {
+                mapComponent.camera = {
                     position: {
                         x: long as number, //Longitude
                         y: lat as number, //Latitude
@@ -421,9 +419,51 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                 } as Camera
             }
         }
+            
+        arcGisObjectRefs[mapObject.id] = map;
 
         if (abortSignal.aborted) {
             return;
+        }
+
+        // popup widget needs to be registered before adding layers to not overwrite the popupTemplates
+        const popupWidget = widgets.find(w => w.type === 'popup');
+        if (hasValue(popupWidget)) {
+            await addWidget(popupWidget, id);
+        }
+
+        if (abortSignal.aborted) {
+            return;
+        }
+
+        if (hasValue(mapObject.layers)) {
+            // add layers in reverse order to match the expected order in the map
+            for (let i = mapObject.layers.length - 1; i >= 0; i--) {
+                const layerObject = mapObject.layers[i];
+                await addLayer(layerObject, mapObject.id, id);
+                if (abortSignal.aborted) {
+                    return;
+                }
+            }
+        }
+
+        if (abortSignal.aborted) {
+            return;
+        }
+
+        for (let i = 0; i < graphics.length; i++) {
+            const graphicObject = graphics[i];
+            await addGraphic(graphicObject, id, null);
+        }
+
+        if (abortSignal.aborted) {
+            return;
+        }
+        
+        mapComponent.map = map;
+
+        if (!mapComponent.ready) {
+            await mapComponent.viewOnReady();
         }
         
         view = mapComponent.view;
@@ -486,38 +526,12 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         if (abortSignal.aborted) {
             return;
         }
-        
-        // popup widget needs to be registered before adding layers to not overwrite the popupTemplates
-        const popupWidget = widgets.find(w => w.type === 'popup');
-        if (hasValue(popupWidget)) {
-            await addWidget(popupWidget, id);
-        }
-
-        if (abortSignal.aborted) {
-            return;
-        }
-
-        if (hasValue(mapObject.layers)) {
-            // add layers in reverse order to match the expected order in the map
-            for (let i = mapObject.layers.length - 1; i >= 0; i--) {
-                const layerObject = mapObject.layers[i];
-                await addLayer(layerObject, id);
-                if (abortSignal.aborted) {
-                    return;
-                }
-            }
-        }
 
         for (const widget of widgets.filter(w => w.type !== 'popup')) {
             await addWidget(widget, id);
             if (abortSignal.aborted) {
                 return;
             }
-        }
-
-        for (let i = 0; i < graphics.length; i++) {
-            const graphicObject = graphics[i];
-            await addGraphic(graphicObject, id, null);
         }
 
         if (abortSignal.aborted) {
@@ -1109,7 +1123,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
     }
     let {buildJsPopupTemplate} = await import('./popupTemplate');
     const popupTemplate = await buildJsPopupTemplate(popupTemplateObject, layerObject.id, viewId) as PopupTemplate;
-    await addLayer(layerObject, viewId, false, false, true, () => {
+    await addLayer(layerObject, null, viewId, false, false, true, () => {
         displayQueryResults(query, symbol, popupTemplate, viewId);
     });
 }
@@ -1710,14 +1724,17 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
     : Promise<void> {
     try {
         await setCursor('wait', viewId);
-        const view = arcGisObjectRefs[viewId] as MapView;
-        if (view === undefined || view === null) return;
+        let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${viewId}`) as ArcgisMap | ArcgisScene;
+        const view = arcGisObjectRefs[viewId] as MapView | SceneView;
+        if (!hasValue(view)) {
+            return;
+        }
         const newWidget = await buildJsWidget(widget, widget?.layerId, viewId);
         if (!hasValue(newWidget)) {
             return;
         }
         if (newWidget instanceof Popup) {
-            view.popup = newWidget;
+            mapComponent.popup = newWidget;
             return;
         }
 
@@ -1733,7 +1750,7 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
             newWidget.container = innerContainer;
         } else {
             // check if widget is defined inside mapview
-            const inMapWidget = view.container?.parentElement?.querySelector(`#widget-container-${widget.id}`);
+            const inMapWidget = mapComponent?.querySelector(`#widget-container-${widget.id}`);
             const widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
             if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
                 view.ui.add(newWidget, widget.position);
@@ -1765,12 +1782,15 @@ export function setWidgetPosition(viewId: string, widgetId: string, position: st
     view.ui.move(widget, position);
 }
 
-export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isReferenceLayer?: boolean,
+export async function addLayer(layerObject: any, mapId: string | null, viewId: string, isBasemapLayer?: boolean, isReferenceLayer?: boolean,
                                isQueryLayer?: boolean, callback?: Function): Promise<void> {
     try {
         await setCursor('wait', viewId);
         const view = arcGisObjectRefs[viewId] as View;
-        if (!hasValue(view?.map)) return;
+        const map = hasValue(mapId) ? arcGisObjectRefs[mapId!] as Map : view?.map as Map;
+        if (!hasValue(map)) {
+            throw new Error(`View with id ${viewId} does not have a map.`);
+        }
 
         const newLayer = await buildJsLayer(layerObject, layerObject.id, viewId);
 
@@ -1778,19 +1798,19 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 
         if (isBasemapLayer) {
             if (layerObject.isBasemapReferenceLayer) {
-                view.map?.basemap?.referenceLayers.push(newLayer);
+                map?.basemap?.referenceLayers.push(newLayer);
             } else {
-                view.map?.basemap?.baseLayers.push(newLayer);
+                map?.basemap?.baseLayers.push(newLayer);
             }
         } else if (isReferenceLayer) {
-            view.map?.basemap?.referenceLayers.push(newLayer);
+            map?.basemap?.referenceLayers.push(newLayer);
         } else if (isQueryLayer) {
             queryLayer = newLayer as FeatureLayer;
             if (callback !== undefined) {
                 callback();
             }
         } else {
-            view.map?.add(newLayer);
+            map?.add(newLayer);
         }
     } finally {
         await setCursor('unset', viewId);

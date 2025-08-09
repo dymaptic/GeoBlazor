@@ -38,7 +38,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode", "Auto") switch
+        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode") switch
         {
             "Server" => InteractiveServer,
             "WebAssembly" => InteractiveWebAssembly,
