@@ -160,6 +160,12 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
             options);
     }
 
+    async getSamples(parameters: any,
+        requestOptions: any): Promise<any> {
+        return await this.layer.getSamples(parameters,
+            requestOptions);
+    }
+
     async identify(point: any,
         options: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
@@ -367,6 +373,15 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         return await buildDotNetRasterInfo(this.layer.serviceRasterInfo);
+    }
+    
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     async getTimeExtent(): Promise<any> {
@@ -681,6 +696,11 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         dotNetWCSLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+    }
+    
+    if (hasValue(jsObject.spatialReference)) {
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        dotNetWCSLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.timeExtent)) {

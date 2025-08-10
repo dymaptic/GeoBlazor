@@ -104,10 +104,8 @@ export default class WebMapGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-        let { buildJsWebMapSaveAsOptions } = await import('./webMapSaveAsOptions');
-        let jsOptions = await buildJsWebMapSaveAsOptions(options, this.layerId, this.viewId) as any;
         let result = await this.component.saveAs(jsPortalItem,
-            jsOptions);
+            options);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }

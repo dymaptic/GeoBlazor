@@ -3,14 +3,14 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.CompositeTransformationGeoTransforms1.html">GeoBlazor Docs</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.CompositeTransformationGeoTransforms.html">GeoBlazor Docs</a>
 ///     
 /// </summary>
 /// <param name="TransformForward">
 /// </param>
 /// <param name="Wkid">
 /// </param>
-public partial record CompositeTransformationGeoTransforms1(
+public partial record CompositeTransformationGeoTransforms(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? TransformForward = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

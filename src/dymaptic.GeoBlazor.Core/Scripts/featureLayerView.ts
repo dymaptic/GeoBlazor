@@ -60,7 +60,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {
         let {buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+        let jsQuery = await buildJsQuery(query);
         let result = await this.component.queryExtent(jsQuery, options);
         return {
             count: result.count,
@@ -70,7 +70,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
     async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
         let {buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+        let jsQuery = await buildJsQuery(query);
         return await this.component.queryFeatureCount(jsQuery, options);
     }
 
@@ -81,7 +81,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
             let {buildJsQuery} = await import('./query');
 
             if (hasValue(query)) {
-                jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+                jsQuery = await buildJsQuery(query);
             }
 
             let featureSet = await this.component.queryFeatures(jsQuery, options);
@@ -103,7 +103,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
     async queryObjectIds(query: DotNetQuery, options: any): Promise<string[]> {
         let {buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+        let jsQuery = await buildJsQuery(query);
         let objectIds = await this.component.queryObjectIds(jsQuery, options);
         return objectIds;
     }

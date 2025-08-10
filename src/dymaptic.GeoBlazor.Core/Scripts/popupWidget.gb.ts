@@ -496,6 +496,11 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         dotNetPopupWidget.selectedDrillInFeature = buildDotNetGraphic(jsObject.selectedDrillInFeature, layerId, viewId);
     }
     
+    if (hasValue(jsObject.selectedFeature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetPopupWidget.selectedFeature = buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
+    }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
         dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel, layerId, viewId);

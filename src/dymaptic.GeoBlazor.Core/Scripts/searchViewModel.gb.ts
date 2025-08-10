@@ -106,20 +106,34 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         this.component.clear();
     }
 
-    async search(searchItem: any): Promise<any> {
-        return await this.component.search(searchItem);
+    async search(searchItem: any,
+        options: any): Promise<any> {
+        return await this.component.search(searchItem,
+            options);
     }
 
-    async searchNearby(): Promise<any> {
-        return await this.component.searchNearby();
+    async searchNearby(options: any): Promise<any> {
+        return await this.component.searchNearby(options);
     }
 
     async select(value: any): Promise<any> {
         return await this.component.select(value);
     }
 
-    async suggest(value: any): Promise<any> {
-        return await this.component.suggest(value);
+    async suggest(value: any,
+        suggestionDelay: any,
+        options: any): Promise<any> {
+        return await this.component.suggest(value,
+            suggestionDelay,
+            options);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        let result = await this.component.when(callback,
+            errback);
+        
+        return generateSerializableJson(result);
     }
 
     // region properties
@@ -262,12 +276,13 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         this.component.searchTerm = JSON.parse(value);
     }
     
-    getSelectedResult(): any {
+    async getSelectedResult(): Promise<any> {
         if (!hasValue(this.component.selectedResult)) {
             return null;
         }
         
-        return generateSerializableJson(this.component.selectedResult);
+        let { buildDotNetSearchResult } = await import('./searchResult');
+        return buildDotNetSearchResult(this.component.selectedResult);
     }
     
     async getSources(): Promise<any> {
@@ -495,6 +510,11 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
         dotNetSearchViewModel.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
     }
     
+    if (hasValue(jsObject.selectedResult)) {
+        let { buildDotNetSearchResult } = await import('./searchResult');
+        dotNetSearchViewModel.selectedResult = buildDotNetSearchResult(jsObject.selectedResult);
+    }
+    
     if (hasValue(jsObject.sources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchViewModel.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
@@ -566,10 +586,6 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.searchTerm)) {
         dotNetSearchViewModel.searchTerm = jsObject.searchTerm;
-    }
-    
-    if (hasValue(jsObject.selectedResult)) {
-        dotNetSearchViewModel.selectedResult = generateSerializableJson(jsObject.selectedResult);
     }
     
     if (hasValue(jsObject.selectedSuggestion)) {

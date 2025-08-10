@@ -2,6 +2,7 @@ import {hasValue} from "./arcGisJsInterop";
 import Multipoint from "@arcgis/core/geometry/Multipoint";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {buildDotNetExtent} from "./extent";
+import simplifyOperator = __esri.simplifyOperator;
 
 export function buildJsMultipoint(dotNetObject: any): any {
     let properties: any = {};
@@ -18,6 +19,7 @@ export function buildJsMultipoint(dotNetObject: any): any {
     if (hasValue(dotNetObject.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference);
     }
+    
     let jsMultipoint = new Multipoint(properties);
     
     return jsMultipoint;
@@ -55,6 +57,8 @@ export function buildDotNetMultipoint(jsObject: any): any {
     if (hasValue(jsObject.spatialReference)) {
         dotNetMultipoint.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
+
+    dotNetMultipoint.isSimple = simplifyOperator.isSimple(jsObject);
 
     return dotNetMultipoint;
 }

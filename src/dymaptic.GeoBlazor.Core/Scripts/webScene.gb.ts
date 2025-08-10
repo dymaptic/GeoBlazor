@@ -107,11 +107,15 @@ export default class WebSceneGenerated implements IPropertyWrapper {
     }
 
     async updateFrom(view: any,
-        options: any): Promise<any> {
-        let result = await this.component.updateFrom(view,
+        options: any): Promise<void> {
+        await this.component.updateFrom(view,
             options);
-        
-        return generateSerializableJson(result);
+    }
+
+    async updateThumbnail(view: any,
+        options: any): Promise<void> {
+        await this.component.updateThumbnail(view,
+            options);
     }
 
     async when(callback: any,

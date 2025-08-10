@@ -1685,6 +1685,15 @@ export function getGeometry(graphicId: string): DotNetGeometry | null {
     return buildDotNetGeometry(graphic.geometry);
 }
 
+export function getGraphicGlobalId(graphicId: string): string | null | undefined {
+    const graphic = arcGisObjectRefs[graphicId] as Graphic;
+    if (hasValue(graphic)) {
+        return graphic.getGlobalId();
+    }
+    
+    return null;
+}
+
 export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTemplate: PopupTemplate, viewId: string):
     void {
     queryLayer.queryFeatures(query)

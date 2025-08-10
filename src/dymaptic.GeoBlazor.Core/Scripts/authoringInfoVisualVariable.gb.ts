@@ -35,6 +35,9 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     if (hasValue(dotNetObject.referenceSizeSymbolStyle)) {
         properties.referenceSizeSymbolStyle = dotNetObject.referenceSizeSymbolStyle;
     }
+    if (hasValue(dotNetObject.spikeSymbolStyle)) {
+        properties.spikeSymbolStyle = dotNetObject.spikeSymbolStyle;
+    }
     if (hasValue(dotNetObject.startTime)) {
         properties.startTime = dotNetObject.startTime;
     }
@@ -94,6 +97,10 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     
     if (hasValue(jsObject.referenceSizeSymbolStyle)) {
         dotNetAuthoringInfoVisualVariable.referenceSizeSymbolStyle = removeCircularReferences(jsObject.referenceSizeSymbolStyle);
+    }
+    
+    if (hasValue(jsObject.spikeSymbolStyle)) {
+        dotNetAuthoringInfoVisualVariable.spikeSymbolStyle = removeCircularReferences(jsObject.spikeSymbolStyle);
     }
     
     if (hasValue(jsObject.startTime)) {

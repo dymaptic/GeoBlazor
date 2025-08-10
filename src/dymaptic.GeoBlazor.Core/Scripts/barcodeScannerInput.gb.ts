@@ -13,6 +13,12 @@ export async function buildJsBarcodeScannerInputGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.maxLength)) {
         properties.maxLength = dotNetObject.maxLength;
     }
+    if (hasValue(dotNetObject.maxLength)) {
+        properties.maxLength = dotNetObject.maxLength;
+    }
+    if (hasValue(dotNetObject.minLength)) {
+        properties.minLength = dotNetObject.minLength;
+    }
     if (hasValue(dotNetObject.minLength)) {
         properties.minLength = dotNetObject.minLength;
     }
@@ -34,6 +40,14 @@ export async function buildDotNetBarcodeScannerInputGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.maxLength)) {
         dotNetBarcodeScannerInput.maxLength = jsObject.maxLength;
+    }
+    
+    if (hasValue(jsObject.maxLength)) {
+        dotNetBarcodeScannerInput.maxLength = jsObject.maxLength;
+    }
+    
+    if (hasValue(jsObject.minLength)) {
+        dotNetBarcodeScannerInput.minLength = jsObject.minLength;
     }
     
     if (hasValue(jsObject.minLength)) {

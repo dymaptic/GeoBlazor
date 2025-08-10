@@ -76,7 +76,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryAggregates(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryAggregates(jsQuery,
             options);
     }
@@ -90,7 +90,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryExtent(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryExtent(jsQuery,
             options);
     }
@@ -98,7 +98,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
@@ -106,7 +106,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryFeatures(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
@@ -114,7 +114,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryObjectIds(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }

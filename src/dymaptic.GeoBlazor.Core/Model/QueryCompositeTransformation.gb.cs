@@ -10,4 +10,4 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record QueryCompositeTransformation(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<CompositeTransformationGeoTransforms1>? GeoTransforms = null);
+    IReadOnlyCollection<CompositeTransformationGeoTransforms>? GeoTransforms = null);

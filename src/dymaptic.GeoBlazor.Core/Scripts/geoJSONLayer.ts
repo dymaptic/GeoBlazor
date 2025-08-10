@@ -52,7 +52,7 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
 
             if (hasValue(query)) {
                 let { buildJsQuery} = await import('./query');
-                jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+                jsQuery = await buildJsQuery(query);
             }
 
             let featureSet = await this.layer.queryFeatures(jsQuery, options);

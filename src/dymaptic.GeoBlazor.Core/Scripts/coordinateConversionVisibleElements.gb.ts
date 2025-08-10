@@ -12,11 +12,11 @@ export async function buildJsCoordinateConversionVisibleElementsGenerated(dotNet
     if (hasValue(dotNetObject.captureButton)) {
         jsCoordinateConversionVisibleElements.captureButton = dotNetObject.captureButton;
     }
-    if (hasValue(dotNetObject.editButton)) {
-        jsCoordinateConversionVisibleElements.editButton = dotNetObject.editButton;
-    }
     if (hasValue(dotNetObject.expandButton)) {
         jsCoordinateConversionVisibleElements.expandButton = dotNetObject.expandButton;
+    }
+    if (hasValue(dotNetObject.inputButton)) {
+        jsCoordinateConversionVisibleElements.inputButton = dotNetObject.inputButton;
     }
     if (hasValue(dotNetObject.settingsButton)) {
         jsCoordinateConversionVisibleElements.settingsButton = dotNetObject.settingsButton;
@@ -40,12 +40,12 @@ export async function buildDotNetCoordinateConversionVisibleElementsGenerated(js
         dotNetCoordinateConversionVisibleElements.captureButton = jsObject.captureButton;
     }
     
-    if (hasValue(jsObject.editButton)) {
-        dotNetCoordinateConversionVisibleElements.editButton = jsObject.editButton;
-    }
-    
     if (hasValue(jsObject.expandButton)) {
         dotNetCoordinateConversionVisibleElements.expandButton = jsObject.expandButton;
+    }
+    
+    if (hasValue(jsObject.inputButton)) {
+        dotNetCoordinateConversionVisibleElements.inputButton = jsObject.inputButton;
     }
     
     if (hasValue(jsObject.settingsButton)) {

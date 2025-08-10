@@ -152,6 +152,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.gdbVersion)) {
             this.layer.gdbVersion = dotNetObject.gdbVersion;
         }
+        if (hasValue(dotNetObject.globalIdField)) {
+            this.layer.globalIdField = dotNetObject.globalIdField;
+        }
         if (hasValue(dotNetObject.hasM)) {
             this.layer.hasM = dotNetObject.hasM;
         }
@@ -544,6 +547,18 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     
     setGdbVersion(value: any): void {
         this.layer.gdbVersion = JSON.parse(value);
+    }
+    
+    getGlobalIdField(): any {
+        if (!hasValue(this.layer.globalIdField)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.globalIdField);
+    }
+    
+    setGlobalIdField(value: any): void {
+        this.layer.globalIdField = JSON.parse(value);
     }
     
     async getLabelingInfo(): Promise<any> {
@@ -983,6 +998,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
     }
+    if (hasValue(dotNetObject.globalIdField)) {
+        properties.globalIdField = dotNetObject.globalIdField;
+    }
     if (hasValue(dotNetObject.hasM)) {
         properties.hasM = dotNetObject.hasM;
     }
@@ -1341,6 +1359,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
         dotNetFeatureLayer.geometryType = removeCircularReferences(jsObject.geometryType);
     }
     
+    if (hasValue(jsObject.globalIdField)) {
+        dotNetFeatureLayer.globalIdField = jsObject.globalIdField;
+    }
+    
     if (hasValue(jsObject.hasM)) {
         dotNetFeatureLayer.hasM = jsObject.hasM;
     }
@@ -1455,6 +1477,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     
     if (hasValue(jsObject.typeIdField)) {
         dotNetFeatureLayer.typeIdField = jsObject.typeIdField;
+    }
+    
+    if (hasValue(jsObject.uniqueIdFields)) {
+        dotNetFeatureLayer.uniqueIdFields = jsObject.uniqueIdFields;
     }
     
     if (hasValue(jsObject.url)) {

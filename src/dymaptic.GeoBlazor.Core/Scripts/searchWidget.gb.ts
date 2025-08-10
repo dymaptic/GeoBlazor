@@ -376,7 +376,7 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchClear', streamRef);
         });
     }
-
+    
     if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
         jswidgetsSearch.on('search-complete', async (evt: any) => {
             let { buildDotNetSearchCompleteEvent } = await import('./searchCompleteEvent');
@@ -488,11 +488,6 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         dotNetSearchWidget.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
     }
     
-    if (hasValue(jsObject.selectedResult)) {
-        let { buildDotNetSearchResult } = await import('./searchResult');
-        dotNetSearchWidget.selectedResult = buildDotNetSearchResult(jsObject.selectedResult);
-    }
-    
     if (hasValue(jsObject.sources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchWidget.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
@@ -569,6 +564,10 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.searchTerm)) {
         dotNetSearchWidget.searchTerm = jsObject.searchTerm;
+    }
+    
+    if (hasValue(jsObject.selectedResult)) {
+        dotNetSearchWidget.selectedResult = removeCircularReferences(jsObject.selectedResult);
     }
     
     if (hasValue(jsObject.suggestions)) {

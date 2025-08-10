@@ -517,6 +517,7 @@ public partial class SearchWidget : Widget
     /// <summary>
     ///    Retrieves the result selected from a search.
     /// </summary>
+    [CodeGenerationIgnore]
     public async Task<SearchResult> GetSelectedResult()
     {
         IJSStreamReference jsStreamRef =

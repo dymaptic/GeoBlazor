@@ -225,6 +225,20 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         return generateSerializableJson(result);
     }
 
+    async fetchPixels(extent: any,
+        width: any,
+        height: any,
+        options: any): Promise<any> {
+        let { buildJsExtent } = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
+        let result = await this.layer.fetchPixels(jsExtent,
+            width,
+            height,
+            options);
+        
+        return generateSerializableJson(result);
+    }
+
     async findImages(parameters: any,
         requestOptions: any): Promise<any> {
         let { buildJsFindImagesParameters } = await import('./findImagesParameters');
@@ -360,7 +374,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async queryObjectIds(query: any,
         requestOptions: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryObjectIds(jsQuery,
             requestOptions);
     }
@@ -368,7 +382,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async queryRasterCount(query: any,
         requestOptions: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryRasterCount(jsQuery,
             requestOptions);
     }
@@ -376,7 +390,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async queryRasters(query: any,
         requestOptions: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryRasters(jsQuery,
             requestOptions);
     }

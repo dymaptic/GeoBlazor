@@ -4,6 +4,7 @@ import {DotNetPolyline} from "./definitions";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import simplifyOperator = __esri.simplifyOperator;
 
 export function buildDotNetPolyline(polyline: any): any {
     return {
@@ -12,7 +13,8 @@ export function buildDotNetPolyline(polyline: any): any {
         hasM: polyline.hasM,
         hasZ: polyline.hasZ,
         extent: buildDotNetExtent(polyline.extent),
-        spatialReference: buildDotNetSpatialReference(polyline.spatialReference)
+        spatialReference: buildDotNetSpatialReference(polyline.spatialReference),
+        isSimple: simplifyOperator.isSimple(polyline)
     };
 }
 

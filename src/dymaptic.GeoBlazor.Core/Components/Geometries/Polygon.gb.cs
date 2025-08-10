@@ -15,6 +15,7 @@ public partial class Polygon
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
     [ActivatorUtilitiesConstructor]
+    [CodeGenerationIgnore]
     public Polygon()
     {
     }
@@ -43,18 +44,13 @@ public partial class Polygon
     ///     Indicates if the geometry has z-values (elevation).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="isSelfIntersecting">
-    ///     Checks to see if polygon rings cross each other and indicates if the polygon is
-    ///     self-intersecting, which means the ring of the polygon crosses itself.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#isSelfIntersecting">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
+    [CodeGenerationIgnore]
     public Polygon(
         IReadOnlyList<MapPath> rings,
         SpatialReference? spatialReference = null,
         Point? centroid = null,
         bool? hasM = null,
-        bool? hasZ = null,
-        bool? isSelfIntersecting = null)
+        bool? hasZ = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -63,7 +59,6 @@ public partial class Polygon
         Centroid = centroid;
         HasM = hasM;
         HasZ = hasZ;
-        IsSelfIntersecting = isSelfIntersecting;
 #pragma warning restore BL0005    
     }
     
@@ -112,45 +107,6 @@ public partial class Polygon
         }
         
         return Centroid;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the IsSelfIntersecting property.
-    /// </summary>
-    public async Task<bool?> GetIsSelfIntersecting()
-    {
-        if (CoreJsModule is null)
-        {
-            return IsSelfIntersecting;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return IsSelfIntersecting;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isSelfIntersecting");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             IsSelfIntersecting = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(IsSelfIntersecting)] = IsSelfIntersecting;
-        }
-         
-        return IsSelfIntersecting;
     }
     
 #endregion

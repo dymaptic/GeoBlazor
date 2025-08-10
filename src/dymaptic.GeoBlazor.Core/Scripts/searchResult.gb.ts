@@ -21,8 +21,14 @@ export async function buildJsSearchResultGenerated(dotNetObject: any): Promise<a
         jsSearchResult.target = buildJsGraphic(dotNetObject.target) as any;
     }
 
+    if (hasValue(dotNetObject.key)) {
+        jsSearchResult.key = dotNetObject.key;
+    }
     if (hasValue(dotNetObject.name)) {
         jsSearchResult.name = dotNetObject.name;
+    }
+    if (hasValue(dotNetObject.sourceIndex)) {
+        jsSearchResult.sourceIndex = dotNetObject.sourceIndex;
     }
     
     jsObjectRefs[dotNetObject.id] = jsSearchResult;

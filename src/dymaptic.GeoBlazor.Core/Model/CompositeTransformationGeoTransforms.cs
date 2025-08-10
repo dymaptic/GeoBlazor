@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
-public partial record CompositeTransformationGeoTransforms1
+public partial record CompositeTransformationGeoTransforms
 {
    // Add custom code to this file to override generated code
 }

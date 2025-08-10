@@ -24,8 +24,14 @@ export async function buildJsAbilitiesGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.mediaContent)) {
         jsAbilities.mediaContent = dotNetObject.mediaContent;
     }
+    if (hasValue(dotNetObject.relationshipContent)) {
+        jsAbilities.relationshipContent = dotNetObject.relationshipContent;
+    }
     if (hasValue(dotNetObject.textContent)) {
         jsAbilities.textContent = dotNetObject.textContent;
+    }
+    if (hasValue(dotNetObject.utilityNetworkAssociationsContent)) {
+        jsAbilities.utilityNetworkAssociationsContent = dotNetObject.utilityNetworkAssociationsContent;
     }
     
     jsObjectRefs[dotNetObject.id] = jsAbilities;
@@ -62,8 +68,16 @@ export async function buildDotNetAbilitiesGenerated(jsObject: any, layerId: stri
         dotNetAbilities.mediaContent = jsObject.mediaContent;
     }
     
+    if (hasValue(jsObject.relationshipContent)) {
+        dotNetAbilities.relationshipContent = jsObject.relationshipContent;
+    }
+    
     if (hasValue(jsObject.textContent)) {
         dotNetAbilities.textContent = jsObject.textContent;
+    }
+    
+    if (hasValue(jsObject.utilityNetworkAssociationsContent)) {
+        dotNetAbilities.utilityNetworkAssociationsContent = jsObject.utilityNetworkAssociationsContent;
     }
     
 

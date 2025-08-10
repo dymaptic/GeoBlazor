@@ -11,3 +11,12 @@ export async function buildDotNetLinkChartView(jsObject: any): Promise<any> {
     let { buildDotNetLinkChartViewGenerated } = await import('./linkChartView.gb');
     return await buildDotNetLinkChartViewGenerated(jsObject);
 }
+
+export default class LinkChartViewWrapper extends LinkChartViewGenerated {
+
+    constructor(component: LinkChartView) {
+        super(component);
+    }
+    
+}
+

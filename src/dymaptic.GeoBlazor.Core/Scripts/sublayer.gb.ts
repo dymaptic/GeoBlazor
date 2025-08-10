@@ -21,6 +21,9 @@ export default class SublayerGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.attributeTableTemplate)) {
+            this.component.attributeTableTemplate = dotNetObject.iAttributeTableTemplate;
+        }
         if (hasValue(dotNetObject.floorInfo)) {
             let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
             this.component.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo) as any;
@@ -143,7 +146,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
@@ -151,7 +154,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async queryFeatures(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
@@ -159,7 +162,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async queryObjectIds(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }
@@ -436,6 +439,9 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     }
 
     let properties: any = {};
+    if (hasValue(dotNetObject.attributeTableTemplate)) {
+        properties.attributeTableTemplate = dotNetObject.attributeTableTemplate;
+    }
     if (hasValue(dotNetObject.floorInfo)) {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
         properties.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo) as any;
@@ -577,6 +583,10 @@ export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> 
     if (hasValue(jsObject.types)) {
         let { buildDotNetFeatureType } = await import('./featureType');
         dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
+    }
+    
+    if (hasValue(jsObject.attributeTableTemplate)) {
+        dotNetSublayer.attributeTableTemplate = removeCircularReferences(jsObject.attributeTableTemplate);
     }
     
     if (hasValue(jsObject.definitionExpression)) {

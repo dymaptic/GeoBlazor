@@ -46,6 +46,9 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.orgId)) {
             this.component.orgId = dotNetObject.orgId;
         }
+        if (hasValue(dotNetObject.portalUserId)) {
+            this.component.id = dotNetObject.portalUserId;
+        }
         if (hasValue(dotNetObject.preferredView)) {
             this.component.preferredView = dotNetObject.preferredView;
         }
@@ -213,6 +216,18 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     
+    getPortalUserId(): any {
+        if (!hasValue(this.component.id)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.id);
+    }
+    
+    setPortalUserId(value: any): void {
+        this.component.id = JSON.parse(value);
+    }
+    
     getPreferredView(): any {
         if (!hasValue(this.component.preferredView)) {
             return null;
@@ -318,6 +333,9 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.orgId)) {
         properties.orgId = dotNetObject.orgId;
     }
+    if (hasValue(dotNetObject.portalUserId)) {
+        properties.id = dotNetObject.portalUserId;
+    }
     if (hasValue(dotNetObject.preferredView)) {
         properties.preferredView = dotNetObject.preferredView;
     }
@@ -391,6 +409,10 @@ export async function buildDotNetPortalUserGenerated(jsObject: any, layerId: str
     
     if (hasValue(jsObject.orgId)) {
         dotNetPortalUser.orgId = jsObject.orgId;
+    }
+    
+    if (hasValue(jsObject.id)) {
+        dotNetPortalUser.portalUserId = jsObject.id;
     }
     
     if (hasValue(jsObject.preferredView)) {

@@ -193,6 +193,12 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
             options);
     }
 
+    async getSamples(parameters: any,
+        requestOptions: any): Promise<any> {
+        return await this.layer.getSamples(parameters,
+            requestOptions);
+    }
+
     async identify(point: any,
         options: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
@@ -428,6 +434,15 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         
         return generateSerializableJson(this.layer.sourceJSON);
+    }
+    
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     async getTileInfo(): Promise<any> {
@@ -759,6 +774,11 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         dotNetImageryTileLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+    }
+    
+    if (hasValue(jsObject.spatialReference)) {
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        dotNetImageryTileLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.tileInfo)) {

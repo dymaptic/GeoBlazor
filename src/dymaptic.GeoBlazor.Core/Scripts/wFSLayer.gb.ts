@@ -217,10 +217,16 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         return generateSerializableJson(result);
     }
 
+    async queryAttributeBins(binsQuery: any,
+        options: any): Promise<any> {
+        return await this.layer.queryAttributeBins(binsQuery,
+            options);
+    }
+
     async queryExtent(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryExtent(jsQuery,
             options);
     }
@@ -228,7 +234,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryFeatureCount(jsQuery,
             options);
     }
@@ -236,7 +242,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async queryFeatures(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryFeatures(jsQuery,
             options);
     }
@@ -244,7 +250,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async queryObjectIds(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryObjectIds(jsQuery,
             options);
     }
@@ -280,8 +286,8 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
             return null;
         }
         
-        let { buildDotNetWFSLayerCapabilities } = await import('./wFSLayerCapabilities');
-        return await buildDotNetWFSLayerCapabilities(this.layer.capabilities);
+        let { buildDotNetCapabilities } = await import('./capabilities');
+        return await buildDotNetCapabilities(this.layer.capabilities);
     }
     
     getCopyright(): any {
@@ -833,8 +839,8 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
     let dotNetWFSLayer: any = {};
     
     if (hasValue(jsObject.capabilities)) {
-        let { buildDotNetWFSLayerCapabilities } = await import('./wFSLayerCapabilities');
-        dotNetWFSLayer.capabilities = await buildDotNetWFSLayerCapabilities(jsObject.capabilities);
+        let { buildDotNetCapabilities } = await import('./capabilities');
+        dotNetWFSLayer.capabilities = await buildDotNetCapabilities(jsObject.capabilities);
     }
     
     if (hasValue(jsObject.displayFilterInfo)) {

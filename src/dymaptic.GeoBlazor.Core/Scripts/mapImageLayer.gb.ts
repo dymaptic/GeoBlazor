@@ -193,6 +193,22 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         this.layer.refresh();
     }
 
+    async save(options: any): Promise<any> {
+        let result = await this.layer.save(options);
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return await buildDotNetPortalItem(result);
+    }
+
+    async saveAs(portalItem: any,
+        options: any): Promise<any> {
+        let { buildJsPortalItem } = await import('./portalItem');
+        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+        let result = await this.layer.saveAs(jsPortalItem,
+            options);
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return await buildDotNetPortalItem(result);
+    }
+
     async when(callback: any,
         errback: any): Promise<any> {
         let result = await this.layer.when(callback,
