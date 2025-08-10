@@ -146,6 +146,13 @@ public partial class MapView : MapComponent
     public string? WhiteLabel { get; set; }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
+    /// <summary>
+    ///     Allows the user to prevent the ApiKey from being used in the authentication process.
+    ///     Prevents ArcGIS bug throwing "invalid token" for public layers that do not require an API key.
+    /// </summary>
+    [Parameter]
+    public bool BypassApiKey { get; set; }
+    
 #endregion
 
 
@@ -2187,6 +2194,14 @@ public partial class MapView : MapComponent
 #endregion
     
 #region Lifecycle Methods
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        AuthenticationManager.BypassApiKey = BypassApiKey;
+    }
+
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
@@ -2360,7 +2375,8 @@ public partial class MapView : MapComponent
         if (!AuthenticationInitialized || Rendering || Map is null || CoreJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
-            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
+            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId)
+            && !BypassApiKey)
         {
             var newErrorMessage =
                 "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
@@ -2429,11 +2445,12 @@ public partial class MapView : MapComponent
             {
                 await Task.Delay(1);
             }
-            
-            // ensure a basemap is added
-            Map.Basemap ??= new Basemap(style: new BasemapStyle(BasemapStyleName.ArcgisLightGray));
-            
-            await SetupApiKeyExclusions();
+
+            if (!BypassApiKey)
+            {
+                // ensure a basemap is added, but only if the user hasn't removed the API key
+                Map.Basemap ??= new Basemap(style: new BasemapStyle(BasemapStyleName.ArcgisLightGray));
+            }
             
             await SetTheme();
 
@@ -2461,74 +2478,6 @@ public partial class MapView : MapComponent
         CancellationTokenSource = new CancellationTokenSource();
     }
     
-#pragma warning disable BL0005   
-    private async Task SetupApiKeyExclusions()
-    {
-        if (Map?.Layers.Any(l => l.ExcludeApiKey == true 
-            || l is IPortalLayer { PortalItem.ExcludeApiKey: true }) == true)
-        {
-            // if any layer has ExcludeApiKey set to true, we need to NOT set the API key globally
-            await AuthenticationManager.RemoveApiKey();
-            
-            foreach (Layer layer in Map.Layers.Concat(Map.Basemap!.BaseLayers ?? []).Concat(Map.Basemap!.ReferenceLayers ?? []))
-            {
-                AddApiKeyIfNotExcluded(layer);
-            }
-
-            if (Map.Basemap.Style is { } basemapStyle)
-            {
-                basemapStyle.ApiKey = ApiKey;
-            }
-
-            if (Widgets.FirstOrDefault(w => w is SearchWidget) is SearchWidget search)
-            {
-                foreach (SearchSource source in search.AllSources!)
-                {
-                    if (source is LocatorSearchSource locatorSearchSource)
-                    {
-                        locatorSearchSource.ApiKey = ApiKey;
-                    }
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    ///     If not specifically excluded, adds the API key to the layer or its portal item.
-    /// </summary>
-    private void AddApiKeyIfNotExcluded(Layer layer)
-    {
-        if (layer.ExcludeApiKey == true)
-        {
-            return;
-        }
-                
-        if (layer is IPortalLayer { PortalItem: not null } portalLayer)
-        {
-            if (portalLayer.PortalItem.ExcludeApiKey == true)
-            {
-                return;
-            }
-            // add the ApiKey to the portal item so it is authenticated
-            portalLayer.PortalItem.ApiKey = ApiKey;
-        }
-
-        if (layer is IAPIKeyMixin apiKeyLayer)
-        {
-            // add the ApiKey directly to the other layers so they are still authenticated
-            apiKeyLayer.ApiKey = ApiKey;
-        }
-
-        if (layer is IGroupLayer { Layers: not null } groupLayer)
-        {
-            foreach (Layer gLayer in groupLayer.Layers)
-            {
-                AddApiKeyIfNotExcluded(gLayer);
-            }
-        }
-    }
-#pragma warning restore BL0005
-
     private async Task SetTheme()
     {
         string? theme = await CoreJsModule!.InvokeAsync<string?>("setTheme", 

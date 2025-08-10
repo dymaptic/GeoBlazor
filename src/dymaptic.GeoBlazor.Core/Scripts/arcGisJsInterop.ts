@@ -345,22 +345,6 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             throw new Error(`Map component with id ${id} not found.`);
         }
         let view: MapView | SceneView;
-        
-        // check that there is either a webmap, webscene, or basemap to load the map
-        if (mapType !== 'webmap' && mapType !== 'webscene' && !hasValue(mapObject.basemap)
-            && !hasValue(mapObject.arcGISDefaultBasemap)) {
-            // set a default basemap if none is provided, so the map can be created
-            if (mapType === 'scene') {
-                
-                mapObject.basemap = 'gray-3d';
-            } else {
-                mapObject.basemap = {
-                    style : {
-                        name: "arcgis/light-gray"
-                    }
-                }
-            }
-        }
 
         let basemap = hasValue(mapObject.basemap)
             ? await buildJsBasemap(mapObject.basemap, null, id)
@@ -435,7 +419,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         if (abortSignal.aborted) {
             return;
         }
-
+        
         if (hasValue(mapObject.layers)) {
             // add layers in reverse order to match the expected order in the map
             for (let i = mapObject.layers.length - 1; i >= 0; i--) {

@@ -14,7 +14,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         return arcGisObjectRefs[dotNetObject.id!];
     }
 
-    if (hasValue(dotNetObject.apiKey) || (hasValue(dotNetObject.excludeApiKey) && dotNetObject.excludeApiKey)) {
+    if (hasValue(dotNetObject.excludeApiKey) && dotNetObject.excludeApiKey) {
         esriConfig.apiKey = null;
         // this will be re-added in GeoBlazor's `AuthenticationManager` on the next MapView.
     }
