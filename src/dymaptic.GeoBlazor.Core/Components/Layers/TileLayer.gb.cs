@@ -1972,6 +1972,12 @@ public partial class TileLayer : IAPIKeyMixin,
     [JSInvokable]
     public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);

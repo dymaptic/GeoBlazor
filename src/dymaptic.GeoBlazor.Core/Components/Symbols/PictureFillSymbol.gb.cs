@@ -50,11 +50,11 @@ public partial class PictureFillSymbol : ISymbol2D,
     /// </param>
     /// <param name="xScale">
     ///     The scale factor on the x axis of the symbol.
-    ///                       Default Value:1
+    ///                                Default Value:1
     /// </param>
     /// <param name="yScale">
     ///     The scale factor on the y axis of the symbol.
-    ///                       Default Value:1
+    ///                                Default Value:1
     /// </param>
     /// <param name="outline">
     ///     The outline of the polygon.

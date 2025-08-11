@@ -421,6 +421,12 @@ public partial class WMSLayer : Layer,
     [JSInvokable]
     public async Task<Graphic[]?> OnJsFetchFeatureInfoFunction(string query)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return null;
+        }
+    
         Graphic[]? result = null;
     
         if (FetchFeatureInfoFunction is not null)
@@ -3073,6 +3079,12 @@ public partial class WMSLayer : Layer,
     [JSInvokable]
     public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
