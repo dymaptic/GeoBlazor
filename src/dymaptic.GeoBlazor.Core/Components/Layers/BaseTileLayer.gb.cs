@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.BaseTileLayer.html">GeoBlazor Docs</a>
-///     This class may be extended to create a custom <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">TileLayer</a>.
+///     This class may be extended to create a custom TileLayer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BaseTileLayer : IBlendLayer,
@@ -94,6 +94,9 @@ public partial class BaseTileLayer : IBlendLayer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public BaseTileLayer(
         BlendMode? blendMode = null,
         Effect? effect = null,
@@ -109,7 +112,8 @@ public partial class BaseTileLayer : IBlendLayer,
         TileInfo? tileInfo = null,
         string? title = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -128,6 +132,7 @@ public partial class BaseTileLayer : IBlendLayer,
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     

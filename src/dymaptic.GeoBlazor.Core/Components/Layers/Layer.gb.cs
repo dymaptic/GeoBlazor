@@ -10,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public abstract partial class Layer : IHitTestItem,
     IIntersectItem,
+    ISliceAnalysisExcludedLayers,
     ISliceViewModelExcludedLayers
 {
 
@@ -215,6 +216,11 @@ public abstract partial class Layer : IHitTestItem,
         
         if (result is not null)
         {
+            if (VisibilityTimeExtent is not null)
+            {
+                result.Id = VisibilityTimeExtent.Id;
+            }
+            
 #pragma warning disable BL0005
             VisibilityTimeExtent = result;
 #pragma warning restore BL0005
@@ -398,11 +404,6 @@ public abstract partial class Layer : IHitTestItem,
     [JSInvokable]
     public async Task OnJsCreate(IJSStreamReference jsStreamRef)
     {
-        if (IsDisposed)
-        {
-            return;
-        }
-        
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -434,11 +435,6 @@ public abstract partial class Layer : IHitTestItem,
     [JSInvokable]
     public async Task OnJsCreateError(IJSStreamReference jsStreamRef)
     {
-        if (IsDisposed)
-        {
-            return;
-        }
-        
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -471,11 +467,6 @@ public abstract partial class Layer : IHitTestItem,
     [JSInvokable]
     public async Task OnJsDestroy(IJSStreamReference jsStreamRef)
     {
-        if (IsDisposed)
-        {
-            return;
-        }
-        
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);

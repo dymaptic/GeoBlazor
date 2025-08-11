@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IInputBaseLayers.html">GeoBlazor Docs</a>
-///     
+///     Interface for Input base layers
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IInputBaseLayers>))]
 public partial interface IInputBaseLayers : IMapComponent

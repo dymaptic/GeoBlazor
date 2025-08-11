@@ -20,6 +20,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     IFeatureTableWidgetLayers,
     IFeatureTemplatesViewModelLayers,
     IFeatureTemplatesWidgetLayers,
+    IInputBaseLayers,
     IOperationalLayer,
     IOrderedLayer,
     IPortalLayer,
@@ -321,6 +322,12 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
+    /// <param name="globalIdField">
+    ///     The name of a gid field containing a globally unique identifier for each feature in the layer. This may be null or undefined if the layer does not have a globally unique identifier field.
+    /// </param>
     public FeatureLayer(
         string? url = null,
         PortalItem? portalItem = null,
@@ -384,7 +391,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
         string? typeIdField = null,
         IReadOnlyList<FeatureType>? types = null,
         bool? useViewTime = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null,
+        string? globalIdField = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -451,6 +460,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         Types = types;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
+        GlobalIdField = globalIdField;
 #pragma warning restore BL0005    
     }
     
@@ -697,6 +708,15 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public GeometryFieldsInfo? GeometryFieldsInfo { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerglobalidfield-property">GeoBlazor Docs</a>
+    ///     The name of a gid field containing a globally unique identifier for each feature in the layer. This may be null or undefined if the layer does not have a globally unique identifier field.
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? GlobalIdField { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerhasm-property">GeoBlazor Docs</a>
@@ -1047,6 +1067,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<FeatureType>? Types { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayeruniqueidfields-property">GeoBlazor Docs</a>
+    ///     This property contains an array of field names that are used to uniquely identify a feature in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#uniqueIdFields">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IReadOnlyList<string>? UniqueIdFields { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerurl-property">GeoBlazor Docs</a>
@@ -2213,6 +2243,45 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
          
         return GeometryType;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the GlobalIdField property.
+    /// </summary>
+    public async Task<string?> GetGlobalIdField()
+    {
+        if (CoreJsModule is null)
+        {
+            return GlobalIdField;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return GlobalIdField;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "globalIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             GlobalIdField = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(GlobalIdField)] = GlobalIdField;
+        }
+         
+        return GlobalIdField;
     }
     
     /// <summary>
@@ -3459,6 +3528,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         if (result is not null)
         {
+            if (TimeExtent is not null)
+            {
+                result.Id = TimeExtent.Id;
+            }
+            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -3661,6 +3735,45 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return Types;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the UniqueIdFields property.
+    /// </summary>
+    public async Task<IReadOnlyList<string>?> GetUniqueIdFields()
+    {
+        if (CoreJsModule is null)
+        {
+            return UniqueIdFields;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return UniqueIdFields;
+        }
+
+        // get the property value
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "uniqueIdFields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             UniqueIdFields = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(UniqueIdFields)] = UniqueIdFields;
+        }
+         
+        return UniqueIdFields;
     }
     
     /// <summary>
@@ -4528,6 +4641,43 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the GlobalIdField property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetGlobalIdField(string? value)
+    {
+#pragma warning disable BL0005
+        GlobalIdField = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(GlobalIdField)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "globalIdField", value);
     }
     
     /// <summary>

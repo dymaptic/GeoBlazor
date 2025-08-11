@@ -111,6 +111,9 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public VectorTileLayer(
         string? apiKey = null,
         string? arcGISLayerId = null,
@@ -130,7 +133,8 @@ public partial class VectorTileLayer : IBlendLayer,
         string? title = null,
         string? url = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -153,6 +157,7 @@ public partial class VectorTileLayer : IBlendLayer,
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     

@@ -237,6 +237,9 @@ public partial class ImageryLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public ImageryLayer(
         string? url = null,
         PortalItem? portalItem = null,
@@ -284,7 +287,8 @@ public partial class ImageryLayer : IBlendLayer,
         IReadOnlyList<RasterPresetRenderer>? presetRenderers = null,
         RasterFunction? rasterFunction = null,
         string? sourceJSON = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -335,6 +339,7 @@ public partial class ImageryLayer : IBlendLayer,
         RasterFunction = rasterFunction;
         SourceJSON = sourceJSON;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     
@@ -2270,6 +2275,11 @@ public partial class ImageryLayer : IBlendLayer,
         
         if (result is not null)
         {
+            if (TimeExtent is not null)
+            {
+                result.Id = TimeExtent.Id;
+            }
+            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005

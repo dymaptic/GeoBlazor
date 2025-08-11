@@ -5,33 +5,39 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ArcGISImageServiceCapabilitiesQuery.html">GeoBlazor Docs</a>
 ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">query</a> operations supported by the layer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="MaxRecordCount">
 ///     The maximum number of records that will be returned for a given query.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SupportsDistinct">
 ///     Indicates if the layer supports queries for distinct values based on fields.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SupportsOrderBy">
 ///     Indicates if the layer returned in the query response can be ordered by one or more fields.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SupportsPagination">
 ///     Indicates if the layer supports paged queries.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SupportsStandardizedQueriesOnly">
 ///     Indicates if the layer supports use of standardized queries.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SupportsStatistics">
 ///     Indicates if the layer supports field-based statistical functions.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SupportsTrueCurve">
+///     Indicates if the layer supports requesting curves with returnTrueCurves.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="SupportsSqlExpression">
+///     Indicates if the layer supports SQL expressions.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ArcGISImageServiceCapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -47,4 +53,6 @@ public partial record ArcGISImageServiceCapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsStatistics = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    bool? SupportsTrueCurve = null);
+    bool? SupportsTrueCurve = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? SupportsSqlExpression = null);
