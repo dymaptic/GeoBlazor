@@ -172,7 +172,7 @@ export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
     }
     
     if (hasValue(jsObject.datumTransformation)) {
-        dotNetQuery.datumTransformation = jsObject.datumTransformation;
+        dotNetQuery.datumTransformation = removeCircularReferences(jsObject.datumTransformation);
     }
     
     if (hasValue(jsObject.distance)) {
