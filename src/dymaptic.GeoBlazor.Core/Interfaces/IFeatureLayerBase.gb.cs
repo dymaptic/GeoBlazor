@@ -131,12 +131,6 @@ public partial interface IFeatureLayerBase : IMapComponent
     FeatureGeometryType? GeometryType { get; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbaseglobalidfield-property">GeoBlazor Docs</a>
-    ///     
-    /// </summary>
-    string? GlobalIdField { get; set; }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasehasm-property">GeoBlazor Docs</a>
     ///     Indicates whether the client-side features in the layer have `M` (measurement) values.
     ///     default undefined
@@ -319,11 +313,6 @@ public partial interface IFeatureLayerBase : IMapComponent
     Task SetGdbVersion(string? value);
     
     /// <summary>
-    ///    Asynchronously set the value of the GlobalIdField property after render.
-    /// </summary>
-    Task SetGlobalIdField(string? value);
-    
-    /// <summary>
     ///    Asynchronously set the value of the HasM property after render.
     /// </summary>
     Task SetHasM(bool? value);
@@ -466,11 +455,6 @@ public partial interface IFeatureLayerBase : IMapComponent
     ///     Asynchronously retrieve the current value of the GeometryType property.
     /// </summary>
     Task<FeatureGeometryType?> GetGeometryType();
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the GlobalIdField property.
-    /// </summary>
-    Task<string?> GetGlobalIdField();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasM property.

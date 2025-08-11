@@ -304,7 +304,7 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
             "polygon" => Center is not null && Radius is not null
             ? new Circle((Point)Center.FromSerializationRecord(), Radius.Value, 
                 Centroid?.FromSerializationRecord() as Point, 
-                Geodesic, HasM, HasZ, IsSelfIntersecting, NumberOfPoints, 
+                Geodesic, HasM, HasZ, NumberOfPoints, 
                 RadiusUnit is null ? null : Enum.Parse<RadiusUnit>(RadiusUnit),
                 Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
                 SpatialReference?.FromSerializationRecord())
