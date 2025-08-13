@@ -985,6 +985,12 @@ public partial class MapView : MapComponent
     public long QueryResultsMaxSizeLimit { get; set; } = 1_000_000_000L;
 
     /// <summary>
+    ///     The maximum time in milliseconds that the map view will wait for a render to complete before timing out and canceling.
+    /// </summary>
+    [Parameter]
+    public int MapRenderTimeoutInMilliseconds { get; set; } = 60_000;
+    
+    /// <summary>
     ///     Controls whether the popup opens when users click on the view.
     ///     When true, a Popup instance is created and assigned to view.popup the first time the user clicks on the view, unless popup is null. The popup then processes the click event.
     ///     When false, the click event is ignored and popup is not created for features but will open for other scenarios that use a popup, such as displaying Search results.
@@ -2466,16 +2472,30 @@ public partial class MapView : MapComponent
     /// </summary>
     protected virtual async Task BuildMapView()
     {
-        string mapType = Map is WebMap ? "webmap" : "map";
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
-        CancellationTokenSource.CancelAfter(5000); // 5 seconds timeout for the map view to be built
-        await CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, abortSignal, Id,
-            DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-            mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
-            EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
-            Theme?.ToString().ToLowerInvariant());
-        await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
-        CancellationTokenSource = new CancellationTokenSource();
+        try
+        {
+            string mapType = Map is WebMap ? "webmap" : "map";
+            IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
+            CancellationTokenSource.CancelAfter(MapRenderTimeoutInMilliseconds); // timeout for the map view to be built
+
+            await CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, abortSignal, Id,
+                DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
+                Theme?.ToString().ToLowerInvariant());
+            await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+
+            throw;
+        }
+        finally
+        {
+            CancellationTokenSource = new CancellationTokenSource();    
+        }
+        
     }
     
     private async Task SetTheme()

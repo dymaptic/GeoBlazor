@@ -2,7 +2,7 @@ import {hasValue} from "./arcGisJsInterop";
 import Multipoint from "@arcgis/core/geometry/Multipoint";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {buildDotNetExtent} from "./extent";
-import simplifyOperator = __esri.simplifyOperator;
+import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
 
 export function buildJsMultipoint(dotNetObject: any): any {
     let properties: any = {};

@@ -511,17 +511,6 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             return;
         }
 
-        for (const widget of widgets.filter(w => w.type !== 'popup')) {
-            await addWidget(widget, id);
-            if (abortSignal.aborted) {
-                return;
-            }
-        }
-
-        if (abortSignal.aborted) {
-            return;
-        }
-
         if (view instanceof MapView) {
             // set the extent, center, zoom/scale after the spatial reference is set
             if (hasValue(extent) && (hasValue(extent.spatialReference) || hasValue(spatialRef))) {
@@ -556,6 +545,40 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             if (abortSignal.aborted) {
                 return;
             }
+        }
+
+        // Group widgets by position to ensure consistent stacking order
+        const filteredWidgets = widgets.filter(w => w.type !== 'popup');
+        const widgetsByPosition = new window.Map<string, any[]>();
+        
+        for (const widget of filteredWidgets) {
+            const position = widget.position || 'default';
+            if (!widgetsByPosition.has(position)) {
+                widgetsByPosition.set(position, []);
+            }
+            widgetsByPosition.get(position)!.push(widget);
+        }
+
+        // Process each position group in parallel, but widgets within each group sequentially
+        const positionPromises = Array.from(widgetsByPosition.entries()).map(async ([position, positionWidgets]) => {
+            for (const widget of positionWidgets) {
+                if (abortSignal.aborted) {
+                    return;
+                }
+                try {
+                    // Process widgets in the same position sequentially to maintain stacking order
+                    await addWidget(widget, id);
+                } catch (e) {
+                    console.error(`Error adding widget ${widget.type} at position ${position}: ${e}`);
+                }
+            }
+        });
+
+        // Wait for all position groups to complete
+        await Promise.all(positionPromises);
+
+        if (abortSignal.aborted) {
+            return;
         }
     }
     catch (e) {

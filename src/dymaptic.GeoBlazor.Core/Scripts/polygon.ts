@@ -4,7 +4,7 @@ import Polygon from "@arcgis/core/geometry/Polygon";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import Circle from "@arcgis/core/geometry/Circle";
 import {buildDotNetPoint, buildJsPoint} from "./point";
-import simplifyOperator = __esri.simplifyOperator;
+import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
 
 export function buildDotNetPolygon(polygon: any): any {
     if (polygon === undefined || polygon === null) return null;

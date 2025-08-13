@@ -46,6 +46,7 @@ public partial class WCSLayer : Layer
                 break;
         }
     }
+    
     /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
@@ -68,6 +69,7 @@ public partial class WCSLayer : Layer
         }
     }
 
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();

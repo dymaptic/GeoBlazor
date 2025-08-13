@@ -74,13 +74,14 @@ public record QueryDatumTransformation
     /// <summary>
     ///     Implicit operator to convert a QueryDatumTransformation to a QueryCompositeTransformation.
     /// </summary>
-    /// <param name="transformation"></param>
-    /// <returns></returns>
     public static implicit operator QueryCompositeTransformation?(QueryDatumTransformation transformation)
     {
         return transformation.CompositeTransformation;
     }
     
+    /// <summary>
+    ///     Implicit operator to convert a QueryDatumTransformation to a double.
+    /// </summary>
     public static implicit operator double?(QueryDatumTransformation transformation)
     {
         return transformation.NumericTransformation;
