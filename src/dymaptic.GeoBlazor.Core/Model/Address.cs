@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     with the same name as the containing class
 /// </summary>
 public record Address(
-    [property: JsonPropertyName("Address")]
+    [property: JsonPropertyName("address")]
     string Street,
     string City,
     string State,

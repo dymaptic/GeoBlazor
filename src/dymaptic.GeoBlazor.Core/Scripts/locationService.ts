@@ -15,14 +15,14 @@ import SuggestionResult = __esri.SuggestionResult;
 
 export default class LocatorWrapper extends LocationServiceGenerated {
 
-    async addressesToLocations(url: string, addresses: any, addressSearchString: string, countryCode: string | null,
+    async addressesToLocations(url: string, addresses: any, countryCode: string | null,
                                categories: string[] | null, locationType: string | null,
                                outSpatialReference: DotNetSpatialReference | null,
-                               requestOptions: any | null)
+                               requestOptions: any | null,  addressSearchString: string,)
         : Promise<any | null> {
 
         if (!hasValue(addressSearchString)) {
-            addressSearchString = 'Address';
+            addressSearchString = 'address';
         }
 
         let params;
@@ -73,11 +73,11 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         return encoded;
     }
 
-    async addressToLocations(url: string, address: any, addressSearchString: string, categories: string[] | null, countryCode: string | null,
+    async addressToLocations(url: string, address: any, categories: string[] | null, countryCode: string | null,
                              forStorage: boolean | null, location: DotNetPoint | null, locationType: string | null,
                              magicKey: string | null, maxLocations: number | null, outFields: string[] | null,
                              outSpatialReference: DotNetSpatialReference | null, searchExtent: DotNetExtent | null,
-                             requestOptions: any | null)
+                             requestOptions: any | null, addressSearchString: string)
         : Promise<any | null> {
         let params;
         if (!hasValue(addressSearchString)) {

@@ -2182,8 +2182,8 @@ public class LocationService : LogicComponent
         RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null)
     {
         IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
-            addressSearchStringParameterName, categories, countryCode, forStorage, location, locationType, magicKey,
-            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions);
+            categories, countryCode, forStorage, location, locationType, magicKey,
+            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions, addressSearchStringParameterName);
 
         return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
     }
@@ -2194,8 +2194,8 @@ public class LocationService : LogicComponent
         string? addressSearchStringParameterName = null)
     {
         IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url,
-            addresses, addressSearchStringParameterName, countryCode, categories, locationType,
-            outSpatialReference, requestOptions);
+            addresses, countryCode, categories, locationType,
+            outSpatialReference, requestOptions, addressSearchStringParameterName);
 
         return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
     }
