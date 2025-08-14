@@ -17,6 +17,30 @@ public partial class Basemap : MapComponent, IPortalLayer
         }
     }
     
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapbaselayers-property">GeoBlazor Docs</a>
+    ///     A collection of tile layers that make up the basemap's features.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(NonNullablePropertyCollectionConverter<Layer>))]
+    [CodeGenerationIgnore]
+    public IReadOnlyList<Layer>? BaseLayers { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapreferencelayers-property">GeoBlazor Docs</a>
+    ///     A collection of reference layers which are displayed over the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">base layers</a> and all other layers in the map.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(NonNullablePropertyCollectionConverter<Layer>))]
+    [CodeGenerationIgnore]
+    public IReadOnlyList<Layer>? ReferenceLayers { get; set; }
+    
     /// <summary>  
     ///     Asynchronously retrieve the current value of the BaseLayers property.  
     /// </summary>  

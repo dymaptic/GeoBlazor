@@ -1,4 +1,5 @@
 ﻿#nullable enable
+abstract dymaptic.GeoBlazor.Core.Components.ActionBase.Type.get -> string!
 abstract dymaptic.GeoBlazor.Core.Components.ColorRamp.Type.get -> dymaptic.GeoBlazor.Core.Enums.ColorRampType
 abstract dymaptic.GeoBlazor.Core.Components.Domain.Type.get -> string!
 abstract dymaptic.GeoBlazor.Core.Components.DynamicDataSource.Type.get -> dymaptic.GeoBlazor.Core.Enums.DynamicDataSourceType
@@ -23,6 +24,10 @@ dymaptic.GeoBlazor.Core.Attributes.ArcGISPropertyAttribute.ArcGISPropertyAttribu
 dymaptic.GeoBlazor.Core.Attributes.RequiredPropertyAttribute
 dymaptic.GeoBlazor.Core.Attributes.RequiredPropertyAttribute.OtherOptions.get -> string![]?
 dymaptic.GeoBlazor.Core.Attributes.RequiredPropertyAttribute.RequiredPropertyAttribute(params string![]? otherOptions) -> void
+dymaptic.GeoBlazor.Core.BlazorMode
+dymaptic.GeoBlazor.Core.BlazorMode.Maui = 2 -> dymaptic.GeoBlazor.Core.BlazorMode
+dymaptic.GeoBlazor.Core.BlazorMode.Server = 0 -> dymaptic.GeoBlazor.Core.BlazorMode
+dymaptic.GeoBlazor.Core.BlazorMode.WebAssembly = 1 -> dymaptic.GeoBlazor.Core.BlazorMode
 dymaptic.GeoBlazor.Core.Components.Abilities
 dymaptic.GeoBlazor.Core.Components.Abilities.Abilities() -> void
 dymaptic.GeoBlazor.Core.Components.Abilities.Abilities(bool? attachmentsContent = null, bool? chartAnimation = null, bool? customContent = null, bool? fieldsContent = null, bool? mediaContent = null, bool? textContent = null) -> void
@@ -1546,40 +1551,6 @@ dymaptic.GeoBlazor.Core.Components.Constraints.RotationEnabled.get -> bool?
 dymaptic.GeoBlazor.Core.Components.Constraints.RotationEnabled.set -> void
 dymaptic.GeoBlazor.Core.Components.Constraints.SnapToZoom.get -> bool?
 dymaptic.GeoBlazor.Core.Components.Constraints.SnapToZoom.set -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.CaptureButton.get -> bool?
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.CaptureButton.set -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.CoordinateConversionVisibleElements() -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.CoordinateConversionVisibleElements(bool? captureButton = null, bool? editButton = null, bool? expandButton = null, bool? settingsButton = null) -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.EditButton.get -> bool?
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.EditButton.set -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.ExpandButton.get -> bool?
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.ExpandButton.set -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.GetCaptureButton() -> System.Threading.Tasks.Task<bool?>!
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.GetEditButton() -> System.Threading.Tasks.Task<bool?>!
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.GetExpandButton() -> System.Threading.Tasks.Task<bool?>!
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.GetSettingsButton() -> System.Threading.Tasks.Task<bool?>!
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.SetCaptureButton(bool? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.SetEditButton(bool? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.SetExpandButton(bool? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.SetSettingsButton(bool? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.SettingsButton.get -> bool?
-dymaptic.GeoBlazor.Core.Components.CoordinateConversionVisibleElements.SettingsButton.set -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.Alias.get -> string?
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.Alias.set -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.CoordinateSegment() -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.CoordinateSegment(string? alias = null, string? description = null, string? searchPattern = null) -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.Description.get -> string?
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.Description.set -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.GetAlias() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.GetDescription() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.GetSearchPattern() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.SearchPattern.get -> string?
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.SearchPattern.set -> void
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.SetAlias(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.SetDescription(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.CoordinateSegment.SetSearchPattern(string? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.CSVLayerElevationInfo
 dymaptic.GeoBlazor.Core.Components.CSVLayerElevationInfo.CSVLayerElevationInfo() -> void
 dymaptic.GeoBlazor.Core.Components.CSVLayerElevationInfo.CSVLayerElevationInfo(dymaptic.GeoBlazor.Core.Components.CSVLayerElevationInfoFeatureExpressionInfo? featureExpressionInfo = null, dymaptic.GeoBlazor.Core.Enums.ElevationInfoMode? mode = null, double? offset = null, dymaptic.GeoBlazor.Core.Enums.ElevationUnit? unit = null) -> void
@@ -3609,6 +3580,7 @@ dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UseViewTime.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Version.get -> double?
 dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Version.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer
+dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.ActiveQueries -> System.Collections.Generic.Dictionary<System.Guid, dymaptic.GeoBlazor.Core.Components.Graphic![]!>!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.AddToFields(params dymaptic.GeoBlazor.Core.Components.Field![]! values) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.AddToLabelingInfo(params dymaptic.GeoBlazor.Core.Components.Label![]! values) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.AddToOrderBy(params dymaptic.GeoBlazor.Core.Components.OrderByInfo![]! values) -> System.Threading.Tasks.Task!
@@ -3692,7 +3664,6 @@ dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GetTimeExtent() -> System
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GetTimeInfo() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.TimeInfo?>!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GetTimeOffset() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.TimeInterval?>!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GetTrackInfo() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.TrackInfo?>!
-dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GetUrl() -> System.Threading.Tasks.Task<string?>!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GetUseViewTime() -> System.Threading.Tasks.Task<bool?>!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.HasEditsListener.get -> bool
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.HasRefreshListener.get -> bool
@@ -3716,6 +3687,7 @@ dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.OnEdits.get -> Microsoft.
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.OnEdits.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.OnJsEdits(Microsoft.JSInterop.IJSStreamReference! jsStreamRef) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.OnJsRefresh(Microsoft.JSInterop.IJSStreamReference! jsStreamRef) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.OnQueryFeaturesStreamCallback(Microsoft.JSInterop.IJSStreamReference! streamReference, System.Guid queryId) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.OnRefresh.get -> Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.RefreshEvent!>
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.OnRefresh.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.OrderBy.get -> System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.OrderByInfo!>?
@@ -3775,7 +3747,6 @@ dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.SetTimeExtent(dymaptic.Ge
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.SetTimeInfo(dymaptic.GeoBlazor.Core.Components.TimeInfo? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.SetTimeOffset(dymaptic.GeoBlazor.Core.Components.TimeInterval? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.SetTrackInfo(dymaptic.GeoBlazor.Core.Components.TrackInfo? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.SetUrl(string! value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.SetUseViewTime(bool? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.SpatialReference.get -> dymaptic.GeoBlazor.Core.Components.SpatialReference?
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.SpatialReference.set -> void
@@ -3789,8 +3760,6 @@ dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.TimeOffset.get -> dymapti
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.TimeOffset.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.TrackInfo.get -> dymaptic.GeoBlazor.Core.Components.TrackInfo?
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.TrackInfo.set -> void
-dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.Url.get -> string!
-dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.Url.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.UseViewTime.get -> bool?
 dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.UseViewTime.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.GeoRSSLayer
@@ -4235,6 +4204,8 @@ dymaptic.GeoBlazor.Core.Components.Layers.KMLLayer.Url.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.Layer
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.ArcGISLayerId.get -> string?
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.ArcGISLayerId.set -> void
+dymaptic.GeoBlazor.Core.Components.Layers.Layer.ExcludeApiKey.get -> bool?
+dymaptic.GeoBlazor.Core.Components.Layers.Layer.ExcludeApiKey.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.FullExtent.get -> dymaptic.GeoBlazor.Core.Components.Geometries.Extent?
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.FullExtent.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.GetArcGISLayerId() -> System.Threading.Tasks.Task<string?>!
@@ -4255,9 +4226,6 @@ dymaptic.GeoBlazor.Core.Components.Layers.Layer.Layer() -> void
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.LayerView.get -> dymaptic.GeoBlazor.Core.Components.LayerView?
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.ListMode.get -> dymaptic.GeoBlazor.Core.Enums.ListMode?
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.ListMode.set -> void
-dymaptic.GeoBlazor.Core.Components.Layers.Layer.Load() -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.Layers.Layer.Load(Microsoft.JSInterop.IJSRuntime! jsRuntime, dymaptic.GeoBlazor.Core.JsModuleManager! jsModuleManager, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.Layers.Layer.Load(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.Loaded.get -> bool?
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.OnCreate.get -> Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent!>
 dymaptic.GeoBlazor.Core.Components.Layers.Layer.OnCreate.set -> void
@@ -4946,7 +4914,7 @@ dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.GetScreenSizePerspectiveEnabl
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.GetSpatialReference() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.SpatialReference?>!
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.GetTrackInfo() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.TrackInfo?>!
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.GetUrl() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.GetWfsCapabilities() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.WFSCapabilities?>!
+dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.GetWfsCapabilities() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Model.WFSCapabilities?>!
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.HasRefreshListener.get -> bool
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.LabelingInfo.get -> System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.Label!>?
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.LabelingInfo.set -> void
@@ -5026,17 +4994,16 @@ dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.SetScreenSizePerspectiveEnabl
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.SetSpatialReference(dymaptic.GeoBlazor.Core.Components.SpatialReference? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.SetTrackInfo(dymaptic.GeoBlazor.Core.Components.TrackInfo? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.SetUrl(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.SetWfsCapabilities(dymaptic.GeoBlazor.Core.Components.WFSCapabilities? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.SpatialReference.get -> dymaptic.GeoBlazor.Core.Components.SpatialReference?
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.SpatialReference.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.TrackInfo.get -> dymaptic.GeoBlazor.Core.Components.TrackInfo?
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.TrackInfo.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.Url.get -> string?
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.Url.set -> void
-dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.WfsCapabilities.get -> dymaptic.GeoBlazor.Core.Components.WFSCapabilities?
+dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.WfsCapabilities.get -> dymaptic.GeoBlazor.Core.Model.WFSCapabilities?
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.WfsCapabilities.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.WFSLayer() -> void
-dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.WFSLayer(string? arcGISLayerId = null, dymaptic.GeoBlazor.Core.Enums.BlendMode? blendMode = null, string? copyright = null, System.Collections.Generic.Dictionary<string!, object!>? customParameters = null, string? definitionExpression = null, string? displayField = null, bool? displayFilterEnabled = null, dymaptic.GeoBlazor.Core.Components.DisplayFilterInfo? displayFilterInfo = null, dymaptic.GeoBlazor.Core.Model.Effect? effect = null, dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo? elevationInfo = null, dymaptic.GeoBlazor.Core.Components.FeatureEffect? featureEffect = null, dymaptic.GeoBlazor.Core.Interfaces.IFeatureReduction? featureReduction = null, System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.Field!>? fields = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? fullExtent = null, dymaptic.GeoBlazor.Core.Enums.SimpleGeometryType? geometryType = null, bool? isBasemapReferenceLayer = null, System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.Label!>? labelingInfo = null, bool? labelsVisible = null, bool? legendEnabled = null, dymaptic.GeoBlazor.Core.Enums.ListMode? listMode = null, int? maxPageCount = null, int? maxRecordCount = null, double? maxScale = null, double? minScale = null, string? name = null, string? namespaceUri = null, string? objectIdField = null, double? opacity = null, System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.OrderByInfo!>? orderBy = null, System.Collections.Generic.IReadOnlyList<string!>? outFields = null, bool? persistenceEnabled = null, bool? popupEnabled = null, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? popupTemplate = null, dymaptic.GeoBlazor.Core.Components.PortalItem? portalItem = null, double? refreshInterval = null, dymaptic.GeoBlazor.Core.Components.Renderers.Renderer? renderer = null, bool? screenSizePerspectiveEnabled = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? spatialReference = null, string? title = null, dymaptic.GeoBlazor.Core.Components.TrackInfo? trackInfo = null, string? url = null, dymaptic.GeoBlazor.Core.Components.TimeExtent? visibilityTimeExtent = null, bool? visible = null, dymaptic.GeoBlazor.Core.Components.WFSCapabilities? wfsCapabilities = null) -> void
+dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.WFSLayer(string? arcGISLayerId = null, dymaptic.GeoBlazor.Core.Enums.BlendMode? blendMode = null, string? copyright = null, System.Collections.Generic.Dictionary<string!, object!>? customParameters = null, string? definitionExpression = null, string? displayField = null, bool? displayFilterEnabled = null, dymaptic.GeoBlazor.Core.Components.DisplayFilterInfo? displayFilterInfo = null, dymaptic.GeoBlazor.Core.Model.Effect? effect = null, dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo? elevationInfo = null, dymaptic.GeoBlazor.Core.Components.FeatureEffect? featureEffect = null, dymaptic.GeoBlazor.Core.Interfaces.IFeatureReduction? featureReduction = null, System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.Field!>? fields = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? fullExtent = null, dymaptic.GeoBlazor.Core.Enums.SimpleGeometryType? geometryType = null, bool? isBasemapReferenceLayer = null, System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.Label!>? labelingInfo = null, bool? labelsVisible = null, bool? legendEnabled = null, dymaptic.GeoBlazor.Core.Enums.ListMode? listMode = null, int? maxPageCount = null, int? maxRecordCount = null, double? maxScale = null, double? minScale = null, string? name = null, string? namespaceUri = null, string? objectIdField = null, double? opacity = null, System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.OrderByInfo!>? orderBy = null, System.Collections.Generic.IReadOnlyList<string!>? outFields = null, bool? persistenceEnabled = null, bool? popupEnabled = null, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? popupTemplate = null, dymaptic.GeoBlazor.Core.Components.PortalItem? portalItem = null, double? refreshInterval = null, dymaptic.GeoBlazor.Core.Components.Renderers.Renderer? renderer = null, bool? screenSizePerspectiveEnabled = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? spatialReference = null, string? title = null, dymaptic.GeoBlazor.Core.Components.TrackInfo? trackInfo = null, string? url = null, dymaptic.GeoBlazor.Core.Components.TimeExtent? visibilityTimeExtent = null, bool? visible = null) -> void
 dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer
 dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.AddToFullExtents(params dymaptic.GeoBlazor.Core.Components.Geometries.Extent![]! values) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.AddToSpatialReferences(params double[]! values) -> System.Threading.Tasks.Task!
@@ -5244,6 +5211,7 @@ dymaptic.GeoBlazor.Core.Components.LayerSearchSource.ExactMatch.set -> void
 dymaptic.GeoBlazor.Core.Components.LayerSearchSource.GetDisplayField() -> System.Threading.Tasks.Task<string?>!
 dymaptic.GeoBlazor.Core.Components.LayerSearchSource.GetExactMatch() -> System.Threading.Tasks.Task<bool?>!
 dymaptic.GeoBlazor.Core.Components.LayerSearchSource.GetLayer() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.Layer?>!
+dymaptic.GeoBlazor.Core.Components.LayerSearchSource.GetLayerFromJs() -> dymaptic.GeoBlazor.Core.Components.Layers.Layer?
 dymaptic.GeoBlazor.Core.Components.LayerSearchSource.GetName() -> System.Threading.Tasks.Task<string?>!
 dymaptic.GeoBlazor.Core.Components.LayerSearchSource.GetOrderByFields() -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<string!>?>!
 dymaptic.GeoBlazor.Core.Components.LayerSearchSource.GetSearchFields() -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<string!>?>!
@@ -5662,17 +5630,20 @@ dymaptic.GeoBlazor.Core.Components.MapComponent.JsRuntime.set -> void
 dymaptic.GeoBlazor.Core.Components.MapComponent.LayerId.get -> System.Guid?
 dymaptic.GeoBlazor.Core.Components.MapComponent.LayerId.set -> void
 dymaptic.GeoBlazor.Core.Components.MapComponent.MapComponent() -> void
+dymaptic.GeoBlazor.Core.Components.MapComponent.MapComponentType.get -> System.Type!
 dymaptic.GeoBlazor.Core.Components.MapComponent.MapRendered.get -> bool
 dymaptic.GeoBlazor.Core.Components.MapComponent.MapRendered.set -> void
 dymaptic.GeoBlazor.Core.Components.MapComponent.ModifiedParameters -> System.Collections.Generic.Dictionary<string!, object?>!
-dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveListenerTriggered(string! eventName, System.Text.Json.JsonElement? value) -> void
+dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveListenerTriggered(string! eventName, Microsoft.JSInterop.IJSStreamReference? jsStreamReference) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWaiterTrue(string! waitExpression) -> void
-dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWatcherUpdate(string! watchExpression, System.Text.Json.JsonElement? value) -> void
+dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWatcherUpdate(string! watchExpression, Microsoft.JSInterop.IJSStreamReference? jsStreamReference) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.MapComponent.Parent.get -> dymaptic.GeoBlazor.Core.Components.MapComponent?
 dymaptic.GeoBlazor.Core.Components.MapComponent.Parent.set -> void
 dymaptic.GeoBlazor.Core.Components.MapComponent.PreviousParameters -> System.Collections.Generic.Dictionary<string!, object?>?
 dymaptic.GeoBlazor.Core.Components.MapComponent.ProJsModule.get -> Microsoft.JSInterop.IJSObjectReference?
 dymaptic.GeoBlazor.Core.Components.MapComponent.Props -> System.Reflection.PropertyInfo![]?
+dymaptic.GeoBlazor.Core.Components.MapComponent.ReadJsStreamReference(Microsoft.JSInterop.IJSStreamReference! jsStreamReference, System.Type! returnType) -> System.Threading.Tasks.Task<object?>!
+dymaptic.GeoBlazor.Core.Components.MapComponent.ReadJsStreamReference<T>(Microsoft.JSInterop.IJSStreamReference! jsStreamReference) -> System.Threading.Tasks.Task<T?>!
 dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveListener(string! eventName) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveWaiter(string! waitExpression) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveWatcher(string! watchExpression) -> System.Threading.Tasks.Task!
@@ -6573,6 +6544,8 @@ dymaptic.GeoBlazor.Core.Components.PortalItem.Culture.set -> void
 dymaptic.GeoBlazor.Core.Components.PortalItem.DeleteRating() -> System.Threading.Tasks.Task<string?>!
 dymaptic.GeoBlazor.Core.Components.PortalItem.Description.get -> string?
 dymaptic.GeoBlazor.Core.Components.PortalItem.Description.set -> void
+dymaptic.GeoBlazor.Core.Components.PortalItem.ExcludeApiKey.get -> bool?
+dymaptic.GeoBlazor.Core.Components.PortalItem.ExcludeApiKey.set -> void
 dymaptic.GeoBlazor.Core.Components.PortalItem.Extent.get -> dymaptic.GeoBlazor.Core.Components.Geometries.Extent?
 dymaptic.GeoBlazor.Core.Components.PortalItem.Extent.set -> void
 dymaptic.GeoBlazor.Core.Components.PortalItem.FetchData(dymaptic.GeoBlazor.Core.Enums.ResponseType responseType, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string?>!
@@ -7888,6 +7861,7 @@ dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol.Yoffset.get -> dymaptic.
 dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol.Yoffset.set -> void
 dymaptic.GeoBlazor.Core.Components.Symbols.Outline
 dymaptic.GeoBlazor.Core.Components.Symbols.Outline.Outline() -> void
+dymaptic.GeoBlazor.Core.Components.Symbols.Outline.Outline(dymaptic.GeoBlazor.Core.Components.Symbols.SimpleLineSymbol! symbol) -> void
 dymaptic.GeoBlazor.Core.Components.Symbols.Outline.Outline(dymaptic.GeoBlazor.Core.Model.MapColor? color = null, dymaptic.GeoBlazor.Core.Model.Dimension? width = null, dymaptic.GeoBlazor.Core.Enums.SimpleLineSymbolStyle? style = null, dymaptic.GeoBlazor.Core.Enums.Cap? cap = null, dymaptic.GeoBlazor.Core.Enums.Join? join = null, dymaptic.GeoBlazor.Core.Components.Symbols.LineSymbolMarker? marker = null, double? miterLimit = null) -> void
 dymaptic.GeoBlazor.Core.Components.Symbols.PictureFillSymbol
 dymaptic.GeoBlazor.Core.Components.Symbols.PictureFillSymbol.GetHeight() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Model.Dimension?>!
@@ -8600,11 +8574,15 @@ dymaptic.GeoBlazor.Core.Components.Views.MapView.SetSpatialReference(dymaptic.Ge
 dymaptic.GeoBlazor.Core.Components.Views.MapView.ShouldUpdate -> bool
 dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopup(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate! template, dymaptic.GeoBlazor.Core.Components.Geometries.Point! location) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Graphic! graphic, dymaptic.GeoBlazor.Core.Options.PopupOptions! options) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowZoomWidget.get -> bool
+dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowZoomWidget.set -> void
 dymaptic.GeoBlazor.Core.Components.Views.MapView.SolveServiceArea(string! serviceAreaUrl, double[]! driveTimeCutOffs, dymaptic.GeoBlazor.Core.Components.Symbols.Symbol! serviceAreaSymbol) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Views.MapView.SpatialReference.get -> dymaptic.GeoBlazor.Core.Components.SpatialReference?
 dymaptic.GeoBlazor.Core.Components.Views.MapView.Style.get -> string!
 dymaptic.GeoBlazor.Core.Components.Views.MapView.Style.set -> void
 dymaptic.GeoBlazor.Core.Components.Views.MapView.TakeScreenshot(dymaptic.GeoBlazor.Core.Model.ScreenshotOptions? options = null) -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Model.Screenshot!>!
+dymaptic.GeoBlazor.Core.Components.Views.MapView.Theme.get -> dymaptic.GeoBlazor.Core.Enums.ArcGISTheme?
+dymaptic.GeoBlazor.Core.Components.Views.MapView.Theme.set -> void
 dymaptic.GeoBlazor.Core.Components.Views.MapView.ToMap(dymaptic.GeoBlazor.Core.Model.ScreenPoint! screenPoint) -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Point!>!
 dymaptic.GeoBlazor.Core.Components.Views.MapView.ToScreen(dymaptic.GeoBlazor.Core.Components.Geometries.Point! mapPoint) -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Model.ScreenPoint!>!
 dymaptic.GeoBlazor.Core.Components.Views.MapView.ViewJsModule.get -> Microsoft.JSInterop.IJSObjectReference?
@@ -8994,60 +8972,6 @@ dymaptic.GeoBlazor.Core.Components.WebSceneWidgets.TimeSlider.get -> dymaptic.Ge
 dymaptic.GeoBlazor.Core.Components.WebSceneWidgets.TimeSlider.set -> void
 dymaptic.GeoBlazor.Core.Components.WebSceneWidgets.WebSceneWidgets() -> void
 dymaptic.GeoBlazor.Core.Components.WebSceneWidgets.WebSceneWidgets(dymaptic.GeoBlazor.Core.Model.WebDocTimeSlider? timeSlider = null) -> void
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.AddToFeatureTypes(params dymaptic.GeoBlazor.Core.Components.WFSFeatureType![]! values) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.FeatureTypes.get -> System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.WFSFeatureType!>?
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.FeatureTypes.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.GetFeatureTypes() -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.WFSFeatureType!>?>!
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.GetOperations() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.WFSOperations?>!
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.Operations.get -> dymaptic.GeoBlazor.Core.Components.WFSOperations?
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.Operations.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.RemoveFromFeatureTypes(params dymaptic.GeoBlazor.Core.Components.WFSFeatureType![]! values) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.SetFeatureTypes(System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.WFSFeatureType!>? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.SetOperations(dymaptic.GeoBlazor.Core.Components.WFSOperations? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.WFSCapabilities() -> void
-dymaptic.GeoBlazor.Core.Components.WFSCapabilities.WFSCapabilities(System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Components.WFSFeatureType!>? featureTypes = null, dymaptic.GeoBlazor.Core.Components.WFSOperations? operations = null) -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.AddToSupportedSpatialReferences(params double[]! values) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.DefaultSpatialReference.get -> double?
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.DefaultSpatialReference.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.Description.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.Description.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.Extent.get -> dymaptic.GeoBlazor.Core.Components.Geometries.Extent?
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.Extent.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.GetDefaultSpatialReference() -> System.Threading.Tasks.Task<double?>!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.GetDescription() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.GetExtent() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Extent?>!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.GetName() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.GetNamespacePrefix() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.GetNamespaceUri() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.GetSupportedSpatialReferences() -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<double>?>!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.GetTitle() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.GetTypeName() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.Name.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.Name.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.NamespacePrefix.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.NamespacePrefix.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.NamespaceUri.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.NamespaceUri.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.RemoveFromSupportedSpatialReferences(params double[]! values) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SetDefaultSpatialReference(double? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SetDescription(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SetName(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SetNamespacePrefix(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SetNamespaceUri(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SetSupportedSpatialReferences(System.Collections.Generic.IReadOnlyList<double>? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SetTitle(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SetTypeName(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SupportedSpatialReferences.get -> System.Collections.Generic.IReadOnlyList<double>?
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.SupportedSpatialReferences.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.Title.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.Title.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.TypeName.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.TypeName.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.WFSFeatureType() -> void
-dymaptic.GeoBlazor.Core.Components.WFSFeatureType.WFSFeatureType(double? defaultSpatialReference = null, string? description = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? extent = null, string? name = null, string? namespacePrefix = null, string? namespaceUri = null, System.Collections.Generic.IReadOnlyList<double>? supportedSpatialReferences = null, string? title = null, string? typeName = null) -> void
 dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo
 dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo.FeatureExpressionInfo.get -> dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfoFeatureExpressionInfo?
 dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo.FeatureExpressionInfo.set -> void
@@ -9120,50 +9044,6 @@ dymaptic.GeoBlazor.Core.Components.WFSLayerView.SetMaximumNumberOfFeatures(doubl
 dymaptic.GeoBlazor.Core.Components.WFSLayerView.SetMaximumNumberOfFeaturesExceeded(bool? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.WFSLayerView.WFSLayerView() -> void
 dymaptic.GeoBlazor.Core.Components.WFSLayerView.WFSLayerView(dymaptic.GeoBlazor.Core.Components.FeatureEffect? featureEffect = null, dymaptic.GeoBlazor.Core.Components.FeatureFilter? filter = null, dymaptic.GeoBlazor.Core.Components.HighlightOptions? highlightOptions = null, double? maximumNumberOfFeatures = null, bool? maximumNumberOfFeaturesExceeded = null, bool? visible = null) -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperations
-dymaptic.GeoBlazor.Core.Components.WFSOperations.DescribeFeatureType.get -> dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType?
-dymaptic.GeoBlazor.Core.Components.WFSOperations.DescribeFeatureType.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperations.GetCapabilities.get -> dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities?
-dymaptic.GeoBlazor.Core.Components.WFSOperations.GetCapabilities.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperations.GetDescribeFeatureType() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType?>!
-dymaptic.GeoBlazor.Core.Components.WFSOperations.GetFeature.get -> dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature?
-dymaptic.GeoBlazor.Core.Components.WFSOperations.GetFeature.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperations.GetGetCapabilities() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities?>!
-dymaptic.GeoBlazor.Core.Components.WFSOperations.GetGetFeature() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature?>!
-dymaptic.GeoBlazor.Core.Components.WFSOperations.SetDescribeFeatureType(dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSOperations.SetGetCapabilities(dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSOperations.SetGetFeature(dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSOperations.WFSOperations() -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperations.WFSOperations(dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType? describeFeatureType = null, dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities? getCapabilities = null, dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature? getFeature = null) -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType
-dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType.GetUrl() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType.SetUrl(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType.Url.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType.Url.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType.WFSOperationsDescribeFeatureType() -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsDescribeFeatureType.WFSOperationsDescribeFeatureType(string? url = null) -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities.GetUrl() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities.SetUrl(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities.Url.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities.Url.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities.WFSOperationsGetCapabilities() -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetCapabilities.WFSOperationsGetCapabilities(string? url = null) -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.GetOutputFormat() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.GetSupportsPagination() -> System.Threading.Tasks.Task<bool?>!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.GetUrl() -> System.Threading.Tasks.Task<string?>!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.OutputFormat.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.OutputFormat.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.SetOutputFormat(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.SetSupportsPagination(bool? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.SetUrl(string? value) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.SupportsPagination.get -> bool?
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.SupportsPagination.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.Url.get -> string?
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.Url.set -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.WFSOperationsGetFeature() -> void
-dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.WFSOperationsGetFeature(string? outputFormat = null, bool? supportsPagination = null, string? url = null) -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget
 dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.AddToUnitOptions(params dymaptic.GeoBlazor.Core.Enums.SystemOrAreaUnit[]! values) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.AreaMeasurement2DWidget() -> void
@@ -9600,14 +9480,12 @@ dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.Style.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.ViewModel.get -> dymaptic.GeoBlazor.Core.Components.LegendViewModel?
 dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.ViewModel.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget
-dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.AddToContent(params dymaptic.GeoBlazor.Core.Model.ListItemPanelContent![]! values) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Content.get -> System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!>?
+dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Content.get -> System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!>!
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Content.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Disabled.get -> bool?
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Disabled.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.FlowEnabled.get -> bool?
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.FlowEnabled.set -> void
-dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.GetContent() -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!>?>!
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.GetDisabled() -> System.Threading.Tasks.Task<bool?>!
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.GetFlowEnabled() -> System.Threading.Tasks.Task<bool?>!
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.GetImage() -> System.Threading.Tasks.Task<string?>!
@@ -9618,16 +9496,16 @@ dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Image.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.ListItem.get -> dymaptic.GeoBlazor.Core.Components.ListItem?
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.ListItem.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.ListItemPanelWidget() -> void
-dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.ListItemPanelWidget(string? containerId = null, System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!>? content = null, bool? disabled = null, bool? flowEnabled = null, string? icon = null, string? image = null, string? label = null, dymaptic.GeoBlazor.Core.Components.Views.MapView? mapView = null, bool? open = null, dymaptic.GeoBlazor.Core.Enums.OverlayPosition? position = null, string? title = null, bool? visible = null, string? widgetId = null) -> void
+dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.ListItemPanelWidget(string? containerId = null, System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!>? content = null, bool? showLegendContent = null, bool? disabled = null, bool? flowEnabled = null, string? icon = null, string? image = null, string? label = null, dymaptic.GeoBlazor.Core.Components.Views.MapView? mapView = null, bool? open = null, dymaptic.GeoBlazor.Core.Enums.OverlayPosition? position = null, string? title = null, bool? visible = null, string? widgetId = null) -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Open.get -> bool?
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Open.set -> void
-dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.RemoveFromContent(params dymaptic.GeoBlazor.Core.Model.ListItemPanelContent![]! values) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.SetContent(System.Collections.Generic.IReadOnlyList<dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!>? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.SetDisabled(bool? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.SetFlowEnabled(bool? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.SetImage(string? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.SetOpen(bool? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.SetTitle(string? value) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.ShowLegendContent.get -> bool?
+dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.ShowLegendContent.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Title.get -> string?
 dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Title.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget
@@ -10391,6 +10269,9 @@ dymaptic.GeoBlazor.Core.Enums.AlphaMode.Opaque = 2 -> dymaptic.GeoBlazor.Core.En
 dymaptic.GeoBlazor.Core.Enums.AngularUnit
 dymaptic.GeoBlazor.Core.Enums.AngularUnit.Degrees = 0 -> dymaptic.GeoBlazor.Core.Enums.AngularUnit
 dymaptic.GeoBlazor.Core.Enums.AngularUnit.Radians = 1 -> dymaptic.GeoBlazor.Core.Enums.AngularUnit
+dymaptic.GeoBlazor.Core.Enums.ArcGISTheme
+dymaptic.GeoBlazor.Core.Enums.ArcGISTheme.Dark = 1 -> dymaptic.GeoBlazor.Core.Enums.ArcGISTheme
+dymaptic.GeoBlazor.Core.Enums.ArcGISTheme.Light = 0 -> dymaptic.GeoBlazor.Core.Enums.ArcGISTheme
 dymaptic.GeoBlazor.Core.Enums.AttachmentsMode
 dymaptic.GeoBlazor.Core.Enums.AttachmentsMode.Add = 1 -> dymaptic.GeoBlazor.Core.Enums.AttachmentsMode
 dymaptic.GeoBlazor.Core.Enums.AttachmentsMode.Edit = 2 -> dymaptic.GeoBlazor.Core.Enums.AttachmentsMode
@@ -10999,21 +10880,22 @@ dymaptic.GeoBlazor.Core.Enums.LayerType.OGCFeature = 27 -> dymaptic.GeoBlazor.Co
 dymaptic.GeoBlazor.Core.Enums.LayerType.OpenStreetMap = 28 -> dymaptic.GeoBlazor.Core.Enums.LayerType
 dymaptic.GeoBlazor.Core.Enums.LayerType.OrientedImagery = 29 -> dymaptic.GeoBlazor.Core.Enums.LayerType
 dymaptic.GeoBlazor.Core.Enums.LayerType.PointCloud = 30 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.Route = 31 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.Scene = 32 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.Stream = 33 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.SubtypeGroup = 34 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.Tile = 35 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.Unknown = 36 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.Unsupported = 37 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.VectorTile = 38 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.Video = 39 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.Voxel = 40 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.WCS = 41 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.WebTile = 42 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.WFS = 43 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.WMS = 44 -> dymaptic.GeoBlazor.Core.Enums.LayerType
-dymaptic.GeoBlazor.Core.Enums.LayerType.WMTS = 45 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.ProGeoJSON = 31 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.Route = 32 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.Scene = 33 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.Stream = 34 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.SubtypeGroup = 35 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.Tile = 36 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.Unknown = 37 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.Unsupported = 38 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.VectorTile = 39 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.Video = 40 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.Voxel = 41 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.WCS = 42 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.WebTile = 43 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.WFS = 44 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.WMS = 45 -> dymaptic.GeoBlazor.Core.Enums.LayerType
+dymaptic.GeoBlazor.Core.Enums.LayerType.WMTS = 46 -> dymaptic.GeoBlazor.Core.Enums.LayerType
 dymaptic.GeoBlazor.Core.Enums.LegendStyleLayout
 dymaptic.GeoBlazor.Core.Enums.LegendStyleLayout.Auto = 0 -> dymaptic.GeoBlazor.Core.Enums.LegendStyleLayout
 dymaptic.GeoBlazor.Core.Enums.LegendStyleLayout.SideBySide = 1 -> dymaptic.GeoBlazor.Core.Enums.LegendStyleLayout
@@ -13214,11 +13096,16 @@ dymaptic.GeoBlazor.Core.Model.AuthenticationManager.FontsUrl.get -> string?
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.FontsUrl.set -> void
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.GetArcGisJsInterop() -> System.Threading.Tasks.Task<Microsoft.JSInterop.IJSObjectReference!>!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.GetCurrentToken() -> System.Threading.Tasks.Task<string?>!
+dymaptic.GeoBlazor.Core.Model.AuthenticationManager.GetTokenExpirationDateTime() -> System.Threading.Tasks.Task<System.DateTime?>!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.Initialize() -> System.Threading.Tasks.Task<bool>!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.IsLoggedIn() -> System.Threading.Tasks.Task<bool>!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.Login() -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Model.AuthenticationManager.Logout() -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.PortalUrl.get -> string?
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.PortalUrl.set -> void
+dymaptic.GeoBlazor.Core.Model.AuthenticationManager.RegisterToken(string! token, System.DateTimeOffset expires) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Model.AuthenticationManager.TokenExpirationDateTime.get -> System.DateTime?
+dymaptic.GeoBlazor.Core.Model.AuthenticationManager.TokenExpirationDateTime.set -> void
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.TrustedServers.get -> System.Collections.Generic.List<string!>?
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.TrustedServers.set -> void
 dymaptic.GeoBlazor.Core.Model.BaseImageMeasureParameters
@@ -14394,7 +14281,9 @@ dymaptic.GeoBlazor.Core.Model.LevelLayerInfo.VerticalOrderField.init -> void
 dymaptic.GeoBlazor.Core.Model.ListItemPanelContent
 dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.HtmlElementContent.get -> Microsoft.AspNetCore.Components.ElementReference?
 dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.HtmlElementContent.set -> void
-dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.ListItemPanelContent() -> void
+dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.ListItemPanelContent(dymaptic.GeoBlazor.Core.Components.Widgets.Widget! widgetContent) -> void
+dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.ListItemPanelContent(Microsoft.AspNetCore.Components.ElementReference htmlElementContent) -> void
+dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.ListItemPanelContent(string! stringContent) -> void
 dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.StringContent.get -> string?
 dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.StringContent.set -> void
 dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.WidgetContent.get -> dymaptic.GeoBlazor.Core.Components.Widgets.Widget?
@@ -15736,7 +15625,7 @@ dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.MaxAllowableOffset.get -> double?
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.MaxAllowableOffset.set -> void
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.Num.get -> int?
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.Num.set -> void
-dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.ObjectIds.get -> System.Collections.Generic.IReadOnlyCollection<long>?
+dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.ObjectIds.get -> System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Model.ObjectId!>?
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.ObjectIds.set -> void
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.OrderByFields.get -> System.Collections.Generic.IReadOnlyCollection<string!>?
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.OrderByFields.set -> void
@@ -15756,7 +15645,7 @@ dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.Start.get -> int?
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.Start.set -> void
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.TimeExtent.get -> dymaptic.GeoBlazor.Core.Components.TimeExtent?
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.TimeExtent.set -> void
-dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.TopFeaturesQuery(bool? CacheHint = null, double? Distance = null, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? Geometry = null, double? GeometryPrecision = null, double? MaxAllowableOffset = null, int? Num = null, System.Collections.Generic.IReadOnlyCollection<long>? ObjectIds = null, System.Collections.Generic.IReadOnlyCollection<string!>? OrderByFields = null, System.Collections.Generic.IReadOnlyCollection<string!>? OutFields = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? OutSpatialReference = null, bool? ReturnGeometry = null, bool? ReturnM = null, bool? ReturnZ = null, dymaptic.GeoBlazor.Core.Enums.SpatialRelationship? SpatialRelationship = null, int? Start = null, dymaptic.GeoBlazor.Core.Components.TimeExtent? TimeExtent = null, dymaptic.GeoBlazor.Core.Model.TopFilter? TopFilter = null, dymaptic.GeoBlazor.Core.Enums.QueryUnits? Units = null, string? Where = null) -> void
+dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.TopFeaturesQuery(bool? CacheHint = null, double? Distance = null, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? Geometry = null, double? GeometryPrecision = null, double? MaxAllowableOffset = null, int? Num = null, System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Model.ObjectId!>? ObjectIds = null, System.Collections.Generic.IReadOnlyCollection<string!>? OrderByFields = null, System.Collections.Generic.IReadOnlyCollection<string!>? OutFields = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? OutSpatialReference = null, bool? ReturnGeometry = null, bool? ReturnM = null, bool? ReturnZ = null, dymaptic.GeoBlazor.Core.Enums.SpatialRelationship? SpatialRelationship = null, int? Start = null, dymaptic.GeoBlazor.Core.Components.TimeExtent? TimeExtent = null, dymaptic.GeoBlazor.Core.Model.TopFilter? TopFilter = null, dymaptic.GeoBlazor.Core.Enums.QueryUnits? Units = null, string? Where = null) -> void
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.TopFilter.get -> dymaptic.GeoBlazor.Core.Model.TopFilter?
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.TopFilter.set -> void
 dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.Units.get -> dymaptic.GeoBlazor.Core.Enums.QueryUnits?
@@ -15904,6 +15793,34 @@ dymaptic.GeoBlazor.Core.Model.WebSceneUpdateFromOptionsThumbnailSize.Height.init
 dymaptic.GeoBlazor.Core.Model.WebSceneUpdateFromOptionsThumbnailSize.WebSceneUpdateFromOptionsThumbnailSize(int? Height = null, int? Width = null) -> void
 dymaptic.GeoBlazor.Core.Model.WebSceneUpdateFromOptionsThumbnailSize.Width.get -> int?
 dymaptic.GeoBlazor.Core.Model.WebSceneUpdateFromOptionsThumbnailSize.Width.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSCapabilities
+dymaptic.GeoBlazor.Core.Model.WFSCapabilities.FeatureTypes.get -> System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Model.WFSFeatureType!>?
+dymaptic.GeoBlazor.Core.Model.WFSCapabilities.FeatureTypes.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSCapabilities.Operations.get -> dymaptic.GeoBlazor.Core.Model.WFSOperations?
+dymaptic.GeoBlazor.Core.Model.WFSCapabilities.Operations.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSCapabilities.Url.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSCapabilities.Url.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSCapabilities.WFSCapabilities(System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Model.WFSFeatureType!>? FeatureTypes = null, dymaptic.GeoBlazor.Core.Model.WFSOperations? Operations = null) -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.DefaultSpatialReference.get -> double?
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.DefaultSpatialReference.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.Description.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.Description.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.Extent.get -> dymaptic.GeoBlazor.Core.Components.Geometries.Extent?
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.Extent.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.Name.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.Name.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.NamespacePrefix.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.NamespacePrefix.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.NamespaceUri.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.NamespaceUri.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.SupportedSpatialReferences.get -> System.Collections.Generic.IReadOnlyCollection<double>?
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.SupportedSpatialReferences.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.Title.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.Title.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.TypeName.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.TypeName.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSFeatureType.WFSFeatureType(double? DefaultSpatialReference = null, string? Description = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? Extent = null, string? Name = null, string? NamespacePrefix = null, string? NamespaceUri = null, System.Collections.Generic.IReadOnlyCollection<double>? SupportedSpatialReferences = null, string? Title = null, string? TypeName = null) -> void
 dymaptic.GeoBlazor.Core.Model.WFSLayerCapabilities
 dymaptic.GeoBlazor.Core.Model.WFSLayerCapabilities.Attachment.get -> dymaptic.GeoBlazor.Core.Model.WFSLayerCapabilitiesAttachment?
 dymaptic.GeoBlazor.Core.Model.WFSLayerCapabilities.Attachment.init -> void
@@ -16018,6 +15935,54 @@ dymaptic.GeoBlazor.Core.Model.WFSLayerCapabilitiesQueryRelated.SupportsOrderBy.i
 dymaptic.GeoBlazor.Core.Model.WFSLayerCapabilitiesQueryRelated.SupportsPagination.get -> bool?
 dymaptic.GeoBlazor.Core.Model.WFSLayerCapabilitiesQueryRelated.SupportsPagination.init -> void
 dymaptic.GeoBlazor.Core.Model.WFSLayerCapabilitiesQueryRelated.WFSLayerCapabilitiesQueryRelated(bool? SupportsCount = null, bool? SupportsOrderBy = null, bool? SupportsPagination = null) -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.CustomParameters.get -> System.Collections.Generic.Dictionary<string!, object!>?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.CustomParameters.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.Extent.get -> dymaptic.GeoBlazor.Core.Components.Geometries.Extent?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.Extent.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.Fields.get -> System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Components.Field!>?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.Fields.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.GeometryType.get -> dymaptic.GeoBlazor.Core.Enums.SimpleGeometryType?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.GeometryType.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.Name.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.Name.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.NamespaceUri.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.NamespaceUri.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.ObjectIdField.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.ObjectIdField.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.SpatialReference.get -> dymaptic.GeoBlazor.Core.Components.SpatialReference?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.SpatialReference.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.SwapXY.get -> bool?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.SwapXY.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.Url.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.Url.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.WfsCapabilities.get -> dymaptic.GeoBlazor.Core.Model.WFSCapabilities?
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.WfsCapabilities.set -> void
+dymaptic.GeoBlazor.Core.Model.WFSLayerInfo.WFSLayerInfo(System.Collections.Generic.Dictionary<string!, object!>? CustomParameters = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? Extent = null, System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Components.Field!>? Fields = null, dymaptic.GeoBlazor.Core.Enums.SimpleGeometryType? GeometryType = null, string? Name = null, string? NamespaceUri = null, string? ObjectIdField = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? SpatialReference = null, bool? SwapXY = null, string? Url = null, dymaptic.GeoBlazor.Core.Model.WFSCapabilities? WfsCapabilities = null) -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperations
+dymaptic.GeoBlazor.Core.Model.WFSOperations.DescribeFeatureType.get -> dymaptic.GeoBlazor.Core.Model.WFSOperationsDescribeFeatureType?
+dymaptic.GeoBlazor.Core.Model.WFSOperations.DescribeFeatureType.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperations.GetCapabilities.get -> dymaptic.GeoBlazor.Core.Model.WFSOperationsGetCapabilities?
+dymaptic.GeoBlazor.Core.Model.WFSOperations.GetCapabilities.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperations.GetFeature.get -> dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature?
+dymaptic.GeoBlazor.Core.Model.WFSOperations.GetFeature.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperations.WFSOperations(dymaptic.GeoBlazor.Core.Model.WFSOperationsDescribeFeatureType? DescribeFeatureType = null, dymaptic.GeoBlazor.Core.Model.WFSOperationsGetCapabilities? GetCapabilities = null, dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature? GetFeature = null) -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperationsDescribeFeatureType
+dymaptic.GeoBlazor.Core.Model.WFSOperationsDescribeFeatureType.Url.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSOperationsDescribeFeatureType.Url.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperationsDescribeFeatureType.WFSOperationsDescribeFeatureType(string? Url = null) -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetCapabilities
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetCapabilities.Url.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetCapabilities.Url.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetCapabilities.WFSOperationsGetCapabilities(string? Url = null) -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature.OutputFormat.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature.OutputFormat.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature.SupportsPagination.get -> bool?
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature.SupportsPagination.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature.Url.get -> string?
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature.Url.init -> void
+dymaptic.GeoBlazor.Core.Model.WFSOperationsGetFeature.WFSOperationsGetFeature(string? OutputFormat = null, bool? SupportsPagination = null, string? Url = null) -> void
 dymaptic.GeoBlazor.Core.Options.BasemapLayerListCatalogOptions
 dymaptic.GeoBlazor.Core.Options.BasemapLayerListCatalogOptions.BasemapLayerListCatalogOptions(string? FilterPlaceholder = null, System.Func<dymaptic.GeoBlazor.Core.Components.ListItem!, System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.ListItem!>!>? ListItemCreatedFunction = null, double? MinFilterItems = null, string? SelectionMode = null, string? VisibilityAppearance = null, dymaptic.GeoBlazor.Core.Interfaces.IBasemapLayerListCatalogOptionsVisibleElements? VisibleElements = null) -> void
 dymaptic.GeoBlazor.Core.Options.BasemapLayerListCatalogOptions.FilterPlaceholder.get -> string?
@@ -16312,6 +16277,16 @@ dymaptic.GeoBlazor.Core.Options.WebSceneUpdateFromOptions.ViewpointExcluded.set 
 dymaptic.GeoBlazor.Core.Options.WebSceneUpdateFromOptions.WebSceneUpdateFromOptions(bool? EnvironmentExcluded = null, bool? ThumbnailExcluded = null, dymaptic.GeoBlazor.Core.Model.WebSceneUpdateFromOptionsThumbnailSize? ThumbnailSize = null, bool? ViewpointExcluded = null, bool? WidgetsExcluded = null) -> void
 dymaptic.GeoBlazor.Core.Options.WebSceneUpdateFromOptions.WidgetsExcluded.get -> bool?
 dymaptic.GeoBlazor.Core.Options.WebSceneUpdateFromOptions.WidgetsExcluded.set -> void
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetCapabilitiesOptions
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetCapabilitiesOptions.CustomParameters.get -> string?
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetCapabilitiesOptions.CustomParameters.set -> void
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetCapabilitiesOptions.WfsUtilsGetCapabilitiesOptions(string? CustomParameters = null) -> void
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetWFSLayerInfoOptions
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetWFSLayerInfoOptions.CustomParameters.get -> string?
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetWFSLayerInfoOptions.CustomParameters.set -> void
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetWFSLayerInfoOptions.SpatialReference.get -> string?
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetWFSLayerInfoOptions.SpatialReference.set -> void
+dymaptic.GeoBlazor.Core.Options.WfsUtilsGetWFSLayerInfoOptions.WfsUtilsGetWFSLayerInfoOptions(string? CustomParameters = null, string? SpatialReference = null) -> void
 dymaptic.GeoBlazor.Core.Results.AttachmentsQueryResult
 dymaptic.GeoBlazor.Core.Results.AttachmentsQueryResult.AttachmentsQueryResult() -> void
 dymaptic.GeoBlazor.Core.Results.DeleteItemsResult
@@ -16548,9 +16523,6 @@ dymaptic.GeoBlazor.Core.Serialization.EnumToKebabCaseStringConverter<T>
 dymaptic.GeoBlazor.Core.Serialization.EnumToKebabCaseStringConverter<T>.EnumToKebabCaseStringConverter() -> void
 dymaptic.GeoBlazor.Core.Serialization.LabelPlacementStringConverter
 dymaptic.GeoBlazor.Core.Serialization.LabelPlacementStringConverter.LabelPlacementStringConverter() -> void
-dymaptic.GeoBlazor.Core._Imports
-dymaptic.GeoBlazor.Core._Imports.Execute() -> void
-dymaptic.GeoBlazor.Core._Imports._Imports() -> void
 override dymaptic.GeoBlazor.Core.Components.ActionBase.ValidateRequiredGeneratedChildren() -> void
 override dymaptic.GeoBlazor.Core.Components.ActionButton.Type.get -> string!
 override dymaptic.GeoBlazor.Core.Components.ActionToggle.Type.get -> string!
@@ -16877,8 +16849,6 @@ override dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.RegisterGeneratedCh
 override dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.Type.get -> dymaptic.GeoBlazor.Core.Enums.LayerType
 override dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
 override dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.ValidateRequiredGeneratedChildren() -> void
-override dymaptic.GeoBlazor.Core.Components.LayerSearchSource.Layer.get -> dymaptic.GeoBlazor.Core.Components.Layers.Layer?
-override dymaptic.GeoBlazor.Core.Components.LayerSearchSource.Layer.set -> void
 override dymaptic.GeoBlazor.Core.Components.LayerSearchSource.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.Task!
 override dymaptic.GeoBlazor.Core.Components.LayerSearchSource.Type.get -> dymaptic.GeoBlazor.Core.Enums.SearchSourceType
 override dymaptic.GeoBlazor.Core.Components.LayerSearchSource.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.Task!
@@ -17123,9 +17093,9 @@ override dymaptic.GeoBlazor.Core.Components.Views.MapView.RenderView(bool forceR
 override dymaptic.GeoBlazor.Core.Components.Views.MapView.ShouldRender() -> bool
 override dymaptic.GeoBlazor.Core.Components.Views.MapView.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.Task!
 override dymaptic.GeoBlazor.Core.Components.Views.MapView.ValidateRequiredChildren() -> void
+override dymaptic.GeoBlazor.Core.Components.Views.SceneView.BuildMapView() -> System.Threading.Tasks.ValueTask
 override dymaptic.GeoBlazor.Core.Components.Views.SceneView.GoTo(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Graphic!>! graphics) -> System.Threading.Tasks.Task!
 override dymaptic.GeoBlazor.Core.Components.Views.SceneView.OnJavascriptExtentChanged(dymaptic.GeoBlazor.Core.Components.Geometries.Extent! extent, dymaptic.GeoBlazor.Core.Components.Geometries.Point? center, double zoom, double scale, double? rotation = null, double? tilt = null) -> System.Threading.Tasks.Task!
-override dymaptic.GeoBlazor.Core.Components.Views.SceneView.RenderView(bool forceRender = false) -> System.Threading.Tasks.Task!
 override dymaptic.GeoBlazor.Core.Components.Views.SceneView.SetCenter(dymaptic.GeoBlazor.Core.Components.Geometries.Point! point) -> System.Threading.Tasks.Task!
 override dymaptic.GeoBlazor.Core.Components.Views.SceneView.SetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent! extent) -> System.Threading.Tasks.Task!
 override dymaptic.GeoBlazor.Core.Components.Views.SceneView.SetScale(double scale) -> System.Threading.Tasks.Task!
@@ -17155,12 +17125,6 @@ override dymaptic.GeoBlazor.Core.Components.WebsceneApplicationProperties.Valida
 override dymaptic.GeoBlazor.Core.Components.WebsceneInitialViewProperties.RegisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
 override dymaptic.GeoBlazor.Core.Components.WebsceneInitialViewProperties.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
 override dymaptic.GeoBlazor.Core.Components.WebsceneInitialViewProperties.ValidateRequiredGeneratedChildren() -> void
-override dymaptic.GeoBlazor.Core.Components.WFSCapabilities.RegisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
-override dymaptic.GeoBlazor.Core.Components.WFSCapabilities.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
-override dymaptic.GeoBlazor.Core.Components.WFSCapabilities.ValidateRequiredGeneratedChildren() -> void
-override dymaptic.GeoBlazor.Core.Components.WFSFeatureType.RegisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
-override dymaptic.GeoBlazor.Core.Components.WFSFeatureType.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
-override dymaptic.GeoBlazor.Core.Components.WFSFeatureType.ValidateRequiredGeneratedChildren() -> void
 override dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo.RegisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
 override dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
 override dymaptic.GeoBlazor.Core.Components.WFSLayerElevationInfo.ValidateRequiredGeneratedChildren() -> void
@@ -17168,9 +17132,6 @@ override dymaptic.GeoBlazor.Core.Components.WFSLayerView.RegisterGeneratedChildC
 override dymaptic.GeoBlazor.Core.Components.WFSLayerView.Type.get -> dymaptic.GeoBlazor.Core.Enums.LayerType?
 override dymaptic.GeoBlazor.Core.Components.WFSLayerView.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
 override dymaptic.GeoBlazor.Core.Components.WFSLayerView.ValidateRequiredGeneratedChildren() -> void
-override dymaptic.GeoBlazor.Core.Components.WFSOperations.RegisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
-override dymaptic.GeoBlazor.Core.Components.WFSOperations.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
-override dymaptic.GeoBlazor.Core.Components.WFSOperations.ValidateRequiredGeneratedChildren() -> void
 override dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.RegisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
 override dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.Type.get -> dymaptic.GeoBlazor.Core.Enums.WidgetType
 override dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
@@ -17227,7 +17188,6 @@ override dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.ValidateRequire
 override dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.RegisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
 override dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.Type.get -> dymaptic.GeoBlazor.Core.Enums.WidgetType
 override dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
-override dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.ValidateRequiredGeneratedChildren() -> void
 override dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.RegisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
 override dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.Type.get -> dymaptic.GeoBlazor.Core.Enums.WidgetType
 override dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.UnregisterGeneratedChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.ValueTask<bool>
@@ -17271,9 +17231,6 @@ override dymaptic.GeoBlazor.Core.Model.AttributesDictionary.Equals(object? obj) 
 override dymaptic.GeoBlazor.Core.Model.AttributesDictionary.GetHashCode() -> int
 override dymaptic.GeoBlazor.Core.Model.Dimension.Equals(object? obj) -> bool
 override dymaptic.GeoBlazor.Core.Model.Dimension.GetHashCode() -> int
-override dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.Task!
-override dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent! child) -> System.Threading.Tasks.Task!
-override dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.ValidateRequiredChildren() -> void
 override dymaptic.GeoBlazor.Core.Model.MapColor.Equals(object? obj) -> bool
 override dymaptic.GeoBlazor.Core.Model.MapColor.GetHashCode() -> int
 override dymaptic.GeoBlazor.Core.Model.MapPath.Equals(object? obj) -> bool
@@ -17327,6 +17284,12 @@ static dymaptic.GeoBlazor.Core.Model.Dimension.implicit operator dymaptic.GeoBla
 static dymaptic.GeoBlazor.Core.Model.Dimension.operator !=(dymaptic.GeoBlazor.Core.Model.Dimension? left, dymaptic.GeoBlazor.Core.Model.Dimension? right) -> bool
 static dymaptic.GeoBlazor.Core.Model.Dimension.operator ==(dymaptic.GeoBlazor.Core.Model.Dimension? left, dymaptic.GeoBlazor.Core.Model.Dimension? right) -> bool
 static dymaptic.GeoBlazor.Core.Model.Effect.implicit operator dymaptic.GeoBlazor.Core.Model.Effect!(string! stringVal) -> dymaptic.GeoBlazor.Core.Model.Effect!
+static dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.implicit operator dymaptic.GeoBlazor.Core.Components.Widgets.Widget?(dymaptic.GeoBlazor.Core.Model.ListItemPanelContent! itemPanelContent) -> dymaptic.GeoBlazor.Core.Components.Widgets.Widget?
+static dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.implicit operator dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!(dymaptic.GeoBlazor.Core.Components.Widgets.Widget! widgetContent) -> dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!
+static dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.implicit operator dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!(Microsoft.AspNetCore.Components.ElementReference htmlElementContent) -> dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!
+static dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.implicit operator dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!(string! stringContent) -> dymaptic.GeoBlazor.Core.Model.ListItemPanelContent!
+static dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.implicit operator Microsoft.AspNetCore.Components.ElementReference?(dymaptic.GeoBlazor.Core.Model.ListItemPanelContent! itemPanelContent) -> Microsoft.AspNetCore.Components.ElementReference?
+static dymaptic.GeoBlazor.Core.Model.ListItemPanelContent.implicit operator string?(dymaptic.GeoBlazor.Core.Model.ListItemPanelContent! itemPanelContent) -> string?
 static dymaptic.GeoBlazor.Core.Model.MapColor.BlendColors(dymaptic.GeoBlazor.Core.Model.MapColor! start, dymaptic.GeoBlazor.Core.Model.MapColor! end, double weight) -> dymaptic.GeoBlazor.Core.Model.MapColor?
 static dymaptic.GeoBlazor.Core.Model.MapColor.operator !=(dymaptic.GeoBlazor.Core.Model.MapColor? left, dymaptic.GeoBlazor.Core.Model.MapColor? right) -> bool
 static dymaptic.GeoBlazor.Core.Model.MapColor.operator ==(dymaptic.GeoBlazor.Core.Model.MapColor? left, dymaptic.GeoBlazor.Core.Model.MapColor? right) -> bool
@@ -17340,9 +17303,13 @@ static dymaptic.GeoBlazor.Core.Model.ObjectId.implicit operator long(dymaptic.Ge
 static dymaptic.GeoBlazor.Core.Model.ObjectId.implicit operator string!(dymaptic.GeoBlazor.Core.Model.ObjectId! objectId) -> string!
 static dymaptic.GeoBlazor.Core.Model.ObjectId.operator !=(dymaptic.GeoBlazor.Core.Model.ObjectId? left, dymaptic.GeoBlazor.Core.Model.ObjectId? right) -> bool
 static dymaptic.GeoBlazor.Core.Model.ObjectId.operator ==(dymaptic.GeoBlazor.Core.Model.ObjectId? left, dymaptic.GeoBlazor.Core.Model.ObjectId? right) -> bool
-virtual dymaptic.GeoBlazor.Core.Components.ActionBase.Type.get -> string!
 virtual dymaptic.GeoBlazor.Core.Components.Label.GetSymbol() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Symbols.Symbol?>!
 virtual dymaptic.GeoBlazor.Core.Components.Label.SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol! symbol) -> System.Threading.Tasks.Task!
+virtual dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.Url.get -> string!
+virtual dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.Url.set -> void
+virtual dymaptic.GeoBlazor.Core.Components.Layers.Layer.Load() -> System.Threading.Tasks.Task!
+virtual dymaptic.GeoBlazor.Core.Components.Layers.Layer.Load(Microsoft.JSInterop.IJSRuntime! jsRuntime, dymaptic.GeoBlazor.Core.JsModuleManager! jsModuleManager, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+virtual dymaptic.GeoBlazor.Core.Components.Layers.Layer.Load(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 virtual dymaptic.GeoBlazor.Core.Components.Layers.Layer.SetFullExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent? value) -> System.Threading.Tasks.Task!
 virtual dymaptic.GeoBlazor.Core.Components.LayerView.Type.get -> dymaptic.GeoBlazor.Core.Enums.LayerType?
 virtual dymaptic.GeoBlazor.Core.Components.LayerView.Type.set -> void
@@ -17364,6 +17331,7 @@ virtual dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.GetSymbol() 
 virtual dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol! symbol) -> System.Threading.Tasks.Task!
 virtual dymaptic.GeoBlazor.Core.Components.UniqueValueInfo.GetSymbol() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Symbols.Symbol?>!
 virtual dymaptic.GeoBlazor.Core.Components.UniqueValueInfo.SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol! symbol) -> System.Threading.Tasks.Task!
+virtual dymaptic.GeoBlazor.Core.Components.Views.MapView.BuildMapView() -> System.Threading.Tasks.ValueTask
 virtual dymaptic.GeoBlazor.Core.Components.Views.MapView.GoTo(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Graphic!>! graphics) -> System.Threading.Tasks.Task!
 virtual dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptExtentChanged(dymaptic.GeoBlazor.Core.Components.Geometries.Extent! extent, dymaptic.GeoBlazor.Core.Components.Geometries.Point? center, double zoom, double scale, double? rotation = null, double? tilt = null) -> System.Threading.Tasks.Task!
 virtual dymaptic.GeoBlazor.Core.Components.Views.MapView.SetCenter(dymaptic.GeoBlazor.Core.Components.Geometries.Point! point) -> System.Threading.Tasks.Task!
@@ -17377,9 +17345,6 @@ virtual dymaptic.GeoBlazor.Core.Components.Widgets.Widget.Label.get -> string?
 virtual dymaptic.GeoBlazor.Core.Components.Widgets.Widget.Label.set -> void
 virtual dymaptic.GeoBlazor.Core.Model.LogicComponent.Initialize() -> System.Threading.Tasks.Task!
 virtual dymaptic.GeoBlazor.Core.Model.LogicComponent.InvokeAsync<T>(string! method, params object?[]! parameters) -> System.Threading.Tasks.Task<T>!
+virtual dymaptic.GeoBlazor.Core.Model.LogicComponent.InvokeAsync<T>(string! method, System.Threading.CancellationToken cancellationToken, params object?[]! parameters) -> System.Threading.Tasks.Task<T>!
 virtual dymaptic.GeoBlazor.Core.Model.LogicComponent.InvokeVoidAsync(string! method, params object?[]! parameters) -> System.Threading.Tasks.Task!
 virtual dymaptic.GeoBlazor.Core.Model.LogicComponent.Library.get -> string!
-~override dymaptic.GeoBlazor.Core.Components.CustomOverlay.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) -> void
-~override dymaptic.GeoBlazor.Core.Components.MapComponent.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) -> void
-~override dymaptic.GeoBlazor.Core.Components.Views.MapView.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) -> void
-~override dymaptic.GeoBlazor.Core.Components.Widgets.Widget.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) -> void

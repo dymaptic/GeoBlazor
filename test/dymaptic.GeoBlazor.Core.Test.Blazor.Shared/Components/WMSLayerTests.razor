@@ -19,7 +19,7 @@
             @<SceneView class="map-view" 
                         OnViewRendered="renderHandler"
                         OnLayerViewCreate="layerViewCreated">
-                <Map>
+                <Map Ground="world-elevation">
                     <WMSLayer @ref="layer"
                               Url="https://ows.terrestris.de/osm/service"
                               SpatialReference="new SpatialReference(102100)">
@@ -29,7 +29,7 @@
         </SceneView>);
         await WaitForMapToRender();
         
-        var createEvent = await WaitForLayerToRender<WMSLayer>();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
         Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
         WMSLayer createdLayer = (WMSLayer)createEvent.Layer;
         Assert.AreEqual(layer?.Id, createdLayer.Id);

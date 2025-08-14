@@ -170,6 +170,7 @@ public partial class LayerListWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
+    [JsonConverter(typeof(NonNullablePropertyCollectionConverter<Layer>))]
     public IReadOnlyList<Layer>? OpenedLayers { get; protected set; }
     
     /// <summary>

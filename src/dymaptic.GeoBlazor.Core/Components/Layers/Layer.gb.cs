@@ -398,6 +398,11 @@ public abstract partial class Layer : IHitTestItem,
     [JSInvokable]
     public async Task OnJsCreate(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+        
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -429,6 +434,11 @@ public abstract partial class Layer : IHitTestItem,
     [JSInvokable]
     public async Task OnJsCreateError(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+        
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -461,6 +471,11 @@ public abstract partial class Layer : IHitTestItem,
     [JSInvokable]
     public async Task OnJsDestroy(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+        
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);

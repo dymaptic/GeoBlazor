@@ -141,6 +141,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             await CancellationTokenSource.CancelAsync();
             IsDisposed = true;
+            
+            if (AbortManager is not null)
+            {
+                await AbortManager.DisposeAbortController(CancellationToken.None);
+            }
 
             if (Parent is not null && _registered)
             {
@@ -656,10 +661,20 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         JsComponentReference = jsComponentReference;
         MapComponent? instantiatedComponent = null;
 
+        if (IsDisposed)
+        {
+            return null;
+        }
+
         try
         {
             if (await jsonStreamReference.ReadJsStreamReference(MapComponentType) is MapComponent deserialized)
             {
+                if (IsDisposed)
+                {
+                    return null;
+                }
+                
                 instantiatedComponent = deserialized;
                 CopyProperties(instantiatedComponent);
             }
@@ -683,6 +698,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         foreach (PropertyInfo prop in MapComponentType.GetProperties()
             .Where(p => p.SetMethod is not null))
         {
+            if (IsDisposed)
+            {
+                return;
+            }
+            
             if (prop.Name == nameof(CoreJsModule)
                 || prop.Name == nameof(Layer)
                 || prop.Name == nameof(View))
@@ -944,9 +964,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Creates a cancellation token to control external calls
     /// </summary>
-    protected internal readonly CancellationTokenSource CancellationTokenSource = new();
-
-
+    protected internal CancellationTokenSource CancellationTokenSource = new();
+    
 #region Events
 
     /// <summary>
@@ -1270,6 +1289,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     [JSInvokable]
     public async Task OnReactiveWatcherUpdate(string watchExpression, IJSStreamReference? jsStreamReference)
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+        
         Delegate handler = _watchers[watchExpression].Handler;
         Type returnType = handler.Method.GetParameters()[0].ParameterType;
         object? typedValue = null;
@@ -1398,6 +1422,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     [JSInvokable]
     public async Task OnReactiveListenerTriggered(string eventName, IJSStreamReference? jsStreamReference)
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+        
         Delegate handler = _listeners[eventName].Handler;
         Type returnType = handler.Method.GetParameters()[0].ParameterType;
         object? typedValue = null;
@@ -1665,6 +1694,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     [JSInvokable]
     public void OnReactiveWaiterTrue(string waitExpression)
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+        
         Delegate handler = _waiters[waitExpression].Handler;
         handler.DynamicInvoke();
     }
