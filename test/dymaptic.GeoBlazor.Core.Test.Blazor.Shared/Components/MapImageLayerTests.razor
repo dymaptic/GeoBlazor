@@ -56,4 +56,32 @@
         Assert.IsTrue(layer.AllSublayers!.Count > 0);
         await AssertJavaScript("assertLayerExists", args: "map-image");
     }
+
+    [TestMethod]
+    public async Task TestCanSetDefinitionExpressionOnSublayer(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+    {
+        Sublayer? cities = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreatedHandler">
+                 <Map>
+                     <MapImageLayer Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer">
+                         <Sublayer SublayerId="2"
+                                   Visible="true" />
+                         <Sublayer SublayerId="1"
+                                   Visible="true" />
+                         <Sublayer @ref="cities"
+                                   SublayerId="0"
+                                   Visible="true" />
+                     </MapImageLayer>
+                 </Map>
+             </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsNotNull(cities);
+        await cities!.SetDefinitionExpression("POP2000 > 1000000");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [cities.Id, "definitionExpression", "POP2000 > 1000000"]);
+    }
 }

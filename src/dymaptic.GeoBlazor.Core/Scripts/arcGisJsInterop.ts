@@ -322,6 +322,10 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    theme?: string | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     try {
+        
+        // Order of operations in this function is very important
+        // do not change without significant testing.
+        
         await setCursor('wait');
         notifyExtentChanged = false;
         userChangedViewExtent = false;
@@ -339,19 +343,16 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         }
         
         dotNetRefs[id] = dotNetRef;
+        
+        // 1. Find the <arcgis-map> or <arcgis-scene> component in the DOM
         let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${id}`) as ArcgisMap | ArcgisScene;
+        
         if (!hasValue(mapComponent)) {
             // if the map component is not found, we cannot create a view
             throw new Error(`Map component with id ${id} not found.`);
         }
-        let view: MapView | SceneView;
 
-        let basemap = hasValue(mapObject.basemap)
-            ? await buildJsBasemap(mapObject.basemap, null, id)
-            : hasValue(mapObject.arcGISDefaultBasemap)
-                ? mapObject.arcGISDefaultBasemap
-                : undefined;
-
+        // 2. Set the spatial reference
         let spatialRef: SpatialReference | null = null;
         if (hasValue(spatialReference)) {
             let {buildJsSpatialReference} = await import('./spatialReference');
@@ -363,6 +364,14 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             return;
         }
         
+        // 3. Create the basemap
+        let basemap = hasValue(mapObject.basemap)
+            ? await buildJsBasemap(mapObject.basemap, null, id)
+            : hasValue(mapObject.arcGISDefaultBasemap)
+                ? mapObject.arcGISDefaultBasemap
+                : undefined;
+        
+        // 4. Create the map object
         let map: Map | WebMap | null = null;
         
         if (mapComponent instanceof ArcgisMap) {
@@ -404,13 +413,34 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             }
         }
             
+        // store for lookup
         arcGisObjectRefs[mapObject.id] = map;
 
         if (abortSignal.aborted) {
             return;
         }
+        
+        // 5. set the web component's map object
+        mapComponent.map = map;
+        
+        // the web component should now also have a view property that is constructed but not loaded
+        // 6. Copy the web component's view locally and into the arcGisObjectRefs for lookups
+        let view: MapView | SceneView = mapComponent.view;
+        arcGisObjectRefs[id] = view;
 
-        // popup widget needs to be registered before adding layers to not overwrite the popupTemplates
+        if (abortSignal.aborted) {
+            return;
+        }
+        
+        // 7. Set view properties
+        await setupView(abortSignal, view, id, dotNetRef, long, lat, zoom, scale, spatialRef, constraints, extent, 
+            backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, popupEnabled, theme);
+        
+        if (abortSignal.aborted) {
+            return;
+        }
+        
+        // 8. Register popup widget first before adding layers to not overwrite the popupTemplates
         const popupWidget = widgets.find(w => w.type === 'popup');
         if (hasValue(popupWidget)) {
             await addWidget(popupWidget, id);
@@ -419,7 +449,8 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         if (abortSignal.aborted) {
             return;
         }
-        
+
+        // 9. Add layers to the map
         if (hasValue(mapObject.layers)) {
             // add layers in reverse order to match the expected order in the map
             for (let i = mapObject.layers.length - 1; i >= 0; i--) {
@@ -431,26 +462,10 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             }
         }
 
-        if (abortSignal.aborted) {
-            return;
-        }
-
-        for (let i = 0; i < graphics.length; i++) {
-            const graphicObject = graphics[i];
-            await addGraphic(graphicObject, id, null);
-        }
-
-        if (abortSignal.aborted) {
-            return;
-        }
-        
-        mapComponent.map = map;
-
+        // 10. Wait for the map to render
         if (!mapComponent.ready) {
             await mapComponent.viewOnReady();
         }
-        
-        view = mapComponent.view;
         
         if (!view.ui.view) {
             // this state happens after an internal ArcGIS error, we need to reload everything
@@ -463,91 +478,21 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             return;
         }
 
-        if (hasValue(theme)) {
-            setViewTheme(theme!, id);
+        if (abortSignal.aborted) {
+            return;
+        }
+
+        // 11. Add graphics directly to the view
+        for (let i = 0; i < graphics.length; i++) {
+            const graphicObject = graphics[i];
+            await addGraphic(graphicObject, id, null);
         }
 
         if (abortSignal.aborted) {
             return;
         }
 
-        if (hasValue(backgroundColor)) {
-            (view as MapView).background = new ColorBackground({ color: await buildJsColor(backgroundColor) });
-        }
-
-        if (hasValue(popupEnabled)) {
-            view.popupEnabled = popupEnabled as boolean;
-        }
-
-        if (hasValue(constraints)) {
-            view.constraints = sanitize(constraints);
-        }
-
-        arcGisObjectRefs[id] = view;
-
-        if (abortSignal.aborted) {
-            return;
-        }
-        
-        await dotNetRef.invokeMethodAsync('OnJsViewInitialized');
-
-        if (abortSignal.aborted) {
-            return;
-        }
-        
-        waitForRender(id, dotNetRef, abortSignal);
-
-        if (hasValue(highlightOptions)) {
-            view.highlightOptions = highlightOptions;
-        }
-
-        if (abortSignal.aborted) {
-            return;
-        }
-
-        await setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers, id);
-
-        if (abortSignal.aborted) {
-            return;
-        }
-
-        if (view instanceof MapView) {
-            // set the extent, center, zoom/scale after the spatial reference is set
-            if (hasValue(extent) && (hasValue(extent.spatialReference) || hasValue(spatialRef))) {
-                (view as MapView).extent = buildJsExtent(extent, spatialRef);
-            } else {
-                let center;
-
-                if (hasValue(lat) && hasValue(long)) {
-                    if (hasValue(spatialRef)) {
-                        center = new Point({
-                            latitude: lat as number,
-                            longitude: long as number,
-                            spatialReference: spatialRef as SpatialReference
-                        });
-                        center = await resetCenterToSpatialReference(center, spatialRef as SpatialReference);
-                    } else {
-                        center = [long, lat];
-                    }
-                }
-
-                if (hasValue(center)) {
-                    (view as MapView).center = center;
-                }
-
-                if (hasValue(scale)) {
-                    (view as MapView).scale = scale;
-                } else if (hasValue(zoom)) {
-                    (view as MapView).zoom = zoom as number;
-                }
-            }
-
-            if (abortSignal.aborted) {
-                return;
-            }
-        }
-
-        // Group widgets by position to ensure consistent stacking order
+        // 12. Group widgets by position to ensure consistent stacking order
         const filteredWidgets = widgets.filter(w => w.type !== 'popup');
         const widgetsByPosition = new window.Map<string, any[]>();
         
@@ -559,7 +504,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             widgetsByPosition.get(position)!.push(widget);
         }
 
-        // Process each position group in parallel, but widgets within each group sequentially
+        // 13. Process each position group in parallel, but widgets within each group sequentially
         const positionPromises = Array.from(widgetsByPosition.entries()).map(async ([position, positionWidgets]) => {
             for (const widget of positionWidgets) {
                 if (abortSignal.aborted) {
@@ -588,6 +533,94 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         throw e;
     } finally {
         await setCursor('unset');
+    }
+}
+
+async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id: string, dotNetRef: any, 
+                         long: number | null, lat: number | null, zoom: number | null, scale: number | null,
+                         spatialRef: SpatialReference | null, constraints: any, extent: any, backgroundColor: any,
+                         eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
+                         highlightOptions?: any | null, popupEnabled?: boolean | null, theme?: string | null): Promise<void> {
+    if (hasValue(theme)) {
+        setViewTheme(theme!, id);
+    }
+
+    if (abortSignal.aborted) {
+        return;
+    }
+
+    if (hasValue(backgroundColor)) {
+        (view as MapView).background = new ColorBackground({ color: await buildJsColor(backgroundColor) });
+    }
+
+    if (hasValue(popupEnabled)) {
+        view.popupEnabled = popupEnabled as boolean;
+    }
+
+    if (hasValue(constraints)) {
+        view.constraints = sanitize(constraints);
+    }
+
+    if (abortSignal.aborted) {
+        return;
+    }
+
+    await dotNetRef.invokeMethodAsync('OnJsViewInitialized');
+
+    if (abortSignal.aborted) {
+        return;
+    }
+
+    waitForRender(id, dotNetRef, abortSignal);
+
+    if (hasValue(highlightOptions)) {
+        view.highlightOptions = highlightOptions;
+    }
+
+    if (abortSignal.aborted) {
+        return;
+    }
+
+    await setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers, id);
+
+    if (abortSignal.aborted) {
+        return;
+    }
+
+    if (view instanceof MapView) {
+        // set the extent, center, zoom/scale after the spatial reference is set
+        if (hasValue(extent) && (hasValue(extent.spatialReference) || hasValue(spatialRef))) {
+            (view as MapView).extent = buildJsExtent(extent, spatialRef);
+        } else {
+            let center;
+
+            if (hasValue(lat) && hasValue(long)) {
+                if (hasValue(spatialRef)) {
+                    center = new Point({
+                        latitude: lat as number,
+                        longitude: long as number,
+                        spatialReference: spatialRef as SpatialReference
+                    });
+                    center = await resetCenterToSpatialReference(center, spatialRef as SpatialReference);
+                } else {
+                    center = [long, lat];
+                }
+            }
+
+            if (hasValue(center)) {
+                (view as MapView).center = center;
+            }
+
+            if (hasValue(scale)) {
+                (view as MapView).scale = scale!;
+            } else if (hasValue(zoom)) {
+                (view as MapView).zoom = zoom as number;
+            }
+        }
+
+        if (abortSignal.aborted) {
+            return;
+        }
     }
 }
 

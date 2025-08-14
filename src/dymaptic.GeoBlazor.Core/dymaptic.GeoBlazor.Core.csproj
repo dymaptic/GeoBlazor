@@ -93,7 +93,7 @@
       <AdditionalFiles Include="PublicAPI.Shipped.txt" />
       <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
       <AdditionalFiles Include="package.json" />
-      <AdditionalFiles Include="Scripts\*.ts" Watch="false" />
+      <AdditionalFiles Include="Scripts\*.ts" />
       <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
       <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
     </ItemGroup>
@@ -107,4 +107,9 @@
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" 
                           OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
+
+    <Target BeforeTargets="Build" Name="Clear Locks">
+        <Exec Command="pwsh -NoProfile -ExecutionPolicy ByPass -Command { Remove-Item -Path '$(ProjectDir)esBuild.$(Configuration).lock' }" />
+        <Exec Command="pwsh -NoProfile -ExecutionPolicy ByPass -Command { Remove-Item -Path '$(ProjectDir)../../../src/dymaptic.GeoBlazor.Pro/esProBuild.$(Configuration).lock' }" />
+    </Target>
 </Project>

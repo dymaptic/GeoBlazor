@@ -443,4 +443,31 @@
         Assert.IsNotNull(results);
         Assert.IsTrue(results.Features!.Count > 0);
     }
+    
+    [TestMethod]
+    public async Task TestCanUsePublicFeatureLayersWithBypassApiKey(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView BypassApiKey="true"
+                      Class="map-view"
+                      OnLayerViewCreate="layerViewCreateHandler"
+                      OnViewRendered="renderHandler">
+                <Map>
+                    <TileLayer>
+                        <PortalItem PortalItemId="10df2279f9684e4a9f6a7f08febac2a9" />
+                    </TileLayer>
+                    <FeatureLayer>
+                        <PortalItem PortalItemId="53a1e68de7e4499cad77c80daba46a94" />
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        
+        await WaitForMapToRender();
+        await WaitForLayerToRender<TileLayer>();
+        await WaitForLayerToRender<FeatureLayer>();
+        
+        await AssertJavaScript("assertLayerExists", args: "tile");
+        await AssertJavaScript("assertLayerExists", args: "feature");
+    }
 }

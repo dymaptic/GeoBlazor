@@ -582,6 +582,53 @@ public partial class SearchWidget : Widget
         return Sources;
     }
     
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Suggestions property.
+    /// </summary>
+    public async Task<IReadOnlyList<SuggestResult>?> GetSuggestions()
+    {
+        if (CoreJsModule is null)
+        {
+            return Suggestions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Suggestions;
+        }
+
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSources", CancellationTokenSource.Token);
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        IReadOnlyList<SuggestResult>? result = JsonSerializer.Deserialize<IReadOnlyList<SuggestResult>>(
+            json, GeoBlazorSerialization.JsonSerializerOptions);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Suggestions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Suggestions)] = Suggestions;
+        }
+        
+        return Suggestions;
+    }
+    
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

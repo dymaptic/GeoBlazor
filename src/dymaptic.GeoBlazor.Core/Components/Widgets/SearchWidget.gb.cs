@@ -1097,45 +1097,6 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Suggestions property.
-    /// </summary>
-    public async Task<IReadOnlyList<SuggestResult>?> GetSuggestions()
-    {
-        if (CoreJsModule is null)
-        {
-            return Suggestions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Suggestions;
-        }
-
-        IReadOnlyList<SuggestResult>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SuggestResult>?>(
-            "getSuggestions", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Suggestions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Suggestions)] = Suggestions;
-        }
-        
-        return Suggestions;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the SuggestionsEnabled property.
     /// </summary>
     public async Task<bool?> GetSuggestionsEnabled()
