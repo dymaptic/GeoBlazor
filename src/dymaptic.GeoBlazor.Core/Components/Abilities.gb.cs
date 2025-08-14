@@ -46,13 +46,23 @@ public partial class Abilities : MapComponent
     ///     Indicate whether the widget should display any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">text content elements</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="relationshipContent">
+    ///     Indicate whether the widget should display <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-RelationshipContent.html">relationship content elements</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="utilityNetworkAssociationsContent">
+    ///     Indicate whether the widget should display <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-UtilityNetworkAssociationsContent.html">utility network associations content elements</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public Abilities(
         bool? attachmentsContent = null,
         bool? chartAnimation = null,
         bool? customContent = null,
         bool? fieldsContent = null,
         bool? mediaContent = null,
-        bool? textContent = null)
+        bool? textContent = null,
+        bool? relationshipContent = null,
+        bool? utilityNetworkAssociationsContent = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -62,6 +72,8 @@ public partial class Abilities : MapComponent
         FieldsContent = fieldsContent;
         MediaContent = mediaContent;
         TextContent = textContent;
+        RelationshipContent = relationshipContent;
+        UtilityNetworkAssociationsContent = utilityNetworkAssociationsContent;
 #pragma warning restore BL0005    
     }
     
@@ -119,6 +131,16 @@ public partial class Abilities : MapComponent
     public bool? MediaContent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Abilities.html#abilitiesrelationshipcontent-property">GeoBlazor Docs</a>
+    ///     Indicate whether the widget should display <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-RelationshipContent.html">relationship content elements</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? RelationshipContent { get; set; }
+    
+    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Abilities.html#abilitiestextcontent-property">GeoBlazor Docs</a>
     ///     Indicate whether the widget should display any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">text content elements</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
@@ -127,6 +149,16 @@ public partial class Abilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? TextContent { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Abilities.html#abilitiesutilitynetworkassociationscontent-property">GeoBlazor Docs</a>
+    ///     Indicate whether the widget should display <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-UtilityNetworkAssociationsContent.html">utility network associations content elements</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? UtilityNetworkAssociationsContent { get; set; }
     
 #endregion
 
@@ -328,6 +360,45 @@ public partial class Abilities : MapComponent
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the RelationshipContent property.
+    /// </summary>
+    public async Task<bool?> GetRelationshipContent()
+    {
+        if (CoreJsModule is null)
+        {
+            return RelationshipContent;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return RelationshipContent;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "relationshipContent");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             RelationshipContent = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(RelationshipContent)] = RelationshipContent;
+        }
+         
+        return RelationshipContent;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the TextContent property.
     /// </summary>
     public async Task<bool?> GetTextContent()
@@ -364,6 +435,45 @@ public partial class Abilities : MapComponent
         }
          
         return TextContent;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the UtilityNetworkAssociationsContent property.
+    /// </summary>
+    public async Task<bool?> GetUtilityNetworkAssociationsContent()
+    {
+        if (CoreJsModule is null)
+        {
+            return UtilityNetworkAssociationsContent;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return UtilityNetworkAssociationsContent;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "utilityNetworkAssociationsContent");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             UtilityNetworkAssociationsContent = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(UtilityNetworkAssociationsContent)] = UtilityNetworkAssociationsContent;
+        }
+         
+        return UtilityNetworkAssociationsContent;
     }
     
 #endregion
@@ -556,6 +666,43 @@ public partial class Abilities : MapComponent
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the RelationshipContent property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRelationshipContent(bool? value)
+    {
+#pragma warning disable BL0005
+        RelationshipContent = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(RelationshipContent)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "relationshipContent", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the TextContent property after render.
     /// </summary>
     /// <param name="value">
@@ -590,6 +737,43 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "textContent", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the UtilityNetworkAssociationsContent property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUtilityNetworkAssociationsContent(bool? value)
+    {
+#pragma warning disable BL0005
+        UtilityNetworkAssociationsContent = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(UtilityNetworkAssociationsContent)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "utilityNetworkAssociationsContent", value);
     }
     
 #endregion

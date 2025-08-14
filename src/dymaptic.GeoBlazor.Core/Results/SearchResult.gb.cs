@@ -4,8 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.SearchResult.html">GeoBlazor Docs</a>
-///     The result object returned from a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#search">search()</a>.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
+///     The result object returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-types.html#search">search</a> results.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-types.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Extent">
 ///     The extent, or bounding box, of the returned feature.
@@ -23,6 +23,14 @@ namespace dymaptic.GeoBlazor.Core.Results;
 ///     The target of the result, which is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">Graphic</a> used for either <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> navigation.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Key">
+///     The key related to the suggest result.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="SourceIndex">
+///     The index.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record SearchResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Extent? Extent = null,
@@ -31,4 +39,9 @@ public partial record SearchResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    Graphic? Target = null);
+    Graphic? Target = null,
+    [property:JsonConverter(typeof(NumberToStringConverter))]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? Key = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    int? SourceIndex = null);

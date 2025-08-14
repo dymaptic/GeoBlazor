@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     A read-only collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable-Grid-Column.html">column</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable-FieldColumn.html">field</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable-Grid-GroupColumn.html">group</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable-ActionColumn.html">action</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable-AttachmentsColumn.html">attachment</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable-RelationshipColumn.html">relationship</a> columns that are displayed within the table.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#columns">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IFeatureTableWidgetColumns : IMapComponent
+public partial interface IFeatureTableWidgetColumns
 {
 }

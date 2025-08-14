@@ -136,6 +136,20 @@ public partial class LayerListWidget : Widget
     
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.LayerList;
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetopenedlayers-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a>s that are opened
+    ///     in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogLayerList">catalogLayerList</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#tableList">tableList</a> flow item.
+    ///     default []
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#openedLayers">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    [JsonConverter(typeof(NonNullablePropertyCollectionConverter<Layer>))]
+    [CodeGenerationIgnore]
+    public IReadOnlyList<Layer>? OpenedLayers { get; protected set; }
 
     /// <summary>
     ///     A delegate to implement a custom handler for setting up each <see cref="ListItem" />.

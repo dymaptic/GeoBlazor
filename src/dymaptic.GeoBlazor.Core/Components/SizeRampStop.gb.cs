@@ -50,7 +50,7 @@ public partial class SizeRampStop : MapComponent
         string? label = null,
         int? outlineSize = null,
         ElementReference? preview = null,
-        int? size = null,
+        double? size = null,
         Symbol? symbol = null,
         string? value = null)
     {
@@ -106,7 +106,7 @@ public partial class SizeRampStop : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Size { get; set; }
+    public double? Size { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstopsymbol-property">GeoBlazor Docs</a>
@@ -252,7 +252,7 @@ public partial class SizeRampStop : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
-    public async Task<int?> GetSize()
+    public async Task<double?> GetSize()
     {
         if (CoreJsModule is null)
         {
@@ -275,7 +275,7 @@ public partial class SizeRampStop : MapComponent
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "size");
         if (result is { Value: not null })
         {
@@ -487,7 +487,7 @@ public partial class SizeRampStop : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSize(int? value)
+    public async Task SetSize(double? value)
     {
 #pragma warning disable BL0005
         Size = value;

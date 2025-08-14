@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     A property indicating the current active workflow.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor-EditorViewModel.html#activeWorkflow">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IEditorViewModelActiveWorkflow : IMapComponent
+public partial interface IEditorViewModelActiveWorkflow 
 {
 }

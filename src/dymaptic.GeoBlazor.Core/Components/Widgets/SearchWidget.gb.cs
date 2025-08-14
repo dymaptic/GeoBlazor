@@ -1121,17 +1121,17 @@ public partial class SearchWidget : IGoTo
             return Suggestions;
         }
 
-        // get the property value
-        IReadOnlyList<SuggestResult>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SuggestResult>?>("getProperty",
-            CancellationTokenSource.Token, "suggestions");
+        IReadOnlyList<SuggestResult>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SuggestResult>?>(
+            "getSuggestions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Suggestions = result;
+            Suggestions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Suggestions)] = Suggestions;
+            ModifiedParameters[nameof(Suggestions)] = Suggestions;
         }
-         
+        
         return Suggestions;
     }
     
@@ -2105,6 +2105,12 @@ public partial class SearchWidget : IGoTo
     [JSInvokable]
     public async Task OnJsSearchBlur(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2136,6 +2142,12 @@ public partial class SearchWidget : IGoTo
     [JSInvokable]
     public async Task OnJsSearchClear(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2167,6 +2179,12 @@ public partial class SearchWidget : IGoTo
     [JSInvokable]
     public async Task OnJsSearchFocus(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2198,6 +2216,12 @@ public partial class SearchWidget : IGoTo
     [JSInvokable]
     public async Task OnJsSearchStart(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2229,6 +2253,12 @@ public partial class SearchWidget : IGoTo
     [JSInvokable]
     public async Task OnJsSuggestStart(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);

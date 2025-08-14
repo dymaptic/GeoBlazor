@@ -3,8 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types ActionColumn, AttachmentsColumn, Column, FieldColumn, GroupColumn, RelationshipColumn
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureTableWidgetFindColumn.html">GeoBlazor Docs</a>
+///     Finds the specified column within the feature table.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#findColumn">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IFeatureTableWidgetFindColumn 
+public partial interface IFeatureTableWidgetFindColumn
 {
 }

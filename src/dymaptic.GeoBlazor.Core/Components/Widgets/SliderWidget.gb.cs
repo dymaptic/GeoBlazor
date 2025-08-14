@@ -295,6 +295,12 @@ public partial class SliderWidget
         InputCreatedFunctionType type,
         int thumbIndex)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+        
         if (InputCreatedFunction is not null)
         {
             await InputCreatedFunction.Invoke(inputElement,
@@ -431,6 +437,12 @@ public partial class SliderWidget
         ElementReference thumbElement,
         ElementReference labelElement)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+        
         if (ThumbCreatedFunction is not null)
         {
             await ThumbCreatedFunction.Invoke(index,
@@ -2457,6 +2469,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsMaxChange(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2488,6 +2506,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsMaxClick(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2519,6 +2543,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsMinChange(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2550,6 +2580,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsMinClick(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2581,6 +2617,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsSegmentClick(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2612,6 +2654,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsSegmentDrag(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2643,6 +2691,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsThumbChange(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2674,6 +2728,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsThumbClick(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2705,6 +2765,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsThumbDrag(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2736,6 +2802,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsTickClick(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -2767,6 +2839,12 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsTrackClick(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);

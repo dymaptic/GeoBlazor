@@ -10,8 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 /// </summary>
 public partial class Polygon
 {
-    
-    
+
 #region Property Getters
 
     /// <summary>

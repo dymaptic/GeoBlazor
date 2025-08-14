@@ -52,7 +52,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
 
     async getResultGraphic() {
         let {buildDotNetGraphic} = await import('./graphic');
-        return buildDotNetGraphic(this.widget.resultGraphic, null, this.viewId);
+        return buildDotNetGraphic(this.widget.resultGraphic!, null, this.viewId);
     }
 
     async getResults() {
@@ -60,7 +60,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
         let dnResults: any[] = [];
         let {buildDotNetSearchResult} = await import('./searchResult');
         let {buildDotNetSearchSource} = await import('./searchSource');
-        for (let jsResult of jsResults) {
+        for (let jsResult of jsResults!) {
             let searchResults: any[] = [];
             for (let jsSearchResult of jsResult.results) {
                 searchResults.push(buildDotNetSearchResult(jsSearchResult));
@@ -123,7 +123,20 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
         return encodedJson;
     }
 
-    
+    async getSuggestions() {
+        if (!hasValue(this.widget.suggestions)) {
+            return null;
+        }
+        let jsSuggestions = this.widget.suggestions;
+        let dotNetSuggestions: any[] = [];
+        let {buildDotNetSuggestResult} = await import('./suggestResult');
+        for (let jsSuggestion of jsSuggestions!) {
+            dotNetSuggestions.push(buildDotNetSuggestResult(jsSuggestion));
+        }
+
+        let encodedJson = buildEncodedJson(dotNetSuggestions);
+        return encodedJson;
+    }
 }
 
 export async function buildJsSearchWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

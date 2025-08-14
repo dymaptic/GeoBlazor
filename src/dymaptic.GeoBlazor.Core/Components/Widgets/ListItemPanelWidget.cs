@@ -127,6 +127,43 @@ public partial class ListItemPanelWidget: Widget
    ///      The content of the panel as a list of <see cref="ListItemPanelContent"/> items. Use this to add multiple content items to the panel in an ordered manner. Accepts strings, widgets, and HTML element references.
    /// </summary>
    [Parameter]
+   [CodeGenerationIgnore]
    public IReadOnlyList<ListItemPanelContent> Content { get; set; } = [];
+   
+   /// <inheritdoc />
+   public override async Task RegisterChildComponent(MapComponent child)
+   {
+       switch (child)
+       {
+           case Widget widget:
+               if (Content.All(c => c.WidgetContent?.Id != widget.Id))
+               {
+                   Content = [..Content, new ListItemPanelContent(widget)];
+               }
+               
+               break;
+           default:
+               await base.RegisterChildComponent(child);
+
+               break;
+       }
+   }
+
+   /// <inheritdoc />
+   public override async Task UnregisterChildComponent(MapComponent child)
+   {
+       switch (child)
+       {
+           case Widget widget:
+               Content = Content.Except(Content.Where(c => c.WidgetContent?.Id == widget.Id)).ToList();
+
+               break;
+           default:
+               await base.UnregisterChildComponent(child);
+
+               break;
+       }
+   }
+
 
 }

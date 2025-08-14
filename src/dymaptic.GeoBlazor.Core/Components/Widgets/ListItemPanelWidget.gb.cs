@@ -11,9 +11,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// </summary>
 public partial class ListItemPanelWidget
 {
-    
+
 #region Public Properties / Blazor Parameters
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgetdisabled-property">GeoBlazor Docs</a>
     ///     If `true`, disables the ListItem's panel so the user cannot open or interact with it.
@@ -80,7 +80,7 @@ public partial class ListItemPanelWidget
 #endregion
 
 #region Property Getters
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
@@ -466,42 +466,5 @@ public partial class ListItemPanelWidget
     }
     
 #endregion
-    
 
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ListItem listItem:
-                if (listItem != ListItem)
-                {
-                    ListItem = listItem;
-                    ModifiedParameters[nameof(ListItem)] = ListItem;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ListItem _:
-                ListItem = null;
-                ModifiedParameters[nameof(ListItem)] = ListItem;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-      
 }

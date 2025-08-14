@@ -14,7 +14,7 @@ $Locked = (($Configuration.ToLowerInvariant() -eq "debug") -and ($null -ne (Get-
 if ($Locked)
 {
     Write-Output "Another instance of the script is already running. Exiting."
-    Exit 0
+    Exit 1
 }
 
 try
