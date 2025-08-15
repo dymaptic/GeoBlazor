@@ -8,7 +8,7 @@ import {
     buildJsRelatedRecordsInfoFieldOrder
 } from "./relatedRecordsInfoFieldOrder";
 
-export function buildJsRelationshipPopupContent(dotNetObject: any, viewId: string | null): any {
+export function buildJsRelationshipPopupContent(dotNetObject: any): any {
     let properties: any = {};
     if (hasValue(dotNetObject.orderByFields)) {
         properties.orderByFields = dotNetObject.orderByFields.map(i => buildJsRelatedRecordsInfoFieldOrder(i)) as any;
@@ -37,7 +37,7 @@ export function buildJsRelationshipPopupContent(dotNetObject: any, viewId: strin
     return jsRelationshipContent;
 }
 
-export function buildDotNetRelationshipPopupContent(jsObject: any, viewId: string | null): any {
+export function buildDotNetRelationshipPopupContent(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

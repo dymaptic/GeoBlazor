@@ -3,7 +3,7 @@ import TimeInterval from '@arcgis/core/time/TimeInterval';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetTimeInterval } from './timeInterval';
 
-export async function buildJsTimeIntervalGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -23,36 +23,3 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, viewId: st
     
     return jsTimeInterval;
 }
-
-
-export async function buildDotNetTimeIntervalGenerated(jsObject: any, viewId: string | null): Promise<any> {
-    if (!hasValue(jsObject)) {
-        return null;
-    }
-    
-    let dotNetTimeInterval: any = {};
-    
-    if (hasValue(jsObject.unit)) {
-        dotNetTimeInterval.unit = removeCircularReferences(jsObject.unit);
-    }
-    
-    if (hasValue(jsObject.value)) {
-        dotNetTimeInterval.value = jsObject.value;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetTimeInterval.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetTimeInterval.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetTimeInterval.id)) {
-        jsObjectRefs[dotNetTimeInterval.id] ??= jsObject;
-        arcGisObjectRefs[dotNetTimeInterval.id] ??= jsObject;
-    }
-
-    return dotNetTimeInterval;
-}
-

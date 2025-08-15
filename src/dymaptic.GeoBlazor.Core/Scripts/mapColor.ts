@@ -1,10 +1,10 @@
 import {hasValue} from "./arcGisJsInterop";
 
-export function buildJsColor(color: any, viewId: string | null): any {
-    return buildJsMapColor(color, viewId);
+export function buildJsColor(color: any): any {
+    return buildJsMapColor(color);
 }
 
-export function buildJsMapColor(color: any, viewId: string | null): any {
+export function buildJsMapColor(color: any): any {
     if (!hasValue(color)) return null;
         if (typeof color === "string" || color instanceof Array<number>) return color;
     if (hasValue(color?.hexOrNameValue)) {
@@ -13,6 +13,6 @@ export function buildJsMapColor(color: any, viewId: string | null): any {
     return color.values;
 }
 
-export function buildDotNetMapColor(color: any, viewId: string | null): any {
+export function buildDotNetMapColor(color: any): any {
     return color?.toHex();
 }

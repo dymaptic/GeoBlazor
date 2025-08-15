@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetWhenNode } from './whenNode';
 
-export async function buildJsWhenNodeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWhenNodeGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -24,7 +24,7 @@ export async function buildJsWhenNodeGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWhenNodeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWhenNodeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

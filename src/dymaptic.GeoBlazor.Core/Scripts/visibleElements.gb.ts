@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetVisibleElements } from './visibleElements';
 
-export async function buildJsVisibleElementsGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsVisibleElementsGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }

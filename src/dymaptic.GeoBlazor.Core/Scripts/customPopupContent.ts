@@ -2,10 +2,10 @@
 
 import { sanitize } from './arcGisJsInterop';
 
-export function buildJsCustomPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): any {
+export function buildJsCustomPopupContent(dotNetObject: any): any {
     return sanitize(dotNetObject);
 }
 
-export function buildDotNetCustomPopupContent(jsObject: any, viewId: string | null): any {
+export function buildDotNetCustomPopupContent(jsObject: any): any {
     return jsObject;
 }

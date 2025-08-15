@@ -23,19 +23,19 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
             let { buildJsActionBase } = await import('./actionBase');
-            this.component.actions = dotNetObject.actions.map(i => buildJsActionBase(i, this.viewId)) as any;
+            this.component.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
         }
         if (hasValue(dotNetObject.activeFeature)) {
             let { buildJsGraphic } = await import('./graphic');
-            this.component.activeFeature = buildJsGraphic(dotNetObject.activeFeature, this.viewId) as any;
+            this.component.activeFeature = buildJsGraphic(dotNetObject.activeFeature) as any;
         }
         if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
             let { buildJsGraphic } = await import('./graphic');
-            this.component.features = dotNetObject.features.map(i => buildJsGraphic(i, this.viewId)) as any;
+            this.component.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
         }
         if (hasValue(dotNetObject.featureViewModelAbilities)) {
             let { buildJsAbilities } = await import('./abilities');
-            this.component.featureViewModelAbilities = await buildJsAbilities(dotNetObject.featureViewModelAbilities, this.layerId, this.viewId) as any;
+            this.component.featureViewModelAbilities = await buildJsAbilities(dotNetObject.featureViewModelAbilities) as any;
         }
         if (hasValue(dotNetObject.goToOverride)) {
             let { buildJsGoToOverride } = await import('./goToOverride');
@@ -43,11 +43,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.location)) {
             let { buildJsPoint } = await import('./point');
-            this.component.location = buildJsPoint(dotNetObject.location, this.viewId) as any;
-        }
-        if (hasValue(dotNetObject.promises) && dotNetObject.promises.length > 0) {
-            let { buildJsGraphic } = await import('./graphic');
-            this.component.promises = dotNetObject.promises.map(i => buildJsGraphic(i, this.viewId)) as any;
+            this.component.location = buildJsPoint(dotNetObject.location) as any;
         }
         if (hasValue(dotNetObject.screenLocation)) {
             let { buildJsFeaturesViewModelScreenPoint } = await import('./featuresViewModelScreenPoint');
@@ -55,7 +51,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.spatialReference)) {
             let { buildJsSpatialReference } = await import('./spatialReference');
-            this.component.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference, this.viewId) as any;
+            this.component.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
         }
 
         if (hasValue(dotNetObject.autoCloseEnabled)) {
@@ -152,7 +148,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.component.actions!.map(async i => await buildDotNetActionBase(i, this.viewId)));
+        return await Promise.all(this.component.actions!.map(async i => await buildDotNetActionBase(i)));
     }
     
     async setActions(value: any): Promise<void> {
@@ -160,7 +156,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
             this.component.actions.removeAll();
         }
         let { buildJsActionBase } = await import('./actionBase');
-        this.component.actions = await Promise.all(value.map(async i => await buildJsActionBase(i, this.viewId))) as any;
+        this.component.actions = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
     }
     
     async getActiveFeature(): Promise<any> {
@@ -169,12 +165,12 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.component.activeFeature, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.activeFeature!, this.layerId, this.viewId);
     }
     
     async setActiveFeature(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.component.activeFeature =  buildJsGraphic(value, this.viewId);
+        this.component.activeFeature =  buildJsGraphic(value);
     }
     
     async getAllActions(): Promise<any> {
@@ -183,7 +179,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.component.allActions!.map(async i => await buildDotNetActionBase(i, this.viewId)));
+        return await Promise.all(this.component.allActions!.map(async i => await buildDotNetActionBase(i)));
     }
     
     getContent(): any {
@@ -204,7 +200,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.component.defaultActions!.map(async i => await buildDotNetActionBase(i, this.viewId)));
+        return await Promise.all(this.component.defaultActions!.map(async i => await buildDotNetActionBase(i)));
     }
     
     getFeatureMenuTitle(): any {
@@ -233,7 +229,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
             this.component.features = [];
         }
         let { buildJsGraphic } = await import('./graphic');
-        this.component.features = value.map(i => buildJsGraphic(i, this.viewId)) as any;
+        this.component.features = value.map(i => buildJsGraphic(i)) as any;
     }
     
     async getFeatureViewModelAbilities(): Promise<any> {
@@ -242,12 +238,12 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetAbilities } = await import('./abilities');
-        return await buildDotNetAbilities(this.component.featureViewModelAbilities, this.layerId, this.viewId);
+        return await buildDotNetAbilities(this.component.featureViewModelAbilities, this.layerId);
     }
     
     async setFeatureViewModelAbilities(value: any): Promise<void> {
         let { buildJsAbilities } = await import('./abilities');
-        this.component.featureViewModelAbilities = await  buildJsAbilities(value, this.layerId, this.viewId);
+        this.component.featureViewModelAbilities = await  buildJsAbilities(value);
     }
     
     async getGoToOverride(): Promise<any> {
@@ -270,12 +266,12 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPoint } = await import('./point');
-        return buildDotNetPoint(this.component.location, this.viewId);
+        return buildDotNetPoint(this.component.location);
     }
     
     async setLocation(value: any): Promise<void> {
         let { buildJsPoint } = await import('./point');
-        this.component.location =  buildJsPoint(value, this.viewId);
+        this.component.location =  buildJsPoint(value);
     }
     
     async getPromises(): Promise<any> {
@@ -284,7 +280,10 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.component.promises!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
+        return this.component.promises!.map(async p => {
+            let graphics = await p;
+            return graphics.map(g => buildDotNetGraphic(g, this.layerId, this.viewId));
+        });
     }
     
     async setPromises(value: any): Promise<void> {
@@ -292,7 +291,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
             this.component.promises = [];
         }
         let { buildJsGraphic } = await import('./graphic');
-        this.component.promises = value.map(i => buildJsGraphic(i, this.viewId)) as any;
+        this.component.promises = value.map(i => buildJsGraphic(i)) as any;
     }
     
     async getScreenLocation(): Promise<any> {
@@ -324,7 +323,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.component.selectedFeature, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.selectedFeature!, this.layerId, this.viewId);
     }
     
     async getSpatialReference(): Promise<any> {
@@ -333,7 +332,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.spatialReference, this.viewId);
+        return buildDotNetSpatialReference(this.component.spatialReference);
     }
     
     getTimeZone(): any {

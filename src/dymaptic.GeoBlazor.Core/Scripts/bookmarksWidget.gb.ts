@@ -23,7 +23,7 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.bookmarks) && dotNetObject.bookmarks.length > 0) {
             let { buildJsBookmark } = await import('./bookmark');
-            this.widget.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i, this.viewId))) as any;
+            this.widget.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
         }
         if (hasValue(dotNetObject.defaultCreateOptions)) {
             let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
@@ -77,7 +77,7 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
 
     async goTo(bookmark: any): Promise<any> {
         let { buildJsBookmark } = await import('./bookmark');
-        let jsBookmark = await buildJsBookmark(bookmark, this.viewId) as any;
+        let jsBookmark = await buildJsBookmark(bookmark) as any;
         let result = await this.widget.goTo(jsBookmark);
         
         return generateSerializableJson(result);
@@ -129,7 +129,7 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBookmark } = await import('./bookmark');
-        return await Promise.all(this.widget.bookmarks!.map(async i => await buildDotNetBookmark(i, this.viewId)));
+        return await Promise.all(this.widget.bookmarks!.map(async i => await buildDotNetBookmark(i)));
     }
     
     async setBookmarks(value: any): Promise<void> {
@@ -137,7 +137,7 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
             this.widget.bookmarks.removeAll();
         }
         let { buildJsBookmark } = await import('./bookmark');
-        this.widget.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i, this.viewId))) as any;
+        this.widget.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i))) as any;
     }
     
     async getDefaultCreateOptions(): Promise<any> {
@@ -146,7 +146,7 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
-        return await buildDotNetBookmarkOptions(this.widget.defaultCreateOptions, this.viewId);
+        return await buildDotNetBookmarkOptions(this.widget.defaultCreateOptions);
     }
     
     async setDefaultCreateOptions(value: any): Promise<void> {
@@ -160,7 +160,7 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
-        return await buildDotNetBookmarkOptions(this.widget.defaultEditOptions, this.viewId);
+        return await buildDotNetBookmarkOptions(this.widget.defaultEditOptions);
     }
     
     async setDefaultEditOptions(value: any): Promise<void> {
@@ -291,7 +291,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.bookmarks) && dotNetObject.bookmarks.length > 0) {
         let { buildJsBookmark } = await import('./bookmark');
-        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i, viewId))) as any;
+        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
     }
     if (hasValue(dotNetObject.defaultCreateOptions)) {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
@@ -395,17 +395,17 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.bookmarks)) {
         let { buildDotNetBookmark } = await import('./bookmark');
-        dotNetBookmarksWidget.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i, viewId)));
+        dotNetBookmarksWidget.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i)));
     }
     
     if (hasValue(jsObject.defaultCreateOptions)) {
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
-        dotNetBookmarksWidget.defaultCreateOptions = await buildDotNetBookmarkOptions(jsObject.defaultCreateOptions, viewId);
+        dotNetBookmarksWidget.defaultCreateOptions = await buildDotNetBookmarkOptions(jsObject.defaultCreateOptions);
     }
     
     if (hasValue(jsObject.defaultEditOptions)) {
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
-        dotNetBookmarksWidget.defaultEditOptions = await buildDotNetBookmarkOptions(jsObject.defaultEditOptions, viewId);
+        dotNetBookmarksWidget.defaultEditOptions = await buildDotNetBookmarkOptions(jsObject.defaultEditOptions);
     }
     
     if (hasValue(jsObject.viewModel)) {

@@ -1,6 +1,6 @@
 import {hasValue} from "./arcGisJsInterop";
 
-export function buildJsAttributes(attributes: any, viewId: string | null): any {
+export function buildJsAttributes(attributes: any): any {
     if (hasValue(attributes)) {
         if (attributes instanceof Array) {
             let graphicAttributes = {};
@@ -34,7 +34,6 @@ export function buildJsAttributes(attributes: any, viewId: string | null): any {
     
     return null;
 }
-export async function buildDotNetAttributes(jsObject: any, viewId: string | null): Promise<any> {
-    let { buildDotNetAttributesGenerated } = await import('./attributes.gb');
-    return await buildDotNetAttributesGenerated(jsObject, viewId);
+export async function buildDotNetAttributes(jsObject: any): Promise<any> {
+    // NOT USED
 }

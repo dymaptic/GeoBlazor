@@ -81,7 +81,7 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetZoomViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetZoomViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

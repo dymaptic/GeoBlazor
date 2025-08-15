@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetBasemapView } from './basemapView';
 
-export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBasemapViewGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -21,7 +21,7 @@ export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetBasemapViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapViewGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -30,12 +30,12 @@ export async function buildDotNetBasemapViewGenerated(jsObject: any, layerId: st
     
     if (hasValue(jsObject.baseLayerViews)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetBasemapView.baseLayerViews = await Promise.all(jsObject.baseLayerViews.map(async i => await buildDotNetLayerView(i)));
+        dotNetBasemapView.baseLayerViews = await Promise.all(jsObject.baseLayerViews.map(async i => await buildDotNetLayerView(i, viewId)));
     }
     
     if (hasValue(jsObject.referenceLayerViews)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetBasemapView.referenceLayerViews = await Promise.all(jsObject.referenceLayerViews.map(async i => await buildDotNetLayerView(i)));
+        dotNetBasemapView.referenceLayerViews = await Promise.all(jsObject.referenceLayerViews.map(async i => await buildDotNetLayerView(i, viewId)));
     }
     
     if (hasValue(jsObject.updating)) {

@@ -3,7 +3,7 @@ import SizeStop from '@arcgis/core/renderers/visualVariables/support/SizeStop';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetSizeStop } from './sizeStop';
 
-export async function buildJsSizeStopGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsSizeStopGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -28,7 +28,7 @@ export async function buildJsSizeStopGenerated(dotNetObject: any, viewId: string
 }
 
 
-export async function buildDotNetSizeStopGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetSizeStopGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -45,19 +45,6 @@ export async function buildDotNetSizeStopGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.value)) {
         dotNetSizeStop.value = jsObject.value;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetSizeStop.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetSizeStop.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetSizeStop.id)) {
-        jsObjectRefs[dotNetSizeStop.id] ??= jsObject;
-        arcGisObjectRefs[dotNetSizeStop.id] ??= jsObject;
     }
 
     return dotNetSizeStop;

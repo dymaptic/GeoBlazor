@@ -19,7 +19,7 @@ export async function buildJsTrackInfoGenerated(dotNetObject: any, layerId: stri
     }
     if (hasValue(dotNetObject.maxDisplayDuration)) {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        properties.maxDisplayDuration = await buildJsTimeInterval(dotNetObject.maxDisplayDuration, viewId) as any;
+        properties.maxDisplayDuration = await buildJsTimeInterval(dotNetObject.maxDisplayDuration) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');

@@ -3,7 +3,7 @@ import popupExpressionInfo from '@arcgis/core/popup/ExpressionInfo';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetPopupExpressionInfo } from './popupExpressionInfo';
 
-export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -31,7 +31,7 @@ export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any, vie
 }
 
 
-export async function buildDotNetPopupExpressionInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupExpressionInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -52,19 +52,6 @@ export async function buildDotNetPopupExpressionInfoGenerated(jsObject: any, vie
     
     if (hasValue(jsObject.title)) {
         dotNetPopupExpressionInfo.title = jsObject.title;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetPopupExpressionInfo.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetPopupExpressionInfo.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetPopupExpressionInfo.id)) {
-        jsObjectRefs[dotNetPopupExpressionInfo.id] ??= jsObject;
-        arcGisObjectRefs[dotNetPopupExpressionInfo.id] ??= jsObject;
     }
 
     return dotNetPopupExpressionInfo;

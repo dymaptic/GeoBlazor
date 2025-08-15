@@ -3,7 +3,7 @@ import SpatialReference from '@arcgis/core/geometry/SpatialReference';
 import {arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, generateSerializableJson} from "./arcGisJsInterop";
 
 
-export function buildDotNetSpatialReference(spatialReference: any, viewId: string | null): any {
+export function buildDotNetSpatialReference(spatialReference: any): any {
     if (!hasValue(spatialReference)) {
         return null;
     }
@@ -42,7 +42,7 @@ export function buildDotNetSpatialReference(spatialReference: any, viewId: strin
     return dotNetSpatialReference;
 }
 
-export function buildJsSpatialReference(dotNetObject: any, viewId: string | null): any {
+export function buildJsSpatialReference(dotNetObject: any): any {
     if (!hasValue(dotNetObject)) {
         return null;
     }

@@ -11,7 +11,7 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetWMTSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent, viewId);
+        dotNetWMTSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
     
     if (hasValue(jsObject.styles)) {

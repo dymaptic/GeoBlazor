@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetCodedValue } from './codedValue';
 
-export async function buildJsCodedValueGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCodedValueGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -24,7 +24,7 @@ export async function buildJsCodedValueGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetCodedValueGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCodedValueGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

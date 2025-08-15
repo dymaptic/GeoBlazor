@@ -2,7 +2,7 @@
 import AttachmentsContent from "@arcgis/core/popup/content/AttachmentsContent";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export function buildJsAttachmentsPopupContent(dotNetObject: any, viewId: string | null): any {
+export function buildJsAttachmentsPopupContent(dotNetObject: any): any {
     let properties: any = {};    
 
     if (hasValue(dotNetObject.description)) {
@@ -23,7 +23,7 @@ export function buildJsAttachmentsPopupContent(dotNetObject: any, viewId: string
     return jsAttachmentsContent;
 }
 
-export function buildDotNetAttachmentsPopupContent(jsObject: any, viewId: string | null): any {
+export function buildDotNetAttachmentsPopupContent(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -15,7 +15,7 @@ export async function buildJsCodedValueDomain(dotNetObject: any, layerId: string
     return await buildJsCodedValueDomainGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetCodedValueDomain(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCodedValueDomain(jsObject: any): Promise<any> {
     let { buildDotNetCodedValueDomainGenerated } = await import('./codedValueDomain.gb');
-    return await buildDotNetCodedValueDomainGenerated(jsObject, layerId, viewId);
+    return await buildDotNetCodedValueDomainGenerated(jsObject);
 }

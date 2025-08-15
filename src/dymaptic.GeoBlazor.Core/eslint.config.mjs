@@ -1,7 +1,7 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
-
+import sonarjs from 'eslint-plugin-sonarjs';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -19,7 +19,7 @@ export default [
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  {
+  { plugins: { sonarjs },
     rules: {
         "prefer-const": "off",
         "@typescript-eslint/no-explicit-any": "off",
@@ -31,7 +31,10 @@ export default [
         '@typescript-eslint/no-unsafe-function-type': "off",
         '@typescript-eslint/no-unused-vars': 'off',
         "no-undef": "error",
-        'no-useless-catch': 'off'
+        'no-useless-catch': 'off',
+        // 'sonarjs/argument-type': 'error',
+        // 'sonarjs/no-extra-arguments': 'error',
+        // 'sonarjs/no-unused-function-argument': 'error'
     }
   }
 ];

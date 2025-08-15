@@ -4,7 +4,7 @@ import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialRef
 import {buildDotNetExtent} from "./extent";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
 
-export function buildJsMultipoint(dotNetObject: any, viewId: string | null): any {
+export function buildJsMultipoint(dotNetObject: any): any {
     let properties: any = {};
 
     if (hasValue(dotNetObject.hasM)) {
@@ -25,7 +25,7 @@ export function buildJsMultipoint(dotNetObject: any, viewId: string | null): any
     return jsMultipoint;
 }     
 
-export function buildDotNetMultipoint(jsObject: any, viewId: string | null): any {
+export function buildDotNetMultipoint(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

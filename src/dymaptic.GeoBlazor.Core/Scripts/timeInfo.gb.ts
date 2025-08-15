@@ -15,7 +15,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, viewId: string
     }
     if (hasValue(dotNetObject.interval)) {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        properties.interval = await buildJsTimeInterval(dotNetObject.interval, viewId) as any;
+        properties.interval = await buildJsTimeInterval(dotNetObject.interval) as any;
     }
 
     if (hasValue(dotNetObject.endField)) {

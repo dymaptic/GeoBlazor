@@ -6,43 +6,43 @@ import {buildDotNetMultipoint, buildJsMultipoint} from "./multipoint";
 import {buildDotNetMesh, buildJsMesh} from "./mesh";
 import {hasValue} from "./arcGisJsInterop";
 
-export function buildDotNetGeometry(geometry: any, viewId: string | null): any {
+export function buildDotNetGeometry(geometry: any): any {
     if (!hasValue(geometry)) {
         return null;
     }
     switch (geometry?.type) {
         case "point":
-            return buildDotNetPoint(geometry, viewId);
+            return buildDotNetPoint(geometry);
         case "polyline":
-            return buildDotNetPolyline(geometry, viewId);
+            return buildDotNetPolyline(geometry);
         case "polygon":
-            return buildDotNetPolygon(geometry, viewId);
+            return buildDotNetPolygon(geometry);
         case "extent":
-            return buildDotNetExtent(geometry, viewId);
+            return buildDotNetExtent(geometry);
         case "multipoint":
-            return buildDotNetMultipoint(geometry, viewId);
+            return buildDotNetMultipoint(geometry);
         case "mesh":
-            return buildDotNetMesh(geometry, viewId);
+            return buildDotNetMesh(geometry);
     }
 }
 
-export function buildJsGeometry(geometry: any, viewId: string | null): any {
+export function buildJsGeometry(geometry: any): any {
     if (!hasValue(geometry)) {
         return null;
     }
     switch (geometry?.type) {
         case "point":
-            return buildJsPoint(geometry, viewId);
+            return buildJsPoint(geometry);
         case "polyline":
-            return buildJsPolyline(geometry, viewId);
+            return buildJsPolyline(geometry);
         case "polygon":
-            return buildJsPolygon(geometry, viewId);
+            return buildJsPolygon(geometry);
         case "extent":
-            return buildJsExtent(geometry, viewId);
+            return buildJsExtent(geometry);
         case "multipoint":
-            return buildJsMultipoint(geometry, viewId);
+            return buildJsMultipoint(geometry);
         case "mesh":
-            return buildJsMesh(geometry, viewId);
+            return buildJsMesh(geometry);
     }
 
     return geometry as any;

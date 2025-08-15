@@ -51,7 +51,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeOffset)) {
             let { buildJsTimeInterval } = await import('./timeInterval');
-            this.layer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, this.viewId) as any;
+            this.layer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
@@ -412,7 +412,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async setTimeOffset(value: any): Promise<void> {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        this.layer.timeOffset = await  buildJsTimeInterval(value, this.viewId);
+        this.layer.timeOffset = await  buildJsTimeInterval(value);
     }
     
     getTitle(): any {
@@ -499,7 +499,7 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.timeOffset)) {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, viewId) as any;
+        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');

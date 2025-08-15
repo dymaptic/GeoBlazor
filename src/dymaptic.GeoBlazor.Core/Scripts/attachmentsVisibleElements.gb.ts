@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetAttachmentsVisibleElements } from './attachmentsVisibleElements';
 
-export async function buildJsAttachmentsVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAttachmentsVisibleElementsGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -41,7 +41,7 @@ export async function buildJsAttachmentsVisibleElementsGenerated(dotNetObject: a
 }
 
 
-export async function buildDotNetAttachmentsVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAttachmentsVisibleElementsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -80,19 +80,6 @@ export async function buildDotNetAttachmentsVisibleElementsGenerated(jsObject: a
         dotNetAttachmentsVisibleElements.updateButton = jsObject.updateButton;
     }
     
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetAttachmentsVisibleElements.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetAttachmentsVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetAttachmentsVisibleElements.id)) {
-        jsObjectRefs[dotNetAttachmentsVisibleElements.id] ??= jsObject;
-        arcGisObjectRefs[dotNetAttachmentsVisibleElements.id] ??= jsObject;
-    }
-
     return dotNetAttachmentsVisibleElements;
 }
 

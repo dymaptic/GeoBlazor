@@ -75,7 +75,7 @@ export async function buildJsCodedValueDomainGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetCodedValueDomainGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCodedValueDomainGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

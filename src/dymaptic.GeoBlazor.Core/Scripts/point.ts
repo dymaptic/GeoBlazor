@@ -3,7 +3,7 @@ import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialR
 import Point from "@arcgis/core/geometry/Point";
 import { arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs } from "./arcGisJsInterop";
 
-export function buildDotNetPoint(point: any, viewId: string | null): any {
+export function buildDotNetPoint(point: any): any {
     if (point === undefined || point === null) return null;
     return {
         type: 'point',
@@ -11,20 +11,20 @@ export function buildDotNetPoint(point: any, viewId: string | null): any {
         longitude: point.longitude,
         hasM: point.hasM,
         hasZ: point.hasZ,
-        extent: buildDotNetExtent(point.extent, viewId),
+        extent: buildDotNetExtent(point.extent),
         x: point.x,
         y: point.y,
         z: point.z,
         m: point.m,
-        spatialReference: buildDotNetSpatialReference(point.spatialReference, viewId)
+        spatialReference: buildDotNetSpatialReference(point.spatialReference)
     };
 }
 
-export function buildJsPoint(dotNetObject: any, viewId: string | null): any {
+export function buildJsPoint(dotNetObject: any): any {
     if (dotNetObject === undefined || dotNetObject === null) return null;
     let properties: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference, viewId);
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference);
     }
     copyValuesIfExists(dotNetObject, properties, 'latitude', 'longitude', 'x', 'y', 'z', 'm',
         'hasZ', 'hasM');

@@ -2,7 +2,7 @@
 import PopupTemplate from '@arcgis/core/PopupTemplate';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 
-export async function buildDotNetPopupTemplateGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -11,22 +11,22 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.actions)) {
         let { buildDotNetActionBase } = await import('./actionBase');
-        dotNetPopupTemplate.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i, viewId)));
+        dotNetPopupTemplate.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
     }
     
     if (hasValue(jsObject.expressionInfos)) {
         let { buildDotNetPopupExpressionInfo } = await import('./popupExpressionInfo');
-        dotNetPopupTemplate.expressionInfos = await Promise.all(jsObject.expressionInfos.map(async i => await buildDotNetPopupExpressionInfo(i, viewId)));
+        dotNetPopupTemplate.expressionInfos = await Promise.all(jsObject.expressionInfos.map(async i => await buildDotNetPopupExpressionInfo(i)));
     }
     
     if (hasValue(jsObject.fieldInfos)) {
         let { buildDotNetFieldInfo } = await import('./fieldInfo');
-        dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i, viewId));
+        dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i));
     }
     
     if (hasValue(jsObject.layerOptions)) {
         let { buildDotNetLayerOptions } = await import('./layerOptions');
-        dotNetPopupTemplate.layerOptions = buildDotNetLayerOptions(jsObject.layerOptions, viewId);
+        dotNetPopupTemplate.layerOptions = buildDotNetLayerOptions(jsObject.layerOptions);
     }
     
     if (hasValue(jsObject.lastEditInfoEnabled)) {
@@ -47,19 +47,6 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.title)) {
         dotNetPopupTemplate.title = jsObject.title;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetPopupTemplate.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetPopupTemplate.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetPopupTemplate.id)) {
-        jsObjectRefs[dotNetPopupTemplate.id] ??= jsObject;
-        arcGisObjectRefs[dotNetPopupTemplate.id] ??= jsObject;
     }
 
     return dotNetPopupTemplate;

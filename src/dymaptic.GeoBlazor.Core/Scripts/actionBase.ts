@@ -3,15 +3,15 @@
 import {buildJsActionButton} from "./actionButton";
 import {buildJsActionToggle} from "./actionToggle";
 
-export function buildJsActionBase(dotNetObject: any, viewId: string | null): any {
+export function buildJsActionBase(dotNetObject: any): any {
     let jsAction: any = {};
     switch (dotNetObject?.type) {
         case 'button':
-            jsAction = buildJsActionButton(dotNetObject, viewId);
+            jsAction = buildJsActionButton(dotNetObject);
             
             break;
         case 'toggle':
-            jsAction = buildJsActionToggle(dotNetObject, viewId);
+            jsAction = buildJsActionToggle(dotNetObject);
             
             break;
         default:
@@ -21,14 +21,14 @@ export function buildJsActionBase(dotNetObject: any, viewId: string | null): any
     return jsAction;
 }
 
-export async function buildDotNetActionBase(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetActionBase(jsObject: any): Promise<any> {
     switch (jsObject?.type) {
         case 'button':
             let {buildDotNetActionButton} = await import('./actionButton');
-            return await buildDotNetActionButton(jsObject, viewId);
+            return await buildDotNetActionButton(jsObject);
         case 'toggle':
             let {buildDotNetActionToggle} = await import('./actionToggle');
-            return await buildDotNetActionToggle(jsObject, viewId);
+            return await buildDotNetActionToggle(jsObject);
         default:
             throw new Error(`Unsupported action type: ${jsObject?.type}`);
     }

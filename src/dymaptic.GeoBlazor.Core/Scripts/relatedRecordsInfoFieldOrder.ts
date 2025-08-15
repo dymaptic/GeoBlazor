@@ -2,7 +2,7 @@
 import RelatedRecordsInfoFieldOrder from '@arcgis/core/popup/support/RelatedRecordsInfoFieldOrder';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any, viewId: string | null): any {
+export function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any): any {
     let properties: any = {};
 
     if (hasValue(dotNetObject.field)) {
@@ -20,7 +20,7 @@ export function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any, viewId: s
     return jsRelatedRecordsInfoFieldOrder;
 }
 
-export function buildDotNetRelatedRecordsInfoFieldOrder(jsObject: any, viewId: string | null): any {
+export function buildDotNetRelatedRecordsInfoFieldOrder(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

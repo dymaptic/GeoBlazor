@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoField } from './authoringInfoField';
 
-export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, view
     let jsAuthoringInfoField1: any = {};
     if (hasValue(dotNetObject.classBreakInfos) && dotNetObject.classBreakInfos.length > 0) {
         let { buildJsAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        jsAuthoringInfoField1.classBreakInfos = await Promise.all(dotNetObject.classBreakInfos.map(async i => await buildJsAuthoringInfoField1ClassBreakInfos(i, viewId))) as any;
+        jsAuthoringInfoField1.classBreakInfos = await Promise.all(dotNetObject.classBreakInfos.map(async i => await buildJsAuthoringInfoField1ClassBreakInfos(i))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
@@ -30,7 +30,7 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, view
 }
 
 
-export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -39,7 +39,7 @@ export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any, view
     
     if (hasValue(jsObject.classBreakInfos)) {
         let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        dotNetAuthoringInfoField.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i, viewId)));
+        dotNetAuthoringInfoField.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i)));
     }
     
     if (hasValue(jsObject.field)) {
@@ -52,19 +52,6 @@ export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any, view
     
     if (hasValue(jsObject.normalizationField)) {
         dotNetAuthoringInfoField.normalizationField = jsObject.normalizationField;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetAuthoringInfoField.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetAuthoringInfoField.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetAuthoringInfoField.id)) {
-        jsObjectRefs[dotNetAuthoringInfoField.id] ??= jsObject;
-        arcGisObjectRefs[dotNetAuthoringInfoField.id] ??= jsObject;
     }
 
     return dotNetAuthoringInfoField;

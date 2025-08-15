@@ -3,7 +3,7 @@ import ChartMediaInfoValueSeries from '@arcgis/core/popup/content/support/ChartM
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor} from './mapColor';
 
-export function buildJsChartMediaInfoValueSeries(dotNetObject: any, viewId: string | null): any {
+export function buildJsChartMediaInfoValueSeries(dotNetObject: any): any {
     let properties: any = {};
     
     if (hasValue(dotNetObject.color)) {
@@ -31,7 +31,7 @@ export function buildJsChartMediaInfoValueSeries(dotNetObject: any, viewId: stri
     return jsChartMediaInfoValueSeries;
 }
 
-export function buildDotNetChartMediaInfoValueSeries(jsObject: any, viewId: string | null): any {
+export function buildDotNetChartMediaInfoValueSeries(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

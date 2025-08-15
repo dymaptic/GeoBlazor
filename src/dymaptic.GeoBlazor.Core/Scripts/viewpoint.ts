@@ -4,16 +4,16 @@ import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
 import Viewpoint from "@arcgis/core/Viewpoint";
 import Geometry from "@arcgis/core/geometry/Geometry";
 
-export function buildDotNetViewpoint(jsObject: any, viewId: string | null): any {
+export function buildDotNetViewpoint(jsObject: any): any {
     if (!hasValue(jsObject)) return null;
     return {
         rotation: jsObject.rotation,
         scale: jsObject.scale,
-        targetGeometry: buildDotNetGeometry(jsObject.targetGeometry, viewId)
+        targetGeometry: buildDotNetGeometry(jsObject.targetGeometry)
     } as DotNetViewpoint;
 }
 
-export function buildJsViewpoint(dotNetObject: any, viewId: string | null): any {
+export function buildJsViewpoint(dotNetObject: any): any {
     if (dotNetObject === undefined || dotNetObject === null) return null;
     let viewpoint = new Viewpoint();
 
@@ -25,6 +25,6 @@ export function buildJsViewpoint(dotNetObject: any, viewId: string | null): any 
         viewpoint.rotation = dotNetObject.rotation
     }
 
-    viewpoint.targetGeometry = buildJsGeometry(dotNetObject.targetGeometry, viewId) as Geometry;
+    viewpoint.targetGeometry = buildJsGeometry(dotNetObject.targetGeometry) as Geometry;
     return viewpoint as Viewpoint;
 }

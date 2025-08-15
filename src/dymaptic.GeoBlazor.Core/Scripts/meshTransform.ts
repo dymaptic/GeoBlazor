@@ -3,7 +3,7 @@
 import MeshTransform from "@arcgis/core/geometry/support/MeshTransform";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export function buildJsMeshTransform(dotNetObject: any, viewId: string | null): any {
+export function buildJsMeshTransform(dotNetObject: any): any {
     let properties : any = {};
 
     if (hasValue(dotNetObject.rotationAngle)) {
@@ -24,7 +24,7 @@ export function buildJsMeshTransform(dotNetObject: any, viewId: string | null): 
     return jsMeshTransform;
 }     
 
-export function buildDotNetMeshTransform(jsObject: any, viewId: string | null): any {
+export function buildDotNetMeshTransform(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

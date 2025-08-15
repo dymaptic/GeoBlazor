@@ -4,7 +4,7 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetAlgorithmicColorRamp, buildJsAlgorithmicColorRamp} from './algorithmicColorRamp';
 
 
-export function buildJsMultipartColorRamp(dotNetObject: any, viewId: string | null): any {
+export function buildJsMultipartColorRamp(dotNetObject: any): any {
     let jsMultipartColorRamp = new MultipartColorRamp();
     if (hasValue(dotNetObject.colorRamps)) {
         jsMultipartColorRamp.colorRamps = dotNetObject.colorRamps.map(buildJsAlgorithmicColorRamp) as any;
@@ -17,7 +17,7 @@ export function buildJsMultipartColorRamp(dotNetObject: any, viewId: string | nu
     return jsMultipartColorRamp;
 }
 
-export function buildDotNetMultipartColorRamp(jsObject: any, viewId: string | null): any {
+export function buildDotNetMultipartColorRamp(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

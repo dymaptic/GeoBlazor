@@ -8,45 +8,45 @@ import {buildDotNetSimpleFillSymbol, buildJsSimpleFillSymbol} from './simpleFill
 import {buildDotNetTextSymbol, buildJsTextSymbol} from "./textSymbol";
 import {hasValue, sanitize} from "./arcGisJsInterop";
 
-export function buildJsSymbol(symbol: any, viewId: string | null): any {
+export function buildJsSymbol(symbol: any): any {
     if (!hasValue(symbol)) {
         return null;
     }
     switch (symbol?.type) {
         case "simple-marker":
-            return buildJsSimpleMarkerSymbol(symbol, viewId);
+            return buildJsSimpleMarkerSymbol(symbol);
         case "simple-line":
-            return buildJsSimpleLineSymbol(symbol, viewId);
+            return buildJsSimpleLineSymbol(symbol);
         case "picture-marker":
-            return buildJsPictureMarkerSymbol(symbol, viewId);
+            return buildJsPictureMarkerSymbol(symbol);
         case "picture-fill":
-            return buildJsPictureFillSymbol(symbol, viewId);
+            return buildJsPictureFillSymbol(symbol);
         case "simple-fill":
-            return buildJsSimpleFillSymbol(symbol, viewId);
+            return buildJsSimpleFillSymbol(symbol);
         case "text":
-            return buildJsTextSymbol(symbol, viewId);
+            return buildJsTextSymbol(symbol);
         default:
             return sanitize(symbol);
     }
 }
 
-export function buildDotNetSymbol(symbol: any, viewId: string | null): any {
+export function buildDotNetSymbol(symbol: any): any {
     if (!hasValue(symbol)) {
         return null;
     }
     switch (symbol.type) {
         case 'picture-fill':
-            return buildDotNetPictureFillSymbol(symbol, viewId);
+            return buildDotNetPictureFillSymbol(symbol);
         case 'picture-marker':
-            return buildDotNetPictureMarkerSymbol(symbol, viewId);
+            return buildDotNetPictureMarkerSymbol(symbol);
         case 'simple-fill':
-            return buildDotNetSimpleFillSymbol(symbol, viewId);
+            return buildDotNetSimpleFillSymbol(symbol);
         case 'simple-line':
-            return buildDotNetSimpleLineSymbol(symbol, viewId);
+            return buildDotNetSimpleLineSymbol(symbol);
         case 'simple-marker':
-            return buildDotNetSimpleMarkerSymbol(symbol, viewId);
+            return buildDotNetSimpleMarkerSymbol(symbol);
         case 'text':
-            return buildDotNetTextSymbol(symbol, viewId);
+            return buildDotNetTextSymbol(symbol);
         default:
             return symbol;
     }

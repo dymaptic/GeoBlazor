@@ -5,7 +5,24 @@ import { buildDotNetBuildingSummaryStatistics } from './buildingSummaryStatistic
 import {IPropertyWrapper} from "./definitions";
 
 export default class BuildingSummaryStatisticsStatisticsGenerated implements IPropertyWrapper {
+    public component: BuildingSummaryStatistics;
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
     
+    constructor(component: BuildingSummaryStatistics) {
+        this.component = component;
+    }
+
+    setProperty(prop: string, value: any): void {
+        throw new Error("Method not implemented.");
+    }
+    getProperty(prop: string) {
+        throw new Error("Method not implemented.");
+    }
+    unwrap() {
+        throw new Error("Method not implemented.");
+    }
 }
 
 export async function buildJsBuildingSummaryStatisticsGenerated(dotNetObject: any): Promise<any> {

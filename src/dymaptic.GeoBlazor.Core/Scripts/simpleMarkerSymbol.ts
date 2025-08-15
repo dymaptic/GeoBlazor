@@ -5,7 +5,7 @@ import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 import {buildDotNetSimpleLineSymbol, buildJsOutline} from "./simpleLineSymbol";
 
 
-export function buildJsSimpleMarkerSymbol(dotNetObject: any, viewId: string | null): any {
+export function buildJsSimpleMarkerSymbol(dotNetObject: any): any {
     let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         properties.color = buildJsMapColor(dotNetObject.color) as any;
@@ -41,7 +41,7 @@ export function buildJsSimpleMarkerSymbol(dotNetObject: any, viewId: string | nu
     return jsSimpleMarkerSymbol;
 }
 
-export function buildDotNetSimpleMarkerSymbol(jsObject: any, viewId: string | null): any {
+export function buildDotNetSimpleMarkerSymbol(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

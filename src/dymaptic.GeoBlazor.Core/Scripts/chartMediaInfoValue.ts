@@ -4,7 +4,7 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 import {buildDotNetChartMediaInfoValueSeries, buildJsChartMediaInfoValueSeries} from './chartMediaInfoValueSeries';
 
-export function buildJsChartMediaInfoValue(dotNetObject: any, viewId: string | null): any {
+export function buildJsChartMediaInfoValue(dotNetObject: any): any {
     let properties: any = {};
     if (hasValue(dotNetObject.colors)) {
         properties.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -32,7 +32,7 @@ export function buildJsChartMediaInfoValue(dotNetObject: any, viewId: string | n
     return jsChartMediaInfoValue;
 }
 
-export function buildDotNetChartMediaInfoValue(jsObject: any, viewId: string | null): any {
+export function buildDotNetChartMediaInfoValue(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

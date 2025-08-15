@@ -34,7 +34,7 @@ export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetJoinTableDataSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetJoinTableDataSourceGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

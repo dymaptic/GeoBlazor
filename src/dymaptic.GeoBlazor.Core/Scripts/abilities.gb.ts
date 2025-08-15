@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetAbilities } from './abilities';
 
-export async function buildJsAbilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAbilitiesGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -41,7 +41,7 @@ export async function buildJsAbilitiesGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetAbilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAbilitiesGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

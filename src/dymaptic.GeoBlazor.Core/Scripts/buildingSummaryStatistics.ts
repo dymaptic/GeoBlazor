@@ -1,3 +1,4 @@
+import BuildingSummaryStatistics from "@arcgis/core/layers/support/BuildingSummaryStatistics";
 import BuildingSummaryStatisticsGenerated from './buildingSummaryStatistics.gb';
 
 export async function buildJsBuildingSummaryStatistics(dotNetObject: any, viewId: string | null): Promise<any> {

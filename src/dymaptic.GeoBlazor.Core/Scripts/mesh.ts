@@ -8,7 +8,7 @@ import {buildDotNetMeshVertexAttributes, buildJsMeshVertexAttributes} from "./me
 import { buildDotNetExtent } from "./extent";
 import { buildDotNetPoint } from "./point";
 
-export function buildJsMesh(dotNetObject: any, viewId: string | null): any {
+export function buildJsMesh(dotNetObject: any): any {
     let properties: any = {};
     if (hasValue(dotNetObject.components)) {
         properties.components = dotNetObject.components.map(i => buildJsMeshComponent(i)) as any;
@@ -38,7 +38,7 @@ export function buildJsMesh(dotNetObject: any, viewId: string | null): any {
     return jsMesh;
 }     
 
-export function buildDotNetMesh(jsObject: any, viewId: string | null): any {
+export function buildDotNetMesh(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

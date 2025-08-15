@@ -3,7 +3,7 @@ import PieChartMediaInfo from '@arcgis/core/popup/content/PieChartMediaInfo';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from './chartMediaInfoValue';
 
-export function buildJsPieChartMediaInfo(dotNetObject: any, viewId: string | null): any {
+export function buildJsPieChartMediaInfo(dotNetObject: any): any {
     let properties: any = {};
     if (hasValue(dotNetObject.value)) {
         properties.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
@@ -27,7 +27,7 @@ export function buildJsPieChartMediaInfo(dotNetObject: any, viewId: string | nul
     return jsPieChartMediaInfo;
 }
 
-export function buildDotNetPieChartMediaInfo(jsObject: any, viewId: string | null): any {
+export function buildDotNetPieChartMediaInfo(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

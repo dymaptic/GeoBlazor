@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoStatistics } from './authoringInfoStatistics';
 
-export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -23,7 +23,7 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -36,19 +36,6 @@ export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any,
     
     if (hasValue(jsObject.min)) {
         dotNetAuthoringInfoStatistics.min = jsObject.min;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetAuthoringInfoStatistics.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetAuthoringInfoStatistics.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetAuthoringInfoStatistics.id)) {
-        jsObjectRefs[dotNetAuthoringInfoStatistics.id] ??= jsObject;
-        arcGisObjectRefs[dotNetAuthoringInfoStatistics.id] ??= jsObject;
     }
 
     return dotNetAuthoringInfoStatistics;

@@ -3,7 +3,7 @@
 import LayerOptions from "@arcgis/core/popup/LayerOptions";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export function buildJsLayerOptions(dotNetObject: any, viewId: string | null): any {
+export function buildJsLayerOptions(dotNetObject: any): any {
     let properties:any = {};
 
     if (hasValue(dotNetObject.returnTopmostRaster)) {
@@ -22,7 +22,7 @@ export function buildJsLayerOptions(dotNetObject: any, viewId: string | null): a
     return jsLayerOptions;
 }
 
-export function buildDotNetLayerOptions(jsObject: any, viewId: string | null): any {
+export function buildDotNetLayerOptions(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

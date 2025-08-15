@@ -85,7 +85,7 @@ export default class WebSceneGenerated implements IPropertyWrapper {
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetWebScene } = await import('./webScene');
-        return await buildDotNetWebScene(result, this.layerId, this.viewId);
+        return await buildDotNetWebScene(result, this.viewId);
     }
 
     async save(options: any): Promise<any> {
@@ -158,7 +158,7 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.component.clippingArea, this.viewId);
+        return buildDotNetExtent(this.component.clippingArea);
     }
     
     async setClippingArea(value: any): Promise<void> {
@@ -212,7 +212,7 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWebSceneWidgets } = await import('./webSceneWidgets');
-        return await buildDotNetWebSceneWidgets(this.component.widgets, this.viewId);
+        return await buildDotNetWebSceneWidgets(this.component.widgets);
     }
     
     async setWidgets(value: any): Promise<void> {
@@ -292,7 +292,7 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWebSceneGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -301,7 +301,7 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.clippingArea)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetWebScene.clippingArea = buildDotNetExtent(jsObject.clippingArea, viewId);
+        dotNetWebScene.clippingArea = buildDotNetExtent(jsObject.clippingArea);
     }
     
     if (hasValue(jsObject.floorInfo)) {
@@ -316,7 +316,7 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.widgets)) {
         let { buildDotNetWebSceneWidgets } = await import('./webSceneWidgets');
-        dotNetWebScene.widgets = await buildDotNetWebSceneWidgets(jsObject.widgets, viewId);
+        dotNetWebScene.widgets = await buildDotNetWebSceneWidgets(jsObject.widgets);
     }
     
     if (hasValue(jsObject.applicationProperties)) {

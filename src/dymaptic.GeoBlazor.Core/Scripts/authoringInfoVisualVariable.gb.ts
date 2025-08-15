@@ -3,7 +3,7 @@ import AuthoringInfoVisualVariable from '@arcgis/core/renderers/support/Authorin
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoVisualVariable } from './authoringInfoVisualVariable';
 
-export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -11,7 +11,7 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     let properties: any = {};
     if (hasValue(dotNetObject.sizeStops) && dotNetObject.sizeStops.length > 0) {
         let { buildJsSizeStop } = await import('./sizeStop');
-        properties.sizeStops = await Promise.all(dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i, viewId))) as any;
+        properties.sizeStops = await Promise.all(dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i))) as any;
     }
 
     if (hasValue(dotNetObject.endTime)) {
@@ -59,7 +59,7 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -68,7 +68,7 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     
     if (hasValue(jsObject.sizeStops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        dotNetAuthoringInfoVisualVariable.sizeStops = await Promise.all(jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i, viewId)));
+        dotNetAuthoringInfoVisualVariable.sizeStops = await Promise.all(jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i)));
     }
     
     if (hasValue(jsObject.endTime)) {
@@ -121,19 +121,6 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     
     if (hasValue(jsObject.units)) {
         dotNetAuthoringInfoVisualVariable.units = removeCircularReferences(jsObject.units);
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetAuthoringInfoVisualVariable.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetAuthoringInfoVisualVariable.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetAuthoringInfoVisualVariable.id)) {
-        jsObjectRefs[dotNetAuthoringInfoVisualVariable.id] ??= jsObject;
-        arcGisObjectRefs[dotNetAuthoringInfoVisualVariable.id] ??= jsObject;
     }
 
     return dotNetAuthoringInfoVisualVariable;

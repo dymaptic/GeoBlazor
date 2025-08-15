@@ -3,7 +3,7 @@ import WMTSStyle from '@arcgis/core/layers/support/WMTSStyle';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetWMTSStyle } from './wMTSStyle';
 
-export async function buildJsWMTSStyleGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsWMTSStyleGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }

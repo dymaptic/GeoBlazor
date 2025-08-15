@@ -2,7 +2,7 @@
 
 import {arcGisObjectRefs, hasValue, jsObjectRefs } from './arcGisJsInterop';
 
-export function buildJsMeshVertexAttributes(dotNetObject: any, viewId: string | null): any {
+export function buildJsMeshVertexAttributes(dotNetObject: any): any {
     let jsMeshVertexAttributes: any = {}
 
     if (hasValue(dotNetObject.color)) {
@@ -24,7 +24,7 @@ export function buildJsMeshVertexAttributes(dotNetObject: any, viewId: string | 
     return jsMeshVertexAttributes;
 }     
 
-export function buildDotNetMeshVertexAttributes(jsObject: any, viewId: string | null): any {
+export function buildDotNetMeshVertexAttributes(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

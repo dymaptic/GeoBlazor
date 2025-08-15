@@ -3,7 +3,7 @@
 import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 import ActionButton from "@arcgis/core/support/actions/ActionButton";
 
-export function buildJsActionButton(dotNetObject: any, viewId: string | null): any {
+export function buildJsActionButton(dotNetObject: any): any {
     let properties: any = {};
 
     if (hasValue(dotNetObject.actionId)) {
@@ -39,7 +39,7 @@ export function buildJsActionButton(dotNetObject: any, viewId: string | null): a
     return jsActionButton;
 }
 
-export function buildDotNetActionButton(jsObject: any, viewId: string | null): any {
+export function buildDotNetActionButton(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

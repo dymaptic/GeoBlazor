@@ -2,7 +2,7 @@
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import TextContent from "@arcgis/core/popup/content/TextContent";
 
-export function buildJsTextPopupContent(dotNetObject: any, viewId: string | null): any {
+export function buildJsTextPopupContent(dotNetObject: any): any {
     let properties: any = {};
 
     if (hasValue(dotNetObject.text)) {
@@ -18,7 +18,7 @@ export function buildJsTextPopupContent(dotNetObject: any, viewId: string | null
     return jsTextContent;
 }
 
-export function buildDotNetTextPopupContent(jsObject: any, viewId: string | null): any {
+export function buildDotNetTextPopupContent(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

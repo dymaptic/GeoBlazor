@@ -2,7 +2,7 @@
 import MeshComponent from "@arcgis/core/geometry/support/MeshComponent";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export function buildJsMeshComponent(dotNetObject: any, viewId: string | null): any {
+export function buildJsMeshComponent(dotNetObject: any): any {
     let properties : any = {};
 
     if (hasValue(dotNetObject.faces)) {
@@ -23,7 +23,7 @@ export function buildJsMeshComponent(dotNetObject: any, viewId: string | null): 
     return jsMeshComponent;
 }     
 
-export function buildDotNetMeshComponent(jsObject: any, viewId: string | null): any {
+export function buildDotNetMeshComponent(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

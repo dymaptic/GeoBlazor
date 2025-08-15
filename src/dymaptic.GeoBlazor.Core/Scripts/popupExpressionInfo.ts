@@ -1,10 +1,10 @@
 
-export async function buildJsPopupExpressionInfo(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsPopupExpressionInfo(dotNetObject: any): Promise<any> {
     let { buildJsPopupExpressionInfoGenerated } = await import('./popupExpressionInfo.gb');
-    return await buildJsPopupExpressionInfoGenerated(dotNetObject, viewId);
+    return await buildJsPopupExpressionInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetPopupExpressionInfo(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupExpressionInfo(jsObject: any): Promise<any> {
     let { buildDotNetPopupExpressionInfoGenerated } = await import('./popupExpressionInfo.gb');
-    return await buildDotNetPopupExpressionInfoGenerated(jsObject, viewId);
+    return await buildDotNetPopupExpressionInfoGenerated(jsObject);
 }

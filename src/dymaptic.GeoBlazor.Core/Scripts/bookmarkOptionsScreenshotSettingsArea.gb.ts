@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetBookmarkOptionsScreenshotSettingsArea } from './bookmarkOptionsScreenshotSettingsArea';
 
-export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -29,7 +29,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotN
 }
 
 
-export async function buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -50,19 +50,6 @@ export async function buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(
     
     if (hasValue(jsObject.y)) {
         dotNetBookmarkOptionsScreenshotSettingsArea.y = jsObject.y;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetBookmarkOptionsScreenshotSettingsArea.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetBookmarkOptionsScreenshotSettingsArea.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetBookmarkOptionsScreenshotSettingsArea.id)) {
-        jsObjectRefs[dotNetBookmarkOptionsScreenshotSettingsArea.id] ??= jsObject;
-        arcGisObjectRefs[dotNetBookmarkOptionsScreenshotSettingsArea.id] ??= jsObject;
     }
 
     return dotNetBookmarkOptionsScreenshotSettingsArea;

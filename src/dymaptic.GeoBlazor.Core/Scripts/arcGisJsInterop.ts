@@ -590,7 +590,7 @@ async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id
     if (view instanceof MapView) {
         // set the extent, center, zoom/scale after the spatial reference is set
         if (hasValue(extent) && (hasValue(extent.spatialReference) || hasValue(spatialRef))) {
-            (view as MapView).extent = buildJsExtent(extent, id, spatialRef);
+            (view as MapView).extent = buildJsExtent(extent, spatialRef);
         } else {
             let center;
 
@@ -789,7 +789,7 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
             const result = {
                 layerObjectRef: layerRef,
                 layerViewObjectRef: layerViewRef,
-                layerView: await buildDotNetLayerView(evt.layerView),
+                layerView: await buildDotNetLayerView(evt.layerView, viewId),
                 layer: await buildDotNetLayer(evt.layer, viewId),
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
@@ -1109,7 +1109,7 @@ export async function setExtent(extentObject: any, viewId: string) {
     notifyExtentChanged = false;
     const view = arcGisObjectRefs[viewId] as MapView;
     if (!hasValue(view)) return;
-    const extent = buildJsExtent(extentObject, viewId, view.spatialReference);
+    const extent = buildJsExtent(extentObject, view.spatialReference);
     if (extent !== null) {
         view.extent = extent;
     }
@@ -1695,7 +1695,7 @@ export async function goToExtent(extentObject: any, viewId: string) {
     notifyExtentChanged = false;
     const view = arcGisObjectRefs[viewId] as MapView;
     if (!hasValue(view)) return;
-    const extent = buildJsExtent(extentObject, viewId, view.spatialReference);
+    const extent = buildJsExtent(extentObject, view.spatialReference);
     if (extent !== null) {
         await view.goTo(extent);
     }

@@ -3,7 +3,7 @@
 import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
 
-export function buildJsActionToggle(dotNetObject: any, viewId: string | null): any {
+export function buildJsActionToggle(dotNetObject: any): any {
     let properties: any = {};
 
     if (hasValue(dotNetObject.actionId)) {
@@ -39,7 +39,7 @@ export function buildJsActionToggle(dotNetObject: any, viewId: string | null): a
     return jsActionToggle;
 }
 
-export function buildDotNetActionToggle(jsObject: any, viewId: string | null): any {
+export function buildDotNetActionToggle(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }
