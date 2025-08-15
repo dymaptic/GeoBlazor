@@ -2,6 +2,11 @@
 import BuildingSummaryStatistics from '@arcgis/core/layers/support/BuildingSummaryStatistics';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBuildingSummaryStatistics } from './buildingSummaryStatistics';
+import {IPropertyWrapper} from "./definitions";
+
+export default class BuildingSummaryStatisticsStatisticsGenerated implements IPropertyWrapper {
+    
+}
 
 export async function buildJsBuildingSummaryStatisticsGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {

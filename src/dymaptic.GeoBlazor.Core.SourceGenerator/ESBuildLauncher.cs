@@ -170,7 +170,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             {
                 Notification?.Invoke(this, "Core ESBuild process failed");
 
-                throw new Exception("Core ESBuild process failed. Check the output for details.");
+                throw new Exception($"Core ESBuild process failed.\r\n{logBuilder}");
             }
 
             Notification?.Invoke(this, "Core ESBuild process completed successfully.");
@@ -184,7 +184,7 @@ public class ESBuildLauncher : IIncrementalGenerator
                 {
                     Notification?.Invoke(this, "Pro ESBuild process failed");
 
-                    throw new Exception("Pro ESBuild process failed. Check the output for details.");
+                    throw new Exception($"Pro ESBuild process failed.\r\n{logBuilder}");
                 }
 
                 Notification?.Invoke(this, "Pro ESBuild process completed successfully.");

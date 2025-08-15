@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class MapImageLayer : Layer
+public partial class MapImageLayer : Layer, ISublayersLayer
 {
     /// <inheritdoc />
     public override LayerType Type => LayerType.MapImage;

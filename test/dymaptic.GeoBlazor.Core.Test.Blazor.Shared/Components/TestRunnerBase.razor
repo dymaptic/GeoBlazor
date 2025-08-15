@@ -322,6 +322,7 @@
         _mapRenderingExceptions.Remove(methodInfo.Name);
         methodsWithRenderedMaps.Remove(methodInfo.Name);
         layerViewCreatedEvents.Remove(methodInfo.Name);
+        listItems.Remove(methodInfo.Name);
         Console.WriteLine($"Running test {methodInfo.Name}");
 
         try
@@ -335,7 +336,7 @@
                     {
                         return (Action<LayerViewCreateEvent>)(createEvent => LayerViewCreatedHandler(createEvent, methodInfo.Name));
                     }
-                    if (paramType == typeof(Action<ListItem>))
+                    if (paramType == typeof(Func<ListItem, Task<ListItem>>))
                     {
                         return (Func<ListItem, Task<ListItem>>)(item => ListItemCreatedHandler(item, methodInfo.Name));
                     }

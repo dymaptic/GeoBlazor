@@ -891,6 +891,14 @@ public partial class MapView : MapComponent
 
                 layer.View = this;
 
+                if (layer is ISublayersLayer { Sublayers: not null} sublayersLayer)
+                {
+                    foreach (Sublayer sublayer in sublayersLayer.Sublayers)
+                    {
+                        sublayer.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, this);
+                    }
+                }
+
                 if (layerViewCreateEvent.IsBasemapLayer)
                 {
                     if (Map?.Basemap is not null)

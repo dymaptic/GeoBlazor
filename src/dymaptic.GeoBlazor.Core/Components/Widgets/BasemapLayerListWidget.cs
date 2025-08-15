@@ -230,12 +230,19 @@ public partial class BasemapLayerListWidget : Widget
     /// </remarks>
     [JSInvokable]
     [CodeGenerationIgnore]
-    public async Task<object> OnBaseListItemCreated(ListItem item)
+    public async Task<object?> OnBaseListItemCreated(ListItem item)
     {
         item.Parent = this;
-        ListItem result = await OnBaseListItemCreatedHandler!.Invoke(item);
+        item.Layer = View!.Map!.Layers.FirstOrDefault(l => l.Id == item.LayerId);
 
-        return (object)result;
+        if (OnBaseListItemCreatedHandler is not null)
+        {
+            ListItem result = await OnBaseListItemCreatedHandler!.Invoke(item);
+
+            return (object)result;
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -249,12 +256,19 @@ public partial class BasemapLayerListWidget : Widget
     /// </returns>
     [JSInvokable]
     [CodeGenerationIgnore]
-    public async Task<object> OnReferenceListItemCreated(ListItem item)
+    public async Task<object?> OnReferenceListItemCreated(ListItem item)
     {
         item.Parent = this;
-        ListItem result = await OnReferenceListItemCreatedHandler!.Invoke(item);
+        item.Layer = View!.Map!.Layers.FirstOrDefault(l => l.Id == item.LayerId);
+
+        if (OnReferenceListItemCreatedHandler is not null)
+        {
+            ListItem result = await OnReferenceListItemCreatedHandler!.Invoke(item);
+
+            return (object)result;
+        }
         
-        return (object)result;
+        return null;
     }
     
     /// <summary>

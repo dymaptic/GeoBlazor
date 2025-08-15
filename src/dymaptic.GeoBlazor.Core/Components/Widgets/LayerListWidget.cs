@@ -180,6 +180,7 @@ public partial class LayerListWidget : Widget
     public async Task<object?> OnListItemCreated(ListItem item)
     {
         item.Parent = this;
+        item.Layer = View!.Map!.Layers.FirstOrDefault(l => l.Id == item.LayerId);
         if (OnListItemCreatedHandler is not null)
         {
             ListItem result = await OnListItemCreatedHandler!.Invoke(item);

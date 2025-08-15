@@ -1,10 +1,8 @@
 import ListItemGenerated from './listItem.gb';
-import {arcGisObjectRefs, copyValuesIfExists, hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import {DotNetListItem} from "./definitions";
 import Layer from "@arcgis/core/layers/Layer";
-import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
-import Widget from "@arcgis/core/widgets/Widget";
 
 export default class ListItemWrapper extends ListItemGenerated {
     
@@ -27,6 +25,7 @@ export async function buildJsListItem(dotNetObject: any, layerId: string | null,
 export async function buildDotNetListItem(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetListItemGenerated} = await import('./listItem.gb');
     let listItem = await buildDotNetListItemGenerated(jsObject, viewId);
+    jsObjectRefs[listItem.id] = new ListItemWrapper(jsObject);
     listItem.layerId = lookupGeoBlazorId(jsObject.layer);
     return listItem;
 }
@@ -44,7 +43,7 @@ export async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, l
             }
         }
     }
-    if (hasValue(dnItem.actionsSections)) {
+    if (hasValue(dnItem.actionsSections) && dnItem.actionsSections.length > 0) {
         const actionsSections: any[] = [];
         let {buildJsActionBase} = await import('./actionBase');
         for (let i = 0; i < dnItem.actionsSections.length; i++) {
@@ -53,7 +52,7 @@ export async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, l
             const dnSection = dnItem.actionsSections[i];
             for (let j = 0; j < dnSection.length; j++) {
                 const dnAction = dnSection[j];
-                const action = await buildJsActionBase(dnAction);
+                const action = await buildJsActionBase(dnAction, viewId);
                 section.push(action);
             }
         }

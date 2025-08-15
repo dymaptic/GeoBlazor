@@ -156,6 +156,22 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
             }
         }
     }
+
+    public void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
+        MapView mapView)
+    {
+        CoreJsModule = coreJsModule;
+        ProJsModule = proJsModule;
+        View = mapView;
+
+        if (Sublayers is not null)
+        {
+            foreach (Sublayer sublayer in Sublayers)
+            {
+                sublayer.UpdateGeoBlazorReferences(coreJsModule, proJsModule, mapView);
+            }
+        }
+    }
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
