@@ -384,9 +384,13 @@ public partial class FeatureLayerView : LayerView
     {
         try
         {
-            ProtoGraphicCollection? collection =
-                await jsStreamRef.ReadJsStreamReference<ProtoGraphicCollection>(Layer?.View?.QueryResultsMaxSizeLimit ??
-                    1_000_000_000L);
+            await using Stream stream = await jsStreamRef.OpenReadStreamAsync(
+                Layer?.View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+          
             Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
 
             _activeQueries[queryId] = graphics;
