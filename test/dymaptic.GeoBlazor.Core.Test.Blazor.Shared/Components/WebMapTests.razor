@@ -101,6 +101,32 @@
         await cities.SetDefinitionExpression("POP2000 > 1000000");
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [cities.Id, "definitionExpression", "POP2000 > 1000000"]);
     }
+    
+    [TestMethod]
+    public async Task TestCanSetRotationOfWebmap(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        MapView? view = null;
+        AddMapRenderFragment(
+            @<MapView @ref="view" class="map-view" 
+                      OnViewRendered="renderHandler" 
+                      OnLayerViewCreate="layerViewCreateHandler"
+                      Rotation="90">
+                <WebMap>
+                    <PortalItem PortalItemId="43c6aa08a1af43cdbc243b1e36630e56" />
+                </WebMap>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<ImageryLayer>();
+        double? rotation = await view!.GetRotation();
+        Assert.AreEqual(90, rotation);
+        await view.Refresh();
+        await WaitForMapToRender();
+        await WaitForLayerToRender<ImageryLayer>();
+        rotation = await view.GetRotation();
+        Assert.AreEqual(90, rotation);
+    }
 
     private readonly string[] _publicPortalItemIds =
     [

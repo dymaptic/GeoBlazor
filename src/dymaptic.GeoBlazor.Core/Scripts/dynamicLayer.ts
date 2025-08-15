@@ -13,9 +13,9 @@ export async function buildDotNetDynamicLayer(jsObject: any, viewId: string | nu
     switch (jsObject?.type) {
         case 'map-layer':
             let {buildDotNetDynamicMapLayer} = await import('./dynamicMapLayer');
-            return await buildDotNetDynamicMapLayer(jsObject);
+            return await buildDotNetDynamicMapLayer(jsObject, viewId);
         default:
             let {buildDotNetDynamicDataLayer} = await import('./dynamicDataLayer');
-            return await buildDotNetDynamicDataLayer(jsObject);
+            return await buildDotNetDynamicDataLayer(jsObject, viewId);
     }
 }

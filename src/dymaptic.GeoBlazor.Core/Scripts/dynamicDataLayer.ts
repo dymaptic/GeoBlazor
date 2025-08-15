@@ -1,6 +1,6 @@
-export async function buildJsDynamicDataLayer(dotNetObject: any): Promise<any> {
+export async function buildJsDynamicDataLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsDynamicDataLayerGenerated} = await import('./dynamicDataLayer.gb');
-    return await buildJsDynamicDataLayerGenerated(dotNetObject);
+    return await buildJsDynamicDataLayerGenerated(dotNetObject, layerId, viewId);
 }
 
 export async function buildDotNetDynamicDataLayer(jsObject: any, viewId: string | null): Promise<any> {

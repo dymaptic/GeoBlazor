@@ -53,6 +53,8 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<MapImageLayer>(ref cloneReader, newOptions);
                 case "imagery-tile":
                     return JsonSerializer.Deserialize<ImageryTileLayer>(ref cloneReader, newOptions);
+                case "web-tile":
+                    return JsonSerializer.Deserialize<WebTileLayer>(ref cloneReader, newOptions);
                 case "wfs":
                     return JsonSerializer.Deserialize<WFSLayer>(ref cloneReader, newOptions);
                 case "wms":
