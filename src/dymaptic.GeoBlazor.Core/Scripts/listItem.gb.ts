@@ -98,7 +98,7 @@ export default class ListItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer);
+        return await buildDotNetLayer(this.component.layer, this.viewId);
     }
     
     async setLayer(value: any): Promise<void> {

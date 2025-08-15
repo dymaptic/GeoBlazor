@@ -278,7 +278,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer);
+        return await buildDotNetLayer(this.component.layer, this.viewId);
     }
     
     getObjectIdField(): any {
@@ -362,7 +362,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.spatialReference);
+        return buildDotNetSpatialReference(this.component.spatialReference!);
     }
     
     async getSublayers(): Promise<any> {
@@ -371,7 +371,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await Promise.all(this.component.sublayers!.map(async i => await buildDotNetSublayer(i)));
+        return await Promise.all(this.component.sublayers!.map(async i => await buildDotNetSublayer(i, this.viewId)));
     }
     
     async setSublayers(value: any): Promise<void> {

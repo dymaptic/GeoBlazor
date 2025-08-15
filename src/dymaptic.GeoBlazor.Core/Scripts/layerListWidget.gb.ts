@@ -215,7 +215,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.widget.openedLayers!.map(async i => await buildDotNetLayer(i)));
+        return await Promise.all(this.widget.openedLayers!.map(async i => await buildDotNetLayer(i, this.viewId)));
     }
     
     async getOperationalItems(): Promise<any> {
@@ -238,7 +238,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
     
     async setSelectedItems(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.widget.selectedItems = [];
+            this.widget.selectedItems.removeAll();
         }
         let { buildJsListItem } = await import('./listItem');
         this.widget.selectedItems = await Promise.all(value.map(async i => await buildJsListItem(i, this.layerId, this.viewId))) as any;

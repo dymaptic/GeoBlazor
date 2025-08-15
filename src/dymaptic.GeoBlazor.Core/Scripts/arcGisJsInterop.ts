@@ -790,7 +790,7 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
                 layerObjectRef: layerRef,
                 layerViewObjectRef: layerViewRef,
                 layerView: await buildDotNetLayerView(evt.layerView),
-                layer: await buildDotNetLayer(evt.layer),
+                layer: await buildDotNetLayer(evt.layer, viewId),
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
                 isReferenceLayer: isReferenceLayer
@@ -980,19 +980,6 @@ export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
     arcGisObjectRefs[geoBlazorId] = typeof jsObjectRef.unwrap === 'function'
         ? jsObjectRef.unwrap()
         : jsObjectRef;
-}
-
-export async function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
-    const layer = arcGisObjectRefs[layerId] as TileLayer;
-    let sublayer = layer?.allSublayers?.find(sl => sl.id === sublayerId);
-    if (!hasValue(sublayer)) {
-        return null;
-    }
-    arcGisObjectRefs[sublayerGeoBlazorId] = sublayer;
-    let { default: SublayerWrapper } = await import('./sublayer');
-    let wrapper = new SublayerWrapper(sublayer!);
-    jsObjectRefs[sublayerGeoBlazorId] = wrapper;
-    return wrapper;
 }
 
 export async function hitTest(screenPoint: any, viewId: string, options: DotNetHitTestOptions | null, hitTestId: string)

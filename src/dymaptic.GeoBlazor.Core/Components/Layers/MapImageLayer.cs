@@ -1,9 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class MapImageLayer : Layer
+public partial class MapImageLayer : Layer, ISublayersOwner
 {
-
-    
     /// <inheritdoc />
     public override LayerType Type => LayerType.MapImage;
 
@@ -195,7 +193,7 @@ public partial class MapImageLayer : Layer
         PortalItem ??= renderedMapLayer.PortalItem;
         TimeInfo ??= renderedMapLayer.TimeInfo;
         Version ??= renderedMapLayer.Version;
-
+        
         Sublayers ??= [];
 
         // create or update each sublayer individually
@@ -221,7 +219,7 @@ public partial class MapImageLayer : Layer
         
         AllSublayers = Sublayers.Concat(Sublayers.SelectMany(s => s.GetAllSublayers() ?? [])).ToList();
     }
-    
+
     private async Task RegisterNewSublayer(Sublayer sublayer)
     {
         sublayer.Parent = this;
@@ -229,8 +227,6 @@ public partial class MapImageLayer : Layer
         sublayer.Layer = this;
         Sublayers ??= [];
         Sublayers = [..Sublayers, sublayer];
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,
-            sublayer.SublayerId, sublayer.Id);
 
         if (sublayer.Sublayers is null)
         {
@@ -241,5 +237,18 @@ public partial class MapImageLayer : Layer
         {
             await RegisterNewSublayer(subsub);
         }
+    }
+
+    public Task<Sublayer[]?> CreateServiceSublayers()
+    {
+        return Task.FromResult(Sublayers?.Select(s => JsonSerializer.Deserialize<Sublayer>(JsonSerializer.Serialize(s)))
+            .Where(s => s is not null)
+            .Cast<Sublayer>()
+            .ToArray());
+    }
+
+    public Task<Sublayer?> FindSublayerById(long id)
+    {
+        return Task.FromResult(AllSublayers?.FirstOrDefault(s => s.SublayerId == id));
     }
 }

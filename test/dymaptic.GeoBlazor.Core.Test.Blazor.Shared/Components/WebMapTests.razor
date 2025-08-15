@@ -81,6 +81,26 @@
         await WaitForMapToRender();
         await AssertJavaScript("assertApiKeyAdded");
     }
+    
+    [TestMethod]
+    public async Task TestCanSetDefinitionExpressionOnSublayerOfWebmap(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+    {AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreatedHandler">
+                <WebMap>
+                    <PortalItem PortalItemId="b904055866774ff8a8d698e754962536" />
+                </WebMap>
+            </MapView>);
+
+        await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+        MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+        Sublayer? cities = createdLayer.Sublayers!.FirstOrDefault(l => l.Title == "Cities");
+        Assert.IsNotNull(cities);
+        await cities.SetDefinitionExpression("POP2000 > 1000000");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [cities.Id, "definitionExpression", "POP2000 > 1000000"]);
+    }
 
     private readonly string[] _publicPortalItemIds =
     [

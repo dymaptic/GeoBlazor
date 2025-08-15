@@ -132,10 +132,6 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
         TypeIdField ??= renderedSublayer.TypeIdField;
         Types ??= renderedSublayer.Types;
         Url ??= renderedSublayer.Url;
-        
-        JsComponentReference = await CoreJsModule!.InvokeAsync<IJSObjectReference>(
-            "registerGeoBlazorSublayer", Layer!.Id,
-            renderedSublayer.SublayerId, renderedSublayer.Id);
 
         if (renderedSublayer.Sublayers is null)
         {
@@ -229,5 +225,10 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
 
 
         base.ValidateRequiredChildren();
+    }
+    
+    public Sublayer Clone()
+    {
+        return (Sublayer)MemberwiseClone();
     }
 }

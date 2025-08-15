@@ -296,7 +296,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
     }
 }
 
-export async function buildDotNetLayer(jsObject: any): Promise<any> {
+export async function buildDotNetLayer(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -334,13 +334,13 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
             return await buildDotNetKMLLayer(jsObject);
         case 'map-image':
             let {buildDotNetMapImageLayer} = await import('./mapImageLayer');
-            return await buildDotNetMapImageLayer(jsObject);
+            return await buildDotNetMapImageLayer(jsObject, viewId);
         case 'open-street-map':
             let {buildDotNetOpenStreetMapLayer} = await import('./openStreetMapLayer');
             return await buildDotNetOpenStreetMapLayer(jsObject);
         case 'tile':
             let {buildDotNetTileLayer} = await import('./tileLayer');
-            return await buildDotNetTileLayer(jsObject);
+            return await buildDotNetTileLayer(jsObject, viewId);
         case 'vector-tile':
             let {buildDotNetVectorTileLayer} = await import('./vectorTileLayer');
             return await buildDotNetVectorTileLayer(jsObject);

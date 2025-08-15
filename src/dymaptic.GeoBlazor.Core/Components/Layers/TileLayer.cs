@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class TileLayer : Layer
+public partial class TileLayer : Layer, ISublayersOwner
 {
     /// <inheritdoc />
     public override LayerType Type => LayerType.Tile;
@@ -97,7 +97,7 @@ public partial class TileLayer : Layer
         MinScale ??= renderedTileLayer.MinScale;
         MaxScale ??= renderedTileLayer.MaxScale;
         PortalItem ??= renderedTileLayer.PortalItem;
-
+        
         Sublayers ??= [];
 
         if (renderedTileLayer.Sublayers is not null)
@@ -131,8 +131,6 @@ public partial class TileLayer : Layer
         sublayer.Layer = this;
         Sublayers ??= [];
         Sublayers = [..Sublayers, sublayer];
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,
-            sublayer.SublayerId, sublayer.Id);
 
         if (sublayer.Sublayers is null)
         {
@@ -143,5 +141,18 @@ public partial class TileLayer : Layer
         {
             await RegisterNewSublayer(subsub);
         }
+    }
+    
+    public Task<Sublayer[]?> CreateServiceSublayers()
+    {
+        return Task.FromResult(Sublayers?.Select(s => JsonSerializer.Deserialize<Sublayer>(JsonSerializer.Serialize(s)))
+            .Where(s => s is not null)
+            .Cast<Sublayer>()
+            .ToArray());
+    }
+
+    public Task<Sublayer?> FindSublayerById(long id)
+    {
+        return Task.FromResult(AllSublayers?.FirstOrDefault(s => s.SublayerId == id));
     }
 }
