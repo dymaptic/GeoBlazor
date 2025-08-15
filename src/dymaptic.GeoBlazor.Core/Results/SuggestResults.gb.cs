@@ -8,12 +8,16 @@ namespace dymaptic.GeoBlazor.Core.Results;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-types.html#SuggestResults">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Error">
+///     The search error.
 /// </param>
 /// <param name="Source">
+///     The search source.
 /// </param>
 /// <param name="SourceIndex">
+///     The index of the search source in the search widget's sources array.
 /// </param>
 /// <param name="Results">
+///     The results.
 /// </param>
 public partial record SuggestResults(
     Error? Error,

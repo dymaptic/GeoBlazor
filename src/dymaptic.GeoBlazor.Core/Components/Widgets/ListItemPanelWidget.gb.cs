@@ -46,17 +46,6 @@ public partial class ListItemPanelWidget
     public string? Image { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgetlistitem-property">GeoBlazor Docs</a>
-    ///     The panel's parent ListItem that represents a layer in the map.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#listItem">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [AncestorPropertyReference]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ListItem? ListItem { get; set; }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ListItemPanelWidget.html#listitempanelwidgetopen-property">GeoBlazor Docs</a>
     ///     Indicates if the panel's content is open and visible to the user.
     ///     default false

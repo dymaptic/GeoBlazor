@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Results;
 ///     The search source.
 /// </param>
 /// <param name="SourceIndex">
-///     The index.
+///     The index of the search source in the search widget's sources array.
 /// </param>
 /// <param name="Results">
 ///     The results.
