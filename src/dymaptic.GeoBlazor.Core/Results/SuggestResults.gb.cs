@@ -16,11 +16,11 @@ namespace dymaptic.GeoBlazor.Core.Results;
 /// <param name="Results">
 /// </param>
 public partial record SuggestResults(
+    Error? Error,
+    SearchSource? Source,
+    int? SourceIndex,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    Error? Error = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    SearchSource? Source = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    int? SourceIndex = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<SuggestResult>? Results = null);
+    IReadOnlyCollection<SuggestResult>? Results = null) : BaseSearchResults(
+    Error,
+    Source,
+    SourceIndex);

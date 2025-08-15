@@ -635,45 +635,6 @@ public partial class LayerListWidget
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the OpenedLayers property.
-    /// </summary>
-    public async Task<IReadOnlyList<Layer>?> GetOpenedLayers()
-    {
-        if (CoreJsModule is null)
-        {
-            return OpenedLayers;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return OpenedLayers;
-        }
-
-        IReadOnlyList<Layer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Layer>?>(
-            "getOpenedLayers", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            OpenedLayers = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(OpenedLayers)] = OpenedLayers;
-        }
-        
-        return OpenedLayers;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the OperationalItems property.
     /// </summary>
     public async Task<IReadOnlyList<ListItem>?> GetOperationalItems()

@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class MapImageLayer : Layer, ISublayersOwner
+public partial class MapImageLayer : Layer
 {
     /// <inheritdoc />
     public override LayerType Type => LayerType.MapImage;
@@ -237,18 +237,5 @@ public partial class MapImageLayer : Layer, ISublayersOwner
         {
             await RegisterNewSublayer(subsub);
         }
-    }
-
-    public Task<Sublayer[]?> CreateServiceSublayers()
-    {
-        return Task.FromResult(Sublayers?.Select(s => JsonSerializer.Deserialize<Sublayer>(JsonSerializer.Serialize(s)))
-            .Where(s => s is not null)
-            .Cast<Sublayer>()
-            .ToArray());
-    }
-
-    public Task<Sublayer?> FindSublayerById(long id)
-    {
-        return Task.FromResult(AllSublayers?.FirstOrDefault(s => s.SublayerId == id));
     }
 }
