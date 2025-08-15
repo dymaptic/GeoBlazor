@@ -1,10 +1,10 @@
 
-export async function buildJsIAPIKeyMixin(dotNetObject: any): Promise<any> {
+export async function buildJsIAPIKeyMixin(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsIAPIKeyMixinGenerated } = await import('./iAPIKeyMixin.gb');
-    return await buildJsIAPIKeyMixinGenerated(dotNetObject);
+    return await buildJsIAPIKeyMixinGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetIAPIKeyMixin(jsObject: any): Promise<any> {
+export async function buildDotNetIAPIKeyMixin(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIAPIKeyMixinGenerated } = await import('./iAPIKeyMixin.gb');
-    return await buildDotNetIAPIKeyMixinGenerated(jsObject);
+    return await buildDotNetIAPIKeyMixinGenerated(jsObject, viewId);
 }

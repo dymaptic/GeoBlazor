@@ -15,7 +15,7 @@ export async function buildJsWebLinkChart(dotNetObject: any, layerId: string | n
     return await buildJsWebLinkChartGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebLinkChart(jsObject: any): Promise<any> {
+export async function buildDotNetWebLinkChart(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetWebLinkChartGenerated } = await import('./webLinkChart.gb');
-    return await buildDotNetWebLinkChartGenerated(jsObject);
+    return await buildDotNetWebLinkChartGenerated(jsObject, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsTemplateUtilsCreateDefaultTableTemplateFromLayerOpt
     return await buildJsTemplateUtilsCreateDefaultTableTemplateFromLayerOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTemplateUtilsCreateDefaultTableTemplateFromLayerOptions(jsObject: any): Promise<any> {
+export async function buildDotNetTemplateUtilsCreateDefaultTableTemplateFromLayerOptions(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetTemplateUtilsCreateDefaultTableTemplateFromLayerOptionsGenerated } = await import('./templateUtilsCreateDefaultTableTemplateFromLayerOptions.gb');
-    return await buildDotNetTemplateUtilsCreateDefaultTableTemplateFromLayerOptionsGenerated(jsObject);
+    return await buildDotNetTemplateUtilsCreateDefaultTableTemplateFromLayerOptionsGenerated(jsObject, viewId);
 }

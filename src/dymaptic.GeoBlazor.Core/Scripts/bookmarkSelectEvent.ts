@@ -12,7 +12,7 @@ export async function buildJsBookmarkSelectEvent(dotNetObject: any, layerId: str
     };
 }
 
-export async function buildDotNetBookmarkSelectEvent(jsObject: any): Promise<any> {
+export async function buildDotNetBookmarkSelectEvent(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -4,7 +4,7 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 import {buildDotNetSimpleLineSymbol, buildJsOutline} from "./simpleLineSymbol";
 
-export function buildJsSimpleFillSymbol(dotNetObject: any): any {
+export function buildJsSimpleFillSymbol(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         properties.color = buildJsMapColor(dotNetObject.color) as any;
@@ -25,7 +25,7 @@ export function buildJsSimpleFillSymbol(dotNetObject: any): any {
     return jsSimpleFillSymbol;
 }
 
-export function buildDotNetSimpleFillSymbol(jsObject: any): any {
+export function buildDotNetSimpleFillSymbol(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

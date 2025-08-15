@@ -1,6 +1,6 @@
 import {hasValue} from "./arcGisJsInterop";
 
-export function buildDotNetEffect(jsEffect: any): any {
+export function buildDotNetEffect(jsEffect: any, viewId: string | null): any {
     if (!hasValue(jsEffect)) {
         return null;
     }
@@ -17,7 +17,7 @@ export function buildDotNetEffect(jsEffect: any): any {
     }
 }
 
-export function buildJsEffect(dotNetEffect: any): any {
+export function buildJsEffect(dotNetEffect: any, viewId: string | null): any {
     if (!hasValue(dotNetEffect)) {
         return null;
     }

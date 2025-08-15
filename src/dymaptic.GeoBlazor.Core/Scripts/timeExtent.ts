@@ -59,7 +59,7 @@ export default class TimeExtentWrapper implements IPropertyWrapper {
     }
 }
 
-export async function buildJsTimeExtent(dotNetObject: any): Promise<any> {
+export async function buildJsTimeExtent(dotNetObject: any, viewId: string | null): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.end)) {
@@ -80,7 +80,7 @@ export async function buildJsTimeExtent(dotNetObject: any): Promise<any> {
     return jsTimeExtent;
 }
 
-export function buildDotNetTimeExtent(jsObject: any): any {
+export function buildDotNetTimeExtent(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

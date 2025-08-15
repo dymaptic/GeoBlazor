@@ -15,7 +15,7 @@ export async function buildJsPolylineDrawActionRedoEvent(dotNetObject: any, laye
     return await buildJsPolylineDrawActionRedoEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPolylineDrawActionRedoEvent(jsObject: any): Promise<any> {
+export async function buildDotNetPolylineDrawActionRedoEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPolylineDrawActionRedoEventGenerated } = await import('./polylineDrawActionRedoEvent.gb');
-    return await buildDotNetPolylineDrawActionRedoEventGenerated(jsObject);
+    return await buildDotNetPolylineDrawActionRedoEventGenerated(jsObject, viewId);
 }

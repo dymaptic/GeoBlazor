@@ -3,7 +3,7 @@ import FieldInfo from '@arcgis/core/popup/FieldInfo';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetFieldInfoFormat, buildJsFieldInfoFormat} from './fieldInfoFormat';
 
-export function buildJsFieldInfo(dotNetObject: any): any {
+export function buildJsFieldInfo(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetObject.format)) {
         properties.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
@@ -36,7 +36,7 @@ export function buildJsFieldInfo(dotNetObject: any): any {
     return jsFieldInfo;
 }
 
-export function buildDotNetFieldInfo(jsObject: any): any {
+export function buildDotNetFieldInfo(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

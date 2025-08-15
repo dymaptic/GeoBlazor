@@ -10,18 +10,18 @@ export async function buildJsGeoJSONLayerApplyEditsEditsGenerated(dotNetObject: 
     let jsGeoJSONLayerApplyEditsEdits: any = {};
     if (hasValue(dotNetObject.addFeatures) && dotNetObject.addFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsGeoJSONLayerApplyEditsEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i)) as any;
+        jsGeoJSONLayerApplyEditsEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i, viewId)) as any;
     }
     if (hasValue(dotNetObject.graphicCollectionDeleteFeatures) && dotNetObject.graphicCollectionDeleteFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i)) as any;
+        jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i, viewId)) as any;
     }
     else if (hasValue(dotNetObject.stringCollectionDeleteFeatures) && dotNetObject.stringCollectionDeleteFeatures.length > 0) {
         jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.stringCollectionDeleteFeatures;
     }
     if (hasValue(dotNetObject.updateFeatures) && dotNetObject.updateFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsGeoJSONLayerApplyEditsEdits.updateFeatures = dotNetObject.updateFeatures.map(i => buildJsGraphic(i)) as any;
+        jsGeoJSONLayerApplyEditsEdits.updateFeatures = dotNetObject.updateFeatures.map(i => buildJsGraphic(i, viewId)) as any;
     }
 
     

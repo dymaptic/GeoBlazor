@@ -9,7 +9,7 @@ export async function buildJsDynamicLayer(dotNetObject: any, layerId: string | n
     }
 }
 
-export async function buildDotNetDynamicLayer(jsObject: any): Promise<any> {
+export async function buildDotNetDynamicLayer(jsObject: any, viewId: string | null): Promise<any> {
     switch (jsObject?.type) {
         case 'map-layer':
             let {buildDotNetDynamicMapLayer} = await import('./dynamicMapLayer');

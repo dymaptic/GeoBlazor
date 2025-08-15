@@ -6,6 +6,6 @@ export function buildJsCustomPopupContent(dotNetObject: any, layerId: string | n
     return sanitize(dotNetObject);
 }
 
-export function buildDotNetCustomPopupContent(jsObject: any): any {
+export function buildDotNetCustomPopupContent(jsObject: any, viewId: string | null): any {
     return jsObject;
 }

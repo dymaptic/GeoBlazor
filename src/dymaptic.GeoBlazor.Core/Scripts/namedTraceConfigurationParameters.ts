@@ -4,7 +4,7 @@ export async function buildJsNamedTraceConfigurationParameters(dotNetObject: any
     return await buildJsNamedTraceConfigurationParametersGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetNamedTraceConfigurationParameters(jsObject: any): Promise<any> {
+export async function buildDotNetNamedTraceConfigurationParameters(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetNamedTraceConfigurationParametersGenerated } = await import('./namedTraceConfigurationParameters.gb');
-    return await buildDotNetNamedTraceConfigurationParametersGenerated(jsObject);
+    return await buildDotNetNamedTraceConfigurationParametersGenerated(jsObject, viewId);
 }

@@ -15,7 +15,7 @@ export async function buildJsMultipointDrawActionCursorUpdateEvent(dotNetObject:
     return await buildJsMultipointDrawActionCursorUpdateEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMultipointDrawActionCursorUpdateEvent(jsObject: any): Promise<any> {
+export async function buildDotNetMultipointDrawActionCursorUpdateEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetMultipointDrawActionCursorUpdateEventGenerated } = await import('./multipointDrawActionCursorUpdateEvent.gb');
-    return await buildDotNetMultipointDrawActionCursorUpdateEventGenerated(jsObject);
+    return await buildDotNetMultipointDrawActionCursorUpdateEventGenerated(jsObject, viewId);
 }

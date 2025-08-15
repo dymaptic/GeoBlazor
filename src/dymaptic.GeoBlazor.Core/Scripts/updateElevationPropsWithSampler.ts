@@ -4,7 +4,7 @@ export async function buildJsUpdateElevationPropsWithSampler(dotNetObject: any, 
     return await buildJsUpdateElevationPropsWithSamplerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetUpdateElevationPropsWithSampler(jsObject: any): Promise<any> {
+export async function buildDotNetUpdateElevationPropsWithSampler(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetUpdateElevationPropsWithSamplerGenerated } = await import('./updateElevationPropsWithSampler.gb');
-    return await buildDotNetUpdateElevationPropsWithSamplerGenerated(jsObject);
+    return await buildDotNetUpdateElevationPropsWithSamplerGenerated(jsObject, viewId);
 }

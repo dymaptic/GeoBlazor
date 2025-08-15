@@ -22,7 +22,7 @@ export async function buildJsDynamicDataSource(dotNetObject: any, layerId: strin
             return null;
     }
 }
-export async function buildDotNetDynamicDataSource(jsObject: any): Promise<any> {
+export async function buildDotNetDynamicDataSource(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetDynamicDataSourceGenerated } = await import('./dynamicDataSource.gb');
-    return await buildDotNetDynamicDataSourceGenerated(jsObject);
+    return await buildDotNetDynamicDataSourceGenerated(jsObject, viewId);
 }

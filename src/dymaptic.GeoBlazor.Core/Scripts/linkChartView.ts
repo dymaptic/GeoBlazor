@@ -7,9 +7,9 @@ export async function buildJsLinkChartView(dotNetObject: any, layerId: string | 
     return await buildJsLinkChartViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLinkChartView(jsObject: any): Promise<any> {
+export async function buildDotNetLinkChartView(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetLinkChartViewGenerated } = await import('./linkChartView.gb');
-    return await buildDotNetLinkChartViewGenerated(jsObject);
+    return await buildDotNetLinkChartViewGenerated(jsObject, viewId);
 }
 
 export default class LinkChartViewWrapper extends LinkChartViewGenerated {

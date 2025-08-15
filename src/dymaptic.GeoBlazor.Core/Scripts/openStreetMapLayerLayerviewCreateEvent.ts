@@ -3,7 +3,7 @@ export async function buildJsOpenStreetMapLayerLayerviewCreateEvent(dotNetObject
     return await buildJsOpenStreetMapLayerLayerviewCreateEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetOpenStreetMapLayerLayerviewCreateEvent(jsObject: any): Promise<any> {
+export async function buildDotNetOpenStreetMapLayerLayerviewCreateEvent(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetOpenStreetMapLayerLayerviewCreateEventGenerated} = await import('./openStreetMapLayerLayerviewCreateEvent.gb');
-    return await buildDotNetOpenStreetMapLayerLayerviewCreateEventGenerated(jsObject);
+    return await buildDotNetOpenStreetMapLayerLayerviewCreateEventGenerated(jsObject, viewId);
 }

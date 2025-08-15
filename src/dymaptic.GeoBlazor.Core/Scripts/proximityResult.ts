@@ -4,7 +4,7 @@ export async function buildJsProximityResult(dotNetObject: any, layerId: string 
     return await buildJsProximityResultGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetProximityResult(jsObject: any): Promise<any> {
+export async function buildDotNetProximityResult(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetProximityResultGenerated } = await import('./proximityResult.gb');
-    return await buildDotNetProximityResultGenerated(jsObject);
+    return await buildDotNetProximityResultGenerated(jsObject, viewId);
 }

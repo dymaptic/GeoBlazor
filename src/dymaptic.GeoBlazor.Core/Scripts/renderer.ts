@@ -27,7 +27,7 @@ export async function buildJsRenderer(dotNetObject: any, layerId: string | null,
 }
 
 
-export async function buildDotNetRenderer(jsObject: any): Promise<any> {
+export async function buildDotNetRenderer(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

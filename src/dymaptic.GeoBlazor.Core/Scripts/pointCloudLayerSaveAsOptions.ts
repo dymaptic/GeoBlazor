@@ -4,7 +4,7 @@ export async function buildJsPointCloudLayerSaveAsOptions(dotNetObject: any, lay
     return await buildJsPointCloudLayerSaveAsOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPointCloudLayerSaveAsOptions(jsObject: any): Promise<any> {
+export async function buildDotNetPointCloudLayerSaveAsOptions(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPointCloudLayerSaveAsOptionsGenerated } = await import('./pointCloudLayerSaveAsOptions.gb');
-    return await buildDotNetPointCloudLayerSaveAsOptionsGenerated(jsObject);
+    return await buildDotNetPointCloudLayerSaveAsOptionsGenerated(jsObject, viewId);
 }

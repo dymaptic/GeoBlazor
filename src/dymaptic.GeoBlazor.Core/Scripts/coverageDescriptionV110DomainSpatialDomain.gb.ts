@@ -10,7 +10,7 @@ export async function buildJsCoverageDescriptionV110DomainSpatialDomainGenerated
     let jsCoverageDescriptionV110DomainSpatialDomain: any = {};
     if (hasValue(dotNetObject.envelope)) {
         let { buildJsExtent } = await import('./extent');
-        jsCoverageDescriptionV110DomainSpatialDomain.envelope = buildJsExtent(dotNetObject.envelope) as any;
+        jsCoverageDescriptionV110DomainSpatialDomain.envelope = buildJsExtent(dotNetObject.envelope, viewId) as any;
     }
 
     if (hasValue(dotNetObject.columns)) {
@@ -48,7 +48,7 @@ export async function buildDotNetCoverageDescriptionV110DomainSpatialDomainGener
     
     if (hasValue(jsObject.envelope)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetCoverageDescriptionV110DomainSpatialDomain.envelope = buildDotNetExtent(jsObject.envelope);
+        dotNetCoverageDescriptionV110DomainSpatialDomain.envelope = buildDotNetExtent(jsObject.envelope, viewId);
     }
     
     if (hasValue(jsObject.columns)) {

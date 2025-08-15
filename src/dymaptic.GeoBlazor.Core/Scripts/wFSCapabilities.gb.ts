@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWFSCapabilities } from './wFSCapabilities';
 
-export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,11 +10,11 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any): Promis
     let jsWFSCapabilities: any = {};
     if (hasValue(dotNetObject.featureTypes) && dotNetObject.featureTypes.length > 0) {
         let { buildJsWFSFeatureType } = await import('./wFSFeatureType');
-        jsWFSCapabilities.featureTypes = await Promise.all(dotNetObject.featureTypes.map(async i => await buildJsWFSFeatureType(i))) as any;
+        jsWFSCapabilities.featureTypes = await Promise.all(dotNetObject.featureTypes.map(async i => await buildJsWFSFeatureType(i, viewId))) as any;
     }
     if (hasValue(dotNetObject.operations)) {
         let { buildJsWFSOperations } = await import('./wFSOperations');
-        jsWFSCapabilities.operations = await buildJsWFSOperations(dotNetObject.operations) as any;
+        jsWFSCapabilities.operations = await buildJsWFSOperations(dotNetObject.operations, viewId) as any;
     }
 
     
@@ -25,7 +25,7 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any): Promis
 }
 
 
-export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -34,12 +34,12 @@ export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any): Promis
     
     if (hasValue(jsObject.featureTypes)) {
         let { buildDotNetWFSFeatureType } = await import('./wFSFeatureType');
-        dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i)));
+        dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i, viewId)));
     }
     
     if (hasValue(jsObject.operations)) {
         let { buildDotNetWFSOperations } = await import('./wFSOperations');
-        dotNetWFSCapabilities.operations = await buildDotNetWFSOperations(jsObject.operations);
+        dotNetWFSCapabilities.operations = await buildDotNetWFSOperations(jsObject.operations, viewId);
     }
     
 

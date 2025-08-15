@@ -4,7 +4,7 @@ export async function buildJsRendererUtilsRegenerateRendererParams(dotNetObject:
     return await buildJsRendererUtilsRegenerateRendererParamsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRendererUtilsRegenerateRendererParams(jsObject: any): Promise<any> {
+export async function buildDotNetRendererUtilsRegenerateRendererParams(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetRendererUtilsRegenerateRendererParamsGenerated } = await import('./rendererUtilsRegenerateRendererParams.gb');
-    return await buildDotNetRendererUtilsRegenerateRendererParamsGenerated(jsObject);
+    return await buildDotNetRendererUtilsRegenerateRendererParamsGenerated(jsObject, viewId);
 }

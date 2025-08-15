@@ -4,7 +4,7 @@ export async function buildJsSubtypeGroupLayerSaveAsOptions(dotNetObject: any, l
     return await buildJsSubtypeGroupLayerSaveAsOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSubtypeGroupLayerSaveAsOptions(jsObject: any): Promise<any> {
+export async function buildDotNetSubtypeGroupLayerSaveAsOptions(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSubtypeGroupLayerSaveAsOptionsGenerated } = await import('./subtypeGroupLayerSaveAsOptions.gb');
-    return await buildDotNetSubtypeGroupLayerSaveAsOptionsGenerated(jsObject);
+    return await buildDotNetSubtypeGroupLayerSaveAsOptionsGenerated(jsObject, viewId);
 }

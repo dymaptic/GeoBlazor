@@ -1,6 +1,6 @@
 import {hasValue} from "./arcGisJsInterop";
 
-export async function buildJsBasemapStyle(dotNetObject: any): Promise<any> {
+export async function buildJsBasemapStyle(dotNetObject: any, viewId: string | null): Promise<any> {
     let jsBasemapStyle: any = {};
     
     if (hasValue(dotNetObject.apiKey)) {
@@ -26,7 +26,7 @@ export async function buildJsBasemapStyle(dotNetObject: any): Promise<any> {
     return jsBasemapStyle;
 }     
 
-export async function buildDotNetBasemapStyle(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapStyle(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetBasemapStyleGenerated } = await import('./basemapStyle.gb');
-    return await buildDotNetBasemapStyleGenerated(jsObject);
+    return await buildDotNetBasemapStyleGenerated(jsObject, viewId);
 }

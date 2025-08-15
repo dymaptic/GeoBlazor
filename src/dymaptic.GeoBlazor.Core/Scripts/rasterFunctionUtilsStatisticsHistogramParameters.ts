@@ -4,7 +4,7 @@ export async function buildJsRasterFunctionUtilsStatisticsHistogramParameters(do
     return await buildJsRasterFunctionUtilsStatisticsHistogramParametersGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterFunctionUtilsStatisticsHistogramParameters(jsObject: any): Promise<any> {
+export async function buildDotNetRasterFunctionUtilsStatisticsHistogramParameters(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetRasterFunctionUtilsStatisticsHistogramParametersGenerated } = await import('./rasterFunctionUtilsStatisticsHistogramParameters.gb');
-    return await buildDotNetRasterFunctionUtilsStatisticsHistogramParametersGenerated(jsObject);
+    return await buildDotNetRasterFunctionUtilsStatisticsHistogramParametersGenerated(jsObject, viewId);
 }

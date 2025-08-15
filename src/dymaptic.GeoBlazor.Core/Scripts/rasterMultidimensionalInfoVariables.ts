@@ -4,7 +4,7 @@ export async function buildJsRasterMultidimensionalInfoVariables(dotNetObject: a
     return await buildJsRasterMultidimensionalInfoVariablesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterMultidimensionalInfoVariables(jsObject: any): Promise<any> {
+export async function buildDotNetRasterMultidimensionalInfoVariables(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetRasterMultidimensionalInfoVariablesGenerated } = await import('./rasterMultidimensionalInfoVariables.gb');
-    return await buildDotNetRasterMultidimensionalInfoVariablesGenerated(jsObject);
+    return await buildDotNetRasterMultidimensionalInfoVariablesGenerated(jsObject, viewId);
 }

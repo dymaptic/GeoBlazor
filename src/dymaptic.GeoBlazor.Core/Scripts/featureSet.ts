@@ -7,7 +7,7 @@ import {dotNetRefs, graphicsRefs, hasValue} from "./arcGisJsInterop";
 import {buildDotNetField, buildJsField} from "./field";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 
-export function buildJsFeatureSet(dotNetFs: any): any {
+export function buildJsFeatureSet(dotNetFs: any, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetFs.displayFieldName)) {
         properties.displayFieldName = dotNetFs.displayFieldName;
@@ -19,17 +19,17 @@ export function buildJsFeatureSet(dotNetFs: any): any {
         properties.geometryType = dotNetFs.geometryType;
     }
     if (hasValue(dotNetFs.features) && dotNetFs.features.length > 0) {
-        properties.features  = dotNetFs.features.map(f => buildJsGraphic(f));
+        properties.features  = dotNetFs.features.map(f => buildJsGraphic(f, viewId));
     }
     if (hasValue(dotNetFs.fields)) {
-        properties.fields = dotNetFs.fields.map(f => buildJsField(f));
+        properties.fields = dotNetFs.fields.map(f => buildJsField(f, viewId));
     }    
     if (hasValue(dotNetFs.spatialReference)) {
-        properties.spatialReference = buildJsSpatialReference(dotNetFs.spatialReference);
+        properties.spatialReference = buildJsSpatialReference(dotNetFs.spatialReference, viewId);
     }
     
     if (hasValue(dotNetFs.queryGeometry)) {
-        properties.queryGeometry = buildJsGeometry(dotNetFs.queryGeometry);
+        properties.queryGeometry = buildJsGeometry(dotNetFs.queryGeometry, viewId);
     }
     
     let jsFeatureSet = new FeatureSet(properties);
@@ -43,8 +43,8 @@ export async function buildDotNetFeatureSet(jsFs: any, layerId: string | null, v
         exceededTransferLimit: jsFs.exceededTransferLimit,
         fields: jsFs.fields?.map(buildDotNetField),
         geometryType: jsFs.geometryType,
-        queryGeometry: buildDotNetGeometry(jsFs.queryGeometry),
-        spatialReference: buildDotNetSpatialReference(jsFs.spatialReference)
+        queryGeometry: buildDotNetGeometry(jsFs.queryGeometry, viewId),
+        spatialReference: buildDotNetSpatialReference(jsFs.spatialReference, viewId)
     };
     let graphics: any[] = [];
     for (let i = 0; i < jsFs.features.length; i++) {

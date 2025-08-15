@@ -3,7 +3,7 @@ import Query from '@arcgis/core/rest/support/Query';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetQuery } from './query';
 
-export async function buildJsQueryGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsQueryGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -11,19 +11,19 @@ export async function buildJsQueryGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry, viewId) as any;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference, viewId) as any;
     }
     if (hasValue(dotNetObject.pixelSize)) {
         let { buildJsPoint } = await import('./point');
-        properties.pixelSize = buildJsPoint(dotNetObject.pixelSize) as any;
+        properties.pixelSize = buildJsPoint(dotNetObject.pixelSize, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, viewId) as any;
     }
 
     if (hasValue(dotNetObject.aggregateIds) && dotNetObject.aggregateIds.length > 0) {
@@ -137,7 +137,7 @@ export async function buildJsQueryGenerated(dotNetObject: any): Promise<any> {
 }
 
 
-export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetQueryGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -146,22 +146,22 @@ export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
     
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetGeometry } = await import('./geometry');
-        dotNetQuery.geometry = buildDotNetGeometry(jsObject.geometry);
+        dotNetQuery.geometry = buildDotNetGeometry(jsObject.geometry, viewId);
     }
     
     if (hasValue(jsObject.outSpatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
+        dotNetQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference, viewId);
     }
     
     if (hasValue(jsObject.pixelSize)) {
         let { buildDotNetPoint } = await import('./point');
-        dotNetQuery.pixelSize = buildDotNetPoint(jsObject.pixelSize);
+        dotNetQuery.pixelSize = buildDotNetPoint(jsObject.pixelSize, viewId);
     }
     
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+        dotNetQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent, viewId);
     }
     
     if (hasValue(jsObject.aggregateIds)) {

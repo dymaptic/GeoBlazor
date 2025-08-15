@@ -11,11 +11,11 @@ export async function buildJsFindImagesParametersGenerated(dotNetObject: any, la
     let properties: any = {};
     if (hasValue(dotNetObject.fromGeometry)) {
         let { buildJsPoint } = await import('./point');
-        properties.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
+        properties.fromGeometry = buildJsPoint(dotNetObject.fromGeometry, viewId) as any;
     }
     if (hasValue(dotNetObject.toGeometry)) {
         let { buildJsPoint } = await import('./point');
-        properties.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
+        properties.toGeometry = buildJsPoint(dotNetObject.toGeometry, viewId) as any;
     }
 
     if (hasValue(dotNetObject.maxCount)) {
@@ -45,12 +45,12 @@ export async function buildDotNetFindImagesParametersGenerated(jsObject: any, la
     
     if (hasValue(jsObject.fromGeometry)) {
         let { buildDotNetPoint } = await import('./point');
-        dotNetFindImagesParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
+        dotNetFindImagesParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry, viewId);
     }
     
     if (hasValue(jsObject.toGeometry)) {
         let { buildDotNetPoint } = await import('./point');
-        dotNetFindImagesParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
+        dotNetFindImagesParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry, viewId);
     }
     
     if (hasValue(jsObject.maxCount)) {

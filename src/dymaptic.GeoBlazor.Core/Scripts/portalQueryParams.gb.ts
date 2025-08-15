@@ -11,7 +11,7 @@ export async function buildJsPortalQueryParamsGenerated(dotNetObject: any, layer
     let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent, viewId) as any;
     }
 
     if (hasValue(dotNetObject.categories) && dotNetObject.categories.length > 0) {
@@ -53,7 +53,7 @@ export async function buildDotNetPortalQueryParamsGenerated(jsObject: any, layer
     
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetPortalQueryParams.extent = buildDotNetExtent(jsObject.extent);
+        dotNetPortalQueryParams.extent = buildDotNetExtent(jsObject.extent, viewId);
     }
     
     if (hasValue(jsObject.categories)) {

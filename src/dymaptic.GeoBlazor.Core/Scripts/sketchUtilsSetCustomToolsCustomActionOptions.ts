@@ -4,7 +4,7 @@ export async function buildJsSketchUtilsSetCustomToolsCustomActionOptions(dotNet
     return await buildJsSketchUtilsSetCustomToolsCustomActionOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSketchUtilsSetCustomToolsCustomActionOptions(jsObject: any): Promise<any> {
+export async function buildDotNetSketchUtilsSetCustomToolsCustomActionOptions(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSketchUtilsSetCustomToolsCustomActionOptionsGenerated } = await import('./sketchUtilsSetCustomToolsCustomActionOptions.gb');
-    return await buildDotNetSketchUtilsSetCustomToolsCustomActionOptionsGenerated(jsObject);
+    return await buildDotNetSketchUtilsSetCustomToolsCustomActionOptionsGenerated(jsObject, viewId);
 }

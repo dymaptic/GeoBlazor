@@ -11,11 +11,11 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
     let properties: any = {};
     if (hasValue(dotNetObject.attributeTable)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        properties.attributeTable = buildJsFeatureSet(dotNetObject.attributeTable) as any;
+        properties.attributeTable = buildJsFeatureSet(dotNetObject.attributeTable, viewId) as any;
     }
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent, viewId) as any;
     }
     if (hasValue(dotNetObject.multidimensionalInfo)) {
         let { buildJsRasterMultidimensionalInfo } = await import('./rasterMultidimensionalInfo');
@@ -23,7 +23,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference, viewId) as any;
     }
 
     if (hasValue(dotNetObject.bandCount)) {
@@ -68,7 +68,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRasterInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -77,22 +77,22 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetRasterInfo.extent = buildDotNetExtent(jsObject.extent);
+        dotNetRasterInfo.extent = buildDotNetExtent(jsObject.extent, viewId);
     }
     
     if (hasValue(jsObject.multidimensionalInfo)) {
         let { buildDotNetRasterMultidimensionalInfo } = await import('./rasterMultidimensionalInfo');
-        dotNetRasterInfo.multidimensionalInfo = await buildDotNetRasterMultidimensionalInfo(jsObject.multidimensionalInfo);
+        dotNetRasterInfo.multidimensionalInfo = await buildDotNetRasterMultidimensionalInfo(jsObject.multidimensionalInfo, viewId);
     }
     
     if (hasValue(jsObject.sensorInfo)) {
         let { buildDotNetRasterSensorInfo } = await import('./rasterSensorInfo');
-        dotNetRasterInfo.sensorInfo = await buildDotNetRasterSensorInfo(jsObject.sensorInfo);
+        dotNetRasterInfo.sensorInfo = await buildDotNetRasterSensorInfo(jsObject.sensorInfo, viewId);
     }
     
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetRasterInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+        dotNetRasterInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference, viewId);
     }
     
     if (hasValue(jsObject.bandCount)) {

@@ -10,11 +10,11 @@ export async function buildJsServiceEditsGenerated(dotNetObject: any, layerId: s
     let jsServiceEdits: any = {};
     if (hasValue(dotNetObject.addFeatures) && dotNetObject.addFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsServiceEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i)) as any;
+        jsServiceEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i, viewId)) as any;
     }
     if (hasValue(dotNetObject.graphicCollectionDeleteFeatures) && dotNetObject.graphicCollectionDeleteFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsServiceEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i)) as any;
+        jsServiceEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i, viewId)) as any;
     }
     else if (hasValue(dotNetObject.featureIdentifierCollectionDeleteFeatures) && dotNetObject.featureIdentifierCollectionDeleteFeatures.length > 0) {
         jsServiceEdits.deleteFeatures = dotNetObject.featureIdentifierCollectionDeleteFeatures;

@@ -15,7 +15,7 @@ export async function buildJsPolygonDrawActionCursorUpdateEvent(dotNetObject: an
     return await buildJsPolygonDrawActionCursorUpdateEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPolygonDrawActionCursorUpdateEvent(jsObject: any): Promise<any> {
+export async function buildDotNetPolygonDrawActionCursorUpdateEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPolygonDrawActionCursorUpdateEventGenerated } = await import('./polygonDrawActionCursorUpdateEvent.gb');
-    return await buildDotNetPolygonDrawActionCursorUpdateEventGenerated(jsObject);
+    return await buildDotNetPolygonDrawActionCursorUpdateEventGenerated(jsObject, viewId);
 }

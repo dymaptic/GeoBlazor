@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWFSFeatureType } from './wFSFeatureType';
 
-export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any): Promise
     let jsWFSFeatureType: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsWFSFeatureType.extent = buildJsExtent(dotNetObject.extent) as any;
+        jsWFSFeatureType.extent = buildJsExtent(dotNetObject.extent, viewId) as any;
     }
 
     if (hasValue(dotNetObject.defaultSpatialReference)) {
@@ -45,7 +45,7 @@ export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any): Promise
 }
 
 
-export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -54,7 +54,7 @@ export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any): Promise
     
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetWFSFeatureType.extent = buildDotNetExtent(jsObject.extent);
+        dotNetWFSFeatureType.extent = buildDotNetExtent(jsObject.extent, viewId);
     }
     
     if (hasValue(jsObject.defaultSpatialReference)) {

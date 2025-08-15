@@ -84,9 +84,9 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
     return jsPopupTemplate;
 }
 
-export async function buildDotNetPopupTemplate(jsObject: any): Promise<any> {
+export async function buildDotNetPopupTemplate(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetPopupTemplateGenerated} = await import('./popupTemplate.gb');
-    let result = await buildDotNetPopupTemplateGenerated(jsObject);
+    let result = await buildDotNetPopupTemplateGenerated(jsObject, viewId);
     if (typeof jsObject.content === 'string') {
         result.stringContent = jsObject.content;
     } else if (Array.isArray(jsObject.content)) {

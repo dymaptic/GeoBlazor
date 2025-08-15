@@ -15,7 +15,7 @@ export async function buildJsPolylineDrawActionUndoEvent(dotNetObject: any, laye
     return await buildJsPolylineDrawActionUndoEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPolylineDrawActionUndoEvent(jsObject: any): Promise<any> {
+export async function buildDotNetPolylineDrawActionUndoEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPolylineDrawActionUndoEventGenerated } = await import('./polylineDrawActionUndoEvent.gb');
-    return await buildDotNetPolylineDrawActionUndoEventGenerated(jsObject);
+    return await buildDotNetPolylineDrawActionUndoEventGenerated(jsObject, viewId);
 }

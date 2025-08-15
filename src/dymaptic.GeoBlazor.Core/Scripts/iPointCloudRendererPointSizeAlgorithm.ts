@@ -4,7 +4,7 @@ export async function buildJsIPointCloudRendererPointSizeAlgorithm(dotNetObject:
     return await buildJsIPointCloudRendererPointSizeAlgorithmGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIPointCloudRendererPointSizeAlgorithm(jsObject: any): Promise<any> {
+export async function buildDotNetIPointCloudRendererPointSizeAlgorithm(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIPointCloudRendererPointSizeAlgorithmGenerated } = await import('./iPointCloudRendererPointSizeAlgorithm.gb');
-    return await buildDotNetIPointCloudRendererPointSizeAlgorithmGenerated(jsObject);
+    return await buildDotNetIPointCloudRendererPointSizeAlgorithmGenerated(jsObject, viewId);
 }

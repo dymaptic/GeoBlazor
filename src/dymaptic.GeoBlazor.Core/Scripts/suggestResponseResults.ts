@@ -4,7 +4,7 @@ export async function buildJsSuggestResponseResults(dotNetObject: any, layerId: 
     return await buildJsSuggestResponseResultsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSuggestResponseResults(jsObject: any): Promise<any> {
+export async function buildDotNetSuggestResponseResults(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSuggestResponseResultsGenerated } = await import('./suggestResponseResults.gb');
-    return await buildDotNetSuggestResponseResultsGenerated(jsObject);
+    return await buildDotNetSuggestResponseResultsGenerated(jsObject, viewId);
 }

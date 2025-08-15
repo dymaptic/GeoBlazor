@@ -15,7 +15,7 @@ export async function buildJsUI(dotNetObject: any, layerId: string | null, viewI
     return await buildJsUIGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetUI(jsObject: any): Promise<any> {
+export async function buildDotNetUI(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetUIGenerated } = await import('./uI.gb');
-    return await buildDotNetUIGenerated(jsObject);
+    return await buildDotNetUIGenerated(jsObject, viewId);
 }

@@ -13,7 +13,7 @@ export function buildJsGoToOverride(dotNetObject: any, viewId: string | null) {
     };
 }
 
-export async function buildDotNetGoToOverride(jsObject: any): Promise<any> {
+export async function buildDotNetGoToOverride(jsObject: any, viewId: string | null): Promise<any> {
     return null;
 }
 

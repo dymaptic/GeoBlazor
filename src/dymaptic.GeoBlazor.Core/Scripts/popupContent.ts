@@ -30,7 +30,7 @@ export function buildJsPopupContent(dotNetObject: any, layerId: string | null, v
     }
 }
 
-export function buildDotNetPopupContent(jsObject: any): any {
+export function buildDotNetPopupContent(jsObject: any, viewId: string | null): any {
     switch (jsObject?.type) {
         case 'attachments':
             return buildDotNetAttachmentsPopupContent(jsObject);

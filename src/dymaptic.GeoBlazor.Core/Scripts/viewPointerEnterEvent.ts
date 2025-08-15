@@ -15,7 +15,7 @@ export async function buildJsViewPointerEnterEvent(dotNetObject: any, layerId: s
     return await buildJsViewPointerEnterEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewPointerEnterEvent(jsObject: any): Promise<any> {
+export async function buildDotNetViewPointerEnterEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetViewPointerEnterEventGenerated } = await import('./viewPointerEnterEvent.gb');
-    return await buildDotNetViewPointerEnterEventGenerated(jsObject);
+    return await buildDotNetViewPointerEnterEventGenerated(jsObject, viewId);
 }

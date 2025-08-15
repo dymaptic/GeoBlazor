@@ -4,7 +4,7 @@ export async function buildJsPositioningService(dotNetObject: any, layerId: stri
     return await buildJsPositioningServiceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPositioningService(jsObject: any): Promise<any> {
+export async function buildDotNetPositioningService(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPositioningServiceGenerated } = await import('./positioningService.gb');
-    return await buildDotNetPositioningServiceGenerated(jsObject);
+    return await buildDotNetPositioningServiceGenerated(jsObject, viewId);
 }

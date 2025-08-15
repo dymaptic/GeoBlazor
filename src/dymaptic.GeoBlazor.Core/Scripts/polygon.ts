@@ -6,7 +6,7 @@ import Circle from "@arcgis/core/geometry/Circle";
 import {buildDotNetPoint, buildJsPoint} from "./point";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
 
-export function buildDotNetPolygon(polygon: any): any {
+export function buildDotNetPolygon(polygon: any, viewId: string | null): any {
     if (polygon === undefined || polygon === null) return null;
     let dnPolygon: any = {
         type: 'polygon'
@@ -66,7 +66,7 @@ export function buildDotNetPolygon(polygon: any): any {
     return dnPolygon;
 }
 
-export function buildJsPolygon(dnPolygon): any {
+export function buildJsPolygon(dnPolygon: any, viewId: string | null): any {
     if (dnPolygon === undefined || dnPolygon === null) return null;
     
     let properties : any = {};

@@ -4,7 +4,7 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMediaInfo, buildJsMediaInfo} from './mediaInfo';
 
 
-export function buildJsMediaPopupContent(dotNetObject: any): any {
+export function buildJsMediaPopupContent(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetObject.mediaInfos)) {
         properties.mediaInfos = dotNetObject.mediaInfos.map(i => buildJsMediaInfo(i)) as any;
@@ -28,7 +28,7 @@ export function buildJsMediaPopupContent(dotNetObject: any): any {
     return jsMediaContent;
 }
 
-export function buildDotNetMediaPopupContent(jsObject: any): any {
+export function buildDotNetMediaPopupContent(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

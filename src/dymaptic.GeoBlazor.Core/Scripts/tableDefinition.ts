@@ -4,7 +4,7 @@ export async function buildJsTableDefinition(dotNetObject: any, layerId: string 
     return await buildJsTableDefinitionGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTableDefinition(jsObject: any): Promise<any> {
+export async function buildDotNetTableDefinition(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetTableDefinitionGenerated } = await import('./tableDefinition.gb');
-    return await buildDotNetTableDefinitionGenerated(jsObject);
+    return await buildDotNetTableDefinitionGenerated(jsObject, viewId);
 }

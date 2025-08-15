@@ -4,7 +4,7 @@ export async function buildJsNullNode(dotNetObject: any, layerId: string | null,
     return await buildJsNullNodeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetNullNode(jsObject: any): Promise<any> {
+export async function buildDotNetNullNode(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetNullNodeGenerated } = await import('./nullNode.gb');
-    return await buildDotNetNullNodeGenerated(jsObject);
+    return await buildDotNetNullNodeGenerated(jsObject, viewId);
 }

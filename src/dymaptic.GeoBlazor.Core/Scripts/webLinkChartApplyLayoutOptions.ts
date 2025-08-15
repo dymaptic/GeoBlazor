@@ -4,7 +4,7 @@ export async function buildJsWebLinkChartApplyLayoutOptions(dotNetObject: any, l
     return await buildJsWebLinkChartApplyLayoutOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebLinkChartApplyLayoutOptions(jsObject: any): Promise<any> {
+export async function buildDotNetWebLinkChartApplyLayoutOptions(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetWebLinkChartApplyLayoutOptionsGenerated } = await import('./webLinkChartApplyLayoutOptions.gb');
-    return await buildDotNetWebLinkChartApplyLayoutOptionsGenerated(jsObject);
+    return await buildDotNetWebLinkChartApplyLayoutOptionsGenerated(jsObject, viewId);
 }

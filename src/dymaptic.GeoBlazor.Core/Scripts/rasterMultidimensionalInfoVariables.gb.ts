@@ -10,7 +10,7 @@ export async function buildJsRasterMultidimensionalInfoVariablesGenerated(dotNet
     let jsRasterMultidimensionalInfoVariables: any = {};
     if (hasValue(dotNetObject.histograms) && dotNetObject.histograms.length > 0) {
         let { buildJsRasterHistogram } = await import('./rasterHistogram');
-        jsRasterMultidimensionalInfoVariables.histograms = dotNetObject.histograms.map(i => buildJsRasterHistogram(i)) as any;
+        jsRasterMultidimensionalInfoVariables.histograms = dotNetObject.histograms.map(i => buildJsRasterHistogram(i, viewId)) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
@@ -36,7 +36,7 @@ export async function buildJsRasterMultidimensionalInfoVariablesGenerated(dotNet
 }
 
 
-export async function buildDotNetRasterMultidimensionalInfoVariablesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRasterMultidimensionalInfoVariablesGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -45,7 +45,7 @@ export async function buildDotNetRasterMultidimensionalInfoVariablesGenerated(js
     
     if (hasValue(jsObject.histograms)) {
         let { buildDotNetRasterHistogram } = await import('./rasterHistogram');
-        dotNetRasterMultidimensionalInfoVariables.histograms = jsObject.histograms.map(i => buildDotNetRasterHistogram(i));
+        dotNetRasterMultidimensionalInfoVariables.histograms = jsObject.histograms.map(i => buildDotNetRasterHistogram(i, viewId));
     }
     
     if (hasValue(jsObject.description)) {

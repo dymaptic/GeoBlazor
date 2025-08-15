@@ -4,7 +4,7 @@ export async function buildJsFeaturesViewModelScreenPoint(dotNetObject: any, lay
     return await buildJsFeaturesViewModelScreenPointGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetFeaturesViewModelScreenPoint(jsObject: any): Promise<any> {
+export async function buildDotNetFeaturesViewModelScreenPoint(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetFeaturesViewModelScreenPointGenerated } = await import('./featuresViewModelScreenPoint.gb');
-    return await buildDotNetFeaturesViewModelScreenPointGenerated(jsObject);
+    return await buildDotNetFeaturesViewModelScreenPointGenerated(jsObject, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsSlideElements(dotNetObject: any, layerId: string | 
     return await buildJsSlideElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSlideElements(jsObject: any): Promise<any> {
+export async function buildDotNetSlideElements(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSlideElementsGenerated } = await import('./slideElements.gb');
-    return await buildDotNetSlideElementsGenerated(jsObject);
+    return await buildDotNetSlideElementsGenerated(jsObject, viewId);
 }

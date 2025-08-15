@@ -10,11 +10,11 @@ export async function buildJsSearchViewModelSelectResultEventResultGenerated(dot
     let jsSearchViewModelSelectResultEventResult: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsSearchViewModelSelectResultEventResult.extent = buildJsExtent(dotNetObject.extent) as any;
+        jsSearchViewModelSelectResultEventResult.extent = buildJsExtent(dotNetObject.extent, viewId) as any;
     }
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsSearchViewModelSelectResultEventResult.feature = buildJsGraphic(dotNetObject.feature) as any;
+        jsSearchViewModelSelectResultEventResult.feature = buildJsGraphic(dotNetObject.feature, viewId) as any;
     }
 
     if (hasValue(dotNetObject.name)) {
@@ -37,7 +37,7 @@ export async function buildDotNetSearchViewModelSelectResultEventResultGenerated
     
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetSearchViewModelSelectResultEventResult.extent = buildDotNetExtent(jsObject.extent);
+        dotNetSearchViewModelSelectResultEventResult.extent = buildDotNetExtent(jsObject.extent, viewId);
     }
     
     if (hasValue(jsObject.feature)) {

@@ -4,7 +4,7 @@ export async function buildJsInitializationLinkChartConfig(dotNetObject: any, la
     return await buildJsInitializationLinkChartConfigGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetInitializationLinkChartConfig(jsObject: any): Promise<any> {
+export async function buildDotNetInitializationLinkChartConfig(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetInitializationLinkChartConfigGenerated } = await import('./initializationLinkChartConfig.gb');
-    return await buildDotNetInitializationLinkChartConfigGenerated(jsObject);
+    return await buildDotNetInitializationLinkChartConfigGenerated(jsObject, viewId);
 }

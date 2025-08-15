@@ -15,7 +15,7 @@ export async function buildJsMultipointDrawActionUndoEvent(dotNetObject: any, la
     return await buildJsMultipointDrawActionUndoEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMultipointDrawActionUndoEvent(jsObject: any): Promise<any> {
+export async function buildDotNetMultipointDrawActionUndoEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetMultipointDrawActionUndoEventGenerated } = await import('./multipointDrawActionUndoEvent.gb');
-    return await buildDotNetMultipointDrawActionUndoEventGenerated(jsObject);
+    return await buildDotNetMultipointDrawActionUndoEventGenerated(jsObject, viewId);
 }

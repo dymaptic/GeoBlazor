@@ -15,7 +15,7 @@ export async function buildJsViewMouseWheelEvent(dotNetObject: any, layerId: str
     return await buildJsViewMouseWheelEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewMouseWheelEvent(jsObject: any): Promise<any> {
+export async function buildDotNetViewMouseWheelEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetViewMouseWheelEventGenerated } = await import('./viewMouseWheelEvent.gb');
-    return await buildDotNetViewMouseWheelEventGenerated(jsObject);
+    return await buildDotNetViewMouseWheelEventGenerated(jsObject, viewId);
 }

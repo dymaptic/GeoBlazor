@@ -10,11 +10,11 @@ export async function buildJsEditedFeatureResultEditedFeaturesUpdatesGenerated(d
     let jsEditedFeatureResultEditedFeaturesUpdates: any = {};
     if (hasValue(dotNetObject.current)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsEditedFeatureResultEditedFeaturesUpdates.current = buildJsGraphic(dotNetObject.current) as any;
+        jsEditedFeatureResultEditedFeaturesUpdates.current = buildJsGraphic(dotNetObject.current, viewId) as any;
     }
     if (hasValue(dotNetObject.original)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsEditedFeatureResultEditedFeaturesUpdates.original = buildJsGraphic(dotNetObject.original) as any;
+        jsEditedFeatureResultEditedFeaturesUpdates.original = buildJsGraphic(dotNetObject.original, viewId) as any;
     }
 
     

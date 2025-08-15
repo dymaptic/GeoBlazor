@@ -36,7 +36,7 @@ export async function buildJsBookmarkOptionsGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetBookmarkOptionsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBookmarkOptionsGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -45,7 +45,7 @@ export async function buildDotNetBookmarkOptionsGenerated(jsObject: any): Promis
     
     if (hasValue(jsObject.screenshotSettings)) {
         let { buildDotNetBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
-        dotNetBookmarkOptions.screenshotSettings = await buildDotNetBookmarkOptionsScreenshotSettings(jsObject.screenshotSettings);
+        dotNetBookmarkOptions.screenshotSettings = await buildDotNetBookmarkOptionsScreenshotSettings(jsObject.screenshotSettings, viewId);
     }
     
     if (hasValue(jsObject.captureRotation)) {

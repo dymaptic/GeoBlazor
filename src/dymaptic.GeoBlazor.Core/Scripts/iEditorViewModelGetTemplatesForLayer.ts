@@ -2,12 +2,12 @@
 import IEditorViewModelGetTemplatesForLayerGenerated from './iEditorViewModelGetTemplatesForLayer.gb';
 import EditorViewModelGetTemplatesForLayer = __esri.EditorViewModelGetTemplatesForLayer;
 
-export async function buildJsIEditorViewModelGetTemplatesForLayer(dotNetObject: any): Promise<any> {
+export async function buildJsIEditorViewModelGetTemplatesForLayer(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsIEditorViewModelGetTemplatesForLayerGenerated } = await import('./iEditorViewModelGetTemplatesForLayer.gb');
-    return await buildJsIEditorViewModelGetTemplatesForLayerGenerated(dotNetObject);
+    return await buildJsIEditorViewModelGetTemplatesForLayerGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetIEditorViewModelGetTemplatesForLayer(jsObject: any): Promise<any> {
+export async function buildDotNetIEditorViewModelGetTemplatesForLayer(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIEditorViewModelGetTemplatesForLayerGenerated } = await import('./iEditorViewModelGetTemplatesForLayer.gb');
-    return await buildDotNetIEditorViewModelGetTemplatesForLayerGenerated(jsObject);
+    return await buildDotNetIEditorViewModelGetTemplatesForLayerGenerated(jsObject, viewId);
 }

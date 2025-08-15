@@ -4,7 +4,7 @@ export async function buildJsDynamicMapLayer(dotNetObject: any, layerId: string 
     return await buildJsDynamicMapLayerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDynamicMapLayer(jsObject: any): Promise<any> {
+export async function buildDotNetDynamicMapLayer(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetDynamicMapLayerGenerated } = await import('./dynamicMapLayer.gb');
-    return await buildDotNetDynamicMapLayerGenerated(jsObject);
+    return await buildDotNetDynamicMapLayerGenerated(jsObject, viewId);
 }

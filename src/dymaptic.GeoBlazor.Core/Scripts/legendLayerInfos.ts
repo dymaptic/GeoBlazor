@@ -1,6 +1,6 @@
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export async function buildJsLegendLayerInfos(dotNetObject: any): Promise<any> {
+export async function buildJsLegendLayerInfos(dotNetObject: any, viewId: string | null): Promise<any> {
     let jsLegendLayerInfos: any = {};
     if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
         jsLegendLayerInfos.layer = arcGisObjectRefs[dotNetObject.layerId];
@@ -20,7 +20,7 @@ export async function buildJsLegendLayerInfos(dotNetObject: any): Promise<any> {
     return jsLegendLayerInfos;
 }
 
-export async function buildDotNetLegendLayerInfos(jsObject: any): Promise<any> {
+export async function buildDotNetLegendLayerInfos(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetLegendLayerInfosGenerated} = await import('./legendLayerInfos.gb');
-    return await buildDotNetLegendLayerInfosGenerated(jsObject);
+    return await buildDotNetLegendLayerInfosGenerated(jsObject, viewId);
 }

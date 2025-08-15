@@ -14,7 +14,7 @@ export async function buildJsCompassViewModel(dotNetObject: any, layerId: string
     return await buildJsCompassViewModelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetCompassViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetCompassViewModel(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetCompassViewModelGenerated} = await import('./compassViewModel.gb');
-    return await buildDotNetCompassViewModelGenerated(jsObject);
+    return await buildDotNetCompassViewModelGenerated(jsObject, viewId);
 }

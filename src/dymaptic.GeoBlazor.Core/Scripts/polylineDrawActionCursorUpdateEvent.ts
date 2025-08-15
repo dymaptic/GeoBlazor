@@ -15,7 +15,7 @@ export async function buildJsPolylineDrawActionCursorUpdateEvent(dotNetObject: a
     return await buildJsPolylineDrawActionCursorUpdateEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPolylineDrawActionCursorUpdateEvent(jsObject: any): Promise<any> {
+export async function buildDotNetPolylineDrawActionCursorUpdateEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPolylineDrawActionCursorUpdateEventGenerated } = await import('./polylineDrawActionCursorUpdateEvent.gb');
-    return await buildDotNetPolylineDrawActionCursorUpdateEventGenerated(jsObject);
+    return await buildDotNetPolylineDrawActionCursorUpdateEventGenerated(jsObject, viewId);
 }

@@ -170,7 +170,7 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
     }
 }
 
-export async function buildDotNetWidget(jsObject: any): Promise<any> {
+export async function buildDotNetWidget(jsObject: any, viewId: string | null): Promise<any> {
     return removeCircularReferences(jsObject);
 }
 

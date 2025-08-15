@@ -1,10 +1,10 @@
 
-export async function buildJsIElementsElement(dotNetObject: any): Promise<any> {
+export async function buildJsIElementsElement(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsIElementsElementGenerated } = await import('./iElementsElement.gb');
-    return await buildJsIElementsElementGenerated(dotNetObject);
+    return await buildJsIElementsElementGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetIElementsElement(jsObject: any): Promise<any> {
+export async function buildDotNetIElementsElement(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIElementsElementGenerated } = await import('./iElementsElement.gb');
-    return await buildDotNetIElementsElementGenerated(jsObject);
+    return await buildDotNetIElementsElementGenerated(jsObject, viewId);
 }

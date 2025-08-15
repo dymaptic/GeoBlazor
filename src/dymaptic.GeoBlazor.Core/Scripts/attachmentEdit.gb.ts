@@ -10,7 +10,7 @@ export async function buildJsAttachmentEditGenerated(dotNetObject: any, layerId:
     let jsAttachmentEdit: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsAttachmentEdit.feature = buildJsGraphic(dotNetObject.feature) as any;
+        jsAttachmentEdit.feature = buildJsGraphic(dotNetObject.feature, viewId) as any;
     }
 
     if (hasValue(dotNetObject.attachment)) {

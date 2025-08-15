@@ -4,19 +4,19 @@ import Polyline from "@arcgis/core/geometry/Polyline";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
 
-export function buildDotNetPolyline(polyline: any): any {
+export function buildDotNetPolyline(polyline: any, viewId: string | null): any {
     return {
         type: 'polyline',
         paths: polyline.paths,
         hasM: polyline.hasM,
         hasZ: polyline.hasZ,
-        extent: buildDotNetExtent(polyline.extent),
-        spatialReference: buildDotNetSpatialReference(polyline.spatialReference),
+        extent: buildDotNetExtent(polyline.extent, viewId),
+        spatialReference: buildDotNetSpatialReference(polyline.spatialReference, viewId),
         isSimple: simplifyOperator.isSimple(polyline)
     };
 }
 
-export function buildJsPolyline(dnPolyline): any {
+export function buildJsPolyline(dnPolyline: any, viewId: string | null): any {
     if (dnPolyline === undefined || dnPolyline === null) return null;
     let properties: any = {};
     if (hasValue(dnPolyline.paths)) {
@@ -29,7 +29,7 @@ export function buildJsPolyline(dnPolyline): any {
         properties.hasM = dnPolyline.hasM;
     }
     if (hasValue(dnPolyline.spatialReference)) {
-        properties.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
+        properties.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference, viewId);
     }
     let polyline = new Polyline(properties);
     let jsObjectRef = DotNet.createJSObjectReference(polyline);

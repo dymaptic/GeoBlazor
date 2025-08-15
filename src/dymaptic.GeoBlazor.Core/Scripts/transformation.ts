@@ -15,7 +15,7 @@ export async function buildJsTransformation(dotNetObject: any, layerId: string |
     return await buildJsTransformationGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTransformation(jsObject: any): Promise<any> {
+export async function buildDotNetTransformation(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetTransformationGenerated } = await import('./transformation.gb');
-    return await buildDotNetTransformationGenerated(jsObject);
+    return await buildDotNetTransformationGenerated(jsObject, viewId);
 }

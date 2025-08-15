@@ -3,7 +3,7 @@ import AlgorithmicColorRamp from '@arcgis/core/rest/support/AlgorithmicColorRamp
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
-export function buildJsAlgorithmicColorRamp(dotNetObject: any): any {
+export function buildJsAlgorithmicColorRamp(dotNetObject: any, viewId: string | null): any {
     let jsAlgorithmicColorRamp = new AlgorithmicColorRamp();
     if (hasValue(dotNetObject.fromColor)) {
         jsAlgorithmicColorRamp.fromColor = buildJsMapColor(dotNetObject.fromColor) as any;
@@ -23,7 +23,7 @@ export function buildJsAlgorithmicColorRamp(dotNetObject: any): any {
     return jsAlgorithmicColorRamp;
 }
 
-export function buildDotNetAlgorithmicColorRamp(jsObject: any): any {
+export function buildDotNetAlgorithmicColorRamp(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

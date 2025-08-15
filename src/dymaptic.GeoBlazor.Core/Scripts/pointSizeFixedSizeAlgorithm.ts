@@ -4,7 +4,7 @@ export async function buildJsPointSizeFixedSizeAlgorithm(dotNetObject: any, laye
     return await buildJsPointSizeFixedSizeAlgorithmGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPointSizeFixedSizeAlgorithm(jsObject: any): Promise<any> {
+export async function buildDotNetPointSizeFixedSizeAlgorithm(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPointSizeFixedSizeAlgorithmGenerated } = await import('./pointSizeFixedSizeAlgorithm.gb');
-    return await buildDotNetPointSizeFixedSizeAlgorithmGenerated(jsObject);
+    return await buildDotNetPointSizeFixedSizeAlgorithmGenerated(jsObject, viewId);
 }

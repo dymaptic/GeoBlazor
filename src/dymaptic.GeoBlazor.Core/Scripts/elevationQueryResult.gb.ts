@@ -10,7 +10,7 @@ export async function buildJsElevationQueryResultGenerated(dotNetObject: any, la
     let jsElevationQueryResult: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsElevationQueryResult.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        jsElevationQueryResult.geometry = buildJsGeometry(dotNetObject.geometry, viewId) as any;
     }
     if (hasValue(dotNetObject.sampleInfo) && dotNetObject.sampleInfo.length > 0) {
         let { buildJsElevationQueryResultSampleInfo } = await import('./elevationQueryResultSampleInfo');
@@ -37,12 +37,12 @@ export async function buildDotNetElevationQueryResultGenerated(jsObject: any, la
     
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetGeometry } = await import('./geometry');
-        dotNetElevationQueryResult.geometry = buildDotNetGeometry(jsObject.geometry);
+        dotNetElevationQueryResult.geometry = buildDotNetGeometry(jsObject.geometry, viewId);
     }
     
     if (hasValue(jsObject.sampleInfo)) {
         let { buildDotNetElevationQueryResultSampleInfo } = await import('./elevationQueryResultSampleInfo');
-        dotNetElevationQueryResult.sampleInfo = await Promise.all(jsObject.sampleInfo.map(async i => await buildDotNetElevationQueryResultSampleInfo(i)));
+        dotNetElevationQueryResult.sampleInfo = await Promise.all(jsObject.sampleInfo.map(async i => await buildDotNetElevationQueryResultSampleInfo(i, viewId)));
     }
     
     if (hasValue(jsObject.noDataValue)) {

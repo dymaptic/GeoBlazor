@@ -15,7 +15,7 @@ export async function buildJsResourceSerializationUtils(dotNetObject: any, layer
     return await buildJsResourceSerializationUtilsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetResourceSerializationUtils(jsObject: any): Promise<any> {
+export async function buildDotNetResourceSerializationUtils(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetResourceSerializationUtilsGenerated } = await import('./resourceSerializationUtils.gb');
-    return await buildDotNetResourceSerializationUtilsGenerated(jsObject);
+    return await buildDotNetResourceSerializationUtilsGenerated(jsObject, viewId);
 }

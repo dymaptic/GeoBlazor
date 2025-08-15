@@ -15,7 +15,7 @@ export async function buildJsGeographicTransformationUtils(dotNetObject: any, la
     return await buildJsGeographicTransformationUtilsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGeographicTransformationUtils(jsObject: any): Promise<any> {
+export async function buildDotNetGeographicTransformationUtils(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetGeographicTransformationUtilsGenerated } = await import('./geographicTransformationUtils.gb');
-    return await buildDotNetGeographicTransformationUtilsGenerated(jsObject);
+    return await buildDotNetGeographicTransformationUtilsGenerated(jsObject, viewId);
 }

@@ -1,21 +1,20 @@
 import Graphic from "@arcgis/core/Graphic";
 import {
     arcGisObjectRefs,
-    copyValuesIfExists, dotNetRefs,
+    copyValuesIfExists,
     graphicsRefs,
     hasValue,
     jsObjectRefs, lookupGeoBlazorGraphicId, lookupGeoBlazorId,
     lookupJsGraphicById
 } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
-import Symbol from "@arcgis/core/symbols/Symbol";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import {buildDotNetGeometry, buildJsGeometry} from './geometry';
 import {buildJsPopupTemplate} from './popupTemplate';
 import {buildDotNetSymbol, buildJsSymbol} from './symbol';
 import {buildJsAttributes} from './attributes';
 
-export function buildJsGraphic(graphicObject: any): Graphic {
+export function buildJsGraphic(graphicObject: any, viewId: string | null): any {
     let graphic: Graphic | null = lookupJsGraphicById(graphicObject.id, graphicObject.layerId, graphicObject.viewId);
     if (graphic !== null) {
         graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;

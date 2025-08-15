@@ -107,9 +107,9 @@ export async function buildJsLayerSearchSource(dotNetObject: any, layerId: strin
     return jsLayerSearchSource;
 }
 
-export async function buildDotNetLayerSearchSource(jsObject: any): Promise<any> {
+export async function buildDotNetLayerSearchSource(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetLayerSearchSourceGenerated} = await import('./layerSearchSource.gb');
-    let dnObject = await buildDotNetLayerSearchSourceGenerated(jsObject);
+    let dnObject = await buildDotNetLayerSearchSourceGenerated(jsObject, viewId);
     
     if (hasValue(jsObject.layer)) {
         dnObject.layerId = lookupGeoBlazorId(jsObject.layer);

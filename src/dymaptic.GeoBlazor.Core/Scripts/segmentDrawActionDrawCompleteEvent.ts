@@ -15,7 +15,7 @@ export async function buildJsSegmentDrawActionDrawCompleteEvent(dotNetObject: an
     return await buildJsSegmentDrawActionDrawCompleteEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSegmentDrawActionDrawCompleteEvent(jsObject: any): Promise<any> {
+export async function buildDotNetSegmentDrawActionDrawCompleteEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSegmentDrawActionDrawCompleteEventGenerated } = await import('./segmentDrawActionDrawCompleteEvent.gb');
-    return await buildDotNetSegmentDrawActionDrawCompleteEventGenerated(jsObject);
+    return await buildDotNetSegmentDrawActionDrawCompleteEventGenerated(jsObject, viewId);
 }

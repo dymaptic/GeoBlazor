@@ -4,7 +4,7 @@ export async function buildJsOrientedImageryLayerElevationInfoFeatureExpressionI
     return await buildJsOrientedImageryLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetOrientedImageryLayerElevationInfoFeatureExpressionInfo(jsObject: any): Promise<any> {
+export async function buildDotNetOrientedImageryLayerElevationInfoFeatureExpressionInfo(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetOrientedImageryLayerElevationInfoFeatureExpressionInfoGenerated } = await import('./orientedImageryLayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildDotNetOrientedImageryLayerElevationInfoFeatureExpressionInfoGenerated(jsObject);
+    return await buildDotNetOrientedImageryLayerElevationInfoFeatureExpressionInfoGenerated(jsObject, viewId);
 }

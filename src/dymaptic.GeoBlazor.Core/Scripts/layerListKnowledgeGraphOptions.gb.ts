@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetLayerListKnowledgeGraphOptions } from './layerListKnowledgeGraphOptions';
 
-export async function buildJsLayerListKnowledgeGraphOptionsGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsLayerListKnowledgeGraphOptionsGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsLayerListKnowledgeGraphOptionsGenerated(dotNetObjec
     let jsLayerListKnowledgeGraphOptions: any = {};
     if (hasValue(dotNetObject.visibleElements)) {
         let { buildJsLayerListKnowledgeGraphOptionsVisibleElements } = await import('./layerListKnowledgeGraphOptionsVisibleElements');
-        jsLayerListKnowledgeGraphOptions.visibleElements = await buildJsLayerListKnowledgeGraphOptionsVisibleElements(dotNetObject.visibleElements) as any;
+        jsLayerListKnowledgeGraphOptions.visibleElements = await buildJsLayerListKnowledgeGraphOptionsVisibleElements(dotNetObject.visibleElements, viewId) as any;
     }
 
     if (hasValue(dotNetObject.filterPlaceholder)) {
@@ -33,7 +33,7 @@ export async function buildJsLayerListKnowledgeGraphOptionsGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetLayerListKnowledgeGraphOptionsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListKnowledgeGraphOptionsGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -42,7 +42,7 @@ export async function buildDotNetLayerListKnowledgeGraphOptionsGenerated(jsObjec
     
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetLayerListKnowledgeGraphOptionsVisibleElements } = await import('./layerListKnowledgeGraphOptionsVisibleElements');
-        dotNetLayerListKnowledgeGraphOptions.visibleElements = await buildDotNetLayerListKnowledgeGraphOptionsVisibleElements(jsObject.visibleElements);
+        dotNetLayerListKnowledgeGraphOptions.visibleElements = await buildDotNetLayerListKnowledgeGraphOptionsVisibleElements(jsObject.visibleElements, viewId);
     }
     
     if (hasValue(jsObject.filterPlaceholder)) {

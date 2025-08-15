@@ -4,7 +4,7 @@ export async function buildJsMapViewGraphicHit(dotNetObject: any, layerId: strin
     return await buildJsMapViewGraphicHitGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMapViewGraphicHit(jsObject: any): Promise<any> {
+export async function buildDotNetMapViewGraphicHit(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetMapViewGraphicHitGenerated } = await import('./mapViewGraphicHit.gb');
-    return await buildDotNetMapViewGraphicHitGenerated(jsObject);
+    return await buildDotNetMapViewGraphicHitGenerated(jsObject, viewId);
 }

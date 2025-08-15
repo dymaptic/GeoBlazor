@@ -15,7 +15,7 @@ export async function buildJsDefaultUI(dotNetObject: any, layerId: string | null
     return await buildJsDefaultUIGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDefaultUI(jsObject: any): Promise<any> {
+export async function buildDotNetDefaultUI(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetDefaultUIGenerated } = await import('./defaultUI.gb');
-    return await buildDotNetDefaultUIGenerated(jsObject);
+    return await buildDotNetDefaultUIGenerated(jsObject, viewId);
 }

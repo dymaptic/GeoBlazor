@@ -3,7 +3,7 @@ export async function buildJsMapImageLayerLayerviewCreateEvent(dotNetObject: any
     return await buildJsMapImageLayerLayerviewCreateEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMapImageLayerLayerviewCreateEvent(jsObject: any): Promise<any> {
+export async function buildDotNetMapImageLayerLayerviewCreateEvent(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetMapImageLayerLayerviewCreateEventGenerated} = await import('./mapImageLayerLayerviewCreateEvent.gb');
-    return await buildDotNetMapImageLayerLayerviewCreateEventGenerated(jsObject);
+    return await buildDotNetMapImageLayerLayerviewCreateEventGenerated(jsObject, viewId);
 }

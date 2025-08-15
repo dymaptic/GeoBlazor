@@ -3,7 +3,7 @@ import RelationshipQuery from '@arcgis/core/rest/support/RelationshipQuery';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetRelationshipQuery } from './relationshipQuery';
 
-export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsRelationshipQueryGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -11,7 +11,7 @@ export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Prom
     let properties: any = {};
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference, viewId) as any;
     }
 
     if (hasValue(dotNetObject.cacheHint)) {
@@ -68,7 +68,7 @@ export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Prom
 }
 
 
-export async function buildDotNetRelationshipQueryGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipQueryGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -77,7 +77,7 @@ export async function buildDotNetRelationshipQueryGenerated(jsObject: any): Prom
     
     if (hasValue(jsObject.outSpatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetRelationshipQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
+        dotNetRelationshipQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference, viewId);
     }
     
     if (hasValue(jsObject.cacheHint)) {

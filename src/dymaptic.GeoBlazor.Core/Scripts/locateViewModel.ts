@@ -15,7 +15,7 @@ export async function buildJsLocateViewModel(dotNetObject: any, layerId: string 
     return await buildJsLocateViewModelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLocateViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetLocateViewModel(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

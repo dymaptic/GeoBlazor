@@ -15,7 +15,7 @@ export async function buildJsImageToWorld(dotNetObject: any, layerId: string | n
     return await buildJsImageToWorldGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetImageToWorld(jsObject: any): Promise<any> {
+export async function buildDotNetImageToWorld(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetImageToWorldGenerated } = await import('./imageToWorld.gb');
-    return await buildDotNetImageToWorldGenerated(jsObject);
+    return await buildDotNetImageToWorldGenerated(jsObject, viewId);
 }

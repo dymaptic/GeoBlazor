@@ -406,7 +406,7 @@ export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | n
 }
 
 
-export async function buildDotNetFeatureLayer(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureLayerGenerated} = await import('./featureLayer.gb');
-    return await buildDotNetFeatureLayerGenerated(jsObject);
+    return await buildDotNetFeatureLayerGenerated(jsObject, viewId);
 }

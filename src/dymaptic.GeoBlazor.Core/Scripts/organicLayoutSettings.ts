@@ -4,7 +4,7 @@ export async function buildJsOrganicLayoutSettings(dotNetObject: any, layerId: s
     return await buildJsOrganicLayoutSettingsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetOrganicLayoutSettings(jsObject: any): Promise<any> {
+export async function buildDotNetOrganicLayoutSettings(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetOrganicLayoutSettingsGenerated } = await import('./organicLayoutSettings.gb');
-    return await buildDotNetOrganicLayoutSettingsGenerated(jsObject);
+    return await buildDotNetOrganicLayoutSettingsGenerated(jsObject, viewId);
 }

@@ -10,7 +10,7 @@ export async function buildJsSublayerGetFieldDomainOptionsGenerated(dotNetObject
     let jsSublayerGetFieldDomainOptions: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsSublayerGetFieldDomainOptions.feature = buildJsGraphic(dotNetObject.feature) as any;
+        jsSublayerGetFieldDomainOptions.feature = buildJsGraphic(dotNetObject.feature, viewId) as any;
     }
 
     

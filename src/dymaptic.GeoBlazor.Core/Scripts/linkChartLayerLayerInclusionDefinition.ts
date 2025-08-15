@@ -4,7 +4,7 @@ export async function buildJsLinkChartLayerLayerInclusionDefinition(dotNetObject
     return await buildJsLinkChartLayerLayerInclusionDefinitionGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLinkChartLayerLayerInclusionDefinition(jsObject: any): Promise<any> {
+export async function buildDotNetLinkChartLayerLayerInclusionDefinition(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetLinkChartLayerLayerInclusionDefinitionGenerated } = await import('./linkChartLayerLayerInclusionDefinition.gb');
-    return await buildDotNetLinkChartLayerLayerInclusionDefinitionGenerated(jsObject);
+    return await buildDotNetLinkChartLayerLayerInclusionDefinitionGenerated(jsObject, viewId);
 }

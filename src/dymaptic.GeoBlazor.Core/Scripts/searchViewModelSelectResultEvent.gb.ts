@@ -42,7 +42,7 @@ export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObj
     
     if (hasValue(jsObject.source)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchViewModelSelectResultEvent.source = await buildDotNetSearchSource(jsObject.source);
+        dotNetSearchViewModelSelectResultEvent.source = await buildDotNetSearchSource(jsObject.source, viewId);
     }
     
     if (hasValue(jsObject.sourceIndex)) {

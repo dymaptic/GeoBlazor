@@ -15,7 +15,7 @@ export async function buildJsPolygonDrawActionDrawCompleteEvent(dotNetObject: an
     return await buildJsPolygonDrawActionDrawCompleteEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPolygonDrawActionDrawCompleteEvent(jsObject: any): Promise<any> {
+export async function buildDotNetPolygonDrawActionDrawCompleteEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPolygonDrawActionDrawCompleteEventGenerated } = await import('./polygonDrawActionDrawCompleteEvent.gb');
-    return await buildDotNetPolygonDrawActionDrawCompleteEventGenerated(jsObject);
+    return await buildDotNetPolygonDrawActionDrawCompleteEventGenerated(jsObject, viewId);
 }

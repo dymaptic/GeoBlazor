@@ -4,7 +4,7 @@ export async function buildJsNumberNode(dotNetObject: any, layerId: string | nul
     return await buildJsNumberNodeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetNumberNode(jsObject: any): Promise<any> {
+export async function buildDotNetNumberNode(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetNumberNodeGenerated } = await import('./numberNode.gb');
-    return await buildDotNetNumberNodeGenerated(jsObject);
+    return await buildDotNetNumberNodeGenerated(jsObject, viewId);
 }

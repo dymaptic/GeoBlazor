@@ -1,10 +1,10 @@
 
-export async function buildJsServiceDefinitionServiceCapabilitiesSearchCapabilities(dotNetObject: any): Promise<any> {
+export async function buildJsServiceDefinitionServiceCapabilitiesSearchCapabilities(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated } = await import('./serviceDefinitionServiceCapabilitiesSearchCapabilities.gb');
-    return await buildJsServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(dotNetObject);
+    return await buildJsServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities(jsObject: any): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated } = await import('./serviceDefinitionServiceCapabilitiesSearchCapabilities.gb');
-    return await buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(jsObject);
+    return await buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(jsObject, viewId);
 }

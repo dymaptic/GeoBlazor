@@ -8,6 +8,7 @@ import {buildJsGeometry} from "./geometry";
 export default class ExtentWrapper implements IPropertyWrapper {
     public extent: Extent;
     public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
     
     constructor(extent: Extent) {
         this.extent = extent;
@@ -24,58 +25,58 @@ export default class ExtentWrapper implements IPropertyWrapper {
     }
     
     centerAt(point: any) {
-        let jsPoint = buildJsPoint(point);
+        let jsPoint = buildJsPoint(point, this.viewId);
         let jsExtent = this.extent.centerAt(jsPoint);
-        let dotNetExtent = buildDotNetExtent(jsExtent);
+        let dotNetExtent = buildDotNetExtent(jsExtent, this.viewId);
         return dotNetExtent;
     }
     
     contains(geometry: any) {
-        let jsGeometry = buildJsGeometry(geometry);
+        let jsGeometry = buildJsGeometry(geometry, this.viewId);
         let contains = this.extent.contains(jsGeometry);
         return contains;
     }
     
     expand(factor: number) {
         let jsExtent = this.extent.expand(factor);
-        let dotNetExtent = buildDotNetExtent(jsExtent);
+        let dotNetExtent = buildDotNetExtent(jsExtent, this.viewId);
         return dotNetExtent;
     }
     
     intersection(extent: any) {
-        let jsExtent = buildJsExtent(extent);
+        let jsExtent = buildJsExtent(extent, this.viewId);
         let jsIntersection = this.extent.intersection(jsExtent);
-        let dotNetIntersection = buildDotNetExtent(jsIntersection);
+        let dotNetIntersection = buildDotNetExtent(jsIntersection, this.viewId);
         return dotNetIntersection;
     }
     
     intersects(geometry: any) {
-        let jsGeometry = buildJsGeometry(geometry);
+        let jsGeometry = buildJsGeometry(geometry, this.viewId);
         let intersects = this.extent.intersects(jsGeometry);
         return intersects;
     }
     
     normalize() {
         let jsNormalized = this.extent.normalize();
-        let dotNetNormalized = jsNormalized?.map(buildDotNetExtent);
+        let dotNetNormalized = jsNormalized?.map(e => buildDotNetExtent(e, this.viewId));
         return dotNetNormalized;
     }
     
     offset(dx, dy, dz) {
         let jsOffset = this.extent.offset(dx, dy, dz);
-        let dotNetOffset = buildDotNetExtent(jsOffset);
+        let dotNetOffset = buildDotNetExtent(jsOffset, this.viewId);
         return dotNetOffset;
     }
     
     union(extent: any) {
-        let jsExtent = buildJsExtent(extent);
+        let jsExtent = buildJsExtent(extent, this.viewId);
         let jsUnion = this.extent.union(jsExtent);
-        let dotNetUnion = buildDotNetExtent(jsUnion);
+        let dotNetUnion = buildDotNetExtent(jsUnion, this.viewId);
         return dotNetUnion;
     }
 }
 
-export function buildJsExtent(dotNetExtent, currentSpatialReference: any | null = null): any {
+export function buildJsExtent(dotNetExtent: any, viewId: string | null, currentSpatialReference: any | null = null): any {
     if (!hasValue(dotNetExtent)) {
         return null;
     }
@@ -84,7 +85,7 @@ export function buildJsExtent(dotNetExtent, currentSpatialReference: any | null 
     copyValuesIfExists(dotNetExtent, properties, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
 
     if (hasValue(dotNetExtent.spatialReference)) {
-        properties.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference)
+        properties.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference, viewId)
     } else if (currentSpatialReference !== null) {
         properties.spatialReference = currentSpatialReference;
     }
@@ -93,12 +94,13 @@ export function buildJsExtent(dotNetExtent, currentSpatialReference: any | null 
 
     let extentWrapper = new ExtentWrapper(extent);
     extentWrapper.geoBlazorId = dotNetExtent.id;
+    extentWrapper.viewId = viewId;
 
     let jsObjectRef = DotNet.createJSObjectReference(extentWrapper);
     jsObjectRefs[dotNetExtent.id] = jsObjectRef;
 
     try {
-        let dnInstantiatedExtent = buildDotNetExtent(extent);
+        let dnInstantiatedExtent = buildDotNetExtent(extent, viewId);
         let dnStream = buildJsStreamReference(dnInstantiatedExtent);
         dotNetExtent.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated',
             jsObjectRef, dnStream);
@@ -109,7 +111,7 @@ export function buildJsExtent(dotNetExtent, currentSpatialReference: any | null 
     return extent;
 }
 
-export function buildDotNetExtent(extent: Extent | null | undefined): DotNetExtent | null {
+export function buildDotNetExtent(extent: any, viewId: string | null): any {
     if (extent === undefined || extent === null) return null;
     return {
         type: 'extent',
@@ -123,6 +125,6 @@ export function buildDotNetExtent(extent: Extent | null | undefined): DotNetExte
         mmax: extent.mmax,
         hasM: extent.hasM,
         hasZ: extent.hasZ,
-        spatialReference: buildDotNetSpatialReference(extent.spatialReference)
+        spatialReference: buildDotNetSpatialReference(extent.spatialReference, viewId)
     } as DotNetExtent;
 }

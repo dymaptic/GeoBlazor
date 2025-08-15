@@ -4,7 +4,7 @@ export async function buildJsRelationshipColumnTemplate(dotNetObject: any, layer
     return await buildJsRelationshipColumnTemplateGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRelationshipColumnTemplate(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipColumnTemplate(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetRelationshipColumnTemplateGenerated } = await import('./relationshipColumnTemplate.gb');
-    return await buildDotNetRelationshipColumnTemplateGenerated(jsObject);
+    return await buildDotNetRelationshipColumnTemplateGenerated(jsObject, viewId);
 }

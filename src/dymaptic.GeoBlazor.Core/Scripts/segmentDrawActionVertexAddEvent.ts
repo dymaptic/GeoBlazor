@@ -15,7 +15,7 @@ export async function buildJsSegmentDrawActionVertexAddEvent(dotNetObject: any, 
     return await buildJsSegmentDrawActionVertexAddEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSegmentDrawActionVertexAddEvent(jsObject: any): Promise<any> {
+export async function buildDotNetSegmentDrawActionVertexAddEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSegmentDrawActionVertexAddEventGenerated } = await import('./segmentDrawActionVertexAddEvent.gb');
-    return await buildDotNetSegmentDrawActionVertexAddEventGenerated(jsObject);
+    return await buildDotNetSegmentDrawActionVertexAddEventGenerated(jsObject, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsIntervalPeriodNode(dotNetObject: any, layerId: stri
     return await buildJsIntervalPeriodNodeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIntervalPeriodNode(jsObject: any): Promise<any> {
+export async function buildDotNetIntervalPeriodNode(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIntervalPeriodNodeGenerated } = await import('./intervalPeriodNode.gb');
-    return await buildDotNetIntervalPeriodNodeGenerated(jsObject);
+    return await buildDotNetIntervalPeriodNodeGenerated(jsObject, viewId);
 }

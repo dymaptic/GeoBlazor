@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchSourceFilter } from './searchSourceFilter';
 
-export async function buildJsSearchSourceFilterGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsSearchSourceFilterGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsSearchSourceFilterGenerated(dotNetObject: any): Pro
     let jsSearchSourceFilter: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsSearchSourceFilter.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        jsSearchSourceFilter.geometry = buildJsGeometry(dotNetObject.geometry, viewId) as any;
     }
 
     if (hasValue(dotNetObject.where)) {
@@ -24,7 +24,7 @@ export async function buildJsSearchSourceFilterGenerated(dotNetObject: any): Pro
 }
 
 
-export async function buildDotNetSearchSourceFilterGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSearchSourceFilterGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -33,7 +33,7 @@ export async function buildDotNetSearchSourceFilterGenerated(jsObject: any): Pro
     
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetGeometry } = await import('./geometry');
-        dotNetSearchSourceFilter.geometry = buildDotNetGeometry(jsObject.geometry);
+        dotNetSearchSourceFilter.geometry = buildDotNetGeometry(jsObject.geometry, viewId);
     }
     
     if (hasValue(jsObject.where)) {

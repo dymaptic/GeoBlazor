@@ -3,7 +3,7 @@ import LineSymbolMarker from '@arcgis/core/symbols/LineSymbolMarker';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
-export function buildJsLineSymbolMarker(dotNetObject: any): any {
+export function buildJsLineSymbolMarker(dotNetObject: any, viewId: string | null): any {
     let jsLineSymbolMarker = new LineSymbolMarker();
     if (hasValue(dotNetObject.color)) {
         jsLineSymbolMarker.color = buildJsMapColor(dotNetObject.color) as any;
@@ -23,7 +23,7 @@ export function buildJsLineSymbolMarker(dotNetObject: any): any {
     return jsLineSymbolMarker;
 }
 
-export function buildDotNetLineSymbolMarker(jsObject: any): any {
+export function buildDotNetLineSymbolMarker(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

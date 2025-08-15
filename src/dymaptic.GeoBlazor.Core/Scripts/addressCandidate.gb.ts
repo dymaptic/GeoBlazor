@@ -3,7 +3,7 @@ import AddressCandidate from '@arcgis/core/rest/support/AddressCandidate';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAddressCandidate } from './addressCandidate';
 
-export async function buildJsAddressCandidateGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsAddressCandidateGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -11,11 +11,11 @@ export async function buildJsAddressCandidateGenerated(dotNetObject: any): Promi
     let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent, viewId) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        properties.location = buildJsPoint(dotNetObject.location) as any;
+        properties.location = buildJsPoint(dotNetObject.location, viewId) as any;
     }
 
     if (hasValue(dotNetObject.address)) {

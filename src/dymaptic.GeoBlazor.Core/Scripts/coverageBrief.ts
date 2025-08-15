@@ -4,7 +4,7 @@ export async function buildJsCoverageBrief(dotNetObject: any, layerId: string | 
     return await buildJsCoverageBriefGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetCoverageBrief(jsObject: any): Promise<any> {
+export async function buildDotNetCoverageBrief(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetCoverageBriefGenerated } = await import('./coverageBrief.gb');
-    return await buildDotNetCoverageBriefGenerated(jsObject);
+    return await buildDotNetCoverageBriefGenerated(jsObject, viewId);
 }

@@ -21,7 +21,7 @@ export async function buildJsRasterMultidimensionalInfoGenerated(dotNetObject: a
 }
 
 
-export async function buildDotNetRasterMultidimensionalInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRasterMultidimensionalInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -30,7 +30,7 @@ export async function buildDotNetRasterMultidimensionalInfoGenerated(jsObject: a
     
     if (hasValue(jsObject.variables)) {
         let { buildDotNetRasterMultidimensionalInfoVariables } = await import('./rasterMultidimensionalInfoVariables');
-        dotNetRasterMultidimensionalInfo.variables = await Promise.all(jsObject.variables.map(async i => await buildDotNetRasterMultidimensionalInfoVariables(i)));
+        dotNetRasterMultidimensionalInfo.variables = await Promise.all(jsObject.variables.map(async i => await buildDotNetRasterMultidimensionalInfoVariables(i, viewId)));
     }
     
 

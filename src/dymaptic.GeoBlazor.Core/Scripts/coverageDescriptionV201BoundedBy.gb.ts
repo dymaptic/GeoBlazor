@@ -10,7 +10,7 @@ export async function buildJsCoverageDescriptionV201BoundedByGenerated(dotNetObj
     let jsCoverageDescriptionV201BoundedBy: any = {};
     if (hasValue(dotNetObject.envelope)) {
         let { buildJsExtent } = await import('./extent');
-        jsCoverageDescriptionV201BoundedBy.envelope = buildJsExtent(dotNetObject.envelope) as any;
+        jsCoverageDescriptionV201BoundedBy.envelope = buildJsExtent(dotNetObject.envelope, viewId) as any;
     }
 
     if (hasValue(dotNetObject.axisLabels) && dotNetObject.axisLabels.length > 0) {
@@ -48,7 +48,7 @@ export async function buildDotNetCoverageDescriptionV201BoundedByGenerated(jsObj
     
     if (hasValue(jsObject.envelope)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetCoverageDescriptionV201BoundedBy.envelope = buildDotNetExtent(jsObject.envelope);
+        dotNetCoverageDescriptionV201BoundedBy.envelope = buildDotNetExtent(jsObject.envelope, viewId);
     }
     
     if (hasValue(jsObject.axisLabels)) {

@@ -4,7 +4,7 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arc
 import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 import {buildDotNetMapFont, buildJsMapFont} from "./mapFont";
 
-export function buildJsTextSymbol(dotNetObject: any): any {
+export function buildJsTextSymbol(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetObject.backgroundColor)) {
         properties.backgroundColor = buildJsMapColor(dotNetObject.backgroundColor) as any;
@@ -67,7 +67,7 @@ export function buildJsTextSymbol(dotNetObject: any): any {
     return jsTextSymbol;
 }
 
-export function buildDotNetTextSymbol(jsObject: any): any {
+export function buildDotNetTextSymbol(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

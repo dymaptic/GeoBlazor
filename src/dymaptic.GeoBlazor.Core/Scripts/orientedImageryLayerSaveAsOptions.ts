@@ -4,7 +4,7 @@ export async function buildJsOrientedImageryLayerSaveAsOptions(dotNetObject: any
     return await buildJsOrientedImageryLayerSaveAsOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetOrientedImageryLayerSaveAsOptions(jsObject: any): Promise<any> {
+export async function buildDotNetOrientedImageryLayerSaveAsOptions(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetOrientedImageryLayerSaveAsOptionsGenerated } = await import('./orientedImageryLayerSaveAsOptions.gb');
-    return await buildDotNetOrientedImageryLayerSaveAsOptionsGenerated(jsObject);
+    return await buildDotNetOrientedImageryLayerSaveAsOptionsGenerated(jsObject, viewId);
 }

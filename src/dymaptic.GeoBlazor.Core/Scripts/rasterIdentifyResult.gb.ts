@@ -14,7 +14,7 @@ export async function buildJsRasterIdentifyResultGenerated(dotNetObject: any, la
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsRasterIdentifyResult.location = buildJsPoint(dotNetObject.location) as any;
+        jsRasterIdentifyResult.location = buildJsPoint(dotNetObject.location, viewId) as any;
     }
 
     if (hasValue(dotNetObject.processedValue) && dotNetObject.processedValue.length > 0) {
@@ -45,7 +45,7 @@ export async function buildDotNetRasterIdentifyResultGenerated(jsObject: any, la
     
     if (hasValue(jsObject.location)) {
         let { buildDotNetPoint } = await import('./point');
-        dotNetRasterIdentifyResult.location = buildDotNetPoint(jsObject.location);
+        dotNetRasterIdentifyResult.location = buildDotNetPoint(jsObject.location, viewId);
     }
     
     if (hasValue(jsObject.processedValue)) {

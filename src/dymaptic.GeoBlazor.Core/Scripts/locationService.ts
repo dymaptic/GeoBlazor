@@ -43,7 +43,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
+        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r, this.viewId));
 
         let json = JSON.stringify(dotNetResult);
         let encoded = new TextEncoder().encode(json);
@@ -97,7 +97,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
+        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r, this.viewId));
 
         let json = JSON.stringify(dotNetResult);
         let encoded = new TextEncoder().encode(json);
@@ -127,7 +127,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        return buildDotNetAddressCandidate(result);
+        return buildDotNetAddressCandidate(result, this.viewId);
     }
 
     async suggestLocations(url: string, location: DotNetPoint, text: string, categories: string[] | null,

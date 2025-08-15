@@ -10,7 +10,7 @@ export async function buildJsWebSceneSaveAsOptionsGenerated(dotNetObject: any, l
     let jsWebSceneSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
-        jsWebSceneSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder) as any;
+        jsWebSceneSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, viewId) as any;
     }
 
     if (hasValue(dotNetObject.ignoreUnsupported)) {
@@ -33,7 +33,7 @@ export async function buildDotNetWebSceneSaveAsOptionsGenerated(jsObject: any, l
     
     if (hasValue(jsObject.folder)) {
         let { buildDotNetPortalFolder } = await import('./portalFolder');
-        dotNetWebSceneSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+        dotNetWebSceneSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder, viewId);
     }
     
     if (hasValue(jsObject.ignoreUnsupported)) {

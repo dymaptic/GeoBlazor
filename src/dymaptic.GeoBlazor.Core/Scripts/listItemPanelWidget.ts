@@ -63,7 +63,7 @@ export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: str
     return properties;
 }
 
-export async function buildDotNetListItemPanelWidget(jsObject: any): Promise<any> {
+export async function buildDotNetListItemPanelWidget(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetListItemPanelWidgetGenerated} = await import('./listItemPanelWidget.gb');
-    return await buildDotNetListItemPanelWidgetGenerated(jsObject);
+    return await buildDotNetListItemPanelWidgetGenerated(jsObject, viewId);
 }

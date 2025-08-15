@@ -2,7 +2,7 @@
 import FeatureType from '@arcgis/core/layers/support/FeatureType';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export async function buildDotNetFeatureType(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureType(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

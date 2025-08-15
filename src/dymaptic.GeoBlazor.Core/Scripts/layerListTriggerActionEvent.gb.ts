@@ -10,7 +10,7 @@ export async function buildJsLayerListTriggerActionEventGenerated(dotNetObject: 
     let jsLayerListTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');
-        jsLayerListTriggerActionEvent.action = buildJsActionBase(dotNetObject.action) as any;
+        jsLayerListTriggerActionEvent.action = buildJsActionBase(dotNetObject.action, viewId) as any;
     }
     if (hasValue(dotNetObject.item)) {
         let { buildJsListItem } = await import('./listItem');
@@ -34,12 +34,12 @@ export async function buildDotNetLayerListTriggerActionEventGenerated(jsObject: 
     
     if (hasValue(jsObject.action)) {
         let { buildDotNetActionBase } = await import('./actionBase');
-        dotNetLayerListTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
+        dotNetLayerListTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action, viewId);
     }
     
     if (hasValue(jsObject.item)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
+        dotNetLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item, viewId);
     }
     
 

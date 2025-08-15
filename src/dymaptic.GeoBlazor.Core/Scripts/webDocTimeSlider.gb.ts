@@ -11,15 +11,15 @@ export async function buildJsWebDocTimeSliderGenerated(dotNetObject: any, layerI
     let properties: any = {};
     if (hasValue(dotNetObject.currentTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.currentTimeExtent = await buildJsTimeExtent(dotNetObject.currentTimeExtent) as any;
+        properties.currentTimeExtent = await buildJsTimeExtent(dotNetObject.currentTimeExtent, viewId) as any;
     }
     if (hasValue(dotNetObject.fullTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent) as any;
+        properties.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent, viewId) as any;
     }
     if (hasValue(dotNetObject.stopInterval)) {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        properties.stopInterval = await buildJsTimeInterval(dotNetObject.stopInterval) as any;
+        properties.stopInterval = await buildJsTimeInterval(dotNetObject.stopInterval, viewId) as any;
     }
 
     if (hasValue(dotNetObject.loop)) {
@@ -46,7 +46,7 @@ export async function buildJsWebDocTimeSliderGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetWebDocTimeSliderGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWebDocTimeSliderGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -55,17 +55,17 @@ export async function buildDotNetWebDocTimeSliderGenerated(jsObject: any): Promi
     
     if (hasValue(jsObject.currentTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetWebDocTimeSlider.currentTimeExtent = buildDotNetTimeExtent(jsObject.currentTimeExtent);
+        dotNetWebDocTimeSlider.currentTimeExtent = buildDotNetTimeExtent(jsObject.currentTimeExtent, viewId);
     }
     
     if (hasValue(jsObject.fullTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetWebDocTimeSlider.fullTimeExtent = buildDotNetTimeExtent(jsObject.fullTimeExtent);
+        dotNetWebDocTimeSlider.fullTimeExtent = buildDotNetTimeExtent(jsObject.fullTimeExtent, viewId);
     }
     
     if (hasValue(jsObject.stopInterval)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetWebDocTimeSlider.stopInterval = await buildDotNetTimeInterval(jsObject.stopInterval);
+        dotNetWebDocTimeSlider.stopInterval = await buildDotNetTimeInterval(jsObject.stopInterval, viewId);
     }
     
     if (hasValue(jsObject.loop)) {

@@ -10,7 +10,7 @@ export async function buildJsRasterIdentifyOptionsGenerated(dotNetObject: any, l
     let jsRasterIdentifyOptions: any = {};
     if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        jsRasterIdentifyOptions.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i))) as any;
+        jsRasterIdentifyOptions.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.signal)) {
@@ -36,7 +36,7 @@ export async function buildDotNetRasterIdentifyOptionsGenerated(jsObject: any, l
     
     if (hasValue(jsObject.multidimensionalDefinition)) {
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-        dotNetRasterIdentifyOptions.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+        dotNetRasterIdentifyOptions.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i, viewId)));
     }
     
     if (hasValue(jsObject.signal)) {

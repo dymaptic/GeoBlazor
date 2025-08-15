@@ -4,7 +4,7 @@ export async function buildJsUpdateElevationPropsWithConstantElevationSource(dot
     return await buildJsUpdateElevationPropsWithConstantElevationSourceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetUpdateElevationPropsWithConstantElevationSource(jsObject: any): Promise<any> {
+export async function buildDotNetUpdateElevationPropsWithConstantElevationSource(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetUpdateElevationPropsWithConstantElevationSourceGenerated } = await import('./updateElevationPropsWithConstantElevationSource.gb');
-    return await buildDotNetUpdateElevationPropsWithConstantElevationSourceGenerated(jsObject);
+    return await buildDotNetUpdateElevationPropsWithConstantElevationSourceGenerated(jsObject, viewId);
 }

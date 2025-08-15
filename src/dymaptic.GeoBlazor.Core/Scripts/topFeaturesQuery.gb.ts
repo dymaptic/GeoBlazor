@@ -11,15 +11,15 @@ export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerI
     let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry, viewId) as any;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, viewId) as any;
     }
 
     if (hasValue(dotNetObject.cacheHint)) {
@@ -88,17 +88,17 @@ export async function buildDotNetTopFeaturesQueryGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetGeometry } = await import('./geometry');
-        dotNetTopFeaturesQuery.geometry = buildDotNetGeometry(jsObject.geometry);
+        dotNetTopFeaturesQuery.geometry = buildDotNetGeometry(jsObject.geometry, viewId);
     }
     
     if (hasValue(jsObject.outSpatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetTopFeaturesQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
+        dotNetTopFeaturesQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference, viewId);
     }
     
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetTopFeaturesQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+        dotNetTopFeaturesQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent, viewId);
     }
     
     if (hasValue(jsObject.cacheHint)) {

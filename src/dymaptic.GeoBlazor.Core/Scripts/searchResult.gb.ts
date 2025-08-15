@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchResult } from './searchResult';
 
-export async function buildJsSearchResultGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsSearchResultGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,15 +10,15 @@ export async function buildJsSearchResultGenerated(dotNetObject: any): Promise<a
     let jsSearchResult: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsSearchResult.extent = buildJsExtent(dotNetObject.extent) as any;
+        jsSearchResult.extent = buildJsExtent(dotNetObject.extent, viewId) as any;
     }
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsSearchResult.feature = buildJsGraphic(dotNetObject.feature) as any;
+        jsSearchResult.feature = buildJsGraphic(dotNetObject.feature, viewId) as any;
     }
     if (hasValue(dotNetObject.target)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsSearchResult.target = buildJsGraphic(dotNetObject.target) as any;
+        jsSearchResult.target = buildJsGraphic(dotNetObject.target, viewId) as any;
     }
 
     if (hasValue(dotNetObject.key)) {

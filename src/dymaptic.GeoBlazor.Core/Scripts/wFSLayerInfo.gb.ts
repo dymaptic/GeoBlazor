@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetWFSLayerInfo } from './wFSLayerInfo';
 
-export async function buildJsWFSLayerInfoGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,19 +10,19 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any): Promise<a
     let jsWFSLayerInfo: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsWFSLayerInfo.extent = buildJsExtent(dotNetObject.extent) as any;
+        jsWFSLayerInfo.extent = buildJsExtent(dotNetObject.extent, viewId) as any;
     }
     if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsField } = await import('./field');
-        jsWFSLayerInfo.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
+        jsWFSLayerInfo.fields = dotNetObject.fields.map(i => buildJsField(i, viewId)) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsWFSLayerInfo.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        jsWFSLayerInfo.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference, viewId) as any;
     }
     if (hasValue(dotNetObject.wfsCapabilities)) {
         let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
-        jsWFSLayerInfo.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities) as any;
+        jsWFSLayerInfo.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities, viewId) as any;
     }
 
     if (hasValue(dotNetObject.customParameters)) {
@@ -54,7 +54,7 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any): Promise<a
 }
 
 
-export async function buildDotNetWFSLayerInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWFSLayerInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -63,17 +63,17 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any): Promise<a
     
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetWFSLayerInfo.extent = buildDotNetExtent(jsObject.extent);
+        dotNetWFSLayerInfo.extent = buildDotNetExtent(jsObject.extent, viewId);
     }
     
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetWFSLayerInfo.fields = jsObject.fields.map(i => buildDotNetField(i));
+        dotNetWFSLayerInfo.fields = jsObject.fields.map(i => buildDotNetField(i, viewId));
     }
     
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetWFSLayerInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+        dotNetWFSLayerInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference, viewId);
     }
     
     if (hasValue(jsObject.customParameters)) {

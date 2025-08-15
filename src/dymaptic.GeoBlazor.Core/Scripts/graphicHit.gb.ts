@@ -10,7 +10,7 @@ export async function buildJsGraphicHitGenerated(dotNetObject: any, layerId: str
     let jsGraphicHit: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsGraphicHit.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+        jsGraphicHit.graphic = buildJsGraphic(dotNetObject.graphic, viewId) as any;
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
@@ -18,7 +18,7 @@ export async function buildJsGraphicHitGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.mapPoint)) {
         let { buildJsPoint } = await import('./point');
-        jsGraphicHit.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
+        jsGraphicHit.mapPoint = buildJsPoint(dotNetObject.mapPoint, viewId) as any;
     }
 
     if (hasValue(dotNetObject.distance)) {
@@ -46,7 +46,7 @@ export async function buildDotNetGraphicHitGenerated(jsObject: any, layerId: str
     
     if (hasValue(jsObject.mapPoint)) {
         let { buildDotNetPoint } = await import('./point');
-        dotNetGraphicHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+        dotNetGraphicHit.mapPoint = buildDotNetPoint(jsObject.mapPoint, viewId);
     }
     
     if (hasValue(jsObject.distance)) {

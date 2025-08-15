@@ -15,7 +15,7 @@ export async function buildJsLinkChartLayoutSwitcherViewModel(dotNetObject: any,
     return await buildJsLinkChartLayoutSwitcherViewModelGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLinkChartLayoutSwitcherViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetLinkChartLayoutSwitcherViewModel(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetLinkChartLayoutSwitcherViewModelGenerated } = await import('./linkChartLayoutSwitcherViewModel.gb');
-    return await buildDotNetLinkChartLayoutSwitcherViewModelGenerated(jsObject);
+    return await buildDotNetLinkChartLayoutSwitcherViewModelGenerated(jsObject, viewId);
 }

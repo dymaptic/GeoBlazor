@@ -1,10 +1,10 @@
 
-export async function buildJsLength(dotNetObject: any): Promise<any> {
+export async function buildJsLength(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsLengthGenerated } = await import('./length.gb');
-    return await buildJsLengthGenerated(dotNetObject);
+    return await buildJsLengthGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetLength(jsObject: any): Promise<any> {
+export async function buildDotNetLength(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetLengthGenerated } = await import('./length.gb');
-    return await buildDotNetLengthGenerated(jsObject);
+    return await buildDotNetLengthGenerated(jsObject, viewId);
 }

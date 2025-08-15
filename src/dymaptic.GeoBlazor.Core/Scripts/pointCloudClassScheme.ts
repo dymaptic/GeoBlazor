@@ -4,7 +4,7 @@ export async function buildJsPointCloudClassScheme(dotNetObject: any, layerId: s
     return await buildJsPointCloudClassSchemeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPointCloudClassScheme(jsObject: any): Promise<any> {
+export async function buildDotNetPointCloudClassScheme(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPointCloudClassSchemeGenerated } = await import('./pointCloudClassScheme.gb');
-    return await buildDotNetPointCloudClassSchemeGenerated(jsObject);
+    return await buildDotNetPointCloudClassSchemeGenerated(jsObject, viewId);
 }

@@ -4,7 +4,7 @@
 import Font from "@arcgis/core/symbols/Font";
 import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 
-export function buildJsMapFont(dotNetObject: any): any {
+export function buildJsMapFont(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
 
     if (hasValue(dotNetObject.decoration)) {
@@ -31,7 +31,7 @@ export function buildJsMapFont(dotNetObject: any): any {
     return jsFont;
 }
 
-export function buildDotNetMapFont(jsObject: any): any {
+export function buildDotNetMapFont(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

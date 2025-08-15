@@ -15,7 +15,7 @@ export async function buildJsMultipointDrawActionDrawCompleteEvent(dotNetObject:
     return await buildJsMultipointDrawActionDrawCompleteEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMultipointDrawActionDrawCompleteEvent(jsObject: any): Promise<any> {
+export async function buildDotNetMultipointDrawActionDrawCompleteEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetMultipointDrawActionDrawCompleteEventGenerated } = await import('./multipointDrawActionDrawCompleteEvent.gb');
-    return await buildDotNetMultipointDrawActionDrawCompleteEventGenerated(jsObject);
+    return await buildDotNetMultipointDrawActionDrawCompleteEventGenerated(jsObject, viewId);
 }

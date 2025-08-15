@@ -4,7 +4,7 @@ export async function buildJsIAttachmentElementInput(dotNetObject: any, layerId:
     return await buildJsIAttachmentElementInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIAttachmentElementInput(jsObject: any): Promise<any> {
+export async function buildDotNetIAttachmentElementInput(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIAttachmentElementInputGenerated } = await import('./iAttachmentElementInput.gb');
-    return await buildDotNetIAttachmentElementInputGenerated(jsObject);
+    return await buildDotNetIAttachmentElementInputGenerated(jsObject, viewId);
 }

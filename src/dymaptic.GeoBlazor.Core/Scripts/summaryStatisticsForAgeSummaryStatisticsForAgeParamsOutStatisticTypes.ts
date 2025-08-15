@@ -4,7 +4,7 @@ export async function buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParam
     return await buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParamsOutStatisticTypesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParamsOutStatisticTypes(jsObject: any): Promise<any> {
+export async function buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParamsOutStatisticTypes(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParamsOutStatisticTypesGenerated } = await import('./summaryStatisticsForAgeSummaryStatisticsForAgeParamsOutStatisticTypes.gb');
-    return await buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParamsOutStatisticTypesGenerated(jsObject);
+    return await buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParamsOutStatisticTypesGenerated(jsObject, viewId);
 }

@@ -5,7 +5,7 @@ import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 
-export function buildJsPictureMarkerSymbol(dotNetObject: any): any {
+export function buildJsPictureMarkerSymbol(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         properties.color = buildJsMapColor(dotNetObject.color) as any;
@@ -38,7 +38,7 @@ export function buildJsPictureMarkerSymbol(dotNetObject: any): any {
     return jsPictureMarkerSymbol;
 }
 
-export function buildDotNetPictureMarkerSymbol(jsObject: any): any {
+export function buildDotNetPictureMarkerSymbol(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

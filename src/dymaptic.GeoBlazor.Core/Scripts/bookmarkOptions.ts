@@ -3,7 +3,7 @@ export async function buildJsBookmarkOptions(dotNetObject: any, layerId: string 
     return await buildJsBookmarkOptionsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBookmarkOptions(jsObject: any): Promise<any> {
+export async function buildDotNetBookmarkOptions(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetBookmarkOptionsGenerated} = await import('./bookmarkOptions.gb');
-    return await buildDotNetBookmarkOptionsGenerated(jsObject);
+    return await buildDotNetBookmarkOptionsGenerated(jsObject, viewId);
 }

@@ -4,7 +4,7 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from './chartMediaInfoValue';
 
 
-export function buildJsBarChartMediaInfo(dotNetObject: any): any {
+export function buildJsBarChartMediaInfo(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
     
     if (hasValue(dotNetObject.value)) {
@@ -30,7 +30,7 @@ export function buildJsBarChartMediaInfo(dotNetObject: any): any {
     return jsBarChartMediaInfo;
 }
 
-export function buildDotNetBarChartMediaInfo(jsObject: any): any {
+export function buildDotNetBarChartMediaInfo(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

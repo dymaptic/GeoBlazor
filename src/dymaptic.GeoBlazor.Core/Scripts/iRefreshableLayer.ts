@@ -1,10 +1,10 @@
 
-export async function buildJsIRefreshableLayer(dotNetObject: any): Promise<any> {
+export async function buildJsIRefreshableLayer(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsIRefreshableLayerGenerated } = await import('./iRefreshableLayer.gb');
-    return await buildJsIRefreshableLayerGenerated(dotNetObject);
+    return await buildJsIRefreshableLayerGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetIRefreshableLayer(jsObject: any): Promise<any> {
+export async function buildDotNetIRefreshableLayer(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIRefreshableLayerGenerated } = await import('./iRefreshableLayer.gb');
-    return await buildDotNetIRefreshableLayerGenerated(jsObject);
+    return await buildDotNetIRefreshableLayerGenerated(jsObject, viewId);
 }

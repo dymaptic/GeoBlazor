@@ -4,7 +4,7 @@ export async function buildJsSQLSourceLocation(dotNetObject: any, layerId: strin
     return await buildJsSQLSourceLocationGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSQLSourceLocation(jsObject: any): Promise<any> {
+export async function buildDotNetSQLSourceLocation(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSQLSourceLocationGenerated } = await import('./sQLSourceLocation.gb');
-    return await buildDotNetSQLSourceLocationGenerated(jsObject);
+    return await buildDotNetSQLSourceLocationGenerated(jsObject, viewId);
 }

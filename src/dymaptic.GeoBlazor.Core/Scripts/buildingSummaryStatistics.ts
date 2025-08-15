@@ -1,13 +1,13 @@
 import BuildingSummaryStatisticsGenerated from './buildingSummaryStatistics.gb';
 
-export async function buildJsBuildingSummaryStatistics(dotNetObject: any): Promise<any> {
+export async function buildJsBuildingSummaryStatistics(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsBuildingSummaryStatisticsGenerated } = await import('./buildingSummaryStatistics.gb');
-    return await buildJsBuildingSummaryStatisticsGenerated(dotNetObject);
+    return await buildJsBuildingSummaryStatisticsGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetBuildingSummaryStatistics(jsObject: any): Promise<any> {
+export async function buildDotNetBuildingSummaryStatistics(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetBuildingSummaryStatisticsGenerated } = await import('./buildingSummaryStatistics.gb');
-    return await buildDotNetBuildingSummaryStatisticsGenerated(jsObject);
+    return await buildDotNetBuildingSummaryStatisticsGenerated(jsObject, viewId);
 }
 
 export default class BuildingSummaryStatisticsWrapper extends BuildingSummaryStatisticsGenerated {

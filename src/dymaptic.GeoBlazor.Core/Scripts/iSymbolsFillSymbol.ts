@@ -1,10 +1,10 @@
 
-export async function buildJsISymbolsFillSymbol(dotNetObject: any): Promise<any> {
+export async function buildJsISymbolsFillSymbol(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsISymbolsFillSymbolGenerated } = await import('./iSymbolsFillSymbol.gb');
-    return await buildJsISymbolsFillSymbolGenerated(dotNetObject);
+    return await buildJsISymbolsFillSymbolGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetISymbolsFillSymbol(jsObject: any): Promise<any> {
+export async function buildDotNetISymbolsFillSymbol(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetISymbolsFillSymbolGenerated } = await import('./iSymbolsFillSymbol.gb');
-    return await buildDotNetISymbolsFillSymbolGenerated(jsObject);
+    return await buildDotNetISymbolsFillSymbolGenerated(jsObject, viewId);
 }

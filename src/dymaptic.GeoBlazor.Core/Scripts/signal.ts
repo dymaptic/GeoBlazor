@@ -15,7 +15,7 @@ export async function buildJsSignal(dotNetObject: any, layerId: string | null, v
     return await buildJsSignalGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSignal(jsObject: any): Promise<any> {
+export async function buildDotNetSignal(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSignalGenerated } = await import('./signal.gb');
-    return await buildDotNetSignalGenerated(jsObject);
+    return await buildDotNetSignalGenerated(jsObject, viewId);
 }

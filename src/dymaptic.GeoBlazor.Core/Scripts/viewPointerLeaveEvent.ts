@@ -15,7 +15,7 @@ export async function buildJsViewPointerLeaveEvent(dotNetObject: any, layerId: s
     return await buildJsViewPointerLeaveEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewPointerLeaveEvent(jsObject: any): Promise<any> {
+export async function buildDotNetViewPointerLeaveEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetViewPointerLeaveEventGenerated } = await import('./viewPointerLeaveEvent.gb');
-    return await buildDotNetViewPointerLeaveEventGenerated(jsObject);
+    return await buildDotNetViewPointerLeaveEventGenerated(jsObject, viewId);
 }

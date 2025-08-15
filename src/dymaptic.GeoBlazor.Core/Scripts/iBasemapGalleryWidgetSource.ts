@@ -15,7 +15,7 @@ export async function buildJsIBasemapGalleryWidgetSource(dotNetObject: any, laye
     return await buildJsLocalBasemapsSource(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetIBasemapGalleryWidgetSource(jsObject: any): Promise<any> {
+export async function buildDotNetIBasemapGalleryWidgetSource(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

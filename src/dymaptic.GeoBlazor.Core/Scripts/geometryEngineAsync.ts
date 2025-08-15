@@ -15,7 +15,7 @@ export async function buildJsGeometryEngineAsync(dotNetObject: any, layerId: str
     return await buildJsGeometryEngineAsyncGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGeometryEngineAsync(jsObject: any): Promise<any> {
+export async function buildDotNetGeometryEngineAsync(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetGeometryEngineAsyncGenerated } = await import('./geometryEngineAsync.gb');
-    return await buildDotNetGeometryEngineAsyncGenerated(jsObject);
+    return await buildDotNetGeometryEngineAsyncGenerated(jsObject, viewId);
 }

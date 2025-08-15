@@ -15,7 +15,7 @@ export async function buildJsMultipointDrawActionVertexAddEvent(dotNetObject: an
     return await buildJsMultipointDrawActionVertexAddEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMultipointDrawActionVertexAddEvent(jsObject: any): Promise<any> {
+export async function buildDotNetMultipointDrawActionVertexAddEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetMultipointDrawActionVertexAddEventGenerated } = await import('./multipointDrawActionVertexAddEvent.gb');
-    return await buildDotNetMultipointDrawActionVertexAddEventGenerated(jsObject);
+    return await buildDotNetMultipointDrawActionVertexAddEventGenerated(jsObject, viewId);
 }

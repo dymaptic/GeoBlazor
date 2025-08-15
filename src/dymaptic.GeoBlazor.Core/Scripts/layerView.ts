@@ -125,7 +125,7 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
     }
 }
 
-export async function buildDotNetLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetLayerView(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject?.layer)) {
         return null;
     }

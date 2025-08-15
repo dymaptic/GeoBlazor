@@ -4,7 +4,7 @@ export async function buildJsNavigationActionMap(dotNetObject: any, layerId: str
     return await buildJsNavigationActionMapGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetNavigationActionMap(jsObject: any): Promise<any> {
+export async function buildDotNetNavigationActionMap(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetNavigationActionMapGenerated } = await import('./navigationActionMap.gb');
-    return await buildDotNetNavigationActionMapGenerated(jsObject);
+    return await buildDotNetNavigationActionMapGenerated(jsObject, viewId);
 }

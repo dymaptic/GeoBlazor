@@ -1,10 +1,10 @@
 
-export async function buildJsFilterFunctionFilterName(dotNetObject: any): Promise<any> {
+export async function buildJsFilterFunctionFilterName(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsFilterFunctionFilterNameGenerated } = await import('./filterFunctionFilterName.gb');
-    return await buildJsFilterFunctionFilterNameGenerated(dotNetObject);
+    return await buildJsFilterFunctionFilterNameGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetFilterFunctionFilterName(jsObject: any): Promise<any> {
+export async function buildDotNetFilterFunctionFilterName(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetFilterFunctionFilterNameGenerated } = await import('./filterFunctionFilterName.gb');
-    return await buildDotNetFilterFunctionFilterNameGenerated(jsObject);
+    return await buildDotNetFilterFunctionFilterNameGenerated(jsObject, viewId);
 }

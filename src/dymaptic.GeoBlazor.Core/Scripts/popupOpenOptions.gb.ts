@@ -10,11 +10,11 @@ export async function buildJsPopupOpenOptionsGenerated(dotNetObject: any, layerI
     let jsPopupOpenOptions: any = {};
     if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsPopupOpenOptions.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
+        jsPopupOpenOptions.features = dotNetObject.features.map(i => buildJsGraphic(i, viewId)) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsPopupOpenOptions.location = buildJsPoint(dotNetObject.location) as any;
+        jsPopupOpenOptions.location = buildJsPoint(dotNetObject.location, viewId) as any;
     }
 
     if (hasValue(dotNetObject.collapsed)) {
@@ -63,7 +63,7 @@ export async function buildDotNetPopupOpenOptionsGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.location)) {
         let { buildDotNetPoint } = await import('./point');
-        dotNetPopupOpenOptions.location = buildDotNetPoint(jsObject.location);
+        dotNetPopupOpenOptions.location = buildDotNetPoint(jsObject.location, viewId);
     }
     
     if (hasValue(jsObject.collapsed)) {

@@ -15,7 +15,7 @@ export async function buildJsViewPointerDownEvent(dotNetObject: any, layerId: st
     return await buildJsViewPointerDownEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewPointerDownEvent(jsObject: any): Promise<any> {
+export async function buildDotNetViewPointerDownEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetViewPointerDownEventGenerated } = await import('./viewPointerDownEvent.gb');
-    return await buildDotNetViewPointerDownEventGenerated(jsObject);
+    return await buildDotNetViewPointerDownEventGenerated(jsObject, viewId);
 }

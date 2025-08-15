@@ -3,7 +3,7 @@ export async function buildJsIArcGISMapService(dotNetObject: any): Promise<any> 
     return buildJsIArcGISMapServiceGenerated(dotNetObject);
 }
 
-export async function buildDotNetIArcGISMapService(jsObject: any): Promise<any> {
+export async function buildDotNetIArcGISMapService(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetIArcGISMapServiceGenerated} = await import('./iArcGISMapService.gb');
-    return await buildDotNetIArcGISMapServiceGenerated(jsObject);
+    return await buildDotNetIArcGISMapServiceGenerated(jsObject, viewId);
 }

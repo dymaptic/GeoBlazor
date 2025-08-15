@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPopupTriggerActionEvent } from './popupTriggerActionEvent';
 
-export async function buildJsPopupTriggerActionEventGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsPopupTriggerActionEventGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsPopupTriggerActionEventGenerated(dotNetObject: any)
     let jsPopupTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');
-        jsPopupTriggerActionEvent.action = buildJsActionBase(dotNetObject.action) as any;
+        jsPopupTriggerActionEvent.action = buildJsActionBase(dotNetObject.action, viewId) as any;
     }
 
     
@@ -21,7 +21,7 @@ export async function buildJsPopupTriggerActionEventGenerated(dotNetObject: any)
 }
 
 
-export async function buildDotNetPopupTriggerActionEventGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPopupTriggerActionEventGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -30,7 +30,7 @@ export async function buildDotNetPopupTriggerActionEventGenerated(jsObject: any)
     
     if (hasValue(jsObject.action)) {
         let { buildDotNetActionBase } = await import('./actionBase');
-        dotNetPopupTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
+        dotNetPopupTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action, viewId);
     }
     
 

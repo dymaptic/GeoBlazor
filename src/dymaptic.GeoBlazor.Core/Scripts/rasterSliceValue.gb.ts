@@ -10,7 +10,7 @@ export async function buildJsRasterSliceValueGenerated(dotNetObject: any, layerI
     let jsRasterSliceValue: any = {};
     if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        jsRasterSliceValue.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i))) as any;
+        jsRasterSliceValue.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.magdirValue) && dotNetObject.magdirValue.length > 0) {
@@ -36,7 +36,7 @@ export async function buildDotNetRasterSliceValueGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.multidimensionalDefinition)) {
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-        dotNetRasterSliceValue.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+        dotNetRasterSliceValue.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i, viewId)));
     }
     
     if (hasValue(jsObject.magdirValue)) {

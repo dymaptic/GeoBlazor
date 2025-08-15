@@ -4,7 +4,7 @@ export async function buildJsShadedReliefWithColorRampParameters(dotNetObject: a
     return await buildJsShadedReliefWithColorRampParametersGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetShadedReliefWithColorRampParameters(jsObject: any): Promise<any> {
+export async function buildDotNetShadedReliefWithColorRampParameters(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetShadedReliefWithColorRampParametersGenerated } = await import('./shadedReliefWithColorRampParameters.gb');
-    return await buildDotNetShadedReliefWithColorRampParametersGenerated(jsObject);
+    return await buildDotNetShadedReliefWithColorRampParametersGenerated(jsObject, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsPointCloudFilter(dotNetObject: any, layerId: string
     return await buildJsPointCloudFilterGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPointCloudFilter(jsObject: any): Promise<any> {
+export async function buildDotNetPointCloudFilter(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPointCloudFilterGenerated } = await import('./pointCloudFilter.gb');
-    return await buildDotNetPointCloudFilterGenerated(jsObject);
+    return await buildDotNetPointCloudFilterGenerated(jsObject, viewId);
 }

@@ -1,10 +1,10 @@
 
-export async function buildJsSliderVisibleElements(dotNetObject: any): Promise<any> {
+export async function buildJsSliderVisibleElements(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsSliderVisibleElementsGenerated } = await import('./sliderVisibleElements.gb');
-    return await buildJsSliderVisibleElementsGenerated(dotNetObject);
+    return await buildJsSliderVisibleElementsGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetSliderVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetSliderVisibleElements(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSliderVisibleElementsGenerated } = await import('./sliderVisibleElements.gb');
-    return await buildDotNetSliderVisibleElementsGenerated(jsObject);
+    return await buildDotNetSliderVisibleElementsGenerated(jsObject, viewId);
 }

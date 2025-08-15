@@ -4,7 +4,7 @@ export async function buildJsOnlineResources(dotNetObject: any, layerId: string 
     return await buildJsOnlineResourcesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetOnlineResources(jsObject: any): Promise<any> {
+export async function buildDotNetOnlineResources(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetOnlineResourcesGenerated } = await import('./onlineResources.gb');
-    return await buildDotNetOnlineResourcesGenerated(jsObject);
+    return await buildDotNetOnlineResourcesGenerated(jsObject, viewId);
 }

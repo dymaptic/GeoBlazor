@@ -4,7 +4,7 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParamsOutStatisti
     return await buildJsSummaryStatisticsSummaryStatisticsParamsOutStatisticTypesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSummaryStatisticsSummaryStatisticsParamsOutStatisticTypes(jsObject: any): Promise<any> {
+export async function buildDotNetSummaryStatisticsSummaryStatisticsParamsOutStatisticTypes(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSummaryStatisticsSummaryStatisticsParamsOutStatisticTypesGenerated } = await import('./summaryStatisticsSummaryStatisticsParamsOutStatisticTypes.gb');
-    return await buildDotNetSummaryStatisticsSummaryStatisticsParamsOutStatisticTypesGenerated(jsObject);
+    return await buildDotNetSummaryStatisticsSummaryStatisticsParamsOutStatisticTypesGenerated(jsObject, viewId);
 }

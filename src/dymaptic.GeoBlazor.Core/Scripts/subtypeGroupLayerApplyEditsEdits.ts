@@ -4,7 +4,7 @@ export async function buildJsSubtypeGroupLayerApplyEditsEdits(dotNetObject: any,
     return await buildJsSubtypeGroupLayerApplyEditsEditsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSubtypeGroupLayerApplyEditsEdits(jsObject: any): Promise<any> {
+export async function buildDotNetSubtypeGroupLayerApplyEditsEdits(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSubtypeGroupLayerApplyEditsEditsGenerated } = await import('./subtypeGroupLayerApplyEditsEdits.gb');
-    return await buildDotNetSubtypeGroupLayerApplyEditsEditsGenerated(jsObject);
+    return await buildDotNetSubtypeGroupLayerApplyEditsEditsGenerated(jsObject, viewId);
 }

@@ -10,7 +10,7 @@ export async function buildJsBasemapLayerListTriggerActionEventGenerated(dotNetO
     let jsBasemapLayerListTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');
-        jsBasemapLayerListTriggerActionEvent.action = buildJsActionBase(dotNetObject.action) as any;
+        jsBasemapLayerListTriggerActionEvent.action = buildJsActionBase(dotNetObject.action, viewId) as any;
     }
     if (hasValue(dotNetObject.item)) {
         let { buildJsListItem } = await import('./listItem');
@@ -34,12 +34,12 @@ export async function buildDotNetBasemapLayerListTriggerActionEventGenerated(jsO
     
     if (hasValue(jsObject.action)) {
         let { buildDotNetActionBase } = await import('./actionBase');
-        dotNetBasemapLayerListTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
+        dotNetBasemapLayerListTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action, viewId);
     }
     
     if (hasValue(jsObject.item)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
+        dotNetBasemapLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item, viewId);
     }
     
 

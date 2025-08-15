@@ -3,7 +3,7 @@ import Subtype from '@arcgis/core/layers/support/Subtype';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, generateSerializableJson } from './arcGisJsInterop';
 import { buildDotNetSubtype } from './subtype';
 
-export async function buildJsSubtypeGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsSubtypeGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -11,7 +11,7 @@ export async function buildJsSubtypeGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.domains)) {
         let { buildJsDomain } = await import('./domain');
-        properties.domains = buildJsDomain(dotNetObject.domains) as any;
+        properties.domains = buildJsDomain(dotNetObject.domains, viewId) as any;
     }
 
     if (hasValue(dotNetObject.code)) {
@@ -32,7 +32,7 @@ export async function buildJsSubtypeGenerated(dotNetObject: any): Promise<any> {
 }
 
 
-export async function buildDotNetSubtypeGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSubtypeGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -41,7 +41,7 @@ export async function buildDotNetSubtypeGenerated(jsObject: any): Promise<any> {
     
     if (hasValue(jsObject.domains)) {
         let { buildDotNetDomain } = await import('./domain');
-        dotNetSubtype.domains = buildDotNetDomain(jsObject.domains);
+        dotNetSubtype.domains = buildDotNetDomain(jsObject.domains, viewId);
     }
     
     if (hasValue(jsObject.code)) {

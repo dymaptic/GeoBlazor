@@ -15,7 +15,7 @@ export async function buildJsILinkChartLayer(dotNetObject: any, layerId: string 
     return await buildJsILinkChartLayerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetILinkChartLayer(jsObject: any): Promise<any> {
+export async function buildDotNetILinkChartLayer(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetILinkChartLayerGenerated } = await import('./iLinkChartLayer.gb');
-    return await buildDotNetILinkChartLayerGenerated(jsObject);
+    return await buildDotNetILinkChartLayerGenerated(jsObject, viewId);
 }

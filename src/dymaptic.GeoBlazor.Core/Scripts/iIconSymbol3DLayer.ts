@@ -10,7 +10,7 @@ export async function buildJsIIconSymbol3DLayer(dotNetObject: any, layerId: stri
     }
 }
 
-export async function buildDotNetIIconSymbol3DLayer(jsObject: any): Promise<any> {
+export async function buildDotNetIIconSymbol3DLayer(jsObject: any, viewId: string | null): Promise<any> {
     try {
         // @ts-ignore requires GeoBlazor Pro
         let {buildDotNetIconSymbol3DLayer} = await import('./iconSymbol3DLayer');

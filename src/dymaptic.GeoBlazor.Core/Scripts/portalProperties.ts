@@ -4,7 +4,7 @@ export async function buildJsPortalProperties(dotNetObject: any, layerId: string
     return await buildJsPortalPropertiesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPortalProperties(jsObject: any): Promise<any> {
+export async function buildDotNetPortalProperties(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPortalPropertiesGenerated } = await import('./portalProperties.gb');
-    return await buildDotNetPortalPropertiesGenerated(jsObject);
+    return await buildDotNetPortalPropertiesGenerated(jsObject, viewId);
 }

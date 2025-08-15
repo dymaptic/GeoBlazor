@@ -15,7 +15,7 @@ export async function buildJsViewKeyDownEvent(dotNetObject: any, layerId: string
     return await buildJsViewKeyDownEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewKeyDownEvent(jsObject: any): Promise<any> {
+export async function buildDotNetViewKeyDownEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetViewKeyDownEventGenerated } = await import('./viewKeyDownEvent.gb');
-    return await buildDotNetViewKeyDownEventGenerated(jsObject);
+    return await buildDotNetViewKeyDownEventGenerated(jsObject, viewId);
 }

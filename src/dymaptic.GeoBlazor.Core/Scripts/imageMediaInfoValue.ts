@@ -3,7 +3,7 @@
 import ImageMediaInfoValue from "@arcgis/core/popup/content/support/ImageMediaInfoValue";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export function buildJsImageMediaInfoValue(dotNetObject: any): any {
+export function buildJsImageMediaInfoValue(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetObject.linkURL)) {
         properties.linkURL = dotNetObject.linkURL;
@@ -21,7 +21,7 @@ export function buildJsImageMediaInfoValue(dotNetObject: any): any {
     return jsImageMediaInfoValue;
 }
 
-export function buildDotNetImageMediaInfoValue(jsObject: any): any {
+export function buildDotNetImageMediaInfoValue(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

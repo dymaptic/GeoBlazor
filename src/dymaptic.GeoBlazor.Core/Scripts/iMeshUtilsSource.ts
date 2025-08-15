@@ -1,10 +1,10 @@
 
-export async function buildJsIMeshUtilsSource(dotNetObject: any): Promise<any> {
+export async function buildJsIMeshUtilsSource(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsIMeshUtilsSourceGenerated } = await import('./iMeshUtilsSource.gb');
-    return await buildJsIMeshUtilsSourceGenerated(dotNetObject);
+    return await buildJsIMeshUtilsSourceGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetIMeshUtilsSource(jsObject: any): Promise<any> {
+export async function buildDotNetIMeshUtilsSource(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIMeshUtilsSourceGenerated } = await import('./iMeshUtilsSource.gb');
-    return await buildDotNetIMeshUtilsSourceGenerated(jsObject);
+    return await buildDotNetIMeshUtilsSourceGenerated(jsObject, viewId);
 }

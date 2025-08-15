@@ -3,7 +3,7 @@ export async function buildJsGeoRSSLayerLayerviewDestroyEvent(dotNetObject: any,
     return await buildJsGeoRSSLayerLayerviewDestroyEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGeoRSSLayerLayerviewDestroyEvent(jsObject: any): Promise<any> {
+export async function buildDotNetGeoRSSLayerLayerviewDestroyEvent(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetGeoRSSLayerLayerviewDestroyEventGenerated} = await import('./geoRSSLayerLayerviewDestroyEvent.gb');
-    return await buildDotNetGeoRSSLayerLayerviewDestroyEventGenerated(jsObject);
+    return await buildDotNetGeoRSSLayerLayerviewDestroyEventGenerated(jsObject, viewId);
 }

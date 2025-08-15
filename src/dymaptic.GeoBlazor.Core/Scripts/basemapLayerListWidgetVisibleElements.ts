@@ -4,7 +4,7 @@ export async function buildJsBasemapLayerListWidgetVisibleElements(dotNetObject:
     return await buildJsBasemapLayerListWidgetVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetBasemapLayerListWidgetVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapLayerListWidgetVisibleElements(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetBasemapLayerListWidgetVisibleElementsGenerated } = await import('./basemapLayerListWidgetVisibleElements.gb');
-    return await buildDotNetBasemapLayerListWidgetVisibleElementsGenerated(jsObject);
+    return await buildDotNetBasemapLayerListWidgetVisibleElementsGenerated(jsObject, viewId);
 }

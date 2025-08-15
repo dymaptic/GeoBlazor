@@ -4,7 +4,7 @@ import ColumnChartMediaInfo from "@arcgis/core/popup/content/ColumnChartMediaInf
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from "./chartMediaInfoValue";
 
-export function buildJsColumnChartMediaInfo(dotNetObject: any): any {
+export function buildJsColumnChartMediaInfo(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetObject.value)) {
         properties.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
@@ -29,7 +29,7 @@ export function buildJsColumnChartMediaInfo(dotNetObject: any): any {
     return jsColumnChartMediaInfo;
 }
 
-export function buildDotNetColumnChartMediaInfo(jsObject: any): any {
+export function buildDotNetColumnChartMediaInfo(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

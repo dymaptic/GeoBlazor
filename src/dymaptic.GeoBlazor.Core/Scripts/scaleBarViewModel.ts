@@ -5,9 +5,9 @@ export async function buildJsScaleBarViewModel(dotNetObject: any, layerId: strin
     return await buildJsScaleBarViewModelGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetScaleBarViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetScaleBarViewModel(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetScaleBarViewModelGenerated } = await import('./scaleBarViewModel.gb');
-    return await buildDotNetScaleBarViewModelGenerated(jsObject);
+    return await buildDotNetScaleBarViewModelGenerated(jsObject, viewId);
 }
 
 

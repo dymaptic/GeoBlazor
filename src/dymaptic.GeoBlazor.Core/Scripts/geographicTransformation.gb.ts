@@ -31,7 +31,7 @@ export default class GeographicTransformationGenerated implements IPropertyWrapp
     async getInverse(): Promise<any> {
         let result = this.component.getInverse();
         let { buildDotNetGeographicTransformation } = await import('./geographicTransformation');
-        return buildDotNetGeographicTransformation(result);
+        return buildDotNetGeographicTransformation(result, this.viewId);
     }
 
     // region properties
@@ -47,7 +47,7 @@ export default class GeographicTransformationGenerated implements IPropertyWrapp
     
     async setSteps(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.component.steps = [];
+            this.component.steps.removeAll();
         }
         let { buildJsGeographicTransformationStep } = await import('./geographicTransformationStep');
         this.component.steps = await Promise.all(value.map(async i => await buildJsGeographicTransformationStep(i, this.layerId, this.viewId))) as any;

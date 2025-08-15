@@ -10,7 +10,7 @@ export async function buildJsBookmarksBookmarkEditEventGenerated(dotNetObject: a
     let jsBookmarksBookmarkEditEvent: any = {};
     if (hasValue(dotNetObject.bookmark)) {
         let { buildJsBookmark } = await import('./bookmark');
-        jsBookmarksBookmarkEditEvent.bookmark = await buildJsBookmark(dotNetObject.bookmark) as any;
+        jsBookmarksBookmarkEditEvent.bookmark = await buildJsBookmark(dotNetObject.bookmark, viewId) as any;
     }
 
     
@@ -30,7 +30,7 @@ export async function buildDotNetBookmarksBookmarkEditEventGenerated(jsObject: a
     
     if (hasValue(jsObject.bookmark)) {
         let { buildDotNetBookmark } = await import('./bookmark');
-        dotNetBookmarksBookmarkEditEvent.bookmark = await buildDotNetBookmark(jsObject.bookmark);
+        dotNetBookmarksBookmarkEditEvent.bookmark = await buildDotNetBookmark(jsObject.bookmark, viewId);
     }
     
 

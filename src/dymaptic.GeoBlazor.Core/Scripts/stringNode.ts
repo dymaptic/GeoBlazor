@@ -4,7 +4,7 @@ export async function buildJsStringNode(dotNetObject: any, layerId: string | nul
     return await buildJsStringNodeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetStringNode(jsObject: any): Promise<any> {
+export async function buildDotNetStringNode(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetStringNodeGenerated } = await import('./stringNode.gb');
-    return await buildDotNetStringNodeGenerated(jsObject);
+    return await buildDotNetStringNodeGenerated(jsObject, viewId);
 }

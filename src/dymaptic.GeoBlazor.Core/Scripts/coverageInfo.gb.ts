@@ -13,7 +13,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.lonLatEnvelope)) {
         let { buildJsExtent } = await import('./extent');
-        jsCoverageInfo.lonLatEnvelope = buildJsExtent(dotNetObject.lonLatEnvelope) as any;
+        jsCoverageInfo.lonLatEnvelope = buildJsExtent(dotNetObject.lonLatEnvelope, viewId) as any;
     }
     if (hasValue(dotNetObject.rasterInfo)) {
         let { buildJsRasterInfo } = await import('./rasterInfo');
@@ -52,7 +52,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCoverageInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -61,12 +61,12 @@ export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<a
     
     if (hasValue(jsObject.lonLatEnvelope)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetCoverageInfo.lonLatEnvelope = buildDotNetExtent(jsObject.lonLatEnvelope);
+        dotNetCoverageInfo.lonLatEnvelope = buildDotNetExtent(jsObject.lonLatEnvelope, viewId);
     }
     
     if (hasValue(jsObject.rasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        dotNetCoverageInfo.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
+        dotNetCoverageInfo.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo, viewId);
     }
     
     if (hasValue(jsObject.bandNames)) {

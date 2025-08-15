@@ -15,7 +15,7 @@ export async function buildJsPolygonDrawActionRedoEvent(dotNetObject: any, layer
     return await buildJsPolygonDrawActionRedoEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPolygonDrawActionRedoEvent(jsObject: any): Promise<any> {
+export async function buildDotNetPolygonDrawActionRedoEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPolygonDrawActionRedoEventGenerated } = await import('./polygonDrawActionRedoEvent.gb');
-    return await buildDotNetPolygonDrawActionRedoEventGenerated(jsObject);
+    return await buildDotNetPolygonDrawActionRedoEventGenerated(jsObject, viewId);
 }

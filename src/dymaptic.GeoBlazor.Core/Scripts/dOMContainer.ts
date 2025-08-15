@@ -7,9 +7,9 @@ export async function buildJsDOMContainer(dotNetObject: any, layerId: string | n
     return await buildJsDOMContainerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDOMContainer(jsObject: any): Promise<any> {
+export async function buildDotNetDOMContainer(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetDOMContainerGenerated } = await import('./dOMContainer.gb');
-    return await buildDotNetDOMContainerGenerated(jsObject);
+    return await buildDotNetDOMContainerGenerated(jsObject, viewId);
 }
 
 export default class DOMContainerWrapper extends DOMContainerGenerated {

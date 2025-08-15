@@ -4,7 +4,7 @@ export async function buildJsRasterPresetRenderer(dotNetObject: any, layerId: st
     return await buildJsRasterPresetRendererGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterPresetRenderer(jsObject: any): Promise<any> {
+export async function buildDotNetRasterPresetRenderer(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetRasterPresetRendererGenerated } = await import('./rasterPresetRenderer.gb');
-    return await buildDotNetRasterPresetRendererGenerated(jsObject);
+    return await buildDotNetRasterPresetRendererGenerated(jsObject, viewId);
 }

@@ -10,7 +10,7 @@ export async function buildJsCoverageDescriptionV201EoMetadataObservationGenerat
     let jsCoverageDescriptionV201EoMetadataObservation: any = {};
     if (hasValue(dotNetObject.footprint)) {
         let { buildJsPolygon } = await import('./polygon');
-        jsCoverageDescriptionV201EoMetadataObservation.footprint = buildJsPolygon(dotNetObject.footprint) as any;
+        jsCoverageDescriptionV201EoMetadataObservation.footprint = buildJsPolygon(dotNetObject.footprint, viewId) as any;
     }
 
     if (hasValue(dotNetObject.acquisitionType)) {
@@ -45,7 +45,7 @@ export async function buildDotNetCoverageDescriptionV201EoMetadataObservationGen
     
     if (hasValue(jsObject.footprint)) {
         let { buildDotNetPolygon } = await import('./polygon');
-        dotNetCoverageDescriptionV201EoMetadataObservation.footprint = buildDotNetPolygon(jsObject.footprint);
+        dotNetCoverageDescriptionV201EoMetadataObservation.footprint = buildDotNetPolygon(jsObject.footprint, viewId);
     }
     
     if (hasValue(jsObject.acquisitionType)) {

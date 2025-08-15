@@ -3,7 +3,7 @@ import {buildDotNetAlgorithmicColorRamp, buildJsAlgorithmicColorRamp} from './al
 import {buildDotNetMultipartColorRamp, buildJsMultipartColorRamp} from './multipartColorRamp';
 
 
-export function buildJsColorRamp(dotNetObject: any): any {
+export function buildJsColorRamp(dotNetObject: any, viewId: string | null): any {
     switch (dotNetObject?.type) {
         case 'multipart':
             return buildJsMultipartColorRamp(dotNetObject);
@@ -14,7 +14,7 @@ export function buildJsColorRamp(dotNetObject: any): any {
     }
 }
 
-export function buildDotNetColorRamp(jsObject: any): any {
+export function buildDotNetColorRamp(jsObject: any, viewId: string | null): any {
     switch (jsObject?.type) {
         case 'multipart':
             return buildDotNetMultipartColorRamp(jsObject);

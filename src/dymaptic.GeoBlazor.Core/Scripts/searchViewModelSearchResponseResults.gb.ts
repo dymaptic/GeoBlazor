@@ -37,7 +37,7 @@ export async function buildDotNetSearchViewModelSearchResponseResultsGenerated(j
     
     if (hasValue(jsObject.results)) {
         let { buildDotNetSearchResult } = await import('./searchResult');
-        dotNetSearchViewModelSearchResponseResults.results = jsObject.results.map(i => buildDotNetSearchResult(i));
+        dotNetSearchViewModelSearchResponseResults.results = jsObject.results.map(i => buildDotNetSearchResult(i, layerId, viewId));
     }
     
     if (hasValue(jsObject.source)) {

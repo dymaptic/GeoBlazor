@@ -10,7 +10,7 @@ export async function buildJsNearestPointResultGenerated(dotNetObject: any, laye
     let jsNearestPointResult: any = {};
     if (hasValue(dotNetObject.coordinate)) {
         let { buildJsPoint } = await import('./point');
-        jsNearestPointResult.coordinate = buildJsPoint(dotNetObject.coordinate) as any;
+        jsNearestPointResult.coordinate = buildJsPoint(dotNetObject.coordinate, viewId) as any;
     }
 
     if (hasValue(dotNetObject.distance)) {

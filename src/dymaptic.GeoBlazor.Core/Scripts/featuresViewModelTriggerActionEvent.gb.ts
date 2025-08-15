@@ -10,7 +10,7 @@ export async function buildJsFeaturesViewModelTriggerActionEventGenerated(dotNet
     let jsFeaturesViewModelTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');
-        jsFeaturesViewModelTriggerActionEvent.action = buildJsActionBase(dotNetObject.action) as any;
+        jsFeaturesViewModelTriggerActionEvent.action = buildJsActionBase(dotNetObject.action, viewId) as any;
     }
 
     
@@ -30,7 +30,7 @@ export async function buildDotNetFeaturesViewModelTriggerActionEventGenerated(js
     
     if (hasValue(jsObject.action)) {
         let { buildDotNetActionBase } = await import('./actionBase');
-        dotNetFeaturesViewModelTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
+        dotNetFeaturesViewModelTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action, viewId);
     }
     
 

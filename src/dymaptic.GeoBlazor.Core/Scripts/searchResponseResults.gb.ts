@@ -27,7 +27,7 @@ export async function buildJsSearchResponseResultsGenerated(dotNetObject: any, v
 }
 
 
-export async function buildDotNetSearchResponseResultsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSearchResponseResultsGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -36,7 +36,7 @@ export async function buildDotNetSearchResponseResultsGenerated(jsObject: any): 
     
     if (hasValue(jsObject.source)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchResponseResults.source = await buildDotNetSearchSource(jsObject.source);
+        dotNetSearchResponseResults.source = await buildDotNetSearchSource(jsObject.source, viewId);
     }
     
     if (hasValue(jsObject.results)) {

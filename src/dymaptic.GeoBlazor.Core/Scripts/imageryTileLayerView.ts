@@ -15,7 +15,7 @@ export async function buildJsImageryTileLayerView(dotNetObject: any, layerId: st
     return await buildJsImageryTileLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetImageryTileLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetImageryTileLayerView(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetImageryTileLayerViewGenerated } = await import('./imageryTileLayerView.gb');
-    return await buildDotNetImageryTileLayerViewGenerated(jsObject);
+    return await buildDotNetImageryTileLayerViewGenerated(jsObject, viewId);
 }

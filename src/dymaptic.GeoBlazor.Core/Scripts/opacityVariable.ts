@@ -1,10 +1,10 @@
 
-export async function buildJsOpacityVariable(dotNetObject: any): Promise<any> {
+export async function buildJsOpacityVariable(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsOpacityVariableGenerated } = await import('./opacityVariable.gb');
-    return await buildJsOpacityVariableGenerated(dotNetObject);
+    return await buildJsOpacityVariableGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetOpacityVariable(jsObject: any): Promise<any> {
+export async function buildDotNetOpacityVariable(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetOpacityVariableGenerated } = await import('./opacityVariable.gb');
-    return await buildDotNetOpacityVariableGenerated(jsObject);
+    return await buildDotNetOpacityVariableGenerated(jsObject, viewId);
 }

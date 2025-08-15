@@ -5,14 +5,14 @@ import {buildDotNetSpatialReference} from "./spatialReference";
 import {buildJsExtent} from "./extent";
 import {buildJsGraphic} from "./graphic";
 
-export async function buildDotNetSearchSource(jsSource: any): Promise<any> {
+export async function buildDotNetSearchSource(jsSource: any, viewId: string | null): Promise<any> {
     if (jsSource instanceof LocatorSearchSource) {
         let {buildDotNetLocatorSearchSource} = await import('./locatorSearchSource');
-        return await buildDotNetLocatorSearchSource(jsSource);
+        return await buildDotNetLocatorSearchSource(jsSource, viewId);
     }
 
     let {buildDotNetLayerSearchSource} = await import('./layerSearchSource');
-    return await buildDotNetLayerSearchSource(jsSource);
+    return await buildDotNetLayerSearchSource(jsSource, viewId);
 }
 
 export async function buildJsSearchSource(dotNetSource: any, viewId: string | null): Promise<any> {
@@ -32,8 +32,8 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
             let viewId: string | null = lookupGeoBlazorId(params.view);
 
             let dnResults = await dotNetSource.dotNetComponentReference
-                .invokeMethodAsync('OnJsGetResults', params.exactMatch, buildDotNetPoint(params.location),
-                    params.maxResults, params.sourceIndex, buildDotNetSpatialReference(params.spatialReference),
+                .invokeMethodAsync('OnJsGetResults', params.exactMatch, buildDotNetPoint(params.location, viewId),
+                    params.maxResults, params.sourceIndex, buildDotNetSpatialReference(params.spatialReference, viewId),
                     params.suggestResult, viewId);
 
             let results: any[] = [];
@@ -44,7 +44,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
                     name: dnResult.name ?? undefined,
                 };
                 if (hasValue(dnResult.feature)) {
-                    result.feature = buildJsGraphic(dnResult.feature);
+                    result.feature = buildJsGraphic(dnResult.feature, viewId);
                 }
                 results.push(result);
             }
@@ -67,13 +67,13 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
             let dnParams = {
                 maxSuggestions: params.maxSuggestions,
                 sourceIndex: params.sourceIndex,
-                spatialReference: buildDotNetSpatialReference(params.spatialReference),
+                spatialReference: buildDotNetSpatialReference(params.spatialReference, viewId),
                 suggestTerm: params.suggestTerm,
                 viewId: viewId
             }
             let dnResults = await dotNetSource.dotNetComponentReference
                 .invokeMethodAsync('OnJsGetSuggestions', params.maxSuggestions, params.sourceIndex,
-                    buildDotNetSpatialReference(params.spatialReference), params.suggestTerm, viewId);
+                    buildDotNetSpatialReference(params.spatialReference, viewId), params.suggestTerm, viewId);
 
             let results: any[] = [];
 

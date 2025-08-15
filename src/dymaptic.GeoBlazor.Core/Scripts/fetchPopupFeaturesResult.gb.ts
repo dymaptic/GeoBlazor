@@ -10,11 +10,11 @@ export async function buildJsFetchPopupFeaturesResultGenerated(dotNetObject: any
     let jsFetchPopupFeaturesResult: any = {};
     if (hasValue(dotNetObject.allGraphicsPromise) && dotNetObject.allGraphicsPromise.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFetchPopupFeaturesResult.allGraphicsPromise = dotNetObject.allGraphicsPromise.map(i => buildJsGraphic(i)) as any;
+        jsFetchPopupFeaturesResult.allGraphicsPromise = dotNetObject.allGraphicsPromise.map(i => buildJsGraphic(i, viewId)) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsFetchPopupFeaturesResult.location = buildJsPoint(dotNetObject.location) as any;
+        jsFetchPopupFeaturesResult.location = buildJsPoint(dotNetObject.location, viewId) as any;
     }
 
     
@@ -39,7 +39,7 @@ export async function buildDotNetFetchPopupFeaturesResultGenerated(jsObject: any
     
     if (hasValue(jsObject.location)) {
         let { buildDotNetPoint } = await import('./point');
-        dotNetFetchPopupFeaturesResult.location = buildDotNetPoint(jsObject.location);
+        dotNetFetchPopupFeaturesResult.location = buildDotNetPoint(jsObject.location, viewId);
     }
     
 

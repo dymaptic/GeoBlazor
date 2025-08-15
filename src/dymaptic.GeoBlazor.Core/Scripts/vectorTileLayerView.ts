@@ -15,7 +15,7 @@ export async function buildJsVectorTileLayerView(dotNetObject: any, layerId: str
     return await buildJsVectorTileLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVectorTileLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetVectorTileLayerView(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetVectorTileLayerViewGenerated } = await import('./vectorTileLayerView.gb');
-    return await buildDotNetVectorTileLayerViewGenerated(jsObject);
+    return await buildDotNetVectorTileLayerViewGenerated(jsObject, viewId);
 }

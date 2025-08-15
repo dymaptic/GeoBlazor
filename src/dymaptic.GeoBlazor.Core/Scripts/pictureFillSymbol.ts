@@ -5,7 +5,7 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 
-export function buildJsPictureFillSymbol(dotNetObject: any): any {
+export function buildJsPictureFillSymbol(dotNetObject: any, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         properties.color = buildJsMapColor(dotNetObject.color) as any;
@@ -44,7 +44,7 @@ export function buildJsPictureFillSymbol(dotNetObject: any): any {
     return jsPictureFillSymbol;
 }
 
-export function buildDotNetPictureFillSymbol(jsObject: any): any {
+export function buildDotNetPictureFillSymbol(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

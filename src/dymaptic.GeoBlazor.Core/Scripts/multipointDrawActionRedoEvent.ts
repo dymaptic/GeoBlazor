@@ -15,7 +15,7 @@ export async function buildJsMultipointDrawActionRedoEvent(dotNetObject: any, la
     return await buildJsMultipointDrawActionRedoEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMultipointDrawActionRedoEvent(jsObject: any): Promise<any> {
+export async function buildDotNetMultipointDrawActionRedoEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetMultipointDrawActionRedoEventGenerated } = await import('./multipointDrawActionRedoEvent.gb');
-    return await buildDotNetMultipointDrawActionRedoEventGenerated(jsObject);
+    return await buildDotNetMultipointDrawActionRedoEventGenerated(jsObject, viewId);
 }

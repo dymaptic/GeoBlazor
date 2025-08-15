@@ -27,7 +27,7 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.graphic)) {
             let { buildJsGraphic } = await import('./graphic');
-            this.widget.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+            this.widget.graphic = buildJsGraphic(dotNetObject.graphic, this.viewId) as any;
         }
 
         if (hasValue(dotNetObject.geolocationOptions)) {
@@ -128,7 +128,7 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.widget.goToOverride);
+        return await buildDotNetGoToOverride(this.widget.goToOverride, this.viewId);
     }
     
     async setGoToOverride(value: any): Promise<void> {
@@ -147,7 +147,7 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     
     async setGraphic(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.widget.graphic =  buildJsGraphic(value);
+        this.widget.graphic =  buildJsGraphic(value, this.viewId);
     }
     
     getIcon(): any {
@@ -180,7 +180,7 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLocateViewModel } = await import('./locateViewModel');
-        return await buildDotNetLocateViewModel(this.widget.viewModel);
+        return await buildDotNetLocateViewModel(this.widget.viewModel, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -225,7 +225,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+        properties.graphic = buildJsGraphic(dotNetObject.graphic, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsLocateViewModel } = await import('./locateViewModel');
@@ -284,7 +284,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     try {
         let jsObjectRef = DotNet.createJSObjectReference(locateWidgetWrapper);
         let { buildDotNetLocateWidget } = await import('./locateWidget');
-        let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate);
+        let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate, viewId);
 
         let dnStream = buildJsStreamReference(dnInstantiatedObject);
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 

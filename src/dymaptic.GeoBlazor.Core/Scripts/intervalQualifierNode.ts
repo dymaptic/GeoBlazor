@@ -4,7 +4,7 @@ export async function buildJsIntervalQualifierNode(dotNetObject: any, layerId: s
     return await buildJsIntervalQualifierNodeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIntervalQualifierNode(jsObject: any): Promise<any> {
+export async function buildDotNetIntervalQualifierNode(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIntervalQualifierNodeGenerated } = await import('./intervalQualifierNode.gb');
-    return await buildDotNetIntervalQualifierNodeGenerated(jsObject);
+    return await buildDotNetIntervalQualifierNodeGenerated(jsObject, viewId);
 }

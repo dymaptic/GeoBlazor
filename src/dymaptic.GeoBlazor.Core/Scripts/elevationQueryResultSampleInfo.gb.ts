@@ -23,7 +23,7 @@ export async function buildJsElevationQueryResultSampleInfoGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetElevationQueryResultSampleInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetElevationQueryResultSampleInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

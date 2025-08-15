@@ -15,7 +15,7 @@ export async function buildJsRendererUtils(dotNetObject: any, layerId: string | 
     return await buildJsRendererUtilsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRendererUtils(jsObject: any): Promise<any> {
+export async function buildDotNetRendererUtils(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetRendererUtilsGenerated } = await import('./rendererUtils.gb');
-    return await buildDotNetRendererUtilsGenerated(jsObject);
+    return await buildDotNetRendererUtilsGenerated(jsObject, viewId);
 }

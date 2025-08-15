@@ -1,10 +1,10 @@
 
-export async function buildJsIRendererWithVisualVariables(dotNetObject: any): Promise<any> {
+export async function buildJsIRendererWithVisualVariables(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsIRendererWithVisualVariablesGenerated } = await import('./iRendererWithVisualVariables.gb');
-    return await buildJsIRendererWithVisualVariablesGenerated(dotNetObject);
+    return await buildJsIRendererWithVisualVariablesGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetIRendererWithVisualVariables(jsObject: any): Promise<any> {
+export async function buildDotNetIRendererWithVisualVariables(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIRendererWithVisualVariablesGenerated } = await import('./iRendererWithVisualVariables.gb');
-    return await buildDotNetIRendererWithVisualVariablesGenerated(jsObject);
+    return await buildDotNetIRendererWithVisualVariablesGenerated(jsObject, viewId);
 }

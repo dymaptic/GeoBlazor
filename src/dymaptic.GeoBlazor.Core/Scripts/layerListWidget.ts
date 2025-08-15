@@ -30,7 +30,7 @@ export async function buildJsLayerListWidget(dotNetObject: any, layerId: string 
     return widget;
 }
 
-export async function buildDotNetLayerListWidget(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListWidget(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetLayerListWidgetGenerated} = await import('./layerListWidget.gb');
-    return await buildDotNetLayerListWidgetGenerated(jsObject);
+    return await buildDotNetLayerListWidgetGenerated(jsObject, viewId);
 }

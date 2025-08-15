@@ -15,7 +15,7 @@ export async function buildJsViewPointerMoveEvent(dotNetObject: any, layerId: st
     return await buildJsViewPointerMoveEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewPointerMoveEvent(jsObject: any): Promise<any> {
+export async function buildDotNetViewPointerMoveEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetViewPointerMoveEventGenerated } = await import('./viewPointerMoveEvent.gb');
-    return await buildDotNetViewPointerMoveEventGenerated(jsObject);
+    return await buildDotNetViewPointerMoveEventGenerated(jsObject, viewId);
 }

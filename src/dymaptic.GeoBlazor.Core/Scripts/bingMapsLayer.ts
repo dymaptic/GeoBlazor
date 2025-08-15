@@ -30,7 +30,7 @@ export async function buildJsBingMapsLayer(dotNetObject: any, layerId: string | 
     return await buildJsBingMapsLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBingMapsLayer(jsObject: any): Promise<any> {
+export async function buildDotNetBingMapsLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetBingMapsLayerGenerated} = await import('./bingMapsLayer.gb');
-    return await buildDotNetBingMapsLayerGenerated(jsObject);
+    return await buildDotNetBingMapsLayerGenerated(jsObject, viewId);
 }

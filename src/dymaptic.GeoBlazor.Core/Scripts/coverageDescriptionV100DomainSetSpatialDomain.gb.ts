@@ -10,7 +10,7 @@ export async function buildJsCoverageDescriptionV100DomainSetSpatialDomainGenera
     let jsCoverageDescriptionV100DomainSetSpatialDomain: any = {};
     if (hasValue(dotNetObject.envelope)) {
         let { buildJsExtent } = await import('./extent');
-        jsCoverageDescriptionV100DomainSetSpatialDomain.envelope = buildJsExtent(dotNetObject.envelope) as any;
+        jsCoverageDescriptionV100DomainSetSpatialDomain.envelope = buildJsExtent(dotNetObject.envelope, viewId) as any;
     }
 
     if (hasValue(dotNetObject.columns)) {
@@ -42,7 +42,7 @@ export async function buildDotNetCoverageDescriptionV100DomainSetSpatialDomainGe
     
     if (hasValue(jsObject.envelope)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetCoverageDescriptionV100DomainSetSpatialDomain.envelope = buildDotNetExtent(jsObject.envelope);
+        dotNetCoverageDescriptionV100DomainSetSpatialDomain.envelope = buildDotNetExtent(jsObject.envelope, viewId);
     }
     
     if (hasValue(jsObject.columns)) {

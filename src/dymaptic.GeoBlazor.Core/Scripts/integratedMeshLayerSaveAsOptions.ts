@@ -4,7 +4,7 @@ export async function buildJsIntegratedMeshLayerSaveAsOptions(dotNetObject: any,
     return await buildJsIntegratedMeshLayerSaveAsOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIntegratedMeshLayerSaveAsOptions(jsObject: any): Promise<any> {
+export async function buildDotNetIntegratedMeshLayerSaveAsOptions(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetIntegratedMeshLayerSaveAsOptionsGenerated } = await import('./integratedMeshLayerSaveAsOptions.gb');
-    return await buildDotNetIntegratedMeshLayerSaveAsOptionsGenerated(jsObject);
+    return await buildDotNetIntegratedMeshLayerSaveAsOptionsGenerated(jsObject, viewId);
 }

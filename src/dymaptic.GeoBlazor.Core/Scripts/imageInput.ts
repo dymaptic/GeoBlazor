@@ -4,7 +4,7 @@ export async function buildJsImageInput(dotNetObject: any, layerId: string | nul
     return await buildJsImageInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetImageInput(jsObject: any): Promise<any> {
+export async function buildDotNetImageInput(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetImageInputGenerated } = await import('./imageInput.gb');
-    return await buildDotNetImageInputGenerated(jsObject);
+    return await buildDotNetImageInputGenerated(jsObject, viewId);
 }

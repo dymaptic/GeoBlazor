@@ -15,7 +15,7 @@ export async function buildJsPolygonDrawActionVertexRemoveEvent(dotNetObject: an
     return await buildJsPolygonDrawActionVertexRemoveEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPolygonDrawActionVertexRemoveEvent(jsObject: any): Promise<any> {
+export async function buildDotNetPolygonDrawActionVertexRemoveEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPolygonDrawActionVertexRemoveEventGenerated } = await import('./polygonDrawActionVertexRemoveEvent.gb');
-    return await buildDotNetPolygonDrawActionVertexRemoveEventGenerated(jsObject);
+    return await buildDotNetPolygonDrawActionVertexRemoveEventGenerated(jsObject, viewId);
 }
