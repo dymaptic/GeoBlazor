@@ -32,9 +32,9 @@ export default [
         '@typescript-eslint/no-unused-vars': 'off',
         "no-undef": "error",
         'no-useless-catch': 'off',
-        // 'sonarjs/argument-type': 'error',
-        // 'sonarjs/no-extra-arguments': 'error',
-        // 'sonarjs/no-unused-function-argument': 'error'
+        //'sonarjs/argument-type': 'error',
+        //'sonarjs/no-extra-arguments': 'error',
+        'sonarjs/no-unused-function-argument': 'error'
     }
   }
 ];

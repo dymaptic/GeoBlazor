@@ -13,6 +13,7 @@
 appsettings.json
 esBuild.*.lock
 CustomerTests.razor
+.claude/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

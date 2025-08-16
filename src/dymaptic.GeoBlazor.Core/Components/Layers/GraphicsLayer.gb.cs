@@ -672,6 +672,10 @@ public partial class GraphicsLayer : IBlendLayer,
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        if ((Graphics is null || Graphics.Count == 0))
+        {
+            throw new MissingRequiredChildElementException(nameof(GraphicsLayer), nameof(Graphics));
+        }
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

@@ -84,7 +84,10 @@ public partial class Field
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        Type = type;
+        if (type is not null)
+        {
+            Type = type.Value;
+        }
         Name = name;
         Alias = alias;
         Description = description;
