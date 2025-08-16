@@ -1,6 +1,6 @@
 import {hasValue} from "./arcGisJsInterop";
 
-export async function buildJsBasemapStyle(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsBasemapStyle(dotNetObject: any): Promise<any> {
     let jsBasemapStyle: any = {};
     
     if (hasValue(dotNetObject.apiKey)) {

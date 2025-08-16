@@ -7,7 +7,7 @@ export async function buildDotNetVisualVariable(jsObject: any, viewId: string | 
             return await buildDotNetColorVariable(jsObject);
         case 'size':
             let {buildDotNetSizeVariable} = await import('./sizeVariable');
-            return await buildDotNetSizeVariable(jsObject);
+            return await buildDotNetSizeVariable(jsObject, viewId);
         case 'opacity':
             let {buildDotNetOpacityVariable} = await import('./opacityVariable');
             return await buildDotNetOpacityVariable(jsObject);

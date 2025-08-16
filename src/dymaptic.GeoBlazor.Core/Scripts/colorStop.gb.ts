@@ -3,7 +3,7 @@ import ColorStop from '@arcgis/core/renderers/visualVariables/support/ColorStop'
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetColorStop } from './colorStop';
 
-export async function buildJsColorStopGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -11,7 +11,7 @@ export async function buildJsColorStopGenerated(dotNetObject: any, viewId: strin
     let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        properties.color = buildJsMapColor(dotNetObject.color, viewId) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -29,7 +29,7 @@ export async function buildJsColorStopGenerated(dotNetObject: any, viewId: strin
 }
 
 
-export async function buildDotNetColorStopGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -38,7 +38,7 @@ export async function buildDotNetColorStopGenerated(jsObject: any, viewId: strin
     
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetColorStop.color = buildDotNetMapColor(jsObject.color, viewId);
+        dotNetColorStop.color = buildDotNetMapColor(jsObject.color);
     }
     
     if (hasValue(jsObject.label)) {
@@ -47,19 +47,6 @@ export async function buildDotNetColorStopGenerated(jsObject: any, viewId: strin
     
     if (hasValue(jsObject.value)) {
         dotNetColorStop.value = jsObject.value;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetColorStop.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetColorStop.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetColorStop.id)) {
-        jsObjectRefs[dotNetColorStop.id] ??= jsObject;
-        arcGisObjectRefs[dotNetColorStop.id] ??= jsObject;
     }
 
     return dotNetColorStop;

@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetVisualVariableLegendOptions } from './visualVariableLegendOptions';
 
-export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -23,7 +23,7 @@ export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -36,19 +36,6 @@ export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: 
     
     if (hasValue(jsObject.title)) {
         dotNetVisualVariableLegendOptions.title = jsObject.title;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetVisualVariableLegendOptions.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetVisualVariableLegendOptions.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetVisualVariableLegendOptions.id)) {
-        jsObjectRefs[dotNetVisualVariableLegendOptions.id] ??= jsObject;
-        arcGisObjectRefs[dotNetVisualVariableLegendOptions.id] ??= jsObject;
     }
 
     return dotNetVisualVariableLegendOptions;

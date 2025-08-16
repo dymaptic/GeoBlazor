@@ -11,11 +11,11 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, viewId: s
     let properties: any = {};
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, viewId) as any;
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
     }
     if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsColorStop } = await import('./colorStop');
-        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
@@ -48,12 +48,12 @@ export async function buildDotNetColorVariableGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetColorVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, viewId);
+        dotNetColorVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
     }
     
     if (hasValue(jsObject.stops)) {
         let { buildDotNetColorStop } = await import('./colorStop');
-        dotNetColorVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i, viewId)));
+        dotNetColorVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i)));
     }
     
     if (hasValue(jsObject.field)) {
@@ -74,19 +74,6 @@ export async function buildDotNetColorVariableGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetColorVariable.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetColorVariable.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetColorVariable.id)) {
-        jsObjectRefs[dotNetColorVariable.id] ??= jsObject;
-        arcGisObjectRefs[dotNetColorVariable.id] ??= jsObject;
     }
 
     return dotNetColorVariable;

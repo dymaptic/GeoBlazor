@@ -3,7 +3,7 @@ import OpacityStop from '@arcgis/core/renderers/visualVariables/support/OpacityS
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetOpacityStop } from './opacityStop';
 
-export async function buildJsOpacityStopGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsOpacityStopGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -28,7 +28,7 @@ export async function buildJsOpacityStopGenerated(dotNetObject: any, viewId: str
 }
 
 
-export async function buildDotNetOpacityStopGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetOpacityStopGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -45,19 +45,6 @@ export async function buildDotNetOpacityStopGenerated(jsObject: any, viewId: str
     
     if (hasValue(jsObject.value)) {
         dotNetOpacityStop.value = jsObject.value;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetOpacityStop.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetOpacityStop.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetOpacityStop.id)) {
-        jsObjectRefs[dotNetOpacityStop.id] ??= jsObject;
-        arcGisObjectRefs[dotNetOpacityStop.id] ??= jsObject;
     }
 
     return dotNetOpacityStop;

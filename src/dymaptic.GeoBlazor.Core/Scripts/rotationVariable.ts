@@ -3,7 +3,7 @@ export async function buildJsRotationVariable(dotNetObject: any): Promise<any> {
     return await buildJsRotationVariableGenerated(dotNetObject);
 }
 
-export async function buildDotNetRotationVariable(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetRotationVariable(jsObject: any): Promise<any> {
     let {buildDotNetRotationVariableGenerated} = await import('./rotationVariable.gb');
-    return await buildDotNetRotationVariableGenerated(jsObject, viewId);
+    return await buildDotNetRotationVariableGenerated(jsObject);
 }

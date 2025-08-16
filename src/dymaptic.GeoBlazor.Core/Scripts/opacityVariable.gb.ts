@@ -3,7 +3,7 @@ import OpacityVariable from '@arcgis/core/renderers/visualVariables/OpacityVaria
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetOpacityVariable } from './opacityVariable';
 
-export async function buildJsOpacityVariableGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsOpacityVariableGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -11,11 +11,11 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, viewId:
     let properties: any = {};
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, viewId) as any;
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
     }
     if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsOpacityStop } = await import('./opacityStop');
-        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsOpacityStop(i, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsOpacityStop(i))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
@@ -39,7 +39,7 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, viewId:
 }
 
 
-export async function buildDotNetOpacityVariableGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -48,12 +48,12 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetOpacityVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, viewId);
+        dotNetOpacityVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
     }
     
     if (hasValue(jsObject.stops)) {
         let { buildDotNetOpacityStop } = await import('./opacityStop');
-        dotNetOpacityVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetOpacityStop(i, viewId)));
+        dotNetOpacityVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetOpacityStop(i)));
     }
     
     if (hasValue(jsObject.field)) {
@@ -74,19 +74,6 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetOpacityVariable.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetOpacityVariable.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetOpacityVariable.id)) {
-        jsObjectRefs[dotNetOpacityVariable.id] ??= jsObject;
-        arcGisObjectRefs[dotNetOpacityVariable.id] ??= jsObject;
     }
 
     return dotNetOpacityVariable;

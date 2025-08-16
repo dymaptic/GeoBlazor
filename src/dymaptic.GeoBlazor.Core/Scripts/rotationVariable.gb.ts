@@ -3,7 +3,7 @@ import RotationVariable from '@arcgis/core/renderers/visualVariables/RotationVar
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetRotationVariable } from './rotationVariable';
 
-export async function buildJsRotationVariableGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsRotationVariableGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -11,7 +11,7 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, viewId
     let properties: any = {};
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, viewId) as any;
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
     }
 
     if (hasValue(dotNetObject.axis)) {
@@ -38,7 +38,7 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, viewId
 }
 
 
-export async function buildDotNetRotationVariableGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetRotationVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -47,7 +47,7 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetRotationVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, viewId);
+        dotNetRotationVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
     }
     
     if (hasValue(jsObject.axis)) {
@@ -72,19 +72,6 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetRotationVariable.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        dotNetRotationVariable.id = await dotNetRef.invokeMethodAsync('GetId');
-    }
-    if (hasValue(dotNetRotationVariable.id)) {
-        jsObjectRefs[dotNetRotationVariable.id] ??= jsObject;
-        arcGisObjectRefs[dotNetRotationVariable.id] ??= jsObject;
     }
 
     return dotNetRotationVariable;

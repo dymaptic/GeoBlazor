@@ -1,10 +1,10 @@
 
-export async function buildJsOpacityStop(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsOpacityStop(dotNetObject: any): Promise<any> {
     let { buildJsOpacityStopGenerated } = await import('./opacityStop.gb');
-    return await buildJsOpacityStopGenerated(dotNetObject, viewId);
+    return await buildJsOpacityStopGenerated(dotNetObject);
 }     
 
-export async function buildDotNetOpacityStop(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetOpacityStop(jsObject: any): Promise<any> {
     let { buildDotNetOpacityStopGenerated } = await import('./opacityStop.gb');
-    return await buildDotNetOpacityStopGenerated(jsObject, viewId);
+    return await buildDotNetOpacityStopGenerated(jsObject);
 }
