@@ -157,7 +157,19 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
         }
     }
 
-    public void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
+    /// <summary>
+    ///     For internal use only. Prepares deserialized sublayers for subsequent calls to the ArcGIS JavaScript SDK.
+    /// </summary>
+    /// <param name="coreJsModule">
+    ///     The core JavaScript module reference.
+    /// </param>
+    /// <param name="proJsModule">
+    ///     The Pro JavaScript module reference, if available.
+    /// </param>
+    /// <param name="mapView">
+    ///     The MapView instance that this sublayer is associated with.
+    /// </param>
+    internal void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
         MapView mapView)
     {
         CoreJsModule = coreJsModule;
