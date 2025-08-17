@@ -541,10 +541,6 @@ async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id
                          spatialRef: SpatialReference | null, constraints: any, extent: any, backgroundColor: any,
                          eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                          highlightOptions?: any | null, popupEnabled?: boolean | null, theme?: string | null): Promise<void> {
-    if (hasValue(theme)) {
-        setViewTheme(theme!, id);
-    }
-
     if (abortSignal.aborted) {
         return;
     }
@@ -571,7 +567,7 @@ async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id
         return;
     }
 
-    waitForRender(id, dotNetRef, abortSignal);
+    waitForRender(id, theme, dotNetRef, abortSignal);
 
     if (hasValue(highlightOptions)) {
         view.highlightOptions = highlightOptions;
@@ -1875,11 +1871,14 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
     return projectOperator.execute(center, spatialReference) as Point;
 }
 
-function waitForRender(viewId: string, dotNetRef: any, abortSignal: AbortSignal): void {
+function waitForRender(viewId: string, theme: string | null | undefined, dotNetRef: any, abortSignal: AbortSignal): void {
     const view = arcGisObjectRefs[viewId] as View;
 
     try {
         view.when().then(_ => {
+            if (hasValue(theme)) {
+                setViewTheme(theme, viewId);
+            }
             let isRendered = false;
             let rendering = false;
             const interval = setInterval(async () => {

@@ -35,6 +35,7 @@ export async function buildDotNetVirtualLightingGenerated(jsObject: any): Promis
     if (hasValue(jsObject.type)) {
         dotNetVirtualLighting.type = removeCircularReferences(jsObject.type);
     }
+    
 
     return dotNetVirtualLighting;
 }

@@ -21,6 +21,14 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.catalogOptions)) {
+            let { buildJsLayerListCatalogOptions } = await import('./layerListCatalogOptions');
+            this.widget.catalogOptions = await buildJsLayerListCatalogOptions(dotNetObject.catalogOptions, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.knowledgeGraphOptions)) {
+            let { buildJsLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
+            this.widget.knowledgeGraphOptions = await buildJsLayerListKnowledgeGraphOptions(dotNetObject.knowledgeGraphOptions, this.viewId) as any;
+        }
         if (hasValue(dotNetObject.selectedItems) && dotNetObject.selectedItems.length > 0) {
             let { buildJsListItem } = await import('./listItem');
             this.widget.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, this.layerId, this.viewId))) as any;
@@ -30,9 +38,6 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
             this.widget.visibleElements = await buildJsLayerListVisibleElements(dotNetObject.visibleElements, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.catalogOptions)) {
-            this.widget.catalogOptions = dotNetObject.catalogOptions;
-        }
         if (hasValue(dotNetObject.collapsed)) {
             this.widget.collapsed = dotNetObject.collapsed;
         }
@@ -50,9 +55,6 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
-        }
-        if (hasValue(dotNetObject.knowledgeGraphOptions)) {
-            this.widget.knowledgeGraphOptions = dotNetObject.knowledgeGraphOptions;
         }
         if (hasValue(dotNetObject.label)) {
             this.widget.label = dotNetObject.label;
@@ -113,9 +115,11 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
 
     async triggerAction(action: any,
         item: any): Promise<void> {
+        let { buildJsActionBase } = await import('./actionBase');
+        let jsAction = buildJsActionBase(action) as any;
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.widget.triggerAction(action,
+        this.widget.triggerAction(jsAction,
             jsItem);
     }
 
@@ -128,6 +132,20 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
     }
 
     // region properties
+    
+    async getCatalogOptions(): Promise<any> {
+        if (!hasValue(this.widget.catalogOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetLayerListCatalogOptions } = await import('./layerListCatalogOptions');
+        return await buildDotNetLayerListCatalogOptions(this.widget.catalogOptions, this.viewId);
+    }
+    
+    async setCatalogOptions(value: any): Promise<void> {
+        let { buildJsLayerListCatalogOptions } = await import('./layerListCatalogOptions');
+        this.widget.catalogOptions = await  buildJsLayerListCatalogOptions(value, this.viewId);
+    }
     
     getFilterPlaceholder(): any {
         if (!hasValue(this.widget.filterPlaceholder)) {
@@ -165,6 +183,20 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         this.widget.icon = JSON.parse(value);
     }
     
+    async getKnowledgeGraphOptions(): Promise<any> {
+        if (!hasValue(this.widget.knowledgeGraphOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
+        return await buildDotNetLayerListKnowledgeGraphOptions(this.widget.knowledgeGraphOptions, this.viewId);
+    }
+    
+    async setKnowledgeGraphOptions(value: any): Promise<void> {
+        let { buildJsLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
+        this.widget.knowledgeGraphOptions = await  buildJsLayerListKnowledgeGraphOptions(value, this.viewId);
+    }
+    
     getLabel(): any {
         if (!hasValue(this.widget.label)) {
             return null;
@@ -175,6 +207,15 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
     
     setLabel(value: any): void {
         this.widget.label = JSON.parse(value);
+    }
+    
+    async getOpenedLayers(): Promise<any> {
+        if (!hasValue(this.widget.openedLayers)) {
+            return null;
+        }
+        
+        let { buildDotNetLayer } = await import('./layer');
+        return await Promise.all(this.widget.openedLayers!.map(async i => await buildDotNetLayer(i, this.viewId)));
     }
     
     async getOperationalItems(): Promise<any> {
@@ -262,6 +303,10 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
+    if (hasValue(dotNetObject.catalogOptions)) {
+        let { buildJsLayerListCatalogOptions } = await import('./layerListCatalogOptions');
+        properties.catalogOptions = await buildJsLayerListCatalogOptions(dotNetObject.catalogOptions, viewId) as any;
+    }
     if (hasValue(dotNetObject.hasFilterPredicate) && dotNetObject.hasFilterPredicate) {
         properties.filterPredicate = async (item) => {
             let { buildDotNetListItem } = await import('./listItem');
@@ -269,6 +314,10 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
 
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsFilterPredicate', dnItem);
         };
+    }
+    if (hasValue(dotNetObject.knowledgeGraphOptions)) {
+        let { buildJsLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
+        properties.knowledgeGraphOptions = await buildJsLayerListKnowledgeGraphOptions(dotNetObject.knowledgeGraphOptions, viewId) as any;
     }
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
         properties.listItemCreatedFunction = async (event) => {
@@ -289,9 +338,6 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
         properties.visibleElements = await buildJsLayerListVisibleElements(dotNetObject.visibleElements, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.catalogOptions)) {
-        properties.catalogOptions = dotNetObject.catalogOptions;
-    }
     if (hasValue(dotNetObject.collapsed)) {
         properties.collapsed = dotNetObject.collapsed;
     }
@@ -309,9 +355,6 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
-    }
-    if (hasValue(dotNetObject.knowledgeGraphOptions)) {
-        properties.knowledgeGraphOptions = dotNetObject.knowledgeGraphOptions;
     }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
@@ -337,7 +380,9 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     let jsLayerList = new LayerList(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
         jsLayerList.on('trigger-action', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerListTriggerActionEvent } = await import('./layerListTriggerActionEvent');
+            let dnEvent = await buildDotNetLayerListTriggerActionEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
         });
     }
@@ -375,6 +420,16 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, viewId:
     
     let dotNetLayerListWidget: any = {};
     
+    if (hasValue(jsObject.catalogOptions)) {
+        let { buildDotNetLayerListCatalogOptions } = await import('./layerListCatalogOptions');
+        dotNetLayerListWidget.catalogOptions = await buildDotNetLayerListCatalogOptions(jsObject.catalogOptions, viewId);
+    }
+    
+    if (hasValue(jsObject.knowledgeGraphOptions)) {
+        let { buildDotNetLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
+        dotNetLayerListWidget.knowledgeGraphOptions = await buildDotNetLayerListKnowledgeGraphOptions(jsObject.knowledgeGraphOptions, viewId);
+    }
+    
     if (hasValue(jsObject.operationalItems)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetLayerListWidget.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, viewId)));
@@ -397,10 +452,6 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.catalogLayerList)) {
         dotNetLayerListWidget.catalogLayerList = removeCircularReferences(jsObject.catalogLayerList);
-    }
-    
-    if (hasValue(jsObject.catalogOptions)) {
-        dotNetLayerListWidget.catalogOptions = removeCircularReferences(jsObject.catalogOptions);
     }
     
     if (hasValue(jsObject.collapsed)) {
@@ -427,10 +478,6 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, viewId:
         dotNetLayerListWidget.icon = jsObject.icon;
     }
     
-    if (hasValue(jsObject.knowledgeGraphOptions)) {
-        dotNetLayerListWidget.knowledgeGraphOptions = removeCircularReferences(jsObject.knowledgeGraphOptions);
-    }
-    
     if (hasValue(jsObject.label)) {
         dotNetLayerListWidget.label = jsObject.label;
     }
@@ -441,10 +488,6 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.minFilterItems)) {
         dotNetLayerListWidget.minFilterItems = jsObject.minFilterItems;
-    }
-    
-    if (hasValue(jsObject.openedLayers)) {
-        dotNetLayerListWidget.openedLayers = removeCircularReferences(jsObject.openedLayers);
     }
     
     if (hasValue(jsObject.selectionMode)) {

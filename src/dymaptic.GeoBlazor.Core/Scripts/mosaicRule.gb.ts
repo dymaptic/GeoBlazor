@@ -10,7 +10,7 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any, viewId: stri
     let properties: any = {};
     if (hasValue(dotNetObject.itemRasterFunction)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        properties.itemRasterFunction = await buildJsRasterFunction(dotNetObject.itemRasterFunction, viewId) as any;
+        properties.itemRasterFunction = await buildJsRasterFunction(dotNetObject.itemRasterFunction) as any;
     }
     if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
@@ -63,7 +63,7 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any, viewId: stri
     
     if (hasValue(jsObject.itemRasterFunction)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetMosaicRule.itemRasterFunction = await buildDotNetRasterFunction(jsObject.itemRasterFunction, viewId);
+        dotNetMosaicRule.itemRasterFunction = await buildDotNetRasterFunction(jsObject.itemRasterFunction);
     }
     
     if (hasValue(jsObject.multidimensionalDefinition)) {

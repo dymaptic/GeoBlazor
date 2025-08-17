@@ -21,6 +21,10 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.widget.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
 
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
@@ -83,6 +87,20 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
     }
 
     // region properties
+    
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.widget.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.widget.goToOverride);
+    }
+    
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
     
     getIcon(): any {
         if (!hasValue(this.widget.icon)) {
@@ -153,13 +171,9 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
-        properties.goToOverride = async (view,
-        goToParameters) => {
-
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
-            goToParameters);
-        };
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsCompassViewModel } = await import('./compassViewModel');

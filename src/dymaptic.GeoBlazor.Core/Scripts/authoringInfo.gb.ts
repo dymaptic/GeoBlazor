@@ -9,7 +9,8 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any): Promise<
 
     let properties: any = {};
     if (hasValue(dotNetObject.colorRamp)) {
-        properties.colorRamp = dotNetObject.colorRamp;
+        let { buildJsColorRamp } = await import('./colorRamp');
+        properties.colorRamp = buildJsColorRamp(dotNetObject.colorRamp) as any;
     }
     if (hasValue(dotNetObject.field1)) {
         let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
@@ -83,6 +84,11 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any, viewId: s
     
     let dotNetAuthoringInfo: any = {};
     
+    if (hasValue(jsObject.colorRamp)) {
+        let { buildDotNetColorRamp } = await import('./colorRamp');
+        dotNetAuthoringInfo.colorRamp = buildDotNetColorRamp(jsObject.colorRamp);
+    }
+    
     if (hasValue(jsObject.field1)) {
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
         dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1);
@@ -105,10 +111,6 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.classificationMethod)) {
         dotNetAuthoringInfo.classificationMethod = removeCircularReferences(jsObject.classificationMethod);
-    }
-    
-    if (hasValue(jsObject.colorRamp)) {
-        dotNetAuthoringInfo.colorRamp = removeCircularReferences(jsObject.colorRamp);
     }
     
     if (hasValue(jsObject.fadeRatio)) {

@@ -21,6 +21,10 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.effect)) {
+            let { buildJsEffect } = await import('./effect');
+            this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
+        }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -68,9 +72,6 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.dpi)) {
             this.layer.dpi = dotNetObject.dpi;
-        }
-        if (hasValue(dotNetObject.effect)) {
-            this.layer.effect = dotNetObject.effect;
         }
         if (hasValue(dotNetObject.gdbVersion)) {
             this.layer.gdbVersion = dotNetObject.gdbVersion;
@@ -259,6 +260,20 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         return generateSerializableJson(this.layer.dateFieldsTimeZone);
     }
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
+    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -313,6 +328,15 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         }
         
         return generateSerializableJson(this.layer.sourceJSON);
+    }
+    
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     async getSublayers(): Promise<any> {
@@ -445,6 +469,10 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     }
 
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -492,9 +520,6 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.dpi)) {
         properties.dpi = dotNetObject.dpi;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
@@ -547,21 +572,27 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     let jsMapImageLayer = new MapImageLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsMapImageLayer.on('layerview-create', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsMapImageLayer.on('layerview-create-error', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsMapImageLayer.on('layerview-destroy', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
         });
     }
@@ -606,6 +637,11 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, viewId: s
     
     let dotNetMapImageLayer: any = {};
     
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetMapImageLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetMapImageLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -614,6 +650,11 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, viewId: s
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetMapImageLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+    }
+    
+    if (hasValue(jsObject.spatialReference)) {
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        dotNetMapImageLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.sublayers)) {
@@ -678,10 +719,6 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, viewId: s
         dotNetMapImageLayer.dpi = jsObject.dpi;
     }
     
-    if (hasValue(jsObject.effect)) {
-        dotNetMapImageLayer.effect = removeCircularReferences(jsObject.effect);
-    }
-    
     if (hasValue(jsObject.gdbVersion)) {
         dotNetMapImageLayer.gdbVersion = jsObject.gdbVersion;
     }
@@ -736,10 +773,6 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.refreshInterval)) {
         dotNetMapImageLayer.refreshInterval = jsObject.refreshInterval;
-    }
-    
-    if (hasValue(jsObject.spatialReference)) {
-        dotNetMapImageLayer.spatialReference = removeCircularReferences(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.title)) {

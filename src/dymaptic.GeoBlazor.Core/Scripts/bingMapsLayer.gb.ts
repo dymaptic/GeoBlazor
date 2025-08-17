@@ -23,7 +23,7 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.effect)) {
             let { buildJsEffect } = await import('./effect');
-            this.layer.effect = buildJsEffect(dotNetObject.effect, this.viewId) as any;
+            this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
         }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
@@ -184,12 +184,12 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetEffect } = await import('./effect');
-        return buildDotNetEffect(this.layer.effect, this.viewId);
+        return buildDotNetEffect(this.layer.effect);
     }
     
     async setEffect(value: any): Promise<void> {
         let { buildJsEffect } = await import('./effect');
-        this.layer.effect =  buildJsEffect(value, this.viewId);
+        this.layer.effect =  buildJsEffect(value);
     }
     
     async getFullExtent(): Promise<any> {
@@ -293,7 +293,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     let properties: any = {};
     if (hasValue(dotNetObject.effect)) {
         let { buildJsEffect } = await import('./effect');
-        properties.effect = buildJsEffect(dotNetObject.effect, viewId) as any;
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -424,7 +424,7 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
-        dotNetBingMapsLayer.effect = buildDotNetEffect(jsObject.effect, viewId);
+        dotNetBingMapsLayer.effect = buildDotNetEffect(jsObject.effect);
     }
     
     if (hasValue(jsObject.fullExtent)) {

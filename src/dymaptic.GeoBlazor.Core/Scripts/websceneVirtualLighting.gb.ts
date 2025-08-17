@@ -47,6 +47,7 @@ export async function buildDotNetWebsceneVirtualLightingGenerated(jsObject: any)
             if (hasValue(jsObject.type)) {
                 dotNetWebsceneVirtualLighting.type = removeCircularReferences(jsObject.type);
             }
+    
 
             return dotNetWebsceneVirtualLighting;
 

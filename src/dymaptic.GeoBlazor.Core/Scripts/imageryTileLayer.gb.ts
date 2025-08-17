@@ -21,6 +21,10 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.effect)) {
+            let { buildJsEffect } = await import('./effect');
+            this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
+        }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -87,9 +91,6 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.customParameters)) {
             this.layer.customParameters = dotNetObject.customParameters;
-        }
-        if (hasValue(dotNetObject.effect)) {
-            this.layer.effect = dotNetObject.effect;
         }
         if (hasValue(dotNetObject.interpolation)) {
             this.layer.interpolation = dotNetObject.interpolation;
@@ -202,8 +203,10 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
+        let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
+        let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
         return await this.layer.identify(jsPoint,
-            options);
+            jsOptions);
     }
 
     async isFulfilled(): Promise<any> {
@@ -284,6 +287,20 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     
     setCopyright(value: any): void {
         this.layer.copyright = JSON.parse(value);
+    }
+    
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
     }
     
     async getFullExtent(): Promise<any> {
@@ -419,6 +436,15 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         return generateSerializableJson(this.layer.sourceJSON);
     }
     
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
+    }
+    
     async getTileInfo(): Promise<any> {
         if (!hasValue(this.layer.tileInfo)) {
             return null;
@@ -529,6 +555,10 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
 
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -596,9 +626,6 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.customParameters)) {
         properties.customParameters = dotNetObject.customParameters;
     }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
-    }
     if (hasValue(dotNetObject.interpolation)) {
         properties.interpolation = dotNetObject.interpolation;
     }
@@ -641,21 +668,27 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     let jsImageryTileLayer = new ImageryTileLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsImageryTileLayer.on('layerview-create', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsImageryTileLayer.on('layerview-create-error', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsImageryTileLayer.on('layerview-destroy', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
         });
     }
@@ -692,6 +725,11 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
     }
     
     let dotNetImageryTileLayer: any = {};
+    
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetImageryTileLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -731,6 +769,16 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
     if (hasValue(jsObject.rasterFunction)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
         dotNetImageryTileLayer.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
+    }
+    
+    if (hasValue(jsObject.serviceRasterInfo)) {
+        let { buildDotNetRasterInfo } = await import('./rasterInfo');
+        dotNetImageryTileLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, viewId);
+    }
+    
+    if (hasValue(jsObject.spatialReference)) {
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        dotNetImageryTileLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.tileInfo)) {
@@ -782,10 +830,6 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
         dotNetImageryTileLayer.customParameters = removeCircularReferences(jsObject.customParameters);
     }
     
-    if (hasValue(jsObject.effect)) {
-        dotNetImageryTileLayer.effect = removeCircularReferences(jsObject.effect);
-    }
-    
     if (hasValue(jsObject.interpolation)) {
         dotNetImageryTileLayer.interpolation = removeCircularReferences(jsObject.interpolation);
     }
@@ -822,16 +866,8 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
         dotNetImageryTileLayer.popupEnabled = jsObject.popupEnabled;
     }
     
-    if (hasValue(jsObject.serviceRasterInfo)) {
-        dotNetImageryTileLayer.serviceRasterInfo = removeCircularReferences(jsObject.serviceRasterInfo);
-    }
-    
     if (hasValue(jsObject.source)) {
         dotNetImageryTileLayer.source = jsObject.source;
-    }
-    
-    if (hasValue(jsObject.spatialReference)) {
-        dotNetImageryTileLayer.spatialReference = removeCircularReferences(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.title)) {

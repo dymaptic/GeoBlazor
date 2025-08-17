@@ -22,10 +22,12 @@ export default class ListItemGenerated implements IPropertyWrapper {
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.actionsSections) && dotNetObject.actionsSections.length > 0) {
-            this.component.actionsSections = dotNetObject.actionBase;
+            let { buildJsActionBase } = await import('./actionBase');
+            this.component.actionsSections = dotNetObject.actionsSections.map(i => buildJsActionBase(i)) as any;
         }
         if (hasValue(dotNetObject.layer)) {
-            this.component.layer = dotNetObject.layer;
+            let { buildJsLayer } = await import('./layer');
+            this.component.layer = await buildJsLayer(dotNetObject.layer, this.layerId, this.viewId) as any;
         }
 
         if (hasValue(dotNetObject.actionsOpen)) {
@@ -56,6 +58,23 @@ export default class ListItemGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getActionsSections(): Promise<any> {
+        if (!hasValue(this.component.actionsSections)) {
+            return null;
+        }
+        
+        let { buildDotNetActionBase } = await import('./actionBase');
+        return await Promise.all(this.component.actionsSections!.map(async i => await buildDotNetActionBase(i)));
+    }
+    
+    async setActionsSections(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.actionsSections.removeAll();
+        }
+        let { buildJsActionBase } = await import('./actionBase');
+        this.component.actionsSections = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
+    }
+    
     async getChildren(): Promise<any> {
         if (!hasValue(this.component.children)) {
             return null;
@@ -71,6 +90,20 @@ export default class ListItemGenerated implements IPropertyWrapper {
         }
         let { buildJsListItem } = await import('./listItem');
         this.component.children = await Promise.all(value.map(async i => await buildJsListItem(i, this.layerId, this.viewId))) as any;
+    }
+    
+    async getLayer(): Promise<any> {
+        if (!hasValue(this.component.layer)) {
+            return null;
+        }
+        
+        let { buildDotNetLayer } = await import('./layer');
+        return await buildDotNetLayer(this.component.layer, this.viewId);
+    }
+    
+    async setLayer(value: any): Promise<void> {
+        let { buildJsLayer } = await import('./layer');
+        this.component.layer = await  buildJsLayer(value, this.layerId, this.viewId);
     }
     
     async getLayerView(): Promise<any> {
@@ -131,7 +164,8 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
         properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.actionsSections) && dotNetObject.actionsSections.length > 0) {
-        properties.actionsSections = dotNetObject.actionsSections;
+        let { buildJsActionBase } = await import('./actionBase');
+        properties.actionsSections = dotNetObject.actionsSections.map(i => buildJsActionBase(i)) as any;
     }
     if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
         properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
@@ -186,6 +220,11 @@ export async function buildDotNetListItemGenerated(jsObject: any, viewId: string
     
     let dotNetListItem: any = {};
     
+    if (hasValue(jsObject.actionsSections)) {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        dotNetListItem.actionsSections = await Promise.all(jsObject.actionsSections.map(async i => await buildDotNetActionBase(i)));
+    }
+    
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
         dotNetListItem.layerView = await buildDotNetLayerView(jsObject.layerView, viewId);
@@ -193,10 +232,6 @@ export async function buildDotNetListItemGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.actionsOpen)) {
         dotNetListItem.actionsOpen = jsObject.actionsOpen;
-    }
-    
-    if (hasValue(jsObject.actionsSections)) {
-        dotNetListItem.actionsSections = removeCircularReferences(jsObject.actionsSections);
     }
     
     if (hasValue(jsObject.childrenSortable)) {
@@ -217,10 +252,6 @@ export async function buildDotNetListItemGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.incompatible)) {
         dotNetListItem.incompatible = jsObject.incompatible;
-    }
-    
-    if (hasValue(jsObject.layer)) {
-        dotNetListItem.layer = removeCircularReferences(jsObject.layer);
     }
     
     if (hasValue(jsObject.listModeDisabled)) {
