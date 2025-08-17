@@ -1,5 +1,9 @@
 param([string][Alias("c")]$Content)
 
+
+# We have some generic implementations of message boxes borrowed here, and then adapted.
+# So there is some code that isn't being used.
+
 #usage
 #Alkane-Popup [message] [title] [type] [buttons] [position] [duration] [asynchronous]
 #Alkane-Popup "This is a message." "My Title" "success" "OKCancel" "center" 0 $false
@@ -19,7 +23,7 @@ function Alkane-Popup() {
         [string]$message,
         [string]$title,
         [string]$type,
-        [ValidateSet('OK', 'OKCancel', 'AbortRetryIgnore', 'YesNoCancel', 'YesNo', 'RetryCancel')]
+        [ValidateSet('OK', 'OKClear', 'OKCancel', 'AbortRetryIgnore', 'YesNoCancel', 'YesNo', 'RetryCancel')]
         [string]$buttons = 'OK',
         [string]$position,
         [int]$duration,
@@ -28,6 +32,7 @@ function Alkane-Popup() {
 
     $buttonMap = @{
         'OK'               = @{ buttonList = @('OK'); defaultButtonIndex = 0 }
+        'OKClear'         = @{ buttonList = @('OK', 'Clear'); defaultButtonIndex = 0; cancelButtonIndex = 1 }
         'OKCancel'         = @{ buttonList = @('OK', 'Cancel'); defaultButtonIndex = 0; cancelButtonIndex = 1 }
         'AbortRetryIgnore' = @{ buttonList = @('Abort', 'Retry', 'Ignore'); defaultButtonIndex = 2; cancelButtonIndex = 0 }
         'YesNoCancel'      = @{ buttonList = @('Yes', 'No', 'Cancel'); defaultButtonIndex = 2; cancelButtonIndex = 2 }
@@ -146,6 +151,43 @@ function Alkane-Popup() {
             # Add click event
             $buttonText = $buttonList[$i]
             $button.Add_Click({
+                # Special handling for Clear button - delete lock files
+                if ($this.Text -eq "Clear") {
+                    try {
+                        # Get current directory (where esBuild*.lock files would be)
+                        $currentDir = Get-Location
+                        
+                        # Delete esBuild*.lock files from current directory
+                        $esBuildLocks = Get-ChildItem -Path $currentDir -Name "esBuild*.lock" -ErrorAction SilentlyContinue
+                        foreach ($lockFile in $esBuildLocks) {
+                            $fullPath = Join-Path $currentDir $lockFile
+                            Remove-Item -Path $fullPath -Force -ErrorAction SilentlyContinue
+                            Write-Host "Deleted: $fullPath"
+                        }
+                        
+                        # Find Pro project directory - navigate up to find GeoBlazor.Pro folder
+                        $proDir = $currentDir
+                        while ($proDir -and -not (Test-Path (Join-Path $proDir "GeoBlazor.Pro"))) {
+                            $proDir = Split-Path $proDir -Parent
+                        }
+                        
+                        if ($proDir) {
+                            $proProjectDir = Join-Path $proDir "GeoBlazor.Pro"
+                            
+                            # Delete esProBuild*.lock files from Pro project directory
+                            $esProBuildLocks = Get-ChildItem -Path $proProjectDir -Name "esProBuild*.lock" -ErrorAction SilentlyContinue
+                            foreach ($lockFile in $esProBuildLocks) {
+                                $fullPath = Join-Path $proProjectDir $lockFile
+                                Remove-Item -Path $fullPath -Force -ErrorAction SilentlyContinue
+                                Write-Host "Deleted: $fullPath"
+                            }
+                        }
+                    }
+                    catch {
+                        Write-Warning "Error deleting lock files: $($_.Exception.Message)"
+                    }
+                }
+                
                 $script:result = $this.Text
                 $Timer.Dispose()
                 $objForm.Dispose()
@@ -211,7 +253,7 @@ function Show-MessageBox {
         [Parameter(Position=1)]
         [string] $Title,
         [Parameter(Position=2)]
-        [ValidateSet('OK', 'OKCancel', 'AbortRetryIgnore', 'YesNoCancel', 'YesNo', 'RetryCancel')]
+        [ValidateSet('OK', 'OKClear', 'OKCancel', 'AbortRetryIgnore', 'YesNoCancel', 'YesNo', 'RetryCancel')]
         [string] $Buttons = 'OK',
         [ValidateSet('information', 'warning', 'error', 'success')]
         [string] $Type = 'information',
@@ -225,6 +267,7 @@ function Show-MessageBox {
 
     $buttonMap = @{
         'OK'               = @{ buttonList = 'OK'; defaultButtonIndex = 0 }
+        'OKClear'         = @{ buttonList = 'OK', 'Clear'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
         'OKCancel'         = @{ buttonList = 'OK', 'Cancel'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
         'AbortRetryIgnore' = @{ buttonList = 'Abort', 'Retry', 'Ignore'; defaultButtonIndex = 2; ; cancelButtonIndex = 0 };
         'YesNoCancel'      = @{ buttonList = 'Yes', 'No', 'Cancel'; defaultButtonIndex = 2; cancelButtonIndex = 2 };
@@ -270,4 +313,5 @@ function Show-MessageBox {
 
 Show-MessageBox -Message $Content `
     -Title "esBuild Step Failed" `
+    -Buttons "OKClear" `
     -Type error
