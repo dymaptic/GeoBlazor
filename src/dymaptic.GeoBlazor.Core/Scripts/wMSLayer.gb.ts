@@ -27,11 +27,11 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
-            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent, this.viewId) as any;
+            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
         if (hasValue(dotNetObject.fullExtents) && dotNetObject.fullExtents.length > 0) {
             let { buildJsExtent } = await import('./extent');
-            this.layer.fullExtents = dotNetObject.fullExtents.map(i => buildJsExtent(i, this.viewId)) as any;
+            this.layer.fullExtents = dotNetObject.fullExtents.map(i => buildJsExtent(i)) as any;
         }
         if (hasValue(dotNetObject.portalItem)) {
             let { buildJsPortalItem } = await import('./portalItem');
@@ -39,7 +39,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.spatialReference)) {
             let { buildJsSpatialReference } = await import('./spatialReference');
-            this.layer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference, this.viewId) as any;
+            this.layer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
         }
         if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
             let { buildJsWMSSublayer } = await import('./wMSSublayer');
@@ -47,7 +47,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, this.viewId) as any;
+            this.layer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
         }
         if (hasValue(dotNetObject.timeInfo)) {
             let { buildJsTimeInfo } = await import('./timeInfo');
@@ -59,7 +59,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, this.viewId) as any;
+            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -284,12 +284,12 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent, this.viewId);
+        return buildDotNetExtent(this.layer.fullExtent);
     }
     
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value, this.viewId);
+        this.layer.fullExtent =  buildJsExtent(value);
     }
     
     async getFullExtents(): Promise<any> {
@@ -298,7 +298,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return this.layer.fullExtents!.map(i => buildDotNetExtent(i, this.viewId));
+        return this.layer.fullExtents!.map(i => buildDotNetExtent(i));
     }
     
     async setFullExtents(value: any): Promise<void> {
@@ -306,7 +306,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
             this.layer.fullExtents = [];
         }
         let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtents = value.map(i => buildJsExtent(i, this.viewId)) as any;
+        this.layer.fullExtents = value.map(i => buildJsExtent(i)) as any;
     }
     
     getImageFormat(): any {
@@ -341,7 +341,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.layer.spatialReference, this.viewId);
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     async getSublayers(): Promise<any> {
@@ -367,12 +367,12 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return buildDotNetTimeExtent(this.layer.timeExtent, this.viewId);
+        return buildDotNetTimeExtent(this.layer.timeExtent);
     }
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value, this.viewId);
+        this.layer.timeExtent = await  buildJsTimeExtent(value);
     }
     
     async getTimeInfo(): Promise<any> {
@@ -395,7 +395,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return await buildDotNetTimeInterval(this.layer.timeOffset, this.viewId);
+        return await buildDotNetTimeInterval(this.layer.timeOffset);
     }
     
     async setTimeOffset(value: any): Promise<void> {
@@ -445,12 +445,12 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent, this.viewId);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.viewId);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -478,16 +478,16 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
 
             let result = await dotNetObject.invokeMethodAsync('OnJsFetchFeatureInfoFunction', query);
             let { buildJsGraphic } = await import('./graphic');
-            return await Promise.all(result.map(async i => await buildJsGraphic(i, viewId)));
+            return await Promise.all(result.map(async i => await buildJsGraphic(i)));
         };
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent, viewId) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.fullExtents) && dotNetObject.fullExtents.length > 0) {
         let { buildJsExtent } = await import('./extent');
-        properties.fullExtents = dotNetObject.fullExtents.map(i => buildJsExtent(i, viewId)) as any;
+        properties.fullExtents = dotNetObject.fullExtents.map(i => buildJsExtent(i)) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -495,7 +495,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference, viewId) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
@@ -503,7 +503,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
@@ -515,7 +515,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -668,12 +668,12 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetWMSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent, viewId);
+        dotNetWMSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
     
     if (hasValue(jsObject.fullExtents)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetWMSLayer.fullExtents = jsObject.fullExtents.map(i => buildDotNetExtent(i, viewId));
+        dotNetWMSLayer.fullExtents = jsObject.fullExtents.map(i => buildDotNetExtent(i));
     }
     
     if (hasValue(jsObject.portalItem)) {
@@ -683,7 +683,7 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetWMSLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference, viewId);
+        dotNetWMSLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.sublayers)) {
@@ -693,7 +693,7 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetWMSLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent, viewId);
+        dotNetWMSLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
     
     if (hasValue(jsObject.timeInfo)) {
@@ -703,12 +703,12 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetWMSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, viewId);
+        dotNetWMSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetWMSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent, viewId);
+        dotNetWMSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
     
     if (hasValue(jsObject.id)) {

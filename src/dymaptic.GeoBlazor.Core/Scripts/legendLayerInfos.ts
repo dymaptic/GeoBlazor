@@ -1,6 +1,6 @@
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export async function buildJsLegendLayerInfos(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsLegendLayerInfos(dotNetObject: any): Promise<any> {
     let jsLegendLayerInfos: any = {};
     if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
         jsLegendLayerInfos.layer = arcGisObjectRefs[dotNetObject.layerId];

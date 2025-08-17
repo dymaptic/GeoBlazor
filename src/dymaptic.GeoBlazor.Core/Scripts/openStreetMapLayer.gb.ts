@@ -27,7 +27,7 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
-            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent, this.viewId) as any;
+            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
         if (hasValue(dotNetObject.portalItem)) {
             let { buildJsPortalItem } = await import('./portalItem');
@@ -39,7 +39,7 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, this.viewId) as any;
+            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -193,12 +193,12 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent, this.viewId);
+        return buildDotNetExtent(this.layer.fullExtent);
     }
     
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value, this.viewId);
+        this.layer.fullExtent =  buildJsExtent(value);
     }
     
     async getPortalItem(): Promise<any> {
@@ -221,7 +221,7 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.layer.spatialReference, this.viewId);
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     async getTileInfo(): Promise<any> {
@@ -268,12 +268,12 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent, this.viewId);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.viewId);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -298,7 +298,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent, viewId) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -310,7 +310,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -427,7 +427,7 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, view
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetOpenStreetMapLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent, viewId);
+        dotNetOpenStreetMapLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
     
     if (hasValue(jsObject.portalItem)) {
@@ -437,7 +437,7 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, view
     
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetOpenStreetMapLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference, viewId);
+        dotNetOpenStreetMapLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.tileInfo)) {
@@ -447,7 +447,7 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, view
     
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetOpenStreetMapLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent, viewId);
+        dotNetOpenStreetMapLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
     
     if (hasValue(jsObject.id)) {

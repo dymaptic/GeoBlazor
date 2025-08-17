@@ -23,11 +23,11 @@ export default class UnsupportedLayerGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
-            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent, this.viewId) as any;
+            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, this.viewId) as any;
+            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -109,12 +109,12 @@ export default class UnsupportedLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent, this.viewId);
+        return buildDotNetExtent(this.layer.fullExtent);
     }
     
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value, this.viewId);
+        this.layer.fullExtent =  buildJsExtent(value);
     }
     
     getTitle(): any {
@@ -135,12 +135,12 @@ export default class UnsupportedLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent, this.viewId);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.viewId);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -161,11 +161,11 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent, viewId) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -246,12 +246,12 @@ export async function buildDotNetUnsupportedLayerGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetUnsupportedLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent, viewId);
+        dotNetUnsupportedLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetUnsupportedLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent, viewId);
+        dotNetUnsupportedLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
     
     if (hasValue(jsObject.id)) {

@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetHeatmapRampElement } from './heatmapRampElement';
 
-export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsHeatmapRampElementGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, laye
     let jsHeatmapRampElement: any = {};
     if (hasValue(dotNetObject.infos) && dotNetObject.infos.length > 0) {
         let { buildJsHeatmapRampStop } = await import('./heatmapRampStop');
-        jsHeatmapRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsHeatmapRampStop(i, layerId, viewId))) as any;
+        jsHeatmapRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsHeatmapRampStop(i))) as any;
     }
 
     if (hasValue(dotNetObject.title)) {
@@ -24,7 +24,7 @@ export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetHeatmapRampElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetHeatmapRampElementGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -33,7 +33,7 @@ export async function buildDotNetHeatmapRampElementGenerated(jsObject: any, laye
     
     if (hasValue(jsObject.infos)) {
         let { buildDotNetHeatmapRampStop } = await import('./heatmapRampStop');
-        dotNetHeatmapRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetHeatmapRampStop(i, layerId, viewId)));
+        dotNetHeatmapRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetHeatmapRampStop(i, viewId)));
     }
     
     if (hasValue(jsObject.title)) {

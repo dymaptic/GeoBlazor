@@ -31,11 +31,11 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
-            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent, this.viewId) as any;
+            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, this.viewId) as any;
+            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -69,13 +69,13 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     
     async add(graphic: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = buildJsGraphic(graphic, this.viewId) as any;
+        let jsGraphic = buildJsGraphic(graphic) as any;
         this.layer.add(jsGraphic);
     }
 
     async addMany(graphics: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphics = graphics.map(i => buildJsGraphic(i, this.viewId)) as any;
+        let jsGraphics = graphics.map(i => buildJsGraphic(i)) as any;
         this.layer.addMany(jsGraphics);
     }
 
@@ -169,12 +169,12 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent, this.viewId);
+        return buildDotNetExtent(this.layer.fullExtent);
     }
     
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value, this.viewId);
+        this.layer.fullExtent =  buildJsExtent(value);
     }
     
     async getGraphics(): Promise<any> {
@@ -191,7 +191,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
             this.layer.graphics = [];
         }
         let { buildJsGraphic } = await import('./graphic');
-        this.layer.graphics = value.map(i => buildJsGraphic(i, this.viewId)) as any;
+        this.layer.graphics = value.map(i => buildJsGraphic(i)) as any;
     }
     
     getTitle(): any {
@@ -212,12 +212,12 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent, this.viewId);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.viewId);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -246,11 +246,11 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent, viewId) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -353,12 +353,12 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetGraphicsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent, viewId);
+        dotNetGraphicsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetGraphicsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent, viewId);
+        dotNetGraphicsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
     
     if (hasValue(jsObject.id)) {

@@ -16,12 +16,12 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any, viewI
     
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetLayerSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, viewId);
+        dotNetLayerSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     
     if (hasValue(jsObject.resultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetLayerSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol, viewId);
+        dotNetLayerSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
     }
     
     if (hasValue(jsObject.autoNavigate)) {

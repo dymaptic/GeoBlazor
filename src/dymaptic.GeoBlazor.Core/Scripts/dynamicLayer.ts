@@ -1,11 +1,11 @@
-export async function buildJsDynamicLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsDynamicLayer(dotNetObject: any): Promise<any> {
     switch (dotNetObject?.type) {
         case 'map-layer':
             let {buildJsDynamicMapLayer} = await import('./dynamicMapLayer');
-            return await buildJsDynamicMapLayer(dotNetObject, layerId, viewId);
+            return await buildJsDynamicMapLayer(dotNetObject);
         default:
             let {buildJsDynamicDataLayer} = await import('./dynamicDataLayer');
-            return await buildJsDynamicDataLayer(dotNetObject, layerId, viewId);
+            return await buildJsDynamicDataLayer(dotNetObject);
     }
 }
 

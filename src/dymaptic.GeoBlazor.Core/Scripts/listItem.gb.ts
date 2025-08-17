@@ -23,7 +23,7 @@ export default class ListItemGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.actionsSections) && dotNetObject.actionsSections.length > 0) {
             let { buildJsActionBase } = await import('./actionBase');
-            this.component.actionsSections = dotNetObject.actionsSections.map(i => buildJsActionBase(i, this.viewId)) as any;
+            this.component.actionsSections = dotNetObject.actionsSections.map(i => buildJsActionBase(i)) as any;
         }
         if (hasValue(dotNetObject.layer)) {
             let { buildJsLayer } = await import('./layer');
@@ -64,7 +64,7 @@ export default class ListItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.component.actionsSections!.map(async i => await buildDotNetActionBase(i, this.viewId)));
+        return await Promise.all(this.component.actionsSections!.map(async i => await buildDotNetActionBase(i)));
     }
     
     async setActionsSections(value: any): Promise<void> {
@@ -72,7 +72,7 @@ export default class ListItemGenerated implements IPropertyWrapper {
             this.component.actionsSections.removeAll();
         }
         let { buildJsActionBase } = await import('./actionBase');
-        this.component.actionsSections = await Promise.all(value.map(async i => await buildJsActionBase(i, this.viewId))) as any;
+        this.component.actionsSections = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
     }
     
     async getChildren(): Promise<any> {
@@ -165,7 +165,7 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.actionsSections) && dotNetObject.actionsSections.length > 0) {
         let { buildJsActionBase } = await import('./actionBase');
-        properties.actionsSections = dotNetObject.actionsSections.map(i => buildJsActionBase(i, viewId)) as any;
+        properties.actionsSections = dotNetObject.actionsSections.map(i => buildJsActionBase(i)) as any;
     }
     if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
         properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
@@ -222,7 +222,7 @@ export async function buildDotNetListItemGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.actionsSections)) {
         let { buildDotNetActionBase } = await import('./actionBase');
-        dotNetListItem.actionsSections = await Promise.all(jsObject.actionsSections.map(async i => await buildDotNetActionBase(i, viewId)));
+        dotNetListItem.actionsSections = await Promise.all(jsObject.actionsSections.map(async i => await buildDotNetActionBase(i)));
     }
     
     if (hasValue(jsObject.layerView)) {

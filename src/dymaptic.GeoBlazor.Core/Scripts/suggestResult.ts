@@ -1,6 +1,6 @@
 import {buildDotNetPoint, buildJsPoint} from './point';
 
-export function buildJsSuggestResult(dotNetObject: any, viewId: string | null): any {
+export function buildJsSuggestResult(dotNetObject: any): any {
     let jsPoint = buildJsPoint(dotNetObject.location);
     let result: any = {
         location: jsPoint
@@ -18,7 +18,7 @@ export function buildJsSuggestResult(dotNetObject: any, viewId: string | null): 
     return result;
 }
 
-export function buildDotNetSuggestResult(jsObject: any, viewId: string | null): any {
+export function buildDotNetSuggestResult(jsObject: any): any {
     let dnPoint = buildDotNetPoint(jsObject.location);
     return {
         location: dnPoint,

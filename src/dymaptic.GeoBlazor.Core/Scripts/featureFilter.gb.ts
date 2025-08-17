@@ -23,11 +23,11 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.geometry)) {
             let { buildJsGeometry } = await import('./geometry');
-            this.component.geometry = buildJsGeometry(dotNetObject.geometry, this.viewId) as any;
+            this.component.geometry = buildJsGeometry(dotNetObject.geometry) as any;
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.component.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, this.viewId) as any;
+            this.component.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
         }
 
         if (hasValue(dotNetObject.distance)) {
@@ -59,12 +59,12 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGeometry } = await import('./geometry');
-        return buildDotNetGeometry(this.component.geometry, this.viewId);
+        return buildDotNetGeometry(this.component.geometry);
     }
     
     async setGeometry(value: any): Promise<void> {
         let { buildJsGeometry } = await import('./geometry');
-        this.component.geometry =  buildJsGeometry(value, this.viewId);
+        this.component.geometry =  buildJsGeometry(value);
     }
     
     async getTimeExtent(): Promise<any> {
@@ -73,12 +73,12 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return buildDotNetTimeExtent(this.component.timeExtent, this.viewId);
+        return buildDotNetTimeExtent(this.component.timeExtent);
     }
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.component.timeExtent = await  buildJsTimeExtent(value, this.viewId);
+        this.component.timeExtent = await  buildJsTimeExtent(value);
     }
     
     getWhere(): any {
@@ -111,11 +111,11 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        properties.geometry = buildJsGeometry(dotNetObject.geometry, viewId) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
 
     if (hasValue(dotNetObject.distance)) {
@@ -157,12 +157,12 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetGeometry } = await import('./geometry');
-        dotNetFeatureFilter.geometry = buildDotNetGeometry(jsObject.geometry, viewId);
+        dotNetFeatureFilter.geometry = buildDotNetGeometry(jsObject.geometry);
     }
     
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent, viewId);
+        dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
     
     if (hasValue(jsObject.distance)) {

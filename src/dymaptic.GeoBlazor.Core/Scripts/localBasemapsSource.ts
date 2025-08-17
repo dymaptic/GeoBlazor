@@ -32,7 +32,7 @@ export async function buildDotNetLocalBasemapsSource(jsObject: any, viewId: stri
     
     if (hasValue(jsObject.basemaps)) {
         let { buildDotNetBasemap } = await import('./basemap');
-        dotNetLocalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i)));
+        dotNetLocalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i, viewId)));
     }
     
     if (hasValue(jsObject.state)) {

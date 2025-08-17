@@ -23,7 +23,7 @@ export async function buildJsPortalBasemapsSource(dotNetObject: any, layerId: st
     return jsObject;
 }
 
-export async function buildDotNetPortalBasemapsSource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalBasemapsSource(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetPortalBasemapsSourceGenerated} = await import('./portalBasemapsSource.gb');
-    return await buildDotNetPortalBasemapsSourceGenerated(jsObject, layerId, viewId);
+    return await buildDotNetPortalBasemapsSourceGenerated(jsObject, viewId);
 }

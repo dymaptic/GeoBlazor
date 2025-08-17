@@ -23,7 +23,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
             let { buildJsActionBase } = await import('./actionBase');
-            this.widget.actions = dotNetObject.actions.map(i => buildJsActionBase(i, this.viewId)) as any;
+            this.widget.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
         }
         if (hasValue(dotNetObject.dockOptions)) {
             let { buildJsPopupDockOptions } = await import('./popupDockOptions');
@@ -31,7 +31,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
             let { buildJsGraphic } = await import('./graphic');
-            this.widget.features = dotNetObject.features.map(i => buildJsGraphic(i, this.viewId)) as any;
+            this.widget.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
         }
         if (hasValue(dotNetObject.goToOverride)) {
             let { buildJsGoToOverride } = await import('./goToOverride');
@@ -39,7 +39,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.location)) {
             let { buildJsPoint } = await import('./point');
-            this.widget.location = buildJsPoint(dotNetObject.location, this.viewId) as any;
+            this.widget.location = buildJsPoint(dotNetObject.location) as any;
         }
         if (hasValue(dotNetObject.visibleElements)) {
             let { buildJsPopupVisibleElements } = await import('./popupVisibleElements');
@@ -168,7 +168,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.widget.actions!.map(async i => await buildDotNetActionBase(i, this.viewId)));
+        return await Promise.all(this.widget.actions!.map(async i => await buildDotNetActionBase(i)));
     }
     
     async setActions(value: any): Promise<void> {
@@ -176,7 +176,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
             this.widget.actions.removeAll();
         }
         let { buildJsActionBase } = await import('./actionBase');
-        this.widget.actions = await Promise.all(value.map(async i => await buildJsActionBase(i, this.viewId))) as any;
+        this.widget.actions = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
     }
     
     getContent(): any {
@@ -215,7 +215,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
             this.widget.features = [];
         }
         let { buildJsGraphic } = await import('./graphic');
-        this.widget.features = value.map(i => buildJsGraphic(i, this.viewId)) as any;
+        this.widget.features = value.map(i => buildJsGraphic(i)) as any;
     }
     
     async getGoToOverride(): Promise<any> {
@@ -262,12 +262,12 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPoint } = await import('./point');
-        return buildDotNetPoint(this.widget.location, this.viewId);
+        return buildDotNetPoint(this.widget.location);
     }
     
     async setLocation(value: any): Promise<void> {
         let { buildJsPoint } = await import('./point');
-        this.widget.location =  buildJsPoint(value, this.viewId);
+        this.widget.location =  buildJsPoint(value);
     }
     
     getPromises(): any {
@@ -364,7 +364,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
         let { buildJsActionBase } = await import('./actionBase');
-        properties.actions = dotNetObject.actions.map(i => buildJsActionBase(i, viewId)) as any;
+        properties.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
     }
     if (hasValue(dotNetObject.dockOptions)) {
         let { buildJsPopupDockOptions } = await import('./popupDockOptions');
@@ -372,7 +372,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
-        properties.features = dotNetObject.features.map(i => buildJsGraphic(i, viewId)) as any;
+        properties.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');
@@ -380,7 +380,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        properties.location = buildJsPoint(dotNetObject.location, viewId) as any;
+        properties.location = buildJsPoint(dotNetObject.location) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsPopupViewModel } = await import('./popupViewModel');
@@ -478,7 +478,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     
     if (hasValue(jsObject.actions)) {
         let { buildDotNetActionBase } = await import('./actionBase');
-        dotNetPopupWidget.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i, viewId)));
+        dotNetPopupWidget.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
     }
     
     if (hasValue(jsObject.dockOptions)) {
@@ -488,7 +488,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     
     if (hasValue(jsObject.location)) {
         let { buildDotNetPoint } = await import('./point');
-        dotNetPopupWidget.location = buildDotNetPoint(jsObject.location, viewId);
+        dotNetPopupWidget.location = buildDotNetPoint(jsObject.location);
     }
     
     if (hasValue(jsObject.selectedDrillInFeature)) {

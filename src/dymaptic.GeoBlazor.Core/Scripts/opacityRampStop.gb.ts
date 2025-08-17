@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetOpacityRampStop } from './opacityRampStop';
 
-export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsOpacityRampStopGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId
     let jsOpacityRampStop: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsOpacityRampStop.color = buildJsMapColor(dotNetObject.color, viewId) as any;
+        jsOpacityRampStop.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -27,7 +27,7 @@ export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetOpacityRampStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetOpacityRampStopGenerated(jsObject: any,viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -36,7 +36,7 @@ export async function buildDotNetOpacityRampStopGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetOpacityRampStop.color = buildDotNetMapColor(jsObject.color, viewId);
+        dotNetOpacityRampStop.color = buildDotNetMapColor(jsObject.color);
     }
     
     if (hasValue(jsObject.label)) {

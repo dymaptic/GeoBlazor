@@ -23,7 +23,7 @@ export default class WebSceneGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.clippingArea)) {
             let { buildJsExtent } = await import('./extent');
-            this.component.clippingArea = buildJsExtent(dotNetObject.clippingArea, this.viewId) as any;
+            this.component.clippingArea = buildJsExtent(dotNetObject.clippingArea) as any;
         }
         if (hasValue(dotNetObject.floorInfo)) {
             let { buildJsMapFloorInfo } = await import('./mapFloorInfo');
@@ -163,7 +163,7 @@ export default class WebSceneGenerated implements IPropertyWrapper {
     
     async setClippingArea(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
-        this.component.clippingArea =  buildJsExtent(value, this.viewId);
+        this.component.clippingArea =  buildJsExtent(value);
     }
     
     async getFloorInfo(): Promise<any> {
@@ -238,7 +238,7 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     let properties: any = {};
     if (hasValue(dotNetObject.clippingArea)) {
         let { buildJsExtent } = await import('./extent');
-        properties.clippingArea = buildJsExtent(dotNetObject.clippingArea, viewId) as any;
+        properties.clippingArea = buildJsExtent(dotNetObject.clippingArea) as any;
     }
     if (hasValue(dotNetObject.floorInfo)) {
         let { buildJsMapFloorInfo } = await import('./mapFloorInfo');

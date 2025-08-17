@@ -116,7 +116,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
     async triggerAction(action: any,
         item: any): Promise<void> {
         let { buildJsActionBase } = await import('./actionBase');
-        let jsAction = buildJsActionBase(action, this.viewId) as any;
+        let jsAction = buildJsActionBase(action) as any;
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
         this.widget.triggerAction(jsAction,

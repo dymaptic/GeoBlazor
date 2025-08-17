@@ -152,7 +152,7 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

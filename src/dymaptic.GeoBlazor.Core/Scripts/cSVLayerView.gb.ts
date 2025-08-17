@@ -56,7 +56,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async highlight(target: any,
         options: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsTarget = buildJsGraphic(target, this.viewId) as any;
+        let jsTarget = buildJsGraphic(target) as any;
         return this.component.highlight(jsTarget,
             options);
     }

@@ -3,7 +3,7 @@ import Field from '@arcgis/core/layers/support/Field';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildJsDomain} from "./domain";
 
-export function buildJsField(dotNetObject: any, viewId: string | null): any {
+export function buildJsField(dotNetObject: any): any {
     let jsField = new Field();
 
     if (hasValue(dotNetObject.alias)) {

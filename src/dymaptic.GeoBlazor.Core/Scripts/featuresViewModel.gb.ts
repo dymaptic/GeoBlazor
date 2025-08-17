@@ -117,7 +117,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.component.next();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return buildDotNetFeaturesViewModel(result, this.viewId);
+        return buildDotNetFeaturesViewModel(result);
     }
 
     async open(options: any): Promise<void> {
@@ -127,7 +127,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
     async previous(): Promise<any> {
         let result = this.component.previous();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return buildDotNetFeaturesViewModel(result, this.viewId);
+        return buildDotNetFeaturesViewModel(result);
     }
 
     async triggerAction(actionIndex: any): Promise<void> {
@@ -165,7 +165,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.component.activeFeature!, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.activeFeature, this.layerId, this.viewId);
     }
     
     async setActiveFeature(value: any): Promise<void> {
@@ -280,10 +280,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.component.promises!.map(async p => {
-            let graphics = await p;
-            return graphics.map(g => buildDotNetGraphic(g, this.layerId, this.viewId));
-        });
+        return this.component.promises!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async setPromises(value: any): Promise<void> {
@@ -323,7 +320,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.component.selectedFeature!, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.selectedFeature, this.layerId, this.viewId);
     }
     
     async getSpatialReference(): Promise<any> {

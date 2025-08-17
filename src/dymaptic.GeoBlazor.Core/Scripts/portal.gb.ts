@@ -23,7 +23,7 @@ export default class PortalGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.defaultExtent)) {
             let { buildJsExtent } = await import('./extent');
-            this.component.defaultExtent = buildJsExtent(dotNetObject.defaultExtent, this.viewId) as any;
+            this.component.defaultExtent = buildJsExtent(dotNetObject.defaultExtent) as any;
         }
         if (hasValue(dotNetObject.featuredGroups) && dotNetObject.featuredGroups.length > 0) {
             let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
@@ -431,12 +431,12 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.component.defaultExtent, this.viewId);
+        return buildDotNetExtent(this.component.defaultExtent);
     }
     
     async setDefaultExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
-        this.component.defaultExtent =  buildJsExtent(value, this.viewId);
+        this.component.defaultExtent =  buildJsExtent(value);
     }
     
     async getDefaultVectorBasemap(): Promise<any> {
@@ -732,7 +732,7 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     let properties: any = {};
     if (hasValue(dotNetObject.defaultExtent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.defaultExtent = buildJsExtent(dotNetObject.defaultExtent, viewId) as any;
+        properties.defaultExtent = buildJsExtent(dotNetObject.defaultExtent) as any;
     }
     if (hasValue(dotNetObject.featuredGroups) && dotNetObject.featuredGroups.length > 0) {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
@@ -944,7 +944,7 @@ export async function buildDotNetPortalGenerated(jsObject: any, viewId: string |
     
     if (hasValue(jsObject.defaultExtent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetPortal.defaultExtent = buildDotNetExtent(jsObject.defaultExtent, viewId);
+        dotNetPortal.defaultExtent = buildDotNetExtent(jsObject.defaultExtent);
     }
     
     if (hasValue(jsObject.featuredGroups)) {

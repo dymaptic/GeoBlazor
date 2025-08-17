@@ -1,10 +1,10 @@
 
-export async function buildJsIPSInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIPSInfo(dotNetObject: any): Promise<any> {
     let { buildJsIPSInfoGenerated } = await import('./iPSInfo.gb');
-    return await buildJsIPSInfoGenerated(dotNetObject, layerId, viewId);
+    return null;
 }     
 
-export async function buildDotNetIPSInfo(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetIPSInfo(jsObject: any): Promise<any> {
     let { buildDotNetIPSInfoGenerated } = await import('./iPSInfo.gb');
-    return await buildDotNetIPSInfoGenerated(jsObject, viewId);
+    return await buildDotNetIPSInfoGenerated(jsObject);
 }

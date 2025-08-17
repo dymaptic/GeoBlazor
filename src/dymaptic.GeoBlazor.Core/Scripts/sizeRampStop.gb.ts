@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, generateSerializableJson } from './arcGisJsInterop';
 import { buildDotNetSizeRampStop } from './sizeRampStop';
 
-export async function buildJsSizeRampStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSizeRampStopGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsSizeRampStopGenerated(dotNetObject: any, layerId: s
     let jsSizeRampStop: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsSizeRampStop.symbol = buildJsSymbol(dotNetObject.symbol, viewId) as any;
+        jsSizeRampStop.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -36,7 +36,7 @@ export async function buildJsSizeRampStopGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSizeRampStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSizeRampStopGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -45,7 +45,7 @@ export async function buildDotNetSizeRampStopGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSizeRampStop.symbol = buildDotNetSymbol(jsObject.symbol, viewId);
+        dotNetSizeRampStop.symbol = buildDotNetSymbol(jsObject.symbol);
     }
     
     if (hasValue(jsObject.label)) {

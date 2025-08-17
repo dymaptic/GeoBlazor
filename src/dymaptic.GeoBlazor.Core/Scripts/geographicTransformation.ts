@@ -1,7 +1,7 @@
-import GeographicTransformation from '@arcgis/core/geometry/support/GeographicTransformation';
+import GeographicTransformation from '@arcgis/core/geometry/operators/support/GeographicTransformation';
 import GeographicTransformationGenerated from './geographicTransformation.gb';
 
-export function buildDotNetGeographicTransformation(geographicTransformation: any, viewId: string | null): any {
+export function buildDotNetGeographicTransformation(geographicTransformation: any): any {
     if (geographicTransformation === undefined || geographicTransformation === null) return null;
     let steps: any[] = [];
     geographicTransformation.steps.forEach(s => {

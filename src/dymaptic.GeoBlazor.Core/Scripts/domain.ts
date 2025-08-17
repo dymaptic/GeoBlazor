@@ -2,7 +2,7 @@ import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
 import {hasValue, sanitize} from "./arcGisJsInterop";
 
-export function buildJsDomain(dotNetDomain: any, viewId: string | null): any {
+export function buildJsDomain(dotNetDomain: any): any {
     if (!hasValue(dotNetDomain)) {
         return null;
     }
@@ -34,7 +34,7 @@ export function buildJsDomain(dotNetDomain: any, viewId: string | null): any {
     }
 }
 
-export function buildDotNetDomain(domain: any, viewId: string | null): any {
+export function buildDotNetDomain(domain: any): any {
     if (!hasValue(domain)) {
         return null;
     }

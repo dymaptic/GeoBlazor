@@ -1,4 +1,4 @@
-import {arcGisObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, sanitize} from "./arcGisJsInterop";
+import {dotNetRefs, hasValue, lookupGeoBlazorId, sanitize} from "./arcGisJsInterop";
 
 export async function buildJsLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject?.layer)) {

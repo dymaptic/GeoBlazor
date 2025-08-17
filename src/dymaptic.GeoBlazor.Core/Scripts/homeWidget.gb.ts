@@ -27,7 +27,7 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.viewpoint)) {
             let { buildJsViewpoint } = await import('./viewpoint');
-            this.widget.viewpoint = buildJsViewpoint(dotNetObject.viewpoint, this.viewId) as any;
+            this.widget.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
         }
 
         if (hasValue(dotNetObject.icon)) {
@@ -169,12 +169,12 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetViewpoint } = await import('./viewpoint');
-        return buildDotNetViewpoint(this.widget.viewpoint, this.viewId);
+        return buildDotNetViewpoint(this.widget.viewpoint);
     }
     
     async setViewpoint(value: any): Promise<void> {
         let { buildJsViewpoint } = await import('./viewpoint');
-        this.widget.viewpoint =  buildJsViewpoint(value, this.viewId);
+        this.widget.viewpoint =  buildJsViewpoint(value);
     }
     
     getWidgetId(): any {
@@ -218,7 +218,7 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsViewpoint } = await import('./viewpoint');
-        properties.viewpoint = buildJsViewpoint(dotNetObject.viewpoint, viewId) as any;
+        properties.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
     }
 
     if (hasValue(dotNetObject.icon)) {
@@ -284,7 +284,7 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any, viewId: stri
     
     if (hasValue(jsObject.viewpoint)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
-        dotNetHomeWidget.viewpoint = buildDotNetViewpoint(jsObject.viewpoint, viewId);
+        dotNetHomeWidget.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
     }
     
     if (hasValue(jsObject.icon)) {

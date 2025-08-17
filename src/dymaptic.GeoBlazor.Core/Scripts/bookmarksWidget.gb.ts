@@ -354,7 +354,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.hasBookmarkSelectListener) && dotNetObject.hasBookmarkSelectListener) {
         jsBookmarks.on('bookmark-select', async (evt: any) => {
             let { buildDotNetBookmarkSelectEvent } = await import('./bookmarkSelectEvent');
-            let dnEvent = await buildDotNetBookmarkSelectEvent(evt, viewId);
+            let dnEvent = await buildDotNetBookmarkSelectEvent(evt);
             let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkSelect', streamRef);
         });

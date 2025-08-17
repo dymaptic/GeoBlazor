@@ -1,9 +1,9 @@
 // override generated code in this file
 
 
-export async function buildJsCoverageInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCoverageInfo(dotNetObject: any): Promise<any> {
     let {buildJsCoverageInfoGenerated} = await import('./coverageInfo.gb');
-    return await buildJsCoverageInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsCoverageInfoGenerated(dotNetObject);
 }
 
 export async function buildDotNetCoverageInfo(jsObject: any, viewId: string | null): Promise<any> {

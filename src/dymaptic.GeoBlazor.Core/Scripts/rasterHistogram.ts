@@ -1,6 +1,6 @@
 import {hasValue} from "./arcGisJsInterop";
 
-export function buildJsRasterHistogram(dotNetObject: any, viewId: string | null): any {
+export function buildJsRasterHistogram(dotNetObject: any): any {
     if (!hasValue(dotNetObject)) {
         return null;
     }

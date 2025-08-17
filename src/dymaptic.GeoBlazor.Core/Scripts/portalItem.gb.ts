@@ -23,7 +23,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.extent)) {
             let { buildJsExtent } = await import('./extent');
-            this.component.extent = buildJsExtent(dotNetObject.extent, this.viewId) as any;
+            this.component.extent = buildJsExtent(dotNetObject.extent) as any;
         }
         if (hasValue(dotNetObject.portal)) {
             let { buildJsPortal } = await import('./portal');
@@ -282,12 +282,12 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.component.extent, this.viewId);
+        return buildDotNetExtent(this.component.extent);
     }
     
     async setExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
-        this.component.extent =  buildJsExtent(value, this.viewId);
+        this.component.extent =  buildJsExtent(value);
     }
     
     getItemPageUrl(): any {
@@ -442,7 +442,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.extent = buildJsExtent(dotNetObject.extent, viewId) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
@@ -551,7 +551,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any, viewId: stri
     
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetPortalItem.extent = buildDotNetExtent(jsObject.extent, viewId);
+        dotNetPortalItem.extent = buildDotNetExtent(jsObject.extent);
     }
     
     if (hasValue(jsObject.portal)) {

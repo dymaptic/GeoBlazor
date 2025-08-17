@@ -27,7 +27,7 @@ export default class WebMapGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.bookmarks) && dotNetObject.bookmarks.length > 0) {
             let { buildJsBookmark } = await import('./bookmark');
-            this.component.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i, this.viewId))) as any;
+            this.component.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
         }
         if (hasValue(dotNetObject.floorInfo)) {
             let { buildJsMapFloorInfo } = await import('./mapFloorInfo');
@@ -39,7 +39,7 @@ export default class WebMapGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.ipsInfo)) {
             let { buildJsIPSInfo } = await import('./iPSInfo');
-            this.component.ipsInfo = await buildJsIPSInfo(dotNetObject.ipsInfo, this.layerId, this.viewId) as any;
+            this.component.ipsInfo = await buildJsIPSInfo(dotNetObject.ipsInfo) as any;
         }
         if (hasValue(dotNetObject.portalItem)) {
             let { buildJsPortalItem } = await import('./portalItem');
@@ -174,7 +174,7 @@ export default class WebMapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBookmark } = await import('./bookmark');
-        return await Promise.all(this.component.bookmarks!.map(async i => await buildDotNetBookmark(i, this.viewId)));
+        return await Promise.all(this.component.bookmarks!.map(async i => await buildDotNetBookmark(i)));
     }
     
     async setBookmarks(value: any): Promise<void> {
@@ -182,7 +182,7 @@ export default class WebMapGenerated implements IPropertyWrapper {
             this.component.bookmarks.removeAll();
         }
         let { buildJsBookmark } = await import('./bookmark');
-        this.component.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i, this.viewId))) as any;
+        this.component.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i))) as any;
     }
     
     async getFloorInfo(): Promise<any> {
@@ -219,12 +219,12 @@ export default class WebMapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetIPSInfo } = await import('./iPSInfo');
-        return await buildDotNetIPSInfo(this.component.ipsInfo, this.viewId);
+        return await buildDotNetIPSInfo(this.component.ipsInfo);
     }
     
     async setIpsInfo(value: any): Promise<void> {
         let { buildJsIPSInfo } = await import('./iPSInfo');
-        this.component.ipsInfo = await  buildJsIPSInfo(value, this.layerId, this.viewId);
+        this.component.ipsInfo = await  buildJsIPSInfo(value);
     }
     
     async getPortalItem(): Promise<any> {
@@ -301,7 +301,7 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.bookmarks) && dotNetObject.bookmarks.length > 0) {
         let { buildJsBookmark } = await import('./bookmark');
-        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i, viewId))) as any;
+        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
     }
     if (hasValue(dotNetObject.floorInfo)) {
         let { buildJsMapFloorInfo } = await import('./mapFloorInfo');
@@ -313,7 +313,7 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.ipsInfo)) {
         let { buildJsIPSInfo } = await import('./iPSInfo');
-        properties.ipsInfo = await buildJsIPSInfo(dotNetObject.ipsInfo, layerId, viewId) as any;
+        properties.ipsInfo = await buildJsIPSInfo(dotNetObject.ipsInfo) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -371,7 +371,7 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.bookmarks)) {
         let { buildDotNetBookmark } = await import('./bookmark');
-        dotNetWebMap.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i, viewId)));
+        dotNetWebMap.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i)));
     }
     
     if (hasValue(jsObject.floorInfo)) {
@@ -386,7 +386,7 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.ipsInfo)) {
         let { buildDotNetIPSInfo } = await import('./iPSInfo');
-        dotNetWebMap.ipsInfo = await buildDotNetIPSInfo(jsObject.ipsInfo, viewId);
+        dotNetWebMap.ipsInfo = await buildDotNetIPSInfo(jsObject.ipsInfo);
     }
     
     if (hasValue(jsObject.portalItem)) {

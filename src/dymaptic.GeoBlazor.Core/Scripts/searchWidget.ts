@@ -1,4 +1,3 @@
-import widgetsSearch from '@arcgis/core/widgets/Search';
 import Search from '@arcgis/core/widgets/Search';
 import SearchWidgetGenerated from './searchWidget.gb';
 import {buildJsGeometry} from './geometry';
@@ -131,7 +130,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
         let dotNetSuggestions: any[] = [];
         let {buildDotNetSuggestResult} = await import('./suggestResult');
         for (let jsSuggestion of jsSuggestions!) {
-            dotNetSuggestions.push(buildDotNetSuggestResult(jsSuggestion, this.viewId));
+            dotNetSuggestions.push(buildDotNetSuggestResult(jsSuggestion));
         }
 
         let encodedJson = buildEncodedJson(dotNetSuggestions);

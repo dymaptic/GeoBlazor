@@ -1,7 +1,7 @@
 // override generated code in this file
 import GraphicsLayerViewGenerated from './graphicsLayerView.gb';
 import GraphicsLayerView = __esri.GraphicsLayerView;
-import {hasValue, lookupJsGraphicById, graphicsRefs} from "./arcGisJsInterop";
+import {hasValue, lookupJsGraphicById} from "./arcGisJsInterop";
 
 export default class GraphicsLayerViewWrapper extends GraphicsLayerViewGenerated {
 

@@ -1,7 +1,7 @@
 // override generated code in this file
 import WCSLayerGenerated from './wCSLayer.gb';
 import WCSLayer from '@arcgis/core/layers/WCSLayer';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {hasValue} from "./arcGisJsInterop";
 
 export default class WCSLayerWrapper extends WCSLayerGenerated {
 

@@ -27,7 +27,7 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.graphic)) {
             let { buildJsGraphic } = await import('./graphic');
-            this.widget.graphic = buildJsGraphic(dotNetObject.graphic, this.viewId) as any;
+            this.widget.graphic = buildJsGraphic(dotNetObject.graphic) as any;
         }
 
         if (hasValue(dotNetObject.geolocationOptions)) {
@@ -147,7 +147,7 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     
     async setGraphic(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.widget.graphic =  buildJsGraphic(value, this.viewId);
+        this.widget.graphic =  buildJsGraphic(value);
     }
     
     getIcon(): any {
@@ -225,7 +225,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        properties.graphic = buildJsGraphic(dotNetObject.graphic, viewId) as any;
+        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsLocateViewModel } = await import('./locateViewModel');

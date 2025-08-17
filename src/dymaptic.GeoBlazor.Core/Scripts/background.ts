@@ -1,10 +1,10 @@
 
-export async function buildJsBackground(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsBackground(dotNetObject: any): Promise<any> {
     let { buildJsBackgroundGenerated } = await import('./background.gb');
-    return await buildJsBackgroundGenerated(dotNetObject, viewId);
+    return await buildJsBackgroundGenerated(dotNetObject);
 }     
 
-export async function buildDotNetBackground(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBackground(jsObject: any): Promise<any> {
     let { buildDotNetBackgroundGenerated } = await import('./background.gb');
-    return await buildDotNetBackgroundGenerated(jsObject, viewId);
+    return await buildDotNetBackgroundGenerated(jsObject);
 }

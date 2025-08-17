@@ -1,10 +1,10 @@
 
-export async function buildJsUniqueValueInfo(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsUniqueValueInfo(dotNetObject: any): Promise<any> {
     let { buildJsUniqueValueInfoGenerated } = await import('./uniqueValueInfo.gb');
-    return await buildJsUniqueValueInfoGenerated(dotNetObject, viewId);
+    return await buildJsUniqueValueInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetUniqueValueInfo(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetUniqueValueInfo(jsObject: any): Promise<any> {
     let { buildDotNetUniqueValueInfoGenerated } = await import('./uniqueValueInfo.gb');
-    return await buildDotNetUniqueValueInfoGenerated(jsObject, viewId);
+    return await buildDotNetUniqueValueInfoGenerated(jsObject,);
 }

@@ -27,7 +27,7 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.graphic)) {
             let { buildJsGraphic } = await import('./graphic');
-            this.component.graphic = buildJsGraphic(dotNetObject.graphic, this.viewId) as any;
+            this.component.graphic = buildJsGraphic(dotNetObject.graphic) as any;
         }
 
         if (hasValue(dotNetObject.error)) {
@@ -96,7 +96,7 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
     
     async setGraphic(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.component.graphic =  buildJsGraphic(value, this.viewId);
+        this.component.graphic =  buildJsGraphic(value);
     }
     
     getProperty(prop: string): any {
@@ -121,7 +121,7 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        properties.graphic = buildJsGraphic(dotNetObject.graphic, viewId) as any;
+        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
     if (hasValue(dotNetObject.error)) {

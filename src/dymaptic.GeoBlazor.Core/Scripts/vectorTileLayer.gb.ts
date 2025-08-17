@@ -31,7 +31,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, this.viewId) as any;
+            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.apiKey)) {
@@ -234,7 +234,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
-        return await buildDotNetVectorTileLayerCurrentStyleInfo(this.layer.currentStyleInfo, this.viewId);
+        return await buildDotNetVectorTileLayerCurrentStyleInfo(this.layer.currentStyleInfo);
     }
     
     async getEffect(): Promise<any> {
@@ -257,12 +257,12 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent, this.viewId);
+        return buildDotNetExtent(this.layer.fullExtent);
     }
     
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value, this.viewId);
+        this.layer.fullExtent =  buildJsExtent(value);
     }
     
     async getInitialExtent(): Promise<any> {
@@ -271,7 +271,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.initialExtent, this.viewId);
+        return buildDotNetExtent(this.layer.initialExtent);
     }
     
     async getPortalItem(): Promise<any> {
@@ -294,7 +294,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.layer.spatialReference, this.viewId);
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     getStyle(): any {
@@ -348,12 +348,12 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent, this.viewId);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.viewId);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -378,7 +378,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent, viewId) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -386,7 +386,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
@@ -501,7 +501,7 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.currentStyleInfo)) {
         let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
-        dotNetVectorTileLayer.currentStyleInfo = await buildDotNetVectorTileLayerCurrentStyleInfo(jsObject.currentStyleInfo, viewId);
+        dotNetVectorTileLayer.currentStyleInfo = await buildDotNetVectorTileLayerCurrentStyleInfo(jsObject.currentStyleInfo);
     }
     
     if (hasValue(jsObject.effect)) {
@@ -511,12 +511,12 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetVectorTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent, viewId);
+        dotNetVectorTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
     
     if (hasValue(jsObject.initialExtent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetVectorTileLayer.initialExtent = buildDotNetExtent(jsObject.initialExtent, viewId);
+        dotNetVectorTileLayer.initialExtent = buildDotNetExtent(jsObject.initialExtent);
     }
     
     if (hasValue(jsObject.portalItem)) {
@@ -526,7 +526,7 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetVectorTileLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference, viewId);
+        dotNetVectorTileLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.tileInfo)) {
@@ -536,7 +536,7 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        dotNetVectorTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent, viewId);
+        dotNetVectorTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
     
     if (hasValue(jsObject.apiKey)) {

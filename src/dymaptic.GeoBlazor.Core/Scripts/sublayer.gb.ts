@@ -46,7 +46,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.source)) {
             let { buildJsDynamicLayer } = await import('./dynamicLayer');
-            this.component.source = await buildJsDynamicLayer(dotNetObject.source, this.layerId, this.viewId) as any;
+            this.component.source = await buildJsDynamicLayer(dotNetObject.source) as any;
         }
 
         if (hasValue(dotNetObject.definitionExpression)) {
@@ -107,7 +107,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
 
     async getFeatureType(feature: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = buildJsGraphic(feature, this.viewId) as any;
+        let jsFeature = buildJsGraphic(feature) as any;
         return this.component.getFeatureType(jsFeature);
     }
 
@@ -199,7 +199,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSublayerCapabilities } = await import('./sublayerCapabilities');
-        return await buildDotNetSublayerCapabilities(this.component.capabilities, this.viewId);
+        return await buildDotNetSublayerCapabilities(this.component.capabilities);
     }
     
     getDefinitionExpression(): any {
@@ -252,7 +252,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.component.fullExtent, this.viewId);
+        return buildDotNetExtent(this.component.fullExtent);
     }
     
     async getLabelingInfo(): Promise<any> {
@@ -266,7 +266,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     
     async setLabelingInfo(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.component.labelingInfo.removeAll();
+            this.component.labelingInfo = [];
         }
         let { buildJsLabel } = await import('./label');
         this.component.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i, this.layerId, this.viewId))) as any;
@@ -300,7 +300,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     
     async setOrderBy(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.component.orderBy.removeAll();
+            this.component.orderBy = [];
         }
         let { buildJsOrderByInfo } = await import('./orderByInfo');
         this.component.orderBy = await Promise.all(value.map(async i => await buildJsOrderByInfo(i, this.layerId, this.viewId))) as any;
@@ -312,7 +312,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.component.popupTemplate, this.viewId);
+        return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -345,7 +345,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     
     async setSource(value: any): Promise<void> {
         let { buildJsDynamicLayer } = await import('./dynamicLayer');
-        this.component.source = await  buildJsDynamicLayer(value, this.layerId, this.viewId);
+        this.component.source = await  buildJsDynamicLayer(value);
     }
     
     getSourceJSON(): any {
@@ -362,7 +362,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.spatialReference, this.viewId);
+        return buildDotNetSpatialReference(this.component.spatialReference);
     }
     
     async getSublayers(): Promise<any> {
@@ -408,7 +408,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureType } = await import('./featureType');
-        return await Promise.all(this.component.types!.map(async i => await buildDotNetFeatureType(i, this.viewId)));
+        return await Promise.all(this.component.types!.map(async i => await buildDotNetFeatureType(i)));
     }
     
     getUrl(): any {
@@ -464,7 +464,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.source)) {
         let { buildJsDynamicLayer } = await import('./dynamicLayer');
-        properties.source = await buildJsDynamicLayer(dotNetObject.source, layerId, viewId) as any;
+        properties.source = await buildJsDynamicLayer(dotNetObject.source) as any;
     }
 
     if (hasValue(dotNetObject.definitionExpression)) {
@@ -527,7 +527,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.capabilities)) {
         let { buildDotNetSublayerCapabilities } = await import('./sublayerCapabilities');
-        dotNetSublayer.capabilities = await buildDotNetSublayerCapabilities(jsObject.capabilities, viewId);
+        dotNetSublayer.capabilities = await buildDotNetSublayerCapabilities(jsObject.capabilities);
     }
     
     if (hasValue(jsObject.fields)) {
@@ -547,7 +547,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
-        dotNetSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent, viewId);
+        dotNetSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
     
     if (hasValue(jsObject.labelingInfo)) {
@@ -562,7 +562,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, viewId);
+        dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     
     if (hasValue(jsObject.renderer)) {
@@ -577,12 +577,12 @@ export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetSublayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference, viewId);
+        dotNetSublayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.types)) {
         let { buildDotNetFeatureType } = await import('./featureType');
-        dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i, viewId)));
+        dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
     }
     
     if (hasValue(jsObject.attributeTableTemplate)) {

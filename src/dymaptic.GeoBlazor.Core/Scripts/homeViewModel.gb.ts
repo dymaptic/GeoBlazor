@@ -27,7 +27,7 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.viewpoint)) {
             let { buildJsViewpoint } = await import('./viewpoint');
-            this.component.viewpoint = buildJsViewpoint(dotNetObject.viewpoint, this.viewId) as any;
+            this.component.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
         }
 
     }
@@ -48,7 +48,7 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride, this.viewId);
+        return await buildDotNetGoToOverride(this.component.goToOverride);
     }
     
     async setGoToOverride(value: any): Promise<void> {
@@ -62,12 +62,12 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetViewpoint } = await import('./viewpoint');
-        return buildDotNetViewpoint(this.component.viewpoint, this.viewId);
+        return buildDotNetViewpoint(this.component.viewpoint);
     }
     
     async setViewpoint(value: any): Promise<void> {
         let { buildJsViewpoint } = await import('./viewpoint');
-        this.component.viewpoint =  buildJsViewpoint(value, this.viewId);
+        this.component.viewpoint =  buildJsViewpoint(value);
     }
     
     getProperty(prop: string): any {
@@ -95,7 +95,7 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsViewpoint } = await import('./viewpoint');
-        properties.viewpoint = buildJsViewpoint(dotNetObject.viewpoint, viewId) as any;
+        properties.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
     }
 
     let jsHomeViewModel = new HomeViewModel(properties);
@@ -129,7 +129,7 @@ export async function buildDotNetHomeViewModelGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.viewpoint)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
-        dotNetHomeViewModel.viewpoint = buildDotNetViewpoint(jsObject.viewpoint, viewId);
+        dotNetHomeViewModel.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
     }
     
     if (hasValue(jsObject.state)) {

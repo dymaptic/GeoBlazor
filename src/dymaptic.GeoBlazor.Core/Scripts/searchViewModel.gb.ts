@@ -174,7 +174,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.component.defaultPopupTemplate, this.viewId);
+        return await buildDotNetPopupTemplate(this.component.defaultPopupTemplate);
     }
     
     async setDefaultPopupTemplate(value: any): Promise<void> {
@@ -233,7 +233,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.component.popupTemplate, this.viewId);
+        return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -291,7 +291,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSuggestResult } = await import('./suggestResult');
-        return buildDotNetSuggestResult(this.component.selectedSuggestion, this.viewId);
+        return buildDotNetSuggestResult(this.component.selectedSuggestion);
     }
     
     async getSources(): Promise<any> {
@@ -317,7 +317,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSuggestResult } = await import('./suggestResult');
-        return this.component.suggestions!.map(i => buildDotNetSuggestResult(i, this.viewId));
+        return this.component.suggestions!.map(i => buildDotNetSuggestResult(i));
     }
     
     getProperty(prop: string): any {
@@ -500,7 +500,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.defaultPopupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetSearchViewModel.defaultPopupTemplate = await buildDotNetPopupTemplate(jsObject.defaultPopupTemplate, viewId);
+        dotNetSearchViewModel.defaultPopupTemplate = await buildDotNetPopupTemplate(jsObject.defaultPopupTemplate);
     }
     
     if (hasValue(jsObject.defaultSources)) {
@@ -515,7 +515,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, viewId);
+        dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     
     if (hasValue(jsObject.portal)) {
@@ -535,7 +535,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.selectedSuggestion)) {
         let { buildDotNetSuggestResult } = await import('./suggestResult');
-        dotNetSearchViewModel.selectedSuggestion = buildDotNetSuggestResult(jsObject.selectedSuggestion, viewId);
+        dotNetSearchViewModel.selectedSuggestion = buildDotNetSuggestResult(jsObject.selectedSuggestion);
     }
     
     if (hasValue(jsObject.sources)) {
@@ -545,7 +545,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.suggestions)) {
         let { buildDotNetSuggestResult } = await import('./suggestResult');
-        dotNetSearchViewModel.suggestions = jsObject.suggestions.map(i => buildDotNetSuggestResult(i, viewId));
+        dotNetSearchViewModel.suggestions = jsObject.suggestions.map(i => buildDotNetSuggestResult(i));
     }
     
     if (hasValue(jsObject.activeSourceIndex)) {

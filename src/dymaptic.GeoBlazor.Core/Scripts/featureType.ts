@@ -1,8 +1,8 @@
 // override generated code in this file
-import FeatureType from '@arcgis/core/layers/support/FeatureType';
+
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export async function buildDotNetFeatureType(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureType(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

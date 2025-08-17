@@ -22,9 +22,9 @@ export async function buildDotNetIBasemapGalleryWidgetSource(jsObject: any, view
     
     if (jsObject instanceof PortalBasemapsSource) {
         let { buildDotNetPortalBasemapsSource } = await import('./portalBasemapsSource');
-        return await buildDotNetPortalBasemapsSource(jsObject);
+        return await buildDotNetPortalBasemapsSource(jsObject, viewId);
     }
     
     let { buildDotNetLocalBasemapsSource } = await import('./localBasemapsSource');
-    return await buildDotNetLocalBasemapsSource(jsObject);
+    return await buildDotNetLocalBasemapsSource(jsObject, viewId);
 }

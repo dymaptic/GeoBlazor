@@ -23,7 +23,7 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.tickConfigs) && dotNetObject.tickConfigs.length > 0) {
             let { buildJsTickConfig } = await import('./tickConfig');
-            this.widget.tickConfigs = dotNetObject.tickConfigs.map(i => buildJsTickConfig(i, this.viewId)) as any;
+            this.widget.tickConfigs = dotNetObject.tickConfigs.map(i => buildJsTickConfig(i)) as any;
         }
         if (hasValue(dotNetObject.visibleElements)) {
             let { buildJsSliderVisibleElements } = await import('./sliderVisibleElements');
@@ -168,10 +168,10 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
     
     async setTickConfigs(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.widget.tickConfigs.removeAll();
+            this.widget.tickConfigs = [];
         }
         let { buildJsTickConfig } = await import('./tickConfig');
-        this.widget.tickConfigs = await Promise.all(value.map(async i => await buildJsTickConfig(i, this.viewId))) as any;
+        this.widget.tickConfigs = await Promise.all(value.map(async i => await buildJsTickConfig(i))) as any;
     }
     
     async getViewModel(): Promise<any> {
@@ -293,7 +293,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.tickConfigs) && dotNetObject.tickConfigs.length > 0) {
         let { buildJsTickConfig } = await import('./tickConfig');
-        properties.tickConfigs = dotNetObject.tickConfigs.map(i => buildJsTickConfig(i, viewId)) as any;
+        properties.tickConfigs = dotNetObject.tickConfigs.map(i => buildJsTickConfig(i)) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsSliderViewModel } = await import('./sliderViewModel');

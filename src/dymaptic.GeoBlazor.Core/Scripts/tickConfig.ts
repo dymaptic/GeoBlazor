@@ -1,6 +1,6 @@
 import {copyValuesIfExists, hasValue} from "./arcGisJsInterop";
 
-export function buildJsTickConfig(dotNetObject: any, viewId: string | null): any {
+export function buildJsTickConfig(dotNetObject: any): any {
     let tickConfig: any = {
         mode: dotNetObject.mode ?? undefined,
         values: dotNetObject.values ?? undefined
