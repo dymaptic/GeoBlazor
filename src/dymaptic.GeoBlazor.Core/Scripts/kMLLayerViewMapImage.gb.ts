@@ -59,7 +59,13 @@ export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any, vi
         dotNetKMLLayerViewMapImage.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetKMLLayerViewMapImage.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetKMLLayerViewMapImage.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for KMLLayerViewMapImage', e);
+            }
+        }
     }
     if (hasValue(dotNetKMLLayerViewMapImage.id)) {
         jsObjectRefs[dotNetKMLLayerViewMapImage.id] ??= jsObject;

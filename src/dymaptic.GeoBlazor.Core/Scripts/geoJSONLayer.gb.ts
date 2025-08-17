@@ -1113,7 +1113,13 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, viewId: st
         dotNetGeoJSONLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetGeoJSONLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetGeoJSONLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for GeoJSONLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetGeoJSONLayer.id)) {
         jsObjectRefs[dotNetGeoJSONLayer.id] ??= jsObject;

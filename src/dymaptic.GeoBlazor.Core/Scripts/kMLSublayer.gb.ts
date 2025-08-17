@@ -63,7 +63,13 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any, viewId: str
         dotNetKMLSublayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetKMLSublayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetKMLSublayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for KMLSublayer', e);
+            }
+        }
     }
     if (hasValue(dotNetKMLSublayer.id)) {
         jsObjectRefs[dotNetKMLSublayer.id] ??= jsObject;

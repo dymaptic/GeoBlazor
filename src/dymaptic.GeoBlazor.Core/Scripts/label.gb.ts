@@ -242,7 +242,13 @@ export async function buildDotNetLabelGenerated(jsObject: any, viewId: string | 
         dotNetLabel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLabel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLabel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for Label', e);
+            }
+        }
     }
     if (hasValue(dotNetLabel.id)) {
         jsObjectRefs[dotNetLabel.id] ??= jsObject;

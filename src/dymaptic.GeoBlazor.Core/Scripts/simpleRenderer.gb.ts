@@ -69,7 +69,13 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any, viewId: 
         dotNetSimpleRenderer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSimpleRenderer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSimpleRenderer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for SimpleRenderer', e);
+            }
+        }
     }
     if (hasValue(dotNetSimpleRenderer.id)) {
         jsObjectRefs[dotNetSimpleRenderer.id] ??= jsObject;

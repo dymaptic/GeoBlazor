@@ -55,7 +55,13 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any, vie
         dotNetListItemPanelWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetListItemPanelWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetListItemPanelWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ListItemPanelWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetListItemPanelWidget.id)) {
         jsObjectRefs[dotNetListItemPanelWidget.id] ??= jsObject;

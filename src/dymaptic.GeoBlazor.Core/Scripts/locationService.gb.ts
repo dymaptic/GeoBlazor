@@ -70,7 +70,13 @@ export async function buildDotNetLocationServiceGenerated(jsObject: any, layerId
         dotNetLocationService.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLocationService.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLocationService.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LocationService', e);
+            }
+        }
     }
     if (hasValue(dotNetLocationService.id)) {
         jsObjectRefs[dotNetLocationService.id] ??= jsObject;

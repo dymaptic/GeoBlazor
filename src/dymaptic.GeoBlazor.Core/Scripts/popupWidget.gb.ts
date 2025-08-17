@@ -601,7 +601,13 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         dotNetPopupWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPopupWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPopupWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PopupWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetPopupWidget.id)) {
         jsObjectRefs[dotNetPopupWidget.id] ??= jsObject;

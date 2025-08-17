@@ -43,7 +43,13 @@ export async function buildDotNetPopupDockOptionsBreakpointGenerated(jsObject: a
         dotNetPopupDockOptionsBreakpoint.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPopupDockOptionsBreakpoint.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPopupDockOptionsBreakpoint.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PopupDockOptionsBreakpoint', e);
+            }
+        }
     }
     if (hasValue(dotNetPopupDockOptionsBreakpoint.id)) {
         jsObjectRefs[dotNetPopupDockOptionsBreakpoint.id] ??= jsObject;

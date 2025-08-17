@@ -68,7 +68,13 @@ export async function buildDotNetRasterPresetRendererGenerated(jsObject: any, vi
         dotNetRasterPresetRenderer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetRasterPresetRenderer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetRasterPresetRenderer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for RasterPresetRenderer', e);
+            }
+        }
     }
     if (hasValue(dotNetRasterPresetRenderer.id)) {
         jsObjectRefs[dotNetRasterPresetRenderer.id] ??= jsObject;

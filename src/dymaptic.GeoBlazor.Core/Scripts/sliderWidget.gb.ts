@@ -613,7 +613,13 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any, viewId: st
         dotNetSliderWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSliderWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSliderWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for SliderWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetSliderWidget.id)) {
         jsObjectRefs[dotNetSliderWidget.id] ??= jsObject;

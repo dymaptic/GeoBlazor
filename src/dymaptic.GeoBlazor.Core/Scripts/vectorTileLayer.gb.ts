@@ -617,7 +617,13 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, viewId:
         dotNetVectorTileLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetVectorTileLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetVectorTileLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for VectorTileLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetVectorTileLayer.id)) {
         jsObjectRefs[dotNetVectorTileLayer.id] ??= jsObject;

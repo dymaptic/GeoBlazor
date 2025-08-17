@@ -50,7 +50,13 @@ export async function buildDotNetLayerListKnowledgeGraphOptionsVisibleElementsGe
         dotNetLayerListKnowledgeGraphOptionsVisibleElements.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLayerListKnowledgeGraphOptionsVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLayerListKnowledgeGraphOptionsVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LayerListKnowledgeGraphOptionsVisibleElements', e);
+            }
+        }
     }
     if (hasValue(dotNetLayerListKnowledgeGraphOptionsVisibleElements.id)) {
         jsObjectRefs[dotNetLayerListKnowledgeGraphOptionsVisibleElements.id] ??= jsObject;

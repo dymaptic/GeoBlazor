@@ -373,7 +373,13 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, viewId: string
         dotNetWebScene.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetWebScene.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetWebScene.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for WebScene', e);
+            }
+        }
     }
     if (hasValue(dotNetWebScene.id)) {
         jsObjectRefs[dotNetWebScene.id] ??= jsObject;

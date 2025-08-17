@@ -219,7 +219,13 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any, vie
         dotNetLocatorSearchSource.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLocatorSearchSource.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLocatorSearchSource.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LocatorSearchSource', e);
+            }
+        }
     }
     if (hasValue(dotNetLocatorSearchSource.id)) {
         jsObjectRefs[dotNetLocatorSearchSource.id] ??= jsObject;

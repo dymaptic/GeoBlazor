@@ -249,7 +249,13 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any, layerId: str
         dotNetZoomWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetZoomWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetZoomWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ZoomWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetZoomWidget.id)) {
         jsObjectRefs[dotNetZoomWidget.id] ??= jsObject;

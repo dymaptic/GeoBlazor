@@ -439,7 +439,13 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any, viewId: st
         dotNetExpandWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetExpandWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetExpandWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ExpandWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetExpandWidget.id)) {
         jsObjectRefs[dotNetExpandWidget.id] ??= jsObject;

@@ -900,7 +900,13 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
         dotNetImageryTileLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetImageryTileLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetImageryTileLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ImageryTileLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetImageryTileLayer.id)) {
         jsObjectRefs[dotNetImageryTileLayer.id] ??= jsObject;

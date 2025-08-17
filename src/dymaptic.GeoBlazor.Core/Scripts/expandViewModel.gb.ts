@@ -59,7 +59,13 @@ export async function buildDotNetExpandViewModelGenerated(jsObject: any, viewId:
         dotNetExpandViewModel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetExpandViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetExpandViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ExpandViewModel', e);
+            }
+        }
     }
     if (hasValue(dotNetExpandViewModel.id)) {
         jsObjectRefs[dotNetExpandViewModel.id] ??= jsObject;

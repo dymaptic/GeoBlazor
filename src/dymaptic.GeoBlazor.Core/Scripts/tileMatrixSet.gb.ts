@@ -56,7 +56,13 @@ export async function buildDotNetTileMatrixSetGenerated(jsObject: any, viewId: s
         dotNetTileMatrixSet.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetTileMatrixSet.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetTileMatrixSet.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for TileMatrixSet', e);
+            }
+        }
     }
     if (hasValue(dotNetTileMatrixSet.id)) {
         jsObjectRefs[dotNetTileMatrixSet.id] ??= jsObject;

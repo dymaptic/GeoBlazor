@@ -659,7 +659,13 @@ export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string
         dotNetSublayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSublayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSublayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for Sublayer', e);
+            }
+        }
     }
     if (hasValue(dotNetSublayer.id)) {
         jsObjectRefs[dotNetSublayer.id] ??= jsObject;

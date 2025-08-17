@@ -85,7 +85,13 @@ export async function buildDotNetPopupVisibleElementsGenerated(jsObject: any, la
         dotNetPopupVisibleElements.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPopupVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPopupVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PopupVisibleElements', e);
+            }
+        }
     }
     if (hasValue(dotNetPopupVisibleElements.id)) {
         jsObjectRefs[dotNetPopupVisibleElements.id] ??= jsObject;

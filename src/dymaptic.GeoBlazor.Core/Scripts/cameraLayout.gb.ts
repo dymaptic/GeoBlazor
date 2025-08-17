@@ -59,7 +59,13 @@ export async function buildDotNetCameraLayoutGenerated(jsObject: any, viewId: st
         dotNetCameraLayout.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetCameraLayout.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetCameraLayout.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for CameraLayout', e);
+            }
+        }
     }
     if (hasValue(dotNetCameraLayout.id)) {
         jsObjectRefs[dotNetCameraLayout.id] ??= jsObject;

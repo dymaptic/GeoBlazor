@@ -594,7 +594,13 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         dotNetSearchWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSearchWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSearchWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for SearchWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetSearchWidget.id)) {
         jsObjectRefs[dotNetSearchWidget.id] ??= jsObject;

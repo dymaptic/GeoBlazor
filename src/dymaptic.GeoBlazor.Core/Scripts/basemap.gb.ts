@@ -303,7 +303,13 @@ export async function buildDotNetBasemapGenerated(jsObject: any, viewId: string 
         dotNetBasemap.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetBasemap.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetBasemap.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for Basemap', e);
+            }
+        }
     }
     if (hasValue(dotNetBasemap.id)) {
         jsObjectRefs[dotNetBasemap.id] ??= jsObject;

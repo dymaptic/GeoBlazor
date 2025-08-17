@@ -110,7 +110,13 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any, viewI
         dotNetLayerSearchSource.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLayerSearchSource.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLayerSearchSource.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LayerSearchSource', e);
+            }
+        }
     }
     if (hasValue(dotNetLayerSearchSource.id)) {
         jsObjectRefs[dotNetLayerSearchSource.id] ??= jsObject;

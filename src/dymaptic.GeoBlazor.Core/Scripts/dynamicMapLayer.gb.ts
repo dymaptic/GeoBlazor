@@ -47,7 +47,13 @@ export async function buildDotNetDynamicMapLayerGenerated(jsObject: any, viewId:
         dotNetDynamicMapLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetDynamicMapLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetDynamicMapLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for DynamicMapLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetDynamicMapLayer.id)) {
         jsObjectRefs[dotNetDynamicMapLayer.id] ??= jsObject;

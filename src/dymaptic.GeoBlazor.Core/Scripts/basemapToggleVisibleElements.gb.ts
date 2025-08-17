@@ -36,7 +36,13 @@ export async function buildDotNetBasemapToggleVisibleElementsGenerated(jsObject:
         dotNetBasemapToggleVisibleElements.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetBasemapToggleVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetBasemapToggleVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for BasemapToggleVisibleElements', e);
+            }
+        }
     }
     if (hasValue(dotNetBasemapToggleVisibleElements.id)) {
         jsObjectRefs[dotNetBasemapToggleVisibleElements.id] ??= jsObject;

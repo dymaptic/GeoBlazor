@@ -59,7 +59,13 @@ export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any, v
         dotNetDimensionalDefinition.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetDimensionalDefinition.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetDimensionalDefinition.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for DimensionalDefinition', e);
+            }
+        }
     }
     if (hasValue(dotNetDimensionalDefinition.id)) {
         jsObjectRefs[dotNetDimensionalDefinition.id] ??= jsObject;

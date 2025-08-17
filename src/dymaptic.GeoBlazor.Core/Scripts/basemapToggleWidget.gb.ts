@@ -295,7 +295,13 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any, vie
         dotNetBasemapToggleWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetBasemapToggleWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetBasemapToggleWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for BasemapToggleWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetBasemapToggleWidget.id)) {
         jsObjectRefs[dotNetBasemapToggleWidget.id] ??= jsObject;

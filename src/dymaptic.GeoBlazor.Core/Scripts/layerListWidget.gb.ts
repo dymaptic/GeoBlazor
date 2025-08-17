@@ -520,7 +520,13 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, viewId:
         dotNetLayerListWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLayerListWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLayerListWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LayerListWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetLayerListWidget.id)) {
         jsObjectRefs[dotNetLayerListWidget.id] ??= jsObject;

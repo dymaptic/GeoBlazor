@@ -47,7 +47,13 @@ export async function buildDotNetWebMapWidgetsGenerated(jsObject: any, viewId: s
         dotNetWebMapWidgets.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetWebMapWidgets.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetWebMapWidgets.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for WebMapWidgets', e);
+            }
+        }
     }
     if (hasValue(dotNetWebMapWidgets.id)) {
         jsObjectRefs[dotNetWebMapWidgets.id] ??= jsObject;

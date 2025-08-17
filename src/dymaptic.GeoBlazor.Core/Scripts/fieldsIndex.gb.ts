@@ -116,7 +116,13 @@ export async function buildDotNetFieldsIndexGenerated(jsObject: any, viewId: str
         dotNetFieldsIndex.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetFieldsIndex.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetFieldsIndex.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for FieldsIndex', e);
+            }
+        }
     }
     if (hasValue(dotNetFieldsIndex.id)) {
         jsObjectRefs[dotNetFieldsIndex.id] ??= jsObject;

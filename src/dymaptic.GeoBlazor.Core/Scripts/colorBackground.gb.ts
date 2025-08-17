@@ -40,7 +40,13 @@ export async function buildDotNetColorBackgroundGenerated(jsObject: any, layerId
         dotNetColorBackground.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetColorBackground.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetColorBackground.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ColorBackground', e);
+            }
+        }
     }
     if (hasValue(dotNetColorBackground.id)) {
         jsObjectRefs[dotNetColorBackground.id] ??= jsObject;

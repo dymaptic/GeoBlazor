@@ -92,7 +92,13 @@ export async function buildDotNetBookmarksVisibleElementsGenerated(jsObject: any
         dotNetBookmarksVisibleElements.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetBookmarksVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetBookmarksVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for BookmarksVisibleElements', e);
+            }
+        }
     }
     if (hasValue(dotNetBookmarksVisibleElements.id)) {
         jsObjectRefs[dotNetBookmarksVisibleElements.id] ??= jsObject;

@@ -43,7 +43,13 @@ export async function buildDotNetSliderVisibleElementsGenerated(jsObject: any, v
         dotNetSliderVisibleElements.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSliderVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSliderVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for SliderVisibleElements', e);
+            }
+        }
     }
     if (hasValue(dotNetSliderVisibleElements.id)) {
         jsObjectRefs[dotNetSliderVisibleElements.id] ??= jsObject;

@@ -43,7 +43,13 @@ export async function buildDotNetFeaturesViewModelScreenPointGenerated(jsObject:
         dotNetFeaturesViewModelScreenPoint.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetFeaturesViewModelScreenPoint.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetFeaturesViewModelScreenPoint.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for FeaturesViewModelScreenPoint', e);
+            }
+        }
     }
     if (hasValue(dotNetFeaturesViewModelScreenPoint.id)) {
         jsObjectRefs[dotNetFeaturesViewModelScreenPoint.id] ??= jsObject;

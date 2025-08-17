@@ -529,7 +529,13 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any, viewId: s
         dotNetBingMapsLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetBingMapsLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetBingMapsLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for BingMapsLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetBingMapsLayer.id)) {
         jsObjectRefs[dotNetBingMapsLayer.id] ??= jsObject;

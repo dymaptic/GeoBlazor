@@ -183,7 +183,13 @@ export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any, vi
         dotNetPortalBasemapsSource.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPortalBasemapsSource.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPortalBasemapsSource.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PortalBasemapsSource', e);
+            }
+        }
     }
     if (hasValue(dotNetPortalBasemapsSource.id)) {
         jsObjectRefs[dotNetPortalBasemapsSource.id] ??= jsObject;

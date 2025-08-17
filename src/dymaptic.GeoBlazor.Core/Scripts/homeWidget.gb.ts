@@ -317,7 +317,13 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any, viewId: stri
         dotNetHomeWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetHomeWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetHomeWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for HomeWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetHomeWidget.id)) {
         jsObjectRefs[dotNetHomeWidget.id] ??= jsObject;

@@ -106,7 +106,13 @@ export async function buildDotNetZoomViewModelGenerated(jsObject: any, viewId: s
         dotNetZoomViewModel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetZoomViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetZoomViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ZoomViewModel', e);
+            }
+        }
     }
     if (hasValue(dotNetZoomViewModel.id)) {
         jsObjectRefs[dotNetZoomViewModel.id] ??= jsObject;

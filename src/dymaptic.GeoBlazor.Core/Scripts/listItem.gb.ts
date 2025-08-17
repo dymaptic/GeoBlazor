@@ -300,7 +300,13 @@ export async function buildDotNetListItemGenerated(jsObject: any, viewId: string
         dotNetListItem.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetListItem.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetListItem.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ListItem', e);
+            }
+        }
     }
     if (hasValue(dotNetListItem.id)) {
         jsObjectRefs[dotNetListItem.id] ??= jsObject;

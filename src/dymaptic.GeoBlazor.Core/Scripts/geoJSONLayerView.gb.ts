@@ -312,7 +312,13 @@ export async function buildDotNetGeoJSONLayerViewGenerated(jsObject: any, viewId
         dotNetGeoJSONLayerView.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetGeoJSONLayerView.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetGeoJSONLayerView.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for GeoJSONLayerView', e);
+            }
+        }
     }
     if (hasValue(dotNetGeoJSONLayerView.id)) {
         jsObjectRefs[dotNetGeoJSONLayerView.id] ??= jsObject;

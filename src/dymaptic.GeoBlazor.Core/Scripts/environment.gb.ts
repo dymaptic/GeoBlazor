@@ -68,7 +68,13 @@ export async function buildDotNetEnvironmentGenerated(jsObject: any, layerId: st
         dotNetEnvironment.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetEnvironment.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetEnvironment.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for Environment', e);
+            }
+        }
     }
     if (hasValue(dotNetEnvironment.id)) {
         jsObjectRefs[dotNetEnvironment.id] ??= jsObject;

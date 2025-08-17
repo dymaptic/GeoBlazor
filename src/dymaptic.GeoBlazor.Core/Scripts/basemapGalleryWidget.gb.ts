@@ -295,7 +295,13 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any, vi
         dotNetBasemapGalleryWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetBasemapGalleryWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetBasemapGalleryWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for BasemapGalleryWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetBasemapGalleryWidget.id)) {
         jsObjectRefs[dotNetBasemapGalleryWidget.id] ??= jsObject;

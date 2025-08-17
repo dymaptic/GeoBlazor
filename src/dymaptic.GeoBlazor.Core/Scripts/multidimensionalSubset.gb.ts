@@ -57,7 +57,13 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any, 
         dotNetMultidimensionalSubset.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetMultidimensionalSubset.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetMultidimensionalSubset.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for MultidimensionalSubset', e);
+            }
+        }
     }
     if (hasValue(dotNetMultidimensionalSubset.id)) {
         jsObjectRefs[dotNetMultidimensionalSubset.id] ??= jsObject;

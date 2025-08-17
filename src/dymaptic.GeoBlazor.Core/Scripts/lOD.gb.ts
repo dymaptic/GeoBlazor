@@ -59,7 +59,13 @@ export async function buildDotNetLODGenerated(jsObject: any, viewId: string | nu
         dotNetLOD.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLOD.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLOD.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LOD', e);
+            }
+        }
     }
     if (hasValue(dotNetLOD.id)) {
         jsObjectRefs[dotNetLOD.id] ??= jsObject;

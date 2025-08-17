@@ -36,7 +36,13 @@ export async function buildDotNetOrientationGenerated(jsObject: any, viewId: str
         dotNetOrientation.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetOrientation.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetOrientation.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for Orientation', e);
+            }
+        }
     }
     if (hasValue(dotNetOrientation.id)) {
         jsObjectRefs[dotNetOrientation.id] ??= jsObject;

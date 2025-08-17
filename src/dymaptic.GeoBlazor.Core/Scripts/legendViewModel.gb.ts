@@ -77,7 +77,13 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any, viewId:
         dotNetLegendViewModel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLegendViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLegendViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LegendViewModel', e);
+            }
+        }
     }
     if (hasValue(dotNetLegendViewModel.id)) {
         jsObjectRefs[dotNetLegendViewModel.id] ??= jsObject;

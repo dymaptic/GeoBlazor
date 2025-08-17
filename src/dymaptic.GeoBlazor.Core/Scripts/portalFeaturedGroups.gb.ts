@@ -43,7 +43,13 @@ export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, vi
         dotNetPortalFeaturedGroups.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPortalFeaturedGroups.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPortalFeaturedGroups.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PortalFeaturedGroups', e);
+            }
+        }
     }
     if (hasValue(dotNetPortalFeaturedGroups.id)) {
         jsObjectRefs[dotNetPortalFeaturedGroups.id] ??= jsObject;

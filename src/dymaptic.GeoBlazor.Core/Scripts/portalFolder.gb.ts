@@ -56,7 +56,13 @@ export async function buildDotNetPortalFolderGenerated(jsObject: any, viewId: st
         dotNetPortalFolder.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPortalFolder.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPortalFolder.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PortalFolder', e);
+            }
+        }
     }
     if (hasValue(dotNetPortalFolder.id)) {
         jsObjectRefs[dotNetPortalFolder.id] ??= jsObject;

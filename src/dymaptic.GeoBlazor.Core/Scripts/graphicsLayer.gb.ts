@@ -415,7 +415,13 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, viewId: s
         dotNetGraphicsLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetGraphicsLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetGraphicsLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for GraphicsLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetGraphicsLayer.id)) {
         jsObjectRefs[dotNetGraphicsLayer.id] ??= jsObject;

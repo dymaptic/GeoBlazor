@@ -49,7 +49,13 @@ export async function buildDotNetColorRampElementGenerated(jsObject: any, viewId
         dotNetColorRampElement.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetColorRampElement.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetColorRampElement.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ColorRampElement', e);
+            }
+        }
     }
     if (hasValue(dotNetColorRampElement.id)) {
         jsObjectRefs[dotNetColorRampElement.id] ??= jsObject;

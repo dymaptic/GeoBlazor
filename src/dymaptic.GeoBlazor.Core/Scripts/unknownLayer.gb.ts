@@ -292,7 +292,13 @@ export async function buildDotNetUnknownLayerGenerated(jsObject: any, viewId: st
         dotNetUnknownLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetUnknownLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetUnknownLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for UnknownLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetUnknownLayer.id)) {
         jsObjectRefs[dotNetUnknownLayer.id] ??= jsObject;

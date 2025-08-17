@@ -43,7 +43,13 @@ export async function buildDotNetDotDensityTitleGenerated(jsObject: any, viewId:
         dotNetDotDensityTitle.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetDotDensityTitle.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetDotDensityTitle.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for DotDensityTitle', e);
+            }
+        }
     }
     if (hasValue(dotNetDotDensityTitle.id)) {
         jsObjectRefs[dotNetDotDensityTitle.id] ??= jsObject;

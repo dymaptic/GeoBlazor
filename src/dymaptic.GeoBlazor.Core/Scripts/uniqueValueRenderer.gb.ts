@@ -447,7 +447,13 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, vie
         dotNetUniqueValueRenderer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetUniqueValueRenderer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetUniqueValueRenderer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for UniqueValueRenderer', e);
+            }
+        }
     }
     if (hasValue(dotNetUniqueValueRenderer.id)) {
         jsObjectRefs[dotNetUniqueValueRenderer.id] ??= jsObject;

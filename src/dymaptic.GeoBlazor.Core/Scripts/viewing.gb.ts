@@ -40,7 +40,13 @@ export async function buildDotNetViewingGenerated(jsObject: any, layerId: string
         dotNetViewing.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetViewing.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetViewing.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for Viewing', e);
+            }
+        }
     }
     if (hasValue(dotNetViewing.id)) {
         jsObjectRefs[dotNetViewing.id] ??= jsObject;

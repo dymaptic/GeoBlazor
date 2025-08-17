@@ -148,7 +148,13 @@ export async function buildDotNetPortalItemResourceGenerated(jsObject: any, laye
         dotNetPortalItemResource.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPortalItemResource.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPortalItemResource.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PortalItemResource', e);
+            }
+        }
     }
     if (hasValue(dotNetPortalItemResource.id)) {
         jsObjectRefs[dotNetPortalItemResource.id] ??= jsObject;

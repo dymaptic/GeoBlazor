@@ -160,7 +160,13 @@ export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: a
         dotNetAreaMeasurement2DViewModel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetAreaMeasurement2DViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetAreaMeasurement2DViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for AreaMeasurement2DViewModel', e);
+            }
+        }
     }
     if (hasValue(dotNetAreaMeasurement2DViewModel.id)) {
         jsObjectRefs[dotNetAreaMeasurement2DViewModel.id] ??= jsObject;

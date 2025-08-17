@@ -535,7 +535,13 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any, 
         dotNetBasemapLayerListWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetBasemapLayerListWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetBasemapLayerListWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for BasemapLayerListWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetBasemapLayerListWidget.id)) {
         jsObjectRefs[dotNetBasemapLayerListWidget.id] ??= jsObject;

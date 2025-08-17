@@ -445,7 +445,13 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
         dotNetWebMap.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetWebMap.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetWebMap.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for WebMap', e);
+            }
+        }
     }
     if (hasValue(dotNetWebMap.id)) {
         jsObjectRefs[dotNetWebMap.id] ??= jsObject;

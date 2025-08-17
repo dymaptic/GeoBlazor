@@ -38,7 +38,13 @@ export async function buildDotNetFeatureSnappingLayerSourceGenerated(jsObject: a
         dotNetFeatureSnappingLayerSource.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetFeatureSnappingLayerSource.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetFeatureSnappingLayerSource.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for FeatureSnappingLayerSource', e);
+            }
+        }
     }
     if (hasValue(dotNetFeatureSnappingLayerSource.id)) {
         jsObjectRefs[dotNetFeatureSnappingLayerSource.id] ??= jsObject;

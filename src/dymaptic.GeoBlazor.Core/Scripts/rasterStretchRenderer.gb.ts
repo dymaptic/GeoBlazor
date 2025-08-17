@@ -131,7 +131,13 @@ export async function buildDotNetRasterStretchRendererGenerated(jsObject: any, v
         dotNetRasterStretchRenderer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetRasterStretchRenderer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetRasterStretchRenderer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for RasterStretchRenderer', e);
+            }
+        }
     }
     if (hasValue(dotNetRasterStretchRenderer.id)) {
         jsObjectRefs[dotNetRasterStretchRenderer.id] ??= jsObject;

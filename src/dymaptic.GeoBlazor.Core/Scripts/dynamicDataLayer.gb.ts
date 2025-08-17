@@ -49,7 +49,13 @@ export async function buildDotNetDynamicDataLayerGenerated(jsObject: any, viewId
         dotNetDynamicDataLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetDynamicDataLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetDynamicDataLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for DynamicDataLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetDynamicDataLayer.id)) {
         jsObjectRefs[dotNetDynamicDataLayer.id] ??= jsObject;

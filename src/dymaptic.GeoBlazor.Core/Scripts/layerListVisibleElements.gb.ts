@@ -92,7 +92,13 @@ export async function buildDotNetLayerListVisibleElementsGenerated(jsObject: any
         dotNetLayerListVisibleElements.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLayerListVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLayerListVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LayerListVisibleElements', e);
+            }
+        }
     }
     if (hasValue(dotNetLayerListVisibleElements.id)) {
         jsObjectRefs[dotNetLayerListVisibleElements.id] ??= jsObject;

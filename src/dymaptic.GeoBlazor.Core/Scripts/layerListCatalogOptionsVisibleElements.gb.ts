@@ -57,7 +57,13 @@ export async function buildDotNetLayerListCatalogOptionsVisibleElementsGenerated
         dotNetLayerListCatalogOptionsVisibleElements.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLayerListCatalogOptionsVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLayerListCatalogOptionsVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LayerListCatalogOptionsVisibleElements', e);
+            }
+        }
     }
     if (hasValue(dotNetLayerListCatalogOptionsVisibleElements.id)) {
         jsObjectRefs[dotNetLayerListCatalogOptionsVisibleElements.id] ??= jsObject;

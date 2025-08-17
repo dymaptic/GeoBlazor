@@ -39,7 +39,13 @@ export async function buildDotNetBasemapStyleGenerated(jsObject: any, viewId: st
         dotNetBasemapStyle.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetBasemapStyle.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetBasemapStyle.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for BasemapStyle', e);
+            }
+        }
     }
     if (hasValue(dotNetBasemapStyle.id)) {
         jsObjectRefs[dotNetBasemapStyle.id] ??= jsObject;

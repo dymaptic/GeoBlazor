@@ -667,7 +667,13 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         dotNetPopupViewModel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPopupViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPopupViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PopupViewModel', e);
+            }
+        }
     }
     if (hasValue(dotNetPopupViewModel.id)) {
         jsObjectRefs[dotNetPopupViewModel.id] ??= jsObject;

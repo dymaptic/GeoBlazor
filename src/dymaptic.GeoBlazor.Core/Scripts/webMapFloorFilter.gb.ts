@@ -78,7 +78,13 @@ export async function buildDotNetWebMapFloorFilterGenerated(jsObject: any, viewI
         dotNetWebMapFloorFilter.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetWebMapFloorFilter.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetWebMapFloorFilter.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for WebMapFloorFilter', e);
+            }
+        }
     }
     if (hasValue(dotNetWebMapFloorFilter.id)) {
         jsObjectRefs[dotNetWebMapFloorFilter.id] ??= jsObject;

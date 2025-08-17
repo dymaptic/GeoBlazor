@@ -292,7 +292,13 @@ export async function buildDotNetUnsupportedLayerGenerated(jsObject: any, viewId
         dotNetUnsupportedLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetUnsupportedLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetUnsupportedLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for UnsupportedLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetUnsupportedLayer.id)) {
         jsObjectRefs[dotNetUnsupportedLayer.id] ??= jsObject;

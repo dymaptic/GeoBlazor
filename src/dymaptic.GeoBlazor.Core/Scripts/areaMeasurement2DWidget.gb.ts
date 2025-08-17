@@ -278,7 +278,13 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any,
         dotNetAreaMeasurement2DWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetAreaMeasurement2DWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetAreaMeasurement2DWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for AreaMeasurement2DWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetAreaMeasurement2DWidget.id)) {
         jsObjectRefs[dotNetAreaMeasurement2DWidget.id] ??= jsObject;

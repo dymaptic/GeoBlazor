@@ -189,7 +189,13 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any, viewId: stri
         dotNetPixelBlock.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPixelBlock.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPixelBlock.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PixelBlock', e);
+            }
+        }
     }
     if (hasValue(dotNetPixelBlock.id)) {
         jsObjectRefs[dotNetPixelBlock.id] ??= jsObject;

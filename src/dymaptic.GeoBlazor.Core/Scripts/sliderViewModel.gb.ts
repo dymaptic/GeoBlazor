@@ -228,7 +228,13 @@ export async function buildDotNetSliderViewModelGenerated(jsObject: any, viewId:
         dotNetSliderViewModel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSliderViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSliderViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for SliderViewModel', e);
+            }
+        }
     }
     if (hasValue(dotNetSliderViewModel.id)) {
         jsObjectRefs[dotNetSliderViewModel.id] ??= jsObject;

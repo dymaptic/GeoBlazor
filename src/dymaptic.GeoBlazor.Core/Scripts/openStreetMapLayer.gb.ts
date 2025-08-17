@@ -520,7 +520,13 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, view
         dotNetOpenStreetMapLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetOpenStreetMapLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetOpenStreetMapLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for OpenStreetMapLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetOpenStreetMapLayer.id)) {
         jsObjectRefs[dotNetOpenStreetMapLayer.id] ??= jsObject;

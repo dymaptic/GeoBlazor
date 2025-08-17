@@ -464,7 +464,13 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any, viewId:
         dotNetBookmarksWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetBookmarksWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetBookmarksWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for BookmarksWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetBookmarksWidget.id)) {
         jsObjectRefs[dotNetBookmarksWidget.id] ??= jsObject;

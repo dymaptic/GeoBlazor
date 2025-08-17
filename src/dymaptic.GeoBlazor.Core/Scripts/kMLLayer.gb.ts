@@ -434,7 +434,13 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any, viewId: string
         dotNetKMLLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetKMLLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetKMLLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for KMLLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetKMLLayer.id)) {
         jsObjectRefs[dotNetKMLLayer.id] ??= jsObject;

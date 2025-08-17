@@ -40,7 +40,13 @@ export async function buildDotNetLegendStyleGenerated(jsObject: any, layerId: st
         dotNetLegendStyle.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLegendStyle.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLegendStyle.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LegendStyle', e);
+            }
+        }
     }
     if (hasValue(dotNetLegendStyle.id)) {
         jsObjectRefs[dotNetLegendStyle.id] ??= jsObject;

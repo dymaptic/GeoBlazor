@@ -191,7 +191,13 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, viewId: s
         dotNetFeatureFilter.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetFeatureFilter.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetFeatureFilter.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for FeatureFilter', e);
+            }
+        }
     }
     if (hasValue(dotNetFeatureFilter.id)) {
         jsObjectRefs[dotNetFeatureFilter.id] ??= jsObject;

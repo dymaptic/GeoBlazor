@@ -33,7 +33,13 @@ export async function buildDotNetGroundNavigationConstraintGenerated(jsObject: a
         dotNetGroundNavigationConstraint.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetGroundNavigationConstraint.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetGroundNavigationConstraint.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for GroundNavigationConstraint', e);
+            }
+        }
     }
     if (hasValue(dotNetGroundNavigationConstraint.id)) {
         jsObjectRefs[dotNetGroundNavigationConstraint.id] ??= jsObject;

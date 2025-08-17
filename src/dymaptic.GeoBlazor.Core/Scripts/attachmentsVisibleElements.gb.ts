@@ -85,7 +85,13 @@ export async function buildDotNetAttachmentsVisibleElementsGenerated(jsObject: a
         dotNetAttachmentsVisibleElements.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetAttachmentsVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetAttachmentsVisibleElements.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for AttachmentsVisibleElements', e);
+            }
+        }
     }
     if (hasValue(dotNetAttachmentsVisibleElements.id)) {
         jsObjectRefs[dotNetAttachmentsVisibleElements.id] ??= jsObject;

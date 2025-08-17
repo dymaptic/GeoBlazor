@@ -119,7 +119,13 @@ export async function buildDotNetGeographicTransformationStepGenerated(jsObject:
         dotNetGeographicTransformationStep.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetGeographicTransformationStep.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetGeographicTransformationStep.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for GeographicTransformationStep', e);
+            }
+        }
     }
     if (hasValue(dotNetGeographicTransformationStep.id)) {
         jsObjectRefs[dotNetGeographicTransformationStep.id] ??= jsObject;

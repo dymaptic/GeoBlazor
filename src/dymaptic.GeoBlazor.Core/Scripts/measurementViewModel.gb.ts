@@ -64,7 +64,13 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any, vi
         dotNetMeasurementViewModel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetMeasurementViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetMeasurementViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for MeasurementViewModel', e);
+            }
+        }
     }
     if (hasValue(dotNetMeasurementViewModel.id)) {
         jsObjectRefs[dotNetMeasurementViewModel.id] ??= jsObject;

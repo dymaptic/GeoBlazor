@@ -59,7 +59,13 @@ export async function buildDotNetWMTSStyleGenerated(jsObject: any, viewId: strin
         dotNetWMTSStyle.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetWMTSStyle.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetWMTSStyle.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for WMTSStyle', e);
+            }
+        }
     }
     if (hasValue(dotNetWMTSStyle.id)) {
         jsObjectRefs[dotNetWMTSStyle.id] ??= jsObject;

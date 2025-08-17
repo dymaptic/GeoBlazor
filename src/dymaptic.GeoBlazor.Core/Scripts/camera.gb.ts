@@ -70,7 +70,13 @@ export async function buildDotNetCameraGenerated(jsObject: any, viewId: string |
         dotNetCamera.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetCamera.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetCamera.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for Camera', e);
+            }
+        }
     }
     if (hasValue(dotNetCamera.id)) {
         jsObjectRefs[dotNetCamera.id] ??= jsObject;

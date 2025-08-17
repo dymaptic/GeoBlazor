@@ -36,7 +36,13 @@ export async function buildDotNetClusterTitleGenerated(jsObject: any, viewId: st
         dotNetClusterTitle.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetClusterTitle.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetClusterTitle.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ClusterTitle', e);
+            }
+        }
     }
     if (hasValue(dotNetClusterTitle.id)) {
         jsObjectRefs[dotNetClusterTitle.id] ??= jsObject;

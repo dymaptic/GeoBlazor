@@ -155,7 +155,13 @@ export async function buildDotNetArcGISImageServiceCapabilitiesOperationsGenerat
         dotNetArcGISImageServiceCapabilitiesOperations.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetArcGISImageServiceCapabilitiesOperations.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetArcGISImageServiceCapabilitiesOperations.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ArcGISImageServiceCapabilitiesOperations', e);
+            }
+        }
     }
     if (hasValue(dotNetArcGISImageServiceCapabilitiesOperations.id)) {
         jsObjectRefs[dotNetArcGISImageServiceCapabilitiesOperations.id] ??= jsObject;

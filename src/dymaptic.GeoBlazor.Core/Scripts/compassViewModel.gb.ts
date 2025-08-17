@@ -118,7 +118,13 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any, viewId
         dotNetCompassViewModel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetCompassViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetCompassViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for CompassViewModel', e);
+            }
+        }
     }
     if (hasValue(dotNetCompassViewModel.id)) {
         jsObjectRefs[dotNetCompassViewModel.id] ??= jsObject;

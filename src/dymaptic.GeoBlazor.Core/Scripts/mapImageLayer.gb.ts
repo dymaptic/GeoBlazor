@@ -805,7 +805,13 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, viewId: s
         dotNetMapImageLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetMapImageLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetMapImageLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for MapImageLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetMapImageLayer.id)) {
         jsObjectRefs[dotNetMapImageLayer.id] ??= jsObject;

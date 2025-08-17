@@ -312,7 +312,13 @@ export async function buildDotNetCSVLayerViewGenerated(jsObject: any, viewId: st
         dotNetCSVLayerView.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetCSVLayerView.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetCSVLayerView.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for CSVLayerView', e);
+            }
+        }
     }
     if (hasValue(dotNetCSVLayerView.id)) {
         jsObjectRefs[dotNetCSVLayerView.id] ??= jsObject;

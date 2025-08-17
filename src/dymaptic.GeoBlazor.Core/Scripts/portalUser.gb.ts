@@ -457,7 +457,13 @@ export async function buildDotNetPortalUserGenerated(jsObject: any, layerId: str
         dotNetPortalUser.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPortalUser.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPortalUser.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PortalUser', e);
+            }
+        }
     }
     if (hasValue(dotNetPortalUser.id)) {
         jsObjectRefs[dotNetPortalUser.id] ??= jsObject;

@@ -56,7 +56,13 @@ export async function buildDotNetSnowyWeatherGenerated(jsObject: any, layerId: s
         dotNetSnowyWeather.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSnowyWeather.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSnowyWeather.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for SnowyWeather', e);
+            }
+        }
     }
     if (hasValue(dotNetSnowyWeather.id)) {
         jsObjectRefs[dotNetSnowyWeather.id] ??= jsObject;

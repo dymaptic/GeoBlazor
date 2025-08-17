@@ -52,7 +52,13 @@ export async function buildDotNetColorRampStopGenerated(jsObject: any, viewId: s
         dotNetColorRampStop.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetColorRampStop.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetColorRampStop.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ColorRampStop', e);
+            }
+        }
     }
     if (hasValue(dotNetColorRampStop.id)) {
         jsObjectRefs[dotNetColorRampStop.id] ??= jsObject;

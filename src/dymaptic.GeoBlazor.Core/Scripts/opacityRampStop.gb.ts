@@ -52,7 +52,13 @@ export async function buildDotNetOpacityRampStopGenerated(jsObject: any, viewId:
         dotNetOpacityRampStop.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetOpacityRampStop.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetOpacityRampStop.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for OpacityRampStop', e);
+            }
+        }
     }
     if (hasValue(dotNetOpacityRampStop.id)) {
         jsObjectRefs[dotNetOpacityRampStop.id] ??= jsObject;

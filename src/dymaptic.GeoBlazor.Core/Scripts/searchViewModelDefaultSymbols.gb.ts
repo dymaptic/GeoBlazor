@@ -56,7 +56,13 @@ export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject
         dotNetSearchViewModelDefaultSymbols.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSearchViewModelDefaultSymbols.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSearchViewModelDefaultSymbols.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for SearchViewModelDefaultSymbols', e);
+            }
+        }
     }
     if (hasValue(dotNetSearchViewModelDefaultSymbols.id)) {
         jsObjectRefs[dotNetSearchViewModelDefaultSymbols.id] ??= jsObject;

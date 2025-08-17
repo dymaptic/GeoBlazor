@@ -52,7 +52,13 @@ export async function buildDotNetHeatmapRampStopGenerated(jsObject: any, viewId:
         dotNetHeatmapRampStop.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetHeatmapRampStop.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetHeatmapRampStop.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for HeatmapRampStop', e);
+            }
+        }
     }
     if (hasValue(dotNetHeatmapRampStop.id)) {
         jsObjectRefs[dotNetHeatmapRampStop.id] ??= jsObject;

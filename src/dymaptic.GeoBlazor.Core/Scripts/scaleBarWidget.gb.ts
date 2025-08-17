@@ -251,7 +251,13 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any, viewId: 
         dotNetScaleBarWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetScaleBarWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetScaleBarWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ScaleBarWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetScaleBarWidget.id)) {
         jsObjectRefs[dotNetScaleBarWidget.id] ??= jsObject;

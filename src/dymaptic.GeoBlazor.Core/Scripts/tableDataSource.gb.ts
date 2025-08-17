@@ -54,7 +54,13 @@ export async function buildDotNetTableDataSourceGenerated(jsObject: any, viewId:
         dotNetTableDataSource.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetTableDataSource.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetTableDataSource.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for TableDataSource', e);
+            }
+        }
     }
     if (hasValue(dotNetTableDataSource.id)) {
         jsObjectRefs[dotNetTableDataSource.id] ??= jsObject;

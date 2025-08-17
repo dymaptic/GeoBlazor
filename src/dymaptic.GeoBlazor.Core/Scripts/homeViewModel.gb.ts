@@ -142,7 +142,13 @@ export async function buildDotNetHomeViewModelGenerated(jsObject: any, viewId: s
         dotNetHomeViewModel.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetHomeViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetHomeViewModel.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for HomeViewModel', e);
+            }
+        }
     }
     if (hasValue(dotNetHomeViewModel.id)) {
         jsObjectRefs[dotNetHomeViewModel.id] ??= jsObject;

@@ -302,7 +302,13 @@ export async function buildDotNetPortalGroupGenerated(jsObject: any, layerId: st
         dotNetPortalGroup.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPortalGroup.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPortalGroup.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for PortalGroup', e);
+            }
+        }
     }
     if (hasValue(dotNetPortalGroup.id)) {
         jsObjectRefs[dotNetPortalGroup.id] ??= jsObject;

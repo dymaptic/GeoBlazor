@@ -45,7 +45,13 @@ export async function buildDotNetPositionGenerated(jsObject: any, viewId: string
         dotNetPosition.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetPosition.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetPosition.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for Position', e);
+            }
+        }
     }
     if (hasValue(dotNetPosition.id)) {
         jsObjectRefs[dotNetPosition.id] ??= jsObject;

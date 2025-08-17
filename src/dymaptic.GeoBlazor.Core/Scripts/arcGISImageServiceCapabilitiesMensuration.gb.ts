@@ -78,7 +78,13 @@ export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenera
         dotNetArcGISImageServiceCapabilitiesMensuration.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetArcGISImageServiceCapabilitiesMensuration.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetArcGISImageServiceCapabilitiesMensuration.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for ArcGISImageServiceCapabilitiesMensuration', e);
+            }
+        }
     }
     if (hasValue(dotNetArcGISImageServiceCapabilitiesMensuration.id)) {
         jsObjectRefs[dotNetArcGISImageServiceCapabilitiesMensuration.id] ??= jsObject;

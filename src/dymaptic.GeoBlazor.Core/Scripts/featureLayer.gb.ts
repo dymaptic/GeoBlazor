@@ -1493,7 +1493,13 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, viewId: st
         dotNetFeatureLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetFeatureLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetFeatureLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for FeatureLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetFeatureLayer.id)) {
         jsObjectRefs[dotNetFeatureLayer.id] ??= jsObject;

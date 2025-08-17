@@ -475,7 +475,13 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, viewId: str
         dotNetGeoRSSLayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetGeoRSSLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetGeoRSSLayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for GeoRSSLayer', e);
+            }
+        }
     }
     if (hasValue(dotNetGeoRSSLayer.id)) {
         jsObjectRefs[dotNetGeoRSSLayer.id] ??= jsObject;

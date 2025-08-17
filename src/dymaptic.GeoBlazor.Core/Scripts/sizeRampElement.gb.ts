@@ -49,7 +49,13 @@ export async function buildDotNetSizeRampElementGenerated(jsObject: any, viewId:
         dotNetSizeRampElement.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSizeRampElement.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSizeRampElement.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for SizeRampElement', e);
+            }
+        }
     }
     if (hasValue(dotNetSizeRampElement.id)) {
         jsObjectRefs[dotNetSizeRampElement.id] ??= jsObject;

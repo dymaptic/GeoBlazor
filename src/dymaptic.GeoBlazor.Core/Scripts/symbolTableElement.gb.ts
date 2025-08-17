@@ -54,7 +54,13 @@ export async function buildDotNetSymbolTableElementGenerated(jsObject: any, view
         dotNetSymbolTableElement.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetSymbolTableElement.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetSymbolTableElement.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for SymbolTableElement', e);
+            }
+        }
     }
     if (hasValue(dotNetSymbolTableElement.id)) {
         jsObjectRefs[dotNetSymbolTableElement.id] ??= jsObject;

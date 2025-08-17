@@ -363,7 +363,13 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any, viewId: st
         dotNetLegendWidget.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetLegendWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetLegendWidget.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for LegendWidget', e);
+            }
+        }
     }
     if (hasValue(dotNetLegendWidget.id)) {
         jsObjectRefs[dotNetLegendWidget.id] ??= jsObject;

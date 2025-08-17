@@ -63,7 +63,13 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any, viewId: st
         dotNetWMTSSublayer.id = geoBlazorId;
     } else if (hasValue(viewId)) {
         let dotNetRef = dotNetRefs[viewId!];
-        dotNetWMTSSublayer.id = await dotNetRef.invokeMethodAsync('GetId');
+        if (hasValue(dotNetRef)) {
+            try {
+                dotNetWMTSSublayer.id = await dotNetRef.invokeMethodAsync('GetId');
+            } catch (e) {
+                console.error('Error invoking GetId for WMTSSublayer', e);
+            }
+        }
     }
     if (hasValue(dotNetWMTSSublayer.id)) {
         jsObjectRefs[dotNetWMTSSublayer.id] ??= jsObject;
