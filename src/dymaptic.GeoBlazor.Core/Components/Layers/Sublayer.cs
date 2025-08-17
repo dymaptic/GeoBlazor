@@ -242,9 +242,4 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
 
         base.ValidateRequiredChildren();
     }
-    
-    public Sublayer Clone()
-    {
-        return (Sublayer)MemberwiseClone();
-    }
 }

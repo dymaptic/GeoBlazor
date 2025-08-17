@@ -2985,11 +2985,11 @@ public partial class SearchViewModel : IGoTo
     /// <param name="searchItem">
     ///     This searchItem can be a string, point geometry, suggest candidate object, or an array containing [latitude,longitude]. If a geometry is supplied, then it will reverse geocode (locator) or findAddressCandidates with geometry instead of text (featurelayer).
     /// </param>
-    /// <param name="options">
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the search operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<SearchResponse?> Search(string searchItem,
-        string options)
+    public async Task<SearchResponse?> Search(string searchItem, CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
         {
@@ -2999,7 +2999,7 @@ public partial class SearchViewModel : IGoTo
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
+                "getJsComponent", cancellationToken, Id);
         }
         catch (JSException)
         {
@@ -3011,11 +3011,12 @@ public partial class SearchViewModel : IGoTo
             return null;
         }
         
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         return await JsComponentReference!.InvokeAsync<SearchResponse?>(
             "search", 
-            CancellationTokenSource.Token,
+            cancellationToken,
             searchItem,
-            options);
+            new { signal = abortSignal });
     }
     
     /// <summary>
@@ -3023,11 +3024,11 @@ public partial class SearchViewModel : IGoTo
     ///     Returns search results near your current location.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#searchNearby">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="options">
-    ///     An object containing an optional `signal` property that can be used to cancel the request.
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the search operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<SearchResponse?> SearchNearby(string options)
+    public async Task<SearchResponse?> SearchNearby(CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
         {
@@ -3037,7 +3038,7 @@ public partial class SearchViewModel : IGoTo
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
+                "getJsComponent", cancellationToken, Id);
         }
         catch (JSException)
         {
@@ -3049,10 +3050,11 @@ public partial class SearchViewModel : IGoTo
             return null;
         }
         
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         return await JsComponentReference!.InvokeAsync<SearchResponse?>(
             "searchNearby", 
-            CancellationTokenSource.Token,
-            options);
+            cancellationToken,
+            new { signal = abortSignal });
     }
     
     /// <summary>
@@ -3103,13 +3105,13 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     /// <param name="suggestionDelay">
     /// </param>
-    /// <param name="options">
-    ///     An object containing an optional `signal` property that can be used to cancel the request.
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the search operation.
     /// </param>
     [ArcGISMethod]
     public async Task<SuggestResponse?> Suggest(string value,
         double suggestionDelay,
-        string options)
+        CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
         {
@@ -3119,7 +3121,7 @@ public partial class SearchViewModel : IGoTo
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
+                "getJsComponent", cancellationToken, Id);
         }
         catch (JSException)
         {
@@ -3131,12 +3133,13 @@ public partial class SearchViewModel : IGoTo
             return null;
         }
         
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         return await JsComponentReference!.InvokeAsync<SuggestResponse?>(
             "suggest", 
-            CancellationTokenSource.Token,
+            cancellationToken,
             value,
             suggestionDelay,
-            options);
+            new { signal = abortSignal });
     }
     
     /// <summary>
