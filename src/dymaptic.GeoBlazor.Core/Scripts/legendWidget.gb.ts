@@ -27,7 +27,7 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.layerInfos) && dotNetObject.layerInfos.length > 0) {
             let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
-            this.widget.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i, this.viewId))) as any;
+            this.widget.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i))) as any;
         }
 
         if (hasValue(dotNetObject.basemapLegendVisible)) {
@@ -158,10 +158,10 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
     
     async setLayerInfos(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.widget.layerInfos.removeAll();
+            this.widget.layerInfos = [];
         }
         let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
-        this.widget.layerInfos = await Promise.all(value.map(async i => await buildJsLegendLayerInfos(i, this.viewId))) as any;
+        this.widget.layerInfos = await Promise.all(value.map(async i => await buildJsLegendLayerInfos(i))) as any;
     }
     
     getStyle(): any {
@@ -227,7 +227,7 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.layerInfos) && dotNetObject.layerInfos.length > 0) {
         let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
-        properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i, viewId))) as any;
+        properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i))) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsLegendViewModel } = await import('./legendViewModel');

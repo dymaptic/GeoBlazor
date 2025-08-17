@@ -117,9 +117,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async addResource(resource: any,
         content: any,
         options: any): Promise<any> {
-        let { buildJsPortalItemResource } = await import('./portalItemResource');
-        let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
-        let result = await this.component.addResource(jsResource,
+        let result = await this.component.addResource(resource,
             content,
             options);
         
@@ -198,9 +196,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
     async removeResource(resource: any,
         options: any): Promise<any> {
-        let { buildJsPortalItemResource } = await import('./portalItemResource');
-        let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
-        let result = await this.component.removeResource(jsResource,
+        let result = await this.component.removeResource(resource,
             options);
         
         return generateSerializableJson(result);

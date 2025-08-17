@@ -26,12 +26,10 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
             this.component.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
         }
         if (hasValue(dotNetObject.backgroundFillSymbol)) {
-            let { buildJsFillSymbol } = await import('./fillSymbol');
-            this.component.backgroundFillSymbol = await buildJsFillSymbol(dotNetObject.backgroundFillSymbol) as any;
+            this.component.backgroundFillSymbol = dotNetObject.fillSymbol;
         }
         if (hasValue(dotNetObject.defaultSymbol)) {
-            let { buildJsSymbol } = await import('./symbol');
-            this.component.defaultSymbol = buildJsSymbol(dotNetObject.defaultSymbol) as any;
+            this.component.defaultSymbol = dotNetObject.symbol;
         }
         if (hasValue(dotNetObject.legendOptions)) {
             let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
@@ -46,8 +44,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
             this.component.uniqueValueInfos = await Promise.all(dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValueInfo(i))) as any;
         }
         if (hasValue(dotNetObject.visualVariables) && dotNetObject.visualVariables.length > 0) {
-            let { buildJsVisualVariable } = await import('./visualVariable');
-            this.component.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, this.layerId, this.viewId))) as any;
+            this.component.visualVariables = dotNetObject.visualVariable;
         }
 
         if (hasValue(dotNetObject.defaultLabel)) {
@@ -102,20 +99,6 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
         this.component.authoringInfo = await  buildJsAuthoringInfo(value);
     }
     
-    async getBackgroundFillSymbol(): Promise<any> {
-        if (!hasValue(this.component.backgroundFillSymbol)) {
-            return null;
-        }
-        
-        let { buildDotNetFillSymbol } = await import('./fillSymbol');
-        return await buildDotNetFillSymbol(this.component.backgroundFillSymbol);
-    }
-    
-    async setBackgroundFillSymbol(value: any): Promise<void> {
-        let { buildJsFillSymbol } = await import('./fillSymbol');
-        this.component.backgroundFillSymbol = await  buildJsFillSymbol(value);
-    }
-    
     getDefaultLabel(): any {
         if (!hasValue(this.component.defaultLabel)) {
             return null;
@@ -126,20 +109,6 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     setDefaultLabel(value: any): void {
         this.component.defaultLabel = JSON.parse(value);
-    }
-    
-    async getDefaultSymbol(): Promise<any> {
-        if (!hasValue(this.component.defaultSymbol)) {
-            return null;
-        }
-        
-        let { buildDotNetSymbol } = await import('./symbol');
-        return buildDotNetSymbol(this.component.defaultSymbol);
-    }
-    
-    async setDefaultSymbol(value: any): Promise<void> {
-        let { buildJsSymbol } = await import('./symbol');
-        this.component.defaultSymbol =  buildJsSymbol(value);
     }
     
     getField(): any {
@@ -262,23 +231,6 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
         this.component.valueExpressionTitle = JSON.parse(value);
     }
     
-    async getVisualVariables(): Promise<any> {
-        if (!hasValue(this.component.visualVariables)) {
-            return null;
-        }
-        
-        let { buildDotNetVisualVariable } = await import('./visualVariable');
-        return await Promise.all(this.component.visualVariables!.map(async i => await buildDotNetVisualVariable(i, this.viewId)));
-    }
-    
-    async setVisualVariables(value: any): Promise<void> {
-        if (!hasValue(value)) {
-            this.component.visualVariables = [];
-        }
-        let { buildJsVisualVariable } = await import('./visualVariable');
-        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsVisualVariable(i, this.layerId, this.viewId))) as any;
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -300,12 +252,10 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.backgroundFillSymbol)) {
-        let { buildJsFillSymbol } = await import('./fillSymbol');
-        properties.backgroundFillSymbol = await buildJsFillSymbol(dotNetObject.backgroundFillSymbol) as any;
+        properties.backgroundFillSymbol = dotNetObject.backgroundFillSymbol;
     }
     if (hasValue(dotNetObject.defaultSymbol)) {
-        let { buildJsSymbol } = await import('./symbol');
-        properties.defaultSymbol = buildJsSymbol(dotNetObject.defaultSymbol) as any;
+        properties.defaultSymbol = dotNetObject.defaultSymbol;
     }
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
@@ -320,8 +270,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         properties.uniqueValueInfos = await Promise.all(dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValueInfo(i))) as any;
     }
     if (hasValue(dotNetObject.visualVariables) && dotNetObject.visualVariables.length > 0) {
-        let { buildJsVisualVariable } = await import('./visualVariable');
-        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
+        properties.visualVariables = dotNetObject.visualVariables;
     }
 
     if (hasValue(dotNetObject.defaultLabel)) {
@@ -375,16 +324,6 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, vie
         dotNetUniqueValueRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo, viewId);
     }
     
-    if (hasValue(jsObject.backgroundFillSymbol)) {
-        let { buildDotNetFillSymbol } = await import('./fillSymbol');
-        dotNetUniqueValueRenderer.backgroundFillSymbol = await buildDotNetFillSymbol(jsObject.backgroundFillSymbol);
-    }
-    
-    if (hasValue(jsObject.defaultSymbol)) {
-        let { buildDotNetSymbol } = await import('./symbol');
-        dotNetUniqueValueRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol);
-    }
-    
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
         dotNetUniqueValueRenderer.legendOptions = await buildDotNetUniqueValueRendererLegendOptions(jsObject.legendOptions, viewId);
@@ -400,13 +339,16 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, vie
         dotNetUniqueValueRenderer.uniqueValueInfos = await Promise.all(jsObject.uniqueValueInfos.map(async i => await buildDotNetUniqueValueInfo(i)));
     }
     
-    if (hasValue(jsObject.visualVariables)) {
-        let { buildDotNetVisualVariable } = await import('./visualVariable');
-        dotNetUniqueValueRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i, viewId)));
+    if (hasValue(jsObject.backgroundFillSymbol)) {
+        dotNetUniqueValueRenderer.backgroundFillSymbol = removeCircularReferences(jsObject.backgroundFillSymbol);
     }
     
     if (hasValue(jsObject.defaultLabel)) {
         dotNetUniqueValueRenderer.defaultLabel = jsObject.defaultLabel;
+    }
+    
+    if (hasValue(jsObject.defaultSymbol)) {
+        dotNetUniqueValueRenderer.defaultSymbol = jsObject.defaultSymbol;
     }
     
     if (hasValue(jsObject.field)) {
@@ -439,6 +381,10 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, vie
     
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetUniqueValueRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
+    
+    if (hasValue(jsObject.visualVariables)) {
+        dotNetUniqueValueRenderer.visualVariables = removeCircularReferences(jsObject.visualVariables);
     }
     
 

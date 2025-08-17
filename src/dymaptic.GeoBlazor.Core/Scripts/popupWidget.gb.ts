@@ -22,8 +22,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
-            let { buildJsActionBase } = await import('./actionBase');
-            this.widget.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
+            this.widget.actions = dotNetObject.actionBase;
         }
         if (hasValue(dotNetObject.dockOptions)) {
             let { buildJsPopupDockOptions } = await import('./popupDockOptions');
@@ -32,10 +31,6 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
             let { buildJsGraphic } = await import('./graphic');
             this.widget.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
-        }
-        if (hasValue(dotNetObject.goToOverride)) {
-            let { buildJsGoToOverride } = await import('./goToOverride');
-            this.widget.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
         }
         if (hasValue(dotNetObject.location)) {
             let { buildJsPoint } = await import('./point');
@@ -162,23 +157,6 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getActions(): Promise<any> {
-        if (!hasValue(this.widget.actions)) {
-            return null;
-        }
-        
-        let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.widget.actions!.map(async i => await buildDotNetActionBase(i)));
-    }
-    
-    async setActions(value: any): Promise<void> {
-        if (!hasValue(value)) {
-            this.widget.actions.removeAll();
-        }
-        let { buildJsActionBase } = await import('./actionBase');
-        this.widget.actions = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
-    }
-    
     getContent(): any {
         if (!hasValue(this.widget.content)) {
             return null;
@@ -216,20 +194,6 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         let { buildJsGraphic } = await import('./graphic');
         this.widget.features = value.map(i => buildJsGraphic(i)) as any;
-    }
-    
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.widget.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.widget.goToOverride, this.viewId);
-    }
-    
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
     
     getIcon(): any {
@@ -363,8 +327,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
-        let { buildJsActionBase } = await import('./actionBase');
-        properties.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
+        properties.actions = dotNetObject.actions;
     }
     if (hasValue(dotNetObject.dockOptions)) {
         let { buildJsPopupDockOptions } = await import('./popupDockOptions');
@@ -374,9 +337,13 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         let { buildJsGraphic } = await import('./graphic');
         properties.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
+        properties.goToOverride = async (view,
+        goToParameters) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
+            goToParameters);
+        };
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
@@ -436,9 +403,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     let jsPopup = new Popup(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
         jsPopup.on('trigger-action', async (evt: any) => {
-            let { buildDotNetPopupTriggerActionEvent } = await import('./popupTriggerActionEvent');
-            let dnEvent = await buildDotNetPopupTriggerActionEvent(evt, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
         });
     }
@@ -476,11 +441,6 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     
     let dotNetPopupWidget: any = {};
     
-    if (hasValue(jsObject.actions)) {
-        let { buildDotNetActionBase } = await import('./actionBase');
-        dotNetPopupWidget.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
-    }
-    
     if (hasValue(jsObject.dockOptions)) {
         let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
         dotNetPopupWidget.dockOptions = await buildDotNetPopupDockOptions(jsObject.dockOptions, viewId);
@@ -509,6 +469,10 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetPopupVisibleElements } = await import('./popupVisibleElements');
         dotNetPopupWidget.visibleElements = await buildDotNetPopupVisibleElements(jsObject.visibleElements, layerId, viewId);
+    }
+    
+    if (hasValue(jsObject.actions)) {
+        dotNetPopupWidget.actions = removeCircularReferences(jsObject.actions);
     }
     
     if (hasValue(jsObject.active)) {

@@ -21,14 +21,6 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.coverageInfo)) {
-            let { buildJsCoverageInfo } = await import('./coverageInfo');
-            this.layer.coverageInfo = await buildJsCoverageInfo(dotNetObject.coverageInfo) as any;
-        }
-        if (hasValue(dotNetObject.effect)) {
-            let { buildJsEffect } = await import('./effect');
-            this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
-        }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -39,7 +31,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.multidimensionalSubset)) {
             let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, this.viewId) as any;
         }
         if (hasValue(dotNetObject.popupTemplate)) {
             let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -81,8 +73,14 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.coverageId)) {
             this.layer.coverageId = dotNetObject.coverageId;
         }
+        if (hasValue(dotNetObject.coverageInfo)) {
+            this.layer.coverageInfo = dotNetObject.coverageInfo;
+        }
         if (hasValue(dotNetObject.customParameters)) {
             this.layer.customParameters = dotNetObject.customParameters;
+        }
+        if (hasValue(dotNetObject.effect)) {
+            this.layer.effect = dotNetObject.effect;
         }
         if (hasValue(dotNetObject.interpolation)) {
             this.layer.interpolation = dotNetObject.interpolation;
@@ -170,10 +168,8 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
-        let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
-        let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
         return await this.layer.identify(jsPoint,
-            jsOptions);
+            options);
     }
 
     async isFulfilled(): Promise<any> {
@@ -256,34 +252,6 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         this.layer.coverageId = JSON.parse(value);
     }
     
-    async getCoverageInfo(): Promise<any> {
-        if (!hasValue(this.layer.coverageInfo)) {
-            return null;
-        }
-        
-        let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-        return await buildDotNetCoverageInfo(this.layer.coverageInfo, this.viewId);
-    }
-    
-    async setCoverageInfo(value: any): Promise<void> {
-        let { buildJsCoverageInfo } = await import('./coverageInfo');
-        this.layer.coverageInfo = await  buildJsCoverageInfo(value, this.viewId);
-    }
-    
-    async getEffect(): Promise<any> {
-        if (!hasValue(this.layer.effect)) {
-            return null;
-        }
-        
-        let { buildDotNetEffect } = await import('./effect');
-        return buildDotNetEffect(this.layer.effect, this.viewId);
-    }
-    
-    async setEffect(value: any): Promise<void> {
-        let { buildJsEffect } = await import('./effect');
-        this.layer.effect =  buildJsEffect(value, this.viewId);
-    }
-    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -326,7 +294,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
+        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.viewId);
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -364,24 +332,6 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         
         let { buildDotNetField } = await import('./field');
         return this.layer.rasterFields!.map(i => buildDotNetField(i, this.viewId));
-    }
-    
-    async getServiceRasterInfo(): Promise<any> {
-        if (!hasValue(this.layer.serviceRasterInfo)) {
-            return null;
-        }
-        
-        let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo, this.viewId);
-    }
-    
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.layer.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     async getTimeExtent(): Promise<any> {
@@ -492,14 +442,6 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
 
     let properties: any = {};
-    if (hasValue(dotNetObject.coverageInfo)) {
-        let { buildJsCoverageInfo } = await import('./coverageInfo');
-        properties.coverageInfo = await buildJsCoverageInfo(dotNetObject.coverageInfo, viewId) as any;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        let { buildJsEffect } = await import('./effect');
-        properties.effect = buildJsEffect(dotNetObject.effect, viewId) as any;
-    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -510,7 +452,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -552,8 +494,14 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.coverageId)) {
         properties.coverageId = dotNetObject.coverageId;
     }
+    if (hasValue(dotNetObject.coverageInfo)) {
+        properties.coverageInfo = dotNetObject.coverageInfo;
+    }
     if (hasValue(dotNetObject.customParameters)) {
         properties.customParameters = dotNetObject.customParameters;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.interpolation)) {
         properties.interpolation = dotNetObject.interpolation;
@@ -600,27 +548,21 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     let jsWCSLayer = new WCSLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsWCSLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsWCSLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsWCSLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
         });
     }
@@ -658,11 +600,6 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, viewId: string
     
     let dotNetWCSLayer: any = {};
     
-    if (hasValue(jsObject.effect)) {
-        let { buildDotNetEffect } = await import('./effect');
-        dotNetWCSLayer.effect = buildDotNetEffect(jsObject.effect, viewId);
-    }
-    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWCSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -691,16 +628,6 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, viewId: string
     if (hasValue(jsObject.rasterFields)) {
         let { buildDotNetField } = await import('./field');
         dotNetWCSLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i, viewId));
-    }
-    
-    if (hasValue(jsObject.serviceRasterInfo)) {
-        let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        dotNetWCSLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, viewId);
-    }
-    
-    if (hasValue(jsObject.spatialReference)) {
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        dotNetWCSLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.timeExtent)) {
@@ -747,6 +674,10 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, viewId: string
         dotNetWCSLayer.customParameters = removeCircularReferences(jsObject.customParameters);
     }
     
+    if (hasValue(jsObject.effect)) {
+        dotNetWCSLayer.effect = removeCircularReferences(jsObject.effect);
+    }
+    
     if (hasValue(jsObject.interpolation)) {
         dotNetWCSLayer.interpolation = removeCircularReferences(jsObject.interpolation);
     }
@@ -785,6 +716,14 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.popupEnabled)) {
         dotNetWCSLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    
+    if (hasValue(jsObject.serviceRasterInfo)) {
+        dotNetWCSLayer.serviceRasterInfo = removeCircularReferences(jsObject.serviceRasterInfo);
+    }
+    
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetWCSLayer.spatialReference = removeCircularReferences(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.title)) {

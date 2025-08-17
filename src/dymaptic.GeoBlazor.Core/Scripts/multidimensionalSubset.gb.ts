@@ -9,8 +9,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
 
     let properties: any = {};
     if (hasValue(dotNetObject.areaOfInterest)) {
-        let { buildJsGeometry } = await import('./geometry');
-        properties.areaOfInterest = buildJsGeometry(dotNetObject.areaOfInterest) as any;
+        properties.areaOfInterest = dotNetObject.areaOfInterest;
     }
     if (hasValue(dotNetObject.subsetDefinitions) && dotNetObject.subsetDefinitions.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
@@ -33,14 +32,13 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any, 
     
     let dotNetMultidimensionalSubset: any = {};
     
-    if (hasValue(jsObject.areaOfInterest)) {
-        let { buildDotNetGeometry } = await import('./geometry');
-        dotNetMultidimensionalSubset.areaOfInterest = buildDotNetGeometry(jsObject.areaOfInterest);
-    }
-    
     if (hasValue(jsObject.subsetDefinitions)) {
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
         dotNetMultidimensionalSubset.subsetDefinitions = await Promise.all(jsObject.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i, viewId)));
+    }
+    
+    if (hasValue(jsObject.areaOfInterest)) {
+        dotNetMultidimensionalSubset.areaOfInterest = jsObject.areaOfInterest;
     }
     
     if (hasValue(jsObject.dimensions)) {

@@ -873,8 +873,8 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
     if (activeEventHandlers.includes('OnLayerViewDestroy')) {
         view.on('layerview-destroy', async (evt) => {
             const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
-            let { buildDotNetViewLayerviewCreateErrorEvent } = await import('./viewLayerviewCreateErrorEvent');
-            const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt, layerGeoBlazorId, viewId);
+            let { buildDotNetViewLayerviewDestroyEvent } = await import('./viewLayerviewDestroyEvent');
+            const dnEvent = await buildDotNetViewLayerviewDestroyEvent(evt, layerGeoBlazorId, viewId);
             await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', dnEvent);
         });
     }

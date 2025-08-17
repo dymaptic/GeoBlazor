@@ -22,8 +22,7 @@ export default class LabelGenerated implements IPropertyWrapper {
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.symbol)) {
-            let { buildJsSymbol } = await import('./symbol');
-            this.component.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+            this.component.symbol = dotNetObject.symbol;
         }
 
         if (hasValue(dotNetObject.allowOverrun)) {
@@ -78,20 +77,6 @@ export default class LabelGenerated implements IPropertyWrapper {
         this.component.labelExpression = JSON.parse(value);
     }
     
-    async getSymbol(): Promise<any> {
-        if (!hasValue(this.component.symbol)) {
-            return null;
-        }
-        
-        let { buildDotNetSymbol } = await import('./symbol');
-        return buildDotNetSymbol(this.component.symbol);
-    }
-    
-    async setSymbol(value: any): Promise<void> {
-        let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol =  buildJsSymbol(value);
-    }
-    
     getWhere(): any {
         if (!hasValue(this.component.where)) {
             return null;
@@ -121,8 +106,7 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
 
     let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
-        let { buildJsSymbol } = await import('./symbol');
-        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        properties.symbol = dotNetObject.symbol;
     }
 
     if (hasValue(dotNetObject.allowOverrun)) {
@@ -183,11 +167,6 @@ export async function buildDotNetLabelGenerated(jsObject: any, viewId: string | 
     
     let dotNetLabel: any = {};
     
-    if (hasValue(jsObject.symbol)) {
-        let { buildDotNetSymbol } = await import('./symbol');
-        dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
-    }
-    
     if (hasValue(jsObject.allowOverrun)) {
         dotNetLabel.allowOverrun = jsObject.allowOverrun;
     }
@@ -226,6 +205,10 @@ export async function buildDotNetLabelGenerated(jsObject: any, viewId: string | 
     
     if (hasValue(jsObject.repeatLabelDistance)) {
         dotNetLabel.repeatLabelDistance = removeCircularReferences(jsObject.repeatLabelDistance);
+    }
+    
+    if (hasValue(jsObject.symbol)) {
+        dotNetLabel.symbol = jsObject.symbol;
     }
     
     if (hasValue(jsObject.useCodedValues)) {

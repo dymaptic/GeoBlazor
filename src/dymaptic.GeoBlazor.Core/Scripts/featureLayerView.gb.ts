@@ -59,9 +59,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
 
     async queryAggregates(query: any,
         options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
-        return await this.component.queryAggregates(jsQuery,
+        return await this.component.queryAggregates(query,
             options);
     }
 

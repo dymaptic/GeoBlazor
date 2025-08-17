@@ -13,8 +13,7 @@ export async function buildJsTrackPartInfoGenerated(dotNetObject: any, layerId: 
         properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
-        let { buildJsRenderer } = await import('./renderer');
-        properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+        properties.renderer = dotNetObject.renderer;
     }
 
     if (hasValue(dotNetObject.labelsVisible)) {
@@ -44,13 +43,12 @@ export async function buildDotNetTrackPartInfoGenerated(jsObject: any, viewId: s
         dotNetTrackPartInfo.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i, viewId)));
     }
     
-    if (hasValue(jsObject.renderer)) {
-        let { buildDotNetRenderer } = await import('./renderer');
-        dotNetTrackPartInfo.renderer = await buildDotNetRenderer(jsObject.renderer, viewId);
-    }
-    
     if (hasValue(jsObject.labelsVisible)) {
         dotNetTrackPartInfo.labelsVisible = jsObject.labelsVisible;
+    }
+    
+    if (hasValue(jsObject.renderer)) {
+        dotNetTrackPartInfo.renderer = jsObject.renderer;
     }
     
     if (hasValue(jsObject.visible)) {

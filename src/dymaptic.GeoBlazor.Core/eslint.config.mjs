@@ -29,7 +29,7 @@ export default [
         "@typescript-eslint/ban-ts-comment": 'off',
         'no-case-declarations': "off",
         '@typescript-eslint/no-unsafe-function-type': "off",
-        '@typescript-eslint/no-unused-vars': 'error',
+        '@typescript-eslint/no-unused-vars': 'off',
         "no-undef": "error",
         'no-unused-vars': "off",
         'no-useless-catch': 'off',

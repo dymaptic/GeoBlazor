@@ -46,11 +46,9 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
 
     async triggerAction(action: any,
         item: any): Promise<void> {
-        let { buildJsActionBase } = await import('./actionBase');
-        let jsAction = buildJsActionBase(action) as any;
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.component.triggerAction(jsAction,
+        this.component.triggerAction(action,
             jsItem);
     }
 
@@ -100,9 +98,7 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     let jsLayerListViewModel = new LayerListViewModel(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
         jsLayerListViewModel.on('trigger-action', async (evt: any) => {
-            let { buildDotNetLayerListViewModelTriggerActionEvent } = await import('./layerListViewModelTriggerActionEvent');
-            let dnEvent = await buildDotNetLayerListViewModelTriggerActionEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
         });
     }
