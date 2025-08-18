@@ -344,7 +344,7 @@ if ($logContent)
             # if the timestamp is older than 2 days, remove the line
             if ($timestamp -lt (Get-Date).AddDays(-2)) 
             {
-                $newLogContent = $logContent[($i + 1)...]
+                $newLogContent = $logContent[($i + 1)..$logContent.Count - 1]
             }
             else
             {
