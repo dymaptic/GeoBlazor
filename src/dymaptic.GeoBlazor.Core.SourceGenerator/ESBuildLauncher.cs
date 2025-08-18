@@ -50,10 +50,12 @@ public class ESBuildLauncher : IIncrementalGenerator
             // If the pipeline build is enabled, we skip the ESBuild process.
             // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
             Notification?.Invoke(this, "Skipping ESBuild process as PipelineBuild is set to true.");
+            Log("Skipping ESBuild process as PipelineBuild is set to true.");
             return;
         }
         
         SetProjectDirectoryAndConfiguration(pipeline.OptionsConfig);
+        Log("ESBuildLauncher triggered.");
         LaunchESBuild(context);
     }
 
@@ -90,6 +92,7 @@ public class ESBuildLauncher : IIncrementalGenerator
         }
         else
         {
+            Log("Could not parse configuration setting", true);
             throw new Exception("Invalid configuration");
         }
     }
@@ -110,42 +113,18 @@ public class ESBuildLauncher : IIncrementalGenerator
             bool proBuildSuccess = false;
 
             // gets the esBuild.ps1 script from the Core path
-            ProcessStartInfo processStartInfo = new()
-            {
-                FileName = "pwsh",
-                Arguments =
-                    $"-NoProfile -ExecutionPolicy ByPass -File \"{Path.Combine(_corePath!, "esBuild.ps1")}\" -c {
-                        _configuration}",
-                WorkingDirectory = _corePath!,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
             tasks.Add(Task.Run(async () =>
-                buildSuccess = await RunProcess("Core", processStartInfo, logBuilder, context.CancellationToken)));
+                buildSuccess = await RunPowerShellScript("Core", "esBuild.ps1", _corePath!, 
+                    $"-c {_configuration}", logBuilder, context.CancellationToken)));
 
             if (_proPath is not null)
             {
-                string proScriptPath = Path.Combine(_proPath, "esProBuild.ps1");
-
-                ProcessStartInfo proStartInfo = new()
-                {
-                    FileName = "pwsh",
-                    Arguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{proScriptPath}\" -c {_configuration}",
-                    WorkingDirectory = _proPath,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-
                 Notification?.Invoke(this, "Starting Pro ESBuild process...");
                 logBuilder.AppendLine("Starting Pro ESBuild process...");
 
                 tasks.Add(Task.Run(async () =>
-                    proBuildSuccess = await RunProcess("Pro", proStartInfo, logBuilder, context.CancellationToken)));
+                    proBuildSuccess = await RunPowerShellScript("Pro", "esProBuild.ps1", _proPath, 
+                        $"-c {_configuration}", logBuilder, context.CancellationToken)));
             }
 
             string gitBranch = string.Empty;
@@ -229,6 +208,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             context.AddSource("ESBuildRecord.g.cs", source);
             logBuilder.AppendLine();
             logBuilder.AppendLine(source);
+            Log(logBuilder.ToString());
 
             Notification?.Invoke(this, "");
             Notification?.Invoke(this, source);
@@ -237,33 +217,57 @@ public class ESBuildLauncher : IIncrementalGenerator
         {
             Notification?.Invoke(this, $"An error occurred while running ESBuild: {ex.Message}");
             Notification?.Invoke(this, ex.StackTrace);
-            
-            ProcessStartInfo logger = new()
-            {
-                WorkingDirectory = _corePath!,
-                FileName = "pwsh",
-                Arguments =
-                    $"-NoProfile -ExecutionPolicy ByPass -File \"{Path.Combine(_corePath!, "esBuildLogger.ps1")}\" -c \"{ex.Message}\\\n\\\n{ex.StackTrace}\"",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
 
-            StringBuilder loggerOutput = new StringBuilder();
-            if (!RunProcess("Logger", logger, loggerOutput, CancellationToken.None).GetAwaiter().GetResult())
-            {
-                throw new Exception($"Failed to run the ESBuild logger script. {loggerOutput}");
-            }
+            Log($"{ex.Message}\r\n{ex.StackTrace}", true);
 
             throw new Exception(
                 $"An error occurred while running ESBuild: {ex.Message}\n\n{logBuilder}\n\n{ex.StackTrace}", ex);
         }
     }
 
-    private async Task<bool> RunProcess(string processName, ProcessStartInfo processStartInfo, StringBuilder logBuilder, 
-        CancellationToken cancellationToken)
+    private void Log(string content, bool isError = false)
     {
+        StringBuilder loggerOutput = new StringBuilder();
+        string[] contentLines = content.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
+
+        bool isFinalError = isError;
+        isError = false;
+
+        for (var i = 0; i < contentLines.Length; i++)
+        {
+            string line = contentLines[i];
+
+            if (i == contentLines.Length - 1)
+            {
+                isError = isFinalError;
+            }
+
+            if (!RunPowerShellScript("Logger", "esBuildLogger.ps1", _corePath!,
+                    $"-c \"{line}\" -e {isError.ToString().ToLower()}", loggerOutput,
+                    CancellationToken.None)
+                .GetAwaiter()
+                .GetResult())
+            {
+                throw new Exception($"Failed to run the ESBuild logger script. {loggerOutput}");
+            }
+        }
+    }
+
+    private async Task<bool> RunPowerShellScript(string processName, string powershellScriptName, string workingFolder, 
+        string arguments, StringBuilder logBuilder, CancellationToken cancellationToken)
+    {
+        ProcessStartInfo processStartInfo = new()
+        {
+            WorkingDirectory = workingFolder,
+            FileName = "pwsh",
+            Arguments =
+                $"-NoProfile -ExecutionPolicy ByPass -File \"{Path.Combine(workingFolder, powershellScriptName)}\" {arguments}",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        
         using var process = Process.Start(processStartInfo);
 
         if (process == null)

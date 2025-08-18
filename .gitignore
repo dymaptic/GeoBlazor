@@ -12,6 +12,7 @@
 .DS_Store
 appsettings.json
 esBuild.*.lock
+esBuild.log
 CustomerTests.razor
 .claude/
 
