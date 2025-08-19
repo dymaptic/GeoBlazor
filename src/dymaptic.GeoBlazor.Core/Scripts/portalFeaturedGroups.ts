@@ -1,10 +1,10 @@
 
-export async function buildJsPortalFeaturedGroups(dotNetObject: any): Promise<any> {
+export async function buildJsPortalFeaturedGroups(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsPortalFeaturedGroupsGenerated } = await import('./portalFeaturedGroups.gb');
-    return await buildJsPortalFeaturedGroupsGenerated(dotNetObject);
+    return await buildJsPortalFeaturedGroupsGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetPortalFeaturedGroups(jsObject: any): Promise<any> {
+export async function buildDotNetPortalFeaturedGroups(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPortalFeaturedGroupsGenerated } = await import('./portalFeaturedGroups.gb');
-    return await buildDotNetPortalFeaturedGroupsGenerated(jsObject);
+    return await buildDotNetPortalFeaturedGroupsGenerated(jsObject, viewId);
 }

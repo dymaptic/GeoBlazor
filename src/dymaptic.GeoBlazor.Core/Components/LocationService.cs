@@ -1,13 +1,7 @@
 // ReSharper disable MethodOverloadWithOptionalParameter
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     Represents a geocode service resource exposed by the ArcGIS Server REST API. It is used to generate candidates for an address. It is also used to generate batch results for a set of addresses.
-///     Set the URL to the ArcGIS Server REST resource that represents a Locator service, for example:
-///     https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class LocationService : LogicComponent
+public partial class LocationService : LogicComponent
 {
     /// <summary>
     ///     Default Constructor

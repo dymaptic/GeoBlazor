@@ -747,6 +747,12 @@ public partial class LocateWidget : IGoTo
     [JSInvokable]
     public async Task OnJsLocate(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);
@@ -778,6 +784,12 @@ public partial class LocateWidget : IGoTo
     [JSInvokable]
     public async Task OnJsLocateError(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);

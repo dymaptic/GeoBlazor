@@ -1,10 +1,10 @@
 
-export async function buildJsDimensionalDefinition(dotNetObject: any): Promise<any> {
+export async function buildJsDimensionalDefinition(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsDimensionalDefinitionGenerated } = await import('./dimensionalDefinition.gb');
-    return await buildJsDimensionalDefinitionGenerated(dotNetObject);
+    return await buildJsDimensionalDefinitionGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetDimensionalDefinition(jsObject: any): Promise<any> {
+export async function buildDotNetDimensionalDefinition(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetDimensionalDefinitionGenerated } = await import('./dimensionalDefinition.gb');
-    return await buildDotNetDimensionalDefinitionGenerated(jsObject);
+    return await buildDotNetDimensionalDefinitionGenerated(jsObject, viewId);
 }

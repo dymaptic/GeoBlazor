@@ -29,7 +29,7 @@ export async function buildJsBasemapToggleWidget(dotNetObject: any, layerId: str
     return await jsObject;
 }
 
-export async function buildDotNetBasemapToggleWidget(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapToggleWidget(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetBasemapToggleWidgetGenerated} = await import('./basemapToggleWidget.gb');
-    return await buildDotNetBasemapToggleWidgetGenerated(jsObject);
+    return await buildDotNetBasemapToggleWidgetGenerated(jsObject, viewId);
 }

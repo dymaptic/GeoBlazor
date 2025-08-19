@@ -157,7 +157,7 @@
 
         await InvokeAsync(StateHasChanged);
 
-        while (!_methodsWithRenderedMaps.Contains(methodName) && (tries > 0))
+        while (!methodsWithRenderedMaps.Contains(methodName) && (tries > 0))
         {
             if (_mapRenderingExceptions.Remove(methodName, out Exception? ex))
             {
@@ -168,7 +168,7 @@
             tries--;
         }
 
-        if (!_methodsWithRenderedMaps.Contains(methodName))
+        if (!methodsWithRenderedMaps.Contains(methodName))
         {
             if (_parallelTesting && _parallelRetryTests.All(mi => mi.Name != methodName))
             {
@@ -179,7 +179,7 @@
             throw new TimeoutException("Map did not render in allotted time.");
         }
 
-        _methodsWithRenderedMaps.Remove(methodName);
+        methodsWithRenderedMaps.Remove(methodName);
     }
 
     /// <summary>
@@ -206,25 +206,64 @@
     {
         int tries = timeoutInSeconds * 10;
 
-        while ((!_layerViewCreatedEvents.ContainsKey(methodName) 
+        while ((!layerViewCreatedEvents.ContainsKey(methodName) 
                 // check if the layer view was created for the specified layer type
-                || _layerViewCreatedEvents[methodName].All(lvce => lvce.Layer is not TLayer))
+                || layerViewCreatedEvents[methodName].All(lvce => lvce.Layer is not TLayer))
             && tries > 0)
         {
             await Task.Delay(100);
             tries--;
         }
 
-        if (!_layerViewCreatedEvents.ContainsKey(methodName)
-            || _layerViewCreatedEvents[methodName].All(lvce => lvce.Layer is not TLayer))
+        if (!layerViewCreatedEvents.ContainsKey(methodName)
+            || layerViewCreatedEvents[methodName].All(lvce => lvce.Layer is not TLayer))
         {
             throw new TimeoutException($"Layer {typeof(TLayer).Name} did not render in allotted time, or LayerViewCreated was not set in MapView.OnLayerViewCreate");
         }
         
-        LayerViewCreateEvent createEvent = _layerViewCreatedEvents[methodName].First(lvce => lvce.Layer is TLayer);
-        _layerViewCreatedEvents[methodName].Remove(createEvent);
+        LayerViewCreateEvent createEvent = layerViewCreatedEvents[methodName].First(lvce => lvce.Layer is TLayer);
+        layerViewCreatedEvents[methodName].Remove(createEvent);
 
         return createEvent;
+    }
+    
+    /// <summary>
+    ///     Handles the ListItemCreated event and waits for a ListItem to be created.
+    /// </summary>
+    /// <param name="methodName">
+    ///     The name of the test method calling this function, used to track which layer view
+    /// </param>
+    /// <param name="timeoutInSeconds">
+    ///     Optional timeout in seconds to wait for the layer to render. Defaults to 10 seconds.
+    /// </param>
+    /// <returns>
+    ///     Returns the <see cref="ListItem"/>.
+    /// </returns>
+    /// <exception cref="TimeoutException">
+    ///     Throws if the specified layer type does not render within the allotted time.
+    /// </exception>
+    protected async Task<ListItem> WaitForListItemToBeCreated(
+        [CallerMemberName] string methodName = "", 
+        int timeoutInSeconds = 10)
+    {
+        int tries = timeoutInSeconds * 10;
+
+        while (!listItems.ContainsKey(methodName)
+            && tries > 0)
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+
+        if (!listItems.TryGetValue(methodName, out List<ListItem>? items))
+        {
+            throw new TimeoutException("List Item did not render in allotted time, or ListItemCreated was not set in LayerListWidget.OnListItemCreatedHandler");
+        }
+        
+        ListItem firstItem = items.First();
+        listItems[methodName].Remove(firstItem);
+
+        return firstItem;
     }
 
     protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string methodName = "",
@@ -281,66 +320,39 @@
         _failed.Remove(methodInfo.Name);
         _testRenderFragments.Remove(methodInfo.Name);
         _mapRenderingExceptions.Remove(methodInfo.Name);
-        _methodsWithRenderedMaps.Remove(methodInfo.Name);
-        _layerViewCreatedEvents.Remove(methodInfo.Name);
+        methodsWithRenderedMaps.Remove(methodInfo.Name);
+        layerViewCreatedEvents.Remove(methodInfo.Name);
+        listItems.Remove(methodInfo.Name);
         Console.WriteLine($"Running test {methodInfo.Name}");
 
         try
         {
-            int paramCount = methodInfo.GetParameters().Length;
+            object[] actions = methodInfo.GetParameters()
+                .Select<ParameterInfo, object>(pi =>
+                {
+                    Type paramType = pi.ParameterType;
+                    
+                    if (paramType == typeof(Action<LayerViewCreateEvent>))
+                    {
+                        return (Action<LayerViewCreateEvent>)(createEvent => LayerViewCreatedHandler(createEvent, methodInfo.Name));
+                    }
+                    if (paramType == typeof(Func<ListItem, Task<ListItem>>))
+                    {
+                        return (Func<ListItem, Task<ListItem>>)(item => ListItemCreatedHandler(item, methodInfo.Name));
+                    }
+                    
+                    return (Action)(() => RenderHandler(methodInfo.Name));
+                })
+                .ToArray();
             
-            switch (paramCount)
+            if (methodInfo.ReturnType == typeof(Task))
             {
-                case 0:
-                    if (methodInfo.ReturnType == typeof(Task))
-                    {
-                        await (Task)methodInfo.Invoke(this, null)!;
-                    }
-                    else
-                    {
-                        methodInfo.Invoke(this, null);
-                    }
-
-                    break;
-                case 1:
-                    void RenderHandler() => _methodsWithRenderedMaps.Add(methodInfo.Name);
-                    if (methodInfo.ReturnType == typeof(Task))
-                    {
-                        await (Task)methodInfo.Invoke(this, [(Action)RenderHandler])!;
-                    }
-                    else
-                    {
-                        methodInfo.Invoke(this, [(Action)RenderHandler]);
-                    }
-                    
-                    break;
-                case 2:
-                    void RenderHandler2() => _methodsWithRenderedMaps.Add(methodInfo.Name);
-                    void LayerViewCreatedHandler(LayerViewCreateEvent createEvent)
-                    {
-                        if (!_layerViewCreatedEvents.ContainsKey(methodInfo.Name))
-                        {
-                            _layerViewCreatedEvents[methodInfo.Name] = [];
-                        }
-
-                        _layerViewCreatedEvents[methodInfo.Name].Add(createEvent);
-                    }
-                    
-                    if (methodInfo.ReturnType == typeof(Task))
-                    {
-                        await (Task)methodInfo.Invoke(this,
-                            [(Action)RenderHandler2, (Action<LayerViewCreateEvent>)LayerViewCreatedHandler])!;
-                    }
-                    else
-                    {
-                        methodInfo.Invoke(this, 
-                            [(Action)RenderHandler2, (Action<LayerViewCreateEvent>)LayerViewCreatedHandler]);
-                    }
-
-                    break;
+                await (Task)methodInfo.Invoke(this, actions)!;
             }
-
-            
+            else
+            {
+                methodInfo.Invoke(this, actions);
+            }
 
             _passed[methodInfo.Name] = _resultBuilder.ToString();
             _resultBuilder.AppendLine("<p style=\"color: green; font-weight: bold\">Passed</p>");
@@ -365,8 +377,8 @@
     [TestCleanup]
     protected async Task CleanupTest(string testName)
     {
-        _methodsWithRenderedMaps.Remove(testName);
-        _layerViewCreatedEvents.Remove(testName);
+        methodsWithRenderedMaps.Remove(testName);
+        layerViewCreatedEvents.Remove(testName);
         _testResults[testName] = _resultBuilder.ToString();
         _testRenderFragments.Remove(testName);
 
@@ -377,6 +389,33 @@
         });
         _interactionToggles[testName] = false;
         _currentTest = null;
+    }
+    
+    private static void RenderHandler(string methodName)
+    {
+        methodsWithRenderedMaps.Add(methodName);
+    }
+    
+    private static void LayerViewCreatedHandler(LayerViewCreateEvent createEvent, string methodName)
+    {
+        if (!layerViewCreatedEvents.ContainsKey(methodName))
+        {
+            layerViewCreatedEvents[methodName] = [];
+        }
+
+        layerViewCreatedEvents[methodName].Add(createEvent);
+    }
+    
+    private static Task<ListItem> ListItemCreatedHandler(ListItem item, string methodName)
+    {
+        if (!listItems.ContainsKey(methodName))
+        {
+            listItems[methodName] = [];
+        }
+
+        listItems[methodName].Add(item);
+
+        return Task.FromResult(item);
     }
 
     private void OnRenderError(ErrorEventArgs arg)
@@ -393,8 +432,9 @@
     private bool _collapsed = true;
     private bool _running;
     private readonly Dictionary<string, RenderFragment> _testRenderFragments = new();
-    private readonly List<string> _methodsWithRenderedMaps = new();
-    private readonly Dictionary<string, List<LayerViewCreateEvent>> _layerViewCreatedEvents = new();
+    private static readonly List<string> methodsWithRenderedMaps = new();
+    private static readonly Dictionary<string, List<LayerViewCreateEvent>> layerViewCreatedEvents = new();
+    private static readonly Dictionary<string, List<ListItem>> listItems = new();
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
     private readonly Dictionary<string, string?> _passed = new();
     private readonly Dictionary<string, string?> _failed = new();

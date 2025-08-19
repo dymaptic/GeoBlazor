@@ -461,6 +461,10 @@ public partial class HomeWidget : IGoTo
     
 #endregion
 
+#region Event Handlers
+
+#endregion
+
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

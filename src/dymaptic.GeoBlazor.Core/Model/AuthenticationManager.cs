@@ -158,7 +158,8 @@ public class AuthenticationManager
         // since we have to remove the ApiKey for some public WebMaps, this re-adds it for each new map view.
         if (ApiKey is not null)
         {
-            await _module.InvokeVoidAsync("setApiKey", _cancellationTokenSource.Token, ApiKey);
+            string? apiKey = BypassApiKey ? null : ApiKey;
+            await _module.InvokeVoidAsync("setApiKey", _cancellationTokenSource.Token, apiKey);
         }
 
         return true;
@@ -272,6 +273,12 @@ public class AuthenticationManager
         
         return TokenExpirationDateTime;
     }
+    
+    /// <summary>
+    ///     Allows the user to prevent the ApiKey from being used in the authentication process.
+    ///     Part of the workaround for https://my.esri.com/#/support/bugs/bugs?bugNumber=BUG-000174423 
+    /// </summary>
+    public bool BypassApiKey { get; set; }
 
     private readonly IJSRuntime _jsRuntime;
     private readonly JsModuleManager _jsModuleManager;

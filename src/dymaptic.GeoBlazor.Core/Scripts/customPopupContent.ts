@@ -2,7 +2,7 @@
 
 import { sanitize } from './arcGisJsInterop';
 
-export function buildJsCustomPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): any {
+export function buildJsCustomPopupContent(dotNetObject: any): any {
     return sanitize(dotNetObject);
 }
 

@@ -4,7 +4,7 @@ export async function buildJsViewshedFeatureReference(dotNetObject: any, layerId
     return await buildJsViewshedFeatureReferenceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewshedFeatureReference(jsObject: any): Promise<any> {
+export async function buildDotNetViewshedFeatureReference(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetViewshedFeatureReferenceGenerated } = await import('./viewshedFeatureReference.gb');
-    return await buildDotNetViewshedFeatureReferenceGenerated(jsObject);
+    return await buildDotNetViewshedFeatureReferenceGenerated(jsObject, viewId);
 }

@@ -146,6 +146,13 @@ public partial class MapView : MapComponent
     public string? WhiteLabel { get; set; }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
+    /// <summary>
+    ///     Allows the user to prevent the ApiKey from being used in the authentication process.
+    ///     Prevents ArcGIS bug throwing "invalid token" for public layers that do not require an API key.
+    /// </summary>
+    [Parameter]
+    public bool BypassApiKey { get; set; }
+    
 #endregion
 
 
@@ -884,6 +891,14 @@ public partial class MapView : MapComponent
 
                 layer.View = this;
 
+                if (layer is ISublayersLayer { Sublayers: not null} sublayersLayer)
+                {
+                    foreach (Sublayer sublayer in sublayersLayer.Sublayers)
+                    {
+                        sublayer.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, this);
+                    }
+                }
+
                 if (layerViewCreateEvent.IsBasemapLayer)
                 {
                     if (Map?.Basemap is not null)
@@ -977,6 +992,12 @@ public partial class MapView : MapComponent
     [Parameter]
     public long QueryResultsMaxSizeLimit { get; set; } = 1_000_000_000L;
 
+    /// <summary>
+    ///     The maximum time in milliseconds that the map view will wait for a render to complete before timing out and canceling.
+    /// </summary>
+    [Parameter]
+    public int MapRenderTimeoutInMilliseconds { get; set; } = 60_000;
+    
     /// <summary>
     ///     Controls whether the popup opens when users click on the view.
     ///     When true, a Popup instance is created and assigned to view.popup the first time the user clicks on the view, unless popup is null. The popup then processes the click event.
@@ -2187,6 +2208,14 @@ public partial class MapView : MapComponent
 #endregion
     
 #region Lifecycle Methods
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        AuthenticationManager.BypassApiKey = BypassApiKey;
+    }
+
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
@@ -2322,7 +2351,7 @@ public partial class MapView : MapComponent
                 foreach ((Layer newLayer, bool isBasemapLayer, bool isBasemapReferenceLayer) in newLayers)
                 {
                     await CoreJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
-                        (object)newLayer, Id, isBasemapLayer, isBasemapReferenceLayer);
+                        (object)newLayer, Map?.Id, Id, isBasemapLayer, isBasemapReferenceLayer);
                 }
             }
 
@@ -2360,7 +2389,8 @@ public partial class MapView : MapComponent
         if (!AuthenticationInitialized || Rendering || Map is null || CoreJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
-            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
+            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId)
+            && !BypassApiKey)
         {
             var newErrorMessage =
                 "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
@@ -2429,6 +2459,12 @@ public partial class MapView : MapComponent
             {
                 await Task.Delay(1);
             }
+
+            if (!BypassApiKey)
+            {
+                // ensure a basemap is added, but only if the user hasn't removed the API key
+                Map.Basemap ??= new Basemap(style: new BasemapStyle(BasemapStyleName.ArcgisLightGray));
+            }
             
             await SetTheme();
 
@@ -2444,18 +2480,32 @@ public partial class MapView : MapComponent
     /// </summary>
     protected virtual async Task BuildMapView()
     {
-        string mapType = Map is WebMap ? "webmap" : "map";
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
-        CancellationTokenSource.CancelAfter(5000); // 5 seconds timeout for the map view to be built
-        await CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, abortSignal, Id,
-            DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-            mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
-            EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
-            Theme?.ToString().ToLowerInvariant());
-        await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
-        CancellationTokenSource = new CancellationTokenSource();
-    }
+        try
+        {
+            string mapType = Map is WebMap ? "webmap" : "map";
+            IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
+            CancellationTokenSource.CancelAfter(MapRenderTimeoutInMilliseconds); // timeout for the map view to be built
 
+            await CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, abortSignal, Id,
+                DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
+                Theme?.ToString().ToLowerInvariant());
+            await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+
+            throw;
+        }
+        finally
+        {
+            CancellationTokenSource = new CancellationTokenSource();    
+        }
+        
+    }
+    
     private async Task SetTheme()
     {
         string? theme = await CoreJsModule!.InvokeAsync<string?>("setTheme", 

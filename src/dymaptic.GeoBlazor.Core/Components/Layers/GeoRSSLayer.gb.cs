@@ -111,6 +111,9 @@ public partial class GeoRSSLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public GeoRSSLayer(
         string url,
         string? title = null,
@@ -130,7 +133,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         MarkerSymbol? pointSymbol = null,
         SimpleFillSymbol? polygonSymbol = null,
         double? refreshInterval = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -153,6 +157,7 @@ public partial class GeoRSSLayer : IBlendLayer,
         PolygonSymbol = polygonSymbol;
         RefreshInterval = refreshInterval;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     
@@ -1133,6 +1138,12 @@ public partial class GeoRSSLayer : IBlendLayer,
     [JSInvokable]
     public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);

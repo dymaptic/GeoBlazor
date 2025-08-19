@@ -15,7 +15,7 @@ export async function buildJsVideoElement(dotNetObject: any, layerId: string | n
     return await buildJsVideoElementGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVideoElement(jsObject: any): Promise<any> {
+export async function buildDotNetVideoElement(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetVideoElementGenerated } = await import('./videoElement.gb');
-    return await buildDotNetVideoElementGenerated(jsObject);
+    return await buildDotNetVideoElementGenerated(jsObject, viewId);
 }

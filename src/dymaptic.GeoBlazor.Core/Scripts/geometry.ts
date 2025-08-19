@@ -6,7 +6,7 @@ import {buildDotNetMultipoint, buildJsMultipoint} from "./multipoint";
 import {buildDotNetMesh, buildJsMesh} from "./mesh";
 import {hasValue} from "./arcGisJsInterop";
 
-export function buildDotNetGeometry(geometry): any {
+export function buildDotNetGeometry(geometry: any): any {
     if (!hasValue(geometry)) {
         return null;
     }
@@ -26,7 +26,7 @@ export function buildDotNetGeometry(geometry): any {
     }
 }
 
-export function buildJsGeometry(geometry): any {
+export function buildJsGeometry(geometry: any): any {
     if (!hasValue(geometry)) {
         return null;
     }

@@ -46,7 +46,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {
         let { buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+        let jsQuery = await buildJsQuery(query);
         let {buildDotNetExtent} = await import('./extent');
         let result = await this.layer.queryExtent(jsQuery, options);
         return {
@@ -62,7 +62,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
             if (this.hasValue(query)) {
                 let { buildJsQuery} = await import('./query');
-                jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+                jsQuery = await buildJsQuery(query);
             }
 
             let featureSet = await this.layer.queryFeatures(jsQuery, options);
@@ -84,13 +84,13 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
         let { buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+        let jsQuery = await buildJsQuery(query);
         return await this.layer.queryFeatureCount(jsQuery, options);
     }
 
     async queryObjectIds(query: DotNetQuery, options: any): Promise<number[]> {
         let { buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+        let jsQuery = await buildJsQuery(query);
         let result = await this.layer.queryObjectIds(jsQuery, options);
         return result as number[];
     }
@@ -406,7 +406,7 @@ export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | n
 }
 
 
-export async function buildDotNetFeatureLayer(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureLayerGenerated} = await import('./featureLayer.gb');
-    return await buildDotNetFeatureLayerGenerated(jsObject);
+    return await buildDotNetFeatureLayerGenerated(jsObject, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsAttachmentsOrderByInfo(dotNetObject: any, layerId: 
     return await buildJsAttachmentsOrderByInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetAttachmentsOrderByInfo(jsObject: any): Promise<any> {
+export async function buildDotNetAttachmentsOrderByInfo(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetAttachmentsOrderByInfoGenerated } = await import('./attachmentsOrderByInfo.gb');
-    return await buildDotNetAttachmentsOrderByInfoGenerated(jsObject);
+    return await buildDotNetAttachmentsOrderByInfoGenerated(jsObject, viewId);
 }

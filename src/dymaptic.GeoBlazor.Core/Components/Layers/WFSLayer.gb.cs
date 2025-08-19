@@ -223,6 +223,9 @@ public partial class WFSLayer : Layer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public WFSLayer(
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
@@ -266,7 +269,8 @@ public partial class WFSLayer : Layer,
         TrackInfo? trackInfo = null,
         string? url = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -313,6 +317,7 @@ public partial class WFSLayer : Layer,
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     
@@ -341,7 +346,7 @@ public partial class WFSLayer : Layer,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public WFSLayerCapabilities? Capabilities { get; protected set; }
+    public Capabilities? Capabilities { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayercopyright-property">GeoBlazor Docs</a>
@@ -763,7 +768,7 @@ public partial class WFSLayer : Layer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
-    public async Task<WFSLayerCapabilities?> GetCapabilities()
+    public async Task<Capabilities?> GetCapabilities()
     {
         if (CoreJsModule is null)
         {
@@ -785,17 +790,17 @@ public partial class WFSLayer : Layer,
             return Capabilities;
         }
 
-        // get the property value
-        WFSLayerCapabilities? result = await JsComponentReference!.InvokeAsync<WFSLayerCapabilities?>("getProperty",
-            CancellationTokenSource.Token, "capabilities");
+        Capabilities? result = await JsComponentReference.InvokeAsync<Capabilities?>(
+            "getCapabilities", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Capabilities = result;
+            Capabilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+            ModifiedParameters[nameof(Capabilities)] = Capabilities;
         }
-         
+        
         return Capabilities;
     }
     
@@ -3780,6 +3785,12 @@ public partial class WFSLayer : Layer,
     [JSInvokable]
     public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);

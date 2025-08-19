@@ -4,7 +4,7 @@ export async function buildJsVideoInput(dotNetObject: any, layerId: string | nul
     return await buildJsVideoInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVideoInput(jsObject: any): Promise<any> {
+export async function buildDotNetVideoInput(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetVideoInputGenerated } = await import('./videoInput.gb');
-    return await buildDotNetVideoInputGenerated(jsObject);
+    return await buildDotNetVideoInputGenerated(jsObject, viewId);
 }

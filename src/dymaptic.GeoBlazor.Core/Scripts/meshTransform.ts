@@ -1,7 +1,7 @@
 // override generated code in this file
 
 import MeshTransform from "@arcgis/core/geometry/support/MeshTransform";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import { hasValue } from "./arcGisJsInterop";
 
 export function buildJsMeshTransform(dotNetObject: any): any {
     let properties : any = {};

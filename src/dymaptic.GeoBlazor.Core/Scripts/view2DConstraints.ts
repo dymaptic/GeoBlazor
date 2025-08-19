@@ -4,7 +4,7 @@ export async function buildJsView2DConstraints(dotNetObject: any, layerId: strin
     return await buildJsView2DConstraintsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetView2DConstraints(jsObject: any): Promise<any> {
+export async function buildDotNetView2DConstraints(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetView2DConstraintsGenerated } = await import('./view2DConstraints.gb');
-    return await buildDotNetView2DConstraintsGenerated(jsObject);
+    return await buildDotNetView2DConstraintsGenerated(jsObject, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsWMTSStyle(dotNetObject: any): Promise<any> {
     return await buildJsWMTSStyleGenerated(dotNetObject);
 }     
 
-export async function buildDotNetWMTSStyle(jsObject: any): Promise<any> {
+export async function buildDotNetWMTSStyle(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetWMTSStyleGenerated } = await import('./wMTSStyle.gb');
-    return await buildDotNetWMTSStyleGenerated(jsObject);
+    return await buildDotNetWMTSStyleGenerated(jsObject, viewId);
 }

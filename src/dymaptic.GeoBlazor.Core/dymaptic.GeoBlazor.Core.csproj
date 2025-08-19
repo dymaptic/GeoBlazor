@@ -99,14 +99,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot/js/" />
         <Folder Include="Documentation/" />
-        <Content Remove="wwwroot/js/**/*" />
-        <Content Include="wwwroot/js/**/*" Watch="false" />
+        <Folder Include="wwwroot/js/" Watch="false" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" 
                           OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
+
+    <Target BeforeTargets="Build" Name="Clear Locks">
+        <Exec Command="pwsh -NoProfile -ExecutionPolicy ByPass -Command { Remove-Item -Path '$(ProjectDir)esBuild.$(Configuration).lock' }" />
+        <Exec Command="pwsh -NoProfile -ExecutionPolicy ByPass -Command { Remove-Item -Path '$(ProjectDir)../../../src/dymaptic.GeoBlazor.Pro/esProBuild.$(Configuration).lock' }" />
+    </Target>
 </Project>

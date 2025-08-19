@@ -1,10 +1,10 @@
 
-export async function buildJsStreamLayerElevationInfo(dotNetObject: any): Promise<any> {
+export async function buildJsStreamLayerElevationInfo(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsStreamLayerElevationInfoGenerated } = await import('./streamLayerElevationInfo.gb');
-    return await buildJsStreamLayerElevationInfoGenerated(dotNetObject);
+    return await buildJsStreamLayerElevationInfoGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetStreamLayerElevationInfo(jsObject: any): Promise<any> {
+export async function buildDotNetStreamLayerElevationInfo(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetStreamLayerElevationInfoGenerated } = await import('./streamLayerElevationInfo.gb');
-    return await buildDotNetStreamLayerElevationInfoGenerated(jsObject);
+    return await buildDotNetStreamLayerElevationInfoGenerated(jsObject, viewId);
 }

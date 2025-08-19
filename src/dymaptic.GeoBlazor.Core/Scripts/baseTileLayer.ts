@@ -13,12 +13,12 @@ export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 
     async setEffect(effect: any) {
         let {buildJsEffect} = await import('./effect');
-        this.layer.effect = buildJsEffect(effect);
+        this.layer.effect = buildJsEffect(effect, this.viewId);
     }
 
     async setSpatialReference(spatialReference: any): Promise<void> {
         let {buildJsSpatialReference} = await import('./spatialReference');
-        this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
+        this.layer.spatialReference = buildJsSpatialReference(spatialReference, this.viewId) as any;
     }
 }
 
@@ -27,7 +27,7 @@ export async function buildJsBaseTileLayer(dotNetObject: any, layerId: string | 
     return await buildJsBaseTileLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBaseTileLayer(jsObject: any): Promise<any> {
+export async function buildDotNetBaseTileLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetBaseTileLayerGenerated} = await import('./baseTileLayer.gb');
-    return await buildDotNetBaseTileLayerGenerated(jsObject);
+    return await buildDotNetBaseTileLayerGenerated(jsObject, viewId);
 }

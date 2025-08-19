@@ -181,6 +181,9 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public ImageryTileLayer(
         string? url = null,
         PortalItem? portalItem = null,
@@ -216,7 +219,8 @@ public partial class ImageryTileLayer : IBlendLayer,
         TimeInfo? timeInfo = null,
         TimeInterval? timeOffset = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -255,6 +259,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         TimeOffset = timeOffset;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     
@@ -380,6 +385,15 @@ public partial class ImageryTileLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? SourceJSON { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerspatialreference-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerstringsource-property">GeoBlazor Docs</a>
@@ -1252,6 +1266,45 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the SpatialReference property.
+    /// </summary>
+    public async Task<SpatialReference?> GetSpatialReference()
+    {
+        if (CoreJsModule is null)
+        {
+            return SpatialReference;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SpatialReference;
+        }
+
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            SpatialReference = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+        
+        return SpatialReference;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the StringSource property.
     /// </summary>
     public async Task<string?> GetStringSource()
@@ -1364,6 +1417,11 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         if (result is not null)
         {
+            if (TimeExtent is not null)
+            {
+                result.Id = TimeExtent.Id;
+            }
+            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005

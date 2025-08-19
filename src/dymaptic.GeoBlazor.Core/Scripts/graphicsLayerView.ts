@@ -1,7 +1,7 @@
 // override generated code in this file
 import GraphicsLayerViewGenerated from './graphicsLayerView.gb';
 import GraphicsLayerView = __esri.GraphicsLayerView;
-import {hasValue, lookupJsGraphicById, graphicsRefs} from "./arcGisJsInterop";
+import {hasValue, lookupJsGraphicById} from "./arcGisJsInterop";
 
 export default class GraphicsLayerViewWrapper extends GraphicsLayerViewGenerated {
 
@@ -38,7 +38,7 @@ export async function buildJsGraphicsLayerView(dotNetObject: any, layerId: strin
     return await buildJsGraphicsLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGraphicsLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetGraphicsLayerView(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetGraphicsLayerViewGenerated } = await import('./graphicsLayerView.gb');
-    return await buildDotNetGraphicsLayerViewGenerated(jsObject);
+    return await buildDotNetGraphicsLayerViewGenerated(jsObject, viewId);
 }

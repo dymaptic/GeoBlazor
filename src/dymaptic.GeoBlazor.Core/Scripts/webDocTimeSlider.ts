@@ -4,7 +4,7 @@ export async function buildJsWebDocTimeSlider(dotNetObject: any, layerId: string
     return await buildJsWebDocTimeSliderGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebDocTimeSlider(jsObject: any): Promise<any> {
+export async function buildDotNetWebDocTimeSlider(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetWebDocTimeSliderGenerated } = await import('./webDocTimeSlider.gb');
-    return await buildDotNetWebDocTimeSliderGenerated(jsObject);
+    return await buildDotNetWebDocTimeSliderGenerated(jsObject, viewId);
 }

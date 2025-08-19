@@ -1,6 +1,6 @@
 // override generated code in this file
 import Mesh from "@arcgis/core/geometry/Mesh";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue } from "./arcGisJsInterop";
 import {buildDotNetMeshComponent, buildJsMeshComponent} from "./meshComponent";
 import {buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
 import {buildDotNetMeshTransform, buildJsMeshTransform } from "./meshTransform";

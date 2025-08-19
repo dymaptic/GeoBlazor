@@ -560,5 +560,44 @@
 
         await AssertJavaScript("elementExists", args: $"widget-container-{homeWidget!.Id}");
     }
+    
+    [TestMethod]
+    public async Task TestCanRenderManyWidgetsOnOneMap(Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <BasemapGalleryWidget />
+                <BasemapLayerListWidget />
+                <BasemapToggleWidget NextBasemapStyle="BasemapStyleName.ArcgisTopographic" />
+                <CompassWidget />
+                <HomeWidget />
+                <LayerListWidget />
+                <LegendWidget />
+                <MeasurementWidget LinearUnit="SystemOrLengthUnit.NauticalMiles" />
+                <LocateWidget />
+                <ScaleBarWidget />
+                <SearchWidget />
+
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapGallery");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapLayerList");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapToggle");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Compass");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Home");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.LayerList");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Legend");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Measurement");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Locate");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.ScaleBar");
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
+    }
 
 }

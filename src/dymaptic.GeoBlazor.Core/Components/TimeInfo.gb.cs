@@ -225,6 +225,11 @@ public partial class TimeInfo
         
         if (result is not null)
         {
+            if (FullTimeExtent is not null)
+            {
+                result.Id = FullTimeExtent.Id;
+            }
+            
 #pragma warning disable BL0005
             FullTimeExtent = result;
 #pragma warning restore BL0005

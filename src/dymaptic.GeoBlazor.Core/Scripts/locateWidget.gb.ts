@@ -180,7 +180,7 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLocateViewModel } = await import('./locateViewModel');
-        return await buildDotNetLocateViewModel(this.widget.viewModel);
+        return await buildDotNetLocateViewModel(this.widget.viewModel, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -284,7 +284,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     try {
         let jsObjectRef = DotNet.createJSObjectReference(locateWidgetWrapper);
         let { buildDotNetLocateWidget } = await import('./locateWidget');
-        let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate);
+        let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate, viewId);
 
         let dnStream = buildJsStreamReference(dnInstantiatedObject);
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 

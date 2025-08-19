@@ -15,7 +15,7 @@ export async function buildJsUniqueValueRenderer(dotNetObject: any, layerId: str
     return await buildJsUniqueValueRendererGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetUniqueValueRenderer(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValueRenderer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetUniqueValueRendererGenerated} = await import('./uniqueValueRenderer.gb');
-    return await buildDotNetUniqueValueRendererGenerated(jsObject);
+    return await buildDotNetUniqueValueRendererGenerated(jsObject, viewId);
 }

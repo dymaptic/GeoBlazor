@@ -52,7 +52,7 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
 
             if (hasValue(query)) {
                 let { buildJsQuery} = await import('./query');
-                jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
+                jsQuery = await buildJsQuery(query);
             }
 
             let featureSet = await this.layer.queryFeatures(jsQuery, options);
@@ -89,9 +89,9 @@ export async function buildJsGeoJSONLayer(dotNetObject: any, layerId: string | n
     return await buildJsGeoJSONLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGeoJSONLayer(jsObject: any): Promise<any> {
+export async function buildDotNetGeoJSONLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetGeoJSONLayerGenerated} = await import('./geoJSONLayer.gb');
-    let dnGeoJSONLayer = await buildDotNetGeoJSONLayerGenerated(jsObject);
+    let dnGeoJSONLayer = await buildDotNetGeoJSONLayerGenerated(jsObject, viewId);
     if (hasValue(dnGeoJSONLayer.id) && proGeoJSONLayerIds.includes(dnGeoJSONLayer.id)) {
         dnGeoJSONLayer.type = 'pro-geojson';
     }

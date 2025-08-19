@@ -4,7 +4,7 @@ export async function buildJsAggregateField(dotNetObject: any, layerId: string |
     return await buildJsAggregateFieldGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetAggregateField(jsObject: any): Promise<any> {
+export async function buildDotNetAggregateField(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetAggregateFieldGenerated } = await import('./aggregateField.gb');
-    return await buildDotNetAggregateFieldGenerated(jsObject);
+    return await buildDotNetAggregateFieldGenerated(jsObject, viewId);
 }

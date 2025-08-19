@@ -4,7 +4,7 @@ import {buildDotNetImageMediaInfo, buildJsImageMediaInfo} from "./imageMediaInfo
 import {buildDotNetLineChartMediaInfo, buildJsLineChartMediaInfo} from "./lineChartMediaInfo";
 import {buildDotNetPieChartMediaInfo, buildJsPieChartMediaInfo} from "./pieChartMediaInfo";
 
-export function buildDotNetMediaInfo(mediaInfo) {
+export function buildDotNetMediaInfo(mediaInfo: any): any {
     switch (mediaInfo?.type) {
         case 'bar-chart':
             return buildDotNetBarChartMediaInfo(mediaInfo);

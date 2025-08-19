@@ -83,6 +83,10 @@ public partial class PortalUser : MapComponent
     ///     The username of the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#username">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="portalUserId">
+    ///     The unique id for the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public PortalUser(
         PortalUserAccess? access = null,
         DateTime? created = null,
@@ -98,7 +102,8 @@ public partial class PortalUser : MapComponent
         PortalUserRole? role = null,
         string? roleId = null,
         PortalUserUnits? units = null,
-        string? username = null)
+        string? username = null,
+        string? portalUserId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -117,6 +122,7 @@ public partial class PortalUser : MapComponent
         RoleId = roleId;
         Units = units;
         Username = username;
+        PortalUserId = portalUserId;
 #pragma warning restore BL0005    
     }
     
@@ -213,6 +219,16 @@ public partial class PortalUser : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Portal? Portal { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserportaluserid-property">GeoBlazor Docs</a>
+    ///     The unique id for the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? PortalUserId { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserpreferredview-property">GeoBlazor Docs</a>
@@ -629,6 +645,45 @@ public partial class PortalUser : MapComponent
         }
          
         return OrgId;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the PortalUserId property.
+    /// </summary>
+    public async Task<string?> GetPortalUserId()
+    {
+        if (CoreJsModule is null)
+        {
+            return PortalUserId;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return PortalUserId;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "id");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PortalUserId = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(PortalUserId)] = PortalUserId;
+        }
+         
+        return PortalUserId;
     }
     
     /// <summary>
@@ -1283,6 +1338,43 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the PortalUserId property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPortalUserId(string? value)
+    {
+#pragma warning disable BL0005
+        PortalUserId = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PortalUserId)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "id", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the PreferredView property after render.
     /// </summary>
     /// <param name="value">
@@ -1586,8 +1678,6 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluseradditem-method">GeoBlazor Docs</a>
     ///     Adds an item to the user's portal content.
-    ///     param params.item The item to add to the user's content.
-    ///     param params.folder The portal folder in which to store the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="item">
@@ -1788,10 +1878,6 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchitems-method">GeoBlazor Docs</a>
     ///     Retrieves all the items in either the user's root folder or the specified folder.
-    ///     param params.folder The folder to retrieve items from. When `folder` is not specified, the `includeSubfolderItems` parameter can be used to include items from subfolders.
-    ///     param params.includeSubfolderItems Option to include items from subfolders along with items in the root folder. This parameter does not apply when the `folder` parameter is specified.
-    ///     param params.sortField A comma-delimited list of fields to sort by. Allowed values are `created`, `modified`, `size`, and `type`.
-    ///     param params.start The index of the first entry in the result set response. The index is 1-based.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="folder">

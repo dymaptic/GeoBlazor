@@ -2,7 +2,7 @@ import {hasValue} from "./arcGisJsInterop";
 import {buildDotNetGraphic} from "./graphic";
 import {buildDotNetSpatialReference} from "./spatialReference";
 
-export function buildDotNetEditsResult(jsResult: any, layerId: string): any {
+export function buildDotNetEditsResult(jsResult: any, layerId: string | null, viewId: string | null): any {
     let dnResult: any = {
         addFeatureResults: jsResult.addFeatureResults,
         deleteFeatureResults: jsResult.deleteFeatureResults,
@@ -18,23 +18,23 @@ export function buildDotNetEditsResult(jsResult: any, layerId: string): any {
                 layerId: r.layerId
             };
             if (hasValue(r.editedFeatures.adds)) {
-                dnEditedFeatureResult.adds = r.editedFeatures.adds!.map(f => buildDotNetGraphic(f, layerId, null));
+                dnEditedFeatureResult.adds = r.editedFeatures.adds!.map(f => buildDotNetGraphic(f, layerId, viewId));
             }
             if (hasValue(r.editedFeatures.deletes)) {
-                dnEditedFeatureResult.deletes = r.editedFeatures.deletes!.map(f => buildDotNetGraphic(f, layerId, null));
+                dnEditedFeatureResult.deletes = r.editedFeatures.deletes!.map(f => buildDotNetGraphic(f, layerId, viewId));
             }
             if (hasValue(r.editedFeatures.updates)) {
                 dnEditedFeatureResult.updates = [];
                 for (let i = 0; i < r.editedFeatures.updates!.length; i++) {
                     let jsFeature = r.editedFeatures.updates![i];
                     dnEditedFeatureResult.updates.push({
-                        original: jsFeature.original?.map(f => buildDotNetGraphic(f, layerId, null)),
-                        current: jsFeature.current?.map(f => buildDotNetGraphic(f, layerId, null))
+                        original: jsFeature.original?.map(f => buildDotNetGraphic(f, layerId, viewId)),
+                        current: jsFeature.current?.map(f => buildDotNetGraphic(f, layerId, viewId))
                     });
                 }
             }
             if (hasValue(r.editedFeatures.spatialReference)) {
-                dnEditedFeatureResult.spatialReference = buildDotNetSpatialReference(r.editedFeatures.spatialReference!);
+                dnEditedFeatureResult.spatialReference = buildDotNetSpatialReference(r.editedFeatures.spatialReference!, viewId);
             }
 
             return dnEditedFeatureResult;

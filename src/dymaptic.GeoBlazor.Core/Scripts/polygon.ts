@@ -1,11 +1,10 @@
 import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
-import {DotNetPolygon} from "./definitions";
 import Polygon from "@arcgis/core/geometry/Polygon";
-import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import Circle from "@arcgis/core/geometry/Circle";
 import {buildDotNetPoint, buildJsPoint} from "./point";
+import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
 
 export function buildDotNetPolygon(polygon: any): any {
     if (polygon === undefined || polygon === null) return null;
@@ -49,6 +48,8 @@ export function buildDotNetPolygon(polygon: any): any {
     if (hasValue(polygon.geodesic)) {
         dnPolygon.geodesic = polygon.geodesic;
     }
+
+    dnPolygon.isSimple = simplifyOperator.isSimple(polygon);
     
     if (hasValue(polygon.isSelfIntersecting)) {
         dnPolygon.isSelfIntersecting = polygon.isSelfIntersecting;
@@ -65,7 +66,7 @@ export function buildDotNetPolygon(polygon: any): any {
     return dnPolygon;
 }
 
-export function buildJsPolygon(dnPolygon): any {
+export function buildJsPolygon(dnPolygon: any): any {
     if (dnPolygon === undefined || dnPolygon === null) return null;
     
     let properties : any = {};

@@ -2,7 +2,7 @@ import Bookmark from "@arcgis/core/webmap/Bookmark";
 import Viewpoint from "@arcgis/core/Viewpoint";
 import {hasValue} from "./arcGisJsInterop";
 
-export async function buildDotNetBookmark(bookmark: any) {
+export async function buildDotNetBookmark(bookmark: any): Promise<any> {
     let {buildDotNetTimeExtent} = await import('./timeExtent');
     let {buildDotNetViewpoint} = await import('./viewpoint');
 
@@ -14,7 +14,7 @@ export async function buildDotNetBookmark(bookmark: any) {
 }
 
 
-export async function buildJsBookmark(dnBookmark): Promise<Bookmark | null> {
+export async function buildJsBookmark(dnBookmark: any): Promise<any> {
     if (dnBookmark === undefined || dnBookmark === null) return null;
     let bookmark = new Bookmark();
     if (hasValue(dnBookmark.name)) {

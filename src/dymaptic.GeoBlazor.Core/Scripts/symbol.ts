@@ -6,7 +6,7 @@ import {buildDotNetPictureMarkerSymbol, buildJsPictureMarkerSymbol} from "./pict
 import {buildDotNetPictureFillSymbol, buildJsPictureFillSymbol} from "./pictureFillSymbol";
 import {buildDotNetSimpleFillSymbol, buildJsSimpleFillSymbol} from './simpleFillSymbol';
 import {buildDotNetTextSymbol, buildJsTextSymbol} from "./textSymbol";
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue, sanitize} from "./arcGisJsInterop";
 
 export function buildJsSymbol(symbol: any): any {
     if (!hasValue(symbol)) {
@@ -26,12 +26,11 @@ export function buildJsSymbol(symbol: any): any {
         case "text":
             return buildJsTextSymbol(symbol);
         default:
-            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedSymbol } = symbol;
-            return sanitizedSymbol;
+            return sanitize(symbol);
     }
 }
 
-export function buildDotNetSymbol(symbol: Symbol | null | undefined): any {
+export function buildDotNetSymbol(symbol: any): any {
     if (!hasValue(symbol)) {
         return null;
     }

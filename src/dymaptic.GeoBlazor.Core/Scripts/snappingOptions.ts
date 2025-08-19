@@ -4,7 +4,7 @@ export async function buildJsSnappingOptions(dotNetObject: any, layerId: string 
     return await buildJsSnappingOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSnappingOptions(jsObject: any): Promise<any> {
+export async function buildDotNetSnappingOptions(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSnappingOptionsGenerated } = await import('./snappingOptions.gb');
-    return await buildDotNetSnappingOptionsGenerated(jsObject);
+    return await buildDotNetSnappingOptionsGenerated(jsObject, viewId);
 }

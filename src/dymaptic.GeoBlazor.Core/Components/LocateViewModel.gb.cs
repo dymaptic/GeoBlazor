@@ -844,13 +844,19 @@ public partial class LocateViewModel : IGeolocationPositioning,
 #endregion
 
 #region Event Handlers
-    
+
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
     public async Task OnJsLocateError(IJSStreamReference jsStreamRef)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
         await using MemoryStream ms = new();
         await stream.CopyToAsync(ms);

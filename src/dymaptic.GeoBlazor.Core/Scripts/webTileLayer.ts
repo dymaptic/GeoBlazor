@@ -15,7 +15,7 @@ export async function buildJsWebTileLayer(dotNetObject: any, layerId: string | n
     return await buildJsWebTileLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetWebTileLayer(jsObject: any): Promise<any> {
+export async function buildDotNetWebTileLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetWebTileLayerGenerated} = await import('./webTileLayer.gb');
-    return await buildDotNetWebTileLayerGenerated(jsObject);
+    return await buildDotNetWebTileLayerGenerated(jsObject, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsDotDensityTitle(dotNetObject: any, layerId: string 
     return await buildJsDotDensityTitleGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDotDensityTitle(jsObject: any): Promise<any> {
+export async function buildDotNetDotDensityTitle(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetDotDensityTitleGenerated } = await import('./dotDensityTitle.gb');
-    return await buildDotNetDotDensityTitleGenerated(jsObject);
+    return await buildDotNetDotDensityTitleGenerated(jsObject, viewId);
 }

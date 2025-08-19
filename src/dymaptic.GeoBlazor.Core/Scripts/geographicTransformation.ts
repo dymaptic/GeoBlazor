@@ -1,4 +1,4 @@
-import GeographicTransformation from '@arcgis/core/geometry/support/GeographicTransformation';
+import GeographicTransformation from '@arcgis/core/geometry/operators/support/GeographicTransformation';
 import GeographicTransformationGenerated from './geographicTransformation.gb';
 
 export function buildDotNetGeographicTransformation(geographicTransformation: any): any {

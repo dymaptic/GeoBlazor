@@ -4,7 +4,7 @@ export async function buildJsWebMapFloorFilter(dotNetObject: any, layerId: strin
     return await buildJsWebMapFloorFilterGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebMapFloorFilter(jsObject: any): Promise<any> {
+export async function buildDotNetWebMapFloorFilter(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetWebMapFloorFilterGenerated } = await import('./webMapFloorFilter.gb');
-    return await buildDotNetWebMapFloorFilterGenerated(jsObject);
+    return await buildDotNetWebMapFloorFilterGenerated(jsObject, viewId);
 }

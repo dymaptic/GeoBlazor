@@ -11,7 +11,7 @@ export async function buildJsImageryRenderer(dnRenderer: any, layerId: string | 
 
     return null;
 }
-export async function buildDotNetImageryRenderer(jsObject: any): Promise<any> {
+export async function buildDotNetImageryRenderer(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetImageryRendererGenerated } = await import('./imageryRenderer.gb');
-    return await buildDotNetImageryRendererGenerated(jsObject);
+    return await buildDotNetImageryRendererGenerated(jsObject, viewId);
 }

@@ -3,7 +3,7 @@ export async function buildJsKMLLayerViewMapImage(dotNetObject: any): Promise<an
     return await buildJsKMLLayerViewMapImageGenerated(dotNetObject);
 }
 
-export async function buildDotNetKMLLayerViewMapImage(jsObject: any): Promise<any> {
+export async function buildDotNetKMLLayerViewMapImage(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetKMLLayerViewMapImageGenerated} = await import('./kMLLayerViewMapImage.gb');
-    return await buildDotNetKMLLayerViewMapImageGenerated(jsObject);
+    return await buildDotNetKMLLayerViewMapImageGenerated(jsObject, viewId);
 }

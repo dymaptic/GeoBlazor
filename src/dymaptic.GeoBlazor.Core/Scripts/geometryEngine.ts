@@ -744,10 +744,10 @@ export default class GeometryEngineWrapper {
     }
 }
 
-export async function buildJsGeometryEngine(dotNetObject: any): Promise<any> {
+export async function buildJsGeometryEngine(dotNetObject: any, viewId: string | null): Promise<any> {
     return new GeometryEngineWrapper(dotNetObject);
 }
 
-export async function buildDotNetGeometryEngine(jsObject: any): Promise<any> {
+export async function buildDotNetGeometryEngine(jsObject: any, viewId: string | null): Promise<any> {
     return null; // not used
 }
