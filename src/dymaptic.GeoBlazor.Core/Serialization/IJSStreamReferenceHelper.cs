@@ -1,5 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
+/// <summary>
+///     Extension methods for <see cref="IJSStreamReference" /> to facilitate reading data from JavaScript streams.
+/// </summary>
 public static class IJSStreamReferenceHelper
 {
     /// <summary>
