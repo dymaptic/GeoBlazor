@@ -336,6 +336,8 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         if (ProtoGraphicCollection === undefined) {
             await loadProtobuf();
         }
+        
+        await projectionEngine.load();
 
         checkConnectivity(id);
 
@@ -625,155 +627,133 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
                                  activeEventHandlers: Array<string>, viewId: string): Promise<void> {
     if (activeEventHandlers.includes('OnClick')) {
         view.on('click', async (evt) => {
+            try {
             await setCursor('wait', viewId);
-            requestAnimationFrame(async () => {
-                try {
                     evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
                     await dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
                 } finally {
                     await setCursor('unset', viewId);
                 }
             });
-        });
     }
 
     // always listen for this to track extent changes
-    view.on('double-click', (evt) => {
-        requestAnimationFrame(async () => {
-            if (activeEventHandlers.includes('OnDoubleClick')) {
-                // only set the cursor if there is user code to run
-                await setCursor('wait', viewId);
-            }
-            // but always hook up listener for internal events in GeoBlazor
-            try {
-                userChangedViewExtent = true;
-                evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-                await dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
-            } finally {
-                await setCursor('unset', viewId);
-            }
-        });
+    view.on('double-click', async (evt) => {
+        if (activeEventHandlers.includes('OnDoubleClick')) {
+            // only set the cursor if there is user code to run
+            await setCursor('wait', viewId);
+        }
+        // but always hook up listener for internal events in GeoBlazor
+        try {
+            userChangedViewExtent = true;
+            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
+            await dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
+        } finally {
+            await setCursor('unset', viewId);
+        }
     });
 
     if (activeEventHandlers.includes('OnHold')) {
-        view.on('hold', (evt) => {
-            requestAnimationFrame(async () => {
-                evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-                await dotNetRef.invokeMethodAsync('OnJavascriptHold', evt);
-            });
+        view.on('hold', async (evt) => {
+            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
+            await dotNetRef.invokeMethodAsync('OnJavascriptHold', evt);
         });
     }
 
     if (activeEventHandlers.includes('ImmediateClick')) {
         view.on('immediate-click', async (evt) => {
             await setCursor('wait', viewId);
-            requestAnimationFrame(async () => {
-                try {
-                    evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-                    await dotNetRef.invokeMethodAsync('OnJavascriptImmediateClick', evt);
-                } finally {
-                    await setCursor('unset', viewId);
-                }
-            });
+            try {
+                evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
+                await dotNetRef.invokeMethodAsync('OnJavascriptImmediateClick', evt);
+            } finally {
+                await setCursor('unset', viewId);
+            }
         });
     }
 
     if (activeEventHandlers.includes('ImmediateDoubleClick')) {
         view.on('immediate-double-click', async (evt) => {
             await setCursor('wait', viewId);
-            requestAnimationFrame(async () => {
-                try {
-                    evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-                    await dotNetRef.invokeMethodAsync('OnJavascriptImmediateDoubleClick', evt);
-                } finally {
-                    await setCursor('unset', viewId);
-                }
-            });
+            try {
+                evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
+                await dotNetRef.invokeMethodAsync('OnJavascriptImmediateDoubleClick', evt);
+            } finally {
+                await setCursor('unset', viewId);
+            }
         });
     }
 
     if (activeEventHandlers.includes('OnBlur')) {
-        view.on('blur', (evt) => {
-            requestAnimationFrame(async () => {
-                await dotNetRef.invokeMethodAsync('OnJavascriptBlur', evt);
-            });
+        view.on('blur', async (evt) => {
+            await dotNetRef.invokeMethodAsync('OnJavascriptBlur', evt);
         });
     }
 
     if (activeEventHandlers.includes('OnFocus')) {
-        view.on('focus', (evt) => {
-            requestAnimationFrame(async () => {
-                await dotNetRef.invokeMethodAsync('OnJavascriptFocus', evt);
-            });
+        view.on('focus', async (evt) => {
+            await dotNetRef.invokeMethodAsync('OnJavascriptFocus', evt);
         });
     }
 
     // always listen for this to track extent changes
+    let dragTimeoutId: number | undefined;
     view.on('drag', (evt) => {
         userChangedViewExtent = true;
-        setTimeout(() => {
+        clearTimeout(dragTimeoutId);
+        dragTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
             });
         }, eventRateLimit ?? 0);
     });
 
-    view.on('pointer-down', (evt) => {
-        requestAnimationFrame(async () => {
-            pointerDown = true;
-            await dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', evt);
-        });
+    view.on('pointer-down', async (evt) => {
+        pointerDown = true;
+        await dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', evt);
     });
 
     if (activeEventHandlers.includes('OnPointerEnter')) {
-        view.on('pointer-enter', (evt) => {
-            requestAnimationFrame(async () => {
-                await dotNetRef.invokeMethodAsync('OnJavascriptPointerEnter', evt);
-            });
+        view.on('pointer-enter', async (evt) => {
+            await dotNetRef.invokeMethodAsync('OnJavascriptPointerEnter', evt);
         });
     }
 
     if (activeEventHandlers.includes('OnPointerLeave')) {
-        view.on('pointer-leave', (evt) => {
-            requestAnimationFrame(async () => {
-                pointerDown = false;
-                await dotNetRef.invokeMethodAsync('OnJavascriptPointerLeave', evt);
-            });
+        view.on('pointer-leave', async (evt) => {
+            pointerDown = false;
+            await dotNetRef.invokeMethodAsync('OnJavascriptPointerLeave', evt);
         });
     }
 
+    let pointerMoveTimeoutId: number | undefined;
     view.on('pointer-move', async (evt) => {
+        clearTimeout(pointerMoveTimeoutId);
         if (pointerDown) {
             userChangedViewExtent = true;
         }
         
-        setTimeout(() => {
+        pointerMoveTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
             });
         }, eventRateLimit ?? 0);
     });
 
-    view.on('pointer-up', (evt) => {
-        requestAnimationFrame(async () => {
-            pointerDown = false;
-            await dotNetRef.invokeMethodAsync('OnJavascriptPointerUp', evt);
-        });
+    view.on('pointer-up', async (evt) => {
+        pointerDown = false;
+        await dotNetRef.invokeMethodAsync('OnJavascriptPointerUp', evt);
     });
 
     if (activeEventHandlers.includes('OnKeyDown')) {
-        view.on('key-down', (evt) => {
-            requestAnimationFrame(async () => {
-                await dotNetRef.invokeMethodAsync('OnJavascriptKeyDown', evt);
-            });
+        view.on('key-down', async (evt) => {
+            await dotNetRef.invokeMethodAsync('OnJavascriptKeyDown', evt);
         });
     }
 
     if (activeEventHandlers.includes('OnKeyUp')) {
-        view.on('key-up', (evt) => {
-            requestAnimationFrame(async () => {
-                await dotNetRef.invokeMethodAsync('OnJavascriptKeyUp', evt);
-            });
+        view.on('key-up', async (evt) => {
+            await dotNetRef.invokeMethodAsync('OnJavascriptKeyUp', evt);
         });
     }
 
@@ -912,10 +892,12 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
         });
     }
 
+    let mouseWheelTimeoutId: number | undefined;
     view.on('mouse-wheel', async (evt) => {
+        clearTimeout(mouseWheelTimeoutId);
         userChangedViewExtent = true;
         await setCursor('wait', viewId);
-        setTimeout(() => {
+        mouseWheelTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
                 await setCursor('unset', viewId);
@@ -923,10 +905,12 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
         }, eventRateLimit ?? 0);
     });
 
+    let resizeTimeoutId: number | undefined;
     view.on('resize', async (evt) => {
+        clearTimeout(resizeTimeoutId);
         userChangedViewExtent = true;
         await setCursor('wait', viewId);
-        setTimeout(() => {
+        resizeTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
                 await setCursor('unset', viewId);
@@ -941,17 +925,19 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
         });
     });
 
+    let watchExtentTimeoutId: number | undefined;
     reactiveUtils.watch(() => view.extent, () => {
         if (!notifyExtentChanged) return;
+        clearTimeout(watchExtentTimeoutId);
         if (!hasValue((view as MapView)?.extent)) {
             return;
         }
         userChangedViewExtent = true;
-        setTimeout(() => {
+        watchExtentTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 if (view instanceof SceneView) {
                     await dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
-                        buildDotNetPoint(view.camera.position), view.zoom, view.scale, null, view.camera.tilt);
+                        buildDotNetPoint(view.camera?.position), view.zoom, view.scale, null, view.camera.tilt);
                     return;
                 }
                 await dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent),
@@ -1973,7 +1959,7 @@ export function addReactiveWatcher(targetId: string, targetName: string, watchEx
                 let jsonValue = generateSerializableJson(value);
                 let jsStreamRef = buildJsStreamReference(jsonValue);
                 await dotNetRef.invokeMethodAsync('OnReactiveWatcherUpdate', '${watchExpression}', jsStreamRef);
-            )};
+            });
         },
         {once: ${once}, initial: ${initial}});`);
     return watcherFunc(target, reactiveUtils, dotNetRef, generateSerializableJson, buildJsStreamReference);
@@ -2024,7 +2010,7 @@ export function addReactiveWaiter(targetId: string, targetName: string, watchExp
         () => { 
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnReactiveWaiterTrue', '${watchExpression}')
-            )};
+            });
         },
         {once: ${once}, initial: ${initial}});`);
     return whenFunc(target, reactiveUtils, dotNetRef);
@@ -2425,8 +2411,4 @@ export function buildEncodedJson(object: any) {
     let encoder = new TextEncoder();
     let encodedArray = encoder.encode(json!);
     return encodedArray;
-}
-
-export function delayTask(milliseconds: number = 0) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
 }

@@ -15,7 +15,7 @@
     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html#when">Waiters</a> return when a value evaluates to "<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>".
 </p>
 
-@if (!(_view?.MapRendered ?? false))
+@if (_listItemsCreated < 2)
 {
     <div>Please wait for the map to fully load...</div>
 }
@@ -375,12 +375,13 @@ else
     private void HomeWaitHandler()
     {
         _homeWidgetVisible = true;
+        StateHasChanged();
     }
 
     private async Task<ListItem> OnListItemCreated(ListItem item)
     {
         await item.SetVisibility(false);
-
+        _listItemsCreated++;
         return item;
     }
 
@@ -417,5 +418,5 @@ else
     private bool _zoomWatcherAttached;
 
     private record ViewableLayer(string Title);
-
+    private int _listItemsCreated;
 }

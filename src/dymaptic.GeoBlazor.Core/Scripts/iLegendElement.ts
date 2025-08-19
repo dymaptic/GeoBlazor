@@ -1,3 +1,4 @@
+import {removeCircularReferences, sanitize} from "./arcGisJsInterop";
 
 export async function buildJsILegendElement(dotNetObject: any): Promise<any> {
     switch (dotNetObject.type) {
@@ -17,7 +18,7 @@ export async function buildJsILegendElement(dotNetObject: any): Promise<any> {
             let { buildJsSizeRampElement } = await import('./sizeRampElement');
             return await buildJsSizeRampElement(dotNetObject);
         default:
-            throw new Error(`Unknown type: ${dotNetObject.type}`);
+            return sanitize(dotNetObject);
     }
 }     
 
@@ -39,6 +40,6 @@ export async function buildDotNetILegendElement(jsObject: any): Promise<any> {
             let { buildDotNetSizeRampElement } = await import('./sizeRampElement');
             return await buildDotNetSizeRampElement(jsObject, null);
         default:
-            throw new Error(`Unknown type: ${jsObject.type}`);
+            return removeCircularReferences(jsObject);
     }
 }

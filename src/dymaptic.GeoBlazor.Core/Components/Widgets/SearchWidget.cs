@@ -375,6 +375,14 @@ public partial class SearchWidget : Widget
 
     private async Task<SearchResponse> SearchImplementation(object searchTerm)
     {
+        if (CoreJsModule is null)
+        {
+            throw new InvalidOperationException("SearchWidget is not initialized with CoreJsModule.");
+        }
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        
         IJSStreamReference jsStreamRef = 
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("search", searchTerm);
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
@@ -402,6 +410,14 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public async Task<SuggestResponse> Suggest(string? value = null)
     {
+        if (CoreJsModule is null)
+        {
+            throw new InvalidOperationException("SearchWidget is not initialized with CoreJsModule.");
+        }
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        
         IJSStreamReference jsStreamRef =
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("suggest", value);
         await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
