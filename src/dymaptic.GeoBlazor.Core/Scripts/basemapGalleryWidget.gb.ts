@@ -233,17 +233,19 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = basemapGalleryWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGallery;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(basemapGalleryWidgetWrapper);
-        let { buildDotNetBasemapGalleryWidget } = await import('./basemapGalleryWidget');
-        let dnInstantiatedObject = await buildDotNetBasemapGalleryWidget(jsBasemapGallery, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(basemapGalleryWidgetWrapper);
+            let { buildDotNetBasemapGalleryWidget } = await import('./basemapGalleryWidget');
+            let dnInstantiatedObject = await buildDotNetBasemapGalleryWidget(jsBasemapGallery, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BasemapGalleryWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for BasemapGalleryWidget', e);
+        }
+    });
     
     return jsBasemapGallery;
 }

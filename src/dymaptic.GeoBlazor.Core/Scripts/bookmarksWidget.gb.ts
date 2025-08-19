@@ -343,7 +343,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     }
     let jsBookmarks = new Bookmarks(properties);
     if (hasValue(dotNetObject.hasBookmarkEditListener) && dotNetObject.hasBookmarkEditListener) {
-        jsBookmarks.on('bookmark-edit', async (evt: any) => {
+        jsBookmarks.on('bookmark-edit', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetBookmarksBookmarkEditEvent } = await import('./bookmarksBookmarkEditEvent');
                 let dnEvent = await buildDotNetBookmarksBookmarkEditEvent(evt, layerId, viewId);
@@ -354,7 +354,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     }
     
     if (hasValue(dotNetObject.hasBookmarkSelectListener) && dotNetObject.hasBookmarkSelectListener) {
-        jsBookmarks.on('bookmark-select', async (evt: any) => {
+        jsBookmarks.on('bookmark-select', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetBookmarkSelectEvent } = await import('./bookmarkSelectEvent');
                 let dnEvent = await buildDotNetBookmarkSelectEvent(evt);
@@ -374,17 +374,19 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = bookmarksWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarks;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(bookmarksWidgetWrapper);
-        let { buildDotNetBookmarksWidget } = await import('./bookmarksWidget');
-        let dnInstantiatedObject = await buildDotNetBookmarksWidget(jsBookmarks, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(bookmarksWidgetWrapper);
+            let { buildDotNetBookmarksWidget } = await import('./bookmarksWidget');
+            let dnInstantiatedObject = await buildDotNetBookmarksWidget(jsBookmarks, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BookmarksWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for BookmarksWidget', e);
+        }
+    });
     
     return jsBookmarks;
 }

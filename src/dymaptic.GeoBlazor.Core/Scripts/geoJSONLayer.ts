@@ -89,9 +89,9 @@ export async function buildJsGeoJSONLayer(dotNetObject: any, layerId: string | n
     return await buildJsGeoJSONLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGeoJSONLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoJSONLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetGeoJSONLayerGenerated} = await import('./geoJSONLayer.gb');
-    let dnGeoJSONLayer = await buildDotNetGeoJSONLayerGenerated(jsObject, viewId);
+    let dnGeoJSONLayer = await buildDotNetGeoJSONLayerGenerated(jsObject, layerId, viewId);
     if (hasValue(dnGeoJSONLayer.id) && proGeoJSONLayerIds.includes(dnGeoJSONLayer.id)) {
         dnGeoJSONLayer.type = 'pro-geojson';
     }

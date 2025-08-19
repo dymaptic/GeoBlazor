@@ -185,7 +185,7 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     }
     let jsUnknownLayer = new UnknownLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsUnknownLayer.on('layerview-create', async (evt: any) => {
+        jsUnknownLayer.on('layerview-create', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
@@ -196,7 +196,7 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsUnknownLayer.on('layerview-create-error', async (evt: any) => {
+        jsUnknownLayer.on('layerview-create-error', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
@@ -207,7 +207,7 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsUnknownLayer.on('layerview-destroy', async (evt: any) => {
+        jsUnknownLayer.on('layerview-destroy', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
@@ -227,17 +227,19 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = unknownLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnknownLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(unknownLayerWrapper);
-        let { buildDotNetUnknownLayer } = await import('./unknownLayer');
-        let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(unknownLayerWrapper);
+            let { buildDotNetUnknownLayer } = await import('./unknownLayer');
+            let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for UnknownLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for UnknownLayer', e);
+        }
+    });
     
     return jsUnknownLayer;
 }

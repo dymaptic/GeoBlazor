@@ -363,7 +363,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return this.layer.rasterFields!.map(i => buildDotNetField(i, this.viewId));
+        return this.layer.rasterFields!.map(i => buildDotNetField(i));
     }
     
     async getServiceRasterInfo(): Promise<any> {
@@ -599,7 +599,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     let jsWCSLayer = new WCSLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsWCSLayer.on('layerview-create', async (evt: any) => {
+        jsWCSLayer.on('layerview-create', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
@@ -610,7 +610,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsWCSLayer.on('layerview-create-error', async (evt: any) => {
+        jsWCSLayer.on('layerview-create-error', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
@@ -621,7 +621,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsWCSLayer.on('layerview-destroy', async (evt: any) => {
+        jsWCSLayer.on('layerview-destroy', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
@@ -641,17 +641,19 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = wCSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWCSLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
-        let { buildDotNetWCSLayer } = await import('./wCSLayer');
-        let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
+            let { buildDotNetWCSLayer } = await import('./wCSLayer');
+            let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for WCSLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for WCSLayer', e);
+        }
+    });
     
     return jsWCSLayer;
 }
@@ -696,7 +698,7 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.rasterFields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetWCSLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i, viewId));
+        dotNetWCSLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
     }
     
     if (hasValue(jsObject.serviceRasterInfo)) {

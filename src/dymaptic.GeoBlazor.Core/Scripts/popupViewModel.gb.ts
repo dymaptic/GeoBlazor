@@ -468,7 +468,7 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     }
     let jsPopupViewModel = new PopupViewModel(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
-        jsPopupViewModel.on('trigger-action', async (evt: any) => {
+        jsPopupViewModel.on('trigger-action', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetFeaturesViewModelTriggerActionEvent } = await import('./featuresViewModelTriggerActionEvent');
                 let dnEvent = await buildDotNetFeaturesViewModelTriggerActionEvent(evt, layerId, viewId);

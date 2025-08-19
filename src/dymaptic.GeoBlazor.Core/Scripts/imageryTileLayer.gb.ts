@@ -399,7 +399,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return this.layer.rasterFields!.map(i => buildDotNetField(i, this.viewId));
+        return this.layer.rasterFields!.map(i => buildDotNetField(i));
     }
     
     async getRasterFunction(): Promise<any> {
@@ -667,7 +667,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     let jsImageryTileLayer = new ImageryTileLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsImageryTileLayer.on('layerview-create', async (evt: any) => {
+        jsImageryTileLayer.on('layerview-create', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
@@ -678,7 +678,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsImageryTileLayer.on('layerview-create-error', async (evt: any) => {
+        jsImageryTileLayer.on('layerview-create-error', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
@@ -689,7 +689,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsImageryTileLayer.on('layerview-destroy', async (evt: any) => {
+        jsImageryTileLayer.on('layerview-destroy', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
@@ -709,17 +709,19 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = imageryTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(imageryTileLayerWrapper);
-        let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
-        let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(imageryTileLayerWrapper);
+            let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
+            let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ImageryTileLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for ImageryTileLayer', e);
+        }
+    });
     
     return jsImageryTileLayer;
 }
@@ -769,7 +771,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.rasterFields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetImageryTileLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i, viewId));
+        dotNetImageryTileLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
     }
     
     if (hasValue(jsObject.rasterFunction)) {

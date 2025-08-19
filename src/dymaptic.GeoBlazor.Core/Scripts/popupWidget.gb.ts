@@ -435,7 +435,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     let jsPopup = new Popup(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
-        jsPopup.on('trigger-action', async (evt: any) => {
+        jsPopup.on('trigger-action', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetPopupTriggerActionEvent } = await import('./popupTriggerActionEvent');
                 let dnEvent = await buildDotNetPopupTriggerActionEvent(evt, viewId);
@@ -455,17 +455,19 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = popupWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPopup;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(popupWidgetWrapper);
-        let { buildDotNetPopupWidget } = await import('./popupWidget');
-        let dnInstantiatedObject = await buildDotNetPopupWidget(jsPopup, layerId, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(popupWidgetWrapper);
+            let { buildDotNetPopupWidget } = await import('./popupWidget');
+            let dnInstantiatedObject = await buildDotNetPopupWidget(jsPopup, layerId, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PopupWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for PopupWidget', e);
+        }
+    });
     
     return jsPopup;
 }

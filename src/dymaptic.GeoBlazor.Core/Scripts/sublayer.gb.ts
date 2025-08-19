@@ -94,7 +94,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(result, this.viewId);
+        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -146,7 +146,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
@@ -154,7 +154,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async queryFeatures(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
@@ -162,7 +162,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async queryObjectIds(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }
@@ -170,7 +170,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async queryRelatedFeatures(relationshipQuery: any,
         options: any): Promise<any> {
         let { buildJsRelationshipQuery } = await import('./relationshipQuery');
-        let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery, this.viewId) as any;
+        let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
         return await this.component.queryRelatedFeatures(jsRelationshipQuery,
             options);
     }
@@ -178,7 +178,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async queryRelatedFeaturesCount(relationshipQuery: any,
         options: any): Promise<any> {
         let { buildJsRelationshipQuery } = await import('./relationshipQuery');
-        let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery, this.viewId) as any;
+        let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
         return await this.component.queryRelatedFeaturesCount(jsRelationshipQuery,
             options);
     }
@@ -220,7 +220,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return this.component.fields!.map(i => buildDotNetField(i, this.viewId));
+        return this.component.fields!.map(i => buildDotNetField(i));
     }
     
     async getFieldsIndex(): Promise<any> {
@@ -532,7 +532,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetSublayer.fields = jsObject.fields.map(i => buildDotNetField(i, viewId));
+        dotNetSublayer.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
     
     if (hasValue(jsObject.fieldsIndex)) {

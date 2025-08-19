@@ -359,7 +359,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
             }
             let jsWebTileLayer = new WebTileLayer(properties);
             if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-                jsWebTileLayer.on('layerview-create', async (evt: any) => {
+                jsWebTileLayer.on('layerview-create', (evt: any) => {
                     requestAnimationFrame(async () => {
                         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                         let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
@@ -370,7 +370,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
             }
     
             if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-                jsWebTileLayer.on('layerview-create-error', async (evt: any) => {
+                jsWebTileLayer.on('layerview-create-error', (evt: any) => {
                     requestAnimationFrame(async () => {
                         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                         let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
@@ -381,7 +381,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
             }
     
             if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-                jsWebTileLayer.on('layerview-destroy', async (evt: any) => {
+                jsWebTileLayer.on('layerview-destroy', (evt: any) => {
                     requestAnimationFrame(async () => {
                         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                         let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
@@ -392,7 +392,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
             }
     
             if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
-                jsWebTileLayer.on('refresh', async (evt: any) => {
+                jsWebTileLayer.on('refresh', (evt: any) => {
                     requestAnimationFrame(async () => {
                         let streamRef = buildJsStreamReference(evt ?? {});
                         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
@@ -410,17 +410,19 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
             jsObjectRefs[dotNetObject.id] = webTileLayerWrapper;
             arcGisObjectRefs[dotNetObject.id] = jsWebTileLayer;
     
-            try {
-                let jsObjectRef = DotNet.createJSObjectReference(webTileLayerWrapper);
-                let { buildDotNetWebTileLayer } = await import('./webTileLayer');
-                let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer, viewId);
+            requestAnimationFrame(async () => {
+                try {
+                    let jsObjectRef = DotNet.createJSObjectReference(webTileLayerWrapper);
+                    let { buildDotNetWebTileLayer } = await import('./webTileLayer');
+                    let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer, viewId);
 
-                let dnStream = buildJsStreamReference(dnInstantiatedObject);
-                await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-                    jsObjectRef, dnStream);
-            } catch (e) {
-                console.error('Error invoking OnJsComponentCreated for WebTileLayer', e);
-            }
+                    let dnStream = buildJsStreamReference(dnInstantiatedObject);
+                    await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                        jsObjectRef, dnStream);
+                } catch (e) {
+                    console.error('Error invoking OnJsComponentCreated for WebTileLayer', e);
+                }
+            });
     
             return jsWebTileLayer;
 

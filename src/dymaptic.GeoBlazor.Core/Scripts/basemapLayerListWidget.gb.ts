@@ -305,13 +305,17 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
             let { buildDotNetListItem } = await import('./listItem');
             let dnItem = await buildDotNetListItem(item, viewId);
 
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseFilterPredicate', dnItem);
+            requestAnimationFrame(async () => {
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseFilterPredicate', dnItem);
+            });
         };
     }
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
-        properties.baseListItemCreatedFunction = async (event) => {
+        properties.baseListItemCreatedFunction = (event) => {
 
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
+            requestAnimationFrame(async () => {
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
+            });
         };
     }
     if (hasValue(dotNetObject.hasReferenceFilterPredicate) && dotNetObject.hasReferenceFilterPredicate) {
@@ -319,13 +323,17 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
             let { buildDotNetListItem } = await import('./listItem');
             let dnItem = await buildDotNetListItem(item, viewId);
 
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceFilterPredicate', dnItem);
+            requestAnimationFrame(async () => {
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceFilterPredicate', dnItem);
+            });
         };
     }
     if (hasValue(dotNetObject.hasReferenceListItemCreatedFunction) && dotNetObject.hasReferenceListItemCreatedFunction) {
-        properties.referenceListItemCreatedFunction = async (event) => {
+        properties.referenceListItemCreatedFunction = (event) => {
 
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
+            requestAnimationFrame(async () => {
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
+            });
         };
     }
     if (hasValue(dotNetObject.selectedItems) && dotNetObject.selectedItems.length > 0) {
@@ -391,7 +399,7 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     }
     let jsBasemapLayerList = new BasemapLayerList(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
-        jsBasemapLayerList.on('trigger-action', async (evt: any) => {
+        jsBasemapLayerList.on('trigger-action', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetBasemapLayerListTriggerActionEvent } = await import('./basemapLayerListTriggerActionEvent');
                 let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt, layerId, viewId);
@@ -411,17 +419,19 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = basemapLayerListWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerList;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListWidgetWrapper);
-        let { buildDotNetBasemapLayerListWidget } = await import('./basemapLayerListWidget');
-        let dnInstantiatedObject = await buildDotNetBasemapLayerListWidget(jsBasemapLayerList, layerId, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListWidgetWrapper);
+            let { buildDotNetBasemapLayerListWidget } = await import('./basemapLayerListWidget');
+            let dnInstantiatedObject = await buildDotNetBasemapLayerListWidget(jsBasemapLayerList, layerId, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BasemapLayerListWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for BasemapLayerListWidget', e);
+        }
+    });
     
     return jsBasemapLayerList;
 }

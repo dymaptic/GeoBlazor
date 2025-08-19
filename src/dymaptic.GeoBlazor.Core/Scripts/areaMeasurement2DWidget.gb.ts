@@ -211,17 +211,19 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = areaMeasurement2DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2D;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(areaMeasurement2DWidgetWrapper);
-        let { buildDotNetAreaMeasurement2DWidget } = await import('./areaMeasurement2DWidget');
-        let dnInstantiatedObject = await buildDotNetAreaMeasurement2DWidget(jsAreaMeasurement2D, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(areaMeasurement2DWidgetWrapper);
+            let { buildDotNetAreaMeasurement2DWidget } = await import('./areaMeasurement2DWidget');
+            let dnInstantiatedObject = await buildDotNetAreaMeasurement2DWidget(jsAreaMeasurement2D, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AreaMeasurement2DWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for AreaMeasurement2DWidget', e);
+        }
+    });
     
     return jsAreaMeasurement2D;
 }

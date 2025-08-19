@@ -189,17 +189,19 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = scaleBarWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsScaleBar;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(scaleBarWidgetWrapper);
-        let { buildDotNetScaleBarWidget } = await import('./scaleBarWidget');
-        let dnInstantiatedObject = await buildDotNetScaleBarWidget(jsScaleBar, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(scaleBarWidgetWrapper);
+            let { buildDotNetScaleBarWidget } = await import('./scaleBarWidget');
+            let dnInstantiatedObject = await buildDotNetScaleBarWidget(jsScaleBar, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ScaleBarWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for ScaleBarWidget', e);
+        }
+    });
     
     return jsScaleBar;
 }

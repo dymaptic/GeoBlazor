@@ -282,7 +282,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     let jsGraphicsLayer = new GraphicsLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsGraphicsLayer.on('layerview-create', async (evt: any) => {
+        jsGraphicsLayer.on('layerview-create', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
@@ -293,7 +293,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsGraphicsLayer.on('layerview-create-error', async (evt: any) => {
+        jsGraphicsLayer.on('layerview-create-error', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
@@ -304,7 +304,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsGraphicsLayer.on('layerview-destroy', async (evt: any) => {
+        jsGraphicsLayer.on('layerview-destroy', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
@@ -324,17 +324,19 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = graphicsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
-        let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
-        let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
+            let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
+            let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GraphicsLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for GraphicsLayer', e);
+        }
+    });
     
     return jsGraphicsLayer;
 }

@@ -85,9 +85,11 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
         properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
-        properties.listItemCreatedFunction = async (event) => {
+        properties.listItemCreatedFunction = (event) => {
 
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
+            requestAnimationFrame(async () => {
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
+            });
         };
     }
 
@@ -99,7 +101,7 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     }
     let jsLayerListViewModel = new LayerListViewModel(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
-        jsLayerListViewModel.on('trigger-action', async (evt: any) => {
+        jsLayerListViewModel.on('trigger-action', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerListViewModelTriggerActionEvent } = await import('./layerListViewModelTriggerActionEvent');
                 let dnEvent = await buildDotNetLayerListViewModelTriggerActionEvent(evt, layerId, viewId);

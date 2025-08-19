@@ -203,17 +203,19 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = compassWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCompass;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(compassWidgetWrapper);
-        let { buildDotNetCompassWidget } = await import('./compassWidget');
-        let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(compassWidgetWrapper);
+            let { buildDotNetCompassWidget } = await import('./compassWidget');
+            let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for CompassWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for CompassWidget', e);
+        }
+    });
     
     return jsCompass;
 }

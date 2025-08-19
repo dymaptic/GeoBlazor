@@ -258,7 +258,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     }
     let jsLocate = new Locate(properties);
     if (hasValue(dotNetObject.hasLocateListener) && dotNetObject.hasLocateListener) {
-        jsLocate.on('locate', async (evt: any) => {
+        jsLocate.on('locate', (evt: any) => {
             requestAnimationFrame(async () => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocate', streamRef);
@@ -267,7 +267,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     }
     
     if (hasValue(dotNetObject.hasLocateErrorListener) && dotNetObject.hasLocateErrorListener) {
-        jsLocate.on('locate-error', async (evt: any) => {
+        jsLocate.on('locate-error', (evt: any) => {
             requestAnimationFrame(async () => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocateError', streamRef);
@@ -285,17 +285,19 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = locateWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLocate;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(locateWidgetWrapper);
-        let { buildDotNetLocateWidget } = await import('./locateWidget');
-        let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(locateWidgetWrapper);
+            let { buildDotNetLocateWidget } = await import('./locateWidget');
+            let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LocateWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for LocateWidget', e);
+        }
+    });
     
     return jsLocate;
 }

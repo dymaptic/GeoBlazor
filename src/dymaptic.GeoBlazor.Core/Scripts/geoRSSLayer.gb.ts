@@ -317,7 +317,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     }
     let jsGeoRSSLayer = new GeoRSSLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsGeoRSSLayer.on('layerview-create', async (evt: any) => {
+        jsGeoRSSLayer.on('layerview-create', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
@@ -328,7 +328,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsGeoRSSLayer.on('layerview-create-error', async (evt: any) => {
+        jsGeoRSSLayer.on('layerview-create-error', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
@@ -339,7 +339,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsGeoRSSLayer.on('layerview-destroy', async (evt: any) => {
+        jsGeoRSSLayer.on('layerview-destroy', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
@@ -350,7 +350,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     }
     
     if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
-        jsGeoRSSLayer.on('refresh', async (evt: any) => {
+        jsGeoRSSLayer.on('refresh', (evt: any) => {
             requestAnimationFrame(async () => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
@@ -368,17 +368,19 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = geoRSSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);
-        let { buildDotNetGeoRSSLayer } = await import('./geoRSSLayer');
-        let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);
+            let { buildDotNetGeoRSSLayer } = await import('./geoRSSLayer');
+            let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GeoRSSLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for GeoRSSLayer', e);
+        }
+    });
     
     return jsGeoRSSLayer;
 }

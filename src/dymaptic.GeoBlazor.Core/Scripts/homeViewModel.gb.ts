@@ -100,7 +100,7 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
 
     let jsHomeViewModel = new HomeViewModel(properties);
     if (hasValue(dotNetObject.hasGoListener) && dotNetObject.hasGoListener) {
-        jsHomeViewModel.on('go', async (evt: any) => {
+        jsHomeViewModel.on('go', (evt: any) => {
             requestAnimationFrame(async () => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGo', streamRef);

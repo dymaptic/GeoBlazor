@@ -354,7 +354,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     }
     let jsOpenStreetMapLayer = new OpenStreetMapLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsOpenStreetMapLayer.on('layerview-create', async (evt: any) => {
+        jsOpenStreetMapLayer.on('layerview-create', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
@@ -365,7 +365,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsOpenStreetMapLayer.on('layerview-create-error', async (evt: any) => {
+        jsOpenStreetMapLayer.on('layerview-create-error', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
@@ -376,7 +376,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsOpenStreetMapLayer.on('layerview-destroy', async (evt: any) => {
+        jsOpenStreetMapLayer.on('layerview-destroy', (evt: any) => {
             requestAnimationFrame(async () => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
@@ -387,7 +387,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     }
     
     if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
-        jsOpenStreetMapLayer.on('refresh', async (evt: any) => {
+        jsOpenStreetMapLayer.on('refresh', (evt: any) => {
             requestAnimationFrame(async () => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
@@ -405,17 +405,19 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = openStreetMapLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpenStreetMapLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(openStreetMapLayerWrapper);
-        let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
-        let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(openStreetMapLayerWrapper);
+            let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
+            let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for OpenStreetMapLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for OpenStreetMapLayer', e);
+        }
+    });
     
     return jsOpenStreetMapLayer;
 }

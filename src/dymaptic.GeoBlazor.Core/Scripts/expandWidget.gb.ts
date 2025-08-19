@@ -333,17 +333,19 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = expandWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpand;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(expandWidgetWrapper);
-        let { buildDotNetExpandWidget } = await import('./expandWidget');
-        let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand, viewId);
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(expandWidgetWrapper);
+            let { buildDotNetExpandWidget } = await import('./expandWidget');
+            let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ExpandWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for ExpandWidget', e);
+        }
+    });
     
     return jsExpand;
 }

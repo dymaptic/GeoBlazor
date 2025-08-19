@@ -296,7 +296,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             }
             let jsBaseTileLayer = new BaseTileLayer(properties);
             if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-                jsBaseTileLayer.on('layerview-create', async (evt: any) => {
+                jsBaseTileLayer.on('layerview-create', (evt: any) => {
                     requestAnimationFrame(async () => {
                         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                         let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
@@ -307,7 +307,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             }
     
             if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-                jsBaseTileLayer.on('layerview-create-error', async (evt: any) => {
+                jsBaseTileLayer.on('layerview-create-error', (evt: any) => {
                     requestAnimationFrame(async () => {
                         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                         let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
@@ -318,7 +318,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             }
     
             if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-                jsBaseTileLayer.on('layerview-destroy', async (evt: any) => {
+                jsBaseTileLayer.on('layerview-destroy', (evt: any) => {
                     requestAnimationFrame(async () => {
                         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                         let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
@@ -329,7 +329,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             }
     
             if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
-                jsBaseTileLayer.on('refresh', async (evt: any) => {
+                jsBaseTileLayer.on('refresh', (evt: any) => {
                     requestAnimationFrame(async () => {
                         let streamRef = buildJsStreamReference(evt ?? {});
                         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
@@ -347,17 +347,19 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             jsObjectRefs[dotNetObject.id] = baseTileLayerWrapper;
             arcGisObjectRefs[dotNetObject.id] = jsBaseTileLayer;
     
-            try {
-                let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
-                let { buildDotNetBaseTileLayer } = await import('./baseTileLayer');
-                let dnInstantiatedObject = await buildDotNetBaseTileLayer(jsBaseTileLayer, viewId);
+            requestAnimationFrame(async () => {
+                try {
+                    let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
+                    let { buildDotNetBaseTileLayer } = await import('./baseTileLayer');
+                    let dnInstantiatedObject = await buildDotNetBaseTileLayer(jsBaseTileLayer, viewId);
 
-                let dnStream = buildJsStreamReference(dnInstantiatedObject);
-                await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-                    jsObjectRef, dnStream);
-            } catch (e) {
-                console.error('Error invoking OnJsComponentCreated for BaseTileLayer', e);
-            }
+                    let dnStream = buildJsStreamReference(dnInstantiatedObject);
+                    await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                        jsObjectRef, dnStream);
+                } catch (e) {
+                    console.error('Error invoking OnJsComponentCreated for BaseTileLayer', e);
+                }
+            });
     
             return jsBaseTileLayer;
 
