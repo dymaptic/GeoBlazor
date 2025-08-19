@@ -360,35 +360,43 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
             let jsWebTileLayer = new WebTileLayer(properties);
             if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
                 jsWebTileLayer.on('layerview-create', async (evt: any) => {
-                    let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-                    let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-                    let streamRef = buildJsStreamReference(dnEvent ?? {});
-                    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+                    requestAnimationFrame(async () => {
+                        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+                        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+                        let streamRef = buildJsStreamReference(dnEvent ?? {});
+                        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+                    });
                 });
             }
     
             if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
                 jsWebTileLayer.on('layerview-create-error', async (evt: any) => {
-                    let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-                    let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-                    let streamRef = buildJsStreamReference(dnEvent ?? {});
-                    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+                    requestAnimationFrame(async () => {
+                        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+                        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+                        let streamRef = buildJsStreamReference(dnEvent ?? {});
+                        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+                    });
                 });
             }
     
             if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
                 jsWebTileLayer.on('layerview-destroy', async (evt: any) => {
-                    let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-                    let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-                    let streamRef = buildJsStreamReference(dnEvent ?? {});
-                    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+                    requestAnimationFrame(async () => {
+                        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+                        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+                        let streamRef = buildJsStreamReference(dnEvent ?? {});
+                        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+                    });
                 });
             }
     
             if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
                 jsWebTileLayer.on('refresh', async (evt: any) => {
-                    let streamRef = buildJsStreamReference(evt ?? {});
-                    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
+                    requestAnimationFrame(async () => {
+                        let streamRef = buildJsStreamReference(evt ?? {});
+                        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
+                    });
                 });
             }
     

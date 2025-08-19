@@ -71,6 +71,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, this.viewId);
             if (dotNetFeatureSet.features.length > 0) {
                 let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
+                // TODO: refactor to pass directly to calling code like in 
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
                 dotNetFeatureSet.features = [];
             }
@@ -232,7 +233,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         }
         if (abortSignal.aborted) return;
         let {buildDotNetEditsResult} = await import('./editsResult');
-        return buildDotNetEditsResult(result, this.geoBlazorId as string);
+        return buildDotNetEditsResult(result, this.geoBlazorId as string, this.viewId);
     }
 
     async applyAttachmentEdits(edits: any, options: any, abortSignal: AbortSignal): Promise<any> {
@@ -277,14 +278,14 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         if (abortSignal.aborted) return;
 
         let {buildDotNetEditsResult} = await import('./editsResult');
-        return buildDotNetEditsResult(result, this.geoBlazorId as string);
+        return buildDotNetEditsResult(result, this.geoBlazorId as string, this.viewId);
     }
 
     async getFeatureReduction(): Promise<any> {
         try {
             let jsFeatureReduction = this.layer.featureReduction;
             let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-            return await buildDotNetIFeatureReduction(jsFeatureReduction);
+            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
         } catch (error) {
             throw new Error("Available only in GeoBlazor Pro. " + error);
         }
@@ -360,13 +361,13 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
         let result = this.layer.clone();
 
-        return await buildDotNetFeatureLayer(result);
+        return await buildDotNetFeatureLayer(result, this.viewId);
     }
 
     async refresh() {
 
         this.layer.refresh();
-        return await buildDotNetFeatureLayer(this.layer);
+        return await buildDotNetFeatureLayer(this.layer, this.viewId);
     }
 
     async setEffect(dnEffect: any): Promise<void> {

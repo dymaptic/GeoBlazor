@@ -142,15 +142,19 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     let jsLocateViewModel = new LocateViewModel(properties);
     if (hasValue(dotNetObject.hasLocateListener) && dotNetObject.hasLocateListener) {
         jsLocateViewModel.on('locate', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocate', streamRef);
+            requestAnimationFrame(async () => {
+                let streamRef = buildJsStreamReference(evt ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocate', streamRef);
+            });
         });
     }
     
     if (hasValue(dotNetObject.hasLocateErrorListener) && dotNetObject.hasLocateErrorListener) {
         jsLocateViewModel.on('locate-error', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocateError', streamRef);
+            requestAnimationFrame(async () => {
+                let streamRef = buildJsStreamReference(evt ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocateError', streamRef);
+            });
         });
     }
     

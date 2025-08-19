@@ -104,18 +104,20 @@ function setTriggerActionHandlers(dotNetObject, view, viewId) {
     }
 
     let handler = view.popup.on('trigger-action', async (evt: any) => {
-        for (let i = 0; i < dotNetObject.actions.length; i++) {
-            let dnAction = dotNetObject.actions[i];
-            let actionRef = await getActionRef(dnAction.id, viewId);
-            if (!hasValue(actionRef)) return;
-            await actionRef.invokeMethodAsync("OnJsTriggerAction", {
+        requestAnimationFrame(async () => {
+            for (let i = 0; i < dotNetObject.actions.length; i++) {
+                let dnAction = dotNetObject.actions[i];
+                let actionRef = await getActionRef(dnAction.id, viewId);
+                if (!hasValue(actionRef)) return;
+                await actionRef.invokeMethodAsync("OnJsTriggerAction", {
+                    action: await buildDotNetActionBase(evt.action)
+                });
+            }
+            let popupRef = await getPopupRef(dotNetObject.id, viewId);
+            if (!hasValue(popupRef)) return;
+            await popupRef.invokeMethodAsync("OnJsTriggerAction", {
                 action: await buildDotNetActionBase(evt.action)
             });
-        }
-        let popupRef = await getPopupRef(dotNetObject.id, viewId);
-        if (!hasValue(popupRef)) return;
-        await popupRef.invokeMethodAsync("OnJsTriggerAction", {
-            action: await buildDotNetActionBase(evt.action)
         });
     });
 

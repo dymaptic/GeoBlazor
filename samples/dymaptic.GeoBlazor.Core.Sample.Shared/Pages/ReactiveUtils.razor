@@ -197,6 +197,7 @@ else
     private async Task OnViewRendered()
     {
         await _homeWidget!.SetVisibility(false);
+        StateHasChanged();
     }
 
     private async Task ToggleClickHandler()

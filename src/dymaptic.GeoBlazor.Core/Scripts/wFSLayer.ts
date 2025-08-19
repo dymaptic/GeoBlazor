@@ -12,7 +12,7 @@ export default class WFSLayerWrapper extends WFSLayerGenerated {
         try {
             let jsFeatureReduction = this.layer.featureReduction;
             let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-            return await buildDotNetIFeatureReduction(jsFeatureReduction);
+            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
         } catch (error) {
             throw new Error("Available only in GeoBlazor Pro. " + error);
         }

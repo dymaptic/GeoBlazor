@@ -100,10 +100,12 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     let jsLayerListViewModel = new LayerListViewModel(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
         jsLayerListViewModel.on('trigger-action', async (evt: any) => {
-            let { buildDotNetLayerListViewModelTriggerActionEvent } = await import('./layerListViewModelTriggerActionEvent');
-            let dnEvent = await buildDotNetLayerListViewModelTriggerActionEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
+            requestAnimationFrame(async () => {
+                let { buildDotNetLayerListViewModelTriggerActionEvent } = await import('./layerListViewModelTriggerActionEvent');
+                let dnEvent = await buildDotNetLayerListViewModelTriggerActionEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
+            });
         });
     }
     

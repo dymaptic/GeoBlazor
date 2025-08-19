@@ -17,24 +17,28 @@ export async function buildJsBasemapLayerListWidget(dotNetObject: any, layerId: 
     let widget = await buildJsBasemapLayerListWidgetGenerated(dotNetObject, layerId, viewId);
     if (hasValue(dotNetObject.hasCustomBaseListHandler) && dotNetObject.hasCustomBaseListHandler) {
         let {buildDotNetListItem} = await import('./listItem');
-        widget.baseListItemCreatedFunction = async (evt) => {
-            const dotNetBaseListItem = await buildDotNetListItem(evt.item, viewId);
-            const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
-            if (hasValue(returnItem) && hasValue(evt.item)) {
-                let {updateListItem} = await import('./listItem');
-                await updateListItem(evt.item, returnItem, dotNetBaseListItem?.layerId, viewId);
-            }
+        widget.baseListItemCreatedFunction = (evt) => {
+            requestAnimationFrame(async () => {
+                const dotNetBaseListItem = await buildDotNetListItem(evt.item, viewId);
+                const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
+                if (hasValue(returnItem) && hasValue(evt.item)) {
+                    let {updateListItem} = await import('./listItem');
+                    await updateListItem(evt.item, returnItem, dotNetBaseListItem?.layerId, viewId);
+                }
+            });
         };
     }
     if (hasValue(dotNetObject.hasCustomReferenceListHandler) && dotNetObject.hasCustomReferenceListHandler) {
         let {buildDotNetListItem} = await import('./listItem');
-        widget.referenceListItemCreatedFunction = async (evt) => {
-            const dotNetReferenceListItem = await buildDotNetListItem(evt.item, viewId);
-            const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
-            if (hasValue(returnItem) && hasValue(evt.item)) {
-                let {updateListItem} = await import('./listItem');
-                await updateListItem(evt.item, returnItem, dotNetReferenceListItem?.layerId, viewId);
-            }
+        widget.referenceListItemCreatedFunction = (evt) => {
+            requestAnimationFrame(async () => {
+                const dotNetReferenceListItem = await buildDotNetListItem(evt.item, viewId);
+                const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
+                if (hasValue(returnItem) && hasValue(evt.item)) {
+                    let {updateListItem} = await import('./listItem');
+                    await updateListItem(evt.item, returnItem, dotNetReferenceListItem?.layerId, viewId);
+                }
+            });
         };
     }
     

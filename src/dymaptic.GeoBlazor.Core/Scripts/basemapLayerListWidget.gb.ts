@@ -392,10 +392,12 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     let jsBasemapLayerList = new BasemapLayerList(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
         jsBasemapLayerList.on('trigger-action', async (evt: any) => {
-            let { buildDotNetBasemapLayerListTriggerActionEvent } = await import('./basemapLayerListTriggerActionEvent');
-            let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
+            requestAnimationFrame(async () => {
+                let { buildDotNetBasemapLayerListTriggerActionEvent } = await import('./basemapLayerListTriggerActionEvent');
+                let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
+            });
         });
     }
     

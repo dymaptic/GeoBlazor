@@ -24,7 +24,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             .Collect();
 
         // Reads the MSBuild properties to get the project directory and configuration.
-        IncrementalValueProvider<(string?, string?, string?)> optionsProvider =
+        IncrementalValueProvider<(string?, string?, string?, string?)> optionsProvider =
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
                 configProvider.GlobalOptions.TryGetValue("build_property.MSBuildProjectDirectory",
@@ -35,16 +35,22 @@ public class ESBuildLauncher : IIncrementalGenerator
 
                 configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
                     out string? pipelineBuild);
+                
+                configProvider.GlobalOptions.TryGetValue("build_property.LogESBuildOutput",
+                    out string? logESBuildOutput);
 
-                return (projectDirectory, configuration, pipelineBuild);
+                return (projectDirectory, configuration, pipelineBuild, logESBuildOutput);
             });
 
         context.RegisterSourceOutput(optionsProvider.Combine(jsFilesProvider), FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((string? projectDirectory, string? configuration, string? pipelineBuild) OptionsConfig, ImmutableArray<AdditionalText> _) pipeline)
+        ((string? projectDirectory, string? configuration, string? pipelineBuild, string? logESBuildOutput) OptionsConfig, 
+            ImmutableArray<AdditionalText> _) pipeline)
     {
+        _logESBuildOutput = pipeline.OptionsConfig.logESBuildOutput == "true";
+        
         if (pipeline.OptionsConfig.pipelineBuild == "true")
         {
             // If the pipeline build is enabled, we skip the ESBuild process.
@@ -60,7 +66,7 @@ public class ESBuildLauncher : IIncrementalGenerator
     }
 
     private void SetProjectDirectoryAndConfiguration((string? projectDirectory, string? configuration, 
-        string? _) options)
+        string? _, string? __) options)
     {
         if (options.projectDirectory is { } projectDirectory)
         {
@@ -227,6 +233,10 @@ public class ESBuildLauncher : IIncrementalGenerator
 
     private void Log(string content, bool isError = false)
     {
+        if (!_logESBuildOutput && !isError)
+        {
+            return;
+        }
         StringBuilder loggerOutput = new StringBuilder();
         string[] contentLines = content.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
 
@@ -323,4 +333,5 @@ public class ESBuildLauncher : IIncrementalGenerator
     private static string? _corePath;
     private static string? _proPath;
     private static string? _configuration;
+    private static bool _logESBuildOutput;
 }
