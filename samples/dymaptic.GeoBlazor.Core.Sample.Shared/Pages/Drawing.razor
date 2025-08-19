@@ -64,7 +64,10 @@
             </table>
             <button class="btn btn-primary" @onclick="DrawLine">@(_showLine ? "Remove" : "Draw")</button>
             <button class="btn btn-secondary" @onclick="AddPoint">Add Pt</button>
-            <button class="btn btn-accent" @onclick="RemovePoint">Remove Pt</button>
+            @if (mapPath.Any())
+            {
+                <button class="btn btn-accent" @onclick="RemovePoint">Remove Pt</button>
+            }
         </div>
     </div>
     <div class="form-group">
@@ -102,7 +105,10 @@
             </table>
             <button class="btn btn-primary" @onclick="DrawPolygon">@(_showPolygon ? "Remove" : "Draw")</button>
             <button class="btn btn-secondary" @onclick="AddPolygonPoint">Add Pt</button>
-            <button class="btn btn-accent" @onclick="RemovePolygonPoint">Remove Pt</button>
+            @if (mapRings.Any())
+            {
+                <button class="btn btn-accent" @onclick="RemovePolygonPoint">Remove Pt</button>
+            }
             <h3>Click on Polygon to see Popup!</h3>
         </div>
     </div>
@@ -157,7 +163,7 @@
 
     private void AddPoint()
     {
-        mapPath.Add(new MapPoint(mapPath[0][0] + 0.01, mapPath[0][1] + 0.01));
+        mapPath.Add(new MapPoint(-118.831527826096, 34.0239576938577));
     }
 
     private void RemovePoint()
@@ -181,7 +187,7 @@
 
     private void AddPolygonPoint()
     {
-        mapRings.Add(new MapPoint(mapRings[0][0] + 0.01, mapRings[0][1] + 0.01));
+        mapRings.Add(new MapPoint(-118.828984489994, 34.0237559967283));
     }
 
     private void RemovePolygonPoint()
