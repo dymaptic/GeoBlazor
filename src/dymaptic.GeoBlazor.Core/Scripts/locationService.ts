@@ -15,12 +15,35 @@ import SuggestionResult = __esri.SuggestionResult;
 
 export default class LocatorWrapper extends LocationServiceGenerated {
 
-    async addressesToLocations(url: string, addresses: object[], countryCode: string | null,
+    async addressesToLocations(url: string, addresses: any, countryCode: string | null,
                                categories: string[] | null, locationType: string | null,
                                outSpatialReference: DotNetSpatialReference | null,
-                               requestOptions: any | null)
+                               requestOptions: any | null,  addressSearchString: string,)
         : Promise<any | null> {
-        const params = {addresses: addresses} as locatorAddressesToLocationsParams;
+
+        if (!hasValue(addressSearchString)) {
+            addressSearchString = 'address';
+        }
+
+        let params;
+
+        if (Array.isArray(addresses) && addresses.length > 0 && typeof addresses[0] === 'string') {
+            // Handle string address
+            let addressArray = [];
+            addresses.forEach((address, index) => {
+                // @ts-ignore
+                addressArray.push({
+                    "OBJECTID": index,
+                    [addressSearchString]: address
+                });
+            });
+
+            params = {addresses: addressArray} as locatorAddressesToLocationsParams;
+        } else {
+            // Handle object[] address (like {street, city, state, zone})
+            params = {addresses: addresses} as locatorAddressesToLocationsParams;
+        }
+
         if (hasValue(categories)) {
             params.categories = categories as string[];
         }
@@ -54,9 +77,23 @@ export default class LocatorWrapper extends LocationServiceGenerated {
                              forStorage: boolean | null, location: DotNetPoint | null, locationType: string | null,
                              magicKey: string | null, maxLocations: number | null, outFields: string[] | null,
                              outSpatialReference: DotNetSpatialReference | null, searchExtent: DotNetExtent | null,
-                             requestOptions: any | null)
+                             requestOptions: any | null, addressSearchString: string)
         : Promise<any | null> {
-        let params = {address: address} as locatorAddressToLocationsParams;
+        let params;
+        if (!hasValue(addressSearchString)) {
+            addressSearchString = 'Address';
+        }
+        if (typeof address === 'string') {
+            // Handle string address
+            params = {address: {[addressSearchString]: address}} as locatorAddressToLocationsParams;
+        } else if (typeof address === 'object' && address !== null) {
+            // Handle object address (like {street, city, state, zone})
+            params = {address: address} as locatorAddressToLocationsParams;
+        } else {
+            // Fallback: ensure params is always initialized
+            params = {address: {}} as locatorAddressToLocationsParams;
+        }
+
         if (hasValue(categories)) {
             params.categories = categories as string[];
         }
@@ -148,11 +185,13 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         return await locator.suggestLocations(url, params);
     }
 }
+
 export async function buildJsLocationService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsLocationServiceGenerated } = await import('./locationService.gb');
+    let {buildJsLocationServiceGenerated} = await import('./locationService.gb');
     return await buildJsLocationServiceGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetLocationService(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildDotNetLocationServiceGenerated } = await import('./locationService.gb');
+    let {buildDotNetLocationServiceGenerated} = await import('./locationService.gb');
     return await buildDotNetLocationServiceGenerated(jsObject, layerId, viewId);
 }
