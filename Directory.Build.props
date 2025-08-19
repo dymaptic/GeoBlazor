@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <CoreVersion>4.2.0.0-beta-5.5</CoreVersion>
+    <CoreVersion>4.2.0.0-beta-5.6</CoreVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CompressionEnabled Condition="$(Configuration) != 'RELEASE' OR $(EnableCompression) != 'true'">false</CompressionEnabled>
     <DefineConstants Condition="$(EnableCompression) == 'true'">$(DefineConstants);ENABLE_COMPRESSION</DefineConstants>
