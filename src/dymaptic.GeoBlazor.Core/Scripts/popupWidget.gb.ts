@@ -435,14 +435,12 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     let jsPopup = new Popup(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
-        jsPopup.on('trigger-action', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsPopup.on('trigger-action', async (evt: any) => {
                 let { buildDotNetPopupTriggerActionEvent } = await import('./popupTriggerActionEvent');
                 let dnEvent = await buildDotNetPopupTriggerActionEvent(evt, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
             });
-        });
     }
     
 

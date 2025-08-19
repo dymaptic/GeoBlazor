@@ -95,19 +95,15 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
         properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
-        properties.baseListItemCreatedFunction = (event) => {
+        properties.baseListItemCreatedFunction = async (event) => {
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
-            });
         };
     }
     if (hasValue(dotNetObject.hasReferenceListItemCreatedFunction) && dotNetObject.hasReferenceListItemCreatedFunction) {
-        properties.referenceListItemCreatedFunction = (event) => {
+        properties.referenceListItemCreatedFunction = async (event) => {
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
-            });
         };
     }
 

@@ -56,10 +56,8 @@ export async function buildJsSliderWidget(dotNetObject: any, layerId: string | n
 
     reactiveUtils.watch(
         () => jsObject.values,
-        () => {
-            requestAnimationFrame(async () => {
+        async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsValueChanged', jsObject.values);
-            });
         }
     );
     

@@ -238,12 +238,10 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     }
     let jsHome = new Home(properties);
     if (hasValue(dotNetObject.hasGoListener) && dotNetObject.hasGoListener) {
-        jsHome.on('go', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsHome.on('go', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGo', streamRef);
             });
-        });
     }
     
 

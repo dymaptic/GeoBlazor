@@ -364,77 +364,61 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     }
     let jswidgetsSearch = new widgetsSearch(properties);
     if (hasValue(dotNetObject.hasSearchBlurListener) && dotNetObject.hasSearchBlurListener) {
-        jswidgetsSearch.on('search-blur', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jswidgetsSearch.on('search-blur', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchBlur', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSearchClearListener) && dotNetObject.hasSearchClearListener) {
-        jswidgetsSearch.on('search-clear', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jswidgetsSearch.on('search-clear', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchClear', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
-        jswidgetsSearch.on('search-complete', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jswidgetsSearch.on('search-complete', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSearchFocusListener) && dotNetObject.hasSearchFocusListener) {
-        jswidgetsSearch.on('search-focus', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jswidgetsSearch.on('search-focus', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchFocus', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSearchStartListener) && dotNetObject.hasSearchStartListener) {
-        jswidgetsSearch.on('search-start', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jswidgetsSearch.on('search-start', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchStart', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
-        jswidgetsSearch.on('select-result', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jswidgetsSearch.on('select-result', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSuggestCompleteListener) && dotNetObject.hasSuggestCompleteListener) {
-        jswidgetsSearch.on('suggest-complete', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jswidgetsSearch.on('suggest-complete', async (evt: any) => {
                 let { buildDotNetSearchSuggestCompleteEvent } = await import('./searchSuggestCompleteEvent');
                 let dnEvent = await buildDotNetSearchSuggestCompleteEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSuggestStartListener) && dotNetObject.hasSuggestStartListener) {
-        jswidgetsSearch.on('suggest-start', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jswidgetsSearch.on('suggest-start', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestStart', streamRef);
             });
-        });
     }
     
 

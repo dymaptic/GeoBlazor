@@ -805,54 +805,44 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     let jsGeoJSONLayer = new GeoJSONLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsGeoJSONLayer.on('layerview-create', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsGeoJSONLayer.on('layerview-create', async (evt: any) => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsGeoJSONLayer.on('layerview-create-error', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsGeoJSONLayer.on('layerview-create-error', async (evt: any) => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsGeoJSONLayer.on('layerview-destroy', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsGeoJSONLayer.on('layerview-destroy', async (evt: any) => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasEditsListener) && dotNetObject.hasEditsListener) {
-        jsGeoJSONLayer.on('edits', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsGeoJSONLayer.on('edits', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
-        jsGeoJSONLayer.on('refresh', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsGeoJSONLayer.on('refresh', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
             });
-        });
     }
     
 

@@ -282,36 +282,30 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     let jsGraphicsLayer = new GraphicsLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsGraphicsLayer.on('layerview-create', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsGraphicsLayer.on('layerview-create', async (evt: any) => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsGraphicsLayer.on('layerview-create-error', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsGraphicsLayer.on('layerview-create-error', async (evt: any) => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsGraphicsLayer.on('layerview-destroy', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsGraphicsLayer.on('layerview-destroy', async (evt: any) => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
             });
-        });
     }
     
 

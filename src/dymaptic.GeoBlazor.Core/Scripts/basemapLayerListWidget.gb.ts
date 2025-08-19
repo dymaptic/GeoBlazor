@@ -305,17 +305,13 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
             let { buildDotNetListItem } = await import('./listItem');
             let dnItem = await buildDotNetListItem(item, viewId);
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseFilterPredicate', dnItem);
-            });
         };
     }
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
-        properties.baseListItemCreatedFunction = (event) => {
+        properties.baseListItemCreatedFunction = async (event) => {
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
-            });
         };
     }
     if (hasValue(dotNetObject.hasReferenceFilterPredicate) && dotNetObject.hasReferenceFilterPredicate) {
@@ -323,17 +319,13 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
             let { buildDotNetListItem } = await import('./listItem');
             let dnItem = await buildDotNetListItem(item, viewId);
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceFilterPredicate', dnItem);
-            });
         };
     }
     if (hasValue(dotNetObject.hasReferenceListItemCreatedFunction) && dotNetObject.hasReferenceListItemCreatedFunction) {
-        properties.referenceListItemCreatedFunction = (event) => {
+        properties.referenceListItemCreatedFunction = async (event) => {
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
-            });
         };
     }
     if (hasValue(dotNetObject.selectedItems) && dotNetObject.selectedItems.length > 0) {
@@ -399,14 +391,12 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     }
     let jsBasemapLayerList = new BasemapLayerList(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
-        jsBasemapLayerList.on('trigger-action', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsBasemapLayerList.on('trigger-action', async (evt: any) => {
                 let { buildDotNetBasemapLayerListTriggerActionEvent } = await import('./basemapLayerListTriggerActionEvent');
                 let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
             });
-        });
     }
     
 

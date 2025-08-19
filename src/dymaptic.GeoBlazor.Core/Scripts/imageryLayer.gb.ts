@@ -801,9 +801,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
             let { buildDotNetPixelData } = await import('./pixelData');
             let dnPixelData = await buildDotNetPixelData(pixelData, viewId);
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
-            });
         };
     }
     if (hasValue(dotNetObject.popupTemplate)) {
@@ -928,45 +926,37 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     let jsImageryLayer = new ImageryLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsImageryLayer.on('layerview-create', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsImageryLayer.on('layerview-create', async (evt: any) => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsImageryLayer.on('layerview-create-error', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsImageryLayer.on('layerview-create-error', async (evt: any) => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsImageryLayer.on('layerview-destroy', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsImageryLayer.on('layerview-destroy', async (evt: any) => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
-        jsImageryLayer.on('refresh', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsImageryLayer.on('refresh', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
             });
-        });
     }
     
 

@@ -433,45 +433,37 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     }
     let jsVectorTileLayer = new VectorTileLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
-        jsVectorTileLayer.on('layerview-create', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsVectorTileLayer.on('layerview-create', async (evt: any) => {
                 let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
                 let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
-        jsVectorTileLayer.on('layerview-create-error', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsVectorTileLayer.on('layerview-create-error', async (evt: any) => {
                 let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
                 let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
-        jsVectorTileLayer.on('layerview-destroy', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsVectorTileLayer.on('layerview-destroy', async (evt: any) => {
                 let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
                 let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
-        jsVectorTileLayer.on('refresh', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsVectorTileLayer.on('refresh', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
             });
-        });
     }
     
 

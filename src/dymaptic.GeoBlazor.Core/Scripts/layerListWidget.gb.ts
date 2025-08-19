@@ -312,9 +312,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
             let { buildDotNetListItem } = await import('./listItem');
             let dnItem = await buildDotNetListItem(item, viewId);
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsFilterPredicate', dnItem);
-            });
         };
     }
     if (hasValue(dotNetObject.knowledgeGraphOptions)) {
@@ -322,11 +320,9 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
         properties.knowledgeGraphOptions = await buildJsLayerListKnowledgeGraphOptions(dotNetObject.knowledgeGraphOptions, viewId) as any;
     }
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
-        properties.listItemCreatedFunction = (event) => {
+        properties.listItemCreatedFunction = async (event) => {
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
-            });
         };
     }
     if (hasValue(dotNetObject.selectedItems) && dotNetObject.selectedItems.length > 0) {
@@ -383,14 +379,12 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     }
     let jsLayerList = new LayerList(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
-        jsLayerList.on('trigger-action', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsLayerList.on('trigger-action', async (evt: any) => {
                 let { buildDotNetLayerListTriggerActionEvent } = await import('./layerListTriggerActionEvent');
                 let dnEvent = await buildDotNetLayerListTriggerActionEvent(evt, layerId, viewId);
                 let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
             });
-        });
     }
     
 

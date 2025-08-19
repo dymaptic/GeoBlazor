@@ -420,57 +420,45 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     }
     let jsSearchViewModel = new SearchViewModel(properties);
     if (hasValue(dotNetObject.hasSearchClearListener) && dotNetObject.hasSearchClearListener) {
-        jsSearchViewModel.on('search-clear', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSearchViewModel.on('search-clear', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchClear', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
-        jsSearchViewModel.on('search-complete', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSearchViewModel.on('search-complete', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSearchStartListener) && dotNetObject.hasSearchStartListener) {
-        jsSearchViewModel.on('search-start', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSearchViewModel.on('search-start', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchStart', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
-        jsSearchViewModel.on('select-result', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSearchViewModel.on('select-result', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSuggestCompleteListener) && dotNetObject.hasSuggestCompleteListener) {
-        jsSearchViewModel.on('suggest-complete', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSearchViewModel.on('suggest-complete', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSuggestStartListener) && dotNetObject.hasSuggestStartListener) {
-        jsSearchViewModel.on('suggest-start', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSearchViewModel.on('suggest-start', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestStart', streamRef);
             });
-        });
     }
     
 

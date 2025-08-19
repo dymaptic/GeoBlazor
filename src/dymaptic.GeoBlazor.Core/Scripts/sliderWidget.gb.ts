@@ -231,15 +231,13 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
 
     let properties: any = {};
     if (hasValue(dotNetObject.hasInputCreatedFunction) && dotNetObject.hasInputCreatedFunction) {
-        properties.inputCreatedFunction = (inputElement,
+        properties.inputCreatedFunction = async (inputElement,
         type,
         thumbIndex) => {
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsInputCreatedFunction', inputElement,
             type,
             thumbIndex);
-            });
         };
     }
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
@@ -282,17 +280,15 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
         };
     }
     if (hasValue(dotNetObject.hasThumbCreatedFunction) && dotNetObject.hasThumbCreatedFunction) {
-        properties.thumbCreatedFunction = (index,
+        properties.thumbCreatedFunction = async (index,
         value,
         thumbElement,
         labelElement) => {
 
-            requestAnimationFrame(async () => {
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsThumbCreatedFunction', index,
             value,
             thumbElement,
             labelElement);
-            });
         };
     }
     if (hasValue(dotNetObject.tickConfigs) && dotNetObject.tickConfigs.length > 0) {
@@ -367,102 +363,80 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     }
     let jsSlider = new Slider(properties);
     if (hasValue(dotNetObject.hasMaxChangeListener) && dotNetObject.hasMaxChangeListener) {
-        jsSlider.on('max-change', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('max-change', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsMaxChange', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasMaxClickListener) && dotNetObject.hasMaxClickListener) {
-        jsSlider.on('max-click', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('max-click', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsMaxClick', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasMinChangeListener) && dotNetObject.hasMinChangeListener) {
-        jsSlider.on('min-change', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('min-change', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsMinChange', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasMinClickListener) && dotNetObject.hasMinClickListener) {
-        jsSlider.on('min-click', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('min-click', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsMinClick', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSegmentClickListener) && dotNetObject.hasSegmentClickListener) {
-        jsSlider.on('segment-click', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('segment-click', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSegmentClick', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasSegmentDragListener) && dotNetObject.hasSegmentDragListener) {
-        jsSlider.on('segment-drag', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('segment-drag', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSegmentDrag', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasThumbChangeListener) && dotNetObject.hasThumbChangeListener) {
-        jsSlider.on('thumb-change', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('thumb-change', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsThumbChange', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasThumbClickListener) && dotNetObject.hasThumbClickListener) {
-        jsSlider.on('thumb-click', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('thumb-click', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsThumbClick', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasThumbDragListener) && dotNetObject.hasThumbDragListener) {
-        jsSlider.on('thumb-drag', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('thumb-drag', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsThumbDrag', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasTickClickListener) && dotNetObject.hasTickClickListener) {
-        jsSlider.on('tick-click', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('tick-click', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTickClick', streamRef);
             });
-        });
     }
     
     if (hasValue(dotNetObject.hasTrackClickListener) && dotNetObject.hasTrackClickListener) {
-        jsSlider.on('track-click', (evt: any) => {
-            requestAnimationFrame(async () => {
+        jsSlider.on('track-click', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTrackClick', streamRef);
             });
-        });
     }
     
 
