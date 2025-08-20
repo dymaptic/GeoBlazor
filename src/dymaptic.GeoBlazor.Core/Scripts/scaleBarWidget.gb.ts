@@ -189,6 +189,8 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = scaleBarWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsScaleBar;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(scaleBarWidgetWrapper);

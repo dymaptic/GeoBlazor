@@ -360,6 +360,8 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = geoRSSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayer;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);

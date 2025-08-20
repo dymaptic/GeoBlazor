@@ -884,6 +884,8 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = cSVLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayer;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(cSVLayerWrapper);

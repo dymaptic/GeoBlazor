@@ -236,6 +236,8 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = basemapToggleWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggle;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(basemapToggleWidgetWrapper);

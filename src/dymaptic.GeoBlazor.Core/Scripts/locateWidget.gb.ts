@@ -281,6 +281,8 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = locateWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLocate;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(locateWidgetWrapper);

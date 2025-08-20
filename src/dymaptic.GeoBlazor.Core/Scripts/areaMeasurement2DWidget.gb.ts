@@ -211,6 +211,8 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = areaMeasurement2DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2D;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(areaMeasurement2DWidgetWrapper);

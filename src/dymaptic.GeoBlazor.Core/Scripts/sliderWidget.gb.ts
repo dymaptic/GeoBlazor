@@ -449,6 +449,8 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = sliderWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSlider;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(sliderWidgetWrapper);

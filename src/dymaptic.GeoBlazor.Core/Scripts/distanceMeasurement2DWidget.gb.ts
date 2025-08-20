@@ -211,6 +211,8 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = distanceMeasurement2DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2D;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DWidgetWrapper);

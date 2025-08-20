@@ -510,6 +510,8 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = tileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileLayer;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(tileLayerWrapper);

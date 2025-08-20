@@ -233,6 +233,8 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = basemapGalleryWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGallery;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(basemapGalleryWidgetWrapper);

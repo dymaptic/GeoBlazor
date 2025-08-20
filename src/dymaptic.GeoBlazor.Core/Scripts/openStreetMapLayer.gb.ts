@@ -397,6 +397,8 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = openStreetMapLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpenStreetMapLayer;
     
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
     requestAnimationFrame(async () => {
         try {
             let jsObjectRef = DotNet.createJSObjectReference(openStreetMapLayerWrapper);
