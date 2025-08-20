@@ -332,29 +332,29 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
     let jsWMTSLayer = new WMTSLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsWMTSLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-        });
+                let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+                let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsWMTSLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-        });
+                let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+                let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsWMTSLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-        });
+                let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+                let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+            });
     }
     
 
@@ -367,17 +367,21 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = wMTSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWMTSLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(wMTSLayerWrapper);
-        let { buildDotNetWMTSLayer } = await import('./wMTSLayer');
-        let dnInstantiatedObject = await buildDotNetWMTSLayer(jsWMTSLayer, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(wMTSLayerWrapper);
+            let { buildDotNetWMTSLayer } = await import('./wMTSLayer');
+            let dnInstantiatedObject = await buildDotNetWMTSLayer(jsWMTSLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for WMTSLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for WMTSLayer', e);
+        }
+    });
     
     return jsWMTSLayer;
 }

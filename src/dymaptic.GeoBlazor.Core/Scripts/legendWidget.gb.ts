@@ -275,17 +275,21 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = legendWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLegend;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(legendWidgetWrapper);
-        let { buildDotNetLegendWidget } = await import('./legendWidget');
-        let dnInstantiatedObject = await buildDotNetLegendWidget(jsLegend, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(legendWidgetWrapper);
+            let { buildDotNetLegendWidget } = await import('./legendWidget');
+            let dnInstantiatedObject = await buildDotNetLegendWidget(jsLegend, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LegendWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for LegendWidget', e);
+        }
+    });
     
     return jsLegend;
 }

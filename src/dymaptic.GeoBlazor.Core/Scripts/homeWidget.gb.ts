@@ -239,9 +239,9 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     let jsHome = new Home(properties);
     if (hasValue(dotNetObject.hasGoListener) && dotNetObject.hasGoListener) {
         jsHome.on('go', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGo', streamRef);
-        });
+                let streamRef = buildJsStreamReference(evt ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGo', streamRef);
+            });
     }
     
 
@@ -254,17 +254,21 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = homeWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHome;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(homeWidgetWrapper);
-        let { buildDotNetHomeWidget } = await import('./homeWidget');
-        let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(homeWidgetWrapper);
+            let { buildDotNetHomeWidget } = await import('./homeWidget');
+            let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for HomeWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for HomeWidget', e);
+        }
+    });
     
     return jsHome;
 }

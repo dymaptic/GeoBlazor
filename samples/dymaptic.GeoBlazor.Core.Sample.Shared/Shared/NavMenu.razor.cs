@@ -52,10 +52,6 @@ public partial class NavMenu: IDisposable
             await JsRuntime.InvokeVoidAsync("trackScrollPosition", Navbar, _dotNetRef);
             StateHasChanged();
         }
-        else
-        {
-            await JsRuntime.InvokeVoidAsync("scrollToPosition", _scrollTop);
-        }
 
         if (EnterKeyPressed)
         {

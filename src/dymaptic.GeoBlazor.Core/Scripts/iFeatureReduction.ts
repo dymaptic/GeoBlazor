@@ -12,7 +12,7 @@ export async function buildJsIFeatureReduction(dotNetObject: any, layerId: strin
     }
 }
 
-export async function buildDotNetIFeatureReduction(featureReduction: any, viewId: string | null): Promise<any> {
+export async function buildDotNetIFeatureReduction(featureReduction: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!Pro) return null;
             try {
         // @ts-ignore GeoBlazor Pro only

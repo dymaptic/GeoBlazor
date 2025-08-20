@@ -374,7 +374,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async queryObjectIds(query: any,
         requestOptions: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryObjectIds(jsQuery,
             requestOptions);
     }
@@ -382,7 +382,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async queryRasterCount(query: any,
         requestOptions: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryRasterCount(jsQuery,
             requestOptions);
     }
@@ -390,7 +390,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async queryRasters(query: any,
         requestOptions: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryRasters(jsQuery,
             requestOptions);
     }
@@ -515,7 +515,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return this.layer.fields!.map(i => buildDotNetField(i, this.viewId));
+        return this.layer.fields!.map(i => buildDotNetField(i));
     }
     
     async getFieldsIndex(): Promise<any> {
@@ -637,7 +637,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return this.layer.rasterFields!.map(i => buildDotNetField(i, this.viewId));
+        return this.layer.rasterFields!.map(i => buildDotNetField(i));
     }
     
     async getRasterFunction(): Promise<any> {
@@ -801,7 +801,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
             let { buildDotNetPixelData } = await import('./pixelData');
             let dnPixelData = await buildDotNetPixelData(pixelData, viewId);
 
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
         };
     }
     if (hasValue(dotNetObject.popupTemplate)) {
@@ -927,36 +927,36 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     let jsImageryLayer = new ImageryLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsImageryLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-        });
+                let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+                let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsImageryLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-        });
+                let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+                let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsImageryLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-        });
+                let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+                let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
         jsImageryLayer.on('refresh', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
-        });
+                let streamRef = buildJsStreamReference(evt ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
+            });
     }
     
 
@@ -969,17 +969,21 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(imageryLayerWrapper);
-        let { buildDotNetImageryLayer } = await import('./imageryLayer');
-        let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(imageryLayerWrapper);
+            let { buildDotNetImageryLayer } = await import('./imageryLayer');
+            let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ImageryLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for ImageryLayer', e);
+        }
+    });
     
     return jsImageryLayer;
 }
@@ -1009,7 +1013,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetImageryLayer.fields = jsObject.fields.map(i => buildDotNetField(i, viewId));
+        dotNetImageryLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
     
     if (hasValue(jsObject.fieldsIndex)) {
@@ -1054,7 +1058,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.rasterFields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetImageryLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i, viewId));
+        dotNetImageryLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
     }
     
     if (hasValue(jsObject.rasterFunction)) {

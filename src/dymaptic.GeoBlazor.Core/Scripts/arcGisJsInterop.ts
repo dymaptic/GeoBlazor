@@ -80,6 +80,7 @@ import {buildJsWidget} from "./widget";
 import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
 import { buildJsColor } from './mapColor';
 import {buildJsBasemap} from "./basemap";
+import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 
 // region exports
 
@@ -314,7 +315,7 @@ export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
 }
 
 export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetReference: any, long: number | null, lat: number | null,
-                                   rotation: number, mapObject: any, zoom: number | null, scale: number,
+                                   rotation: number | null, mapObject: any, zoom: number | null, scale: number,
                                    mapType: string, widgets: any[], graphics: any,
                                    spatialReference: any, constraints: any, extent: any, backgroundColor: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
@@ -335,6 +336,8 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         if (ProtoGraphicCollection === undefined) {
             await loadProtobuf();
         }
+        
+        await projectionEngine.load();
 
         checkConnectivity(id);
 
@@ -385,7 +388,9 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                 });
             }
             
-            mapComponent.rotation = rotation;
+            if (hasValue(rotation)) {
+                mapComponent.rotation = rotation!;
+            }
         } else // this check is required for ESBuild to not throw away the ArcgisScene import
             // noinspection SuspiciousTypeOfGuard
             if (mapComponent instanceof ArcgisScene) {
@@ -625,23 +630,24 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
     if (activeEventHandlers.includes('OnClick')) {
         view.on('click', async (evt) => {
             try {
-                await setCursor('wait', viewId);
-                evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-                await dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
-            } finally {
-                await setCursor('unset', viewId);
-            }
-        });
+            await setCursor('wait', viewId);
+                    evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
+                    await dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
+                } finally {
+                    await setCursor('unset', viewId);
+                }
+            });
     }
 
     // always listen for this to track extent changes
     view.on('double-click', async (evt) => {
+        if (activeEventHandlers.includes('OnDoubleClick')) {
+            // only set the cursor if there is user code to run
+            await setCursor('wait', viewId);
+        }
+        // but always hook up listener for internal events in GeoBlazor
         try {
             userChangedViewExtent = true;
-            if (activeEventHandlers.includes('OnDoubleClick')) {
-                // only set the cursor if there is user code to run
-                await setCursor('wait', viewId);
-            }
             evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
             await dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
         } finally {
@@ -658,8 +664,8 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
 
     if (activeEventHandlers.includes('ImmediateClick')) {
         view.on('immediate-click', async (evt) => {
+            await setCursor('wait', viewId);
             try {
-                await setCursor('wait', viewId);
                 evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
                 await dotNetRef.invokeMethodAsync('OnJavascriptImmediateClick', evt);
             } finally {
@@ -670,8 +676,8 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
 
     if (activeEventHandlers.includes('ImmediateDoubleClick')) {
         view.on('immediate-double-click', async (evt) => {
+            await setCursor('wait', viewId);
             try {
-                await setCursor('wait', viewId);
                 evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
                 await dotNetRef.invokeMethodAsync('OnJavascriptImmediateDoubleClick', evt);
             } finally {
@@ -693,12 +699,15 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
     }
 
     // always listen for this to track extent changes
+    let dragTimeoutId: number | undefined;
     view.on('drag', (evt) => {
         userChangedViewExtent = true;
-        const dragCallback = async () => {
-            await dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
-        }
-        debounce(dragCallback, eventRateLimit, !hasValue(eventRateLimit))();
+        clearTimeout(dragTimeoutId);
+        dragTimeoutId = setTimeout(() => {
+            requestAnimationFrame(async () => {
+                await dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
+            });
+        }, eventRateLimit ?? 0);
     });
 
     view.on('pointer-down', async (evt) => {
@@ -719,14 +728,18 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
         });
     }
 
+    let pointerMoveTimeoutId: number | undefined;
     view.on('pointer-move', async (evt) => {
+        clearTimeout(pointerMoveTimeoutId);
         if (pointerDown) {
             userChangedViewExtent = true;
         }
-        const pointerMoveCallback = async () => {
-            await dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
-        }
-        debounce(pointerMoveCallback, eventRateLimit, !hasValue(eventRateLimit))();
+        
+        pointerMoveTimeoutId = setTimeout(() => {
+            requestAnimationFrame(async () => {
+                await dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
+            });
+        }, eventRateLimit ?? 0);
     });
 
     view.on('pointer-up', async (evt) => {
@@ -806,166 +819,135 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
             uploadingLayers.push(layerUid);
 
             let layerViewId: string | null;
+            
+            requestAnimationFrame(async () => {
+                if (!blazorServer) {
+                    layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+                    if (layerViewId !== null) {
+                        arcGisObjectRefs[layerViewId] = evt.layerView;
+                        jsObjectRefs[layerViewId] = jsLayerView;
+                    }
+                    uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
+                    return;
+                }
 
-            if (!blazorServer) {
-                layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+                // for debugging issues below
+                // findCircularReferences(result.layer);
+                // findCircularReferences(result.layerView);
+
+                // return dotNetResult in small chunks to avoid memory issues in Blazor Server
+                // SignalR has a maximum message size of 32KB
+                // https://github.com/dotnet/aspnetcore/issues/23179
+                const jsonLayerResult = generateSerializableJson(result.layer);
+                const jsonLayerViewResult = generateSerializableJson(result.layerView);
+
+                if (!hasValue(jsonLayerResult) || !hasValue(jsonLayerViewResult)) {
+                    return;
+                }
+
+                const chunkSize = 1000;
+                let chunks = Math.ceil(jsonLayerResult!.length / chunkSize);
+
+                for (let i = 0; i < chunks; i++) {
+                    const chunk = jsonLayerResult!.slice(i * chunkSize, (i + 1) * chunkSize);
+                    await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk, i);
+                }
+
+                chunks = Math.ceil(jsonLayerViewResult!.length / chunkSize);
+                for (let i = 0; i < chunks; i++) {
+                    const chunk = jsonLayerViewResult!.slice(i * chunkSize, (i + 1) * chunkSize);
+                    await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk, i);
+                }
+
+                layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
+                    result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer, isReferenceLayer);
                 if (layerViewId !== null) {
                     arcGisObjectRefs[layerViewId] = evt.layerView;
                     jsObjectRefs[layerViewId] = jsLayerView;
                 }
                 uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
-                return;
-            }
-            
-            // for debugging issues below
-            // findCircularReferences(result.layer);
-            // findCircularReferences(result.layerView);
-
-            // return dotNetResult in small chunks to avoid memory issues in Blazor Server
-            // SignalR has a maximum message size of 32KB
-            // https://github.com/dotnet/aspnetcore/issues/23179
-            const jsonLayerResult = generateSerializableJson(result.layer);
-            const jsonLayerViewResult = generateSerializableJson(result.layerView);
-            
-            if (!hasValue(jsonLayerResult) || !hasValue(jsonLayerViewResult)) {
-                return;
-            }
-            
-            const chunkSize = 1000;
-            let chunks = Math.ceil(jsonLayerResult!.length / chunkSize);
-
-            for (let i = 0; i < chunks; i++) {
-                const chunk = jsonLayerResult!.slice(i * chunkSize, (i + 1) * chunkSize);
-                await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk, i);
-            }
-
-            chunks = Math.ceil(jsonLayerViewResult!.length / chunkSize);
-            for (let i = 0; i < chunks; i++) {
-                const chunk = jsonLayerViewResult!.slice(i * chunkSize, (i + 1) * chunkSize);
-                await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk, i);
-            }
-
-            layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
-                result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer, isReferenceLayer);
-            if (layerViewId !== null) {
-                arcGisObjectRefs[layerViewId] = evt.layerView;
-                jsObjectRefs[layerViewId] = jsLayerView;
-            }
-            uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
+            });
         } catch (e) {
             console.error(e);
         }
     });
 
     if (activeEventHandlers.includes('OnLayerViewCreateError')) {
-        view.on('layerview-create-error', async (evt) => {
-            const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
-            let { buildDotNetViewLayerviewCreateErrorEvent } = await import('./viewLayerviewCreateErrorEvent');
-            const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt, layerGeoBlazorId, viewId);
-            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateError', dnEvent);
+        view.on('layerview-create-error', (evt) => {
+            requestAnimationFrame(async () => {
+                const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
+                let { buildDotNetViewLayerviewCreateErrorEvent } = await import('./viewLayerviewCreateErrorEvent');
+                const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt, layerGeoBlazorId, viewId);
+                await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateError', dnEvent);
+            });
         });
     }
 
     if (activeEventHandlers.includes('OnLayerViewDestroy')) {
-        view.on('layerview-destroy', async (evt) => {
-            const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
-            let { buildDotNetViewLayerviewDestroyEvent } = await import('./viewLayerviewDestroyEvent');
-            const dnEvent = await buildDotNetViewLayerviewDestroyEvent(evt, layerGeoBlazorId, viewId);
-            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', dnEvent);
+        view.on('layerview-destroy', (evt) => {
+            requestAnimationFrame(async () => {
+                const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
+                let { buildDotNetViewLayerviewDestroyEvent } = await import('./viewLayerviewDestroyEvent');
+                const dnEvent = await buildDotNetViewLayerviewDestroyEvent(evt, layerGeoBlazorId, viewId);
+                await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', dnEvent);
+            });
         });
     }
 
+    let mouseWheelTimeoutId: number | undefined;
     view.on('mouse-wheel', async (evt) => {
+        clearTimeout(mouseWheelTimeoutId);
         userChangedViewExtent = true;
-        const mouseWheelCallback = async () => {
-            await setCursor('wait', viewId);
-            await dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
-            await setCursor('unset', viewId);
-        }
-        debounce(mouseWheelCallback, eventRateLimit, !hasValue(eventRateLimit))();
+        await setCursor('wait', viewId);
+        mouseWheelTimeoutId = setTimeout(() => {
+            requestAnimationFrame(async () => {
+                await dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
+                await setCursor('unset', viewId);
+            });
+        }, eventRateLimit ?? 0);
     });
 
+    let resizeTimeoutId: number | undefined;
     view.on('resize', async (evt) => {
+        clearTimeout(resizeTimeoutId);
         userChangedViewExtent = true;
-        const resizeCallback = async () => {
-            await setCursor('wait', viewId);
-            await dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
-            await setCursor('unset', viewId);
-        }
-        debounce(resizeCallback, eventRateLimit, !hasValue(eventRateLimit))();
+        await setCursor('wait', viewId);
+        resizeTimeoutId = setTimeout(() => {
+            requestAnimationFrame(async () => {
+                await dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
+                await setCursor('unset', viewId);
+            });
+        }, eventRateLimit ?? 0);
     });
 
     reactiveUtils.watch(() => view.spatialReference, () => {
-        dotNetRef.invokeMethodAsync('OnJavascriptSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
+        requestAnimationFrame(async () => {
+            await dotNetRef.invokeMethodAsync('OnJavascriptSpatialReferenceChanged', 
+                buildDotNetSpatialReference(view.spatialReference));
+        });
     });
 
+    let watchExtentTimeoutId: number | undefined;
     reactiveUtils.watch(() => view.extent, () => {
         if (!notifyExtentChanged) return;
+        clearTimeout(watchExtentTimeoutId);
+        if (!hasValue((view as MapView)?.extent)) {
+            return;
+        }
         userChangedViewExtent = true;
-        const extentCallback = () => {
-            if (!hasValue((view as MapView).extent)) {
-                return;
-            }
-            if (view instanceof SceneView) {
-                dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
-                    buildDotNetPoint(view.camera.position), view.zoom, view.scale, null, view.camera.tilt);
-                return;
-            }
-            dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent),
-                buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
-                (view as MapView).rotation, null);
-        }
-
-        debounce(extentCallback, eventRateLimit, !hasValue(eventRateLimit))();
+        watchExtentTimeoutId = setTimeout(() => {
+            requestAnimationFrame(async () => {
+                if (view instanceof SceneView) {
+                    await dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
+                        buildDotNetPoint(view.camera?.position), view.zoom, view.scale, null, view.camera.tilt);
+                    return;
+                }
+                await dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent),
+                    buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
+                    (view as MapView).rotation, null);
+            });
+        }, eventRateLimit ?? 0);
     });
-}
-
-function debounce(func: Function, wait: number | null, immediate: boolean) {
-
-    // 'private' variable for instance
-    // The returned function will be able to reference this due to closure.
-    // Each call to the returned function will share this common timer.
-    let timeout;
-
-    // Calling debounce returns a new anonymous function
-    return () => {
-        // reference the context and args for the setTimeout function
-        // @ts-ignore        
-        const context: any = this,
-        // eslint-disable-next-line prefer-rest-params
-        args = arguments;
-
-        // Should the function be called now? If immediate is true
-        //   and not already in a timeout then the answer is: Yes
-        if (!timeout) {
-            func.apply(context, args);
-            if (immediate) {
-                return;
-            }
-        }
-
-        // This is the basic debounce behaviour where you can call this
-        //   function several times, but it will only execute once
-        //   (before or after imposing a delay).
-        //   Each time the returned function is called, the timer starts over.
-        clearTimeout(timeout);
-
-        // Set the new timeout
-        timeout = setTimeout(function () {
-
-            // Inside the timeout function, clear the timeout variable
-            // which will let the next execution run when in 'immediate' mode
-            timeout = null;
-
-            // Check if the function already ran with the immediate flag
-            if (!immediate) {
-                // Call the original function with apply
-                // apply lets you define the 'this' object as well as the arguments
-                //    (both captured before setTimeout)
-                func.apply(context, args);
-            }
-        }, wait ?? 300);
-    }
 }
 
 export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
@@ -1901,7 +1883,9 @@ function waitForRender(viewId: string, theme: string | null | undefined, dotNetR
 
                     try {
                         rendering = true;
-                        await dotNetRef.invokeMethodAsync('OnJsViewRendered');
+                        requestAnimationFrame(async () => {
+                            await dotNetRef.invokeMethodAsync('OnJsViewRendered')
+                        });
                     } catch {
                         // we must be disconnected
                     }
@@ -1973,9 +1957,11 @@ export function addReactiveWatcher(targetId: string, targetName: string, watchEx
     const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef', 'generateSerializableJson', 'buildJsStreamReference',
         `return reactiveUtils.watch(() => ${watchExpression},
         (value) => { 
-            let jsonValue = generateSerializableJson(value);
-            let jsStreamRef = buildJsStreamReference(jsonValue);
-            dotNetRef.invokeMethodAsync('OnReactiveWatcherUpdate', '${watchExpression}', jsStreamRef);
+            requestAnimationFrame(async () => {
+                let jsonValue = generateSerializableJson(value);
+                let jsStreamRef = buildJsStreamReference(jsonValue);
+                await dotNetRef.invokeMethodAsync('OnReactiveWatcherUpdate', '${watchExpression}', jsStreamRef);
+            });
         },
         {once: ${once}, initial: ${initial}});`);
     return watcherFunc(target, reactiveUtils, dotNetRef, generateSerializableJson, buildJsStreamReference);
@@ -1998,7 +1984,9 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
         (value) => {
             let jsonValue = generateSerializableJson(value);
             let jsStreamRef = buildJsStreamReference(jsonValue);
-            dotNetRef.invokeMethodAsync('OnReactiveListenerTriggered', '${fullEventName}', jsStreamRef);
+            requestAnimationFrame(async () => {
+                await dotNetRef.invokeMethodAsync('OnReactiveListenerTriggered', '${fullEventName}', jsStreamRef);
+            });
         },
         {once: ${once}, onListenerRemove: () => console.debug('Removing listener: ${eventName}')});`);
     return listenerFunc(target, reactiveUtils, dotNetRef, generateSerializableJson, buildJsStreamReference);
@@ -2022,8 +2010,9 @@ export function addReactiveWaiter(targetId: string, targetName: string, watchExp
     const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
         `return reactiveUtils.when(() => ${watchExpression},
         () => { 
-            console.debug('waiter == true'); 
-            dotNetRef.invokeMethodAsync('OnReactiveWaiterTrue', '${watchExpression}')
+            requestAnimationFrame(async () => {
+                await dotNetRef.invokeMethodAsync('OnReactiveWaiterTrue', '${watchExpression}')
+            });
         },
         {once: ${once}, initial: ${initial}});`);
     return whenFunc(target, reactiveUtils, dotNetRef);
@@ -2121,7 +2110,7 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
     return array.graphics;
 }
 
-export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: FeatureLayer | null): any {
+export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: FeatureLayer | GeoJSONLayer | null): any {
     for (let i = 0; i < graphics.length; i++) {
         updateGraphicForProtobuf(graphics[i], layer);
     }
@@ -2151,7 +2140,7 @@ function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
         return DotNet.createJSStreamReference(encoded);
 }
 
-function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | null) {
+function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
     if (hasValue(graphic.attributes)) {
         const fields = layer?.fields;
         graphic.attributes = Object.keys(graphic.attributes).map(attr => {
@@ -2258,13 +2247,14 @@ export function getCursor(viewId: string): string {
 }
 
 export async function setCursor(cursorType: string, viewId: string | null = null) {
-    const view = hasValue(viewId) ? arcGisObjectRefs[viewId!] : undefined;
-    if (hasValue(view)) {
-        view.container.style.cursor = cursorType;
-    } else {
-        document.body.style.cursor = cursorType;
-    }
-    await delayTask();
+    requestAnimationFrame(() => {
+        const view = hasValue(viewId) ? arcGisObjectRefs[viewId!] : undefined;
+        if (hasValue(view)) {
+            view.container.style.cursor = cursorType;
+        } else {
+            document.body.style.cursor = cursorType;
+        }
+    });
 }
 
 export async function getWebMapBookmarks(viewId: string) {
@@ -2423,8 +2413,4 @@ export function buildEncodedJson(object: any) {
     let encoder = new TextEncoder();
     let encodedArray = encoder.encode(json!);
     return encodedArray;
-}
-
-export function delayTask(milliseconds: number = 0) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
 }

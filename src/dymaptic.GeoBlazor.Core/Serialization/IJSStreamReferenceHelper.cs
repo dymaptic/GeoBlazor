@@ -21,11 +21,10 @@ public static class IJSStreamReferenceHelper
     public static async Task<object?> ReadJsStreamReference(this IJSStreamReference jsStreamReference, Type returnType,
         long maxAllowedSize = 1_000_000_000)
     {
-        await using Stream stream =
-            await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
-        using var reader = new StreamReader(stream, Encoding.UTF8);
+        await using Stream stream = await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
+        using StreamReader reader = new(stream, Encoding.UTF8);
 
-        var json = await reader.ReadToEndAsync();
+        string json = await reader.ReadToEndAsync();
 
         return JsonSerializer.Deserialize(json, returnType, GeoBlazorSerialization.JsonSerializerOptions);
     }

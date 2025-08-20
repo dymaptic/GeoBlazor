@@ -44,7 +44,7 @@ export function buildJsField(dotNetObject: any): any {
     return jsField;
 }
 
-export function buildDotNetField(jsObject: any, viewId: string | null): any {
+export function buildDotNetField(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }

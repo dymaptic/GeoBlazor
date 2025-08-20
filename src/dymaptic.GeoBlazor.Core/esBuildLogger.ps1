@@ -1,4 +1,4 @@
-param([string][Alias("c")]$Content)
+param([string][Alias("c")]$Content, [bool]$isError=$false)
 
 
 # We have some generic implementations of message boxes borrowed here, and then adapted.
@@ -23,16 +23,18 @@ function Alkane-Popup() {
         [string]$message,
         [string]$title,
         [string]$type,
-        [ValidateSet('OK', 'OKClear', 'OKCancel', 'AbortRetryIgnore', 'YesNoCancel', 'YesNo', 'RetryCancel')]
+        [ValidateSet('OK', 'OKClear', 'OKShowLogsClear', 'OKCancel', 'AbortRetryIgnore', 'YesNoCancel', 'YesNo', 'RetryCancel')]
         [string]$buttons = 'OK',
         [string]$position,
         [int]$duration,
-        [bool]$async
+        [bool]$async,
+        [string]$logFile = (Join-Path $PSScriptRoot "esbuild.log")
     )
 
     $buttonMap = @{
         'OK'               = @{ buttonList = @('OK'); defaultButtonIndex = 0 }
         'OKClear'         = @{ buttonList = @('OK', 'Clear'); defaultButtonIndex = 0; cancelButtonIndex = 1 }
+        'OKShowLogsClear' = @{ buttonList = @('OK', 'Show Logs', 'Clear'); defaultButtonIndex = 0; cancelButtonIndex = 2 }
         'OKCancel'         = @{ buttonList = @('OK', 'Cancel'); defaultButtonIndex = 0; cancelButtonIndex = 1 }
         'AbortRetryIgnore' = @{ buttonList = @('Abort', 'Retry', 'Ignore'); defaultButtonIndex = 2; cancelButtonIndex = 0 }
         'YesNoCancel'      = @{ buttonList = @('Yes', 'No', 'Cancel'); defaultButtonIndex = 2; cancelButtonIndex = 2 }
@@ -43,7 +45,7 @@ function Alkane-Popup() {
     $runspace = [runspacefactory]::CreateRunspace()
     $runspace.Open()
     $PowerShell = [PowerShell]::Create().AddScript({
-        param ($message, $title, $type, $position, $duration, $buttonList, $defaultButtonIndex, $cancelButtonIndex)
+        param ($message, $title, $type, $position, $duration, $buttonList, $defaultButtonIndex, $cancelButtonIndex, $logFile)
         Add-Type -AssemblyName System.Windows.Forms
 
         $Timer = New-Object System.Windows.Forms.Timer
@@ -186,6 +188,13 @@ function Alkane-Popup() {
                     catch {
                         Write-Warning "Error deleting lock files: $($_.Exception.Message)"
                     }
+                } elseif ($this.Text -eq "Show Logs") {
+                    # Open log file in default text editor
+                    if (Test-Path $logFile) {
+                        Start-Process -FilePath $logFile
+                    } else {
+                        [System.Windows.Forms.MessageBox]::Show("Log file not found: $logFile", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error) | Out-Null
+                    }
                 }
                 
                 $script:result = $this.Text
@@ -223,9 +232,15 @@ function Alkane-Popup() {
         $objForm.ShowDialog() | Out-Null
         return $script:result
 
-    }).AddArgument($message).AddArgument($title).AddArgument($type).AddArgument($position).AddArgument($duration).AddArgument($buttonMap[$buttons].buttonList).AddArgument($buttonMap[$buttons].defaultButtonIndex).AddArgument($buttonMap[$buttons].cancelButtonIndex)
-
-    $PowerShell.Runspace = $runspace
+    }).AddArgument($message).`
+            AddArgument($title).`
+            AddArgument($type).`
+            AddArgument($position).`
+            AddArgument($duration).`
+            AddArgument($buttonMap[$buttons].buttonList).`
+            AddArgument($buttonMap[$buttons].defaultButtonIndex).`
+            AddArgument($buttonMap[$buttons].cancelButtonIndex).`
+            AddArgument($logFile)
 
     $state = @{
         Instance = $PowerShell
@@ -253,7 +268,7 @@ function Show-MessageBox {
         [Parameter(Position=1)]
         [string] $Title,
         [Parameter(Position=2)]
-        [ValidateSet('OK', 'OKClear', 'OKCancel', 'AbortRetryIgnore', 'YesNoCancel', 'YesNo', 'RetryCancel')]
+        [ValidateSet('OK', 'OKClear', 'OKShowLogsClear', 'OKCancel', 'AbortRetryIgnore', 'YesNoCancel', 'YesNo', 'RetryCancel')]
         [string] $Buttons = 'OK',
         [ValidateSet('information', 'warning', 'error', 'success')]
         [string] $Type = 'information',
@@ -268,6 +283,7 @@ function Show-MessageBox {
     $buttonMap = @{
         'OK'               = @{ buttonList = 'OK'; defaultButtonIndex = 0 }
         'OKClear'         = @{ buttonList = 'OK', 'Clear'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
+        'OKShowLogsClear' = @{ buttonList = 'OK', 'Show Logs', 'Clear'; defaultButtonIndex = 0; cancelButtonIndex = 2 }
         'OKCancel'         = @{ buttonList = 'OK', 'Cancel'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
         'AbortRetryIgnore' = @{ buttonList = 'Abort', 'Retry', 'Ignore'; defaultButtonIndex = 2; ; cancelButtonIndex = 0 };
         'YesNoCancel'      = @{ buttonList = 'Yes', 'No', 'Cancel'; defaultButtonIndex = 2; cancelButtonIndex = 2 };
@@ -311,7 +327,46 @@ function Show-MessageBox {
     }
 }
 
-Show-MessageBox -Message $Content `
-    -Title "esBuild Step Failed" `
-    -Buttons "OKClear" `
-    -Type error
+# save the content to a log file for reference
+$logFile = Join-Path $PSScriptRoot "esbuild.log"
+
+$logContent = Get-Content -Path $logFile -ErrorAction SilentlyContinue
+$newLogContent = $logContent
+if ($logContent) 
+{
+    for ($i = 0; $i -lt $logContent.Count; $i++)
+    {
+        $line = $logContent[$i]
+        # check the timestamp starting the line
+        if ($line -match '^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]') 
+        {
+            $timestamp = [datetime]$matches[1]
+            # if the timestamp is older than 2 days, remove the line
+            if ($timestamp -lt (Get-Date).AddDays(-2)) 
+            {
+                $newLogContent = $logContent[($i + 1)..$logContent.Count - 1]
+            }
+            else
+            {
+                break
+            }
+        }
+    }
+    
+    Set-Content -Path $logFile -Value $newLogContent -Force
+}
+
+$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+$logEntry = "[$timestamp] $Content"
+Add-Content -Path $logFile -Value $logEntry
+
+# if there is content in the $logFile older than 2 days, delete it
+
+
+if ($isError)
+{
+    Show-MessageBox -Message "An error occurred during the esBuild step. Please check the log file for details." `
+        -Title "esBuild Step Failed" `
+        -Buttons "OKShowLogsClear" `
+        -Type error
+}

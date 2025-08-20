@@ -186,29 +186,29 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     let jsUnsupportedLayer = new UnsupportedLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsUnsupportedLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-        });
+                let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+                let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsUnsupportedLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-        });
+                let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+                let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsUnsupportedLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-        });
+                let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+                let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+            });
     }
     
 
@@ -221,17 +221,21 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = unsupportedLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnsupportedLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(unsupportedLayerWrapper);
-        let { buildDotNetUnsupportedLayer } = await import('./unsupportedLayer');
-        let dnInstantiatedObject = await buildDotNetUnsupportedLayer(jsUnsupportedLayer, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(unsupportedLayerWrapper);
+            let { buildDotNetUnsupportedLayer } = await import('./unsupportedLayer');
+            let dnInstantiatedObject = await buildDotNetUnsupportedLayer(jsUnsupportedLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for UnsupportedLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for UnsupportedLayer', e);
+        }
+    });
     
     return jsUnsupportedLayer;
 }

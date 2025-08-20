@@ -59,6 +59,7 @@
         {
             PopupTemplate popupTemplate = await _featureLayer!.CreatePopupTemplate();
             await _featureLayer!.SetPopupTemplate(popupTemplate);
+            await _mapView!.SetExtent(_featureLayer!.FullExtent!);
         }
     }
 

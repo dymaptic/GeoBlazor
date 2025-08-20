@@ -52,7 +52,7 @@ export default class FieldsIndexGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return this.component.dateFields!.map(i => buildDotNetField(i, this.viewId));
+        return this.component.dateFields!.map(i => buildDotNetField(i));
     }
     
     async setDateFields(value: any): Promise<void> {
@@ -107,7 +107,7 @@ export async function buildDotNetFieldsIndexGenerated(jsObject: any, viewId: str
     
     if (hasValue(jsObject.dateFields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetFieldsIndex.dateFields = jsObject.dateFields.map(i => buildDotNetField(i, viewId));
+        dotNetFieldsIndex.dateFields = jsObject.dateFields.map(i => buildDotNetField(i));
     }
     
 

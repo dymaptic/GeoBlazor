@@ -211,17 +211,21 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = distanceMeasurement2DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2D;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DWidgetWrapper);
-        let { buildDotNetDistanceMeasurement2DWidget } = await import('./distanceMeasurement2DWidget');
-        let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DWidget(jsDistanceMeasurement2D, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DWidgetWrapper);
+            let { buildDotNetDistanceMeasurement2DWidget } = await import('./distanceMeasurement2DWidget');
+            let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DWidget(jsDistanceMeasurement2D, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DistanceMeasurement2DWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for DistanceMeasurement2DWidget', e);
+        }
+    });
     
     return jsDistanceMeasurement2D;
 }

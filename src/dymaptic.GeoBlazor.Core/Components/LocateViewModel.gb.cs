@@ -857,16 +857,11 @@ public partial class LocateViewModel : IGeolocationPositioning,
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LocateViewModelLocateErrorEvent locateErrorEvent = 
-            JsonSerializer.Deserialize<LocateViewModelLocateErrorEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnLocateError.InvokeAsync(locateErrorEvent);
+        LocateViewModelLocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReference<LocateViewModelLocateErrorEvent>();
+        if (locateErrorEvent is not null)
+        {
+            await OnLocateError.InvokeAsync(locateErrorEvent);
+        }
     }
     
     /// <summary>

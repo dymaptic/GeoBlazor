@@ -60,7 +60,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
     async queryAggregates(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryAggregates(jsQuery,
             options);
     }
@@ -119,7 +119,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(this.component.layer, this.viewId);
+        return await buildDotNetFeatureLayer(this.component.layer, this.layerId, this.viewId);
     }
     
     getProperty(prop: string): any {

@@ -312,7 +312,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
             let { buildDotNetListItem } = await import('./listItem');
             let dnItem = await buildDotNetListItem(item, viewId);
 
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsFilterPredicate', dnItem);
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsFilterPredicate', dnItem);
         };
     }
     if (hasValue(dotNetObject.knowledgeGraphOptions)) {
@@ -322,7 +322,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
         properties.listItemCreatedFunction = async (event) => {
 
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.selectedItems) && dotNetObject.selectedItems.length > 0) {
@@ -380,11 +380,11 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     let jsLayerList = new LayerList(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
         jsLayerList.on('trigger-action', async (evt: any) => {
-            let { buildDotNetLayerListTriggerActionEvent } = await import('./layerListTriggerActionEvent');
-            let dnEvent = await buildDotNetLayerListTriggerActionEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
-        });
+                let { buildDotNetLayerListTriggerActionEvent } = await import('./layerListTriggerActionEvent');
+                let dnEvent = await buildDotNetLayerListTriggerActionEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
+            });
     }
     
 
@@ -397,17 +397,21 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = layerListWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerList;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(layerListWidgetWrapper);
-        let { buildDotNetLayerListWidget } = await import('./layerListWidget');
-        let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(layerListWidgetWrapper);
+            let { buildDotNetLayerListWidget } = await import('./layerListWidget');
+            let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerListWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for LayerListWidget', e);
+        }
+    });
     
     return jsLayerList;
 }

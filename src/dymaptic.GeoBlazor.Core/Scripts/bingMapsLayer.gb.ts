@@ -357,36 +357,36 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     let jsBingMapsLayer = new BingMapsLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsBingMapsLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-        });
+                let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+                let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsBingMapsLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-        });
+                let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+                let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsBingMapsLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-        });
+                let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+                let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
         jsBingMapsLayer.on('refresh', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
-        });
+                let streamRef = buildJsStreamReference(evt ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
+            });
     }
     
 
@@ -399,17 +399,21 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = bingMapsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBingMapsLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(bingMapsLayerWrapper);
-        let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
-        let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(bingMapsLayerWrapper);
+            let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
+            let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BingMapsLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for BingMapsLayer', e);
+        }
+    });
     
     return jsBingMapsLayer;
 }
