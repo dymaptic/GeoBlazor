@@ -182,16 +182,29 @@ public class SceneView : MapView
     /// <inheritdoc />
     protected override async Task BuildMapView()
     {
-        string mapType = Map is WebScene ? "webscene" : "scene";
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
-        CancellationTokenSource.CancelAfter(5000); // 5 seconds timeout for the map view to be built
-        await CoreJsModule!.InvokeVoidAsync("buildMapView",
-            CancellationTokenSource.Token, abortSignal, Id, DotNetComponentReference,
-            Longitude, Latitude, Rotation, Map, Zoom, Scale,
-            mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
-            EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
-            PopupEnabled, Theme?.ToString().ToLowerInvariant(), ZIndex, Tilt);
-        await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
-        CancellationTokenSource = new CancellationTokenSource();
+        try
+        {
+            string mapType = Map is WebScene ? "webscene" : "scene";
+            IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
+            CancellationTokenSource.CancelAfter(MapRenderTimeoutInMilliseconds); // timeout for the map view to be built
+
+            await CoreJsModule!.InvokeVoidAsync("buildMapView",
+                CancellationTokenSource.Token, abortSignal, Id, DotNetComponentReference,
+                Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
+                PopupEnabled, Theme?.ToString().ToLowerInvariant(), ZIndex, Tilt);
+            await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+
+            throw;
+        }
+        finally
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
     }
 }

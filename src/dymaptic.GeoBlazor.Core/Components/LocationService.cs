@@ -418,7 +418,7 @@ public partial class LocationService : LogicComponent
     ///     Additional options to be used for the data request
     /// </param>
     /// <param name="addressSearchStringParameterName">
-    ///     the name of the single line address field, defaults to SearchString
+    ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
@@ -575,7 +575,7 @@ public partial class LocationService : LogicComponent
     ///     Additional options to be used for the data request
     /// </param>
     /// <param name="addressSearchStringParameterName">
-    ///     the name of the single line address field, defaults to SearchString
+    ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
         string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
@@ -1574,7 +1574,7 @@ public partial class LocationService : LogicComponent
     ///     Additional options to be used for the data request 
     /// </param>
     /// <param name="addressSearchStringParameterName">
-    ///     the name of the single line address field, defaults to Address
+    ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories = null,
         string? countryCode = null, bool? forStorage = null, Point? location = null, LocationType? locationType = null,
@@ -1897,7 +1897,7 @@ public partial class LocationService : LogicComponent
     ///     Additional options to be used for the data request 
     /// </param>
     /// <param name="addressSearchStringParameterName">
-    ///     the name of the single line address field, defaults to SearchString
+    ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
 #pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
     public async Task<List<AddressCandidate>> AddressToLocations(string url, string address,
@@ -2207,7 +2207,7 @@ public partial class LocationService : LogicComponent
     ///     Additional options to be used for the data request
     /// </param>
     /// <param name="addressSearchStringParameterName">
-    ///     The name of the single line address field, defaults to SearchString.
+    ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(string url, object addresses,
         string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,

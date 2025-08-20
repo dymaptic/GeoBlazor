@@ -315,7 +315,7 @@ export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
 }
 
 export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetReference: any, long: number | null, lat: number | null,
-                                   rotation: number, mapObject: any, zoom: number | null, scale: number,
+                                   rotation: number | null, mapObject: any, zoom: number | null, scale: number,
                                    mapType: string, widgets: any[], graphics: any,
                                    spatialReference: any, constraints: any, extent: any, backgroundColor: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
@@ -388,7 +388,9 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                 });
             }
             
-            mapComponent.rotation = rotation;
+            if (hasValue(rotation)) {
+                mapComponent.rotation = rotation!;
+            }
         } else // this check is required for ESBuild to not throw away the ArcgisScene import
             // noinspection SuspiciousTypeOfGuard
             if (mapComponent instanceof ArcgisScene) {
