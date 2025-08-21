@@ -64,9 +64,9 @@ import Widget from "@arcgis/core/widgets/Widget";
 import {load} from "protobufjs";
 import {buildDotNetExtent, buildJsExtent} from './extent';
 import {buildJsGraphic} from './graphic';
-import {buildDotNetLayer, buildJsLayer} from './layer';
+import {buildDotNetLayer, buildJsLayer, buildJsLayerWrapper} from './layer';
 import {buildDotNetPoint, buildJsPoint} from './point';
-import {buildDotNetLayerView} from './layerView';
+import {buildDotNetLayerView, buildJsLayerViewWrapper} from './layerView';
 import {buildDotNetSpatialReference} from './spatialReference';
 import {buildDotNetGeometry, buildJsGeometry} from './geometry';
 import {buildDotNetSymbol, buildJsSymbol} from './symbol';
@@ -774,8 +774,8 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
                 }
             }
 
-            let jsLayer: any = evt.layer;
-            let jsLayerView: any = evt.layerView;
+            let jsLayer: any = await buildJsLayerWrapper(evt.layer);
+            let jsLayerView: any = await buildJsLayerViewWrapper(evt.layerView);
 
             switch (jsLayer.type) {
                 case 'feature':
@@ -789,6 +789,20 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
                     jsLayer = new GeoJSONLayerWrapper(jsLayer);
                     const {default: GeoJSONLayerViewWrapper} = await import('./geoJSONLayerView');
                     jsLayerView = new GeoJSONLayerViewWrapper(jsLayerView);
+                    break;
+                case 'ogc-feature':
+                    try {
+                        // @ts-ignore: GeoBlazor Pro only
+                        const {default: OGCFeatureLayerWrapper} = await import('./ogcFeatureLayer');
+                        jsLayer = new OGCFeatureLayerWrapper(jsLayer);
+                        // @ts-ignore: GeoBlazor Pro only
+                        const {default: OGCFeatureLayerViewWrapper} = await import('./ogcFeatureLayerView');
+                        jsLayerView = new OGCFeatureLayerViewWrapper(jsLayerView);
+                    } catch (e) {
+                        console.error(`OGC Feature Layer is only supported in GeoBlazor Pro. Please use a different layer type.`);
+                        // noinspection ExceptionCaughtLocallyJS
+                        throw e;
+                    }
                     break;
             }
 
