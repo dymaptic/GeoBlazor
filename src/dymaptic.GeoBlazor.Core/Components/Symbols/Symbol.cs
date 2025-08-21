@@ -211,6 +211,18 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     
     [ProtoMember(28)]
     public string? Id { get; init; }
+    
+    [ProtoMember(29)]
+    public string? Name { get; init; }
+    
+    [ProtoMember(30)]
+    public string? PortalUrl { get; init; }
+    
+    [ProtoMember(31)]
+    public string? StyleName { get; init; }
+    
+    [ProtoMember(32)]
+    public string? StyleUrl { get; init; }
 
     public Symbol FromSerializationRecord(bool isOutline = false)
     {
@@ -218,6 +230,22 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
         if (Guid.TryParse(Id, out Guid guidId))
         {
             id = guidId;
+        }
+
+        if (Type == "web-style")
+        {
+            // WebStyleSymbol is in GeoBlazor Pro assembly, so we need to use reflection to get the type
+            Type? webStyleSymbolType = System.Type
+                .GetType("dymaptic.GeoBlazor.Pro.Components.Symbols.WebStyleSymbol, dymaptic.GeoBlazor.Pro");
+
+            if (webStyleSymbolType is not null)
+            {
+                Portal? portal = PortalUrl is null ? null : new Portal(url: PortalUrl);
+                Symbol webStyleSymbol = Activator.CreateInstance(webStyleSymbolType, Color, Name, portal, StyleName, StyleUrl) as Symbol
+                    ?? throw new InvalidOperationException("Failed to create WebStyleSymbol instance.");
+                webStyleSymbol.Id = id;
+                return webStyleSymbol;
+            }
         }
         
         return Type switch
