@@ -961,6 +961,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     
 
     let { default: ImageryLayerWrapper } = await import('./imageryLayer');
+
     let imageryLayerWrapper = new ImageryLayerWrapper(jsImageryLayer);
     imageryLayerWrapper.geoBlazorId = dotNetObject.id;
     imageryLayerWrapper.viewId = viewId;

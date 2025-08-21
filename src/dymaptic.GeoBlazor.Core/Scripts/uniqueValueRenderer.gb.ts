@@ -351,6 +351,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     let jsUniqueValueRenderer = new UniqueValueRenderer(properties);
 
     let { default: UniqueValueRendererWrapper } = await import('./uniqueValueRenderer');
+
     let uniqueValueRendererWrapper = new UniqueValueRendererWrapper(jsUniqueValueRenderer);
     uniqueValueRendererWrapper.geoBlazorId = dotNetObject.id;
     uniqueValueRendererWrapper.viewId = viewId;

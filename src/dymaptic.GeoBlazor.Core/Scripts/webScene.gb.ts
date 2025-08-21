@@ -280,6 +280,7 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     let jsWebScene = new WebScene(properties);
 
     let { default: WebSceneWrapper } = await import('./webScene');
+
     let webSceneWrapper = new WebSceneWrapper(jsWebScene);
     webSceneWrapper.geoBlazorId = dotNetObject.id;
     webSceneWrapper.viewId = viewId;

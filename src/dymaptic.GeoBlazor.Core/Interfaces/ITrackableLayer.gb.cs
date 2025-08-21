@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ITrackableLayer.html">GeoBlazor Docs</a>
-///     Interface for types CSVLayer, FeatureLayer, GeoJSONLayer, WFSLayer
+///     Interface for types CSVLayer, FeatureLayer, GeoJSONLayer, OGCFeatureLayer, WFSLayer
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<ITrackableLayer>))]
 public partial interface ITrackableLayer : IMapComponent

@@ -441,6 +441,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     
 
     let { default: SliderWidgetWrapper } = await import('./sliderWidget');
+
     let sliderWidgetWrapper = new SliderWidgetWrapper(jsSlider);
     sliderWidgetWrapper.geoBlazorId = dotNetObject.id;
     sliderWidgetWrapper.viewId = viewId;

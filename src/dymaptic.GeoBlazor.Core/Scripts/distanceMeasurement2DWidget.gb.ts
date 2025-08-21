@@ -203,6 +203,7 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
     let jsDistanceMeasurement2D = new DistanceMeasurement2D(properties);
 
     let { default: DistanceMeasurement2DWidgetWrapper } = await import('./distanceMeasurement2DWidget');
+
     let distanceMeasurement2DWidgetWrapper = new DistanceMeasurement2DWidgetWrapper(jsDistanceMeasurement2D);
     distanceMeasurement2DWidgetWrapper.geoBlazorId = dotNetObject.id;
     distanceMeasurement2DWidgetWrapper.viewId = viewId;

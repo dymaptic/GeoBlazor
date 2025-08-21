@@ -1108,6 +1108,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     
 
     let { default: FeatureLayerWrapper } = await import('./featureLayer');
+
     let featureLayerWrapper = new FeatureLayerWrapper(jsFeatureLayer);
     featureLayerWrapper.geoBlazorId = dotNetObject.id;
     featureLayerWrapper.viewId = viewId;

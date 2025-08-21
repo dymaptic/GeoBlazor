@@ -108,6 +108,7 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
     
 
     let { default: HomeViewModelWrapper } = await import('./homeViewModel');
+
     let homeViewModelWrapper = new HomeViewModelWrapper(jsHomeViewModel);
     homeViewModelWrapper.geoBlazorId = dotNetObject.id;
     homeViewModelWrapper.viewId = viewId;

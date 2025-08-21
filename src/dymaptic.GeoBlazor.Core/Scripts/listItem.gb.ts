@@ -201,6 +201,7 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
     let jsListItem = new ListItem(properties);
 
     let { default: ListItemWrapper } = await import('./listItem');
+
     let listItemWrapper = new ListItemWrapper(jsListItem);
     listItemWrapper.geoBlazorId = dotNetObject.id;
     listItemWrapper.viewId = viewId;

@@ -445,6 +445,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     
 
     let { default: PopupWidgetWrapper } = await import('./popupWidget');
+
     let popupWidgetWrapper = new PopupWidgetWrapper(jsPopup);
     popupWidgetWrapper.geoBlazorId = dotNetObject.id;
     popupWidgetWrapper.viewId = viewId;

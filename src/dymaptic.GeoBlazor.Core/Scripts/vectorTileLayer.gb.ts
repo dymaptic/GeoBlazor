@@ -468,6 +468,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     
 
     let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
+
     let vectorTileLayerWrapper = new VectorTileLayerWrapper(jsVectorTileLayer);
     vectorTileLayerWrapper.geoBlazorId = dotNetObject.id;
     vectorTileLayerWrapper.viewId = viewId;

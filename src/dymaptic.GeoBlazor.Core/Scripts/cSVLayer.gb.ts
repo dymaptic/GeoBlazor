@@ -876,6 +876,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     
 
     let { default: CSVLayerWrapper } = await import('./cSVLayer');
+
     let cSVLayerWrapper = new CSVLayerWrapper(jsCSVLayer);
     cSVLayerWrapper.geoBlazorId = dotNetObject.id;
     cSVLayerWrapper.viewId = viewId;

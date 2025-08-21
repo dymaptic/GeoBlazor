@@ -359,6 +359,7 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
     
 
     let { default: WMTSLayerWrapper } = await import('./wMTSLayer');
+
     let wMTSLayerWrapper = new WMTSLayerWrapper(jsWMTSLayer);
     wMTSLayerWrapper.geoBlazorId = dotNetObject.id;
     wMTSLayerWrapper.viewId = viewId;

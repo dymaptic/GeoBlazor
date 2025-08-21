@@ -11,8 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 public partial class GraphicsLayer : IBlendLayer,
     IScaleRangeLayer
 {
-   
-    
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>

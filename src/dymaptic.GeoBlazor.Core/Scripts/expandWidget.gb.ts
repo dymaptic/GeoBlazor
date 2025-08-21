@@ -325,6 +325,7 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     let jsExpand = new Expand(properties);
 
     let { default: ExpandWidgetWrapper } = await import('./expandWidget');
+
     let expandWidgetWrapper = new ExpandWidgetWrapper(jsExpand);
     expandWidgetWrapper.geoBlazorId = dotNetObject.id;
     expandWidgetWrapper.viewId = viewId;

@@ -807,6 +807,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     
 
     let { default: WFSLayerWrapper } = await import('./wFSLayer');
+
     let wFSLayerWrapper = new WFSLayerWrapper(jsWFSLayer);
     wFSLayerWrapper.geoBlazorId = dotNetObject.id;
     wFSLayerWrapper.viewId = viewId;

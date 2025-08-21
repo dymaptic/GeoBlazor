@@ -164,6 +164,7 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
     let jsLabelClass = new LabelClass(properties);
 
     let { default: LabelWrapper } = await import('./label');
+
     let labelWrapper = new LabelWrapper(jsLabelClass);
     labelWrapper.geoBlazorId = dotNetObject.id;
     labelWrapper.viewId = viewId;

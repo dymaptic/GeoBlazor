@@ -506,6 +506,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     let jsSublayer = new Sublayer(properties);
 
     let { default: SublayerWrapper } = await import('./sublayer');
+
     let sublayerWrapper = new SublayerWrapper(jsSublayer);
     sublayerWrapper.geoBlazorId = dotNetObject.id;
     sublayerWrapper.viewId = viewId;
