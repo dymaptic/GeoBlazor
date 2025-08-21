@@ -101,6 +101,8 @@
     <ItemGroup>
         <Folder Include="Documentation/" />
         <Folder Include="wwwroot/js/" Watch="false" />
+        <None Include="esBuild*" Watch="false" />
+        <Content Remove="esBuild*" Watch="false" Pack="false" />
     </ItemGroup>
 
     <ItemGroup>

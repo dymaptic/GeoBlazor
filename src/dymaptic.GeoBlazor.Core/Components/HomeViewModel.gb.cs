@@ -290,16 +290,11 @@ public partial class HomeViewModel : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        HomeViewModelGoEvent goEvent = 
-            JsonSerializer.Deserialize<HomeViewModelGoEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnGo.InvokeAsync(goEvent);
+        HomeViewModelGoEvent? goEvent = await jsStreamRef.ReadJsStreamReference<HomeViewModelGoEvent>();
+        if (goEvent is not null)
+        {
+            await OnGo.InvokeAsync(goEvent);
+        }
     }
     
     /// <summary>

@@ -18,7 +18,7 @@ export async function buildJsBasemapLayerListViewModel(dotNetObject: any, layerI
     if (hasValue(dotNetObject.hasCustomBaseListHandler) && dotNetObject.hasCustomBaseListHandler) {
         let {buildDotNetListItem} = await import('./listItem');
         jsViewModel.baseListItemCreatedFunction = async (evt) => {
-            const dotNetBaseListItem = await buildDotNetListItem(evt.item);
+            const dotNetBaseListItem = await buildDotNetListItem(evt.item, viewId);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
                 let {updateListItem} = await import('./listItem');
@@ -29,7 +29,7 @@ export async function buildJsBasemapLayerListViewModel(dotNetObject: any, layerI
     if (hasValue(dotNetObject.hasCustomReferenceListHandler) && dotNetObject.hasCustomReferenceListHandler) {
         let {buildDotNetListItem} = await import('./listItem');
         jsViewModel.referenceListItemCreatedFunction = async (evt) => {
-            const dotNetReferenceListItem = await buildDotNetListItem(evt.item);
+            const dotNetReferenceListItem = await buildDotNetListItem(evt.item, viewId);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
                 let {updateListItem} = await import('./listItem');

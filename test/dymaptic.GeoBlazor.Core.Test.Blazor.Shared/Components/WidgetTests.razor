@@ -380,6 +380,7 @@
             </MapView>);
 
         await WaitForMapToRender();
+        await Task.Delay(1000);
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
         await widget!.Search("test");
         await WaitForMapToRender();

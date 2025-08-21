@@ -3338,16 +3338,11 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        FeaturesViewModelTriggerActionEvent triggerActionEvent = 
-            JsonSerializer.Deserialize<FeaturesViewModelTriggerActionEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnTriggerAction.InvokeAsync(triggerActionEvent);
+        FeaturesViewModelTriggerActionEvent? triggerActionEvent = await jsStreamRef.ReadJsStreamReference<FeaturesViewModelTriggerActionEvent>();
+        if (triggerActionEvent is not null)
+        {
+            await OnTriggerAction.InvokeAsync(triggerActionEvent);
+        }
     }
     
     /// <summary>

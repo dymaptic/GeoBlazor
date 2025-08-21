@@ -97,14 +97,17 @@ export function buildJsExtent(dotNetExtent: any, currentSpatialReference: any | 
     let jsObjectRef = DotNet.createJSObjectReference(extentWrapper);
     jsObjectRefs[dotNetExtent.id] = jsObjectRef;
 
-    try {
-        let dnInstantiatedExtent = buildDotNetExtent(extent);
-        let dnStream = buildJsStreamReference(dnInstantiatedExtent);
-        dotNetExtent.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated',
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FeatureLayer', e);
-    }
+    requestAnimationFrame(async () => {
+        try {
+            let dnInstantiatedExtent = buildDotNetExtent(extent);
+            let dnStream = buildJsStreamReference(dnInstantiatedExtent);
+            
+            dotNetExtent.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated',
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for FeatureLayer', e);
+        }
+    });
     
     return extent;
 }

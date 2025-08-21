@@ -15,7 +15,7 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
         try {
             let jsFeatureReduction = this.layer.featureReduction;
             let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-            return await buildDotNetIFeatureReduction(jsFeatureReduction);
+            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
         } catch (error) {
             throw new Error("Available only in GeoBlazor Pro. " + error);
         }
@@ -37,7 +37,7 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
         }
 
         let { buildDotNetIFeatureTemplate } = await import('./iFeatureTemplate');
-        return await Promise.all(this.layer.templates.map(async i => await buildDotNetIFeatureTemplate(i)));
+        return await Promise.all(this.layer.templates!.map(async i => await buildDotNetIFeatureTemplate(i)));
     }
 
     async setTemplates(value: any): Promise<void> {
@@ -73,7 +73,7 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
     }
 }
 
-let proGeoJSONLayerIds = [];
+let proGeoJSONLayerIds: any[] = [];
 
 export async function buildJsGeoJSONLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (dotNetObject.type === 'pro-geojson') {
@@ -89,9 +89,9 @@ export async function buildJsGeoJSONLayer(dotNetObject: any, layerId: string | n
     return await buildJsGeoJSONLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGeoJSONLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoJSONLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetGeoJSONLayerGenerated} = await import('./geoJSONLayer.gb');
-    let dnGeoJSONLayer = await buildDotNetGeoJSONLayerGenerated(jsObject, viewId);
+    let dnGeoJSONLayer = await buildDotNetGeoJSONLayerGenerated(jsObject, layerId, viewId);
     if (hasValue(dnGeoJSONLayer.id) && proGeoJSONLayerIds.includes(dnGeoJSONLayer.id)) {
         dnGeoJSONLayer.type = 'pro-geojson';
     }

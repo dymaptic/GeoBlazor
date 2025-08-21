@@ -19,7 +19,7 @@ import {buildJsPopupExpressionInfo} from "./popupExpressionInfo";
 export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, viewId: string | null): any {
     let properties: any = {};
     if (hasValue(dotNetObject.content)) {
-        properties.content = dotNetObject.content.map(c => buildJsPopupContent(c)) as any;
+        properties.content = dotNetObject.content.map(c => buildJsPopupContent(c, layerId, viewId)) as any;
     } else if (hasValue(dotNetObject.stringContent)) {
         properties.content = dotNetObject.stringContent;
     } else if (hasValue(dotNetObject.hasContentFunction) && dotNetObject.hasContentFunction) {
@@ -28,7 +28,7 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
             if (!hasValue(popupRef)) return null;
             let results: any | null = await popupRef
                 .invokeMethodAsync("OnJsContentFunction", buildDotNetGraphic(featureSelection.graphic, layerId, viewId));
-            return results?.map(r => buildJsPopupContent(r));
+            return results?.map(r => buildJsPopupContent(r, layerId, viewId));        
         }
     }
     if (hasValue(dotNetObject.expressionInfos)) {

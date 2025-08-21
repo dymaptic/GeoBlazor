@@ -100,7 +100,7 @@ public partial class MapView : MapComponent
     ///     The clockwise rotation of due north in relation to the top of the view in degrees.
     /// </summary>
     [Parameter]
-    public double Rotation { get; set; }
+    public double? Rotation { get; set; }
 
     /// <summary>
     ///     Allows maps to be rendered without an Api or OAuth Token, which will trigger a default esri login popup.
@@ -151,7 +151,7 @@ public partial class MapView : MapComponent
     ///     Prevents ArcGIS bug throwing "invalid token" for public layers that do not require an API key.
     /// </summary>
     [Parameter]
-    public bool BypassApiKey { get; set; }
+    public bool ExcludeApiKey { get; set; }
     
 #endregion
 
@@ -2213,7 +2213,7 @@ public partial class MapView : MapComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AuthenticationManager.BypassApiKey = BypassApiKey;
+        AuthenticationManager.ExcludeApiKey = ExcludeApiKey;
     }
 
     /// <inheritdoc />
@@ -2390,7 +2390,7 @@ public partial class MapView : MapComponent
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId)
-            && !BypassApiKey)
+            && !ExcludeApiKey)
         {
             var newErrorMessage =
                 "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
@@ -2460,7 +2460,7 @@ public partial class MapView : MapComponent
                 await Task.Delay(1);
             }
 
-            if (!BypassApiKey)
+            if (!ExcludeApiKey)
             {
                 // ensure a basemap is added, but only if the user hasn't removed the API key
                 Map.Basemap ??= new Basemap(style: new BasemapStyle(BasemapStyleName.ArcgisLightGray));
@@ -2503,7 +2503,6 @@ public partial class MapView : MapComponent
         {
             CancellationTokenSource = new CancellationTokenSource();    
         }
-        
     }
     
     private async Task SetTheme()

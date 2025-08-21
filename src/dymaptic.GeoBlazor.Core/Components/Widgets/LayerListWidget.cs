@@ -198,14 +198,14 @@ public partial class LayerListWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LayerListTriggerActionEvent triggerActionEvent = JsonSerializer.Deserialize<LayerListTriggerActionEvent>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        LayerListTriggerActionEvent? triggerActionEvent =
+            await jsStreamRef.ReadJsStreamReference<LayerListTriggerActionEvent>();
+
+        if (triggerActionEvent is null)
+        {
+            return;
+        }
+        
         if (OperationalItems is not null)
         {
             foreach (ListItem listItem in OperationalItems)

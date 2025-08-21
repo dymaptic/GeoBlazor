@@ -34,7 +34,7 @@ export function buildDotNetEditsResult(jsResult: any, layerId: string | null, vi
                 }
             }
             if (hasValue(r.editedFeatures.spatialReference)) {
-                dnEditedFeatureResult.spatialReference = buildDotNetSpatialReference(r.editedFeatures.spatialReference!, viewId);
+                dnEditedFeatureResult.spatialReference = buildDotNetSpatialReference(r.editedFeatures.spatialReference!);
             }
 
             return dnEditedFeatureResult;
@@ -42,6 +42,6 @@ export function buildDotNetEditsResult(jsResult: any, layerId: string | null, vi
     }
     return dnResult;
 }
-export async function buildJsEditsResult(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsEditsResult(dotNetObject: any): Promise<any> {
     // N/A
 }

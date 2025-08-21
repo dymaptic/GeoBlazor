@@ -2072,16 +2072,11 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchBlurEvent searchBlurEvent = 
-            JsonSerializer.Deserialize<SearchBlurEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchBlur.InvokeAsync(searchBlurEvent);
+        SearchBlurEvent? searchBlurEvent = await jsStreamRef.ReadJsStreamReference<SearchBlurEvent>();
+        if (searchBlurEvent is not null)
+        {
+            await OnSearchBlur.InvokeAsync(searchBlurEvent);
+        }
     }
     
     /// <summary>
@@ -2109,16 +2104,11 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchClearEvent searchClearEvent = 
-            JsonSerializer.Deserialize<SearchClearEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchClear.InvokeAsync(searchClearEvent);
+        SearchClearEvent? searchClearEvent = await jsStreamRef.ReadJsStreamReference<SearchClearEvent>();
+        if (searchClearEvent is not null)
+        {
+            await OnSearchClear.InvokeAsync(searchClearEvent);
+        }
     }
     
     /// <summary>
@@ -2146,16 +2136,11 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchFocusEvent searchFocusEvent = 
-            JsonSerializer.Deserialize<SearchFocusEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchFocus.InvokeAsync(searchFocusEvent);
+        SearchFocusEvent? searchFocusEvent = await jsStreamRef.ReadJsStreamReference<SearchFocusEvent>();
+        if (searchFocusEvent is not null)
+        {
+            await OnSearchFocus.InvokeAsync(searchFocusEvent);
+        }
     }
     
     /// <summary>
@@ -2183,16 +2168,11 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchStartEvent searchStartEvent = 
-            JsonSerializer.Deserialize<SearchStartEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchStart.InvokeAsync(searchStartEvent);
+        SearchStartEvent? searchStartEvent = await jsStreamRef.ReadJsStreamReference<SearchStartEvent>();
+        if (searchStartEvent is not null)
+        {
+            await OnSearchStart.InvokeAsync(searchStartEvent);
+        }
     }
     
     /// <summary>
@@ -2220,16 +2200,11 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchSuggestStartEvent suggestStartEvent = 
-            JsonSerializer.Deserialize<SearchSuggestStartEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSuggestStart.InvokeAsync(suggestStartEvent);
+        SearchSuggestStartEvent? suggestStartEvent = await jsStreamRef.ReadJsStreamReference<SearchSuggestStartEvent>();
+        if (suggestStartEvent is not null)
+        {
+            await OnSuggestStart.InvokeAsync(suggestStartEvent);
+        }
     }
     
     /// <summary>

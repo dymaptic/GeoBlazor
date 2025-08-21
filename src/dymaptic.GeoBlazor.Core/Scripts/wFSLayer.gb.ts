@@ -226,7 +226,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async queryExtent(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryExtent(jsQuery,
             options);
     }
@@ -234,7 +234,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryFeatureCount(jsQuery,
             options);
     }
@@ -242,7 +242,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async queryFeatures(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryFeatures(jsQuery,
             options);
     }
@@ -250,7 +250,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async queryObjectIds(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryObjectIds(jsQuery,
             options);
     }
@@ -396,7 +396,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return this.layer.fields!.map(i => buildDotNetField(i, this.viewId));
+        return this.layer.fields!.map(i => buildDotNetField(i));
     }
     
     async setFields(value: any): Promise<void> {
@@ -773,36 +773,36 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     let jsWFSLayer = new WFSLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsWFSLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-        });
+                let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+                let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsWFSLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-        });
+                let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+                let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsWFSLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-        });
+                let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+                let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
         jsWFSLayer.on('refresh', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
-        });
+                let streamRef = buildJsStreamReference(evt ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
+            });
     }
     
 
@@ -815,23 +815,27 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = wFSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(wFSLayerWrapper);
-        let { buildDotNetWFSLayer } = await import('./wFSLayer');
-        let dnInstantiatedObject = await buildDotNetWFSLayer(jsWFSLayer, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(wFSLayerWrapper);
+            let { buildDotNetWFSLayer } = await import('./wFSLayer');
+            let dnInstantiatedObject = await buildDotNetWFSLayer(jsWFSLayer, layerId, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for WFSLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for WFSLayer', e);
+        }
+    });
     
     return jsWFSLayer;
 }
 
 
-export async function buildDotNetWFSLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -865,12 +869,12 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.featureReduction)) {
         let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-        dotNetWFSLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, viewId);
+        dotNetWFSLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, layerId, viewId);
     }
     
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetWFSLayer.fields = jsObject.fields.map(i => buildDotNetField(i, viewId));
+        dotNetWFSLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
     
     if (hasValue(jsObject.fieldsIndex)) {

@@ -78,7 +78,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
             let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
-            this.layer.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i, this.viewId))) as any;
+            this.layer.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i))) as any;
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
@@ -245,7 +245,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     async queryExtent(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryExtent(jsQuery,
             options);
     }
@@ -253,7 +253,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryFeatureCount(jsQuery,
             options);
     }
@@ -261,7 +261,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     async queryObjectIds(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.viewId) as any;
+        let jsQuery = await buildJsQuery(query) as any;
         return await this.layer.queryObjectIds(jsQuery,
             options);
     }
@@ -407,7 +407,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return this.layer.fields!.map(i => buildDotNetField(i, this.viewId));
+        return this.layer.fields!.map(i => buildDotNetField(i));
     }
     
     async setFields(value: any): Promise<void> {
@@ -705,7 +705,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
         let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
-        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i, viewId))) as any;
+        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -806,43 +806,43 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     let jsGeoJSONLayer = new GeoJSONLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsGeoJSONLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-        });
+                let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+                let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsGeoJSONLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-        });
+                let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+                let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsGeoJSONLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-        });
+                let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+                let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasEditsListener) && dotNetObject.hasEditsListener) {
         jsGeoJSONLayer.on('edits', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', streamRef);
-        });
+                let streamRef = buildJsStreamReference(evt ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', streamRef);
+            });
     }
     
     if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
         jsGeoJSONLayer.on('refresh', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
-        });
+                let streamRef = buildJsStreamReference(evt ?? {});
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
+            });
     }
     
 
@@ -855,23 +855,27 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = geoJSONLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayer;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerWrapper);
-        let { buildDotNetGeoJSONLayer } = await import('./geoJSONLayer');
-        let dnInstantiatedObject = await buildDotNetGeoJSONLayer(jsGeoJSONLayer, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerWrapper);
+            let { buildDotNetGeoJSONLayer } = await import('./geoJSONLayer');
+            let dnInstantiatedObject = await buildDotNetGeoJSONLayer(jsGeoJSONLayer, layerId, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GeoJSONLayer', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for GeoJSONLayer', e);
+        }
+    });
     
     return jsGeoJSONLayer;
 }
 
 
-export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -905,12 +909,12 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.featureReduction)) {
         let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-        dotNetGeoJSONLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, viewId);
+        dotNetGeoJSONLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, layerId, viewId);
     }
     
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetGeoJSONLayer.fields = jsObject.fields.map(i => buildDotNetField(i, viewId));
+        dotNetGeoJSONLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
     
     if (hasValue(jsObject.fieldsIndex)) {
@@ -955,7 +959,7 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.templates)) {
         let { buildDotNetIFeatureTemplate } = await import('./iFeatureTemplate');
-        dotNetGeoJSONLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetIFeatureTemplate(i, viewId)));
+        dotNetGeoJSONLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetIFeatureTemplate(i)));
     }
     
     if (hasValue(jsObject.timeExtent)) {

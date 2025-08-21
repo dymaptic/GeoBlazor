@@ -1,6 +1,6 @@
 import {Pro} from "./arcGisJsInterop";
 
-export async function buildJsIFeatureTemplate(dnFeatureTemplate: any, viewId: string | null): Promise<any> {
+export async function buildJsIFeatureTemplate(dnFeatureTemplate: any): Promise<any> {
     if (!Pro) {
         return null;
     }
@@ -8,13 +8,13 @@ export async function buildJsIFeatureTemplate(dnFeatureTemplate: any, viewId: st
     try {
         // @ts-ignore GeoBlazor Pro only
         let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        return await buildJsFeatureTemplate(dnFeatureTemplate, viewId);
+        return await buildJsFeatureTemplate(dnFeatureTemplate);
     } catch (_) {
         return null;
     }
 }
 
-export async function buildDotNetIFeatureTemplate(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetIFeatureTemplate(jsObject: any): Promise<any> {
     if (!Pro) {
         return null;
     }
@@ -22,7 +22,7 @@ export async function buildDotNetIFeatureTemplate(jsObject: any, viewId: string 
     try {
         // @ts-ignore GeoBlazor Pro only
         let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-        return await buildDotNetFeatureTemplate(jsObject, viewId);
+        return await buildDotNetFeatureTemplate(jsObject);
     } catch (_) {
         return null;
     }

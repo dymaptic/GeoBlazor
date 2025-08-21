@@ -203,17 +203,21 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = measurementWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurement;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(measurementWidgetWrapper);
-        let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
-        let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(measurementWidgetWrapper);
+            let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
+            let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for MeasurementWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for MeasurementWidget', e);
+        }
+    });
     
     return jsMeasurement;
 }

@@ -236,17 +236,21 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = basemapToggleWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggle;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(basemapToggleWidgetWrapper);
-        let { buildDotNetBasemapToggleWidget } = await import('./basemapToggleWidget');
-        let dnInstantiatedObject = await buildDotNetBasemapToggleWidget(jsBasemapToggle, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(basemapToggleWidgetWrapper);
+            let { buildDotNetBasemapToggleWidget } = await import('./basemapToggleWidget');
+            let dnInstantiatedObject = await buildDotNetBasemapToggleWidget(jsBasemapToggle, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BasemapToggleWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for BasemapToggleWidget', e);
+        }
+    });
     
     return jsBasemapToggle;
 }

@@ -2975,89 +2975,6 @@ public partial class SearchViewModel : IGoTo
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsearch-method">GeoBlazor Docs</a>
-    ///     Depending on the sources specified, `search()` queries the feature layer(s) and/or performs
-    ///     address matching using any specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">Locator(s)</a> and
-    ///     returns the applicable results.
-    ///     param options An object containing an optional `signal` property that can be used to cancel the request.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#search">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="searchItem">
-    ///     This searchItem can be a string, point geometry, suggest candidate object, or an array containing [latitude,longitude]. If a geometry is supplied, then it will reverse geocode (locator) or findAddressCandidates with geometry instead of text (featurelayer).
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     A cancellation token that can be used to cancel the search operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<SearchResponse?> Search(string searchItem, CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", cancellationToken, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        return await JsComponentReference!.InvokeAsync<SearchResponse?>(
-            "search", 
-            cancellationToken,
-            searchItem,
-            new { signal = abortSignal });
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsearchnearby-method">GeoBlazor Docs</a>
-    ///     Returns search results near your current location.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#searchNearby">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="cancellationToken">
-    ///     A cancellation token that can be used to cancel the search operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<SearchResponse?> SearchNearby(CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", cancellationToken, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        return await JsComponentReference!.InvokeAsync<SearchResponse?>(
-            "searchNearby", 
-            cancellationToken,
-            new { signal = abortSignal });
-    }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelselect-method">GeoBlazor Docs</a>
     ///     Selects a result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#select">ArcGIS Maps SDK for JavaScript</a>
@@ -3092,54 +3009,6 @@ public partial class SearchViewModel : IGoTo
             "select", 
             CancellationTokenSource.Token,
             value);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsuggest-method">GeoBlazor Docs</a>
-    ///     Performs a suggest() request on the active Locator.
-    ///     param suggestionDelay The millisecond delay after keyup and before making a `suggest()` network request.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggest">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="value">
-    ///     The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value.
-    /// </param>
-    /// <param name="suggestionDelay">
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     A cancellation token that can be used to cancel the search operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<SuggestResponse?> Suggest(string value,
-        double suggestionDelay,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", cancellationToken, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        return await JsComponentReference!.InvokeAsync<SuggestResponse?>(
-            "suggest", 
-            cancellationToken,
-            value,
-            suggestionDelay,
-            new { signal = abortSignal });
     }
     
     /// <summary>
@@ -3201,16 +3070,11 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSearchClearEvent searchClearEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSearchClearEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchClear.InvokeAsync(searchClearEvent);
+        SearchViewModelSearchClearEvent? searchClearEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSearchClearEvent>();
+        if (searchClearEvent is not null)
+        {
+            await OnSearchClear.InvokeAsync(searchClearEvent);
+        }
     }
     
     /// <summary>
@@ -3238,16 +3102,11 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSearchCompleteEvent searchCompleteEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSearchCompleteEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchComplete.InvokeAsync(searchCompleteEvent);
+        SearchViewModelSearchCompleteEvent? searchCompleteEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSearchCompleteEvent>();
+        if (searchCompleteEvent is not null)
+        {
+            await OnSearchComplete.InvokeAsync(searchCompleteEvent);
+        }
     }
     
     /// <summary>
@@ -3275,16 +3134,11 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSearchStartEvent searchStartEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSearchStartEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchStart.InvokeAsync(searchStartEvent);
+        SearchViewModelSearchStartEvent? searchStartEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSearchStartEvent>();
+        if (searchStartEvent is not null)
+        {
+            await OnSearchStart.InvokeAsync(searchStartEvent);
+        }
     }
     
     /// <summary>
@@ -3312,16 +3166,11 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSelectResultEvent selectResultEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSelectResultEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSelectResult.InvokeAsync(selectResultEvent);
+        SearchViewModelSelectResultEvent? selectResultEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSelectResultEvent>();
+        if (selectResultEvent is not null)
+        {
+            await OnSelectResult.InvokeAsync(selectResultEvent);
+        }
     }
     
     /// <summary>
@@ -3349,16 +3198,11 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSuggestCompleteEvent suggestCompleteEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSuggestCompleteEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSuggestComplete.InvokeAsync(suggestCompleteEvent);
+        SearchViewModelSuggestCompleteEvent? suggestCompleteEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSuggestCompleteEvent>();
+        if (suggestCompleteEvent is not null)
+        {
+            await OnSuggestComplete.InvokeAsync(suggestCompleteEvent);
+        }
     }
     
     /// <summary>
@@ -3386,16 +3230,11 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSuggestStartEvent suggestStartEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSuggestStartEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSuggestStart.InvokeAsync(suggestStartEvent);
+        SearchViewModelSuggestStartEvent? suggestStartEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSuggestStartEvent>();
+        if (suggestStartEvent is not null)
+        {
+            await OnSuggestStart.InvokeAsync(suggestStartEvent);
+        }
     }
     
     /// <summary>

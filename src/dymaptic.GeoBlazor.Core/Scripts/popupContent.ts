@@ -9,7 +9,7 @@ import {buildJsCustomPopupContent, buildDotNetCustomPopupContent} from "./custom
 import {sanitize} from "./arcGisJsInterop";
 
 
-export function buildJsPopupContent(dotNetObject: any): any {
+export function buildJsPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): any {
     switch (dotNetObject?.type) {
         case 'attachments':
             return buildJsAttachmentsPopupContent(dotNetObject);
@@ -24,7 +24,7 @@ export function buildJsPopupContent(dotNetObject: any): any {
         case 'text':
             return buildJsTextPopupContent(dotNetObject);
         case 'custom':
-            return buildJsCustomPopupContent(dotNetObject);
+            return buildJsCustomPopupContent(dotNetObject, layerId, viewId);
         default:
             return sanitize(dotNetObject);
     }

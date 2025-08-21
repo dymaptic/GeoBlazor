@@ -753,16 +753,11 @@ public partial class LocateWidget : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LocateEvent locateEvent = 
-            JsonSerializer.Deserialize<LocateEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnLocate.InvokeAsync(locateEvent);
+        LocateEvent? locateEvent = await jsStreamRef.ReadJsStreamReference<LocateEvent>();
+        if (locateEvent is not null)
+        {
+            await OnLocate.InvokeAsync(locateEvent);
+        }
     }
     
     /// <summary>
@@ -790,16 +785,11 @@ public partial class LocateWidget : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LocateErrorEvent locateErrorEvent = 
-            JsonSerializer.Deserialize<LocateErrorEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnLocateError.InvokeAsync(locateErrorEvent);
+        LocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReference<LocateErrorEvent>();
+        if (locateErrorEvent is not null)
+        {
+            await OnLocateError.InvokeAsync(locateErrorEvent);
+        }
     }
     
     /// <summary>

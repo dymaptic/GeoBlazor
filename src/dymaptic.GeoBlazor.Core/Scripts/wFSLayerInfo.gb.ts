@@ -67,7 +67,7 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
-        dotNetWFSLayerInfo.fields = jsObject.fields.map(i => buildDotNetField(i, viewId));
+        dotNetWFSLayerInfo.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
     
     if (hasValue(jsObject.spatialReference)) {

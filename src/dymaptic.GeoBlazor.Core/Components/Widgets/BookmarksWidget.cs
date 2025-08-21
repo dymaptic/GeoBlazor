@@ -45,15 +45,8 @@ public partial class BookmarksWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        GoToOverrideParameters goToParameters = JsonSerializer.Deserialize<GoToOverrideParameters>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
-        if (GoToOverride is not null)
+        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReference<GoToOverrideParameters>();
+        if (GoToOverride is not null && goToParameters is not null)
         {
             await GoToOverride.Invoke(goToParameters);
         }
@@ -72,17 +65,12 @@ public partial class BookmarksWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsBookmarkSelect(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        BookmarkSelectEvent bookmarkSelectEvent = 
-            JsonSerializer.Deserialize<BookmarkSelectEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
         View!.ExtentChangedInJs = true;
-        await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);
+        BookmarkSelectEvent? bookmarkSelectEvent = await jsStreamRef.ReadJsStreamReference<BookmarkSelectEvent>();
+        if (bookmarkSelectEvent is not null)
+        {
+            await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);
+        }
     }
     
     /// <summary>

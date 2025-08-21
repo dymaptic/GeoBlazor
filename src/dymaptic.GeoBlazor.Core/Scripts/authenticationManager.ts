@@ -37,12 +37,12 @@ export default class AuthenticationManager {
         this.dotNetRef = dotNetReference;
     }
 
-    setApiKey(apiKey: string): void {
+    setApiKey(apiKey: string | null): void {
         esriConfig.apiKey = apiKey;
     }
     
     async isLoggedIn(): Promise<boolean> {
-        await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");
+            await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");
         return true;
     }
 

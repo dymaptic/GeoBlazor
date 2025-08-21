@@ -445,11 +445,11 @@
     }
     
     [TestMethod]
-    public async Task TestCanUsePublicFeatureLayersWithBypassApiKey(Action renderHandler,
+    public async Task TestCanUsePublicFeatureLayersWithExcludeApiKey(Action renderHandler,
         Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         AddMapRenderFragment(
-            @<MapView BypassApiKey="true"
+            @<MapView ExcludeApiKey="true"
                       Class="map-view"
                       OnLayerViewCreate="layerViewCreateHandler"
                       OnViewRendered="renderHandler">

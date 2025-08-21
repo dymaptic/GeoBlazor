@@ -2,7 +2,7 @@
 import Query from '@arcgis/core/rest/support/Query';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 
-export async function buildJsQueryGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsQueryGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -136,7 +136,7 @@ export async function buildJsQueryGenerated(dotNetObject: any, viewId: string | 
 }
 
 
-export async function buildDotNetQueryGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

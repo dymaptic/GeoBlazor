@@ -191,17 +191,21 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = zoomWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoom;
     
-    try {
-        let jsObjectRef = DotNet.createJSObjectReference(zoomWidgetWrapper);
-        let { buildDotNetZoomWidget } = await import('./zoomWidget');
-        let dnInstantiatedObject = await buildDotNetZoomWidget(jsZoom, layerId, viewId);
+    // serialize data and send back to .NET to populate properties
+    // we call requestAnimationFrame to pull this out of the synchronous render flow
+    requestAnimationFrame(async () => {
+        try {
+            let jsObjectRef = DotNet.createJSObjectReference(zoomWidgetWrapper);
+            let { buildDotNetZoomWidget } = await import('./zoomWidget');
+            let dnInstantiatedObject = await buildDotNetZoomWidget(jsZoom, layerId, viewId);
 
-        let dnStream = buildJsStreamReference(dnInstantiatedObject);
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ZoomWidget', e);
-    }
+            let dnStream = buildJsStreamReference(dnInstantiatedObject);
+            await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for ZoomWidget', e);
+        }
+    });
     
     return jsZoom;
 }

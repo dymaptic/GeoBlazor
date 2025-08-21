@@ -1119,16 +1119,11 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
     
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        BookmarksBookmarkEditEvent bookmarkEditEvent = 
-            JsonSerializer.Deserialize<BookmarksBookmarkEditEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnBookmarkEdit.InvokeAsync(bookmarkEditEvent);
+        BookmarksBookmarkEditEvent? bookmarkEditEvent = await jsStreamRef.ReadJsStreamReference<BookmarksBookmarkEditEvent>();
+        if (bookmarkEditEvent is not null)
+        {
+            await OnBookmarkEdit.InvokeAsync(bookmarkEditEvent);
+        }
     }
     
     /// <summary>
