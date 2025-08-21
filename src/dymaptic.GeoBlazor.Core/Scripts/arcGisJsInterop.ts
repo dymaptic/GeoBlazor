@@ -777,35 +777,6 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
             let jsLayer: any = await buildJsLayerWrapper(evt.layer);
             let jsLayerView: any = await buildJsLayerViewWrapper(evt.layerView);
 
-            switch (jsLayer.type) {
-                case 'feature':
-                    const {default: FeatureLayerWrapper} = await import('./featureLayer');
-                    jsLayer = new FeatureLayerWrapper(jsLayer);
-                    const {default: FeatureLayerViewWrapper} = await import('./featureLayerView');
-                    jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
-                    break;
-                case 'geojson':
-                    const {default: GeoJSONLayerWrapper} = await import('./geoJSONLayer');
-                    jsLayer = new GeoJSONLayerWrapper(jsLayer);
-                    const {default: GeoJSONLayerViewWrapper} = await import('./geoJSONLayerView');
-                    jsLayerView = new GeoJSONLayerViewWrapper(jsLayerView);
-                    break;
-                case 'ogc-feature':
-                    try {
-                        // @ts-ignore: GeoBlazor Pro only
-                        const {default: OGCFeatureLayerWrapper} = await import('./ogcFeatureLayer');
-                        jsLayer = new OGCFeatureLayerWrapper(jsLayer);
-                        // @ts-ignore: GeoBlazor Pro only
-                        const {default: OGCFeatureLayerViewWrapper} = await import('./ogcFeatureLayerView');
-                        jsLayerView = new OGCFeatureLayerViewWrapper(jsLayerView);
-                    } catch (e) {
-                        console.error(`OGC Feature Layer is only supported in GeoBlazor Pro. Please use a different layer type.`);
-                        // noinspection ExceptionCaughtLocallyJS
-                        throw e;
-                    }
-                    break;
-            }
-
             const layerRef = DotNet.createJSObjectReference(jsLayer);
             const layerViewRef = DotNet.createJSObjectReference(jsLayerView);
 

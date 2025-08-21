@@ -19,7 +19,7 @@ export function buildJsWebStyleSymbol(dotNetObject: any, layerId: string | null,
     if (hasValue(dotNetObject.color)) {
         properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
-    
+
     if (hasValue(dotNetObject.portal)) {
         properties.portal = buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     } else if (hasValue(dotNetObject.portalUrl)) {
@@ -38,14 +38,14 @@ export function buildJsWebStyleSymbol(dotNetObject: any, layerId: string | null,
     if (hasValue(dotNetObject.styleUrl)) {
         properties.styleUrl = dotNetObject.styleUrl;
     }
-    
+
     let jsWebStyleSymbol = new WebStyleSymbol(properties);
     let jsObjectRef = DotNet.createJSObjectReference(jsWebStyleSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWebStyleSymbol;
 
     return jsWebStyleSymbol;
-}     
+}
 
 export function buildDotNetWebStyleSymbol(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {

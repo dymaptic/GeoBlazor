@@ -31,7 +31,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.portal)) {
             let { buildJsPortal } = await import('./portal');
-            this.widget.portal = buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
+            this.widget.portal = await buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
         }
         if (hasValue(dotNetObject.sources) && dotNetObject.sources.length > 0) {
             let { buildJsSearchSource } = await import('./searchSource');
@@ -228,7 +228,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
     
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
-        this.widget.portal = buildJsPortal(value, this.layerId, this.viewId);
+        this.widget.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     
     async setSources(value: any): Promise<void> {
@@ -294,7 +294,7 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
-        properties.portal = buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
+        properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sources) && dotNetObject.sources.length > 0) {
         let { buildJsSearchSource } = await import('./searchSource');

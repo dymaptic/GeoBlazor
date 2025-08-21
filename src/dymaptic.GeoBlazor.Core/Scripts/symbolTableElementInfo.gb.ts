@@ -41,7 +41,7 @@ export async function buildDotNetSymbolTableElementInfoGenerated(jsObject: any, 
     
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSymbolTableElementInfo.symbol = buildDotNetSymbol(jsObject.symbol, viewId) as any;
+        dotNetSymbolTableElementInfo.symbol = buildDotNetSymbol(jsObject.symbol, viewId);
     }
     
     if (hasValue(jsObject.label)) {

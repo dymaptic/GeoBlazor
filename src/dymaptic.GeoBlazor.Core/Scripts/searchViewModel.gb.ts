@@ -39,7 +39,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.portal)) {
             let { buildJsPortal } = await import('./portal');
-            this.component.portal = buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
+            this.component.portal = await buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
         }
         if (hasValue(dotNetObject.sources) && dotNetObject.sources.length > 0) {
             let { buildJsSearchSource } = await import('./searchSource');
@@ -252,7 +252,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
     
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
-        this.component.portal = buildJsPortal(value, this.layerId, this.viewId);
+        this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     
     async getResultGraphic(): Promise<any> {
@@ -261,7 +261,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.component.resultGraphic!, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.resultGraphic, this.layerId, this.viewId);
     }
     
     getSearchTerm(): any {
@@ -357,7 +357,7 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
-        properties.portal = buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
+        properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sources) && dotNetObject.sources.length > 0) {
         let { buildJsSearchSource } = await import('./searchSource');

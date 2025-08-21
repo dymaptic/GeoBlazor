@@ -213,7 +213,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
-        this.component.portal = buildJsPortal(value, this.layerId, this.viewId);
+        this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     
     getPortalUserId(): any {
