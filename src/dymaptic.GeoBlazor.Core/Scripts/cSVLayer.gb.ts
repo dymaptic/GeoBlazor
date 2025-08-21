@@ -890,7 +890,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
         try {
             let jsObjectRef = DotNet.createJSObjectReference(cSVLayerWrapper);
             let { buildDotNetCSVLayer } = await import('./cSVLayer');
-            let dnInstantiatedObject = await buildDotNetCSVLayer(jsCSVLayer, layerId, viewId);
+            let dnInstantiatedObject = await buildDotNetCSVLayer(jsCSVLayer, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -904,7 +904,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetCSVLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCSVLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -938,7 +938,7 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.featureReduction)) {
         let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-        dotNetCSVLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, layerId, viewId);
+        dotNetCSVLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, viewId);
     }
     
     if (hasValue(jsObject.fields)) {

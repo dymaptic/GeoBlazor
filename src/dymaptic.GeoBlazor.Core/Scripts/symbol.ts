@@ -1,14 +1,14 @@
 // override generated code in this file
-import Symbol from '@arcgis/core/symbols/Symbol';
 import {buildDotNetSimpleMarkerSymbol, buildJsSimpleMarkerSymbol} from './simpleMarkerSymbol';
 import {buildDotNetSimpleLineSymbol, buildJsSimpleLineSymbol} from './simpleLineSymbol';
 import {buildDotNetPictureMarkerSymbol, buildJsPictureMarkerSymbol} from "./pictureMarkerSymbol";
 import {buildDotNetPictureFillSymbol, buildJsPictureFillSymbol} from "./pictureFillSymbol";
 import {buildDotNetSimpleFillSymbol, buildJsSimpleFillSymbol} from './simpleFillSymbol';
 import {buildDotNetTextSymbol, buildJsTextSymbol} from "./textSymbol";
+import {buildDotNetWebStyleSymbol, buildJsWebStyleSymbol} from "./webStyleSymbol";
 import {hasValue, sanitize} from "./arcGisJsInterop";
 
-export function buildJsSymbol(symbol: any): any {
+export function buildJsSymbol(symbol: any, layerId: string | null, viewId: string | null): any {
     if (!hasValue(symbol)) {
         return null;
     }
@@ -25,12 +25,14 @@ export function buildJsSymbol(symbol: any): any {
             return buildJsSimpleFillSymbol(symbol);
         case "text":
             return buildJsTextSymbol(symbol);
+        case "web-style":
+            return buildJsWebStyleSymbol(symbol, layerId, viewId);
         default:
             return sanitize(symbol);
     }
 }
 
-export function buildDotNetSymbol(symbol: any): any {
+export function buildDotNetSymbol(symbol: any, viewId: string | null): any {
     if (!hasValue(symbol)) {
         return null;
     }
@@ -47,6 +49,8 @@ export function buildDotNetSymbol(symbol: any): any {
             return buildDotNetSimpleMarkerSymbol(symbol);
         case 'text':
             return buildDotNetTextSymbol(symbol);
+        case 'web-style':
+            return buildDotNetWebStyleSymbol(symbol, viewId);
         default:
             return symbol;
     }

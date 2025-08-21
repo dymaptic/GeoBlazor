@@ -1122,7 +1122,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
         try {
             let jsObjectRef = DotNet.createJSObjectReference(featureLayerWrapper);
             let { buildDotNetFeatureLayer } = await import('./featureLayer');
-            let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer, layerId, viewId);
+            let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -1136,7 +1136,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -1175,7 +1175,7 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.featureReduction)) {
         let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-        dotNetFeatureLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, layerId, viewId);
+        dotNetFeatureLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, viewId);
     }
     
     if (hasValue(jsObject.fields)) {

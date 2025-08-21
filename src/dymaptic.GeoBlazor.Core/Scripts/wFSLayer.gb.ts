@@ -821,7 +821,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
         try {
             let jsObjectRef = DotNet.createJSObjectReference(wFSLayerWrapper);
             let { buildDotNetWFSLayer } = await import('./wFSLayer');
-            let dnInstantiatedObject = await buildDotNetWFSLayer(jsWFSLayer, layerId, viewId);
+            let dnInstantiatedObject = await buildDotNetWFSLayer(jsWFSLayer, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -835,7 +835,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -869,7 +869,7 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.featureReduction)) {
         let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-        dotNetWFSLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, layerId, viewId);
+        dotNetWFSLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, viewId);
     }
     
     if (hasValue(jsObject.fields)) {

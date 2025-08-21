@@ -217,14 +217,14 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //     } catch (e) {
         //         throw e;
         //     }
-        // case 'ogc-feature':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro only
-        //         let {buildJsOGCFeatureLayer} = await import('./oGCFeatureLayer');
-        //         return await buildJsOGCFeatureLayer(dotNetObject, layerId, viewId);
-        //     } catch (e) {
-        //         throw e;
-        //     }
+        case 'ogc-feature':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsOGCFeatureLayer} = await import('./oGCFeatureLayer');
+                return await buildJsOGCFeatureLayer(dotNetObject, layerId, viewId);
+            } catch (e) {
+                throw e;
+            }
         // case 'oriented-imagery':
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
@@ -498,14 +498,14 @@ export async function buildDotNetLayer(jsObject: any, viewId: string | null): Pr
         //     } catch (e) {
         //         throw e;
         //     }
-        // case 'ogc-feature':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro only
-        //         let {buildDotNetOGCFeatureLayer} = await import('./oGCFeatureLayer');
-        //         return await buildDotNetOGCFeatureLayer(jsObject, viewId);
-        //     } catch (e) {
-        //         throw e;
-        //     }
+        case 'ogc-feature':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetOGCFeatureLayer} = await import('./oGCFeatureLayer');
+                return await buildDotNetOGCFeatureLayer(jsObject, viewId);
+            } catch (e) {
+                throw e;
+            }
         // case 'oriented-imagery':
         //     try {
         //         // @ts-ignore GeoBlazor Pro only

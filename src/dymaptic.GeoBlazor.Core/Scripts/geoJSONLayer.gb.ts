@@ -861,7 +861,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
         try {
             let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerWrapper);
             let { buildDotNetGeoJSONLayer } = await import('./geoJSONLayer');
-            let dnInstantiatedObject = await buildDotNetGeoJSONLayer(jsGeoJSONLayer, layerId, viewId);
+            let dnInstantiatedObject = await buildDotNetGeoJSONLayer(jsGeoJSONLayer, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -875,7 +875,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -909,7 +909,7 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.featureReduction)) {
         let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-        dotNetGeoJSONLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, layerId, viewId);
+        dotNetGeoJSONLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, viewId);
     }
     
     if (hasValue(jsObject.fields)) {
