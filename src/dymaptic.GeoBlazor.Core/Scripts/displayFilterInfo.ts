@@ -4,7 +4,7 @@ export async function buildJsDisplayFilterInfo(dotNetObject: any, layerId: strin
     return await buildJsDisplayFilterInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDisplayFilterInfo(jsObject: any): Promise<any> {
+export async function buildDotNetDisplayFilterInfo(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetDisplayFilterInfoGenerated } = await import('./displayFilterInfo.gb');
-    return await buildDotNetDisplayFilterInfoGenerated(jsObject);
+    return await buildDotNetDisplayFilterInfoGenerated(jsObject, viewId);
 }

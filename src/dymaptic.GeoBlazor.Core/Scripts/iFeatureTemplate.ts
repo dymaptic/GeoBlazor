@@ -1,6 +1,6 @@
 import {Pro} from "./arcGisJsInterop";
 
-export async function buildJsIFeatureTemplate(dnFeatureTemplate: any) : Promise<any> {
+export async function buildJsIFeatureTemplate(dnFeatureTemplate: any): Promise<any> {
     if (!Pro) {
         return null;
     }
@@ -14,7 +14,7 @@ export async function buildJsIFeatureTemplate(dnFeatureTemplate: any) : Promise<
     }
 }
 
-export async function buildDotNetIFeatureTemplate(jsObject: any) : Promise<any> {
+export async function buildDotNetIFeatureTemplate(jsObject: any): Promise<any> {
     if (!Pro) {
         return null;
     }

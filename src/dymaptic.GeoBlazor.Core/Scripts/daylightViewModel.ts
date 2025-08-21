@@ -1,3 +1,4 @@
+import DaylightViewModelGenerated from './daylightViewModel.gb';
 
 export async function buildJsDaylightViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsDaylightViewModelGenerated } = await import('./daylightViewModel.gb');
@@ -8,3 +9,12 @@ export async function buildDotNetDaylightViewModel(jsObject: any, layerId: strin
     let { buildDotNetDaylightViewModelGenerated } = await import('./daylightViewModel.gb');
     return await buildDotNetDaylightViewModelGenerated(jsObject, layerId, viewId);
 }
+
+export default class DaylightViewModelWrapper extends DaylightViewModelGenerated {
+
+    constructor(component: DaylightViewModel) {
+        super(component);
+    }
+    
+}
+

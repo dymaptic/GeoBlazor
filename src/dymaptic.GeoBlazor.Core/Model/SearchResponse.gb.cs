@@ -4,12 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SearchResponse.html">GeoBlazor Docs</a>
-///     When resolved, returns this response after calling <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#search">search</a>.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResponse">ArcGIS Maps SDK for JavaScript</a>
+///     When resolved, returns this response after calling <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-types.html#search">search</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-types.html#SearchResponse">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ActiveSourceIndex">
 ///     The index of the source from which the search result was obtained.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResponse">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Errors">
 ///     An array of error objects returned from the search results.
@@ -17,19 +16,20 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 /// <param name="NumResults">
 ///     The number of search results.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResponse">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SearchTerm">
 ///     The searched expression
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResponse">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Results">
 ///     An array of objects representing the results of search.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResponse">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record SearchResponse(
-    int ActiveSourceIndex,
-    IReadOnlyCollection<SearchResponseErrors> Errors,
-    int NumResults,
-    string SearchTerm,
-    IReadOnlyCollection<SearchResponseResults> Results);
+    int? ActiveSourceIndex,
+    IReadOnlyCollection<SearchResults> Errors,
+    double? NumResults,
+    string? SearchTerm,
+    IReadOnlyCollection<SearchResults> Results) : BaseSearchResponse(
+    ActiveSourceIndex,
+    NumResults,
+    SearchTerm);

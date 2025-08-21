@@ -849,49 +849,19 @@ public partial class LocateViewModel : IGeolocationPositioning,
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsLocate(IJSStreamReference jsStreamRef)
-    {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LocateViewModelLocateEvent locateEvent = 
-            JsonSerializer.Deserialize<LocateViewModelLocateEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnLocate.InvokeAsync(locateEvent);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelonlocate-property">GeoBlazor Docs</a>
-    ///     Fires after the <a href="#locate">locate()</a> method is called and succeeds.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    public EventCallback<LocateViewModelLocateEvent> OnLocate { get; set; }
-   
-    /// <summary>
-    ///     Used in JavaScript layer to determine if the event listener is registered.
-    /// </summary>
-    public bool HasLocateListener => OnLocate.HasDelegate;
-    
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
     public async Task OnJsLocateError(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LocateViewModelLocateErrorEvent locateErrorEvent = 
-            JsonSerializer.Deserialize<LocateViewModelLocateErrorEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnLocateError.InvokeAsync(locateErrorEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        LocateViewModelLocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReference<LocateViewModelLocateErrorEvent>();
+        if (locateErrorEvent is not null)
+        {
+            await OnLocateError.InvokeAsync(locateErrorEvent);
+        }
     }
     
     /// <summary>

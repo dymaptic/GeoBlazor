@@ -4,6 +4,10 @@
     --error: #FF0022;
 }
 
+::deep .esri-ui {
+    z-index: 1;
+}
+
 @media (prefers-color-scheme: light) {
     .dymaptic-branding {
         background: var(--geoblazor-light);
@@ -27,6 +31,7 @@
 }
 
 .dymaptic-branding {
+    z-index: 0;
     text-align: right;
     font-weight: 400;
     font-size: 12px;

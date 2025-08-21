@@ -11,82 +11,82 @@
     Add the sample WCS Layer URL to see a visualization of global sea surface temperature data with or without color rendering using the RasterStretch:
 </p>
 <div class="spaced-row">
-    <button type="button" class="btn btn-primary" disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add/Remove the WCS Layer with color ramp enabled</button>
-    <button type="button" class="btn btn-accent" disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add/Remove new WCS Layer in Markup without colorizing</button>
+    <button type="button" class="btn btn-primary" disabled="@(!_mapRendered)" @onclick="@(()=>AddRemoveWCSLayer(true))">Add/Remove the WCS Layer with color ramp enabled</button>
+    <button type="button" class="btn btn-accent" disabled="@(!_mapRendered)" @onclick="@(()=> AddRemoveWCSLayer(false))">Add/Remove new WCS Layer in without colorizing</button>
 </div>
 
-<MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">
+<MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered" PopupEnabled="false">
     <Map>
         <Basemap>
             <BasemapStyle Name="BasemapStyleName.ArcgisLightGrayBase" />
         </Basemap>
-        @if (_markup)
-        {
-            <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer"></WCSLayer>
-        }
-
     </Map>
 </MapView>
+
+<WCSLayer @ref="_blackAndWhiteLayer" 
+          ExcludeApiKey="true" 
+          Opacity="0.5"
+          Title="@_wcsSampleTitle"
+          Url="@_wcsLayerUrl" />
+
+<WCSLayer @ref="_colorizedLayer"
+          ExcludeApiKey="true"
+          Opacity="0.5"
+          Title="@_wcsSampleTitle"
+          Url="@_wcsLayerUrl">
+    <RasterStretchRenderer StretchType="StretchType.StandardDeviation"
+                           NumberOfStandardDeviations="3"
+                           CustomStatistics="@([_wcsLayerStatistics])">
+        <MultipartColorRamp>
+            <AlgorithmicColorRamp Algorithm="Algorithm.Hsv" 
+                                  FromColor="@(new MapColor(0, 0, 255))" 
+                                  ToColor="@(new MapColor(0, 255, 255))" />
+            <AlgorithmicColorRamp Algorithm="Algorithm.Hsv" 
+                                  FromColor="@(new MapColor(0, 255, 255))" 
+                                  ToColor="@(new MapColor(255, 255, 0))" />
+            <AlgorithmicColorRamp Algorithm="Algorithm.Hsv" 
+                                  FromColor="@(new MapColor(255, 255, 0))" 
+                                  ToColor="@(new MapColor(255, 0, 0))" />
+        </MultipartColorRamp>
+    </RasterStretchRenderer>
+    <DimensionalDefinition DimensionName="StdZ" VariableName="water_temp" Values="@(new List<long> { 0 })" />
+    <DimensionalDefinition DimensionName="Std_Time" VariableName="temperature" Values="@(new List<long> { 1396828800000 })" />
+</WCSLayer>
 
 @code {
 
     private void OnViewRendered() => _mapRendered = true;
 
-    public async Task AddRemoveWCSLayer()
+    public async Task AddRemoveWCSLayer(bool colorized)
     {
         if (!_view!.Map!.Layers.Any())
         {
-            _wcsSampleRenderer = CreateRenderer();
-            _wcsSampleDimensionalDefinition = CreateDimensionalDefinition();
-            _wcsSampleLayer = new(_wcsLayerUrl, _wcsSampleDimensionalDefinition, _wcsSampleRenderer, _wcsSampleOpacity, _wcsSampleTitle);
-            await _view.AddLayer(_wcsSampleLayer);
+            if (colorized)
+            {
+                await _view.AddLayer(_colorizedLayer!);
+            }
+            else
+            {
+                await _view.AddLayer(_blackAndWhiteLayer!);
+            }
+        }
+        else if (colorized)
+        {
+            await _view.RemoveLayer(_colorizedLayer!);
         }
         else
         {
-            await _view.RemoveLayer(_wcsSampleLayer!);
+            await _view.RemoveLayer(_blackAndWhiteLayer!);
         }
     }
 
-    public List<DimensionalDefinition> CreateDimensionalDefinition()
-    {
-        // initializes the dimensional filter for the raster display
-        List<DimensionalDefinition> multidimensionalDefinition = new()
-            {
-                new DimensionalDefinition(dimensionName: "StdZ", variableName: "water_temp", values: new List<long> { 0 }), 
-                new(dimensionName: "Std_Time", variableName: "temperature", values: new List<long>{ 1396828800000 } )
-            };
-        return multidimensionalDefinition;
-    }
-
-
-    public RasterStretchRenderer CreateRenderer()
-    {
-        var toFromColor1 = new AlgorithmicColorRamp(algorithm: Algorithm.Hsv, fromColor: new MapColor(0, 0, 255), toColor: new MapColor(0, 255, 255));
-
-        var toFromColor2 = new AlgorithmicColorRamp(algorithm: Algorithm.Hsv, fromColor: new MapColor(0, 255, 255), toColor: new MapColor(255, 255, 0));
-
-        var toFromColor3 = new AlgorithmicColorRamp(algorithm: Algorithm.Hsv, fromColor: new MapColor(255, 255, 0), toColor: new MapColor(255, 0, 0));
-
-        List<AlgorithmicColorRamp> wcsLayerColorRamps = new() { toFromColor1, toFromColor2, toFromColor3 };
-
-        MultipartColorRamp wcsLayercolorRamp = new(wcsLayerColorRamps);
-        RasterBandStatistics wcsLayerStatistics = new(1, Max: 37, Min: -3, Stddev: 1);
-        RasterStretchRenderer displayRenderer = new(colorRamp: wcsLayercolorRamp,
-            stretchType: StretchType.StandardDeviation, customStatistics: [wcsLayerStatistics],
-            numberOfStandardDeviations: 3);
-
-        return displayRenderer;
-    }
 
     private MapView? _view;
-    private bool _markup;
     private bool _mapRendered;
-    private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
-    private double _wcsSampleOpacity = 0.5;
-    private string _wcsSampleTitle = "Sea temperature - sea level";
-    private RasterStretchRenderer? _wcsSampleRenderer;
-    private List<DimensionalDefinition>? _wcsSampleDimensionalDefinition;
-    private WCSLayer? _wcsSampleLayer;
-
+    private readonly string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
+    private readonly string _wcsSampleTitle = "Sea temperature - sea level";
+    private readonly RasterBandStatistics _wcsLayerStatistics = new(1, Max: 37, Min: -3, Stddev: 1);
+    private WCSLayer? _blackAndWhiteLayer;
+    private WCSLayer? _colorizedLayer;
 
 }

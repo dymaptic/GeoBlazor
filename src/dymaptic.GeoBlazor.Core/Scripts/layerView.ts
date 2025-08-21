@@ -1,4 +1,4 @@
-import {arcGisObjectRefs, hasValue, lookupGeoBlazorId, sanitize} from "./arcGisJsInterop";
+import {dotNetRefs, hasValue, lookupGeoBlazorId, sanitize} from "./arcGisJsInterop";
 
 export async function buildJsLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject?.layer)) {
@@ -125,46 +125,45 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
     }
 }
 
-export async function buildDotNetLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetLayerView(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject?.layer)) {
         return null;
     }
 
-    let layerId = lookupGeoBlazorId(jsObject.layer);
     let dnLayerView: any;
 
     switch (jsObject?.layer?.type) {
         case 'csv':
             let {buildDotNetCSVLayerView} = await import('./cSVLayerView');
-            dnLayerView = await buildDotNetCSVLayerView(jsObject);
+            dnLayerView = await buildDotNetCSVLayerView(jsObject, viewId);
             break;
         case 'feature':
             let {buildDotNetFeatureLayerView} = await import('./featureLayerView');
-            dnLayerView = await buildDotNetFeatureLayerView(jsObject);
+            dnLayerView = await buildDotNetFeatureLayerView(jsObject, viewId);
             break;
         case 'geojson':
             let {buildDotNetGeoJSONLayerView} = await import('./geoJSONLayerView');
-            dnLayerView = await buildDotNetGeoJSONLayerView(jsObject);
+            dnLayerView = await buildDotNetGeoJSONLayerView(jsObject, viewId);
             break;
         case 'geo-rss':
             let {buildDotNetGeoRSSLayerView} = await import('./geoRSSLayerView');
-            dnLayerView = await buildDotNetGeoRSSLayerView(jsObject);
+            dnLayerView = await buildDotNetGeoRSSLayerView(jsObject, viewId);
             break;
         case 'graphics':
             let {buildDotNetGraphicsLayerView} = await import('./graphicsLayerView');
-            dnLayerView = await buildDotNetGraphicsLayerView(jsObject);
+            dnLayerView = await buildDotNetGraphicsLayerView(jsObject, viewId);
             break;
         case 'imagery':
             let {buildDotNetImageryLayerView} = await import('./imageryLayerView');
-            dnLayerView = await buildDotNetImageryLayerView(jsObject);
+            dnLayerView = await buildDotNetImageryLayerView(jsObject, viewId);
             break;
         case 'kml':
             let {buildDotNetKMLLayerView} = await import('./kMLLayerView');
-            dnLayerView = await buildDotNetKMLLayerView(jsObject);
+            dnLayerView = await buildDotNetKMLLayerView(jsObject, viewId);
             break;
         case 'wfs':
             let {buildDotNetWFSLayerView} = await import('./wFSLayerView');
-            dnLayerView = await buildDotNetWFSLayerView(jsObject);
+            dnLayerView = await buildDotNetWFSLayerView(jsObject, viewId);
             break;
         // case 'building-scene':
         //     try {
@@ -274,18 +273,16 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 dnLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
             }
 
-            if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-                for (const k of Object.keys(arcGisObjectRefs)) {
-                    if (arcGisObjectRefs[k] === jsObject) {
-                        dnLayerView.id = k;
-                        break;
-                    }
-                }
+            let layerId = lookupGeoBlazorId(jsObject.layer);
+            if (!hasValue(layerId) && hasValue(viewId)) {
+                let dotNetRef = dotNetRefs[viewId!];
+                layerId = await dotNetRef.invokeMethodAsync('GetId');
             }
+
+            dnLayerView.layerId = layerId;
     }
 
     dnLayerView.type = jsObject.layer.type;
-    dnLayerView.layerId = layerId;
 
     return dnLayerView;
 }

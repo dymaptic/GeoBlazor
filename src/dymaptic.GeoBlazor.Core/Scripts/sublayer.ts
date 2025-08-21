@@ -16,14 +16,14 @@ export async function buildJsSublayer(dotNetObject: any, layerId: string | null,
     return await buildJsSublayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSublayer(jsObject: any): Promise<any> {
+export async function buildDotNetSublayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetSublayerGenerated} = await import('./sublayer.gb');
-    let dnObject = await buildDotNetSublayerGenerated(jsObject);
+    let dnObject = await buildDotNetSublayerGenerated(jsObject, viewId);
     if (hasValue(jsObject.sublayers) && jsObject.sublayers.items.length > 0) {
         dnObject.sublayers = [];
         for (let i = 0; i < jsObject.sublayers.items.length; i++) {
             const sublayer = jsObject.sublayers.items[i];
-            dnObject.sublayers[i] = await buildDotNetSublayer(sublayer);
+            dnObject.sublayers[i] = await buildDotNetSublayer(sublayer, viewId);
         }
     }
     return dnObject;

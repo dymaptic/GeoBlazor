@@ -15,7 +15,7 @@ export async function buildJsWebDocument2D(dotNetObject: any, layerId: string | 
     return await buildJsWebDocument2DGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebDocument2D(jsObject: any): Promise<any> {
+export async function buildDotNetWebDocument2D(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetWebDocument2DGenerated } = await import('./webDocument2D.gb');
     return await buildDotNetWebDocument2DGenerated(jsObject);
 }

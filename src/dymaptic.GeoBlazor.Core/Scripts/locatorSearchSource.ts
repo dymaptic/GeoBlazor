@@ -3,7 +3,7 @@ export async function buildJsLocatorSearchSource(dotNetObject: any, layerId: str
     return await buildJsLocatorSearchSourceGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLocatorSearchSource(jsObject: any): Promise<any> {
+export async function buildDotNetLocatorSearchSource(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetLocatorSearchSourceGenerated} = await import('./locatorSearchSource.gb');
-    return await buildDotNetLocatorSearchSourceGenerated(jsObject);
+    return await buildDotNetLocatorSearchSourceGenerated(jsObject, viewId);
 }

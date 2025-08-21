@@ -2,7 +2,8 @@
 @attribute [TestClass]
 <div class="result-section" id="@ClassName">
     <h2>@Extensions.CamelCaseToSpaces(ClassName)</h2>
-    <div @onclick="@(() => _collapsed = !_collapsed)" style="cursor: pointer; display: inline; font-weight: bold; color: white; padding: 5px; border-radius: 5px; margin-bottom: 5px;">@(_collapsed ? "\u25b6" : "\u25bc")</div>
+    <div @onclick="@(() => _collapsed = !_collapsed)"
+         style="cursor: pointer; display: inline; font-weight: bold; color: white; padding: 5px; border-radius: 5px; margin-bottom: 5px;">@(_collapsed ? "\u25b6" : "\u25bc")</div>
     <button @onclick="() => RunTests()">Run Class Tests</button>
     @if (_failed.Any())
     {
@@ -31,7 +32,7 @@
                     <div class="button-row">
                         <button @onclick="@(() => RunTest(methodInfo))">Run Test</button>
                         <label>
-                            <input type="checkbox" @bind="@_interactionToggles[entry.Key]" />
+                            <input type="checkbox" @bind="@_interactionToggles[entry.Key]"/>
                             Pause for Interaction
                         </label>
                         @if (_currentTest == entry.Key)
@@ -62,9 +63,10 @@
 </div>
 
 @code {
+    
     [Inject]
     public IJSRuntime JsRuntime { get; set; } = null!;
-    
+
     [Inject]
     public JsModuleManager JsModuleManager { get; set; } = null!;
 
@@ -77,17 +79,19 @@
         _parallelTesting = parallelTesting;
         _resultBuilder = new StringBuilder();
         _passed.Clear();
-        
+
         foreach (string key in _testResults.Keys)
         {
             if (onlyFailedTests && !_failed.ContainsKey(key))
             {
                 continue;
             }
+
             _testResults[key] = string.Empty;
         }
+
         _failed.Clear();
-        
+
         foreach (MethodInfo method in _methodInfos!)
         {
             await RunTest(method);
@@ -96,6 +100,7 @@
         if (_parallelRetryTests.Any())
         {
             await Task.Delay(1000);
+
             foreach (MethodInfo retryMethod in _parallelRetryTests)
             {
                 _failed.Remove(retryMethod.Name);
@@ -104,7 +109,7 @@
         }
 
         _parallelRetryTests.Clear();
-        
+
         _running = false;
     }
 
@@ -132,7 +137,8 @@
         {
             IJSObjectReference? proJs = await JsModuleManager.GetArcGisJsPro(JsRuntime, default);
             IJSObjectReference coreJs = await JsModuleManager.GetArcGisJsCore(JsRuntime, proJs, default);
-            _jsObjectReference = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
+
+            _jsObjectReference = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
                 "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
             await _jsObjectReference.InvokeVoidAsync("initialize", coreJs);
         }
@@ -143,33 +149,124 @@
         _testRenderFragments[methodName] = fragment;
     }
 
-    protected async Task WaitForMapToRender([CallerMemberName] string methodName = "")
+    protected async Task WaitForMapToRender([CallerMemberName] string methodName = "", int timeoutInSeconds = 10)
     {
+        //we are delaying by 100 milliseconds each try.
+        //multiplying the timeout by 10 will get the correct number of tries
+        var tries = timeoutInSeconds * 10;
+
         await InvokeAsync(StateHasChanged);
-        var tries = 100;
-        while (!_methodsWithRenderedMaps.Contains(methodName) && (tries > 0))
+
+        while (!methodsWithRenderedMaps.Contains(methodName) && (tries > 0))
         {
             if (_mapRenderingExceptions.Remove(methodName, out Exception? ex))
             {
                 ExceptionDispatchInfo.Capture(ex).Throw();
             }
+
             await Task.Delay(100);
             tries--;
         }
 
-        if (!_methodsWithRenderedMaps.Contains(methodName))
+        if (!methodsWithRenderedMaps.Contains(methodName))
         {
             if (_parallelTesting && _parallelRetryTests.All(mi => mi.Name != methodName))
             {
                 // Sometimes running multiple tests in parallel causes timeouts, give this another chance.
                 _parallelRetryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
             }
+
             throw new TimeoutException("Map did not render in allotted time.");
         }
-        _methodsWithRenderedMaps.Remove(methodName);
+
+        methodsWithRenderedMaps.Remove(methodName);
     }
 
-    protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string methodName = "", 
+    /// <summary>
+    ///     Handles the LayerViewCreated event and waits for a specific layer type to render.
+    /// </summary>
+    /// <param name="methodName">
+    ///     The name of the test method calling this function, used to track which layer view
+    /// </param>
+    /// <param name="timeoutInSeconds">
+    ///     Optional timeout in seconds to wait for the layer to render. Defaults to 10 seconds.
+    /// </param>
+    /// <typeparam name="TLayer">
+    ///     The type of layer to wait for rendering. Must inherit from <see cref="Layer"/>.
+    /// </typeparam>
+    /// <returns>
+    ///     Returns the <see cref="LayerViewCreateEvent"/> for the specified layer type once it has rendered.
+    /// </returns>
+    /// <exception cref="TimeoutException">
+    ///     Throws if the specified layer type does not render within the allotted time.
+    /// </exception>
+    protected async Task<LayerViewCreateEvent> WaitForLayerToRender<TLayer>(
+        [CallerMemberName] string methodName = "", 
+        int timeoutInSeconds = 10) where TLayer: Layer
+    {
+        int tries = timeoutInSeconds * 10;
+
+        while ((!layerViewCreatedEvents.ContainsKey(methodName) 
+                // check if the layer view was created for the specified layer type
+                || layerViewCreatedEvents[methodName].All(lvce => lvce.Layer is not TLayer))
+            && tries > 0)
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+
+        if (!layerViewCreatedEvents.ContainsKey(methodName)
+            || layerViewCreatedEvents[methodName].All(lvce => lvce.Layer is not TLayer))
+        {
+            throw new TimeoutException($"Layer {typeof(TLayer).Name} did not render in allotted time, or LayerViewCreated was not set in MapView.OnLayerViewCreate");
+        }
+        
+        LayerViewCreateEvent createEvent = layerViewCreatedEvents[methodName].First(lvce => lvce.Layer is TLayer);
+        layerViewCreatedEvents[methodName].Remove(createEvent);
+
+        return createEvent;
+    }
+    
+    /// <summary>
+    ///     Handles the ListItemCreated event and waits for a ListItem to be created.
+    /// </summary>
+    /// <param name="methodName">
+    ///     The name of the test method calling this function, used to track which layer view
+    /// </param>
+    /// <param name="timeoutInSeconds">
+    ///     Optional timeout in seconds to wait for the layer to render. Defaults to 10 seconds.
+    /// </param>
+    /// <returns>
+    ///     Returns the <see cref="ListItem"/>.
+    /// </returns>
+    /// <exception cref="TimeoutException">
+    ///     Throws if the specified layer type does not render within the allotted time.
+    /// </exception>
+    protected async Task<ListItem> WaitForListItemToBeCreated(
+        [CallerMemberName] string methodName = "", 
+        int timeoutInSeconds = 10)
+    {
+        int tries = timeoutInSeconds * 10;
+
+        while (!listItems.ContainsKey(methodName)
+            && tries > 0)
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+
+        if (!listItems.TryGetValue(methodName, out List<ListItem>? items))
+        {
+            throw new TimeoutException("List Item did not render in allotted time, or ListItemCreated was not set in LayerListWidget.OnListItemCreatedHandler");
+        }
+        
+        ListItem firstItem = items.First();
+        listItems[methodName].Remove(firstItem);
+
+        return firstItem;
+    }
+
+    protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string methodName = "",
         int retryCount = 0, params object[] args)
     {
         try
@@ -203,10 +300,11 @@
             }
         }
     }
-    
+
     protected async Task WaitForJsTimeout(long time, [CallerMemberName] string methodName = "")
     {
         await _jsObjectReference!.InvokeVoidAsync("setJsTimeout", time, methodName);
+
         while (!await _jsObjectReference!.InvokeAsync<bool>("timeoutComplete", methodName))
         {
             await Task.Delay(100);
@@ -222,34 +320,38 @@
         _failed.Remove(methodInfo.Name);
         _testRenderFragments.Remove(methodInfo.Name);
         _mapRenderingExceptions.Remove(methodInfo.Name);
-        _methodsWithRenderedMaps.Remove(methodInfo.Name);
+        methodsWithRenderedMaps.Remove(methodInfo.Name);
+        layerViewCreatedEvents.Remove(methodInfo.Name);
+        listItems.Remove(methodInfo.Name);
         Console.WriteLine($"Running test {methodInfo.Name}");
+
         try
         {
-            bool hasParameters = methodInfo.GetParameters().Any();
-            if (methodInfo.ReturnType != typeof(Task))
+            object[] actions = methodInfo.GetParameters()
+                .Select<ParameterInfo, object>(pi =>
+                {
+                    Type paramType = pi.ParameterType;
+                    
+                    if (paramType == typeof(Action<LayerViewCreateEvent>))
+                    {
+                        return (Action<LayerViewCreateEvent>)(createEvent => LayerViewCreatedHandler(createEvent, methodInfo.Name));
+                    }
+                    if (paramType == typeof(Func<ListItem, Task<ListItem>>))
+                    {
+                        return (Func<ListItem, Task<ListItem>>)(item => ListItemCreatedHandler(item, methodInfo.Name));
+                    }
+                    
+                    return (Action)(() => RenderHandler(methodInfo.Name));
+                })
+                .ToArray();
+            
+            if (methodInfo.ReturnType == typeof(Task))
             {
-                if (hasParameters)
-                {
-                    void RenderHandler() => _methodsWithRenderedMaps.Add(methodInfo.Name);
-                    methodInfo.Invoke(this, [(Action)RenderHandler]);
-                }
-                else
-                {
-                    methodInfo.Invoke(this, null);
-                }
+                await (Task)methodInfo.Invoke(this, actions)!;
             }
             else
             {
-                if (hasParameters)
-                {
-                    void RenderHandler() => _methodsWithRenderedMaps.Add(methodInfo.Name);
-                    await (Task)methodInfo.Invoke(this, [(Action)RenderHandler])!;
-                }
-                else
-                {
-                    await (Task)methodInfo.Invoke(this, null)!;
-                }
+                methodInfo.Invoke(this, actions);
             }
 
             _passed[methodInfo.Name] = _resultBuilder.ToString();
@@ -261,6 +363,7 @@
             {
                 return;
             }
+
             _failed[methodInfo.Name] = $"{_resultBuilder}{Environment.NewLine}{ex.StackTrace}";
             _resultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
         }
@@ -271,19 +374,48 @@
         }
     }
 
+    [TestCleanup]
     protected async Task CleanupTest(string testName)
     {
-        _methodsWithRenderedMaps.Remove(testName);
+        methodsWithRenderedMaps.Remove(testName);
+        layerViewCreatedEvents.Remove(testName);
         _testResults[testName] = _resultBuilder.ToString();
         _testRenderFragments.Remove(testName);
+
         await InvokeAsync(async () =>
         {
             StateHasChanged();
-            await OnTestResults.InvokeAsync(
-                new TestResult(ClassName, _methodInfos!.Length, _passed, _failed));
+            await OnTestResults.InvokeAsync(new TestResult(ClassName, _methodInfos!.Length, _passed, _failed));
         });
         _interactionToggles[testName] = false;
         _currentTest = null;
+    }
+    
+    private static void RenderHandler(string methodName)
+    {
+        methodsWithRenderedMaps.Add(methodName);
+    }
+    
+    private static void LayerViewCreatedHandler(LayerViewCreateEvent createEvent, string methodName)
+    {
+        if (!layerViewCreatedEvents.ContainsKey(methodName))
+        {
+            layerViewCreatedEvents[methodName] = [];
+        }
+
+        layerViewCreatedEvents[methodName].Add(createEvent);
+    }
+    
+    private static Task<ListItem> ListItemCreatedHandler(ListItem item, string methodName)
+    {
+        if (!listItems.ContainsKey(methodName))
+        {
+            listItems[methodName] = [];
+        }
+
+        listItems[methodName].Add(item);
+
+        return Task.FromResult(item);
     }
 
     private void OnRenderError(ErrorEventArgs arg)
@@ -300,7 +432,9 @@
     private bool _collapsed = true;
     private bool _running;
     private readonly Dictionary<string, RenderFragment> _testRenderFragments = new();
-    private readonly List<string> _methodsWithRenderedMaps = new();
+    private static readonly List<string> methodsWithRenderedMaps = new();
+    private static readonly Dictionary<string, List<LayerViewCreateEvent>> layerViewCreatedEvents = new();
+    private static readonly Dictionary<string, List<ListItem>> listItems = new();
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
     private readonly Dictionary<string, string?> _passed = new();
     private readonly Dictionary<string, string?> _failed = new();

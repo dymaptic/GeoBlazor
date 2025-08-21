@@ -81,16 +81,6 @@ public partial class Basemap : ILayerParent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapbaselayers-property">GeoBlazor Docs</a>
-    ///     A collection of tile layers that make up the basemap's features.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Layer>? BaseLayers { get; set; }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapbasemapid-property">GeoBlazor Docs</a>
     ///     An identifier used to refer to the basemap when referencing it elsewhere.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#id">ArcGIS Maps SDK for JavaScript</a>
@@ -120,16 +110,6 @@ public partial class Basemap : ILayerParent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PortalItem? PortalItem { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapreferencelayers-property">GeoBlazor Docs</a>
-    ///     A collection of reference layers which are displayed over the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">base layers</a> and all other layers in the map.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Layer>? ReferenceLayers { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapspatialreference-property">GeoBlazor Docs</a>
@@ -458,54 +438,6 @@ public partial class Basemap : ILayerParent
 #region Property Setters
 
     /// <summary>
-    ///    Asynchronously set the value of the BaseLayers property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetBaseLayers(IReadOnlyList<Layer>? value)
-    {
-        if (value is not null)
-        {
-            foreach (Layer item in value)
-            {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
-            }
-        }
-        
-#pragma warning disable BL0005
-        BaseLayers = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(BaseLayers)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setBaseLayers", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the BasemapId property after render.
     /// </summary>
     /// <param name="value">
@@ -584,54 +516,6 @@ public partial class Basemap : ILayerParent
         }
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ReferenceLayers property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetReferenceLayers(IReadOnlyList<Layer>? value)
-    {
-        if (value is not null)
-        {
-            foreach (Layer item in value)
-            {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
-            }
-        }
-        
-#pragma warning disable BL0005
-        ReferenceLayers = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ReferenceLayers)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setReferenceLayers", 
             CancellationTokenSource.Token, value);
     }
     
@@ -801,74 +685,6 @@ public partial class Basemap : ILayerParent
     
 #endregion
 
-#region Add to Collection Methods
-
-    /// <summary>
-    ///     Asynchronously adds elements to the BaseLayers property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToBaseLayers(params Layer[] values)
-    {
-        Layer[] join = BaseLayers is null
-            ? values
-            : [..BaseLayers, ..values];
-        await SetBaseLayers(join);
-    }
-    
-    /// <summary>
-    ///     Asynchronously adds elements to the ReferenceLayers property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToReferenceLayers(params Layer[] values)
-    {
-        Layer[] join = ReferenceLayers is null
-            ? values
-            : [..ReferenceLayers, ..values];
-        await SetReferenceLayers(join);
-    }
-    
-#endregion
-
-#region Remove From Collection Methods
-
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the BaseLayers property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromBaseLayers(params Layer[] values)
-    {
-        if (BaseLayers is null)
-        {
-            return;
-        }
-        await SetBaseLayers(BaseLayers.Except(values).ToArray());
-    }
-    
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the ReferenceLayers property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromReferenceLayers(params Layer[] values)
-    {
-        if (ReferenceLayers is null)
-        {
-            return;
-        }
-        await SetReferenceLayers(ReferenceLayers.Except(values).ToArray());
-    }
-    
-#endregion
-
 #region Public Methods
 
     /// <summary>
@@ -1006,7 +822,6 @@ public partial class Basemap : ILayerParent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapload-method">GeoBlazor Docs</a>
     ///     Loads the resources referenced by this class.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#load">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">

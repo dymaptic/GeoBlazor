@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListViewModel.html">GeoBlazor Docs</a>
-///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">component</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LayerListViewModel : MapComponent
@@ -415,16 +415,17 @@ public partial class LayerListViewModel : MapComponent
     [JSInvokable]
     public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LayerListViewModelTriggerActionEvent triggerActionEvent = 
-            JsonSerializer.Deserialize<LayerListViewModelTriggerActionEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnTriggerAction.InvokeAsync(triggerActionEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        LayerListViewModelTriggerActionEvent? triggerActionEvent = await jsStreamRef.ReadJsStreamReference<LayerListViewModelTriggerActionEvent>();
+        if (triggerActionEvent is not null)
+        {
+            await OnTriggerAction.InvokeAsync(triggerActionEvent);
+        }
     }
     
     /// <summary>

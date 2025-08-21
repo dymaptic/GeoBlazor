@@ -26,6 +26,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Indicates whether to display any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">TextContent</a> elements.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature.html#VisibleContentElements">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Relationship">
+///     Indicates whether to display any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-RelationshipContent.html">RelationshipContent elements</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature.html#VisibleContentElements">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record VisibleContentElements(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? Attachments = null,
@@ -36,4 +40,6 @@ public partial record VisibleContentElements(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? Media = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    bool? Text = null);
+    bool? Text = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? Relationship = null);

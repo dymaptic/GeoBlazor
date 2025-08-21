@@ -4,7 +4,7 @@ export async function buildJsFeatureSnappingLayerSource(dotNetObject: any, layer
     return await buildJsFeatureSnappingLayerSourceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetFeatureSnappingLayerSource(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureSnappingLayerSource(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetFeatureSnappingLayerSourceGenerated } = await import('./featureSnappingLayerSource.gb');
-    return await buildDotNetFeatureSnappingLayerSourceGenerated(jsObject);
+    return await buildDotNetFeatureSnappingLayerSourceGenerated(jsObject, viewId);
 }

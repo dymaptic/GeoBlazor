@@ -4,7 +4,7 @@ export async function buildJsSupportExpressionInfo(dotNetObject: any, layerId: s
     return await buildJsSupportExpressionInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSupportExpressionInfo(jsObject: any): Promise<any> {
+export async function buildDotNetSupportExpressionInfo(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetSupportExpressionInfoGenerated } = await import('./supportExpressionInfo.gb');
-    return await buildDotNetSupportExpressionInfoGenerated(jsObject);
+    return await buildDotNetSupportExpressionInfoGenerated(jsObject, viewId);
 }

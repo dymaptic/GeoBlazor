@@ -1,10 +1,10 @@
 
-export async function buildJsOpacityRampElement(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsOpacityRampElement(dotNetObject: any): Promise<any> {
     let { buildJsOpacityRampElementGenerated } = await import('./opacityRampElement.gb');
-    return await buildJsOpacityRampElementGenerated(dotNetObject, layerId, viewId);
+    return await buildJsOpacityRampElementGenerated(dotNetObject);
 }     
 
-export async function buildDotNetOpacityRampElement(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetOpacityRampElement(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetOpacityRampElementGenerated } = await import('./opacityRampElement.gb');
-    return await buildDotNetOpacityRampElementGenerated(jsObject, layerId, viewId);
+    return await buildDotNetOpacityRampElementGenerated(jsObject, viewId);
 }

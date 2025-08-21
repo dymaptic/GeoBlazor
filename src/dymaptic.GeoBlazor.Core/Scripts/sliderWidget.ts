@@ -57,14 +57,14 @@ export async function buildJsSliderWidget(dotNetObject: any, layerId: string | n
     reactiveUtils.watch(
         () => jsObject.values,
         async () => {
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsValueChanged', jsObject.values);
+                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsValueChanged', jsObject.values);
         }
     );
     
     return jsObject;
 }
 
-export async function buildDotNetSliderWidget(jsObject: any): Promise<any> {
+export async function buildDotNetSliderWidget(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetSliderWidgetGenerated} = await import('./sliderWidget.gb');
-    return await buildDotNetSliderWidgetGenerated(jsObject);
+    return await buildDotNetSliderWidgetGenerated(jsObject, viewId);
 }

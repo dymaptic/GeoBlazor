@@ -1,7 +1,7 @@
 
 export async function buildJsBaseImageMeasureParameters(dotNetObject: any): Promise<any> {
     let { buildJsBaseImageMeasureParametersGenerated } = await import('./baseImageMeasureParameters.gb');
-    return buildJsBaseImageMeasureParametersGenerated(dotNetObject);
+    return await buildJsBaseImageMeasureParametersGenerated(dotNetObject);
 }     
 
 export async function buildDotNetBaseImageMeasureParameters(jsObject: any): Promise<any> {

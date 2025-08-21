@@ -15,7 +15,7 @@ export async function buildJsViewshedLayerView(dotNetObject: any, layerId: strin
     return await buildJsViewshedLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewshedLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetViewshedLayerView(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetViewshedLayerViewGenerated } = await import('./viewshedLayerView.gb');
-    return await buildDotNetViewshedLayerViewGenerated(jsObject);
+    return await buildDotNetViewshedLayerViewGenerated(jsObject, viewId);
 }

@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html">GeoBlazor Docs</a>
-///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget, which performs search
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search widget</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-search/">Search component</a>, which performs search
 ///     operations on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator service(s)</a>,
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature
 ///     layer(s), and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table(s)</a>.
@@ -37,6 +37,7 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     /// <param name="autoNavigate">
     ///     Indicates whether to automatically navigate to the selected result.
+    ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#autoNavigate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="autoSelect">
@@ -62,7 +63,7 @@ public partial class SearchViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="locationEnabled">
-    ///     Indicates whether location services are enabled within the widget.
+    ///     Indicates whether location services are enabled.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#locationEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxInputLength">
@@ -71,18 +72,18 @@ public partial class SearchViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#maxInputLength">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxResults">
-    ///     The maximum number of results returned by the widget if not specified by the source.
+    ///     The maximum number of results returned if not specified by the source.
     ///     default 6
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#maxResults">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxSuggestions">
-    ///     The maximum number of suggestions returned by the widget if not specified by the source.
+    ///     The maximum number of suggestions returned if not specified by the source.
     ///     default 6
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#maxSuggestions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minSuggestCharacters">
     ///     The minimum number of characters needed for the search if not specified by the source.
-    ///     default 1
+    ///     default 3
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#minSuggestCharacters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
@@ -120,7 +121,7 @@ public partial class SearchViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#searchTerm">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="sources">
-    ///     The Search widget may be used to search features in a
+    ///     Search may be used to search features in a
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table</a>,
     ///     or geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#sources">ArcGIS Maps SDK for JavaScript</a>
@@ -135,7 +136,7 @@ public partial class SearchViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggestionDelay">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="suggestionsEnabled">
-    ///     Enable suggestions for the widget.
+    ///     Enable suggestions.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggestionsEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -250,6 +251,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelautonavigate-property">GeoBlazor Docs</a>
     ///     Indicates whether to automatically navigate to the selected result.
+    ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#autoNavigate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -313,7 +315,7 @@ public partial class SearchViewModel : IGoTo
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodellocationenabled-property">GeoBlazor Docs</a>
-    ///     Indicates whether location services are enabled within the widget.
+    ///     Indicates whether location services are enabled.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#locationEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -334,7 +336,7 @@ public partial class SearchViewModel : IGoTo
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelmaxresults-property">GeoBlazor Docs</a>
-    ///     The maximum number of results returned by the widget if not specified by the source.
+    ///     The maximum number of results returned if not specified by the source.
     ///     default 6
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#maxResults">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -345,7 +347,7 @@ public partial class SearchViewModel : IGoTo
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelmaxsuggestions-property">GeoBlazor Docs</a>
-    ///     The maximum number of suggestions returned by the widget if not specified by the source.
+    ///     The maximum number of suggestions returned if not specified by the source.
     ///     default 6
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#maxSuggestions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -357,7 +359,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelminsuggestcharacters-property">GeoBlazor Docs</a>
     ///     The minimum number of characters needed for the search if not specified by the source.
-    ///     default 1
+    ///     default 3
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#minSuggestCharacters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -482,7 +484,7 @@ public partial class SearchViewModel : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public string? SelectedResult { get; protected set; }
+    public SearchResult? SelectedResult { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelselectedsuggestion-property">GeoBlazor Docs</a>
@@ -497,7 +499,7 @@ public partial class SearchViewModel : IGoTo
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsources-property">GeoBlazor Docs</a>
-    ///     The Search widget may be used to search features in a
+    ///     Search may be used to search features in a
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table</a>,
     ///     or geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#sources">ArcGIS Maps SDK for JavaScript</a>
@@ -509,7 +511,7 @@ public partial class SearchViewModel : IGoTo
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelstate-property">GeoBlazor Docs</a>
-    ///     The current state of the widget.
+    ///     The current state.
     ///     default "ready"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -552,7 +554,7 @@ public partial class SearchViewModel : IGoTo
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsuggestionsenabled-property">GeoBlazor Docs</a>
-    ///     Enable suggestions for the widget.
+    ///     Enable suggestions.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggestionsEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1575,7 +1577,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedResult property.
     /// </summary>
-    public async Task<string?> GetSelectedResult()
+    public async Task<SearchResult?> GetSelectedResult()
     {
         if (CoreJsModule is null)
         {
@@ -1597,17 +1599,17 @@ public partial class SearchViewModel : IGoTo
             return SelectedResult;
         }
 
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "selectedResult");
+        SearchResult? result = await JsComponentReference.InvokeAsync<SearchResult?>(
+            "getSelectedResult", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SelectedResult = result;
+            SelectedResult = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectedResult)] = SelectedResult;
+            ModifiedParameters[nameof(SelectedResult)] = SelectedResult;
         }
-         
+        
         return SelectedResult;
     }
     
@@ -1636,17 +1638,17 @@ public partial class SearchViewModel : IGoTo
             return SelectedSuggestion;
         }
 
-        // get the property value
-        SuggestResult? result = await JsComponentReference!.InvokeAsync<SuggestResult?>("getProperty",
-            CancellationTokenSource.Token, "selectedSuggestion");
+        SuggestResult? result = await JsComponentReference.InvokeAsync<SuggestResult?>(
+            "getSelectedSuggestion", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SelectedSuggestion = result;
+            SelectedSuggestion = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectedSuggestion)] = SelectedSuggestion;
+            ModifiedParameters[nameof(SelectedSuggestion)] = SelectedSuggestion;
         }
-         
+        
         return SelectedSuggestion;
     }
     
@@ -1831,17 +1833,17 @@ public partial class SearchViewModel : IGoTo
             return Suggestions;
         }
 
-        // get the property value
-        IReadOnlyList<SuggestResult>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SuggestResult>?>("getProperty",
-            CancellationTokenSource.Token, "suggestions");
+        IReadOnlyList<SuggestResult>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SuggestResult>?>(
+            "getSuggestions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Suggestions = result;
+            Suggestions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Suggestions)] = Suggestions;
+            ModifiedParameters[nameof(Suggestions)] = Suggestions;
         }
-         
+        
         return Suggestions;
     }
     
@@ -2973,78 +2975,6 @@ public partial class SearchViewModel : IGoTo
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsearch-method">GeoBlazor Docs</a>
-    ///     Depending on the sources specified, `search()` queries the feature layer(s) and/or performs
-    ///     address matching using any specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">Locator(s)</a> and
-    ///     returns the applicable results.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#search">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="searchItem">
-    ///     This searchItem can be a string, point geometry, suggest candidate object, or an array containing [latitude,longitude]. If a geometry is supplied, then it will reverse geocode (locator) or findAddressCandidates with geometry instead of text (featurelayer).
-    /// </param>
-    [ArcGISMethod]
-    public async Task<SearchResponse?> Search(string searchItem)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<SearchResponse?>(
-            "search", 
-            CancellationTokenSource.Token,
-            searchItem);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsearchnearby-method">GeoBlazor Docs</a>
-    ///     Returns search results near your current location.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#searchNearby">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<SearchResponse?> SearchNearby()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<SearchResponse?>(
-            "searchNearby", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelselect-method">GeoBlazor Docs</a>
     ///     Selects a result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#select">ArcGIS Maps SDK for JavaScript</a>
@@ -3053,7 +2983,7 @@ public partial class SearchViewModel : IGoTo
     ///     The result object to select.
     /// </param>
     [ArcGISMethod]
-    public async Task<SearchViewModelSearchResult?> Select(string value)
+    public async Task<SearchResult?> Select(string value)
     {
         if (CoreJsModule is null)
         {
@@ -3075,22 +3005,27 @@ public partial class SearchViewModel : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<SearchViewModelSearchResult?>(
+        return await JsComponentReference!.InvokeAsync<SearchResult?>(
             "select", 
             CancellationTokenSource.Token,
             value);
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsuggest-method">GeoBlazor Docs</a>
-    ///     Performs a suggest() request on the active Locator.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggest">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once the `SearchViewModel` has been updated.
+    ///     param errback The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="value">
-    ///     The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value of the widget.
+    /// <param name="callback">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<SuggestResponse?> Suggest(string value)
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
     {
         if (CoreJsModule is null)
         {
@@ -3112,10 +3047,11 @@ public partial class SearchViewModel : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<SuggestResponse?>(
-            "suggest", 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "when", 
             CancellationTokenSource.Token,
-            value);
+            callback,
+            errback);
     }
     
 #endregion
@@ -3128,16 +3064,17 @@ public partial class SearchViewModel : IGoTo
     [JSInvokable]
     public async Task OnJsSearchClear(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSearchClearEvent searchClearEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSearchClearEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchClear.InvokeAsync(searchClearEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SearchViewModelSearchClearEvent? searchClearEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSearchClearEvent>();
+        if (searchClearEvent is not null)
+        {
+            await OnSearchClear.InvokeAsync(searchClearEvent);
+        }
     }
     
     /// <summary>
@@ -3159,16 +3096,17 @@ public partial class SearchViewModel : IGoTo
     [JSInvokable]
     public async Task OnJsSearchComplete(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSearchCompleteEvent searchCompleteEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSearchCompleteEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchComplete.InvokeAsync(searchCompleteEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SearchViewModelSearchCompleteEvent? searchCompleteEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSearchCompleteEvent>();
+        if (searchCompleteEvent is not null)
+        {
+            await OnSearchComplete.InvokeAsync(searchCompleteEvent);
+        }
     }
     
     /// <summary>
@@ -3190,16 +3128,17 @@ public partial class SearchViewModel : IGoTo
     [JSInvokable]
     public async Task OnJsSearchStart(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSearchStartEvent searchStartEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSearchStartEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSearchStart.InvokeAsync(searchStartEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SearchViewModelSearchStartEvent? searchStartEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSearchStartEvent>();
+        if (searchStartEvent is not null)
+        {
+            await OnSearchStart.InvokeAsync(searchStartEvent);
+        }
     }
     
     /// <summary>
@@ -3221,16 +3160,17 @@ public partial class SearchViewModel : IGoTo
     [JSInvokable]
     public async Task OnJsSelectResult(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSelectResultEvent selectResultEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSelectResultEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSelectResult.InvokeAsync(selectResultEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SearchViewModelSelectResultEvent? selectResultEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSelectResultEvent>();
+        if (selectResultEvent is not null)
+        {
+            await OnSelectResult.InvokeAsync(selectResultEvent);
+        }
     }
     
     /// <summary>
@@ -3252,16 +3192,17 @@ public partial class SearchViewModel : IGoTo
     [JSInvokable]
     public async Task OnJsSuggestComplete(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSuggestCompleteEvent suggestCompleteEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSuggestCompleteEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSuggestComplete.InvokeAsync(suggestCompleteEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SearchViewModelSuggestCompleteEvent? suggestCompleteEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSuggestCompleteEvent>();
+        if (suggestCompleteEvent is not null)
+        {
+            await OnSuggestComplete.InvokeAsync(suggestCompleteEvent);
+        }
     }
     
     /// <summary>
@@ -3283,16 +3224,17 @@ public partial class SearchViewModel : IGoTo
     [JSInvokable]
     public async Task OnJsSuggestStart(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchViewModelSuggestStartEvent suggestStartEvent = 
-            JsonSerializer.Deserialize<SearchViewModelSuggestStartEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSuggestStart.InvokeAsync(suggestStartEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SearchViewModelSuggestStartEvent? suggestStartEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSuggestStartEvent>();
+        if (suggestStartEvent is not null)
+        {
+            await OnSuggestStart.InvokeAsync(suggestStartEvent);
+        }
     }
     
     /// <summary>

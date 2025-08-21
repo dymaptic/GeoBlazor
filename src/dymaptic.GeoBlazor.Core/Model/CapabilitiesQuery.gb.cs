@@ -102,6 +102,12 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SupportsTrueCurve">
+///     Indicates if the layer supports requesting curves with returnTrueCurves.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="MaxUniqueIDCount">
+///     The maximum number of unique-ids that will be returned for a given query.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record CapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -153,4 +159,6 @@ public partial record CapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsStatistics = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    bool? SupportsTrueCurve = null);
+    bool? SupportsTrueCurve = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    int? MaxUniqueIDCount = null);

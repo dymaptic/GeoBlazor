@@ -28,10 +28,6 @@ public partial class Circle
     ///     Indicates if the geometry has z-values (elevation).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="isSelfIntersecting">
-    ///     Checks to see if polygon rings cross each other and indicates if the polygon is self-intersecting, which means the ring of the polygon crosses itself.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#isSelfIntersecting">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="numberOfPoints">
     ///     This value defines the number of points along the curve of the circle.
     ///     default 60
@@ -64,7 +60,6 @@ public partial class Circle
         bool? geodesic = null,
         bool? hasM = null,
         bool? hasZ = null,
-        bool? isSelfIntersecting = null,
         int? numberOfPoints = null,
         RadiusUnit? radiusUnit = null,
         IReadOnlyList<MapPath>? rings = null,
@@ -77,7 +72,6 @@ public partial class Circle
         Geodesic = geodesic;
         HasM = hasM;
         HasZ = hasZ;
-        IsSelfIntersecting = isSelfIntersecting;
         NumberOfPoints = numberOfPoints;
         Radius = radius;
         RadiusUnit = radiusUnit;
@@ -133,7 +127,6 @@ public partial class Circle
             HasM = HasM,
             HasZ = HasZ,
             Centroid = Centroid?.ToSerializationRecord(),
-            IsSelfIntersecting = IsSelfIntersecting,
             Center = Center?.ToSerializationRecord(),
             Geodesic = Geodesic,
             NumberOfPoints = NumberOfPoints,

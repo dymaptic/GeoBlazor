@@ -13,7 +13,7 @@ internal class LayerConverter : JsonConverter<Layer>
         if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
             IDictionary<string, object?> temp)
         {
-            return null;
+            return new UnknownLayer();
         }
 
         if (temp.TryGetValue("type", out object? typeValue))
@@ -42,14 +42,19 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<KMLLayer>(ref cloneReader, newOptions);
                 case "wcs":
                     return JsonSerializer.Deserialize<WCSLayer>(ref cloneReader, newOptions);
+#pragma warning disable CS0618 // Type or member is obsolete
                 case "bing-maps":
+#pragma warning disable CS0618 // Type or member is obsolete
                     return JsonSerializer.Deserialize<BingMapsLayer>(ref cloneReader, newOptions);
+#pragma warning restore CS0618 // Type or member is obsolete
                 case "imagery":
                     return JsonSerializer.Deserialize<ImageryLayer>(ref cloneReader, newOptions);
                 case "map-image":
                     return JsonSerializer.Deserialize<MapImageLayer>(ref cloneReader, newOptions);
                 case "imagery-tile":
                     return JsonSerializer.Deserialize<ImageryTileLayer>(ref cloneReader, newOptions);
+                case "web-tile":
+                    return JsonSerializer.Deserialize<WebTileLayer>(ref cloneReader, newOptions);
                 case "wfs":
                     return JsonSerializer.Deserialize<WFSLayer>(ref cloneReader, newOptions);
                 case "wms":
@@ -83,9 +88,34 @@ internal class LayerConverter : JsonConverter<Layer>
 
                     break;
             }
+
+            Debug.WriteLine("Unknown layer type encountered: " + typeValue);
         }
 
-        return null;
+        temp.TryGetValue("arcGisLayerId", out object? arcGisLayerIdValue);
+        string? arcGisLayerId = arcGisLayerIdValue?.ToString();
+        temp.TryGetValue("fullExtent", out object? fullExtentValue);
+        Extent? fullExtent = fullExtentValue is not null
+            ? JsonSerializer.Deserialize<Extent>(fullExtentValue.ToString()!, newOptions)
+            : null;
+        temp.TryGetValue("isBasemapReferenceLayer", out object? isBasemapReferenceLayerValue);
+        bool.TryParse(isBasemapReferenceLayerValue?.ToString(), out bool isBasemapReferenceLayer);
+        temp.TryGetValue("listMode", out object? listModeValue);
+        string? listMode = listModeValue?.ToString();
+        Enum.TryParse(listMode, out ListMode listModeEnum);
+        temp.TryGetValue("opacity", out object? opacityValue);
+        double.TryParse(opacityValue?.ToString(), out double opacity);
+        temp.TryGetValue("title", out object? titleValue);
+        string? title = titleValue?.ToString();
+        temp.TryGetValue("visibilityTimeExtent", out object? visibilityTimeExtentValue);
+        TimeExtent? visibilityTimeExtent = visibilityTimeExtentValue is not null
+            ? JsonSerializer.Deserialize<TimeExtent>(visibilityTimeExtentValue.ToString()!, newOptions)
+            : null;
+        temp.TryGetValue("visible", out object? visibleValue);
+        bool.TryParse(visibleValue?.ToString(), out bool visible);
+
+        return new UnknownLayer(arcGisLayerId, fullExtent, isBasemapReferenceLayer, listModeEnum, opacity, title,
+            visibilityTimeExtent, visible);
     }
 
     public override void Write(Utf8JsonWriter writer, Layer value, JsonSerializerOptions options)
@@ -96,4 +126,47 @@ internal class LayerConverter : JsonConverter<Layer>
         };
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
     }
+}
+
+internal class FullExtentConverter : JsonConverter<Extent>
+{
+    public override Extent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+
+        Utf8JsonReader cloneReader = reader;
+
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
+            IDictionary<string, object?> temp)
+        {
+            return null;
+        }
+
+        foreach (string propertyName in requiredProperties)
+        {
+            if (!temp.ContainsKey(propertyName) 
+                || temp[propertyName] is null or JsonElement { ValueKind: JsonValueKind.Null })
+            {
+                return null;
+            }
+        }
+        
+        return JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);
+    }
+
+    public override void Write(Utf8JsonWriter writer, Extent value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), options));
+    }
+    
+    private static readonly string[] requiredProperties =
+    [
+        nameof(Extent.Xmax).ToLowerInvariant(),
+        nameof(Extent.Xmin).ToLowerInvariant(),
+        nameof(Extent.Ymax).ToLowerInvariant(),
+        nameof(Extent.Ymin).ToLowerInvariant()
+    ];
 }

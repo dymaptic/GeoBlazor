@@ -577,6 +577,28 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         await base.SetParametersAsync(parameters);
     }
     
+#region Public Methods
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Graphic.html#graphicgetglobalid-method">GeoBlazor Docs</a>
+    ///     Returns the Global ID of the feature associated with the graphic, if it exists.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#getGlobalId">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task<string?> GetGlobalId()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        return await CoreJsModule.InvokeAsync<string?>(
+            "getGraphicGlobalId", CancellationTokenSource.Token, Id);
+    }
+    
+#endregion
+    
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

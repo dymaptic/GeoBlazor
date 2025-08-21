@@ -225,3 +225,15 @@ internal class EnumToKebabCaseReadOnlyListConverter<T> : JsonConverter<IReadOnly
         writer.WriteEndArray();
     }
 }
+
+internal class TimeUnitConverter : EnumToKebabCaseStringConverter<TemporalTime>
+{
+    public override TemporalTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()?
+            .KebabToPascalCase()
+            .Replace("esriTimeUnits", string.Empty, StringComparison.OrdinalIgnoreCase);
+
+        return value is not null ? (TemporalTime)Enum.Parse(typeof(TemporalTime), value, true) : default;
+    }
+}

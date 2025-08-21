@@ -4,7 +4,7 @@ export async function buildJsLayerDefinition(dotNetObject: any, layerId: string 
     return await buildJsLayerDefinitionGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLayerDefinition(jsObject: any): Promise<any> {
+export async function buildDotNetLayerDefinition(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetLayerDefinitionGenerated } = await import('./layerDefinition.gb');
-    return await buildDotNetLayerDefinitionGenerated(jsObject);
+    return await buildDotNetLayerDefinitionGenerated(jsObject, viewId);
 }

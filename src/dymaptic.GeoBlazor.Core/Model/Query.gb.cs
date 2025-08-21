@@ -13,12 +13,12 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 /// <param name="CacheHint">
 /// </param>
-/// <param name="Distance">
-/// </param>
-/// <param name="DoubleDatumTransformation">
+/// <param name="DatumTransformation">
 ///     Datum transformation used for projecting geometries in the query results when
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="Distance">
 /// </param>
 /// <param name="GdbVersion">
 ///     Specifies the geodatabase version to display for feature service queries.
@@ -99,16 +99,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     pixels on the screen.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#quantizationParameters">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="QueryCompositeTransformationDatumTransformation">
-///     Datum transformation used for projecting geometries in the query results when
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
-/// <param name="QuerySimpleTransformationDatumTransformation">
-///     Datum transformation used for projecting geometries in the query results when
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="RangeValues">
 ///     Filters features from the layer that are within the specified range values.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#rangeValues">ArcGIS Maps SDK for JavaScript</a>
@@ -179,8 +169,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record Query(
     IReadOnlyCollection<string>? AggregateIds = null,
     bool? CacheHint = null,
+    QueryDatumTransformation? DatumTransformation = null,
     double? Distance = null,
-    double? DoubleDatumTransformation = null,
     string? GdbVersion = null,
     Geometry? Geometry = null,
     int? GeometryPrecision = null,
@@ -199,8 +189,6 @@ public partial record Query(
     Dictionary<string, object?>? ParameterValues = null,
     Point? PixelSize = null,
     QuantizationParameters? QuantizationParameters = null,
-    QueryCompositeTransformation? QueryCompositeTransformationDatumTransformation = null,
-    QuerySimpleTransformation? QuerySimpleTransformationDatumTransformation = null,
     IReadOnlyCollection<QueryRangeValues>? RangeValues = null,
     string? RelationParameter = null,
     bool? ReturnCentroid = null,
@@ -230,16 +218,16 @@ public partial record Query(
     public bool? CacheHint { get; set; } = CacheHint;
     
     /// <summary>
-    ///     
-    /// </summary>
-    public double? Distance { get; set; } = Distance;
-    
-    /// <summary>
     ///     Datum transformation used for projecting geometries in the query results when
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public double? DoubleDatumTransformation { get; set; } = DoubleDatumTransformation;
+    public QueryDatumTransformation? DatumTransformation { get; set; } = DatumTransformation;
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    public double? Distance { get; set; } = Distance;
     
     /// <summary>
     ///     Specifies the geodatabase version to display for feature service queries.
@@ -355,20 +343,6 @@ public partial record Query(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#quantizationParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public QuantizationParameters? QuantizationParameters { get; set; } = QuantizationParameters;
-    
-    /// <summary>
-    ///     Datum transformation used for projecting geometries in the query results when
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public QueryCompositeTransformation? QueryCompositeTransformationDatumTransformation { get; set; } = QueryCompositeTransformationDatumTransformation;
-    
-    /// <summary>
-    ///     Datum transformation used for projecting geometries in the query results when
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public QuerySimpleTransformation? QuerySimpleTransformationDatumTransformation { get; set; } = QuerySimpleTransformationDatumTransformation;
     
     /// <summary>
     ///     Filters features from the layer that are within the specified range values.

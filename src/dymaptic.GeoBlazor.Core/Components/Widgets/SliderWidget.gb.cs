@@ -295,6 +295,12 @@ public partial class SliderWidget
         InputCreatedFunctionType type,
         int thumbIndex)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+        
         if (InputCreatedFunction is not null)
         {
             await InputCreatedFunction.Invoke(inputElement,
@@ -431,6 +437,12 @@ public partial class SliderWidget
         ElementReference thumbElement,
         ElementReference labelElement)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+        
         if (ThumbCreatedFunction is not null)
         {
             await ThumbCreatedFunction.Invoke(index,
@@ -2457,16 +2469,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsMaxChange(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderMaxChangeEvent maxChangeEvent = 
-            JsonSerializer.Deserialize<SliderMaxChangeEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnMaxChange.InvokeAsync(maxChangeEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderMaxChangeEvent? maxChangeEvent = await jsStreamRef.ReadJsStreamReference<SliderMaxChangeEvent>();
+        if (maxChangeEvent is not null)
+        {
+            await OnMaxChange.InvokeAsync(maxChangeEvent);
+        }
     }
     
     /// <summary>
@@ -2488,16 +2501,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsMaxClick(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderMaxClickEvent maxClickEvent = 
-            JsonSerializer.Deserialize<SliderMaxClickEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnMaxClick.InvokeAsync(maxClickEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderMaxClickEvent? maxClickEvent = await jsStreamRef.ReadJsStreamReference<SliderMaxClickEvent>();
+        if (maxClickEvent is not null)
+        {
+            await OnMaxClick.InvokeAsync(maxClickEvent);
+        }
     }
     
     /// <summary>
@@ -2519,16 +2533,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsMinChange(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderMinChangeEvent minChangeEvent = 
-            JsonSerializer.Deserialize<SliderMinChangeEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnMinChange.InvokeAsync(minChangeEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderMinChangeEvent? minChangeEvent = await jsStreamRef.ReadJsStreamReference<SliderMinChangeEvent>();
+        if (minChangeEvent is not null)
+        {
+            await OnMinChange.InvokeAsync(minChangeEvent);
+        }
     }
     
     /// <summary>
@@ -2550,16 +2565,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsMinClick(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderMinClickEvent minClickEvent = 
-            JsonSerializer.Deserialize<SliderMinClickEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnMinClick.InvokeAsync(minClickEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderMinClickEvent? minClickEvent = await jsStreamRef.ReadJsStreamReference<SliderMinClickEvent>();
+        if (minClickEvent is not null)
+        {
+            await OnMinClick.InvokeAsync(minClickEvent);
+        }
     }
     
     /// <summary>
@@ -2581,16 +2597,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsSegmentClick(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderSegmentClickEvent segmentClickEvent = 
-            JsonSerializer.Deserialize<SliderSegmentClickEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSegmentClick.InvokeAsync(segmentClickEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderSegmentClickEvent? segmentClickEvent = await jsStreamRef.ReadJsStreamReference<SliderSegmentClickEvent>();
+        if (segmentClickEvent is not null)
+        {
+            await OnSegmentClick.InvokeAsync(segmentClickEvent);
+        }
     }
     
     /// <summary>
@@ -2612,16 +2629,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsSegmentDrag(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderSegmentDragEvent segmentDragEvent = 
-            JsonSerializer.Deserialize<SliderSegmentDragEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnSegmentDrag.InvokeAsync(segmentDragEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderSegmentDragEvent? segmentDragEvent = await jsStreamRef.ReadJsStreamReference<SliderSegmentDragEvent>();
+        if (segmentDragEvent is not null)
+        {
+            await OnSegmentDrag.InvokeAsync(segmentDragEvent);
+        }
     }
     
     /// <summary>
@@ -2643,16 +2661,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsThumbChange(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderThumbChangeEvent thumbChangeEvent = 
-            JsonSerializer.Deserialize<SliderThumbChangeEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnThumbChange.InvokeAsync(thumbChangeEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderThumbChangeEvent? thumbChangeEvent = await jsStreamRef.ReadJsStreamReference<SliderThumbChangeEvent>();
+        if (thumbChangeEvent is not null)
+        {
+            await OnThumbChange.InvokeAsync(thumbChangeEvent);
+        }
     }
     
     /// <summary>
@@ -2674,16 +2693,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsThumbClick(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderThumbClickEvent thumbClickEvent = 
-            JsonSerializer.Deserialize<SliderThumbClickEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnThumbClick.InvokeAsync(thumbClickEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderThumbClickEvent? thumbClickEvent = await jsStreamRef.ReadJsStreamReference<SliderThumbClickEvent>();
+        if (thumbClickEvent is not null)
+        {
+            await OnThumbClick.InvokeAsync(thumbClickEvent);
+        }
     }
     
     /// <summary>
@@ -2705,16 +2725,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsThumbDrag(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderThumbDragEvent thumbDragEvent = 
-            JsonSerializer.Deserialize<SliderThumbDragEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnThumbDrag.InvokeAsync(thumbDragEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderThumbDragEvent? thumbDragEvent = await jsStreamRef.ReadJsStreamReference<SliderThumbDragEvent>();
+        if (thumbDragEvent is not null)
+        {
+            await OnThumbDrag.InvokeAsync(thumbDragEvent);
+        }
     }
     
     /// <summary>
@@ -2736,16 +2757,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsTickClick(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderTickClickEvent tickClickEvent = 
-            JsonSerializer.Deserialize<SliderTickClickEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnTickClick.InvokeAsync(tickClickEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderTickClickEvent? tickClickEvent = await jsStreamRef.ReadJsStreamReference<SliderTickClickEvent>();
+        if (tickClickEvent is not null)
+        {
+            await OnTickClick.InvokeAsync(tickClickEvent);
+        }
     }
     
     /// <summary>
@@ -2767,16 +2789,17 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsTrackClick(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SliderTrackClickEvent trackClickEvent = 
-            JsonSerializer.Deserialize<SliderTrackClickEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnTrackClick.InvokeAsync(trackClickEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        SliderTrackClickEvent? trackClickEvent = await jsStreamRef.ReadJsStreamReference<SliderTrackClickEvent>();
+        if (trackClickEvent is not null)
+        {
+            await OnTrackClick.InvokeAsync(trackClickEvent);
+        }
     }
     
     /// <summary>

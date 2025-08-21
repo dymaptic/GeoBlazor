@@ -39,6 +39,12 @@ public partial class BasemapLayerListWidget
     [JSInvokable]
     public async Task OnJsBaseFilterPredicate(ListItem item)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+        
         if (BaseFilterPredicate is not null)
         {
             await BaseFilterPredicate.Invoke(item);
@@ -166,6 +172,12 @@ public partial class BasemapLayerListWidget
     [JSInvokable]
     public async Task OnJsReferenceFilterPredicate(ListItem item)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+        
         if (ReferenceFilterPredicate is not null)
         {
             await ReferenceFilterPredicate.Invoke(item);

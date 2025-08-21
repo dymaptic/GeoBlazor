@@ -1,10 +1,10 @@
 
-export async function buildJsWebsceneVirtualLighting(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWebsceneVirtualLighting(dotNetObject: any): Promise<any> {
     let { buildJsWebsceneVirtualLightingGenerated } = await import('./websceneVirtualLighting.gb');
-    return await buildJsWebsceneVirtualLightingGenerated(dotNetObject, layerId, viewId);
+    return await buildJsWebsceneVirtualLightingGenerated(dotNetObject);
 }     
 
-export async function buildDotNetWebsceneVirtualLighting(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWebsceneVirtualLighting(jsObject: any): Promise<any> {
     let { buildDotNetWebsceneVirtualLightingGenerated } = await import('./websceneVirtualLighting.gb');
-    return await buildDotNetWebsceneVirtualLightingGenerated(jsObject, layerId, viewId);
+    return await buildDotNetWebsceneVirtualLightingGenerated(jsObject);
 }

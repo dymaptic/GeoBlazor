@@ -4,7 +4,7 @@ export async function buildJsVisibleElements(dotNetObject: any): Promise<any> {
     return await buildJsVisibleElementsGenerated(dotNetObject);
 }     
 
-export async function buildDotNetVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetVisibleElements(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetVisibleElementsGenerated } = await import('./visibleElements.gb');
-    return await buildDotNetVisibleElementsGenerated(jsObject);
+    return await buildDotNetVisibleElementsGenerated(jsObject, viewId);
 }

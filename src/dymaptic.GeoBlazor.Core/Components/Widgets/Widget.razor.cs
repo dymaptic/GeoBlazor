@@ -493,7 +493,7 @@ public abstract partial class Widget : MapComponent
         // ReSharper disable once RedundantCast
         await JsComponentReference!.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
     }
-
+    
     private bool _externalWidgetRegistered;
     private bool _delayedUpdate;
 }

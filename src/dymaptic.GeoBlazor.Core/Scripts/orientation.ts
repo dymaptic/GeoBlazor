@@ -1,10 +1,10 @@
 
-export async function buildJsOrientation(dotNetObject: any): Promise<any> {
+export async function buildJsOrientation(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsOrientationGenerated } = await import('./orientation.gb');
-    return await buildJsOrientationGenerated(dotNetObject);
+    return await buildJsOrientationGenerated(dotNetObject, viewId);
 }     
 
-export async function buildDotNetOrientation(jsObject: any): Promise<any> {
+export async function buildDotNetOrientation(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetOrientationGenerated } = await import('./orientation.gb');
-    return await buildDotNetOrientationGenerated(jsObject);
+    return await buildDotNetOrientationGenerated(jsObject, viewId);
 }

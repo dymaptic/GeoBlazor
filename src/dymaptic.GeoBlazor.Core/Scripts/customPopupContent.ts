@@ -2,6 +2,7 @@
 
 import { sanitize } from './arcGisJsInterop';
 
+// don't remove the layerId and viewId parameters, they are used in the Pro implementation
 export function buildJsCustomPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): any {
     return sanitize(dotNetObject);
 }

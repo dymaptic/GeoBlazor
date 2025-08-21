@@ -3,7 +3,7 @@ export async function buildJsMultidimensionalSubset(dotNetObject: any): Promise<
     return await buildJsMultidimensionalSubsetGenerated(dotNetObject);
 }
 
-export async function buildDotNetMultidimensionalSubset(jsObject: any): Promise<any> {
+export async function buildDotNetMultidimensionalSubset(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetMultidimensionalSubsetGenerated} = await import('./multidimensionalSubset.gb');
-    return await buildDotNetMultidimensionalSubsetGenerated(jsObject);
+    return await buildDotNetMultidimensionalSubsetGenerated(jsObject, viewId);
 }

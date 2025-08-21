@@ -1,11 +1,9 @@
 import { buildDotNetExtent } from "./extent";
 import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
-import { DotNetPoint } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import { arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs } from "./arcGisJsInterop";
-import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 
-export function buildDotNetPoint(point): any {
+export function buildDotNetPoint(point: any): any {
     if (point === undefined || point === null) return null;
     return {
         type: 'point',

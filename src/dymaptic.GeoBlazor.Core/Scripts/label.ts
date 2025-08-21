@@ -5,9 +5,9 @@ export async function buildJsLabel(dotNetObject: any, layerId: string | null, vi
     return await buildJsLabelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLabel(jsObject: any): Promise<any> {
+export async function buildDotNetLabel(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetLabelGenerated} = await import('./label.gb');
-    return await buildDotNetLabelGenerated(jsObject);
+    return await buildDotNetLabelGenerated(jsObject, viewId);
 }
 
 export default class LabelWrapper extends LabelGenerated {

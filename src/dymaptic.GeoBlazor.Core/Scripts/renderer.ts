@@ -27,7 +27,7 @@ export async function buildJsRenderer(dotNetObject: any, layerId: string | null,
 }
 
 
-export async function buildDotNetRenderer(jsObject: any): Promise<any> {
+export async function buildDotNetRenderer(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -35,15 +35,15 @@ export async function buildDotNetRenderer(jsObject: any): Promise<any> {
     switch (jsObject?.type) {
         case 'simple':
             let {buildDotNetSimpleRenderer} = await import('./simpleRenderer');
-            return await buildDotNetSimpleRenderer(jsObject);
+            return await buildDotNetSimpleRenderer(jsObject, viewId);
         case 'unique-value':
             let {buildDotNetUniqueValueRenderer} = await import('./uniqueValueRenderer');
-            return await buildDotNetUniqueValueRenderer(jsObject);
+            return await buildDotNetUniqueValueRenderer(jsObject, viewId);
         case 'pie-chart':
             try {
                 // @ts-ignore only available in Pro
                 let {buildDotNetPieChartRenderer} = await import('./pieChartRenderer');
-                return await buildDotNetPieChartRenderer(jsObject);
+                return await buildDotNetPieChartRenderer(jsObject, viewId);
             } catch {
                 throw new Error("Pie chart renderer is only available in GeoBlazor Pro.");
             }

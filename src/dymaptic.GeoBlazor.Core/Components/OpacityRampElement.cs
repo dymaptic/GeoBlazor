@@ -2,5 +2,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 public partial class OpacityRampElement
 {
-   // Add custom code to this file to override generated code
+    // Add custom code to this file to override generated code
+    
+    /// <inheritdoc />
+    public LegendElementType Type => LegendElementType.OpacityRamp;
 }

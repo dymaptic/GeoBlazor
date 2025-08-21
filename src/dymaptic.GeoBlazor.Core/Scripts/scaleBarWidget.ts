@@ -14,7 +14,7 @@ export async function buildJsScaleBarWidget(dotNetObject: any, layerId: string |
     return await buildJsScaleBarWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetScaleBarWidget(jsObject: any): Promise<any> {
+export async function buildDotNetScaleBarWidget(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetScaleBarWidgetGenerated} = await import('./scaleBarWidget.gb');
-    return await buildDotNetScaleBarWidgetGenerated(jsObject);
+    return await buildDotNetScaleBarWidgetGenerated(jsObject, viewId);
 }

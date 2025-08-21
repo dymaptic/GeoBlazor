@@ -111,6 +111,10 @@ public partial class Sublayer
     ///     The URL to the REST endpoint of the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="attributeTableTemplate">
+    ///     This property is used to configure the associated layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html">FeatureTable</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#attributeTableTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public Sublayer(
         long? sublayerId = null,
         bool? labelsVisible = null,
@@ -130,7 +134,8 @@ public partial class Sublayer
         DynamicLayer? source = null,
         IReadOnlyList<Sublayer>? sublayers = null,
         IReadOnlyList<OrderByInfo>? orderBy = null,
-        string? url = null)
+        string? url = null,
+        IAttributeTableTemplate? attributeTableTemplate = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -153,12 +158,23 @@ public partial class Sublayer
         Sublayers = sublayers;
         OrderBy = orderBy;
         Url = url;
+        AttributeTableTemplate = attributeTableTemplate;
 #pragma warning restore BL0005    
     }
     
     
 #region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerattributetabletemplate-property">GeoBlazor Docs</a>
+    ///     This property is used to configure the associated layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html">FeatureTable</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#attributeTableTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IAttributeTableTemplate? AttributeTableTemplate { get; set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
@@ -362,6 +378,45 @@ public partial class Sublayer
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the AttributeTableTemplate property.
+    /// </summary>
+    public async Task<IAttributeTableTemplate?> GetAttributeTableTemplate()
+    {
+        if (CoreJsModule is null)
+        {
+            return AttributeTableTemplate;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return AttributeTableTemplate;
+        }
+
+        // get the property value
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>("getProperty",
+            CancellationTokenSource.Token, "attributeTableTemplate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AttributeTableTemplate = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+        }
+         
+        return AttributeTableTemplate;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -1464,6 +1519,43 @@ public partial class Sublayer
 #region Property Setters
 
     /// <summary>
+    ///    Asynchronously set the value of the AttributeTableTemplate property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetAttributeTableTemplate(IAttributeTableTemplate? value)
+    {
+#pragma warning disable BL0005
+        AttributeTableTemplate = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(AttributeTableTemplate)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "attributeTableTemplate", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
     /// <param name="value">
@@ -2397,7 +2489,8 @@ public partial class Sublayer
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     - options.feature: The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
+    ///     An object specifying additional options. See the
+    ///     object specification table below for the required properties of this object.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
@@ -2532,7 +2625,6 @@ public partial class Sublayer
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerload-method">GeoBlazor Docs</a>
     ///     Loads the resources referenced by this class.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#load">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">

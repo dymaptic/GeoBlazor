@@ -1,4 +1,5 @@
 ﻿@page "/search-multi-source"
+@inject AuthenticationManager AuthenticationManager
 
 <PageTitle>Search with Multiple Sources</PageTitle>
 <h1>Search with Multiple Sources</h1>
@@ -13,13 +14,14 @@
 
 <MapView Class="map-view"
          Center="@(new Point(-97, 38))"
-         Scale="10000000">
+         Scale="10000000"
+         ExcludeApiKey="true">
     <Map>
         <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisDarkGrayBase" />
+            <BasemapStyle ApiKey="@AuthenticationManager.ApiKey" Name="BasemapStyleName.ArcgisDarkGrayBase" />
         </Basemap>
     </Map>
-    <SearchWidget AllPlaceholder="District or Senator"
+    <SearchWidget AllPlaceholder="Senator or World Location Service"
                   IncludeDefaultSources="false"
                   Position="OverlayPosition.TopRight">
         <LayerSearchSource SearchFields="@(["DISTRICTID"])"
@@ -32,10 +34,10 @@
                 <PopupTemplate Title="Congressional District {DISTRICTID} </br>{NAME}, ({PARTY})" OverwriteActions="true" />
             </FeatureLayer>
         </LayerSearchSource>
-        <LayerSearchSource SearchFields="@(["Name", "Party"])"
+        <LayerSearchSource SearchFields="@( ["Name", "Party"])"
                            SuggestionTemplate="{Name}, Party: {Party}"
                            ExactMatch="false"
-                           OutFields="@(["*"])"
+                           OutFields="@( ["*"])"
                            Name="Senators"
                            Placeholder="example: Casey"
                            ZoomScale="500000">
@@ -49,6 +51,7 @@
         <LocatorSearchSource Name="ArcGIS World Geocoding Service"
                              Placeholder="example: Nuuk, GRL"
                              SingleLineFieldName="SingleLine"
+                             ApiKey="@AuthenticationManager.ApiKey"
                              Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer" />
     </SearchWidget>
 </MapView>

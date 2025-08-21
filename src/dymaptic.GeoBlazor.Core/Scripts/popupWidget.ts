@@ -1,7 +1,6 @@
 import Popup from '@arcgis/core/widgets/Popup';
 import PopupWidgetGenerated from './popupWidget.gb';
-import {dotNetRefs, hasValue} from "./arcGisJsInterop";
-import Symbol from "@arcgis/core/symbols/Symbol";
+import {buildEncodedJson, hasValue} from "./arcGisJsInterop";
 import {buildJsSymbol} from "./symbol";
 import {buildJsWidget} from "./widget";
 import Widget from "@arcgis/core/widgets/Widget";
@@ -50,9 +49,13 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
 
     async getSelectedFeature(): Promise<any | null> {
         let feature = this.widget.selectedFeature;
+        if (!hasValue(feature)) {
+            return null;
+        }
         let {buildDotNetGraphic} = await import('./graphic');
-        let graphic = buildDotNetGraphic(feature, null, this.viewId);
-        return graphic;
+        let graphic = buildDotNetGraphic(feature!, null, this.viewId);
+        let encodedJson = buildEncodedJson(graphic);
+        return encodedJson;
     }
 
     getSelectedFeatureIndex(): number {

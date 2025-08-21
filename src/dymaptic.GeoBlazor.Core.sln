@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.OAuth.Client", "..\samples\dymaptic.GeoBlazor.Core.Sample.OAuth\dymaptic.GeoBlazor.Core.Sample.OAuth.Client\dymaptic.GeoBlazor.Core.Sample.OAuth.Client.csproj", "{9C60EDCD-CA86-452F-9E6F-CDBAF3604EAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.SourceGenerator", "dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj", "{1E2AFAB9-32CD-4F79-A347-F29A0F1C7208}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.SourceGenerator.Tests", "..\test\dymaptic.GeoBlazor.Core.SourceGenerator.Tests\dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj", "{4A58D766-A1EB-4A91-A316-E111F662F145}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +92,14 @@ Global
 		{9C60EDCD-CA86-452F-9E6F-CDBAF3604EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C60EDCD-CA86-452F-9E6F-CDBAF3604EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C60EDCD-CA86-452F-9E6F-CDBAF3604EAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E2AFAB9-32CD-4F79-A347-F29A0F1C7208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E2AFAB9-32CD-4F79-A347-F29A0F1C7208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E2AFAB9-32CD-4F79-A347-F29A0F1C7208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E2AFAB9-32CD-4F79-A347-F29A0F1C7208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A58D766-A1EB-4A91-A316-E111F662F145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A58D766-A1EB-4A91-A316-E111F662F145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A58D766-A1EB-4A91-A316-E111F662F145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A58D766-A1EB-4A91-A316-E111F662F145}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

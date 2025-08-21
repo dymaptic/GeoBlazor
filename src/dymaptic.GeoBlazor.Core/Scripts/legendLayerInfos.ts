@@ -20,7 +20,7 @@ export async function buildJsLegendLayerInfos(dotNetObject: any): Promise<any> {
     return jsLegendLayerInfos;
 }
 
-export async function buildDotNetLegendLayerInfos(jsObject: any): Promise<any> {
+export async function buildDotNetLegendLayerInfos(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetLegendLayerInfosGenerated} = await import('./legendLayerInfos.gb');
-    return await buildDotNetLegendLayerInfosGenerated(jsObject);
+    return await buildDotNetLegendLayerInfosGenerated(jsObject, viewId);
 }

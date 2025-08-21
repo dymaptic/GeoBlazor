@@ -57,7 +57,7 @@ export default class ExtentWrapper implements IPropertyWrapper {
     
     normalize() {
         let jsNormalized = this.extent.normalize();
-        let dotNetNormalized = jsNormalized?.map(buildDotNetExtent);
+        let dotNetNormalized = jsNormalized?.map(e => buildDotNetExtent(e));
         return dotNetNormalized;
     }
     
@@ -75,7 +75,7 @@ export default class ExtentWrapper implements IPropertyWrapper {
     }
 }
 
-export function buildJsExtent(dotNetExtent, currentSpatialReference: any | null = null): any {
+export function buildJsExtent(dotNetExtent: any, currentSpatialReference: any | null = null): any {
     if (!hasValue(dotNetExtent)) {
         return null;
     }
@@ -97,19 +97,22 @@ export function buildJsExtent(dotNetExtent, currentSpatialReference: any | null 
     let jsObjectRef = DotNet.createJSObjectReference(extentWrapper);
     jsObjectRefs[dotNetExtent.id] = jsObjectRef;
 
-    try {
-        let dnInstantiatedExtent = buildDotNetExtent(extent);
-        let dnStream = buildJsStreamReference(dnInstantiatedExtent);
-        dotNetExtent.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated',
-            jsObjectRef, dnStream);
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FeatureLayer', e);
-    }
+    requestAnimationFrame(async () => {
+        try {
+            let dnInstantiatedExtent = buildDotNetExtent(extent);
+            let dnStream = buildJsStreamReference(dnInstantiatedExtent);
+            
+            dotNetExtent.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated',
+                jsObjectRef, dnStream);
+        } catch (e) {
+            console.error('Error invoking OnJsComponentCreated for FeatureLayer', e);
+        }
+    });
     
     return extent;
 }
 
-export function buildDotNetExtent(extent: Extent | null | undefined): DotNetExtent | null {
+export function buildDotNetExtent(extent: any): any {
     if (extent === undefined || extent === null) return null;
     return {
         type: 'extent',

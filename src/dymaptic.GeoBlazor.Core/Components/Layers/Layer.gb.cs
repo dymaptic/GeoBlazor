@@ -10,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public abstract partial class Layer : IHitTestItem,
     IIntersectItem,
+    ISliceAnalysisExcludedLayers,
     ISliceViewModelExcludedLayers
 {
 
@@ -215,6 +216,11 @@ public abstract partial class Layer : IHitTestItem,
         
         if (result is not null)
         {
+            if (VisibilityTimeExtent is not null)
+            {
+                result.Id = VisibilityTimeExtent.Id;
+            }
+            
 #pragma warning disable BL0005
             VisibilityTimeExtent = result;
 #pragma warning restore BL0005
@@ -398,16 +404,17 @@ public abstract partial class Layer : IHitTestItem,
     [JSInvokable]
     public async Task OnJsCreate(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LayerViewCreateEvent createEvent = 
-            JsonSerializer.Deserialize<LayerViewCreateEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnCreate.InvokeAsync(createEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        LayerViewCreateEvent? createEvent = await jsStreamRef.ReadJsStreamReference<LayerViewCreateEvent>();
+        if (createEvent is not null)
+        {
+            await OnCreate.InvokeAsync(createEvent);
+        }
     }
     
     /// <summary>
@@ -429,16 +436,17 @@ public abstract partial class Layer : IHitTestItem,
     [JSInvokable]
     public async Task OnJsCreateError(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LayerViewCreateErrorEvent createErrorEvent = 
-            JsonSerializer.Deserialize<LayerViewCreateErrorEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnCreateError.InvokeAsync(createErrorEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        LayerViewCreateErrorEvent? createErrorEvent = await jsStreamRef.ReadJsStreamReference<LayerViewCreateErrorEvent>();
+        if (createErrorEvent is not null)
+        {
+            await OnCreateError.InvokeAsync(createErrorEvent);
+        }
     }
     
     /// <summary>
@@ -461,16 +469,17 @@ public abstract partial class Layer : IHitTestItem,
     [JSInvokable]
     public async Task OnJsDestroy(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LayerViewDestroyEvent destroyEvent = 
-            JsonSerializer.Deserialize<LayerViewDestroyEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnDestroy.InvokeAsync(destroyEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        LayerViewDestroyEvent? destroyEvent = await jsStreamRef.ReadJsStreamReference<LayerViewDestroyEvent>();
+        if (destroyEvent is not null)
+        {
+            await OnDestroy.InvokeAsync(destroyEvent);
+        }
     }
     
     /// <summary>

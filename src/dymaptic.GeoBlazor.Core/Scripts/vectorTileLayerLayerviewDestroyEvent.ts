@@ -4,7 +4,7 @@ export async function buildJsVectorTileLayerLayerviewDestroyEvent(dotNetObject: 
     return await buildJsVectorTileLayerLayerviewDestroyEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVectorTileLayerLayerviewDestroyEvent(jsObject: any): Promise<any> {
+export async function buildDotNetVectorTileLayerLayerviewDestroyEvent(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetVectorTileLayerLayerviewDestroyEventGenerated } = await import('./vectorTileLayerLayerviewDestroyEvent.gb');
-    return await buildDotNetVectorTileLayerLayerviewDestroyEventGenerated(jsObject);
+    return await buildDotNetVectorTileLayerLayerviewDestroyEventGenerated(jsObject, viewId);
 }

@@ -2,7 +2,7 @@
 import ElementExpressionInfo from '@arcgis/core/popup/ElementExpressionInfo';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export function buildJsElementExpressionInfo(dotNetObject: any): any {
+export function buildJsElementExpressionInfo(dotNetObject: any, viewId: string | null): any {
     let jsElementExpressionInfo = new ElementExpressionInfo();
 
     if (hasValue(dotNetObject.expression)) {
@@ -22,7 +22,7 @@ export function buildJsElementExpressionInfo(dotNetObject: any): any {
     return jsElementExpressionInfo;
 }
 
-export function buildDotNetElementExpressionInfo(jsObject: any): any {
+export function buildDotNetElementExpressionInfo(jsObject: any, viewId: string | null): any {
     if (!hasValue(jsObject)) {
         return null;
     }

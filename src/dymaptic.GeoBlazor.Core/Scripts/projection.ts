@@ -1,4 +1,3 @@
-import ProjectionGenerated from './projection.gb';
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
 import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
@@ -13,6 +12,12 @@ export default class ProjectionWrapper {
         this.returnToDotNet = returnToDotNet;
     }
     
+    async load(): Promise<void> {
+        let projectionOperator = await import('@arcgis/core/geometry/operators/projectOperator');
+        if (!projectionOperator.isLoaded()) {
+            await projectionOperator.load();
+        }
+    }
     async project(geometry: any[] | any, outSpatialReference, geographicTransformation?):
         Promise<any> {
         let projectionOperator = await import('@arcgis/core/geometry/operators/projectOperator');

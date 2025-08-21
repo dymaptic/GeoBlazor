@@ -12,7 +12,9 @@
   "author": "dymaptic",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "4.32.9",
+    "@arcgis/core": "4.33.10",
+    "@arcgis/map-components": "4.33.10",
+    "@esri/calcite-components": "3.2.1",
     "esbuild": "0.25.2",
     "esbuild-clean-plugin": "^2.0.0",
     "protobufjs": "7.4.0"
@@ -23,6 +25,7 @@
     "esbuild-plugin-eslint": "^0.3.12",
     "eslint": "9.24.0",
     "globals": "^16.0.0",
-    "typescript-eslint": "^8.29.0"
+    "typescript-eslint": "^8.29.0",
+    "eslint-plugin-sonarjs": "^3.0.4"
   }
 }

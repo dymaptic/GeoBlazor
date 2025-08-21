@@ -6,5 +6,5 @@ export async function buildJsUniqueValueInfo(dotNetObject: any): Promise<any> {
 
 export async function buildDotNetUniqueValueInfo(jsObject: any): Promise<any> {
     let { buildDotNetUniqueValueInfoGenerated } = await import('./uniqueValueInfo.gb');
-    return await buildDotNetUniqueValueInfoGenerated(jsObject);
+    return await buildDotNetUniqueValueInfoGenerated(jsObject,);
 }

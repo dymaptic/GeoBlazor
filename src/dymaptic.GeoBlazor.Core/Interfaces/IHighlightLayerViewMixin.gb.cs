@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IHighlightLayerViewMixin.html">GeoBlazor Docs</a>
-///     Interface for types CatalogFootprintLayerView, CSVLayerView, FeatureLayerView, GeoJSONLayerView, GraphicsLayerView, OGCFeatureLayerView, StreamLayerView, WFSLayerView
+///     Interface for types CatalogFootprintLayerView, CSVLayerView, FeatureLayerView, GeoJSONLayerView, GraphicsLayerView, OGCFeatureLayerView, ParquetLayerView, StreamLayerView, WFSLayerView
 /// </summary>
 public partial interface IHighlightLayerViewMixin : IMapComponent
 {

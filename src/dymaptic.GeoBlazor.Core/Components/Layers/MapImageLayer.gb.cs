@@ -182,6 +182,9 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public MapImageLayer(
         string? url = null,
         PortalItem? portalItem = null,
@@ -213,7 +216,8 @@ public partial class MapImageLayer : IArcGISMapService,
         IReadOnlyList<Sublayer>? subtables = null,
         TimeInterval? timeOffset = null,
         string? title = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -248,6 +252,7 @@ public partial class MapImageLayer : IArcGISMapService,
         TimeOffset = timeOffset;
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     
@@ -1390,6 +1395,11 @@ public partial class MapImageLayer : IArcGISMapService,
         
         if (result is not null)
         {
+            if (TimeExtent is not null)
+            {
+                result.Id = TimeExtent.Id;
+            }
+            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -2619,16 +2629,17 @@ public partial class MapImageLayer : IArcGISMapService,
     [JSInvokable]
     public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        RefreshEvent refreshEvent = 
-            JsonSerializer.Deserialize<RefreshEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnRefresh.InvokeAsync(refreshEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        if (refreshEvent is not null)
+        {
+            await OnRefresh.InvokeAsync(refreshEvent);
+        }
     }
     
     /// <summary>

@@ -94,6 +94,12 @@ public partial class LayerListWidget
     [JSInvokable]
     public async Task OnJsFilterPredicate(ListItem item)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+        
         if (FilterPredicate is not null)
         {
             await FilterPredicate.Invoke(item);
@@ -159,18 +165,6 @@ public partial class LayerListWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MinFilterItems { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetopenedlayers-property">GeoBlazor Docs</a>
-    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a>s that are opened
-    ///     in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogLayerList">catalogLayerList</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#tableList">tableList</a> flow item.
-    ///     default []
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#openedLayers">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public IReadOnlyList<Layer>? OpenedLayers { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetoperationalitems-property">GeoBlazor Docs</a>
@@ -638,45 +632,6 @@ public partial class LayerListWidget
         }
          
         return MinFilterItems;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the OpenedLayers property.
-    /// </summary>
-    public async Task<IReadOnlyList<Layer>?> GetOpenedLayers()
-    {
-        if (CoreJsModule is null)
-        {
-            return OpenedLayers;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return OpenedLayers;
-        }
-
-        IReadOnlyList<Layer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Layer>?>(
-            "getOpenedLayers", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            OpenedLayers = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(OpenedLayers)] = OpenedLayers;
-        }
-        
-        return OpenedLayers;
     }
     
     /// <summary>

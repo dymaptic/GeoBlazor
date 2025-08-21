@@ -11,63 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 public partial class Polygon
 {
 
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public Polygon()
-    {
-    }
-
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="rings">
-    ///     An array of rings.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#rings">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="spatialReference">
-    ///     The spatial reference of the geometry.
-    ///     default SpatialReference.WGS84 // wkid: 4326
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="centroid">
-    ///     The centroid of the polygon.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#centroid">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="hasM">
-    ///     Indicates if the geometry has M values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasM">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="hasZ">
-    ///     Indicates if the geometry has z-values (elevation).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="isSelfIntersecting">
-    ///     Checks to see if polygon rings cross each other and indicates if the polygon is
-    ///     self-intersecting, which means the ring of the polygon crosses itself.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#isSelfIntersecting">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public Polygon(
-        IReadOnlyList<MapPath> rings,
-        SpatialReference? spatialReference = null,
-        Point? centroid = null,
-        bool? hasM = null,
-        bool? hasZ = null,
-        bool? isSelfIntersecting = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        Rings = rings;
-        SpatialReference = spatialReference;
-        Centroid = centroid;
-        HasM = hasM;
-        HasZ = hasZ;
-        IsSelfIntersecting = isSelfIntersecting;
-#pragma warning restore BL0005    
-    }
-    
-    
 #region Property Getters
 
     /// <summary>
@@ -112,45 +55,6 @@ public partial class Polygon
         }
         
         return Centroid;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the IsSelfIntersecting property.
-    /// </summary>
-    public async Task<bool?> GetIsSelfIntersecting()
-    {
-        if (CoreJsModule is null)
-        {
-            return IsSelfIntersecting;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return IsSelfIntersecting;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isSelfIntersecting");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             IsSelfIntersecting = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(IsSelfIntersecting)] = IsSelfIntersecting;
-        }
-         
-        return IsSelfIntersecting;
     }
     
 #endregion
