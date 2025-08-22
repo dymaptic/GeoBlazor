@@ -1,4 +1,6 @@
-﻿namespace dymaptic.GeoBlazor.Core.Model;
+﻿using System.Text.RegularExpressions;
+
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Manager for all authentication-related tasks, tokens, and keys
@@ -56,18 +58,51 @@ public class AuthenticationManager
         {
             if (string.IsNullOrWhiteSpace(_portalUrl))
             {
-                _portalUrl = _configuration["ArcGISPortalUrl"];
+                var fromConfig = _configuration["ArcGISPortalUrl"];
+                _portalUrl = NormalizePortalUrl(fromConfig);
             }
-
             return _portalUrl;
         }
         set
         {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                _portalUrl = value;
-            }
+            _portalUrl = NormalizePortalUrl(value);
         }
+    }
+
+    private static string? NormalizePortalUrl(string? input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return null;
+
+        // normalize whitespace and trailing slashes
+        var trimmed = input.Trim().TrimEnd('/');
+
+        // Try to parse the URI so we can reliably detect Online vs Enterprise
+        if (Uri.TryCreate(trimmed, UriKind.Absolute, out var uri))
+        {
+            bool isArcGisOnline = uri.Host.EndsWith("arcgis.com", StringComparison.OrdinalIgnoreCase);
+            var noTrailing = trimmed;
+
+            if (isArcGisOnline)
+            {
+                // AGOL: ensure NO trailing "/portal"
+                return Regex.Replace(noTrailing, @"/portal$", "", RegexOptions.IgnoreCase);
+            }
+
+            // Enterprise: ensure exactly one trailing "/portal"
+            return Regex.IsMatch(noTrailing, @"/portal$", RegexOptions.IgnoreCase)
+                ? noTrailing
+                : noTrailing + "/portal";
+        }
+
+        // Fallback if not a valid absolute URI (keep same rules heuristically)
+        bool looksOnline = trimmed.IndexOf("arcgis.com", StringComparison.OrdinalIgnoreCase) >= 0;
+        if (looksOnline)
+        {
+            return Regex.Replace(trimmed, @"/portal$", "", RegexOptions.IgnoreCase);
+        }
+        return Regex.IsMatch(trimmed, @"/portal$", RegexOptions.IgnoreCase)
+            ? trimmed
+            : trimmed + "/portal";
     }
 
     /// <summary>

@@ -1,25 +1,31 @@
-﻿@page "/map-auto"
+﻿@page "/map-server"
 @using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client
 @using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Models
-@rendermode InteractiveAuto
+@rendermode InteractiveServer
 
 <!-- Render Mode Information -->
 <div class="alert alert-primary mb-3">
     <div class="d-flex align-items-center">
-        <strong class="me-2">🚀 InteractiveAuto Mode</strong>
-        <span class="badge bg-primary">Server → WebAssembly</span>
+        <strong class="me-2">🖥️ InteractiveServer Mode</strong>
+        <span class="badge bg-primary">Server-Side with SignalR</span>
     </div>
-    <small class="mt-1 d-block">This page starts with server-side rendering for fast initial load, then switches to WebAssembly for enhanced interactivity. Authentication may behave differently during the transition.</small>
+    <small class="mt-1 d-block">
+        This page runs on the server via Blazor Server. UI events round-trip over SignalR.
+        JavaScript interop is available only after the circuit is established (post-prerender).
+        Authentication calls execute on the server and tokens are registered in the browser once interactivity starts.
+    </small>
 </div>
 
 <!-- Token Testing Panel -->
 <div class="token-test-panel mb-4">
     <div class="card">
         <div class="card-header">
-            <h4>Token Testing Panel - InteractiveAuto Mode</h4>
-            <p>This panel demonstrates the token authentication flow in <strong>InteractiveAuto</strong> mode. The map below uses a secured portal item
-                that requires authentication. Replace the PortalItemId in the Basemap component with a portal item 
-                from your ArcGIS Online or Enterprise portal that you have access to.</p>
+            <h4>Token Testing Panel - Server Mode</h4>
+            <p>
+                This panel demonstrates the token authentication flow in <strong>InteractiveServer</strong> mode.
+                The map below uses a secured portal item that requires authentication. Replace the <code>PortalItemId</code> in the
+                <code>Basemap</code> component with a portal item from your ArcGIS Online or Enterprise portal that you have access to.
+            </p>
         </div>
         <div class="card-body">
             <div class="btn-group mb-3" role="group">
@@ -60,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            
+
             @if (!string.IsNullOrEmpty(_tokenTestResult))
             {
                 <div class="alert alert-success mt-3">
@@ -68,7 +74,7 @@
                     <pre class="mb-0">@_tokenTestResult</pre>
                 </div>
             }
-            
+
             @if (!string.IsNullOrEmpty(_errorMessage))
             {
                 <div class="alert alert-danger mt-3">
@@ -89,38 +95,47 @@ else
     <MapView Class="map-view" PromptForOAuthLogin="true">
         <Map>
             <Basemap>
-                    <PortalItem PortalItemId="1bf19e76cb6e45db8ab9739e560e9307" />
+                <PortalItem PortalItemId="1bf19e76cb6e45db8ab9739e560e9307" />
             </Basemap>
         </Map>
     </MapView>
 }
 
 @code {
-    [Inject]
-    public required ArcGisAuthServiceWasm AuthService { get; set; }
-
-    [Inject]
-    public required AuthenticationManager AuthenticationManager { get; set; }
+    [Inject] public required ArcGisAuthServiceWasm AuthService { get; set; }
+    [Inject] public required AuthenticationManager AuthenticationManager { get; set; }
 
     private bool _isInitialized = false;
     private bool _isTestingToken = false;
     private string _tokenTestResult = "";
     private string _errorMessage = "";
 
-    // Initialize authentication after first render when JavaScript interop is available.
-    // This method calls the server API endpoint (/api/auth/token) to get a fresh token,
-    // then registers it with GeoBlazor's AuthenticationManager for use with ArcGIS services.
+    // In Interactive Server, JS interop is not available during prerender (firstRender == true).
+    // Run initialization AFTER the circuit is connected.
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender || _isInitialized) return;
+
+        try
         {
             TokenResponse tokenResponse = await AuthService.GetTokenAsync(true);
-            if (tokenResponse.Success && tokenResponse.AccessToken != null)
+            if (tokenResponse.Success && tokenResponse.AccessToken is not null)
             {
-                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires!);
+                await AuthenticationManager.RegisterToken(
+                    tokenResponse.AccessToken,
+                    (DateTimeOffset)tokenResponse.Expires!
+                );
                 _isInitialized = true;
                 StateHasChanged();
             }
+            else
+            {
+                _errorMessage = $"❌ Token request failed: {tokenResponse.ErrorMessage}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"❌ Exception occurred: {ex.Message}";
         }
     }
 
@@ -134,24 +149,23 @@ else
         try
         {
             // Test the ArcGisAuthService first
-            TokenResponse tokenResponse = await AuthService.GetTokenAsync(true);
-            if (tokenResponse.Success && tokenResponse.AccessToken != null)
+            var tokenResponse = await AuthService.GetTokenAsync(true);
+            if (tokenResponse.Success && tokenResponse.AccessToken is not null)
             {
-                _tokenTestResult = $"✅ ArcGisAuthService Success!\nToken (first 20 chars): {tokenResponse.AccessToken[..Math.Min(20, tokenResponse.AccessToken.Length)]}...\nExpires: {tokenResponse.Expires}";
-                
+                _tokenTestResult =
+                    $"✅ ArcGisAuthService Success!\nToken (first 20 chars): {tokenResponse.AccessToken[..Math.Min(20, tokenResponse.AccessToken.Length)]}...\nExpires: {tokenResponse.Expires}";
+
                 // Now test the AuthenticationManager
-                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires!);
-                
+                await AuthenticationManager.RegisterToken(
+                    tokenResponse.AccessToken,
+                    (DateTimeOffset)tokenResponse.Expires!
+                );
+
                 // Try to get the token back from AuthenticationManager
                 string? authManagerToken = await AuthenticationManager.GetCurrentToken();
-                if (!string.IsNullOrEmpty(authManagerToken))
-                {
-                    _tokenTestResult += $"\n✅ AuthenticationManager token retrieved successfully!";
-                }
-                else
-                {
-                    _tokenTestResult += $"\n⚠️ AuthenticationManager returned null token";
-                }
+                _tokenTestResult += string.IsNullOrEmpty(authManagerToken)
+                    ? "\n⚠️ AuthenticationManager returned null token"
+                    : "\n✅ AuthenticationManager token retrieved successfully!";
             }
             else
             {
@@ -180,17 +194,9 @@ else
         {
             bool isLoggedIn = await AuthenticationManager.IsLoggedIn();
             _tokenTestResult = $"Auth Status: {(isLoggedIn ? "✅ Logged In" : "❌ Not Logged In")}";
-            
-            if (isLoggedIn)
-            {
-                _tokenTestResult += "\n📋 Authentication Manager indicates user is authenticated";
-                _tokenTestResult += "\n🔗 Ready for ArcGIS API calls and map operations";
-            }
-            else
-            {
-                _tokenTestResult += "\n⚠️ No valid authentication found";
-                _tokenTestResult += "\n💡 Try running 'Get Token' first to authenticate";
-            }
+            _tokenTestResult += isLoggedIn
+                ? "\n📋 Authentication Manager indicates user is authenticated\n🔗 Ready for ArcGIS API calls and map operations"
+                : "\n⚠️ No valid authentication found\n💡 Try running 'Get Token' first to authenticate";
         }
         catch (Exception ex)
         {
@@ -217,16 +223,18 @@ else
             {
                 var timeRemaining = expires.Value - DateTime.UtcNow;
                 _tokenTestResult = $"Token Expires: {expires.Value:yyyy-MM-dd HH:mm:ss} UTC";
-                
+
                 if (timeRemaining.TotalMinutes > 0)
                 {
-                    _tokenTestResult += $"\nTime Remaining: {timeRemaining.Days}d {timeRemaining.Hours}h {timeRemaining.Minutes}m";
-                    _tokenTestResult += $"\n✅ Token is still valid";
+                    _tokenTestResult +=
+                        $"\nTime Remaining: {timeRemaining.Days}d {timeRemaining.Hours}h {timeRemaining.Minutes}m" +
+                        "\n✅ Token is still valid";
                 }
                 else
                 {
-                    _tokenTestResult += $"\n❌ Token has expired ({Math.Abs(timeRemaining.TotalMinutes):F0} minutes ago)";
-                    _tokenTestResult += $"\n💡 Run 'Get Token' to refresh";
+                    _tokenTestResult +=
+                        $"\n❌ Token has expired ({Math.Abs(timeRemaining.TotalMinutes):F0} minutes ago)" +
+                        "\n💡 Run 'Get Token' to refresh";
                 }
             }
             else

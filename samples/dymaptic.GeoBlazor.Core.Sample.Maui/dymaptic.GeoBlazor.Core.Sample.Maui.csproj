@@ -1,72 +1,66 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>dymaptic.GeoBlazor.Core.Sample.Maui</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<EnableDefaultCssItems>false</EnableDefaultCssItems>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+		<NoWarn>PRI249</NoWarn>
+		<!-- Display name -->
+		<ApplicationTitle>GeoBlazor Core Samples</ApplicationTitle>
+		<!-- App Identifier -->
+		<ApplicationId>dymaptic.GeoBlazor.Core.Sample.maui</ApplicationId>
+		<ApplicationIdGuid>B317DCA2-17AB-4EBE-949C-C8F6787B2B95</ApplicationIdGuid>
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.2.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<DefaultLanguage>en</DefaultLanguage>
+		<UserSecretsId>bc0064d4-5c37-4d55-bf88-ae9d58312baa</UserSecretsId>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.ico" Color="#FFFFFF" />
 
-    <PropertyGroup>
-	    <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
-	    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
-        <OutputType>Exe</OutputType>
-        <RootNamespace>dymaptic.GeoBlazor.Core.Sample.Maui</RootNamespace>
-        <UseMaui>true</UseMaui>
-        <SingleProject>true</SingleProject>
-        <EnableDefaultCssItems>false</EnableDefaultCssItems>
-        <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
-        <NoWarn>PRI249</NoWarn>
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\geoblazor.png" Color="Black" BaseSize="64,64"/>
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*"/>
 
-        <!-- Display name -->
-        <ApplicationTitle>GeoBlazor Core Samples</ApplicationTitle>
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*"/>
 
-        <!-- App Identifier -->
-        <ApplicationId>dymaptic.GeoBlazor.Core.Sample.maui</ApplicationId>
-        <ApplicationIdGuid>B317DCA2-17AB-4EBE-949C-C8F6787B2B95</ApplicationIdGuid>
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
+	</ItemGroup>
 
-        <!-- Versions -->
-        <ApplicationDisplayVersion>1.2.0</ApplicationDisplayVersion>
-        <ApplicationVersion>1</ApplicationVersion>
+	<ItemGroup>
+		<MauiImage Include="Resources\Splash\geoblazor.png"/>
+	</ItemGroup>
 
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-        <DefaultLanguage>en</DefaultLanguage>
-        <UserSecretsId>bc0064d4-5c37-4d55-bf88-ae9d58312baa</UserSecretsId>
-    </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.6"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.6"/>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.80" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.ico" Color="#FFFFFF" />
+	<ItemGroup>
+		<ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj"/>
+	</ItemGroup>
 
-        <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\geoblazor.png" Color="Black" BaseSize="64,64" />
-        <!-- Images -->
-        <MauiImage Include="Resources\Images\*" />
-
-        <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*" />
-
-        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <MauiImage Include="Resources\Splash\geoblazor.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.6" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.6" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.80" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Remove="appsettings.json" />
-      <None Include="appsettings.json" />
-    </ItemGroup>
+	<ItemGroup>
+		<Content Remove="appsettings.json" />
+		<EmbeddedResource Include="appsettings.json" />
+	</ItemGroup>
 
     <ItemGroup>
       <Content Update="Main.razor">
@@ -74,10 +68,10 @@
       </Content>
     </ItemGroup>
 
-    <ProjectExtensions>
-        <VisualStudio>
-            <UserProperties XamarinHotReloadDebuggerTimeoutExceptiondymapticBlazorApiSampleMauiHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptiondymapticBlazorGISAPICoreSampleMauiHideInfoBar="True" />
-        </VisualStudio>
-    </ProjectExtensions>
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties XamarinHotReloadDebuggerTimeoutExceptiondymapticBlazorApiSampleMauiHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptiondymapticBlazorGISAPICoreSampleMauiHideInfoBar="True"/>
+		</VisualStudio>
+	</ProjectExtensions>
 
 </Project>

@@ -1,5 +1,5 @@
 ﻿@page "/"
-@rendermode InteractiveAuto
+@rendermode InteractiveServer
 
 <PageTitle>GeoBlazor Token Refresh Sample</PageTitle>
 
@@ -7,14 +7,16 @@
     <div class="row">
         <div class="col-12">
             <h1 class="mb-4">GeoBlazor Token Refresh Sample</h1>
-            
+
             <!-- Documentation Section -->
             <div class="documentation-section mb-4">
                 <p><strong>Token Authentication Process</strong></p>
                 <p>
-                    <strong>This sample demonstrates how to implement automatic token refresh in GeoBlazor applications 
-                    using server-side authentication with ArcGIS Portal or ArcGIS Online.</strong>  
-                    For more details on setting up OAuth credentials in Portal or ArcGIS Online please refer to the following tutorial: 
+                    <strong>
+                        This sample demonstrates how to implement automatic token refresh in GeoBlazor applications
+                        using server-side authentication with ArcGIS Portal or ArcGIS Online.
+                    </strong>
+                    For more details on setting up OAuth credentials in Portal or ArcGIS Online please refer to the following tutorial:
                     <a href="https://developers.arcgis.com/documentation/security-and-authentication/app-authentication/tutorials/create-oauth-credentials-app-auth" target="_blank">Create OAuth credentials for app authentication</a>
                 </p>
 
@@ -22,7 +24,7 @@
                 <p>
                     Configure your ArcGIS authentication settings in <code>appsettings.json</code> or user secrets:
                 </p>
-                
+
                 <div class="alert alert-info">
                     <strong>Current Server Configuration:</strong>
                     <pre><code>@_currentConfig</code></pre>
@@ -40,7 +42,7 @@
                 <p>
                     The authentication process involves two main components working together:
                 </p>
-                
+
                 <p><strong>ArcGisAuthService.cs</strong></p>
                 <ul>
                     <li>Makes HTTP requests to ArcGIS REST API</li>
@@ -65,9 +67,9 @@
                     <div class="col-md-6">
                         <div class="card border-primary">
                             <div class="card-body">
-                                <h6 class="card-title">🚀 InteractiveAuto Mode</h6>
-                                <p class="card-text small">Starts with Server-side rendering, then switches to WebAssembly. Best for initial load performance.</p>
-                                <a href="/map-auto" class="btn btn-primary btn-sm">View Auto Mode Demo</a>
+                                <h6 class="card-title">🖥️ InteractiveServer Mode</h6>
+                                <p class="card-text small">Server-side execution over SignalR. Best for fast first render and secure token handling.</p>
+                                <a href="/map-server" class="btn btn-primary btn-sm">View Server Mode Demo</a>
                             </div>
                         </div>
                     </div>
@@ -82,11 +84,11 @@
                     </div>
                 </div>
             </div>
-            
+
             <div>
                 <p>
-                    Once your tokens are configured and working, navigate to the <strong>Map</strong> page 
-                    to see the fully authenticated GeoBlazor map in action! 
+                    Once your tokens are configured and working, navigate to the <strong>Map</strong> page
+                    to see the fully authenticated GeoBlazor map in action!
                 </p>
                 <ul>
                     <li>Automatic token refresh keeps your map sessions active</li>
@@ -94,7 +96,7 @@
                     <li>Seamless integration with ArcGIS Portal or ArcGIS Online</li>
                 </ul>
                 <p>
-                    Ready to learn more? Check out the <a href="https://docs.geoblazor.com" target="_blank">GeoBlazor documentation</a> 
+                    Ready to learn more? Check out the <a href="https://docs.geoblazor.com" target="_blank">GeoBlazor documentation</a>
                     and <a href="https://samples.geoblazor.com" target="_blank">samples</a> to unlock more possibilities!
                 </p>
             </div>
