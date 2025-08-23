@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using static System.Net.WebRequestMethods;
 
 namespace dymaptic.GeoBlazor.Core.Model;
 
@@ -71,7 +72,7 @@ public class AuthenticationManager
 
     private static string? NormalizePortalUrl(string? input)
     {
-        if (string.IsNullOrWhiteSpace(input)) return null;
+        if (string.IsNullOrWhiteSpace(input)) return "https://www.arcgis.com";
 
         // normalize whitespace and trailing slashes
         var trimmed = input.Trim().TrimEnd('/');

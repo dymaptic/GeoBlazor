@@ -1,12 +1,14 @@
-using System.Text.Json;
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Models;
+using Microsoft.AspNetCore.Components;
+using System.Text.Json;
 
 namespace dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Services;
 
 /// <summary>
 ///     Service for managing ArcGIS authentication tokens.
 /// </summary>
-public class ArcGisAuthService(HttpClient httpClient, IConfiguration config)
+public class ArcGisAuthService(HttpClient httpClient, IConfiguration config, AuthenticationManager authenticationManager)
 {
     /// <summary>
     ///     Requests a new ArcGIS token or retrieves a cached one if available and not expired.
@@ -78,7 +80,8 @@ public class ArcGisAuthService(HttpClient httpClient, IConfiguration config)
     /// </summary>
     private async Task<TokenResponse> RequestTokenAsync()
     {
-        var tokenUrl = "https://arcgis.dymaptic.com/portal/sharing/rest/oauth2/token";
+        var tokenUrlBase = authenticationManager.PortalUrl;
+        var tokenUrl = $"{tokenUrlBase}/sharing/rest/oauth2/token";
 
         var parameters = new Dictionary<string, string>
         {
@@ -114,7 +117,7 @@ public class ArcGisAuthService(HttpClient httpClient, IConfiguration config)
         ArcGISTokenResponse? token = JsonSerializer.Deserialize<ArcGISTokenResponse>(content);
         if (token?.AccessToken == null)
         {
-            return new TokenResponse(false, null, null, "Access token is null in response");
+            return new TokenResponse(false, null, null, "Please verify your ArcGISAppId, ArcGISClientSecret, and ArcGISPortalUrl values.");
         }
 
         TokenResponse tokenResponse = new TokenResponse(true, token.AccessToken,

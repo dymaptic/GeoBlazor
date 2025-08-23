@@ -16,8 +16,10 @@
                         This sample demonstrates how to implement automatic token refresh in GeoBlazor applications
                         using server-side authentication with ArcGIS Portal or ArcGIS Online.
                     </strong>
-                    For more details on setting up OAuth credentials in Portal or ArcGIS Online please refer to the following tutorial:
-                    <a href="https://developers.arcgis.com/documentation/security-and-authentication/app-authentication/tutorials/create-oauth-credentials-app-auth" target="_blank">Create OAuth credentials for app authentication</a>
+                    For end-to-end setup and guidance, see the GeoBlazor docs:
+                    <a href="https://docs.geoblazor.com/pages/appTokenRefresh.html" target="_blank">
+                        Token Refresh (App Authentication)
+                    </a>.
                 </p>
 
                 <p><strong>1. Configuration Setup</strong></p>
@@ -33,8 +35,8 @@
                 <div class="alert alert-warning">
                     <strong>Portal vs ArcGIS Online Configuration</strong>
                     <ul>
-                        <li><strong>ArcGIS Online:</strong> Leave <code>ArcGISPortalUrl</code> set to <code>https://www.arcgis.com/</code> or leave empty since this is the default value in code</li>
-                        <li><strong>Enterprise Portal:</strong> Set <code>ArcGISPortalUrl</code> to your portal URL and <strong>include <code>/portal/</code></strong> at the end as shown above</li>
+                        <li><strong>ArcGIS Online:</strong> Set <code>ArcGISPortalUrl</code> to <code>https://www.arcgis.com</code> (or leave it empty to use the default). Do <em>not</em> add <code>/portal</code>.</li>
+                        <li><strong>Enterprise Portal:</strong> Set <code>ArcGISPortalUrl</code> to your portal host. You may include or omit <code>/portal</code> — both are accepted and normalized. Examples: <code>https://your-server</code> or <code>https://your-server/portal</code>. Trailing slashes are optional.</li>
                     </ul>
                 </div>
 
