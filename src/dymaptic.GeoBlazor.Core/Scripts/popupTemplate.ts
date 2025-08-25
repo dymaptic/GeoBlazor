@@ -28,7 +28,7 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
             if (!hasValue(popupRef)) return null;
             let results: any | null = await popupRef
                 .invokeMethodAsync("OnJsContentFunction", buildDotNetGraphic(featureSelection.graphic, layerId, viewId));
-            return results?.map(r => buildJsPopupContent(r, layerId, viewId));
+            return results?.map(r => buildJsPopupContent(r, layerId, viewId));        
         }
     }
     if (hasValue(dotNetObject.expressionInfos)) {

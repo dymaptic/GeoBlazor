@@ -4,7 +4,7 @@ export async function buildJsWebDocument2DUpdateFromOptionsThumbnailSize(dotNetO
     return await buildJsWebDocument2DUpdateFromOptionsThumbnailSizeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebDocument2DUpdateFromOptionsThumbnailSize(jsObject: any): Promise<any> {
+export async function buildDotNetWebDocument2DUpdateFromOptionsThumbnailSize(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetWebDocument2DUpdateFromOptionsThumbnailSizeGenerated } = await import('./webDocument2DUpdateFromOptionsThumbnailSize.gb');
-    return await buildDotNetWebDocument2DUpdateFromOptionsThumbnailSizeGenerated(jsObject);
+    return await buildDotNetWebDocument2DUpdateFromOptionsThumbnailSizeGenerated(jsObject, viewId);
 }

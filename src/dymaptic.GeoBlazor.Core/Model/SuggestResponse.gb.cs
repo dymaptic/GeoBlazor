@@ -4,20 +4,18 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SuggestResponse.html">GeoBlazor Docs</a>
-///     When resolved, returns this response after calling <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#suggest">suggest</a>.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResponse">ArcGIS Maps SDK for JavaScript</a>
+///     Result of calling <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-types.html#suggest">suggest</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-types.html#SuggestResponse">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ActiveSourceIndex">
-///     The index of the source from which suggestions are obtained.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResponse">ArcGIS Maps SDK for JavaScript</a>
+///     The index of the source from which the search result was obtained.
 /// </param>
 /// <param name="Errors">
 ///     An array of error objects returned from the suggest results.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResponse">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="NumResults">
-///     The number of suggest results.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResponse">ArcGIS Maps SDK for JavaScript</a>
+///     The number of search results.
 /// </param>
 /// <param name="SuggestTerm">
 ///     The suggested expression.
@@ -27,14 +25,15 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResponse">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SearchTerm">
-///     The search expression used for the suggest.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResponse">ArcGIS Maps SDK for JavaScript</a>
+///     The searched expression
 /// </param>
 public partial record SuggestResponse(
-    int ActiveSourceIndex,
-    IReadOnlyCollection<SuggestResponseErrors> Errors,
-    int NumResults,
+    int? ActiveSourceIndex,
+    IReadOnlyCollection<SuggestResults> Errors,
+    double? NumResults,
     string SuggestTerm,
-    IReadOnlyCollection<SuggestResponseResults> Results,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? SearchTerm = null);
+    IReadOnlyCollection<SuggestResults> Results,
+    string? SearchTerm) : BaseSearchResponse(
+    ActiveSourceIndex,
+    NumResults,
+    SearchTerm);

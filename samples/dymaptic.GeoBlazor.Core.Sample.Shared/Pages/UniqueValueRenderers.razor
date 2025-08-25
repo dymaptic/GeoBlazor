@@ -16,6 +16,7 @@
         <FeatureLayer Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/TIGER_Roads_2021_view/FeatureServer/0"
                       Title="USA Freeway System"
                       MinScale="0" MaxScale="0"
+                      ExcludeApiKey="true"
                       DefinitionExpression="MTFC = 'Primary Road'">
             <OrderByInfo Order="SortOrder.Ascending"
                                  ValueExpression="@(@"Decode( $feature.RTTYP,
@@ -50,7 +51,5 @@
 <button @onclick="() => _showLegend = !_showLegend" class="btn btn-primary">Toggle Legend</button>
 
 @code {
-    
-    
     private bool _showLegend;
 }

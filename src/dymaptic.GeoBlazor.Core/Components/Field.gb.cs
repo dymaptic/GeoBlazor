@@ -71,7 +71,7 @@ public partial class Field
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html#domain">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public Field(
-        FieldType? type,
+        FieldType? type = null,
         string? name = null,
         string? alias = null,
         string? description = null,
@@ -84,7 +84,10 @@ public partial class Field
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        Type = type;
+        if (type is not null)
+        {
+            Type = type.Value;
+        }
         Name = name;
         Alias = alias;
         Description = description;

@@ -50,23 +50,77 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#role">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record Relationship(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Cardinality? Cardinality = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? CatalogId = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? Composite = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? KeyField = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? KeyFieldInRelationshipTable = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? RelatedTableId = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? RelationshipId = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? RelationshipTableId = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    Role? Role = null);
+    Role? Role = null)
+{
+    /// <summary>
+    ///     The cardinality which specifies the number of objects in the origin
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> related to the
+    ///     number of objects in the destination <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#cardinality">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public Cardinality? Cardinality { get; set; } = Cardinality;
+    
+    /// <summary>
+    ///     The globally unique identifier for the relationship.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#catalogId">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? CatalogId { get; set; } = CatalogId;
+    
+    /// <summary>
+    ///     Indicates whether the relationship is composite.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#composite">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public bool? Composite { get; set; } = Composite;
+    
+    /// <summary>
+    ///     The field used to establish the relate within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#keyField">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? KeyField { get; set; } = KeyField;
+    
+    /// <summary>
+    ///     The key field in an attributed relationship class table that matches the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#keyField">keyField</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#keyFieldInRelationshipTable">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? KeyFieldInRelationshipTable { get; set; } = KeyFieldInRelationshipTable;
+    
+    /// <summary>
+    ///     The name of the relationship.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#name">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? Name { get; set; } = Name;
+    
+    /// <summary>
+    ///     The unique ID of the related <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#relatedTableId">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public long? RelatedTableId { get; set; } = RelatedTableId;
+    
+    /// <summary>
+    ///     The unique ID for the relationship.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public long? RelationshipId { get; set; } = RelationshipId;
+    
+    /// <summary>
+    ///     The relationship table id.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#relationshipTableId">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public long? RelationshipTableId { get; set; } = RelationshipTableId;
+    
+    /// <summary>
+    ///     Indicates whether the table participating in the relationship is the `origin` or `destination` table.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#role">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public Role? Role { get; set; } = Role;
+    
+}

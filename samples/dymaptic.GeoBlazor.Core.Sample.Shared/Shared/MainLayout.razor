@@ -2,32 +2,6 @@
 @inherits LayoutComponentBase
 
 <PageTitle>GeoBlazor Samples</PageTitle>
-@if (JsRuntime.GetType().Name.Contains("WebView"))
-{
-    // in MAUI or other Hybrid apps, we can inject the styles directly into the body
-    @if (_isDarkMode)
-    {
-        <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/dark/main.css" rel="stylesheet" />
-    }
-    else
-    {
-        <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
-    }
-}
-else
-{
-    // in Blazor WebAssembly or Server, we use the HeadContent component
-    <HeadContent>
-        @if (_isDarkMode)
-        {
-            <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/dark/main.css" rel="stylesheet" />
-        }
-        else
-        {
-            <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
-        }
-    </HeadContent>
-}
 
 <div class="page">
     <div class="side-bar">
@@ -67,9 +41,9 @@ else
                 }
             </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
+            <article class="content px-4">
+                @Body
+            </article>
     </main>
 </div>
 
@@ -125,7 +99,8 @@ else
 
         if (firstRender)
         {
-            _isDarkMode = await JsRuntime.InvokeAsync<bool>("isDarkMode");
+            bool isDarkMode = await JsRuntime.InvokeAsync<bool>("isDarkMode");
+            Configuration["GeoBlazor:Theme"] = isDarkMode ? "Dark" : "Light";
             StateHasChanged();
         }
     }
@@ -167,7 +142,6 @@ else
     }
 
     private record TokenResponse([property: JsonPropertyName("access_token")] string AccessToken);
-    private bool _isDarkMode;
     private string _searchText = string.Empty;
     private bool _enterKeyPressed;
 }

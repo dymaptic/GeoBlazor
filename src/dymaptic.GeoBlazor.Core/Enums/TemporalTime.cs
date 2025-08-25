@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">ArcGIS Maps SDK for JavaScript</a>
 ///     Used by Feature Layer.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<TemporalTime>))]
+[JsonConverter(typeof(TimeUnitConverter))]
 public enum TemporalTime
 {
 #pragma warning disable CS1591

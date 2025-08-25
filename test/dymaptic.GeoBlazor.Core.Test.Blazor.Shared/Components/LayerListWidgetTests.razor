@@ -1,4 +1,5 @@
-﻿@inherits TestRunnerBase
+﻿@using dymaptic.GeoBlazor.Core.Interfaces
+@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -7,79 +8,64 @@
 @code {
 
     [TestMethod]
-    public async Task TestLayerListWidgetWithLegends(Action renderHandler)
+    public async Task TestLayerListWidgetWithLegends(Action renderHandler, 
+        Func<ListItem, Task<ListItem>> listItemCreatedHandler)
     {
-        int listItemsCreated = 0;
-        async Task<ListItem> OnListItemCreated(ListItem item)
-        {
-            await item.SetVisibility(true);
-            await item.SetPanel(new ListItemPanelWidget(showLegendContent: true, open: true));
-            listItemsCreated++;
-            return item;
-        }
-        
         AddMapRenderFragment(
             @<SceneView Class="map-view" OnViewRendered="renderHandler">
                 <WebScene>
                     <PortalItem PortalItemId="adfad6ee6c6043238ea64e121bb6429a" />
                 </WebScene>
                 <LayerListWidget Position="OverlayPosition.TopRight" 
-                                 OnListItemCreatedHandler="OnListItemCreated" />
+                                 OnListItemCreatedHandler="listItemCreatedHandler" />
             </SceneView>);
 
         await WaitForMapToRender();
 
         // 9 layers in the web scene
-        while (listItemsCreated < 9)
+        for (int i = 0; i < 9; i++)
         {
-            await Task.Delay(100);
+            ListItem item = await WaitForListItemToBeCreated();
+            Console.WriteLine($"List Item created: {item.Title}");
+            await item.SetVisibility(true);
+            await item.SetPanel(new ListItemPanelWidget(showLegendContent: true, open: true));
         }
+        await Task.Delay(1000); // wait for the panels to render properly
         await AssertJavaScript("layerListWidgetAsserts.assertHasLegends");
     }
     
     [TestMethod]
-    public async Task TestLayerListWidgetWithStringContent(Action renderHandler)
+    public async Task TestLayerListWidgetWithStringContent(Action renderHandler, 
+        Func<ListItem, Task<ListItem>> listItemCreatedHandler)
     {
-        int listItemsCreated = 0;
-        async Task<ListItem> OnListItemCreated(ListItem item)
-        {
-            await item.SetVisibility(true);
-            await item.SetPanel(new ListItemPanelWidget(content: ["Test String Content"], open: true));
-            listItemsCreated++;
-            return item;
-        }
-        
         AddMapRenderFragment(
             @<SceneView Class="map-view" OnViewRendered="renderHandler">
                 <WebScene>
                     <PortalItem PortalItemId="adfad6ee6c6043238ea64e121bb6429a" />
                 </WebScene>
                 <LayerListWidget Position="OverlayPosition.TopRight" 
-                                 OnListItemCreatedHandler="OnListItemCreated" />
+                                 OnListItemCreatedHandler="listItemCreatedHandler" />
             </SceneView>);
 
         await WaitForMapToRender();
 
         // 9 layers in the web scene
-        while (listItemsCreated < 9)
+        for (int i = 0; i < 9; i++)
         {
-            await Task.Delay(100);
+            ListItem item = await WaitForListItemToBeCreated();
+            Console.WriteLine($"List Item created: {item.Title}");
+            await item.SetVisibility(true);
+            await item.SetPanel(new ListItemPanelWidget(content: ["Test String Content"], open: true));
         }
+        await Task.Delay(1000); // wait for the panels to render properly
         await AssertJavaScript("layerListWidgetAsserts.assertHasStringContent");
     }
     
     [TestMethod]
-    public async Task TestLayerListWidgetWithHtmlContent(Action renderHandler)
+    public async Task TestLayerListWidgetWithHtmlContent(Action renderHandler,
+        Func<ListItem, Task<ListItem>> listItemCreatedHandler)
     {
-        int listItemsCreated = 0;
         ElementReference? htmlRef = null;
-        async Task<ListItem> OnListItemCreated(ListItem item)
-        {
-            await item.SetVisibility(true);
-            await item.SetPanel(new ListItemPanelWidget(content: [htmlRef!], open: true));
-            listItemsCreated++;
-            return item;
-        }
         
         AddMapRenderFragment(
             @<div>
@@ -88,7 +74,7 @@
                         <PortalItem PortalItemId="adfad6ee6c6043238ea64e121bb6429a" />
                     </WebScene>
                     <LayerListWidget Position="OverlayPosition.TopRight" 
-                                     OnListItemCreatedHandler="OnListItemCreated" />
+                                     OnListItemCreatedHandler="listItemCreatedHandler" />
                 </SceneView>
                 <div @ref="htmlRef">
                     <span class="test-html">Test HTML Content</span>
@@ -98,26 +84,22 @@
         await WaitForMapToRender();
 
         // 9 layers in the web scene
-        while (listItemsCreated < 9)
+        for (int i = 0; i < 9; i++)
         {
-            await Task.Delay(100);
+            ListItem item = await WaitForListItemToBeCreated();
+            Console.WriteLine($"List Item created: {item.Title}");
+            await item.SetVisibility(true);
+            await item.SetPanel(new ListItemPanelWidget(content: [htmlRef!], open: true));
         }
         await AssertJavaScript("layerListWidgetAsserts.assertHasHtmlContent");
     }
     
     [TestMethod]
-    public async Task TestLayerListWidgetWithWidgetContent(Action renderHandler)
+    public async Task TestLayerListWidgetWithWidgetContent(Action renderHandler,
+        Func<ListItem, Task<ListItem>> listItemCreatedHandler)
     {
-        int listItemsCreated = 0;
         SearchWidget? searchWidget = null;
         SceneView? sceneView = null;
-        async Task<ListItem> OnListItemCreated(ListItem item)
-        {
-            await item.SetVisibility(true);
-            await item.SetPanel(new ListItemPanelWidget(content: [searchWidget!], open: true));
-            listItemsCreated++;
-            return item;
-        }
         
         AddMapRenderFragment(
             @<div>
@@ -126,7 +108,7 @@
                         <PortalItem PortalItemId="adfad6ee6c6043238ea64e121bb6429a" />
                     </WebScene>
                     <LayerListWidget Position="OverlayPosition.TopRight" 
-                                     OnListItemCreatedHandler="OnListItemCreated" />
+                                     OnListItemCreatedHandler="listItemCreatedHandler" />
                 </SceneView>
                 <SearchWidget @ref="searchWidget" MapView="sceneView" />
             </div>);
@@ -134,10 +116,15 @@
         await WaitForMapToRender();
 
         // 9 layers in the web scene
-        while (listItemsCreated < 9)
+        for (int i = 0; i < 9; i++)
         {
-            await Task.Delay(100);
+            ListItem item = await WaitForListItemToBeCreated();
+            Console.WriteLine($"List Item created: {item.Title}");
+            await item.SetVisibility(true);
+            await item.SetPanel(new ListItemPanelWidget(content: [searchWidget!], open: true));
         }
+
+        await Task.Delay(2000); // wait for the search widgets to render properly
         await AssertJavaScript("layerListWidgetAsserts.assertHasWidgetContent");
     }
 }

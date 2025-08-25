@@ -112,6 +112,9 @@ public partial class WebTileLayer : IBlendLayer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public WebTileLayer(
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
@@ -131,7 +134,8 @@ public partial class WebTileLayer : IBlendLayer,
         string? title = null,
         string? urlTemplate = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -154,6 +158,7 @@ public partial class WebTileLayer : IBlendLayer,
         UrlTemplate = urlTemplate;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     
@@ -1208,16 +1213,17 @@ public partial class WebTileLayer : IBlendLayer,
     [JSInvokable]
     public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        RefreshEvent refreshEvent = 
-            JsonSerializer.Deserialize<RefreshEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnRefresh.InvokeAsync(refreshEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        if (refreshEvent is not null)
+        {
+            await OnRefresh.InvokeAsync(refreshEvent);
+        }
     }
     
     /// <summary>

@@ -3,7 +3,7 @@ export async function buildJsWFSFeatureType(dotNetObject: any): Promise<any> {
     return await buildJsWFSFeatureTypeGenerated(dotNetObject);
 }
 
-export async function buildDotNetWFSFeatureType(jsObject: any): Promise<any> {
+export async function buildDotNetWFSFeatureType(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetWFSFeatureTypeGenerated} = await import('./wFSFeatureType.gb');
-    return await buildDotNetWFSFeatureTypeGenerated(jsObject);
+    return await buildDotNetWFSFeatureTypeGenerated(jsObject, viewId);
 }

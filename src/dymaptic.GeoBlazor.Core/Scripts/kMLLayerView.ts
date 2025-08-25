@@ -5,9 +5,9 @@ export async function buildJsKMLLayerView(dotNetObject: any, layerId: string | n
     return await buildJsKMLLayerViewGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetKMLLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetKMLLayerView(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetKMLLayerViewGenerated} = await import('./kMLLayerView.gb');
-    return await buildDotNetKMLLayerViewGenerated(jsObject);
+    return await buildDotNetKMLLayerViewGenerated(jsObject, viewId);
 }
 
 export default class KMLLayerViewWrapper extends KMLLayerViewGenerated {

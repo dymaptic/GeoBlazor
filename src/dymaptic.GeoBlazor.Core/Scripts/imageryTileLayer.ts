@@ -60,9 +60,9 @@ export async function buildJsImageryTileLayer(dotNetObject: any, layerId: string
     return jsObject;
 }
 
-export async function buildDotNetImageryTileLayer(jsObject: any): Promise<any> {
+export async function buildDotNetImageryTileLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetImageryTileLayerGenerated} = await import('./imageryTileLayer.gb');
-    let dnObject = await buildDotNetImageryTileLayerGenerated(jsObject);
+    let dnObject = await buildDotNetImageryTileLayerGenerated(jsObject, viewId);
     
     if (hasValue(jsObject.renderer)) {
         let {buildDotNetImageryRenderer} = await import('./imageryRenderer');

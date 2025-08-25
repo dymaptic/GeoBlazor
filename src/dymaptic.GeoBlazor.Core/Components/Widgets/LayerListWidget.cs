@@ -136,6 +136,20 @@ public partial class LayerListWidget : Widget
     
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.LayerList;
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetopenedlayers-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a>s that are opened
+    ///     in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogLayerList">catalogLayerList</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#tableList">tableList</a> flow item.
+    ///     default []
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#openedLayers">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    [JsonConverter(typeof(NonNullablePropertyCollectionConverter<Layer>))]
+    [CodeGenerationIgnore]
+    public IReadOnlyList<Layer>? OpenedLayers { get; protected set; }
 
     /// <summary>
     ///     A delegate to implement a custom handler for setting up each <see cref="ListItem" />.
@@ -166,6 +180,7 @@ public partial class LayerListWidget : Widget
     public async Task<object?> OnListItemCreated(ListItem item)
     {
         item.Parent = this;
+        item.Layer = View!.Map!.Layers.FirstOrDefault(l => l.Id == item.LayerId);
         if (OnListItemCreatedHandler is not null)
         {
             ListItem result = await OnListItemCreatedHandler!.Invoke(item);
@@ -183,14 +198,14 @@ public partial class LayerListWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        LayerListTriggerActionEvent triggerActionEvent = JsonSerializer.Deserialize<LayerListTriggerActionEvent>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        LayerListTriggerActionEvent? triggerActionEvent =
+            await jsStreamRef.ReadJsStreamReference<LayerListTriggerActionEvent>();
+
+        if (triggerActionEvent is null)
+        {
+            return;
+        }
+        
         if (OperationalItems is not null)
         {
             foreach (ListItem listItem in OperationalItems)
@@ -218,4 +233,44 @@ public partial class LayerListWidget : Widget
     [JsonIgnore]
     [CodeGenerationIgnore]
     public EventCallback<LayerListTriggerActionEvent> OnTriggerAction { get; set; }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the OpenedLayers property.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public async Task<IReadOnlyList<Layer>?> GetOpenedLayers()
+    {
+        if (CoreJsModule is null)
+        {
+            return OpenedLayers;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return OpenedLayers;
+        }
+
+        IReadOnlyList<Layer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Layer>?>(
+            "getOpenedLayers", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            OpenedLayers = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(OpenedLayers)] = OpenedLayers;
+        }
+        
+        return OpenedLayers;
+    }
 }

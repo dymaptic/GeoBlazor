@@ -231,6 +231,10 @@
                           "rule": "repeated",
                           "type": "MapPoint",
                           "id": 30
+                        },
+                        "isSimple": {
+                          "type": "bool",
+                          "id": 31
                         }
                       }
                     },

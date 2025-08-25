@@ -189,6 +189,11 @@ public partial class Bookmark
         
         if (result is not null)
         {
+            if (TimeExtent is not null)
+            {
+                result.Id = TimeExtent.Id;
+            }
+            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005

@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </summary>
 /// <param name="DefaultSpatialReference">
 ///     the default spatialReference wkid used when not explicitly specified in the GetFeature call.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
+///         <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Description">
 ///     The description of the featureType.

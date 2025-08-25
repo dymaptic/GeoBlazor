@@ -15,7 +15,7 @@ export async function buildJsViewshedFeatureReferenceLayer(dotNetObject: any, la
     return await buildJsViewshedFeatureReferenceLayerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewshedFeatureReferenceLayer(jsObject: any): Promise<any> {
+export async function buildDotNetViewshedFeatureReferenceLayer(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetViewshedFeatureReferenceLayerGenerated } = await import('./viewshedFeatureReferenceLayer.gb');
-    return await buildDotNetViewshedFeatureReferenceLayerGenerated(jsObject);
+    return await buildDotNetViewshedFeatureReferenceLayerGenerated(jsObject, viewId);
 }

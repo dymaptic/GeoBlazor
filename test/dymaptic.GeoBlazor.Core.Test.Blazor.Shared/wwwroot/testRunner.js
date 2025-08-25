@@ -221,6 +221,24 @@ export async function clickOnGraphicPopupAction(methodName) {
     button.click();
 }
 
+export async function clickOnMap(methodName) {
+    let view = getView(methodName);
+    let mapContainer = view.container;
+    if (mapContainer === null) {
+        throw new Error(`Map container for view ${view.id} not found`);
+    }
+    
+    let rect = mapContainer.getBoundingClientRect();
+    let clickEvent = new MouseEvent('click', {
+        clientX: rect.left + (rect.width / 2),
+        clientY: rect.top + (rect.height / 2),
+        bubbles: true,
+        cancelable: true
+    });
+    
+    mapContainer.dispatchEvent(clickEvent);
+}
+
 export async function triggerSearchHandlers() {
     let searchInput = document.querySelector('.esri-search__autocomplete')
         .shadowRoot.querySelector('calcite-input')

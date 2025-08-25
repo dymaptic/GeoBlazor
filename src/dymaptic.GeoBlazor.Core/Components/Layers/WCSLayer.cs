@@ -18,11 +18,26 @@ public partial class WCSLayer : Layer
                 if (!MultidimensionalDefinition.Contains(dimensionalDefinition))
                 {
                     MultidimensionalDefinition = [..MultidimensionalDefinition, dimensionalDefinition];
+                    ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
                     if (MapRendered)
                     {
                         await UpdateLayer();
                     }
                 }
+                break;
+            
+            case IImageryRenderer imageryRenderer:
+                if (!imageryRenderer.Equals(Renderer))
+                {
+                    Renderer = imageryRenderer;
+                    ModifiedParameters[nameof(Renderer)] = imageryRenderer;
+                    
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
                 break;
 
             default:
@@ -31,6 +46,7 @@ public partial class WCSLayer : Layer
                 break;
         }
     }
+    
     /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
@@ -41,6 +57,10 @@ public partial class WCSLayer : Layer
                 MultidimensionalDefinition = MultidimensionalDefinition?.Except([dimensionalDefinition]).ToList();
                 
                 break;
+            case IImageryRenderer:
+                Renderer = null;
+
+                break;
 
             default:
                 await base.UnregisterChildComponent(child);
@@ -49,6 +69,23 @@ public partial class WCSLayer : Layer
         }
     }
 
-
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        
+        if (MultidimensionalDefinition is not null)
+        {
+            foreach (DimensionalDefinition child in MultidimensionalDefinition)
+            {
+                child.ValidateRequiredChildren();
+            }
+        }
+        
+        if (Renderer is IMapComponent mapComponent)
+        {
+            mapComponent.ValidateRequiredChildren();
+        }
+    }
 
 }

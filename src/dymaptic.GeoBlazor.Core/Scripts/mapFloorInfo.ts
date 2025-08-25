@@ -4,7 +4,7 @@ export async function buildJsMapFloorInfo(dotNetObject: any, layerId: string | n
     return await buildJsMapFloorInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMapFloorInfo(jsObject: any): Promise<any> {
+export async function buildDotNetMapFloorInfo(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetMapFloorInfoGenerated } = await import('./mapFloorInfo.gb');
-    return await buildDotNetMapFloorInfoGenerated(jsObject);
+    return await buildDotNetMapFloorInfoGenerated(jsObject, viewId);
 }

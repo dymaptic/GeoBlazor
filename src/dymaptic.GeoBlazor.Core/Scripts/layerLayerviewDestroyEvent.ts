@@ -3,7 +3,7 @@ export async function buildJsLayerLayerviewDestroyEvent(dotNetObject: any, layer
     return await buildJsLayerLayerviewDestroyEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLayerLayerviewDestroyEvent(jsObject: any): Promise<any> {
+export async function buildDotNetLayerLayerviewDestroyEvent(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetLayerLayerviewDestroyEventGenerated} = await import('./layerLayerviewDestroyEvent.gb');
-    return await buildDotNetLayerLayerviewDestroyEventGenerated(jsObject);
+    return await buildDotNetLayerLayerviewDestroyEventGenerated(jsObject, viewId);
 }

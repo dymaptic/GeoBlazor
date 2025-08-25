@@ -64,7 +64,10 @@
             </table>
             <button class="btn btn-primary" @onclick="DrawLine">@(_showLine ? "Remove" : "Draw")</button>
             <button class="btn btn-secondary" @onclick="AddPoint">Add Pt</button>
-            <button class="btn btn-accent" @onclick="RemovePoint">Remove Pt</button>
+            @if (mapPath.Any())
+            {
+                <button class="btn btn-accent" @onclick="RemovePoint">Remove Pt</button>
+            }
         </div>
     </div>
     <div class="form-group">
@@ -102,7 +105,10 @@
             </table>
             <button class="btn btn-primary" @onclick="DrawPolygon">@(_showPolygon ? "Remove" : "Draw")</button>
             <button class="btn btn-secondary" @onclick="AddPolygonPoint">Add Pt</button>
-            <button class="btn btn-accent" @onclick="RemovePolygonPoint">Remove Pt</button>
+            @if (mapRings.Any())
+            {
+                <button class="btn btn-accent" @onclick="RemovePolygonPoint">Remove Pt</button>
+            }
             <h3>Click on Polygon to see Popup!</h3>
         </div>
     </div>
@@ -155,14 +161,16 @@
         }
     }
 
-    private void AddPoint()
+    private async Task AddPoint()
     {
-        mapPath.Add(new MapPoint(mapPath[0][0] + 0.01, mapPath[0][1] + 0.01));
+        mapPath.Add(new MapPoint(-118.831527826096 + (_random.Next(-2, 2) / 100.0), 34.0239576938577 + (_random.Next(-2, 2) / 100.0)));
+        await _polylineGraphic.SetGeometry(new Polyline([mapPath]));
     }
 
-    private void RemovePoint()
+    private async Task RemovePoint()
     {
         mapPath.RemoveAt(mapPath.Count - 1);
+        await _polylineGraphic.SetGeometry(new Polyline([mapPath]));
     }
 
     private async Task DrawPolygon()
@@ -179,14 +187,16 @@
         }
     }
 
-    private void AddPolygonPoint()
+    private async Task AddPolygonPoint()
     {
-        mapRings.Add(new MapPoint(mapRings[0][0] + 0.01, mapRings[0][1] + 0.01));
+        mapRings.Add(new MapPoint(-118.828984489994 + (_random.Next(-2, 2) / 100.0), 34.0237559967283 + (_random.Next(-2, 2) / 100.0)));
+        await _polygonGraphic.SetGeometry(new Polygon([mapRings]));
     }
 
-    private void RemovePolygonPoint()
+    private async Task RemovePolygonPoint()
     {
         mapRings.RemoveAt(mapRings.Count - 1);
+        await _polygonGraphic.SetGeometry(new Polygon([mapRings]));
     }
 
     private async Task GetPoint()
@@ -251,6 +261,7 @@
     private bool _showPoint;
     private bool _showLine;
     private bool _showPolygon;
+    private Random _random = new();
 
     private static readonly MapPath mapPath = new(new MapPoint(-118.821527826096, 34.0139576938577),
         new MapPoint(-118.814893761649, 34.0080602407843),

@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html">GeoBlazor Docs</a>
-///     The TileLayer allows you work with a cached <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">map service</a> exposed by the ArcGIS Server REST API and add it to
+///     The TileLayer allows you work with a cached <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">map service</a>
+///     exposed by the ArcGIS Server REST API and add it to
 ///     a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> as a tile layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
@@ -140,6 +141,9 @@ public partial class TileLayer : IAPIKeyMixin,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public TileLayer(
         string? apiKey = null,
         string? arcGISLayerId = null,
@@ -164,7 +168,8 @@ public partial class TileLayer : IAPIKeyMixin,
         string? title = null,
         string? url = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -192,6 +197,7 @@ public partial class TileLayer : IAPIKeyMixin,
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     
@@ -1966,16 +1972,17 @@ public partial class TileLayer : IAPIKeyMixin,
     [JSInvokable]
     public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        RefreshEvent refreshEvent = 
-            JsonSerializer.Deserialize<RefreshEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnRefresh.InvokeAsync(refreshEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        if (refreshEvent is not null)
+        {
+            await OnRefresh.InvokeAsync(refreshEvent);
+        }
     }
     
     /// <summary>

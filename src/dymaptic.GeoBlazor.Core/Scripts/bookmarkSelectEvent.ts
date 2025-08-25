@@ -1,6 +1,6 @@
 import {hasValue} from "./arcGisJsInterop";
 
-export async function buildJsBookmarkSelectEvent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBookmarkSelectEvent(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject?.bookmark)) {
         return null;
     }

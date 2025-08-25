@@ -21,15 +21,8 @@ public partial class SearchViewModel : MapComponent
     [CodeGenerationIgnore]
     public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        GoToOverrideParameters goToParameters = JsonSerializer.Deserialize<GoToOverrideParameters>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
-        if (GoToOverride is not null)
+        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReference<GoToOverrideParameters>()!;
+        if (GoToOverride is not null && goToParameters is not null)
         {
             await GoToOverride.Invoke(goToParameters);
         }
@@ -40,4 +33,138 @@ public partial class SearchViewModel : MapComponent
     /// </summary>
     [CodeGenerationIgnore]
     public bool HasGoToOverride => GoToOverride is not null;
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsearch-method">GeoBlazor Docs</a>
+    ///     Depending on the sources specified, `search()` queries the feature layer(s) and/or performs
+    ///     address matching using any specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">Locator(s)</a> and
+    ///     returns the applicable results.
+    ///     param options An object containing an optional `signal` property that can be used to cancel the request.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#search">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="searchItem">
+    ///     This searchItem can be a string, point geometry, suggest candidate object, or an array containing [latitude,longitude]. If a geometry is supplied, then it will reverse geocode (locator) or findAddressCandidates with geometry instead of text (featurelayer).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the search operation.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task<SearchResponse?> Search(string searchItem, CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", cancellationToken, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        return await JsComponentReference!.InvokeAsync<SearchResponse?>(
+            "search", 
+            cancellationToken,
+            searchItem,
+            new { signal = abortSignal });
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsearchnearby-method">GeoBlazor Docs</a>
+    ///     Returns search results near your current location.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#searchNearby">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the search operation.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task<SearchResponse?> SearchNearby(CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", cancellationToken, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        return await JsComponentReference!.InvokeAsync<SearchResponse?>(
+            "searchNearby", 
+            cancellationToken,
+            new { signal = abortSignal });
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsuggest-method">GeoBlazor Docs</a>
+    ///     Performs a suggest() request on the active Locator.
+    ///     param suggestionDelay The millisecond delay after keyup and before making a `suggest()` network request.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggest">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="value">
+    ///     The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value.
+    /// </param>
+    /// <param name="suggestionDelay">
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the search operation.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task<SuggestResponse?> Suggest(string value,
+        double suggestionDelay,
+        CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", cancellationToken, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        return await JsComponentReference!.InvokeAsync<SuggestResponse?>(
+            "suggest", 
+            cancellationToken,
+            value,
+            suggestionDelay,
+            new { signal = abortSignal });
+    }
 }

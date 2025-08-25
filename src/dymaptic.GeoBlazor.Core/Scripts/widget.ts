@@ -1,9 +1,13 @@
 // override generated code in this file
-import {disposeMapComponent, hasValue, removeCircularReferences} from "./arcGisJsInterop";
+import {arcGisObjectRefs, disposeMapComponent, hasValue, removeCircularReferences} from "./arcGisJsInterop";
 
 export async function buildJsWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
+    }
+
+    if (hasValue(dotNetObject.id) && arcGisObjectRefs.hasOwnProperty(dotNetObject.id!)) {
+        return arcGisObjectRefs[dotNetObject.id!];
     }
 
     switch (dotNetObject.type) {
@@ -61,6 +65,9 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
         case 'slider':
             let {buildJsSliderWidget} = await import('./sliderWidget');
             return await buildJsSliderWidget(dotNetObject, layerId, viewId);
+        case 'zoom':
+            let {buildJsZoomWidget} = await import('./zoomWidget');
+            return await buildJsZoomWidget(dotNetObject, layerId, viewId);
         case 'catalog-layer-list':
             try {
                 // @ts-ignore only available in GeoBlazor Pro

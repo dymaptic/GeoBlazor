@@ -95,6 +95,12 @@ public partial class TickConfig
         ElementReference tickElement,
         ElementReference labelElement)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+        
         if (TickCreatedFunction is not null)
         {
             await TickCreatedFunction.Invoke(value,

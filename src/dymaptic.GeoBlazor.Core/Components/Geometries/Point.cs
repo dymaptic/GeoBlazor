@@ -44,6 +44,15 @@ public partial class Point : Geometry
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? M { get; set; }
 
+    /// <summary>
+    ///     Is Simple based on the ArcGIS simplify operator. Indicates if the given geometry is non-OGC topologically simple. This operation takes into account z-values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-operators-simplifyOperator.html#isSimple">ArcGIS Maps SDK for JavaScript</a>
+    ///     Point geometries are always simple.
+    /// </summary>
+    [ArcGISProperty]
+    [CodeGenerationIgnore]
+    public override bool? IsSimple { get; internal set; } = true;
+
     /// <inheritdoc />
     public override GeometryType Type => GeometryType.Point;
 

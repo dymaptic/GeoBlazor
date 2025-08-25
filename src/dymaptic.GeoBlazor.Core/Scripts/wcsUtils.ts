@@ -15,7 +15,7 @@ export async function buildJsWcsUtils(dotNetObject: any, layerId: string | null,
     return await buildJsWcsUtilsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWcsUtils(jsObject: any): Promise<any> {
+export async function buildDotNetWcsUtils(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetWcsUtilsGenerated } = await import('./wcsUtils.gb');
-    return await buildDotNetWcsUtilsGenerated(jsObject);
+    return await buildDotNetWcsUtilsGenerated(jsObject, viewId);
 }

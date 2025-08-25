@@ -31,12 +31,13 @@ export default class AuthenticationManager {
         }
         this.dotNetRef = dotNetReference;
     }
-    setApiKey(apiKey: string): void {
+
+    setApiKey(apiKey: string | null): void {
         esriConfig.apiKey = apiKey;
     }
 
     async isLoggedIn(): Promise<boolean> {
-        await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");
+            await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");
         return true;
     }
 
@@ -48,6 +49,7 @@ export default class AuthenticationManager {
         IdentityManager.destroyCredentials();
         window.location.reload();
     }
+
     async getToken(): Promise<string | null> {
         if (this.appId === undefined) {
             return esriConfig.apiKey as string;
@@ -55,15 +57,15 @@ export default class AuthenticationManager {
         let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
         return credential.token;
     }
-
+    
     async getTokenExpires(): Promise<number | null> {
         if (this.appId === undefined) {
             return null;
         }
         let credential = await IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
-        return credential.expires ?? 0;
+        return credential.expires as any;
     }
-
+    
     registerToken(token: string, expires: number): void {
         let server: string;
         if (this.info?.portalUrl !== undefined && this.info?.portalUrl !== null) {
@@ -71,7 +73,7 @@ export default class AuthenticationManager {
         } else {
             server = "https://www.arcgis.com/sharing/rest";
         }
-
+        
         IdentityManager.registerToken({
             expires: expires,
             server: server,

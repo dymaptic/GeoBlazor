@@ -4,22 +4,35 @@
     <CascadingValue Name="Parent" Value="this">
         <CascadingValue Name="MapRendered" Value="MapRendered">
             <div class="@Class map-wrapper" style="@Style">
-                <div class="map-container" id="@($"map-container-{Id}")">
-                    @if (!string.IsNullOrWhiteSpace(ErrorMessage))
-                    {
-                        <div class="validation-message">@((MarkupString)ErrorMessage)</div>
-                    }
-                    @ChildContent
-                </div>
+                @if (MapComponentType == typeof(SceneView))
+                {
+                    <arcgis-scene class="map-container" id="@($"map-container-{Id}")">
+                        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                        {
+                            <div class="validation-message">@((MarkupString)ErrorMessage)</div>
+                        }
+                        @ChildContent
+                    </arcgis-scene>
+                }
+                else
+                {
+                    <arcgis-map class="map-container" id="@($"map-container-{Id}")">
+                        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                        {
+                            <div class="validation-message">@((MarkupString)ErrorMessage)</div>
+                        }
+                        @ChildContent
+                    </arcgis-map>
+                }
                 @if (WhiteLabel is null || !IsPro())
                 {
                     <div class="dymaptic-branding">
                         <a href="https://www.geoblazor.com">
-                            <img alt="GeoBlazor Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/Blazor-API-60px.png"/> GeoBlazor
+                            <img alt="GeoBlazor Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/geoblazor-icon-60px.webp"/> GeoBlazor
                         </a>
                         by
                         <a href="https://www.dymaptic.com">
-                            <img alt="dymaptic Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-logo-circle-icon.png"/> dymaptic
+                            <img alt="dymaptic Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-icon-60px.webp"/> dymaptic
                         </a>
                     </div>
                 }

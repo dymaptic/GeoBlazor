@@ -4,7 +4,7 @@ export async function buildJsClusterTitle(dotNetObject: any, layerId: string | n
     return await buildJsClusterTitleGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetClusterTitle(jsObject: any): Promise<any> {
+export async function buildDotNetClusterTitle(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetClusterTitleGenerated } = await import('./clusterTitle.gb');
-    return await buildDotNetClusterTitleGenerated(jsObject);
+    return await buildDotNetClusterTitleGenerated(jsObject, viewId);
 }

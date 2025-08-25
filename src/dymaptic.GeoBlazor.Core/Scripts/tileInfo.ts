@@ -15,7 +15,7 @@ export async function buildJsTileInfo(dotNetObject: any, layerId: string | null,
     return await buildJsTileInfoGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetTileInfo(jsObject: any): Promise<any> {
+export async function buildDotNetTileInfo(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetTileInfoGenerated} = await import('./tileInfo.gb');
-    return await buildDotNetTileInfoGenerated(jsObject);
+    return await buildDotNetTileInfoGenerated(jsObject, viewId);
 }

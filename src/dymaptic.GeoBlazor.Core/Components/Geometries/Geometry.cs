@@ -39,6 +39,15 @@ public abstract partial class Geometry : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [CodeGenerationIgnore]
     public SpatialReference? SpatialReference { get; set; }
+    
+    /// <summary>
+    ///     Is Simple based on the ArcGIS simplify operator. Indicates if the given geometry is non-OGC topologically simple. This operation takes into account z-values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-operators-simplifyOperator.html#isSimple">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [CodeGenerationIgnore]
+    public virtual bool? IsSimple { get; internal set; }
+    
     /// <summary>
     ///     The Geometry "type", used internally to render.
     /// </summary>
@@ -233,6 +242,9 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
     /// </summary>
     [ProtoMember(30)]
     public MapPointSerializationRecord[]? Points { get; set; }
+    
+    [ProtoMember(31)]
+    public bool? IsSimple { get; set; }
 
     public Geometry FromSerializationRecord()
     {
@@ -269,6 +281,7 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
                 }
                 multipoint.Extent = extent;
                 multipoint.Id = id;
+                multipoint.IsSimple = IsSimple;
 
                 return multipoint;
             }
@@ -285,31 +298,35 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
                 SpatialReference?.FromSerializationRecord(), HasM, HasZ)
             {
                 Extent = extent,
-                Id = id
+                Id = id,
+                IsSimple = IsSimple
             },
             "polygon" => Center is not null && Radius is not null
             ? new Circle((Point)Center.FromSerializationRecord(), Radius.Value, 
                 Centroid?.FromSerializationRecord() as Point, 
-                Geodesic, HasM, HasZ, IsSelfIntersecting, NumberOfPoints, 
+                Geodesic, HasM, HasZ, NumberOfPoints, 
                 RadiusUnit is null ? null : Enum.Parse<RadiusUnit>(RadiusUnit),
                 Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
                 SpatialReference?.FromSerializationRecord())
                 {
                     Extent = extent,
-                    Id = id
+                    Id = id,
+                    IsSimple = IsSimple
                 }
             : new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(), 
                 SpatialReference?.FromSerializationRecord(), 
                 Centroid?.FromSerializationRecord() as Point, 
-                HasM, HasZ, IsSelfIntersecting)
+                HasM, HasZ)
                 {
                     Extent = extent,
-                    Id = id
+                    Id = id,
+                    IsSimple = IsSimple
                 },
             "extent" => new Extent(Xmax!.Value, Xmin!.Value, Ymax!.Value, Ymin!.Value, Zmax, 
                 Zmin, Mmax, Mmin, SpatialReference?.FromSerializationRecord(), HasM, HasZ)
             {
-                Id = id
+                Id = id,
+                IsSimple = IsSimple
             },
             _ => throw new ArgumentOutOfRangeException()
         };

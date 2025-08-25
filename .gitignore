@@ -11,6 +11,10 @@
 *.sln.docstates
 .DS_Store
 appsettings.json
+esBuild.*.lock
+esBuild.log
+CustomerTests.razor
+.claude/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -364,7 +368,8 @@ MigrationBackup/
 /src/.idea/**/*
 /src/dymaptic.GeoBlazor.Core/wwwroot/js/**/*
 /src/dymaptic.GeoBlazor.Core/wwwroot/assets/**/*
-
+/src/dymaptic.GeoBlazor.BundledAssets/wwwroot/assets/**/*
+package-lock.json
 /docs/_site
 /docs/.sass-cache
 /docs/.jekyll-cache
@@ -374,6 +379,7 @@ MigrationBackup/
 /src/dymaptic.GeoBlazor.Core/Documentation/**/*
 **/wwwroot/appsettings.Development.json
 DefaultDocsLinks
+.esbuild-bundled-assets-record.json
 
 !/samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth.Client/wwwroot/appsettings.json
 !/samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth/appsettings.json

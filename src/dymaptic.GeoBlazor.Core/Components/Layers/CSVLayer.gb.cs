@@ -14,7 +14,6 @@ public partial class CSVLayer : IBlendLayer,
     IFeatureSetLayer,
     IFeatureTableWidgetLayers,
     IOrderedLayer,
-    IPortalLayer,
     IScaleRangeLayer,
     ITemporalLayer,
     ITrackableLayer
@@ -181,7 +180,7 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="portalItem">
-    ///     The portal item from which the layer is loaded.
+    ///     The portal item referencing the CSV file from which the CSVLayer is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="refreshInterval">
@@ -236,6 +235,9 @@ public partial class CSVLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public CSVLayer(
         string url,
         string? title = null,
@@ -282,7 +284,8 @@ public partial class CSVLayer : IBlendLayer,
         TimeInterval? timeOffset = null,
         TrackInfo? trackInfo = null,
         bool? useViewTime = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -332,6 +335,7 @@ public partial class CSVLayer : IBlendLayer,
         TrackInfo = trackInfo;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005    
     }
     
@@ -356,7 +360,7 @@ public partial class CSVLayer : IBlendLayer,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public CSVLayerCapabilities? Capabilities { get; protected set; }
+    public Capabilities? Capabilities { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayercustomparameters-property">GeoBlazor Docs</a>
@@ -609,7 +613,7 @@ public partial class CSVLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerportalitem-property">GeoBlazor Docs</a>
-    ///     The portal item from which the layer is loaded.
+    ///     The portal item referencing the CSV file from which the CSVLayer is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -814,7 +818,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
-    public async Task<CSVLayerCapabilities?> GetCapabilities()
+    public async Task<Capabilities?> GetCapabilities()
     {
         if (CoreJsModule is null)
         {
@@ -836,17 +840,17 @@ public partial class CSVLayer : IBlendLayer,
             return Capabilities;
         }
 
-        // get the property value
-        CSVLayerCapabilities? result = await JsComponentReference!.InvokeAsync<CSVLayerCapabilities?>("getProperty",
-            CancellationTokenSource.Token, "capabilities");
+        Capabilities? result = await JsComponentReference.InvokeAsync<Capabilities?>(
+            "getCapabilities", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Capabilities = result;
+            Capabilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+            ModifiedParameters[nameof(Capabilities)] = Capabilities;
         }
-         
+        
         return Capabilities;
     }
     
@@ -2172,6 +2176,11 @@ public partial class CSVLayer : IBlendLayer,
         
         if (result is not null)
         {
+            if (TimeExtent is not null)
+            {
+                result.Id = TimeExtent.Id;
+            }
+            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -4083,16 +4092,17 @@ public partial class CSVLayer : IBlendLayer,
     [JSInvokable]
     public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        RefreshEvent refreshEvent = 
-            JsonSerializer.Deserialize<RefreshEvent>(json, 
-                GeoBlazorSerialization.JsonSerializerOptions)!;
-        await OnRefresh.InvokeAsync(refreshEvent);
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        if (refreshEvent is not null)
+        {
+            await OnRefresh.InvokeAsync(refreshEvent);
+        }
     }
     
     /// <summary>

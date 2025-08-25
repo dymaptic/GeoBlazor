@@ -1,4 +1,4 @@
-export async function buildJsIPSInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIPSInfoGenerated(dotNetObject: any): Promise<any> {
     return null;
 }
 

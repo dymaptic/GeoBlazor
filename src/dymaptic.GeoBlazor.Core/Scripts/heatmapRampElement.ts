@@ -1,10 +1,10 @@
 
-export async function buildJsHeatmapRampElement(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsHeatmapRampElement(dotNetObject: any): Promise<any> {
     let { buildJsHeatmapRampElementGenerated } = await import('./heatmapRampElement.gb');
-    return await buildJsHeatmapRampElementGenerated(dotNetObject, layerId, viewId);
+    return await buildJsHeatmapRampElementGenerated(dotNetObject);
 }     
 
-export async function buildDotNetHeatmapRampElement(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetHeatmapRampElement(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetHeatmapRampElementGenerated } = await import('./heatmapRampElement.gb');
-    return await buildDotNetHeatmapRampElementGenerated(jsObject, layerId, viewId);
+    return await buildDotNetHeatmapRampElementGenerated(jsObject, viewId);
 }

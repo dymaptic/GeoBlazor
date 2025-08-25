@@ -53,7 +53,7 @@ public partial class AuthoringInfoVisualVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#referenceSizeSymbolStyle">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="sizeStops">
-    ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `reference-size`.
+    ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `reference-size` or `spike`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#sizeStops">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="startTime">
@@ -75,6 +75,10 @@ public partial class AuthoringInfoVisualVariable
     ///     If an age or timeline renderer was generated, indicates the time units used.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#units">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="spikeSymbolStyle">
+    ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `spike`.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#spikeSymbolStyle">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public AuthoringInfoVisualVariable(
         string? endTime = null,
         string? field = null,
@@ -87,7 +91,8 @@ public partial class AuthoringInfoVisualVariable
         string? startTime = null,
         AuthoringInfoVisualVariableStyle? style = null,
         AuthoringInfoVisualVariableTheme? theme = null,
-        AuthoringInfoVisualVariableUnits? units = null)
+        AuthoringInfoVisualVariableUnits? units = null,
+        SpikeSymbolStyle? spikeSymbolStyle = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -103,6 +108,7 @@ public partial class AuthoringInfoVisualVariable
         Style = style;
         Theme = theme;
         Units = units;
+        SpikeSymbolStyle = spikeSymbolStyle;
 #pragma warning restore BL0005    
     }
     
@@ -183,13 +189,23 @@ public partial class AuthoringInfoVisualVariable
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablesizestops-property">GeoBlazor Docs</a>
-    ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `reference-size`.
+    ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `reference-size` or `spike`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#sizeStops">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<SizeStop>? SizeStops { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablespikesymbolstyle-property">GeoBlazor Docs</a>
+    ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `spike`.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#spikeSymbolStyle">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SpikeSymbolStyle? SpikeSymbolStyle { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablestarttime-property">GeoBlazor Docs</a>
@@ -549,6 +565,45 @@ public partial class AuthoringInfoVisualVariable
         }
         
         return SizeStops;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SpikeSymbolStyle property.
+    /// </summary>
+    public async Task<SpikeSymbolStyle?> GetSpikeSymbolStyle()
+    {
+        if (CoreJsModule is null)
+        {
+            return SpikeSymbolStyle;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SpikeSymbolStyle;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<SpikeSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SpikeSymbolStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "spikeSymbolStyle");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             SpikeSymbolStyle = (SpikeSymbolStyle)result.Value.Value!;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(SpikeSymbolStyle)] = SpikeSymbolStyle;
+        }
+         
+        return SpikeSymbolStyle;
     }
     
     /// <summary>
@@ -1016,6 +1071,43 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sizeStops", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the SpikeSymbolStyle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSpikeSymbolStyle(SpikeSymbolStyle? value)
+    {
+#pragma warning disable BL0005
+        SpikeSymbolStyle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SpikeSymbolStyle)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spikeSymbolStyle", value);
     }
     
     /// <summary>

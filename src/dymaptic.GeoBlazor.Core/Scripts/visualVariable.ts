@@ -1,13 +1,13 @@
 import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable";
 
-export async function buildDotNetVisualVariable(jsObject: any): Promise<any> {
+export async function buildDotNetVisualVariable(jsObject: any, viewId: string | null): Promise<any> {
     switch (jsObject?.type) {
         case 'color':
             let {buildDotNetColorVariable} = await import('./colorVariable');
             return await buildDotNetColorVariable(jsObject);
         case 'size':
             let {buildDotNetSizeVariable} = await import('./sizeVariable');
-            return await buildDotNetSizeVariable(jsObject);
+            return await buildDotNetSizeVariable(jsObject, viewId);
         case 'opacity':
             let {buildDotNetOpacityVariable} = await import('./opacityVariable');
             return await buildDotNetOpacityVariable(jsObject);

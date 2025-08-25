@@ -18,7 +18,7 @@ export async function buildJsLayerListWidget(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.hasCustomHandler) && dotNetObject.hasCustomHandler) {
         let {buildDotNetListItem} = await import('./listItem');
         widget.listItemCreatedFunction = async (evt) => {
-            const dotNetListItem = await buildDotNetListItem(evt.item);
+            const dotNetListItem = await buildDotNetListItem(evt.item, viewId);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
                 let {updateListItem} = await import('./listItem');
@@ -30,7 +30,7 @@ export async function buildJsLayerListWidget(dotNetObject: any, layerId: string 
     return widget;
 }
 
-export async function buildDotNetLayerListWidget(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListWidget(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetLayerListWidgetGenerated} = await import('./layerListWidget.gb');
-    return await buildDotNetLayerListWidgetGenerated(jsObject);
+    return await buildDotNetLayerListWidgetGenerated(jsObject, viewId);
 }

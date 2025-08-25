@@ -135,17 +135,14 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsSearchComplete(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef
-            .OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
+        View!.ExtentChangedInJs = true;
+        SearchCompleteEvent? searchCompleteEvent = await jsStreamRef.ReadJsStreamReference<SearchCompleteEvent>();
 
-        SearchCompleteEvent searchCompleteEvent = JsonSerializer.Deserialize<SearchCompleteEvent>(json,
-            GeoBlazorSerialization.JsonSerializerOptions)!;
-
+        if (searchCompleteEvent is null)
+        {
+            return;
+        }
+        
         if (searchCompleteEvent.Results is { Count: > 0 })
         {
             foreach (SearchCompleteEventResults results in searchCompleteEvent.Results)
@@ -177,7 +174,7 @@ public partial class SearchWidget : Widget
     /// <summary>
     ///     Used in JavaScript to determine if the event listener is set.
     /// </summary>
-    public bool HasSearchCompleteListener => OnSearchComplete.HasDelegate;
+    public bool HasSearchCompleteListener => true; // always return true, required event handler
    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
@@ -186,14 +183,13 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsSelectResult(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchSelectResultEvent selectResultEvent = JsonSerializer.Deserialize<SearchSelectResultEvent>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        SearchSelectResultEvent? selectResultEvent = await jsStreamRef.ReadJsStreamReference<SearchSelectResultEvent>();
+        
+        if (selectResultEvent is null)
+        {
+            return;
+        }
+        
         if (selectResultEvent.Source is LayerSearchSource layerSearchSource)
         {
             if (Sources?.FirstOrDefault(s => s.Id == layerSearchSource.Id) 
@@ -232,14 +228,14 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsSuggestComplete(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchSuggestCompleteEvent suggestCompleteEvent = JsonSerializer.Deserialize<SearchSuggestCompleteEvent>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        SearchSuggestCompleteEvent? suggestCompleteEvent =
+            await jsStreamRef.ReadJsStreamReference<SearchSuggestCompleteEvent>();
+
+        if (suggestCompleteEvent is null)
+        {
+            return;
+        }
+        
         if (suggestCompleteEvent.Results is { Count: > 0 })
         {
             foreach (SearchSuggestCompleteEventResults results in suggestCompleteEvent.Results)
@@ -300,15 +296,8 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        GoToOverrideParameters goToParameters = JsonSerializer.Deserialize<GoToOverrideParameters>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
-        if (GoToOverride is not null)
+        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReference<GoToOverrideParameters>();
+        if (GoToOverride is not null && goToParameters is not null)
         {
             await GoToOverride.Invoke(goToParameters);
         }
@@ -373,18 +362,17 @@ public partial class SearchWidget : Widget
 
     private async Task<SearchResponse> SearchImplementation(object searchTerm)
     {
+        if (CoreJsModule is null)
+        {
+            throw new InvalidOperationException("SearchWidget is not initialized with CoreJsModule.");
+        }
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        
         IJSStreamReference jsStreamRef = 
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("search", searchTerm);
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchResponse searchResponse = JsonSerializer.Deserialize<SearchResponse>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
-
-        return searchResponse;
+        return (await jsStreamRef.ReadJsStreamReference<SearchResponse>())!;
     }
     
     /// <summary>
@@ -400,18 +388,17 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public async Task<SuggestResponse> Suggest(string? value = null)
     {
+        if (CoreJsModule is null)
+        {
+            throw new InvalidOperationException("SearchWidget is not initialized with CoreJsModule.");
+        }
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        
         IJSStreamReference jsStreamRef =
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("suggest", value);
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SuggestResponse suggestResponse = JsonSerializer.Deserialize<SuggestResponse>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
-
-        return suggestResponse;
+        return (await jsStreamRef.ReadJsStreamReference<SuggestResponse>())!;
     }
     
     /// <summary>
@@ -443,14 +430,8 @@ public partial class SearchWidget : Widget
         IJSStreamReference jsStreamRef = await JsComponentReference.InvokeAsync<IJSStreamReference>(
             "getActiveSource", CancellationTokenSource.Token);
 
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchSource? result = JsonSerializer.Deserialize<SearchSource>(
-            json, GeoBlazorSerialization.JsonSerializerOptions);
+        SearchSource? result = await jsStreamRef.ReadJsStreamReference<SearchSource>();
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -491,15 +472,7 @@ public partial class SearchWidget : Widget
         IJSStreamReference jsStreamRef = await JsComponentReference.InvokeAsync<IJSStreamReference>(
             "getAllSources", CancellationTokenSource.Token);
 
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        
-        IReadOnlyList<SearchSource>? result = JsonSerializer.Deserialize<IReadOnlyList<SearchSource>>(
-            json, GeoBlazorSerialization.JsonSerializerOptions);
+        IReadOnlyList<SearchSource>? result = await jsStreamRef.ReadJsStreamReference<IReadOnlyList<SearchSource>>();
         
         if (result is not null)
         {
@@ -515,20 +488,12 @@ public partial class SearchWidget : Widget
     /// <summary>
     ///    Retrieves the result selected from a search.
     /// </summary>
+    [CodeGenerationIgnore]
     public async Task<SearchResult> GetSelectedResult()
     {
         IJSStreamReference jsStreamRef =
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSelectedResult");
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
-
-        return searchResult;
+        return (await jsStreamRef.ReadJsStreamReference<SearchResult>())!;
     }
     
     /// <summary>
@@ -559,14 +524,7 @@ public partial class SearchWidget : Widget
 
         IJSStreamReference jsStreamRef =
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSources", CancellationTokenSource.Token);
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        IReadOnlyList<SearchSource>? result = JsonSerializer.Deserialize<IReadOnlyList<SearchSource>>(
-            json, GeoBlazorSerialization.JsonSerializerOptions);
+        IReadOnlyList<SearchSource>? result = await jsStreamRef.ReadJsStreamReference<IReadOnlyList<SearchSource>>();
         
         if (result is not null)
         {
@@ -577,6 +535,46 @@ public partial class SearchWidget : Widget
         }
         
         return Sources;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Suggestions property.
+    /// </summary>
+    public async Task<IReadOnlyList<SuggestResult>?> GetSuggestions()
+    {
+        if (CoreJsModule is null)
+        {
+            return Suggestions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Suggestions;
+        }
+
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSources", CancellationTokenSource.Token);
+        IReadOnlyList<SuggestResult>? result = await jsStreamRef.ReadJsStreamReference<IReadOnlyList<SuggestResult>>();
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Suggestions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Suggestions)] = Suggestions;
+        }
+        
+        return Suggestions;
     }
     
     /// <inheritdoc />

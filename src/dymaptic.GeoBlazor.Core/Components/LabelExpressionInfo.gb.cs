@@ -46,6 +46,17 @@ public partial class LabelExpressionInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LabelExpressionInfo.html#labelexpressioninfoexpression-property">GeoBlazor Docs</a>
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#labeling">Arcade Labeling Profile</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [RequiredProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string Expression { get; set; } = null!;
+    
+    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LabelExpressionInfo.html#labelexpressioninfotitle-property">GeoBlazor Docs</a>
     ///     The title of the label expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -217,4 +228,15 @@ public partial class LabelExpressionInfo
     
 #endregion
 
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (Expression is null)
+        {
+            throw new MissingRequiredChildElementException(nameof(LabelExpressionInfo), nameof(Expression));
+        }
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

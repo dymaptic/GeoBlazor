@@ -79,9 +79,9 @@ export async function buildJsWMSLayer(dotNetObject: any, layerId: string | null,
     return jsWmsLayer;
 }
 
-export async function buildDotNetWMSLayer(jsObject: any): Promise<any> {
+export async function buildDotNetWMSLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetWMSLayerGenerated} = await import('./wMSLayer.gb');
-    return await buildDotNetWMSLayerGenerated(jsObject);
+    return await buildDotNetWMSLayerGenerated(jsObject, viewId);
 }
 
 

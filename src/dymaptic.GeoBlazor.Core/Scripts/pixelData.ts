@@ -4,7 +4,7 @@ export async function buildJsPixelData(dotNetObject: any, layerId: string | null
     return await buildJsPixelDataGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPixelData(jsObject: any): Promise<any> {
+export async function buildDotNetPixelData(jsObject: any, viewId: string | null): Promise<any> {
     let { buildDotNetPixelDataGenerated } = await import('./pixelData.gb');
-    return await buildDotNetPixelDataGenerated(jsObject);
+    return await buildDotNetPixelDataGenerated(jsObject, viewId);
 }

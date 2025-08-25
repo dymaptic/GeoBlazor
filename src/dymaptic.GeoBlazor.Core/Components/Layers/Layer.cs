@@ -8,6 +8,16 @@ public abstract partial class Layer : MapComponent
     /// </summary>
     public abstract LayerType Type { get; }
     
+        
+    /// <summary>
+    ///     For layers that are public and throw an error when given an ApiKey or Token,
+    ///     this setting allows you to exclude the ApiKey or Token from this layer's request.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public bool? ExcludeApiKey { get; set; }
+    
     /// <summary>
     ///     Indicates whether the layer's resources have loaded.
     ///     default false
@@ -66,6 +76,7 @@ public abstract partial class Layer : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(FullExtentConverter))]
     public Extent? FullExtent { get; set; }
     
     /// <summary>

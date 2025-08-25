@@ -16,7 +16,7 @@ export async function buildJsLocateWidget(dotNetObject: any, layerId: string | n
     return await buildJsLocateWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLocateWidget(jsObject: any): Promise<any> {
+export async function buildDotNetLocateWidget(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
