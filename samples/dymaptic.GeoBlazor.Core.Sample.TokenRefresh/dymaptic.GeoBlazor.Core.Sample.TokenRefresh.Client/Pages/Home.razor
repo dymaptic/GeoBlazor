@@ -28,7 +28,7 @@
                 </p>
 
                 <div class="alert alert-info">
-                    <strong>Current Server Configuration:</strong>
+                    <strong>Effective Server Configuration (from IConfiguration)</strong>
                     <pre><code>@_currentConfig</code></pre>
                 </div>
 
@@ -42,95 +42,105 @@
 
                 <p><strong>2. Authentication Flow</strong></p>
                 <p>
-                    The authentication process involves two main components working together:
+                    The authentication process involves two pieces working together:
                 </p>
 
-                <p><strong>ArcGisAuthService.cs</strong></p>
+                <p><strong>ArcGisAuthService (this sample)</strong></p>
                 <ul>
-                    <li>Makes HTTP requests to ArcGIS REST API</li>
-                    <li>Handles client credentials flow</li>
-                    <li>Caches tokens to local file</li>
-                    <li>Manages token expiration</li>
+                    <li>🧩 <em>Your</em> service in this sample app</li>
+                    <li>Makes HTTP requests to the ArcGIS REST API using client credentials</li>
+                    <li>Caches tokens locally and manages token expiration/refresh</li>
+                    <li>Calls <code>AuthenticationManager.RegisterToken(...)</code> when a token is obtained</li>
                 </ul>
 
-                <p><strong>AuthenticationManager.cs/.ts</strong></p>
+                <p><strong>AuthenticationManager (built into GeoBlazor)</strong></p>
                 <ul>
-                    <li>C# wrapper around TypeScript implementation</li>
-                    <li>Integrates with ArcGIS Maps SDK for JavaScript</li>
-                    <li>Registers tokens with ArcGIS Identity Manager</li>
-                    <li>Provides authentication state management</li>
+                    <li>📦 Provided by the GeoBlazor NuGet package — you use it; you don’t implement it</li>
+                    <li>Bridges C# and the ArcGIS Maps SDK for JavaScript under the hood</li>
+                    <li>Registers tokens with ArcGIS Identity Manager and tracks authentication state</li>
+                    <li>No changes required in this sample — it’s injected and used as a dependency</li>
                 </ul>
-            </div>
 
-            <div class="alert alert-primary">
-                <strong>Ready to Test?</strong>
-                <p class="mb-2">Choose which render mode demonstration you'd like to see:</p>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card border-primary">
-                            <div class="card-body">
-                                <h6 class="card-title">🖥️ InteractiveServer Mode</h6>
-                                <p class="card-text small">Server-side execution over SignalR. Best for fast first render and secure token handling.</p>
-                                <a href="/map-server" class="btn btn-primary btn-sm">View Server Mode Demo</a>
+                <div class="alert alert-primary">
+                    <strong>Ready to Test?</strong>
+                    <p class="mb-2">Choose which render mode demonstration you'd like to see:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card border-primary">
+                                <div class="card-body">
+                                    <h6 class="card-title">🖥️ InteractiveServer Mode</h6>
+                                    <p class="card-text small">Server-side execution over SignalR. Best for fast first render and secure token handling.</p>
+                                    <a href="/map-server" class="btn btn-primary btn-sm">View Server Mode Demo</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card border-success">
-                            <div class="card-body">
-                                <h6 class="card-title">💻 InteractiveWebAssembly Mode</h6>
-                                <p class="card-text small">Pure client-side execution. Best for rich interactivity and offline capability.</p>
-                                <a href="/map-webassembly" class="btn btn-success btn-sm">View WebAssembly Demo</a>
+                        <div class="col-md-6">
+                            <div class="card border-success">
+                                <div class="card-body">
+                                    <h6 class="card-title">💻 InteractiveWebAssembly Mode</h6>
+                                    <p class="card-text small">Pure client-side execution. Best for rich interactivity and offline capability.</p>
+                                    <a href="/map-webassembly" class="btn btn-success btn-sm">View WebAssembly Demo</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div>
-                <p>
-                    Once your tokens are configured and working, navigate to the <strong>Map</strong> page
-                    to see the fully authenticated GeoBlazor map in action!
-                </p>
-                <ul>
-                    <li>Automatic token refresh keeps your map sessions active</li>
-                    <li>Secure server-side authentication protects your credentials</li>
-                    <li>Seamless integration with ArcGIS Portal or ArcGIS Online</li>
-                </ul>
-                <p>
-                    Ready to learn more? Check out the <a href="https://docs.geoblazor.com" target="_blank">GeoBlazor documentation</a>
-                    and <a href="https://samples.geoblazor.com" target="_blank">samples</a> to unlock more possibilities!
-                </p>
+                <div>
+                    <p>
+                        Once your tokens are configured and working, navigate to the one of the map pages
+                        to see the fully authenticated GeoBlazor map in action!
+                    </p>
+                    <ul>
+                        <li>Automatic token refresh keeps your map sessions active</li>
+                        <li>Secure server-side authentication protects your credentials</li>
+                        <li>Seamless integration with ArcGIS Portal or ArcGIS Online</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 @code {
+    [Inject] public required IConfiguration Configuration { get; set; }
+
     private string _currentConfig = "";
 
     protected override void OnInitialized()
     {
-        // Show the template configuration as it appears in the sample appsettings.json
-        var configLines = new List<string>
+        // Build a safe, readable snapshot of relevant settings
+        var configView = new
         {
-            "{",
-            "  \"Logging\": {",
-            "    \"LogLevel\": {",
-            "      \"Default\": \"Information\",",
-            "      \"Microsoft.AspNetCore\": \"Warning\"",
-            "    }",
-            "  },",
-            "  \"ArcGISAppId\": \"Your_ARCGIS_APP_ID\",",
-            "  \"ArcGISClientSecret\": \"Your_ARCGIS_CLIENT_SECRET\",",
-            "  \"ArcGISPortalUrl\": \"https://your-portal-url/portal/\",",
-            "  \"ArcGISAppTokenCacheFile\": \"arcgis_token_cache-file-name.json\",",
-            "  \"ArcGISTokenExpirationMinutes\": \"1440\",",
-            "  \"GeoBlazor\": {",
-            "    \"RegistrationKey\": \"YOUR_GEO_BLAZOR_REGISTRATION_KEY\"",
-            "  }",
-            "}"
+            Logging = new
+            {
+                LogLevel = new
+                {
+                    Default = Configuration["Logging:LogLevel:Default"] ?? "Information",
+                    MicrosoftAspNetCore = Configuration["Logging:LogLevel:Microsoft.AspNetCore"] ?? "Warning"
+                }
+            },
+            ArcGISAppId = Configuration["ArcGISAppId"] ?? "(not set)",
+            ArcGISClientSecret = Mask(Configuration["ArcGISClientSecret"]),
+            ArcGISPortalUrl = Configuration["ArcGISPortalUrl"] ?? "(default: https://www.arcgis.com)",
+            ArcGISAppTokenCacheFile = Configuration["ArcGISAppTokenCacheFile"] ?? "(not set)",
+            ArcGISTokenExpirationMinutes = Configuration["ArcGISTokenExpirationMinutes"] ?? "1440",
+            GeoBlazor = new
+            {
+                RegistrationKey = Mask(Configuration["GeoBlazor:RegistrationKey"])
+            }
         };
-        _currentConfig = string.Join("\n", configLines);
+
+        _currentConfig = System.Text.Json.JsonSerializer.Serialize(
+        configView,
+        new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
+        );
+    }
+
+    private static string? Mask(string? value, int keepLeft = 4, int keepRight = 2)
+    {
+        if (string.IsNullOrEmpty(value)) return value;
+        if (value.Length <= keepLeft + keepRight) return new string('*', value.Length);
+        return value.Substring(0, keepLeft) + new string('*', value.Length - keepLeft - keepRight) + value.Substring(value.Length - keepRight);
     }
 }

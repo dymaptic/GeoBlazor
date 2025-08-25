@@ -1,10 +1,9 @@
 using dymaptic.GeoBlazor.Core;
-using dymaptic.GeoBlazor.Core.Model;
-using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Services;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client;
-using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Pages;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components;
+using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Services;
 using Microsoft.AspNetCore.StaticFiles;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
-
-builder.Services.AddControllers();
 
 builder.Services.AddScoped<ArcGisAuthService>();
 builder.Services.AddScoped<ArcGisAuthServiceWasm>();
@@ -48,7 +45,61 @@ FileExtensionContentTypeProvider provider = new() { Mappings = { [".wsv"] = "app
 app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
 #endif
 
-app.MapControllers();
+var api = app.MapGroup("/api");
+
+// GET /api/config  ? non-sensitive client config
+api.MapGet("/config", (IConfiguration config) =>
+{
+    var payload = new
+    {
+        GeoBlazorLicenseKey = config["GeoBlazor:RegistrationKey"],
+        ArcGISApiKey = config["ArcGISApiKey"],
+        ArcGISPortalUrl = config["ArcGISPortalUrl"],
+        ArcGISAppId = config["ArcGISAppId"]
+    };
+    return Results.Ok(payload);
+})
+.Produces(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status400BadRequest);
+
+// POST /api/auth/token  ? body: true/false OR ?forceRefresh=true
+api.MapPost("/auth/token", async (HttpContext ctx, ArcGisAuthService auth) =>
+{
+    bool forceRefresh = false;
+
+    // Allow query string toggle
+    if (ctx.Request.Query.TryGetValue("forceRefresh", out var q) &&
+        bool.TryParse(q, out var fromQuery))
+    {
+        forceRefresh = fromQuery;
+    }
+    else
+    {
+        // Allow raw boolean body (not an object)
+        try
+        {
+            var bodyBool = await JsonSerializer.DeserializeAsync<bool?>(ctx.Request.Body,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (bodyBool.HasValue) forceRefresh = bodyBool.Value;
+        }
+        catch
+        {
+            // ignore malformed bodies; default remains false
+        }
+    }
+
+    try
+    {
+        var tokenResponse = await auth.GetTokenAsync(forceRefresh);
+        return Results.Ok(tokenResponse);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.Produces(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status400BadRequest);
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
