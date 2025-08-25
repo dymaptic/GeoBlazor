@@ -11,50 +11,20 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 // STEP 1: Retrieve client configuration from server API
 // This approach separates concerns by keeping sensitive credentials (client secrets) on the server
 // while allowing the WebAssembly client to access necessary configuration for GeoBlazor initialization.
-var httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+var http = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
 var tempConfig = new Dictionary<string, string?>();
 
 try
 {
-    // Make API call to get static configuration
-    var response = await httpClient.GetAsync("/api/config");
-    if (response.IsSuccessStatusCode)
+    var cfg = await http.GetFromJsonAsync<ClientConfigResponse>("/api/config");
+    if (cfg is not null)
     {
-        var configResponse = await response.Content.ReadFromJsonAsync<ClientConfigResponse>();
-        if (configResponse != null)
-        {
-            if (!string.IsNullOrEmpty(configResponse.GeoBlazorLicenseKey))
-            {
-                tempConfig["GeoBlazor:RegistrationKey"] = configResponse.GeoBlazorLicenseKey;
-                Console.WriteLine("✅ Successfully retrieved GeoBlazor license from server");
-            }
-            
-            if (!string.IsNullOrEmpty(configResponse.ArcGISApiKey))
-            {
-                tempConfig["ArcGISApiKey"] = configResponse.ArcGISApiKey;
-                Console.WriteLine("✅ Successfully retrieved ArcGIS API Key from server");
-            }
-            
-            if (!string.IsNullOrEmpty(configResponse.ArcGISPortalUrl))
-            {
-                tempConfig["ArcGISPortalUrl"] = configResponse.ArcGISPortalUrl;
-                Console.WriteLine("✅ Successfully retrieved ArcGIS Portal URL from server");
-            }
-            
-            if (!string.IsNullOrEmpty(configResponse.ArcGISAppId))
-            {
-                tempConfig["ArcGISAppId"] = configResponse.ArcGISAppId;
-                Console.WriteLine("✅ Successfully retrieved ArcGIS App ID from server");
-            }
-        }
-        else
-        {
-            Console.WriteLine("❌ server returned no config information");
-        }
-    }
-    else
-    {
-        Console.WriteLine($"❌ Failed to get config from server: {response.StatusCode}");
+        void Add(string k, string? v) { if (!string.IsNullOrWhiteSpace(v)) tempConfig[k] = v; }
+
+        Add("GeoBlazor:RegistrationKey", cfg.GeoBlazorLicenseKey);
+        Add("ArcGISApiKey", cfg.ArcGISApiKey);
+        Add("ArcGISPortalUrl", cfg.ArcGISPortalUrl);
+        Add("ArcGISAppId", cfg.ArcGISAppId);
     }
 }
 catch (Exception ex)
