@@ -89,7 +89,16 @@ else
     <MapView Class="map-view" PromptForOAuthLogin="true">
         <Map>
             <Basemap>
+                @if (_isArcGisOnline)
+                {
+                    <!-- ArcGIS Online basemap item -->
+                    <PortalItem PortalItemId="54d44bf1f0554a3897cdb35e5673642f" />
+                }
+                else
+                {
+                    <!-- Enterprise Portal basemap item -->
                     <PortalItem PortalItemId="1bf19e76cb6e45db8ab9739e560e9307" />
+                }
             </Basemap>
         </Map>
     </MapView>
@@ -106,6 +115,22 @@ else
     private bool _isTestingToken = false;
     private string _tokenTestResult = "";
     private string _errorMessage = "";
+    private bool _isArcGisOnline;
+
+    protected override void OnInitialized()
+    {
+        // Decide Online vs Enterprise from the configured/normalized PortalUrl
+        var portalUrl = AuthenticationManager.PortalUrl ?? "https://www.arcgis.com";
+        if (Uri.TryCreate(portalUrl, UriKind.Absolute, out var uri))
+        {
+            _isArcGisOnline = uri.Host.EndsWith("arcgis.com", StringComparison.OrdinalIgnoreCase);
+        }
+        else
+        {
+            // Fallback: treat unknown as Enterprise
+            _isArcGisOnline = false;
+        }
+    }
 
     // Initialize authentication after first render when JavaScript interop is available.
     // This method calls the server API endpoint (/api/auth/token) to get a fresh token,
