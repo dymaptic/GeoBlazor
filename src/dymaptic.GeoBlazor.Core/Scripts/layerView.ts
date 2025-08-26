@@ -1,109 +1,26 @@
-import {dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId, sanitize} from "./arcGisJsInterop";
+import Layer from "@arcgis/core/layers/Layer";
+import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId, sanitize} from "./arcGisJsInterop";
+import MapView from "@arcgis/core/views/MapView";
+import SceneView from "@arcgis/core/views/SceneView";
 
 export async function buildJsLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject?.layer)) {
         return null;
     }
-
-    switch (dotNetObject.layer.type) {
-        case 'csv':
-            let {buildJsCSVLayerView} = await import('./cSVLayerView');
-            return await buildJsCSVLayerView(dotNetObject, layerId, viewId);
-        case 'feature':
-            let {buildJsFeatureLayerView} = await import('./featureLayerView');
-            return await buildJsFeatureLayerView(dotNetObject, layerId, viewId);
-        case 'geojson':
-            let {buildJsGeoJSONLayerView} = await import('./geoJSONLayerView');
-            return await buildJsGeoJSONLayerView(dotNetObject, layerId, viewId);
-        case 'geo-rss':
-            let {buildJsGeoRSSLayerView} = await import('./geoRSSLayerView');
-            return await buildJsGeoRSSLayerView(dotNetObject, layerId, viewId);
-        case 'graphics':
-            let {buildJsGraphicsLayerView} = await import('./graphicsLayerView');
-            return await buildJsGraphicsLayerView(dotNetObject, layerId, viewId);
-        case 'imagery':
-            let {buildJsImageryLayerView} = await import('./imageryLayerView');
-            return await buildJsImageryLayerView(dotNetObject, layerId, viewId);
-        case 'kml':
-            let {buildJsKMLLayerView} = await import('./kMLLayerView');
-            return await buildJsKMLLayerView(dotNetObject, layerId, viewId);
-        case 'wfs':
-            let {buildJsWFSLayerView} = await import('./wFSLayerView');
-            return await buildJsWFSLayerView(dotNetObject, layerId, viewId);
-        // case 'building-scene':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         let {buildJsBuildingSceneLayerView} = await import('./buildingSceneLayerView');
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         return await buildJsBuildingSceneLayerView(dotNetObject, layerId, viewId);
-        //     } catch (e) {
-        //         throw e;
-        //     }
-        case 'catalog':
-            try {
-                // @ts-ignore GeoBlazor Pro Only
-                let {buildJsCatalogLayerView} = await import('./catalogLayerView');
-                return await buildJsCatalogLayerView(dotNetObject, layerId, viewId);
-            } catch (e) {
-                throw e;
-            }
-        case 'catalog-footprint':
-            try {
-                // @ts-ignore GeoBlazor Pro Only
-                let {buildJsCatalogFootprintLayerView} = await import('./catalogFootprintLayerView');
-                return await buildJsCatalogFootprintLayerView(dotNetObject, layerId, viewId);
-            } catch (e) {
-                throw e;
-            }
-        case 'catalog-dynamic-group':
-            try {
-                // @ts-ignore GeoBlazor Pro Only
-                let {buildJsCatalogDynamicGroupLayerView} = await import('./catalogDynamicGroupLayerView');
-                return await buildJsCatalogDynamicGroupLayerView(dotNetObject, layerId, viewId);
-            } catch (e) {
-                throw e;
-            }
-        // case 'point-cloud':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         let {buildJsPointCloudLayerView} = await import('./pointCloudLayerView');
-        //         return await buildJsPointCloudLayerView(dotNetObject, layerId, viewId);
-        //     } catch (e) {
-        //         throw e;
-        //     }
-        // case 'scene':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         let {buildJsSceneLayerView} = await import('./sceneLayerView');
-        //         return await buildJsSceneLayerView(dotNetObject, layerId, viewId);
-        //     } catch (e) {
-        //         throw e;
-        //     }
-        // case 'stream':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         let {buildJsStreamLayerView} = await import('./streamLayerView');
-        //         return await buildJsStreamLayerView(dotNetObject, layerId, viewId);
-        //     } catch (e) {
-        //         throw e;
-        //     }
-        // case 'media':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         let {buildJsMediaLayerView} = await import('./mediaLayerView');
-        //         return await buildJsMediaLayerView(dotNetObject, layerId, viewId);
-        //     } catch (e) {
-        //         throw e;
-        //     }
-        case 'vector-tile':
-            try {
-                let {buildJsVectorTileLayerView} = await import('./vectorTileLayerView');
-                return await buildJsVectorTileLayerView(dotNetObject, layerId, viewId);
-            } catch (e) {
-                throw e;
-            }
-        default:
-            return sanitize(dotNetObject);
+    
+    if (arcGisObjectRefs.hasOwnProperty(dotNetObject.id)) {
+        return arcGisObjectRefs[dotNetObject.id];
+    }
+    
+    let jsLayerView: any | null = null;
+    if (hasValue(layerId) && arcGisObjectRefs.hasOwnProperty(layerId!)) {
+        let layer = arcGisObjectRefs[layerId!] as Layer;
+        let view = arcGisObjectRefs[viewId!] as MapView | SceneView;
+        jsLayerView = await layer.createLayerView(view);
+        let wrapper = await buildJsLayerViewWrapper(jsLayerView);
+        arcGisObjectRefs[dotNetObject.id] = jsLayerView;
+        jsObjectRefs[dotNetObject.id] = wrapper;
+        return jsLayerView;
     }
 }
 

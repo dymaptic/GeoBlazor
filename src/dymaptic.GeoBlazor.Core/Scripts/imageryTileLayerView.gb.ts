@@ -85,6 +85,7 @@ export async function buildJsImageryTileLayerViewGenerated(dotNetObject: any, la
     let jsImageryTileLayerView = new ImageryTileLayerView(properties);
 
     let { default: ImageryTileLayerViewWrapper } = await import('./imageryTileLayerView');
+
     let imageryTileLayerViewWrapper = new ImageryTileLayerViewWrapper(jsImageryTileLayerView);
     imageryTileLayerViewWrapper.geoBlazorId = dotNetObject.id;
     imageryTileLayerViewWrapper.viewId = viewId;
