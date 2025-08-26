@@ -6,7 +6,6 @@ using System.Net.Http.Json;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-// 1) Pull non-sensitive config from the server with a scoped/disposed client
 var baseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 using var bootstrapHttp = new HttpClient { BaseAddress = baseAddress };
 var tempConfig = new Dictionary<string, string?>();
@@ -28,11 +27,9 @@ catch (Exception ex)
     Console.WriteLine($"❌ Error getting configuration: {ex.Message}");
 }
 
-// 2) Configure GeoBlazor with what we got
 builder.Configuration.AddInMemoryCollection(tempConfig);
 builder.Services.AddGeoBlazor(builder.Configuration);
 
-// 3) Register a DI-managed HttpClient for the rest of the app
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = baseAddress });
 builder.Services.AddScoped<ArcGisAuthServiceWasm>();
 

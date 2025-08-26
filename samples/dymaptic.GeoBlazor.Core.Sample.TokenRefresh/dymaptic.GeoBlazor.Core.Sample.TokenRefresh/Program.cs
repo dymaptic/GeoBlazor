@@ -7,7 +7,6 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
@@ -23,7 +22,6 @@ builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
@@ -31,7 +29,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -49,7 +46,6 @@ app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
 
 var api = app.MapGroup("/api");
 
-// GET /api/config  ? non-sensitive client config
 api.MapGet("/config", (IConfiguration config) =>
 {
     var payload = new
@@ -64,12 +60,10 @@ api.MapGet("/config", (IConfiguration config) =>
 .Produces(StatusCodes.Status200OK)
 .Produces(StatusCodes.Status400BadRequest);
 
-// POST /api/auth/token  ? body: true/false OR ?forceRefresh=true
 api.MapPost("/auth/token", async (HttpContext ctx, ArcGisAuthService auth) =>
 {
     bool forceRefresh = false;
 
-    // Allow query string toggle
     if (ctx.Request.Query.TryGetValue("forceRefresh", out var q) &&
         bool.TryParse(q, out var fromQuery))
     {
@@ -77,7 +71,6 @@ api.MapPost("/auth/token", async (HttpContext ctx, ArcGisAuthService auth) =>
     }
     else
     {
-        // Allow raw boolean body (not an object)
         try
         {
             var bodyBool = await JsonSerializer.DeserializeAsync<bool?>(ctx.Request.Body,
@@ -86,7 +79,7 @@ api.MapPost("/auth/token", async (HttpContext ctx, ArcGisAuthService auth) =>
         }
         catch
         {
-            // ignore malformed bodies; default remains false
+            // default remains false
         }
     }
 
