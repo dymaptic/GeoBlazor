@@ -118,6 +118,7 @@ else
 
     private bool _isInitialized = false;
     private bool _isTestingToken = false;
+    private bool _tokenRequestInProgress = false;
     private string _tokenTestResult = "";
     private string _errorMessage = "";
     private WebMap? _agolWebMap;
@@ -146,8 +147,9 @@ else
     // then registers it with GeoBlazor's AuthenticationManager for use with ArcGIS services.
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender && !_tokenRequestInProgress)
         {
+            _tokenRequestInProgress = true;
             try
             {
                 _progressPercent = 25;
@@ -191,22 +193,35 @@ else
                 _isInitialized = true;
                 StateHasChanged();
             }
+            finally
+            {
+                _tokenRequestInProgress = false;
+            }
         }
     }
 
     private async Task GetToken()
     {
+        if (_tokenRequestInProgress) return;
+        
+        _tokenRequestInProgress = true;
         _isTestingToken = true;
         _tokenTestResult = "";
         _errorMessage = "";
         StateHasChanged();
 
-        var (success, error) = await AuthService.GetNewArcGISToken(AuthenticationManager);
-        _tokenTestResult = success;
-        _errorMessage = error;
-
-        _isTestingToken = false;
-        StateHasChanged();
+        try
+        {
+            var (success, error) = await AuthService.GetNewArcGISToken(AuthenticationManager);
+            _tokenTestResult = success;
+            _errorMessage = error;
+        }
+        finally
+        {
+            _isTestingToken = false;
+            _tokenRequestInProgress = false;
+            StateHasChanged();
+        }
     }
 
     private async Task CheckAuthStatus()
