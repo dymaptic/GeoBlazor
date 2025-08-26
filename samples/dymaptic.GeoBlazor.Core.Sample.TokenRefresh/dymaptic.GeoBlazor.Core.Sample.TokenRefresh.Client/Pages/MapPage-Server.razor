@@ -129,7 +129,7 @@ else
     protected override void OnInitialized()
     {
         // Decide Online vs Enterprise from the configured/normalized PortalUrl
-        var portalUrl = AuthenticationManager.PortalUrl ?? "https://arcgis.com";
+        var portalUrl = AuthenticationManager.PortalUrl ?? "https://www.arcgis.com";
         if (Uri.TryCreate(portalUrl, UriKind.Absolute, out var uri))
         {
             _isArcGisOnline = uri.Host.EndsWith("arcgis.com", StringComparison.OrdinalIgnoreCase);

@@ -15,7 +15,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddHttpClient<ArcGisAuthService>();
 builder.Services.AddHttpClient<ArcGisAuthServiceWasm>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7143");
+    client.BaseAddress = new Uri(builder.Configuration["ApplicationBaseUrl"] ?? "https://localhost:7143");
 });
 
 builder.Services.AddGeoBlazor(builder.Configuration);
