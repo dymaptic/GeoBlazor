@@ -8,7 +8,6 @@
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
     <CompressionEnabled Condition="$(Configuration) != 'RELEASE' OR $(EnableCompression) != 'true'">false</CompressionEnabled>
     <DefineConstants Condition="$(EnableCompression) == 'true'">$(DefineConstants);ENABLE_COMPRESSION</DefineConstants>
-    <UserSecretsId>b8b71950-c18e-4ab7-9d49-e1acf2ef6bf3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
