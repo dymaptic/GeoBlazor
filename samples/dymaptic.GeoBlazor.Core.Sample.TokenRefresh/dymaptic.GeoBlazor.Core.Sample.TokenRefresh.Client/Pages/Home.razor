@@ -14,13 +14,35 @@
                 <p>
                     <strong>
                         This sample demonstrates how to implement automatic token refresh in GeoBlazor applications
-                        using server-side authentication with ArcGIS Portal or ArcGIS Online.
+                        using server-side authentication with ArcGIS Portal, ArcGIS Online, or both platforms.
                     </strong>
                     For end-to-end setup and guidance, see the GeoBlazor docs:
                     <a href="https://docs.geoblazor.com/pages/appTokenRefresh.html" target="_blank">
                         Token Refresh (App Authentication)
                     </a>.
                 </p>
+
+                <div class="alert alert-primary">
+                    <strong>⚠️ App Registration Requirements</strong>
+                    <p class="mb-2">
+                        The token refresh sample can handle a registered app on your organization's portal, on ArcGIS Online, and on both platforms. 
+                        However, it is important to note that <strong>the app must be registered independently on both platforms in order to access both</strong>.
+                    </p>
+                    <ul class="mb-2">
+                        <li>An app only registered on your organization's portal can access content on your portal only</li>
+                        <li>An app only registered on ArcGIS Online can access ArcGIS Online content only</li>
+                        <li><strong>For dual access:</strong> The application must be registered specifically on both services</li>
+                    </ul>
+                    <p class="mb-0">
+                        <strong>Registration Documentation:</strong>
+                        <a href="https://enterprise.arcgis.com/en/portal/latest/use/add-app-url.htm#REG_APP" target="_blank">
+                            Register your application on ArcGIS Online
+                        </a> and 
+                        <a href="https://developers.arcgis.com/documentation/security-and-authentication/app-authentication/tutorials/create-oauth-credentials-app-auth/" target="_blank">
+                            Create OAuth credentials for your organization's portal
+                        </a> provide instructions for registering your application on both platforms.
+                    </p>
+                </div>
 
                 <p><strong>1. Configuration Setup</strong></p>
                 <p>
@@ -33,9 +55,9 @@
                 </div>
 
                 <div class="alert alert-warning">
-                    <strong>Portal vs ArcGIS Online Configuration</strong>
+                    <strong>Configuring your ArcGISPortalUrl value</strong>
                     <ul>
-                        <li><strong>ArcGIS Online:</strong> Set <code>ArcGISPortalUrl</code> to <code>https://www.arcgis.com</code> (or leave it empty to use the default). Do <em>not</em> add <code>/portal</code>.</li>
+                        <li><strong>ArcGIS Online (default):</strong> If you do not specify an <code>ArcGISPortalUrl</code> in your appsettings or user secrets, the application will default to <code>https://www.arcgis.com</code>. You can also explicitly set it to <code>https://www.arcgis.com</code>. Do <em>not</em> add <code>/portal</code>.</li>
                         <li><strong>Enterprise Portal:</strong> Set <code>ArcGISPortalUrl</code> to your portal host. You may include or omit <code>/portal</code> — both are accepted and normalized. Examples: <code>https://your-server</code> or <code>https://your-server/portal</code>. Trailing slashes are optional.</li>
                     </ul>
                 </div>
@@ -45,20 +67,20 @@
                     The authentication process involves two pieces working together:
                 </p>
 
-                <p><strong>ArcGisAuthService (this sample)</strong></p>
+                <p><strong>Server-Side Components</strong></p>
                 <ul>
-                    <li>🧩 <em>Your</em> service in this sample app</li>
-                    <li>Makes HTTP requests to the ArcGIS REST API using client credentials</li>
-                    <li>Caches tokens locally and manages token expiration/refresh</li>
-                    <li>Calls <code>AuthenticationManager.RegisterToken(...)</code> when a token is obtained</li>
+                    <li>🌐 <strong>Minimal API Endpoints</strong> (<code>/api/config</code>, <code>/api/auth/token</code>)</li>
+                    <li>🔒 <strong>ArcGisAuthService</strong> - Makes HTTP requests to ArcGIS REST API using client credentials via <code>GetTokenAsync</code> method</li>
+                    <li>💾 Caches tokens locally and manages token expiration/refresh on the server</li>
+                    <li>🔧 Keeps sensitive credentials (client secrets) secure on the server</li>
                 </ul>
 
-                <p><strong>AuthenticationManager (built into GeoBlazor)</strong></p>
+                <p><strong>Client-Side Components</strong></p>
                 <ul>
-                    <li>📦 Provided by the GeoBlazor NuGet package — you use it; you don’t implement it</li>
-                    <li>Bridges C# and the ArcGIS Maps SDK for JavaScript under the hood</li>
-                    <li>Registers tokens with ArcGIS Identity Manager and tracks authentication state</li>
-                    <li>No changes required in this sample — it’s injected and used as a dependency</li>
+                    <li>📱 <strong>ArcGisAuthServiceWasm</strong> - Calls server API endpoints for tokens and testing</li>
+                    <li>🔗 <strong>AuthenticationManager</strong> (built into GeoBlazor) - Registers tokens with ArcGIS Identity Manager</li>
+                    <li>🧪 Testing methods: <code>GetTokenFromServer</code>, <code>GetNewArcGISToken</code>, <code>CheckAuthStatusAsync</code>, <code>GetTokenExpiresAsync</code></li>
+                    <li>📦 Provided by the GeoBlazor NuGet package — you use it; you don't implement it</li>
                 </ul>
 
                 <div class="alert alert-primary">

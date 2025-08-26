@@ -29,7 +29,7 @@
         </div>
         <div class="card-body">
             <div class="btn-group mb-3" role="group">
-                <button class="btn btn-primary" @onclick="TestGetToken" disabled="@_isTestingToken">
+                <button class="btn btn-primary" @onclick="GetToken" disabled="@_isTestingToken">
                     @if (_isTestingToken)
                     {
                         <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
@@ -92,21 +92,19 @@
 }
 else
 {
-    <MapView Class="map-view" PromptForOAuthLogin="true">
-        <Map>
-            <Basemap>
-                @if (_isArcGisOnline)
-                {
-                    <!-- ArcGIS Online basemap item -->
-                    <PortalItem PortalItemId="54d44bf1f0554a3897cdb35e5673642f" />
-                }
-                else
-                {
-                    <!-- Enterprise Portal basemap item -->
-                    <PortalItem PortalItemId="1bf19e76cb6e45db8ab9739e560e9307" />
-                }
-            </Basemap>
-        </Map>
+    <MapView Class="map-view" OnLayerViewCreate="StateHasChanged">
+        @if (_isArcGisOnline)
+        {
+            <WebMap @ref="_agolWebMap">
+                <PortalItem PortalItemId="237b9584339446a0b56317b5962a4971" />
+            </WebMap>
+        }
+        else
+        {
+            <WebMap @ref="_portalWebMap">
+                <PortalItem PortalItemId="1bf19e76cb6e45db8ab9739e560e9307" />
+            </WebMap>
+        }
     </MapView>
 }
 
@@ -118,7 +116,8 @@ else
     private bool _isTestingToken = false;
     private string _tokenTestResult = "";
     private string _errorMessage = "";
-
+    private WebMap? _agolWebMap;
+    private WebMap? _portalWebMap;
     private bool _isArcGisOnline;
 
     protected override void OnInitialized()
@@ -144,7 +143,7 @@ else
 
         try
         {
-            TokenResponse tokenResponse = await AuthService.GetTokenAsync(true);
+            TokenResponse tokenResponse = await AuthService.GetTokenFromServer(true);
             if (tokenResponse.Success && tokenResponse.AccessToken is not null)
             {
                 await AuthenticationManager.RegisterToken(
@@ -165,48 +164,19 @@ else
         }
     }
 
-    private async Task TestGetToken()
+    private async Task GetToken()
     {
         _isTestingToken = true;
         _tokenTestResult = "";
         _errorMessage = "";
         StateHasChanged();
 
-        try
-        {
-            // Test the ArcGisAuthService first
-            var tokenResponse = await AuthService.GetTokenAsync(true);
-            if (tokenResponse.Success && tokenResponse.AccessToken is not null)
-            {
-                _tokenTestResult =
-                    $"✅ ArcGisAuthService Success!\nToken (first 20 chars): {tokenResponse.AccessToken[..Math.Min(20, tokenResponse.AccessToken.Length)]}...\nExpires: {tokenResponse.Expires}";
+        var (success, error) = await AuthService.GetNewArcGISToken(AuthenticationManager);
+        _tokenTestResult = success;
+        _errorMessage = error;
 
-                // Now test the AuthenticationManager
-                await AuthenticationManager.RegisterToken(
-                    tokenResponse.AccessToken,
-                    (DateTimeOffset)tokenResponse.Expires!
-                );
-
-                // Try to get the token back from AuthenticationManager
-                string? authManagerToken = await AuthenticationManager.GetCurrentToken();
-                _tokenTestResult += string.IsNullOrEmpty(authManagerToken)
-                    ? "\n⚠️ AuthenticationManager returned null token"
-                    : "\n✅ AuthenticationManager token retrieved successfully!";
-            }
-            else
-            {
-                _errorMessage = $"❌ Token request failed: {tokenResponse.ErrorMessage}";
-            }
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"❌ Exception occurred: {ex.Message}";
-        }
-        finally
-        {
-            _isTestingToken = false;
-            StateHasChanged();
-        }
+        _isTestingToken = false;
+        StateHasChanged();
     }
 
     private async Task CheckAuthStatus()
@@ -216,23 +186,12 @@ else
         _errorMessage = "";
         StateHasChanged();
 
-        try
-        {
-            bool isLoggedIn = await AuthenticationManager.IsLoggedIn();
-            _tokenTestResult = $"Auth Status: {(isLoggedIn ? "✅ Logged In" : "❌ Not Logged In")}";
-            _tokenTestResult += isLoggedIn
-                ? "\n📋 Authentication Manager indicates user is authenticated\n🔗 Ready for ArcGIS API calls and map operations"
-                : "\n⚠️ No valid authentication found\n💡 Try running 'Get Token' first to authenticate";
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"❌ Error checking auth status: {ex.Message}";
-        }
-        finally
-        {
-            _isTestingToken = false;
-            StateHasChanged();
-        }
+        var (success, error) = await AuthService.CheckAuthStatusAsync(AuthenticationManager);
+        _tokenTestResult = success;
+        _errorMessage = error;
+
+        _isTestingToken = false;
+        StateHasChanged();
     }
 
     private async Task GetTokenExpires()
@@ -242,40 +201,11 @@ else
         _errorMessage = "";
         StateHasChanged();
 
-        try
-        {
-            DateTime? expires = await AuthenticationManager.GetTokenExpirationDateTime();
-            if (expires.HasValue)
-            {
-                var timeRemaining = expires.Value - DateTime.UtcNow;
-                _tokenTestResult = $"Token Expires: {expires.Value:yyyy-MM-dd HH:mm:ss} UTC";
+        var (success, error) = await AuthService.GetTokenExpiresAsync(AuthenticationManager);
+        _tokenTestResult = success;
+        _errorMessage = error;
 
-                if (timeRemaining.TotalMinutes > 0)
-                {
-                    _tokenTestResult +=
-                        $"\nTime Remaining: {timeRemaining.Days}d {timeRemaining.Hours}h {timeRemaining.Minutes}m" +
-                        "\n✅ Token is still valid";
-                }
-                else
-                {
-                    _tokenTestResult +=
-                        $"\n❌ Token has expired ({Math.Abs(timeRemaining.TotalMinutes):F0} minutes ago)" +
-                        "\n💡 Run 'Get Token' to refresh";
-                }
-            }
-            else
-            {
-                _tokenTestResult = "Token expiration not available (possibly using API key)";
-            }
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"❌ Error getting token expiration: {ex.Message}";
-        }
-        finally
-        {
-            _isTestingToken = false;
-            StateHasChanged();
-        }
+        _isTestingToken = false;
+        StateHasChanged();
     }
 }
