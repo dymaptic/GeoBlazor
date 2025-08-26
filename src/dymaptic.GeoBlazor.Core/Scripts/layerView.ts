@@ -256,6 +256,15 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
                 throw e;
             }
         }
+        case 'group': {
+            try {
+                // @ts-ignore GeoBlazor Pro Only
+                let {default: GroupLayerViewWrapper} = await import('./groupLayerView');
+                return new GroupLayerViewWrapper(jsLayerView);
+            } catch (e) {
+                throw e;
+            }
+        }
         // case 'point-cloud': {
         //     try {
         //         // @ts-ignore GeoBlazor Pro Only
