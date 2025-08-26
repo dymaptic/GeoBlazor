@@ -6,7 +6,7 @@ import {buildDotNetPictureFillSymbol, buildJsPictureFillSymbol} from "./pictureF
 import {buildDotNetSimpleFillSymbol, buildJsSimpleFillSymbol} from './simpleFillSymbol';
 import {buildDotNetTextSymbol, buildJsTextSymbol} from "./textSymbol";
 import {buildDotNetWebStyleSymbol, buildJsWebStyleSymbol} from "./webStyleSymbol";
-import {hasValue, sanitize} from "./arcGisJsInterop";
+import {hasValue, removeCircularReferences, sanitize} from "./arcGisJsInterop";
 
 export function buildJsSymbol(symbol: any, layerId: string | null, viewId: string | null): any {
     if (!hasValue(symbol)) {
@@ -52,6 +52,6 @@ export function buildDotNetSymbol(symbol: any, viewId: string | null): any {
         case 'web-style':
             return buildDotNetWebStyleSymbol(symbol, viewId);
         default:
-            return symbol;
+            return removeCircularReferences(symbol);
     }
 }
