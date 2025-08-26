@@ -1,0 +1,29 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    [TestMethod]
+    public async Task TestCanCheckHasVisibleFeatures(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler"
+                      OnLayerViewCreate="layerViewCreateHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisDarkGray" />
+                    </Basemap>
+                    <VectorTileLayer Url="https://jsapi.maps.arcgis.com/sharing/rest/content/items/75f4dfdff19e445395653121a95a85db/resources/styles/root.json" />
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<VectorTileLayer>();
+        VectorTileLayerView layerView = (VectorTileLayerView)createEvent.LayerView!;
+        bool? hasVisible = await layerView.GetHasVisibleFeatures();
+        Assert.IsTrue(hasVisible);
+    }
+}

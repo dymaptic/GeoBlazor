@@ -73,6 +73,15 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
         //         throw new Error('Feature only available in GeoBlazor Pro');
         //     }
         //     break;
+        case 'ogc-feature':
+            try {
+                // @ts-ignore GeoBlazor Pro Only
+                let {buildDotNetOGCFeatureLayerView} = await import('./oGCFeatureLayerView');
+                dnLayerView = await buildDotNetOGCFeatureLayerView(jsObject, viewId);
+            } catch (e) {
+                throw e;
+            }
+            break;
         case 'catalog':
             try {
                 // @ts-ignore GeoBlazor Pro Only
