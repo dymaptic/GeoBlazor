@@ -12,9 +12,11 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddScoped<ArcGisAuthService>();
-builder.Services.AddScoped<ArcGisAuthServiceWasm>();
-builder.Services.AddScoped<HttpClient>();
+builder.Services.AddHttpClient<ArcGisAuthService>();
+builder.Services.AddHttpClient<ArcGisAuthServiceWasm>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7143");
+});
 
 builder.Services.AddGeoBlazor(builder.Configuration);
 builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);

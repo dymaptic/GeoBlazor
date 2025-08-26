@@ -82,11 +82,15 @@
 
 @if (!_isInitialized)
 {
-    <p>Loading...</p>
+    <div class="progress mb-4" style="width: 50%;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(_progressPercent)%; color: black;" aria-valuenow="@_progressPercent" aria-valuemin="0" aria-valuemax="100">
+            @_progressMessage (@_progressPercent%)
+        </div>
+    </div>
 }
 else
 {
-    <MapView Class="map-view" OnLayerViewCreate="StateHasChanged">
+    <MapView Class="map-view" PromptForOAuthLogin="true">
 @*         <Map>
             <Basemap>
                 @if (_isArcGisOnline)
@@ -130,6 +134,8 @@ else
     private bool _isArcGisOnline;
     private WebMap? _agolWebMap;
     private WebMap? _portalWebMap;
+    private int _progressPercent = 0;
+    private string _progressMessage = "Starting...";
 
     protected override void OnInitialized()
     {
@@ -153,10 +159,46 @@ else
     {
         if (firstRender)
         {
-            TokenResponse tokenResponse = await AuthService.GetTokenFromServer(true);
-            if (tokenResponse.Success && tokenResponse.AccessToken != null)
+            try
             {
-                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires!);
+                _progressPercent = 25;
+                _progressMessage = "Requesting token from server...";
+                StateHasChanged();
+
+                TokenResponse tokenResponse = await AuthService.GetTokenFromServer(true);
+                
+                _progressPercent = 75;
+                _progressMessage = "Registering token with AuthenticationManager...";
+                StateHasChanged();
+                
+                if (tokenResponse.Success && tokenResponse.AccessToken != null)
+                {
+                    await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires!);
+                    _progressPercent = 100;
+                    _progressMessage = "Complete";
+                    StateHasChanged();
+                    
+                    _isInitialized = true;
+                    StateHasChanged();
+                }
+                else
+                {
+                    _progressPercent = 100;
+                    _progressMessage = "Complete";
+                    _errorMessage = $"❌ Token request failed: {tokenResponse.ErrorMessage}";
+                    StateHasChanged();
+                    
+                    _isInitialized = true;
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                _progressPercent = 100;
+                _progressMessage = "Complete";
+                _errorMessage = $"❌ Exception occurred: {ex.Message}";
+                StateHasChanged();
+                
                 _isInitialized = true;
                 StateHasChanged();
             }
