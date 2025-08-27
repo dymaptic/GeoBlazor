@@ -69,7 +69,7 @@ export default class AuthenticationManager {
     registerToken(token: string, expires: number): void {
         let server: string;
         if (this.info?.portalUrl !== undefined && this.info?.portalUrl !== null) {
-            server = this.info.portalUrl + "/portal/sharing/rest";
+            server = this.info.portalUrl + "/sharing/rest";
         } else {
             server = "https://www.arcgis.com/sharing/rest";
         }

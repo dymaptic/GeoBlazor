@@ -228,7 +228,7 @@ public class AuthenticationManager
     /// </summary>
     public async Task<string?> GetCurrentToken()
     {
-        if (!string.IsNullOrWhiteSpace(ApiKey))
+        if (!string.IsNullOrWhiteSpace(ApiKey) && !ExcludeApiKey)
         {
             return ApiKey;
         }
