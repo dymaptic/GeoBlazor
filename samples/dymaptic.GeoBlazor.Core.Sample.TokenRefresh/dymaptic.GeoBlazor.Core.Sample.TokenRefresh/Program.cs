@@ -2,8 +2,8 @@ using dymaptic.GeoBlazor.Core;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Services;
+using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Apis;
 using Microsoft.AspNetCore.StaticFiles;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,8 +33,6 @@ else
 }
 
 app.UseHttpsRedirection();
-
-
 app.UseAntiforgery();
 
 #if (ENABLE_COMPRESSION)
@@ -44,57 +42,7 @@ FileExtensionContentTypeProvider provider = new() { Mappings = { [".wsv"] = "app
 app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
 #endif
 
-var api = app.MapGroup("/api");
-
-api.MapGet("/config", (IConfiguration config) =>
-{
-    var payload = new
-    {
-        GeoBlazorLicenseKey = config["GeoBlazor:RegistrationKey"],
-        ArcGISApiKey = config["ArcGISApiKey"],
-        ArcGISPortalUrl = config["ArcGISPortalUrl"],
-        ArcGISAppId = config["ArcGISAppId"]
-    };
-    return Results.Ok(payload);
-})
-.Produces(StatusCodes.Status200OK)
-.Produces(StatusCodes.Status400BadRequest);
-
-api.MapPost("/auth/token", async (HttpContext ctx, ArcGisAuthService auth) =>
-{
-    bool forceRefresh = false;
-
-    if (ctx.Request.Query.TryGetValue("forceRefresh", out var q) &&
-        bool.TryParse(q, out var fromQuery))
-    {
-        forceRefresh = fromQuery;
-    }
-    else
-    {
-        try
-        {
-            var bodyBool = await JsonSerializer.DeserializeAsync<bool?>(ctx.Request.Body,
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            if (bodyBool.HasValue) forceRefresh = bodyBool.Value;
-        }
-        catch
-        {
-            // default remains false
-        }
-    }
-
-    try
-    {
-        var tokenResponse = await auth.GetTokenAsync(forceRefresh);
-        return Results.Ok(tokenResponse);
-    }
-    catch (Exception ex)
-    {
-        return Results.BadRequest(new { error = ex.Message });
-    }
-})
-.Produces(StatusCodes.Status200OK)
-.Produces(StatusCodes.Status400BadRequest);
+app.MapAuthenticationApis();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()

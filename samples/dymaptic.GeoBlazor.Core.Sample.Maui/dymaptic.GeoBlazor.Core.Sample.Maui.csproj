@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
@@ -9,14 +10,18 @@
 		<EnableDefaultCssItems>false</EnableDefaultCssItems>
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 		<NoWarn>PRI249</NoWarn>
+
 		<!-- Display name -->
 		<ApplicationTitle>GeoBlazor Core Samples</ApplicationTitle>
+
 		<!-- App Identifier -->
 		<ApplicationId>dymaptic.GeoBlazor.Core.Sample.maui</ApplicationId>
 		<ApplicationIdGuid>B317DCA2-17AB-4EBE-949C-C8F6787B2B95</ApplicationIdGuid>
+
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.2.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
+
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
@@ -25,6 +30,7 @@
 		<DefaultLanguage>en</DefaultLanguage>
 		<UserSecretsId>bc0064d4-5c37-4d55-bf88-ae9d58312baa</UserSecretsId>
 	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.ico" Color="#FFFFFF" />
@@ -61,12 +67,6 @@
 		<Content Remove="appsettings.json" />
 		<EmbeddedResource Include="appsettings.json" />
 	</ItemGroup>
-
-    <ItemGroup>
-      <Content Update="Main.razor">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
 
 	<ProjectExtensions>
 		<VisualStudio>

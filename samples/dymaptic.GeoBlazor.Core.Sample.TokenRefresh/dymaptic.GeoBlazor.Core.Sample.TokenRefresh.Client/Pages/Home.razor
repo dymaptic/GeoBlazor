@@ -62,24 +62,24 @@
                 </div>
 
                 <p><strong>2. Authentication Flow</strong></p>
-                <p>
-                    The authentication process involves two pieces working together:
-                </p>
+                <p>The flow has two parts: what <em>you implement</em> in this sample, and what <em>GeoBlazor provides</em>.</p>
 
-                <p><strong>Server-Side Components</strong></p>
+                <p><strong>You implement (in this sample)</strong></p>
                 <ul>
-                    <li>🌐 <strong>Minimal API Endpoints</strong> (<code>/api/config</code>, <code>/api/auth/token</code>)</li>
-                    <li>🔒 <strong>ArcGisAuthService</strong> - Makes HTTP requests to ArcGIS REST API using client credentials via <code>GetTokenAsync</code> method</li>
-                    <li>💾 Caches tokens locally and manages token expiration/refresh on the server</li>
-                    <li>🔧 Keeps sensitive credentials (client secrets) secure on the server</li>
+                    <li>🌐 <strong>Minimal API endpoints</strong> — <code>/api/config</code> and <code>/api/auth/token</code> (server)</li>
+                    <li>🔒 <strong>ArcGisAuthService</strong> (server) — calls the ArcGIS OAuth2 token endpoint using client credentials, caches tokens, and returns them to the client</li>
+                    <li>📱 <strong>ArcGisAuthServiceWasm</strong> (client) — fetches config from <code>/api/config</code>, calls <code>/api/auth/token</code>, and exposes sample test helpers (e.g., <code>GetTokenFromServer</code>, <code>GetNewArcGISToken</code>, <code>CheckAuthStatusAsync</code>, <code>GetTokenExpiresAsync</code>)</li>
                 </ul>
 
-                <p><strong>Client-Side Components</strong></p>
+                <p><strong>GeoBlazor provides</strong></p>
                 <ul>
-                    <li>📱 <strong>ArcGisAuthServiceWasm</strong> - Calls server API endpoints for tokens and testing</li>
-                    <li>🔗 <strong>AuthenticationManager</strong> (built into GeoBlazor) - Registers tokens with ArcGIS Identity Manager</li>
-                    <li>🧪 Testing methods: <code>GetTokenFromServer</code>, <code>GetNewArcGISToken</code>, <code>CheckAuthStatusAsync</code>, <code>GetTokenExpiresAsync</code></li>
-                    <li>📦 Provided by the GeoBlazor NuGet package — you use it; you don't implement it</li>
+                    <li>
+                        📦 <strong>AuthenticationManager</strong> — comes from the GeoBlazor NuGet package (you do <em>not</em> implement it). Inject it where needed (pages/services, server or client) and call:
+                        <ul>
+                            <li><code>RegisterToken(string token, DateTimeOffset expires)</code> — to register tokens you obtained from your server</li>
+                            <li><code>IsLoggedIn()</code> / <code>GetTokenExpirationDateTime()</code> — to check auth state as needed</li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <div class="alert alert-primary">

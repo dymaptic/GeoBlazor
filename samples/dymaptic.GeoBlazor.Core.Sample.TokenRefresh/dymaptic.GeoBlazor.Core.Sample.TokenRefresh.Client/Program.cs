@@ -13,14 +13,12 @@ var tempConfig = new Dictionary<string, string?>();
 try
 {
     var cfg = await bootstrapHttp.GetFromJsonAsync<ClientConfigResponse>("/api/config");
-    if (cfg is not null)
-    {
-        void Add(string k, string? v) { if (!string.IsNullOrWhiteSpace(v)) tempConfig[k] = v; }
-        Add("GeoBlazor:RegistrationKey", cfg.GeoBlazorLicenseKey);
-        Add("ArcGISApiKey", cfg.ArcGISApiKey);
-        Add("ArcGISPortalUrl", cfg.ArcGISPortalUrl);
-        Add("ArcGISAppId", cfg.ArcGISAppId);
-    }
+    if (cfg is null) throw new InvalidOperationException("Config endpoint returned null.");
+
+    tempConfig["GeoBlazor:RegistrationKey"] = cfg.GeoBlazorLicenseKey;
+    tempConfig["ArcGISApiKey"] = cfg.ArcGISApiKey;
+    tempConfig["ArcGISPortalUrl"] = cfg.ArcGISPortalUrl;
+    tempConfig["ArcGISAppId"] = cfg.ArcGISAppId;
 }
 catch (Exception ex)
 {

@@ -8,6 +8,53 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 
+    /*
+     * -------------------------------------------------------------------------
+     *  CONFIGURATION SETUP (appsettings.json / user-secrets / CI env vars)
+     * -------------------------------------------------------------------------
+     * These tests read the following keys from IConfiguration:
+     *
+     *   TestPortalAppId          -> App ID registered in your Enterprise Portal
+     *   TestPortalUrl            -> Your Portal base URL (either https://host OR https://host/portal)
+     *   TestPortalClientSecret   -> Client secret for the Portal app registration
+     *
+     *   TestAGOAppId             -> App ID registered in ArcGIS Online
+     *   TestAGOUrl               -> ArcGIS Online base URL (use https://www.arcgis.com)
+     *   TestAGOClientSecret      -> Client secret for the AGOL app registration
+     *
+     *   TestApplicationBaseUrl   -> (Optional) Base address for local HTTP calls if needed
+     *
+     * NOTES:
+     * - You need SEPARATE app registrations for AGOL and for Enterprise Portal if you test both.
+     * - For AGOL, use TestAGOUrl = https://www.arcgis.com   (do NOT append /portal)
+     * - For Enterprise, TestPortalUrl can be either https://yourserver OR https://yourserver/portal
+     *   (AuthenticationManager will normalize it to the correct format internally.)
+     *
+     * Recommended: keep secrets out of source control using .NET user-secrets:
+     *
+     *   dotnet user-secrets init
+     *   dotnet user-secrets set "TestPortalAppId" "<your-portal-app-id>"
+     *   dotnet user-secrets set "TestPortalUrl" "https://yourserver/portal"
+     *   dotnet user-secrets set "TestPortalClientSecret" "<your-portal-secret>"
+     *
+     *   dotnet user-secrets set "TestAGOAppId" "<your-agol-app-id>"
+     *   dotnet user-secrets set "TestAGOUrl" "https://www.arcgis.com"
+     *   dotnet user-secrets set "TestAGOClientSecret" "<your-agol-secret>"
+     *
+     * Example appsettings.Development.json (non-secret values only):
+     * {
+     *   "TestPortalUrl": "https://yourserver/portal",
+     *   "TestAGOUrl": "https://www.arcgis.com",
+     *   "TestApplicationBaseUrl": "https://localhost:7143"
+     * }
+     *
+     * In CI, set these as environment variables instead:
+     *   TestPortalAppId, TestPortalUrl, TestPortalClientSecret,
+     *   TestAGOAppId, TestAGOUrl, TestAGOClientSecret, TestApplicationBaseUrl
+     *
+     * -------------------------------------------------------------------------
+     */
+
 public class AuthenticationManagerTests: TestRunnerBase
 {
     [Inject]
@@ -15,21 +62,24 @@ public class AuthenticationManagerTests: TestRunnerBase
 
     [Inject]
     public required IConfiguration Configuration { get; set; }
-    
+
     [TestMethod]
     public async Task TestRegisterOAuthWithArcGISPortal()
     {
         AuthenticationManager.ExcludeApiKey = true;
-
         try
         {
             AuthenticationManager.AppId = Configuration["TestPortalAppId"];
             AuthenticationManager.PortalUrl = Configuration["TestPortalUrl"];
+
             TokenResponse tokenResponse = await RequestTokenAsync(Configuration["TestPortalClientSecret"]!);
             Assert.IsTrue(tokenResponse.Success, tokenResponse.ErrorMessage);
+
             await AuthenticationManager.RegisterToken(tokenResponse.AccessToken!, tokenResponse.Expires!.Value);
+
             string? retrievedToken = await AuthenticationManager.GetCurrentToken();
             Assert.AreEqual(tokenResponse.AccessToken, retrievedToken);
+
             AuthenticationManager.TokenExpirationDateTime = null;
             DateTime? expired = await AuthenticationManager.GetTokenExpirationDateTime();
             Assert.IsNotNull(expired);
@@ -37,10 +87,14 @@ public class AuthenticationManagerTests: TestRunnerBase
         }
         finally
         {
+            // reset all mutated state
             AuthenticationManager.ExcludeApiKey = false;
+            AuthenticationManager.TokenExpirationDateTime = null;
+            AuthenticationManager.AppId = null;
+            AuthenticationManager.PortalUrl = null;
         }
     }
-    
+
     [TestMethod]
     public async Task TestRegisterOAuthWithArcGISOnline()
     {
@@ -50,11 +104,15 @@ public class AuthenticationManagerTests: TestRunnerBase
         {
             AuthenticationManager.AppId = Configuration["TestAGOAppId"];
             AuthenticationManager.PortalUrl = Configuration["TestAGOUrl"];
+
             TokenResponse tokenResponse = await RequestTokenAsync(Configuration["TestAGOClientSecret"]!);
             Assert.IsTrue(tokenResponse.Success, tokenResponse.ErrorMessage);
+
             await AuthenticationManager.RegisterToken(tokenResponse.AccessToken!, tokenResponse.Expires!.Value);
+
             string? retrievedToken = await AuthenticationManager.GetCurrentToken();
             Assert.AreEqual(tokenResponse.AccessToken, retrievedToken);
+
             AuthenticationManager.TokenExpirationDateTime = null;
             DateTime? expired = await AuthenticationManager.GetTokenExpirationDateTime();
             Assert.IsNotNull(expired);
@@ -62,10 +120,14 @@ public class AuthenticationManagerTests: TestRunnerBase
         }
         finally
         {
+            // reset all mutated state
             AuthenticationManager.ExcludeApiKey = false;
+            AuthenticationManager.TokenExpirationDateTime = null;
+            AuthenticationManager.AppId = null;
+            AuthenticationManager.PortalUrl = null;
         }
     }
-    
+
     /// <summary>
     ///     Requests a new ArcGIS token using client credentials.
     /// </summary>
@@ -88,7 +150,11 @@ public class AuthenticationManagerTests: TestRunnerBase
             Content = new FormUrlEncodedContent(parameters)
         };
 
-        using HttpClient httpClient = new();
+        using HttpClient httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(Configuration["TestApplicationBaseUrl"] ?? "https://localhost:7143")
+        };
+
         HttpResponseMessage response = await httpClient.SendAsync(request);
 
         string content = await response.Content.ReadAsStringAsync();
@@ -140,9 +206,4 @@ public class AuthenticationManagerTests: TestRunnerBase
     public record ArcGisError(ErrorDetails? Error);
 
     public record ErrorDetails(int Code, string? Message);
-
-    /// <summary>
-    ///     Client configuration response containing static keys.
-    /// </summary>
-    public record ClientConfigResponse(string? GeoBlazorLicenseKey, string? ArcGISApiKey, string? ArcGISPortalUrl, string? ArcGISAppId);
 }

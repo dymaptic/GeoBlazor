@@ -38,15 +38,12 @@ public class AuthenticationManager
             {
                 _appId = _configuration["ArcGISAppId"];
             }
-
             return _appId;
         }
         set
         {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                _appId = value;
-            }
+            // allow clearing in tests
+            _appId = string.IsNullOrWhiteSpace(value) ? null : value;
         }
     }
 
@@ -66,44 +63,9 @@ public class AuthenticationManager
         }
         set
         {
-            _portalUrl = NormalizePortalUrl(value);
+            // allow clearing in tests; getter will repopulate from config/default next time
+            _portalUrl = string.IsNullOrWhiteSpace(value) ? null : NormalizePortalUrl(value);
         }
-    }
-
-    private static string? NormalizePortalUrl(string? input)
-    {
-        if (string.IsNullOrWhiteSpace(input)) return "https://www.arcgis.com";
-
-        // normalize whitespace and trailing slashes
-        var trimmed = input.Trim().TrimEnd('/');
-
-        // Try to parse the URI so we can reliably detect Online vs Enterprise
-        if (Uri.TryCreate(trimmed, UriKind.Absolute, out var uri))
-        {
-            bool isArcGisOnline = uri.Host.EndsWith("arcgis.com", StringComparison.OrdinalIgnoreCase);
-            var noTrailing = trimmed;
-
-            if (isArcGisOnline)
-            {
-                // AGOL: ensure NO trailing "/portal"
-                return Regex.Replace(noTrailing, @"/portal$", "", RegexOptions.IgnoreCase);
-            }
-
-            // Enterprise: ensure exactly one trailing "/portal"
-            return Regex.IsMatch(noTrailing, @"/portal$", RegexOptions.IgnoreCase)
-                ? noTrailing
-                : noTrailing + "/portal";
-        }
-
-        // Fallback if not a valid absolute URI (keep same rules heuristically)
-        bool looksOnline = trimmed.IndexOf("arcgis.com", StringComparison.OrdinalIgnoreCase) >= 0;
-        if (looksOnline)
-        {
-            return Regex.Replace(trimmed, @"/portal$", "", RegexOptions.IgnoreCase);
-        }
-        return Regex.IsMatch(trimmed, @"/portal$", RegexOptions.IgnoreCase)
-            ? trimmed
-            : trimmed + "/portal";
     }
 
     /// <summary>
@@ -316,7 +278,64 @@ public class AuthenticationManager
         
         return TokenExpirationDateTime;
     }
-    
+
+    /// <summary>
+    /// Normalizes an ArcGIS portal base URL for use with the Sharing REST API.
+    /// </summary>
+    /// <param name="input">
+    /// Portal host, e.g. "https://www.arcgis.com" or "https://your-host[/portal]".
+    /// </param>
+    /// <returns>
+    /// For ArcGIS Online (hosts ending in arcgis.com): removes any trailing "/portal".
+    /// For ArcGIS Enterprise: ensures exactly one trailing "/portal".
+    /// If null/blank, defaults to "https://www.arcgis.com".
+    /// </returns>
+    /// <remarks>
+    /// Esri references:
+    /// <see href="https://developers.arcgis.com/rest/users-groups-and-items/">Sharing REST</see>,
+    /// <see href="https://developers.arcgis.com/rest/users-groups-and-items/generate-token/">Generate Token</see>.
+    /// Result is intended to be combined with "/sharing" or "/sharing/rest".
+    /// </remarks>
+    /// <example>
+    /// NormalizePortalUrl("https://www.arcgis.com/portal") → "https://www.arcgis.com"
+    /// NormalizePortalUrl("https://arcgis.example.com")     → "https://arcgis.example.com/portal"
+    /// </example>
+    private static string? NormalizePortalUrl(string? input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return "https://www.arcgis.com";
+
+        // normalize whitespace and trailing slashes
+        var trimmed = input.Trim().TrimEnd('/');
+
+        // Try to parse the URI so we can reliably detect Online vs Enterprise
+        if (Uri.TryCreate(trimmed, UriKind.Absolute, out var uri))
+        {
+            bool isArcGisOnline = uri.Host.EndsWith("arcgis.com", StringComparison.OrdinalIgnoreCase);
+            var noTrailing = trimmed;
+
+            if (isArcGisOnline)
+            {
+                // AGOL: ensure NO trailing "/portal"
+                return Regex.Replace(noTrailing, @"/portal$", "", RegexOptions.IgnoreCase);
+            }
+
+            // Enterprise: ensure exactly one trailing "/portal"
+            return Regex.IsMatch(noTrailing, @"/portal$", RegexOptions.IgnoreCase)
+                ? noTrailing
+                : noTrailing + "/portal";
+        }
+
+        // Fallback if not a valid absolute URI (keep same rules heuristically)
+        bool looksOnline = trimmed.IndexOf("arcgis.com", StringComparison.OrdinalIgnoreCase) >= 0;
+        if (looksOnline)
+        {
+            return Regex.Replace(trimmed, @"/portal$", "", RegexOptions.IgnoreCase);
+        }
+        return Regex.IsMatch(trimmed, @"/portal$", RegexOptions.IgnoreCase)
+            ? trimmed
+            : trimmed + "/portal";
+    }
+
     /// <summary>
     ///     Allows the user to prevent the ApiKey from being used in the authentication process for the current MapView.
     ///     This value is copied from MapView.ExcludeApiKey, and will be reset (default to false) when a new MapView is created.
