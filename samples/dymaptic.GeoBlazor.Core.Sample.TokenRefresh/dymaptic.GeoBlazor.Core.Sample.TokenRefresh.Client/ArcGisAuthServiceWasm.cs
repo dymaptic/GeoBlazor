@@ -18,12 +18,12 @@ public class ArcGisAuthServiceWasm
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/auth/token", forceRefresh);
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/api/auth/token", forceRefresh);
             
             if (response.IsSuccessStatusCode)
             {
-                var json = await response.Content.ReadAsStringAsync();
-                var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(json, new JsonSerializerOptions
+                string json = await response.Content.ReadAsStringAsync();
+                TokenResponse? tokenResponse = JsonSerializer.Deserialize<TokenResponse>(json, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
@@ -31,7 +31,7 @@ public class ArcGisAuthServiceWasm
             }
             else
             {
-                var errorContent = await response.Content.ReadAsStringAsync();
+                string errorContent = await response.Content.ReadAsStringAsync();
                 return new TokenResponse(false, null, null, $"API Error: {response.StatusCode} - {errorContent}");
             }
         }
@@ -48,7 +48,7 @@ public class ArcGisAuthServiceWasm
             TokenResponse tokenResponse = await GetTokenFromServer(true);
             if (tokenResponse.Success && tokenResponse.AccessToken != null)
             {
-                var result = $"✅ ArcGisAuthService Success!\nToken (first 20 chars): {tokenResponse.AccessToken[..Math.Min(20, tokenResponse.AccessToken.Length)]}...\nExpires: {tokenResponse.Expires}";
+                string result = $"✅ ArcGisAuthService Success!\nToken (first 20 chars): {tokenResponse.AccessToken[..Math.Min(20, tokenResponse.AccessToken.Length)]}...\nExpires: {tokenResponse.Expires}";
                 
                 await authManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires!);
                 
@@ -75,7 +75,7 @@ public class ArcGisAuthServiceWasm
         try
         {
             bool isLoggedIn = await authManager.IsLoggedIn();
-            var result = $"Auth Status: {(isLoggedIn ? "✅ Logged In" : "❌ Not Logged In")}";
+            string result = $"Auth Status: {(isLoggedIn ? "✅ Logged In" : "❌ Not Logged In")}";
             
             result += isLoggedIn 
                 ? "\n📋 Authentication Manager indicates user is authenticated\n🔗 Ready for ArcGIS API calls and map operations"
@@ -96,8 +96,8 @@ public class ArcGisAuthServiceWasm
             DateTime? expires = await authManager.GetTokenExpirationDateTime();
             if (expires.HasValue)
             {
-                var timeRemaining = expires.Value - DateTime.UtcNow;
-                var result = $"Token Expires: {expires.Value:yyyy-MM-dd HH:mm:ss} UTC";
+                TimeSpan timeRemaining = expires.Value - DateTime.UtcNow;
+                string result = $"Token Expires: {expires.Value:yyyy-MM-dd HH:mm:ss} UTC";
                 
                 if (timeRemaining.TotalMinutes > 0)
                 {

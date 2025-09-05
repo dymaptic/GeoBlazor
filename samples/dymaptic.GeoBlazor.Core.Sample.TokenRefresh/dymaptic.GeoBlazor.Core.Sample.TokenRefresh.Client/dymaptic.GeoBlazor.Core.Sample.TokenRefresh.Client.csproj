@@ -6,8 +6,6 @@
     <Nullable>enable</Nullable>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
-    <CompressionEnabled Condition="$(Configuration) != 'RELEASE' OR $(EnableCompression) != 'true'">false</CompressionEnabled>
-    <DefineConstants Condition="$(EnableCompression) == 'true'">$(DefineConstants);ENABLE_COMPRESSION</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

@@ -148,7 +148,7 @@
             ArcGISTokenExpirationMinutes = Configuration["ArcGISTokenExpirationMinutes"] ?? "1440",
             GeoBlazor = new
             {
-                RegistrationKey = Mask(Configuration["GeoBlazor:RegistrationKey"])
+                LicenseKey = Mask(Configuration["GeoBlazor:LicenseKey"] ?? Configuration["GeoBlazor:RegistrationKey"])
             }
         };
 

@@ -24,7 +24,7 @@ public static class AuthenticationApis
     {
         var payload = new
         {
-            GeoBlazorLicenseKey = config["GeoBlazor:RegistrationKey"],
+            GeoBlazorLicenseKey = config["GeoBlazor:LicenseKey"] ?? config["GeoBlazor:RegistrationKey"],
             ArcGISApiKey = config["ArcGISApiKey"],
             ArcGISPortalUrl = config["ArcGISPortalUrl"],
             ArcGISAppId = config["ArcGISAppId"]

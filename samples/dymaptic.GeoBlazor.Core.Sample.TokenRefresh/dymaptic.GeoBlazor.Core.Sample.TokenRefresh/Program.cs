@@ -3,9 +3,8 @@ using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Services;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Apis;
-using Microsoft.AspNetCore.StaticFiles;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
@@ -20,7 +19,7 @@ builder.Services.AddHttpClient<ArcGisAuthServiceWasm>(client =>
 builder.Services.AddGeoBlazor(builder.Configuration);
 builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -35,12 +34,7 @@ else
 app.UseHttpsRedirection();
 app.UseAntiforgery();
 
-#if (ENABLE_COMPRESSION)
 app.MapStaticAssets();
-#else
-FileExtensionContentTypeProvider provider = new() { Mappings = { [".wsv"] = "application/octet-stream" } };
-app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
-#endif
 
 app.MapAuthenticationApis();
 

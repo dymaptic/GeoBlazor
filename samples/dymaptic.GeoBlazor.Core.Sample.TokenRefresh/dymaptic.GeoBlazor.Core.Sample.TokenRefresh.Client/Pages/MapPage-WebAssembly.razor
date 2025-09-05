@@ -1,6 +1,4 @@
 ﻿@page "/map-webassembly"
-@using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client
-@using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Models
 @rendermode InteractiveWebAssembly
 
 <!-- Render Mode Information -->
@@ -107,13 +105,13 @@ else
         </Map> *@
         @if (_isArcGisOnline)
         {
-            <WebMap @ref="_agolWebMap">
+            <WebMap>
                 <PortalItem PortalItemId="237b9584339446a0b56317b5962a4971" />
             </WebMap>
         }
         else
         {
-            <WebMap @ref="_portalWebMap">
+            <WebMap>
                 <PortalItem PortalItemId="1bf19e76cb6e45db8ab9739e560e9307" />
             </WebMap>
         }
@@ -127,22 +125,20 @@ else
     [Inject]
     public required AuthenticationManager AuthenticationManager { get; set; }
 
-    private bool _isInitialized = false;
-    private bool _isTestingToken = false;
-    private bool _tokenRequestInProgress = false;
+    private bool _isInitialized;
+    private bool _isTestingToken;
+    private bool _tokenRequestInProgress;
     private string _tokenTestResult = "";
     private string _errorMessage = "";
     private bool _isArcGisOnline;
-    private WebMap? _agolWebMap;
-    private WebMap? _portalWebMap;
-    private int _progressPercent = 0;
+    private int _progressPercent;
     private string _progressMessage = "Starting...";
 
     protected override void OnInitialized()
     {
         // Decide Online vs Enterprise from the configured/normalized PortalUrl
-        var portalUrl = AuthenticationManager.PortalUrl ?? "https://www.arcgis.com";
-        if (Uri.TryCreate(portalUrl, UriKind.Absolute, out var uri))
+        string portalUrl = AuthenticationManager.PortalUrl ?? "https://www.arcgis.com";
+        if (Uri.TryCreate(portalUrl, UriKind.Absolute, out Uri? uri))
         {
             _isArcGisOnline = uri.Host.EndsWith("arcgis.com", StringComparison.OrdinalIgnoreCase);
         }
@@ -223,7 +219,7 @@ else
 
         try
         {
-            var (success, error) = await AuthService.GetNewArcGISToken(AuthenticationManager);
+            (string success, string error) = await AuthService.GetNewArcGISToken(AuthenticationManager);
             _tokenTestResult = success;
             _errorMessage = error;
         }
@@ -242,7 +238,7 @@ else
         _errorMessage = "";
         StateHasChanged();
 
-        var (success, error) = await AuthService.CheckAuthStatusAsync(AuthenticationManager);
+        (string success, string error) = await AuthService.CheckAuthStatusAsync(AuthenticationManager);
         _tokenTestResult = success;
         _errorMessage = error;
 
@@ -257,7 +253,7 @@ else
         _errorMessage = "";
         StateHasChanged();
 
-        var (success, error) = await AuthService.GetTokenExpiresAsync(AuthenticationManager);
+        (string success, string error) = await AuthService.GetTokenExpiresAsync(AuthenticationManager);
         _tokenTestResult = success;
         _errorMessage = error;
 
