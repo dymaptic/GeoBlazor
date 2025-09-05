@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>09852c49-58ad-4029-956b-1e18661fd6b3</UserSecretsId>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client\dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.6" />
+	<ProjectReference Include="..\..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
+  </ItemGroup>
+
+</Project>
