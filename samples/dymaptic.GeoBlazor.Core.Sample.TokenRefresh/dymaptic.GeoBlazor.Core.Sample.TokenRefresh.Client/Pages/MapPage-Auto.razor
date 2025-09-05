@@ -1,16 +1,15 @@
-﻿@page "/map-server"
-@rendermode InteractiveServer
+﻿@page "/map-auto"
+@rendermode InteractiveAuto
 
 <!-- Render Mode Information -->
-<div class="alert alert-primary mb-3">
+<div class="alert alert-success mb-3">
     <div class="d-flex align-items-center">
-        <strong class="me-2">🖥️ InteractiveServer Mode</strong>
-        <span class="badge bg-primary">Server-Side with SignalR</span>
+        <strong class="me-2">💻 InteractiveAuto Mode</strong>
+        <span class="badge bg-success">Server <em>and</em> WebAssembly: Current Mode: @RendererInfo.Name</span>
     </div>
     <small class="mt-1 d-block">
-        This page runs on the server via Blazor Server. UI events round-trip over SignalR.
-        JavaScript interop is available only after the circuit is established (post-prerender).
-        Authentication calls execute on the server and tokens are registered in the browser once interactivity starts.
+        This page will typically run in Server mode on the first load with no cache, and load the WebAssembly assets in the background.
+        After that, it will switch to WebAssembly mode for a richer client-side experience on subsequent loads.
     </small>
 </div>
 
@@ -18,11 +17,11 @@
 <div class="token-test-panel mb-4">
     <div class="card">
         <div class="card-header">
-            <h4>Token Testing Panel - Server Mode</h4>
+            <h4>Token Testing Panel - Auto Mode</h4>
             <p>
-                This panel demonstrates the token authentication flow in <strong>InteractiveServer</strong> mode.
-                The map below uses a secured portal item that requires authentication. Replace the <code>PortalItemId</code> in the
-                <code>Basemap</code> component with a portal item from your ArcGIS Online or Enterprise portal that you have access to.
+                This panel demonstrates the token authentication flow in <strong>InteractiveAutoAssembly</strong> mode.
+                The map below uses a secured portal item that requires authentication. Replace the PortalItemId in the 
+                Basemap component with a portal item from your ArcGIS Online or Enterprise portal that you have access to.
             </p>
         </div>
         <div class="card-body">
@@ -64,7 +63,7 @@
                     </div>
                 </div>
             </div>
-
+            
             @if (!string.IsNullOrEmpty(_tokenTestResult))
             {
                 <div class="alert alert-success mt-3">
@@ -72,7 +71,7 @@
                     <pre class="mb-0">@_tokenTestResult</pre>
                 </div>
             }
-
+            
             @if (!string.IsNullOrEmpty(_errorMessage))
             {
                 <div class="alert alert-danger mt-3">
@@ -111,8 +110,11 @@ else
 }
 
 @code {
-    [Inject] public required IAuthService AuthService { get; set; }
-    [Inject] public required AuthenticationManager AuthenticationManager { get; set; }
+    [Inject]
+    public required AuthenticationManager AuthenticationManager { get; set; }
+    
+    [Inject]
+    public required IAuthService AuthService { get; set; }
 
     private bool _isInitialized;
     private bool _isTestingToken;
