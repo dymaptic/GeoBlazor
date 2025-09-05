@@ -2,6 +2,7 @@ using dymaptic.GeoBlazor.Core.Model;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -62,6 +63,12 @@ public class AuthenticationManagerTests: TestRunnerBase
 
     [Inject]
     public required IConfiguration Configuration { get; set; }
+
+    [TestInitialize]
+    public void Init() => ResetAuthManager();
+
+    [TestCleanup]
+    public void Cleanup() => ResetAuthManager();
 
     [TestMethod]
     public async Task TestRegisterOAuthWithArcGISPortal()
@@ -182,7 +189,26 @@ public class AuthenticationManagerTests: TestRunnerBase
             DateTimeOffset.FromUnixTimeSeconds(token.ExpiresIn).UtcDateTime);
         return tokenResponse;
     }
-    
+
+    private void ResetAuthManager()
+    {
+        var t = typeof(AuthenticationManager);
+
+        // clear cached config-derived values
+        t.GetField("_appId", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(AuthenticationManager, null);
+        t.GetField("_portalUrl", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(AuthenticationManager, null);
+        t.GetField("_apiKey", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(AuthenticationManager, null);
+        t.GetField("_trustedServers", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(AuthenticationManager, null);
+        t.GetField("_fontsUrl", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(AuthenticationManager, null);
+
+        // drop the JS interop module so Initialize() recreates it with fresh values
+        t.GetField("_module", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(AuthenticationManager, null);
+
+        // public fields
+        AuthenticationManager.TokenExpirationDateTime = null;
+        AuthenticationManager.ExcludeApiKey = false;
+    }
+
     /// <summary>
     ///     The response from the request for an ArcGIS token, including success notification and error messages.
     /// </summary>

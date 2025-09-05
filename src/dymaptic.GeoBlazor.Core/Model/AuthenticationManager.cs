@@ -42,8 +42,10 @@ public class AuthenticationManager
         }
         set
         {
-            // allow clearing in tests
-            _appId = string.IsNullOrWhiteSpace(value) ? null : value;
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _appId = value;
+            }
         }
     }
 
@@ -63,8 +65,10 @@ public class AuthenticationManager
         }
         set
         {
-            // allow clearing in tests; getter will repopulate from config/default next time
-            _portalUrl = string.IsNullOrWhiteSpace(value) ? null : NormalizePortalUrl(value);
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _portalUrl = NormalizePortalUrl(value);
+            }
         }
     }
 
