@@ -225,7 +225,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
             let {default: ImageryLayerViewWrapper} = await import('./imageryLayerView');
             return new ImageryLayerViewWrapper(jsLayerView);
         }
-        case 'imagery': {
+        case 'imagery-tile': {
             let {default: ImageryTileLayerViewWrapper} = await import('./imageryTileLayerView');
             return new ImageryTileLayerViewWrapper(jsLayerView);
         }
