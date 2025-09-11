@@ -12,6 +12,7 @@ const OUTPUT_DIR = path.resolve('./wwwroot/js');
 
 let options = {
     entryPoints: ['./Scripts/arcGisJsInterop.ts'],
+    chunkNames: 'core_[name]_[hash]',
     bundle: true,
     sourcemap: true,
     format: 'esm',

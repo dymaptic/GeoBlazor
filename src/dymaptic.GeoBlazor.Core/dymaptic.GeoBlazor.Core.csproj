@@ -110,8 +110,7 @@
                           OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
-    <Target BeforeTargets="Build" Name="Clear Locks">
-        <Exec Command="pwsh -NoProfile -ExecutionPolicy ByPass -Command { Remove-Item -Path '$(ProjectDir)esBuild.$(Configuration).lock' }" />
-        <Exec Command="pwsh -NoProfile -ExecutionPolicy ByPass -Command { Remove-Item -Path '$(ProjectDir)../../../src/dymaptic.GeoBlazor.Pro/esProBuild.$(Configuration).lock' }" />
+    <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
+        <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" />
     </Target>
 </Project>

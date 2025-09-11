@@ -106,7 +106,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
     async search(term: any) {
         if (term.hasOwnProperty('id') && term.hasOwnProperty('type')) {
             // if there's an id, this is probably a geometry, we should convert it
-            term = buildJsGeometry(term, this.viewId);
+            term = buildJsGeometry(term);
         }
         let response = await this.widget.search(term);
         let {buildDotNetSearchResponse} = await import('./searchResponse');

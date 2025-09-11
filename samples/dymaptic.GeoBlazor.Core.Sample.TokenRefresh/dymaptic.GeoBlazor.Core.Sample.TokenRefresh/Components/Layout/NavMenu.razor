@@ -1,0 +1,29 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">dymaptic.GeoBlazor.Core.Sample.TokenRefresh</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span>Home
+            </NavLink>
+        </div>
+        
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="map-webassembly">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span>Map - WebAssembly
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="map-server">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span>Map - Server
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
