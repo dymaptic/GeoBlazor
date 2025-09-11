@@ -756,7 +756,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         // case 'knowledge-graph':
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
-        //         let {default: KnowledgeGraphLayerWrapper } = await import('./knowledgeGraphLayer
+        //         let {default: KnowledgeGraphLayerWrapper } = await import('./knowledgeGraphLayer');
         //         return new KnowledgeGraphLayerWrapper(jsLayer);
         //     } catch (e) {
         //         throw e;
@@ -853,7 +853,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         // case 'voxel':
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
-        //         let {default: VoxelLayerWrapper } = await import('./voxelLayer
+        //         let {default: VoxelLayerWrapper } = await import('./voxelLayer');
         //         return new VoxelLayerWrapper(jsLayer);
         //     } catch (e) {
         //         throw e;

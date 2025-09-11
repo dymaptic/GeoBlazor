@@ -56,6 +56,10 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
             let {buildDotNetImageryLayerView} = await import('./imageryLayerView');
             dnLayerView = await buildDotNetImageryLayerView(jsObject, viewId);
             break;
+        case 'imagery-tile':
+            let {buildDotNetImageryTileLayerView} = await import('./imageryTileLayerView');
+            dnLayerView = await buildDotNetImageryTileLayerView(jsObject, viewId);
+            break;
         case 'kml':
             let {buildDotNetKMLLayerView} = await import('./kMLLayerView');
             dnLayerView = await buildDotNetKMLLayerView(jsObject, viewId);
@@ -220,6 +224,10 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
         case 'imagery': {
             let {default: ImageryLayerViewWrapper} = await import('./imageryLayerView');
             return new ImageryLayerViewWrapper(jsLayerView);
+        }
+        case 'imagery': {
+            let {default: ImageryTileLayerViewWrapper} = await import('./imageryTileLayerView');
+            return new ImageryTileLayerViewWrapper(jsLayerView);
         }
         case 'kml': {
             let {default: KMLLayerViewWrapper} = await import('./kMLLayerView');
