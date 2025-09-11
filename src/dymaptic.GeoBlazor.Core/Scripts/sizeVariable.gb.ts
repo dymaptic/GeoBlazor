@@ -227,6 +227,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     let jsSizeVariable = new SizeVariable(properties);
 
     let { default: SizeVariableWrapper } = await import('./sizeVariable');
+
     let sizeVariableWrapper = new SizeVariableWrapper(jsSizeVariable);
     sizeVariableWrapper.geoBlazorId = dotNetObject.id;
     sizeVariableWrapper.viewId = viewId;

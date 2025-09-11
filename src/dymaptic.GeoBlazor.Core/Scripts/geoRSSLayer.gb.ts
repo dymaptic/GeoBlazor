@@ -352,6 +352,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     
 
     let { default: GeoRSSLayerWrapper } = await import('./geoRSSLayer');
+
     let geoRSSLayerWrapper = new GeoRSSLayerWrapper(jsGeoRSSLayer);
     geoRSSLayerWrapper.geoBlazorId = dotNetObject.id;
     geoRSSLayerWrapper.viewId = viewId;

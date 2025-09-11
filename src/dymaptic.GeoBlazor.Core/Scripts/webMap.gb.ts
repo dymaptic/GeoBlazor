@@ -345,6 +345,7 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
     let jsWebMap = new WebMap(properties);
 
     let { default: WebMapWrapper } = await import('./webMap');
+
     let webMapWrapper = new WebMapWrapper(jsWebMap);
     webMapWrapper.geoBlazorId = dotNetObject.id;
     webMapWrapper.viewId = viewId;

@@ -156,6 +156,7 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     
 
     let { default: LocateViewModelWrapper } = await import('./locateViewModel');
+
     let locateViewModelWrapper = new LocateViewModelWrapper(jsLocateViewModel);
     locateViewModelWrapper.geoBlazorId = dotNetObject.id;
     locateViewModelWrapper.viewId = viewId;

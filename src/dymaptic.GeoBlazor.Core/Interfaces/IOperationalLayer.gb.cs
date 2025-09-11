@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IOperationalLayer.html">GeoBlazor Docs</a>
-///     Interface for types BingMapsLayer, CatalogLayer, ElevationLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, OpenStreetMapLayer, TileLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///     Interface for types BingMapsLayer, CatalogLayer, ElevationLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, OGCFeatureLayer, OpenStreetMapLayer, TileLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
 public partial interface IOperationalLayer : IMapComponent
 {

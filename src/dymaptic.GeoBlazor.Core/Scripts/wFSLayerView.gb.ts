@@ -220,6 +220,7 @@ export async function buildJsWFSLayerViewGenerated(dotNetObject: any, layerId: s
     }
 
     let { default: WFSLayerViewWrapper } = await import('./wFSLayerView');
+
     let wFSLayerViewWrapper = new WFSLayerViewWrapper(jsWFSLayerView);
     wFSLayerViewWrapper.geoBlazorId = dotNetObject.id;
     wFSLayerViewWrapper.viewId = viewId;

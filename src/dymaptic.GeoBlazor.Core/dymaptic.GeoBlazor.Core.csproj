@@ -101,8 +101,8 @@
     <ItemGroup>
         <Folder Include="Documentation/" />
         <Folder Include="wwwroot/js/" Watch="false" />
-        <None Include="esBuild*" Watch="false" />
         <Content Remove="esBuild*" Watch="false" Pack="false" />
+        <Content Include="esBuild*" Watch="false" Pack="false" />
     </ItemGroup>
 
     <ItemGroup>
@@ -111,6 +111,7 @@
     </ItemGroup>
 
     <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
-        <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" />
+        <Message Importance="high" Text="Clearing locks on esBuild files..." />
+        <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />
     </Target>
 </Project>

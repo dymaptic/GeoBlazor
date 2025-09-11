@@ -285,7 +285,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         try {
             let jsFeatureReduction = this.layer.featureReduction;
             let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
+            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.viewId);
         } catch (error) {
             throw new Error("Available only in GeoBlazor Pro. " + error);
         }
@@ -407,7 +407,7 @@ export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | n
 }
 
 
-export async function buildDotNetFeatureLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureLayerGenerated} = await import('./featureLayer.gb');
-    return await buildDotNetFeatureLayerGenerated(jsObject, layerId, viewId);
+    return await buildDotNetFeatureLayerGenerated(jsObject, viewId);
 }

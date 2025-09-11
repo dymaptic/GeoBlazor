@@ -23,7 +23,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.legendElements) && dotNetObject.legendElements.length > 0) {
         let { buildJsILegendElement } = await import('./iLegendElement');
-        properties.legendElements = await Promise.all(dotNetObject.legendElements.map(async i => await buildJsILegendElement(i))) as any;
+        properties.legendElements = await Promise.all(dotNetObject.legendElements.map(async i => await buildJsILegendElement(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {

@@ -136,6 +136,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     let jsFeatureFilter = new FeatureFilter(properties);
 
     let { default: FeatureFilterWrapper } = await import('./featureFilter');
+
     let featureFilterWrapper = new FeatureFilterWrapper(jsFeatureFilter);
     featureFilterWrapper.geoBlazorId = dotNetObject.id;
     featureFilterWrapper.viewId = viewId;

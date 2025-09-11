@@ -391,6 +391,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     
 
     let { default: BingMapsLayerWrapper } = await import('./bingMapsLayer');
+
     let bingMapsLayerWrapper = new BingMapsLayerWrapper(jsBingMapsLayer);
     bingMapsLayerWrapper.geoBlazorId = dotNetObject.id;
     bingMapsLayerWrapper.viewId = viewId;

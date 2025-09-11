@@ -35,8 +35,12 @@ internal class LayerViewConverter : JsonConverter<LayerView>
                     return JsonSerializer.Deserialize<GraphicsLayerView>(ref cloneReader, newOptions);
                 case "imagery":
                     return JsonSerializer.Deserialize<ImageryLayerView>(ref cloneReader, newOptions);
+                case "imagery-tile":
+                    return JsonSerializer.Deserialize<ImageryTileLayerView>(ref cloneReader, newOptions);
                 case "kml":
                     return JsonSerializer.Deserialize<KMLLayerView>(ref cloneReader, newOptions);
+                case "vector-tile":
+                    return JsonSerializer.Deserialize<VectorTileLayerView>(ref cloneReader, newOptions);
                 case "wfs":
                     return JsonSerializer.Deserialize<WFSLayerView>(ref cloneReader, newOptions);
                 case null:

@@ -195,6 +195,7 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     let jsMeasurement = new Measurement(properties);
 
     let { default: MeasurementWidgetWrapper } = await import('./measurementWidget');
+
     let measurementWidgetWrapper = new MeasurementWidgetWrapper(jsMeasurement);
     measurementWidgetWrapper.geoBlazorId = dotNetObject.id;
     measurementWidgetWrapper.viewId = viewId;

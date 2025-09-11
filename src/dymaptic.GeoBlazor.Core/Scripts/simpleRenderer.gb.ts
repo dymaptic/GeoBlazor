@@ -14,7 +14,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        properties.symbol = buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visualVariables) && dotNetObject.visualVariables.length > 0) {
         let { buildJsVisualVariable } = await import('./visualVariable');
@@ -47,7 +47,7 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any, viewId: 
     
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol);
+        dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol, viewId);
     }
     
     if (hasValue(jsObject.visualVariables)) {
