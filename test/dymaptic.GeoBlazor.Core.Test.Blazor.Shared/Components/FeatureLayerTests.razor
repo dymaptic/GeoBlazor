@@ -496,63 +496,63 @@
 
         await layer!.SetLegendEnabled(false);
         Assert.AreEqual(false, await layer.GetLegendEnabled());
-        await AssertJavaScript("assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "legendEnabled", false]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "legendEnabled", false]);
 
         await layer!.SetPopupEnabled(true);
         Assert.AreEqual(true, await layer.GetPopupEnabled());
-        await AssertJavaScript("assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "popupEnabled", true]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "popupEnabled", true]);
 
         await layer!.SetLabelsVisible(false);
         Assert.AreEqual(false, await layer.GetLabelsVisible());
-        await AssertJavaScript("assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "labelsVisible", false]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "labelsVisible", false]);
 
         await layer!.SetReturnM(true);
         Assert.AreEqual(true, await layer.GetReturnM());
-        await AssertJavaScript("assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "returnM", true]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "returnM", true]);
 
         await layer!.SetReturnZ(true);
         Assert.AreEqual(true, await layer.GetReturnZ());
-        await AssertJavaScript("assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "returnZ", true]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "returnZ", true]);
 
         await layer!.SetDisplayFilterEnabled(false);
         Assert.AreEqual(false, await layer.GetDisplayFilterEnabled());
-        await AssertJavaScript("assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "displayFilterEnabled", false]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "displayFilterEnabled", false]);
 
         await layer!.SetEditingEnabled(false);
         Assert.AreEqual(false, await layer.GetEditingEnabled());
-        await AssertJavaScript("assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "editingEnabled", false]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "editingEnabled", false]);
 
         await layer!.SetUseViewTime(false);
         Assert.AreEqual(false, await layer.GetUseViewTime());
-        await AssertJavaScript("assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "useViewTime", false]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "useViewTime", false]);
 
         await layer!.SetScreenSizePerspectiveEnabled(false);
         Assert.AreEqual(false, await layer.GetScreenSizePerspectiveEnabled());
-        await AssertJavaScript("assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "screenSizePerspectiveEnabled", false]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerBooleanPropEquals", args: [layer!.Id, "screenSizePerspectiveEnabled", false]);
 
         await layer!.SetMinScale(5000);
         Assert.AreEqual(5000, await layer.GetMinScale());
-        await AssertJavaScript("assertFeatureLayerNumberPropEquals", args: [layer!.Id, "minScale", 5000]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerNumberPropEquals", args: [layer!.Id, "minScale", 5000]);
 
         await layer!.SetMaxScale(0);
         Assert.AreEqual(0, await layer.GetMaxScale());
-        await AssertJavaScript("assertFeatureLayerNumberPropEquals", args: [layer!.Id, "maxScale", 0]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerNumberPropEquals", args: [layer!.Id, "maxScale", 0]);
 
-        await layer!.SetRefreshInterval(0.01);
-        Assert.AreEqual(0.01, await layer.GetRefreshInterval());
-        await AssertJavaScript("assertFeatureLayerNumberPropEquals", args: [layer!.Id, "refreshInterval", 0.01]);
+        await layer!.SetRefreshInterval(0.1);
+        Assert.AreEqual(0.1, await layer.GetRefreshInterval());
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerNumberPropEquals", args: [layer!.Id, "refreshInterval", 0.1]);
 
         await layer!.SetDefinitionExpression("1=1");
         Assert.AreEqual("1=1", await layer.GetDefinitionExpression());
-        await AssertJavaScript("assertFeatureLayerStringPropEquals", args: [layer!.Id, "definitionExpression", "1=1"]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerStringPropEquals", args: [layer!.Id, "definitionExpression", "1=1"]);
 
         await layer!.SetDateFieldsTimeZone("UTC");
         Assert.AreEqual("UTC", await layer.GetDateFieldsTimeZone());
-        await AssertJavaScript("assertFeatureLayerStringPropEquals", args: [layer!.Id, "dateFieldsTimeZone", "UTC"]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerStringPropEquals", args: [layer!.Id, "dateFieldsTimeZone", "UTC"]);
 
         await layer!.SetDisplayField("OBJECT_ID");
         Assert.AreEqual("OBJECT_ID", await layer.GetDisplayField());
-        await AssertJavaScript("assertFeatureLayerStringPropEquals", args: [layer!.Id, "displayField", "OBJECT_ID"]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerStringPropEquals", args: [layer!.Id, "displayField", "OBJECT_ID"]);
     }
 
     [TestMethod]
@@ -579,7 +579,7 @@
         await layer!.SetOutFields(new []{ "*", "OBJECT_ID" });
         var outFields = await layer!.GetOutFields();
         CollectionAssert.AreEquivalent(new []{ "*", "OBJECT_ID" }, outFields?.ToArray());
-        await AssertJavaScript("assertFeatureLayerArrayPropEquals", args: [layer!.Id, "outFields", new []{ "*", "OBJECT_ID" }]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerArrayPropEquals", args: [layer!.Id, "outFields", new []{ "*", "OBJECT_ID" }]);
 
         await layer!.AddToOutFields("NEW_FIELD");
         outFields = await layer!.GetOutFields();
@@ -597,7 +597,7 @@
         Assert.IsTrue(orderBy != null &&
               orderBy.Any(o => o.Field == "OBJECTID" &&
                                o.Order == SortOrder.Ascending));
-        await AssertJavaScript("assertFeatureLayerOrderByContains", args: [layer!.Id, "OBJECT_ID", "ASC"]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerOrderByContains", args: [layer!.Id, "OBJECT_ID", "ASC"]);
     }
 
     [TestMethod]
@@ -625,13 +625,13 @@
         await layer!.SetRenderer(renderer);
         var gotRenderer = await layer!.GetRenderer();
         Assert.IsNotNull(gotRenderer);
-        await AssertJavaScript("assertFeatureLayerRendererType", args: [layer!.Id, "simple"]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerRendererType", args: [layer!.Id, "simple"]);
 
         var pt = new PopupTemplate("Test title");
         await layer!.SetPopupTemplate(pt);
         var gotPt = await layer!.GetPopupTemplate();
         Assert.IsNotNull(gotPt);
-        await AssertJavaScript("assertFeatureLayerPopupTitle", args: [layer!.Id, "Test title"]);
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerPopupTitle", args: [layer!.Id, "Test title"]);
 
         var effect = new Effect("drop-shadow(2px,2px,2px)");
         await layer!.SetEffect(effect);
