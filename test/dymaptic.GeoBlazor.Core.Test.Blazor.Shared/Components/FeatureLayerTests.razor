@@ -569,16 +569,20 @@
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID" />
+                                  ObjectIdField="OBJECT_ID">
+                        <Field Name="Field1" Type="FieldType.Long" />
+                        <Field Name="Field2" Type="FieldType.Date" />
+                        <Field Name="OBJECT_ID" Type="FieldType.Integer" />
+                    </FeatureLayer>
                 </Map>
             </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
-        await layer!.SetOutFields(new []{ "*", "OBJECT_ID" });
+        await layer!.SetOutFields(["Field1", "OBJECT_ID", "Field2"]);
         var outFields = await layer!.GetOutFields();
-        CollectionAssert.AreEquivalent(new []{ "*", "OBJECT_ID" }, outFields?.ToArray());
+        CollectionAssert.AreEquivalent(new []{ "Field1", "OBJECT_ID", "Field2" }, outFields?.ToArray());
         await AssertJavaScript("featureLayerAsserts.assertFeatureLayerArrayPropEquals", args: [layer!.Id, "outFields", new []{ "*", "OBJECT_ID" }]);
 
         await layer!.AddToOutFields("NEW_FIELD");
