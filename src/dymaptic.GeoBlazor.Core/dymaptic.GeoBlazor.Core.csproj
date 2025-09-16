@@ -114,4 +114,12 @@
         <Message Importance="high" Text="Clearing locks on esBuild files..." />
         <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />
     </Target>
+
+    <Target Name="ValidateConstructors" AfterTargets="Build">
+        <Message Importance="high" Text="Validating constructor patterns..." />
+        <Exec Command="dotnet run --project $(ProjectDir)../../test/dymaptic.GeoBlazor.Core.Test.ConstructorTesting/dymaptic.GeoBlazor.Core.Test.ConstructorTesting.csproj --configuration $(Configuration)"
+              WorkingDirectory="$(ProjectDir)"
+              ContinueOnError="true"
+              IgnoreExitCode="true" />
+    </Target>
 </Project>
