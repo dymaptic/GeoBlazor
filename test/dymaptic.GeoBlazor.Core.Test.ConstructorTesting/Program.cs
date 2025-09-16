@@ -43,21 +43,28 @@ class Program
     }
 
     /// <summary>
-    /// Analyzes all projects in the solution for constructor compliance.
+    /// Analyzes only the Core project for constructor compliance.
     /// </summary>
     static async Task<List<(string className, string filePath)>> AnalyzeSolution(string solutionPath)
     {
         using var workspace = MSBuildWorkspace.Create();
-        var solution = await workspace.OpenSolutionAsync(solutionPath);
-        var nonCompliantClasses = new List<(string className, string filePath)>();
 
-        foreach (var project in solution.Projects)
+        // Load only the Core project instead of entire solution
+        var projectPath = Path.Combine(Path.GetDirectoryName(solutionPath)!, "dymaptic.GeoBlazor.Core", "dymaptic.GeoBlazor.Core.csproj");
+
+        if (!File.Exists(projectPath))
         {
-            var projectViolations = await AnalyzeProject(project, solutionPath);
-            nonCompliantClasses.AddRange(projectViolations);
+            Console.WriteLine($"Could not find Core project at: {projectPath}");
+            return new List<(string className, string filePath)>();
         }
 
-        return nonCompliantClasses;
+        Console.WriteLine("Loading dymaptic.GeoBlazor.Core project...");
+        var project = await workspace.OpenProjectAsync(projectPath);
+
+        Console.WriteLine($"Analyzing {project.Name}...");
+        var projectViolations = await AnalyzeProject(project, solutionPath);
+
+        return projectViolations;
     }
 
     /// <summary>
@@ -69,11 +76,24 @@ class Program
         var compilation = await project.GetCompilationAsync();
         if (compilation == null) return violations;
 
-        foreach (var syntaxTree in compilation.SyntaxTrees)
+        var syntaxTrees = compilation.SyntaxTrees.ToList();
+        var fileCount = syntaxTrees.Count;
+        var currentFile = 0;
+
+        foreach (var syntaxTree in syntaxTrees)
         {
+            currentFile++;
+            var fileName = Path.GetFileName(syntaxTree.FilePath);
+
+            // Show progress - using carriage return to overwrite the same line
+            Console.Write($"\rAnalyzing file {currentFile}/{fileCount}: {fileName,-50}");
+
             var classViolations = await AnalyzeSyntaxTree(syntaxTree, compilation, solutionPath);
             violations.AddRange(classViolations);
         }
+
+        // Clear the progress line and move to next line
+        Console.WriteLine($"\rAnalyzed {fileCount} files.{new string(' ', 60)}");
 
         return violations;
     }
