@@ -1,22 +1,20 @@
 using dymaptic.GeoBlazor.Core;
-using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Models;
+using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Net.Http.Json;
 
 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
-
 Uri baseAddress = new Uri(builder.HostEnvironment.BaseAddress);
-using HttpClient bootstrapHttp = new HttpClient { BaseAddress = baseAddress };
 Dictionary<string, string?> tempConfig = new Dictionary<string, string?>();
 
 try
 {
+    using HttpClient bootstrapHttp = new HttpClient { BaseAddress = baseAddress };
     ClientConfigResponse? cfg = await bootstrapHttp.GetFromJsonAsync<ClientConfigResponse>("/api/config");
     if (cfg is null) throw new InvalidOperationException("Config endpoint returned null.");
 
     tempConfig["GeoBlazor:LicenseKey"] = cfg.GeoBlazorLicenseKey;
-    tempConfig["ArcGISApiKey"] = cfg.ArcGISApiKey;
     tempConfig["ArcGISPortalUrl"] = cfg.ArcGISPortalUrl;
     tempConfig["ArcGISAppId"] = cfg.ArcGISAppId;
 }
@@ -26,9 +24,8 @@ catch (Exception ex)
 }
 
 builder.Configuration.AddInMemoryCollection(tempConfig);
-builder.Services.AddGeoBlazor(builder.Configuration);
 
+builder.Services.AddScoped<IAuthService, WasmAuthService>();
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = baseAddress });
-builder.Services.AddScoped<ArcGisAuthServiceWasm>();
-
+builder.Services.AddGeoBlazor(builder.Configuration);
 await builder.Build().RunAsync();
