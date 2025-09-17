@@ -75,7 +75,11 @@ async Task<List<Violation>> AnalyzeProject(string projectPath)
         violations.AddRange(classViolations);
     }
 
-    Console.WriteLine($"{Environment.NewLine}Analyzed {fileCount} files.");
+    // Summary to confirm we're checking both file types
+    var gbFiles = syntaxTrees.Count(t => t.FilePath.EndsWith(".gb.cs"));
+    var regularCs = syntaxTrees.Count(t => t.FilePath.EndsWith(".cs") && !t.FilePath.EndsWith(".gb.cs"));
+
+    Console.WriteLine($"{Environment.NewLine}Analyzed {fileCount} files ({regularCs} .cs, {gbFiles} .gb.cs).");
 
     return violations;
 }
