@@ -23,7 +23,7 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.portal)) {
             let { buildJsPortal } = await import('./portal');
-            this.component.portal = await buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
+            this.component.portal = buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
         }
 
         if (hasValue(dotNetObject.access)) {
@@ -115,7 +115,7 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
     
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
-        this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
+        this.component.portal =  buildJsPortal(value, this.layerId, this.viewId);
     }
     
     getPortalGroupId(): any {
@@ -188,7 +188,7 @@ export async function buildJsPortalGroupGenerated(dotNetObject: any, layerId: st
     let properties: any = {};
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
-        properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
+        properties.portal = buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.access)) {
@@ -224,6 +224,7 @@ export async function buildJsPortalGroupGenerated(dotNetObject: any, layerId: st
     let jsPortalGroup = new PortalGroup(properties);
 
     let { default: PortalGroupWrapper } = await import('./portalGroup');
+
     let portalGroupWrapper = new PortalGroupWrapper(jsPortalGroup);
     portalGroupWrapper.geoBlazorId = dotNetObject.id;
     portalGroupWrapper.viewId = viewId;

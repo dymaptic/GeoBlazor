@@ -84,6 +84,7 @@ export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerI
     let jsCompassViewModel = new CompassViewModel(properties);
 
     let { default: CompassViewModelWrapper } = await import('./compassViewModel');
+
     let compassViewModelWrapper = new CompassViewModelWrapper(jsCompassViewModel);
     compassViewModelWrapper.geoBlazorId = dotNetObject.id;
     compassViewModelWrapper.viewId = viewId;

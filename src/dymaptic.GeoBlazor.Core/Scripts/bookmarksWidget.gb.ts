@@ -362,6 +362,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     
 
     let { default: BookmarksWidgetWrapper } = await import('./bookmarksWidget');
+
     let bookmarksWidgetWrapper = new BookmarksWidgetWrapper(jsBookmarks);
     bookmarksWidgetWrapper.geoBlazorId = dotNetObject.id;
     bookmarksWidgetWrapper.viewId = viewId;

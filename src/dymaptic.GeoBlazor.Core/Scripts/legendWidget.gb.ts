@@ -267,6 +267,7 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     let jsLegend = new Legend(properties);
 
     let { default: LegendWidgetWrapper } = await import('./legendWidget');
+
     let legendWidgetWrapper = new LegendWidgetWrapper(jsLegend);
     legendWidgetWrapper.geoBlazorId = dotNetObject.id;
     legendWidgetWrapper.viewId = viewId;

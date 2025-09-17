@@ -19,98 +19,6 @@ public abstract partial class Symbol : MapComponent
     internal abstract SymbolSerializationRecord ToSerializationRecord();
 }
 
-internal class SymbolJsonConverter : JsonConverter<Symbol>
-{
-    public override Symbol? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        // deserialize based on the subclass type
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            NumberHandling = JsonNumberHandling.AllowReadingFromString
-        };
-        Utf8JsonReader cloneReader = reader;
-
-        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
-            IDictionary<string, object?> temp)
-        {
-            return null;
-        }
-
-        if (temp.TryGetValue("type", out object? typeValue))
-        {
-            switch (typeValue?.ToString())
-            {
-                case "simple-marker":
-                    return JsonSerializer.Deserialize<SimpleMarkerSymbol>(ref cloneReader, newOptions);
-                case "simple-line":
-                    return JsonSerializer.Deserialize<SimpleLineSymbol>(ref cloneReader, newOptions);
-                case "simple-fill":
-                    return JsonSerializer.Deserialize<SimpleFillSymbol>(ref cloneReader, newOptions);
-                case "picture-fill":
-                    return JsonSerializer.Deserialize<PictureFillSymbol>(ref cloneReader, newOptions);
-                case "picture-marker":
-                    return JsonSerializer.Deserialize<PictureMarkerSymbol>(ref cloneReader, newOptions);
-                case "text":
-                    return JsonSerializer.Deserialize<TextSymbol>(ref cloneReader, newOptions);
-            }
-        }
-
-        return null;
-    }
-
-    public override void Write(Utf8JsonWriter writer, Symbol value, JsonSerializerOptions options)
-    {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
-    }
-}
-
-internal class MarkerSymbolJsonConverter : JsonConverter<MarkerSymbol>
-{
-    public override MarkerSymbol? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        // deserialize based on the subclass type
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            NumberHandling = JsonNumberHandling.AllowReadingFromString
-        };
-        Utf8JsonReader cloneReader = reader;
-
-        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
-            IDictionary<string, object?> temp)
-        {
-            return null;
-        }
-
-        if (temp.TryGetValue("type", out object? typeValue))
-        {
-            switch (typeValue?.ToString())
-            {
-                case "simple-marker":
-                    return JsonSerializer.Deserialize<SimpleMarkerSymbol>(ref cloneReader, newOptions);
-                case "picture-marker":
-                    return JsonSerializer.Deserialize<PictureMarkerSymbol>(ref cloneReader, newOptions);
-            }
-        }
-
-        return null;
-    }
-
-    public override void Write(Utf8JsonWriter writer, MarkerSymbol value, JsonSerializerOptions options)
-    {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
-    }
-}
-
 [ProtoContract(Name = "Symbol")]
 internal record SymbolSerializationRecord : MapComponentSerializationRecord
 {
@@ -211,6 +119,18 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     
     [ProtoMember(28)]
     public string? Id { get; init; }
+    
+    [ProtoMember(29)]
+    public string? Name { get; init; }
+    
+    [ProtoMember(30)]
+    public string? PortalUrl { get; init; }
+    
+    [ProtoMember(31)]
+    public string? StyleName { get; init; }
+    
+    [ProtoMember(32)]
+    public string? StyleUrl { get; init; }
 
     public Symbol FromSerializationRecord(bool isOutline = false)
     {
@@ -218,6 +138,22 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
         if (Guid.TryParse(Id, out Guid guidId))
         {
             id = guidId;
+        }
+
+        if (Type == "web-style")
+        {
+            // WebStyleSymbol is in GeoBlazor Pro assembly, so we need to use reflection to get the type
+            Type? webStyleSymbolType = System.Type
+                .GetType("dymaptic.GeoBlazor.Pro.Components.Symbols.WebStyleSymbol, dymaptic.GeoBlazor.Pro");
+
+            if (webStyleSymbolType is not null)
+            {
+                Portal? portal = PortalUrl is null ? null : new Portal(url: PortalUrl);
+                Symbol webStyleSymbol = Activator.CreateInstance(webStyleSymbolType, Color, Name, portal, StyleName, StyleUrl) as Symbol
+                    ?? throw new InvalidOperationException("Failed to create WebStyleSymbol instance.");
+                webStyleSymbol.Id = id;
+                return webStyleSymbol;
+            }
         }
         
         return Type switch

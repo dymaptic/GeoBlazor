@@ -98,4 +98,32 @@
             args: [$"widget-container-{legend!.Id}", "test-button-2"]);
         Assert.IsNotNull(legend);
     }
+
+    [TestMethod]
+    public async Task TestCanOpenAndCloseProgrammatically(Action renderHandler)
+    {
+        ExpandWidget? expandWidget = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <ExpandWidget @ref="expandWidget" Position="OverlayPosition.TopLeft" Mode="ExpandMode.Floating">
+                    <button id="test-button-3" type="button">Click Me</button>
+                </ExpandWidget>
+            </MapView>);
+        
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand");
+        bool? isExpanded = await expandWidget!.GetExpanded();
+        Assert.IsFalse(isExpanded);
+        await expandWidget.SetExpanded(true);
+        isExpanded = await expandWidget.GetExpanded();
+        Assert.IsTrue(isExpanded);
+        await expandWidget.SetExpanded(false);
+        isExpanded = await expandWidget.GetExpanded();
+        Assert.IsFalse(isExpanded);
+    }
 }

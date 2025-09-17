@@ -225,6 +225,7 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
     let jsBasemapGallery = new BasemapGallery(properties);
 
     let { default: BasemapGalleryWidgetWrapper } = await import('./basemapGalleryWidget');
+
     let basemapGalleryWidgetWrapper = new BasemapGalleryWidgetWrapper(jsBasemapGallery);
     basemapGalleryWidgetWrapper.geoBlazorId = dotNetObject.id;
     basemapGalleryWidgetWrapper.viewId = viewId;

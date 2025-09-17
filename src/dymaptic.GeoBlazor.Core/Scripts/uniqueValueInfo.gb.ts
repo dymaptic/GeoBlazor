@@ -2,7 +2,7 @@
 import UniqueValueInfo from '@arcgis/core/renderers/support/UniqueValueInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 
-export async function buildJsUniqueValueInfoGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any): Promis
     let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        properties.symbol = buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -28,7 +28,7 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any): Promis
 }
 
 
-export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValueInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -37,7 +37,7 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promis
     
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
+        dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol, viewId);
     }
     
     if (hasValue(jsObject.label)) {

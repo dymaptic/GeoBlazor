@@ -310,6 +310,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     
 
     let { default: GraphicsLayerWrapper } = await import('./graphicsLayer');
+
     let graphicsLayerWrapper = new GraphicsLayerWrapper(jsGraphicsLayer);
     graphicsLayerWrapper.geoBlazorId = dotNetObject.id;
     graphicsLayerWrapper.viewId = viewId;

@@ -80,6 +80,7 @@ export async function buildJsGeoRSSLayerViewGenerated(dotNetObject: any, layerId
     }
 
     let { default: GeoRSSLayerViewWrapper } = await import('./geoRSSLayerView');
+
     let geoRSSLayerViewWrapper = new GeoRSSLayerViewWrapper(jsGeoRSSLayerView);
     geoRSSLayerViewWrapper.geoBlazorId = dotNetObject.id;
     geoRSSLayerViewWrapper.viewId = viewId;
