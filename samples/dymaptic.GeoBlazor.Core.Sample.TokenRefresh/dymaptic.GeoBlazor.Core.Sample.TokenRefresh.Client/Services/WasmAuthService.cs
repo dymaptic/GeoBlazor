@@ -12,11 +12,10 @@ public class WasmAuthService(HttpClient httpClient): IAuthService
 {
     public async Task<TokenResponse> GetTokenAsync(bool forceRefresh)
     {
-        HttpResponseMessage? response = null;
-
         try
         {
-            response = await httpClient.PostAsJsonAsync("api/auth/token", new ClientTokenRequest(forceRefresh));
+            using HttpResponseMessage response = 
+                await httpClient.PostAsJsonAsync("api/auth/token", new ClientTokenRequest(forceRefresh));
 
             if (response.IsSuccessStatusCode)
             {
@@ -31,10 +30,6 @@ public class WasmAuthService(HttpClient httpClient): IAuthService
         catch (Exception ex)
         {
             return new TokenResponse(false, null, null, ex.Message);
-        }
-        finally
-        {
-            response?.Dispose();
         }
     }
 }
