@@ -7,9 +7,6 @@ using Microsoft.CodeAnalysis.MSBuild;
 const string SUCCESS_MESSAGE = "All classes with 2+ constructors have a parameterless constructor using the [ActivatorUtilitiesConstructor] attribute.";
 const string FAILURE_MESSAGE = "The following classes contain 2+ constructors, but do not have a parameterless constructor that correctly uses the [ActivatorUtilitiesConstructor] attribute. Please update the following list of the class names:";
 
-// Define a record for violations instead of tuple
-record Violation(string ClassName, string FilePath);
-
 string? geoBlazorProjectPath = args.Length > 0 ? args[0] : null;
 
 if (geoBlazorProjectPath is null)
@@ -156,21 +153,27 @@ Violation? AnalyzeClass(
 
 bool InheritsFromComponentBase(INamedTypeSymbol classSymbol)
 {
+    // Skip MapComponent itself
+    if (classSymbol.Name == "MapComponent")
+    {
+        return false;
+    }
+
     var baseType = classSymbol.BaseType;
 
     while (baseType != null)
     {
         var typeName = baseType.Name;
 
-        // Check for MapComponent first (most common in this codebase)
         if (typeName == "MapComponent")
         {
+            // This class inherits from MapComponent - validate it
             return true;
         }
 
-        // Check for ComponentBase - in GeoBlazor, all components should inherit from MapComponent
         if (typeName == "ComponentBase")
         {
+            // This class inherits directly from ComponentBase (not via MapComponent) - error
             throw new Exception($"Class {classSymbol.Name} inherits directly from ComponentBase instead of MapComponent. All GeoBlazor components must inherit from MapComponent.");
         }
 
@@ -201,3 +204,6 @@ int ReportResults(List<Violation> violations)
     }
     return 1;
 }
+
+// Define a record for violations
+record Violation(string ClassName, string FilePath);

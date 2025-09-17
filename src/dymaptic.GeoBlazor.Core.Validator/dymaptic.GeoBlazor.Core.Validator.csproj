@@ -12,8 +12,4 @@
     <PackageReference Include="Microsoft.Build.Locator" Version="1.5.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
-  </ItemGroup>
-
 </Project>
