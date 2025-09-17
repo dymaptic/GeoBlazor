@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.MSBuild;
 
 const string SUCCESS_MESSAGE = "All classes with 2+ constructors have a parameterless constructor using the [ActivatorUtilitiesConstructor] attribute.";
 const string FAILURE_MESSAGE = "The following classes contain 2+ constructors, but do not have a parameterless constructor that correctly uses the [ActivatorUtilitiesConstructor] attribute. Please update the following list of the class names:";
-const int CONSOLE_OUTPUT_PADDING = 60;
 
 // Define a record for violations instead of tuple
 record Violation(string ClassName, string FilePath);
@@ -122,30 +121,34 @@ Violation? AnalyzeClass(
         .Where(c => !c.IsImplicitlyDeclared && c.DeclaredAccessibility == Accessibility.Public)
         .ToList();
 
-    // Skip classes with less than 2 constructors (we only check classes with 2 or more)
-    if (constructors.Count < 2) return null;
-
-    // Check if any constructor has the ActivatorUtilitiesConstructor attribute
-    var hasAttributedConstructor = constructors.Any(HasActivatorUtilitiesConstructorAttribute);
-
-    // If there's an attributed constructor, check if it's parameterless
-    if (hasAttributedConstructor)
+    // If all constructors are parameterless, we don't need the attribute
+    if (constructors.All(c => c.Parameters.Length == 0))
     {
-        var attributedConstructor = constructors.First(HasActivatorUtilitiesConstructorAttribute);
-        if (attributedConstructor.Parameters.Length == 0)
-        {
-            // Compliant: has a parameterless constructor with the attribute
-            return null;
-        }
+        // No parameterized constructors, so we don't need the attribute
+        return null;
     }
 
-    // Non-compliant: either no attributed constructor or attributed constructor has parameters
-    var projectDir = Path.GetDirectoryName(projectPath);
-    var relativePath = projectDir != null
-        ? Path.GetRelativePath(projectDir, filePath)
-        : filePath;
+    var parameterlessConstructors = constructors.Where(c => c.Parameters.Length == 0).ToList();
 
-    return new Violation(classSymbol.Name, relativePath);
+    if (parameterlessConstructors.Count > 0 &&
+        parameterlessConstructors.Any(HasActivatorUtilitiesConstructorAttribute))
+    {
+        // Compliant: parameterless constructor has the attribute
+        return null;
+    }
+
+    // Only report violation if there IS a parameterless constructor without the attribute
+    if (parameterlessConstructors.Count > 0)
+    {
+        var projectDir = Path.GetDirectoryName(projectPath);
+        var relativePath = projectDir != null
+            ? Path.GetRelativePath(projectDir, filePath)
+            : filePath;
+
+        return new Violation(classSymbol.Name, relativePath);
+    }
+
+    return null;
 }
 
 bool InheritsFromComponentBase(INamedTypeSymbol classSymbol)

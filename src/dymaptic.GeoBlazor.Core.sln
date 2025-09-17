@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32708.82
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11012.119 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CDCDDCD6-6958-4352-AF0C-C589ECD51C0D}"
 	ProjectSection(SolutionItems) = preProject
@@ -34,13 +34,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.SourceGenerator", "dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj", "{1E2AFAB9-32CD-4F79-A347-F29A0F1C7208}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Validator", "dymaptic.GeoBlazor.Core.Validator\dymaptic.GeoBlazor.Core.Validator.csproj", "{B5E2C1D3-4A56-4B89-9C23-7F8A5E9B4D21}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.SourceGenerator.Tests", "..\test\dymaptic.GeoBlazor.Core.SourceGenerator.Tests\dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj", "{4A58D766-A1EB-4A91-A316-E111F662F145}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.TokenRefresh", "..\samples\dymaptic.GeoBlazor.Core.Sample.TokenRefresh\dymaptic.GeoBlazor.Core.Sample.TokenRefresh\dymaptic.GeoBlazor.Core.Sample.TokenRefresh.csproj", "{7FA48135-81F7-1219-F001-A870BFC4224E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client", "..\samples\dymaptic.GeoBlazor.Core.Sample.TokenRefresh\dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client\dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.csproj", "{6CB414BD-0536-A361-CEFF-C84EE3906931}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Test.ConstructorTesting", "..\test\dymaptic.GeoBlazor.Core.Test.ConstructorTesting\dymaptic.GeoBlazor.Core.Test.ConstructorTesting.csproj", "{B1234567-89AB-CDEF-0123-456789ABCDEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,10 +114,10 @@ Global
 		{6CB414BD-0536-A361-CEFF-C84EE3906931}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CB414BD-0536-A361-CEFF-C84EE3906931}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CB414BD-0536-A361-CEFF-C84EE3906931}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1234567-89AB-CDEF-0123-456789ABCDEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1234567-89AB-CDEF-0123-456789ABCDEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1234567-89AB-CDEF-0123-456789ABCDEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1234567-89AB-CDEF-0123-456789ABCDEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E2C1D3-4A56-4B89-9C23-7F8A5E9B4D21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E2C1D3-4A56-4B89-9C23-7F8A5E9B4D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E2C1D3-4A56-4B89-9C23-7F8A5E9B4D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E2C1D3-4A56-4B89-9C23-7F8A5E9B4D21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
