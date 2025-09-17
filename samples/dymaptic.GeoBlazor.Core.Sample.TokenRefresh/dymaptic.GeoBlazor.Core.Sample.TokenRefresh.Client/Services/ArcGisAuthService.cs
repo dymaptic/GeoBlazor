@@ -1,14 +1,15 @@
 using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Models;
-using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 
-namespace dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Services;
+
+namespace dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Services;
 
 /// <summary>
 ///     Service for managing ArcGIS authentication tokens.
 /// </summary>
-public class ArcGisAuthService(HttpClient httpClient, IConfiguration config, AuthenticationManager authenticationManager)
+public class ArcGisAuthService(HttpClient httpClient, IConfiguration config, 
+    AuthenticationManager authenticationManager): IAuthService
 {
     /// <summary>
     ///     Requests a new ArcGIS token or retrieves a cached one if available and not expired.
