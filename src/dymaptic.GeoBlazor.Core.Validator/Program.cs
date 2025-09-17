@@ -44,6 +44,12 @@ async Task<List<Violation>> AnalyzeProject(string projectPath)
     Console.WriteLine($"Loading project: {projectPath}");
     var project = await workspace.OpenProjectAsync(projectPath);
 
+    if (project == null)
+    {
+        Console.WriteLine($"Failed to load project: {projectPath}");
+        return new List<Violation>();
+    }
+
     Console.WriteLine($"Analyzing {project.Name}...");
 
     var violations = new List<Violation>();
@@ -55,66 +61,72 @@ async Task<List<Violation>> AnalyzeProject(string projectPath)
         return violations;
     }
 
-    var syntaxTrees = compilation.SyntaxTrees.ToList();
-    var fileCount = syntaxTrees.Count;
-    var currentFile = 0;
+    // Get all types from compilation - Roslyn has already merged partial classes
+    var allTypes = compilation.GetSymbolsWithName(_ => true, SymbolFilter.Type)
+        .OfType<INamedTypeSymbol>()
+        .Where(t => t != null && t.TypeKind == TypeKind.Class)
+        .ToList();
 
-    foreach (var syntaxTree in syntaxTrees)
+    Console.WriteLine($"{Environment.NewLine}Found {allTypes.Count} classes to analyze.");
+
+    var projectDir = Path.GetDirectoryName(projectPath);
+    var checkedClasses = 0;
+
+    foreach (var classSymbol in allTypes)
     {
-        currentFile++;
-        var fileName = Path.GetFileName(syntaxTree.FilePath);
+        // Skip null symbols (shouldn't happen but let's be safe)
+        if (classSymbol == null) continue;
 
-        // Show progress using Environment.NewLine
-        Console.WriteLine($"{Environment.NewLine}Analyzing file {currentFile}/{fileCount}: {fileName}");
-
-        var classViolations = await AnalyzeSyntaxTree(syntaxTree, compilation, projectPath);
-        violations.AddRange(classViolations);
-    }
-
-    // Summary to confirm we're checking both file types
-    var gbFiles = syntaxTrees.Count(t => t.FilePath.EndsWith(".gb.cs"));
-    var regularCs = syntaxTrees.Count(t => t.FilePath.EndsWith(".cs") && !t.FilePath.EndsWith(".gb.cs"));
-
-    Console.WriteLine($"{Environment.NewLine}Analyzed {fileCount} files ({regularCs} .cs, {gbFiles} .gb.cs).");
-
-    return violations;
-}
-
-async Task<List<Violation>> AnalyzeSyntaxTree(
-    SyntaxTree syntaxTree,
-    Compilation compilation,
-    string projectPath)
-{
-    var violations = new List<Violation>();
-    var semanticModel = compilation.GetSemanticModel(syntaxTree);
-    var root = await syntaxTree.GetRootAsync();
-
-    // Find all class declarations in this file
-    var classDeclarations = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
-
-    foreach (var classDeclaration in classDeclarations)
-    {
-        var violation = AnalyzeClass(classDeclaration, semanticModel, syntaxTree.FilePath, projectPath);
-        if (violation != null)
+        checkedClasses++;
+        if (checkedClasses % 100 == 0)
         {
-            violations.Add(violation);
+            Console.WriteLine($"Progress: {checkedClasses}/{allTypes.Count} classes checked...");
+        }
+
+        // Check if this class has a violation
+        if (HasViolation(classSymbol))
+        {
+            // Get all file paths for this class (handles partial classes)
+            var filePaths = classSymbol.Locations
+                .Where(loc => loc.IsInSource && loc.SourceTree?.FilePath != null)
+                .Select(loc =>
+                {
+                    var filePath = loc.SourceTree!.FilePath;
+                    return projectDir != null
+                        ? Path.GetRelativePath(projectDir, filePath)
+                        : filePath;
+                })
+                .Where(path => !string.IsNullOrEmpty(path))
+                .Distinct()
+                .OrderBy(p => p)
+                .ToList();
+
+            // Only add violation if we have at least one valid file path
+            if (filePaths.Count > 0)
+            {
+                violations.Add(new Violation(classSymbol.Name, filePaths));
+            }
+            else
+            {
+                // This shouldn't happen for source code, but log it
+                Console.WriteLine($"Warning: Class {classSymbol.Name} has a violation but no source file paths found.");
+            }
         }
     }
 
+    // Summary
+    var syntaxTrees = compilation.SyntaxTrees.ToList();
+    var gbFiles = syntaxTrees.Count(t => t.FilePath != null && t.FilePath.EndsWith(".gb.cs"));
+    var regularCs = syntaxTrees.Count(t => t.FilePath != null && t.FilePath.EndsWith(".cs") && !t.FilePath.EndsWith(".gb.cs"));
+    Console.WriteLine($"{Environment.NewLine}Analyzed {allTypes.Count} classes from {syntaxTrees.Count} files ({regularCs} .cs, {gbFiles} .gb.cs).");
+
     return violations;
 }
 
-Violation? AnalyzeClass(
-    ClassDeclarationSyntax classDeclaration,
-    SemanticModel semanticModel,
-    string filePath,
-    string projectPath)
+bool HasViolation(INamedTypeSymbol classSymbol)
 {
-    var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
-    if (classSymbol == null) return null;
-
     // Skip classes that don't inherit from ComponentBase
-    if (!InheritsFromComponentBase(classSymbol)) return null;
+    if (!InheritsFromComponentBase(classSymbol)) return false;
 
     // Get public constructors (excluding compiler-generated ones)
     var constructors = classSymbol.Constructors
@@ -124,8 +136,7 @@ Violation? AnalyzeClass(
     // If all constructors are parameterless, we don't need the attribute
     if (constructors.All(c => c.Parameters.Length == 0))
     {
-        // No parameterized constructors, so we don't need the attribute
-        return null;
+        return false;
     }
 
     var parameterlessConstructors = constructors.Where(c => c.Parameters.Length == 0).ToList();
@@ -134,21 +145,11 @@ Violation? AnalyzeClass(
         parameterlessConstructors.Any(HasActivatorUtilitiesConstructorAttribute))
     {
         // Compliant: parameterless constructor has the attribute
-        return null;
+        return false;
     }
 
     // Only report violation if there IS a parameterless constructor without the attribute
-    if (parameterlessConstructors.Count > 0)
-    {
-        var projectDir = Path.GetDirectoryName(projectPath);
-        var relativePath = projectDir != null
-            ? Path.GetRelativePath(projectDir, filePath)
-            : filePath;
-
-        return new Violation(classSymbol.Name, relativePath);
-    }
-
-    return null;
+    return parameterlessConstructors.Count > 0;
 }
 
 bool InheritsFromComponentBase(INamedTypeSymbol classSymbol)
@@ -185,13 +186,13 @@ bool InheritsFromComponentBase(INamedTypeSymbol classSymbol)
 
 bool HasActivatorUtilitiesConstructorAttribute(IMethodSymbol constructor)
 {
-    return constructor.GetAttributes().Any(attr =>
-        attr.AttributeClass?.Name == "ActivatorUtilitiesConstructor");
+    return constructor?.GetAttributes().Any(attr =>
+        attr.AttributeClass?.Name == "ActivatorUtilitiesConstructorAttribute") ?? false;
 }
 
-int ReportResults(List<Violation> violations)
+int ReportResults(List<Violation>? violations)
 {
-    if (violations.Count == 0)
+    if (violations == null || violations.Count == 0)
     {
         Console.WriteLine($"{Environment.NewLine}{SUCCESS_MESSAGE}");
         return 0;
@@ -200,10 +201,14 @@ int ReportResults(List<Violation> violations)
     Console.WriteLine($"{Environment.NewLine}{FAILURE_MESSAGE}");
     foreach (var violation in violations)
     {
-        Console.WriteLine($"- {violation.ClassName} - {violation.FilePath}");
+        Console.WriteLine($"- {violation.ClassName}");
+        foreach (var filePath in violation.FilePaths)
+        {
+            Console.WriteLine($"    {filePath}");
+        }
     }
     return 1;
 }
 
 // Define a record for violations
-record Violation(string ClassName, string FilePath);
+record Violation(string ClassName, List<string> FilePaths);
