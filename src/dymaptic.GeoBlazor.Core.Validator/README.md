@@ -1,8 +1,8 @@
-# GeoBlazor Core Validator
+# GeoBlazor Constructor Validator
 
 ## Purpose
 
-This validator ensures that Blazor components in the GeoBlazor.Core project follow the correct constructor patterns required by the .NET Dependency Injection container.
+This validator ensures that Blazor components in GeoBlazor projects follow the correct constructor patterns required by the .NET Dependency Injection container.
 
 Specifically, it validates that classes inheriting from `ComponentBase` (or `MapComponent`) that have multiple constructors properly use the `[ActivatorUtilitiesConstructor]` attribute on their parameterless constructor.
 
@@ -15,44 +15,59 @@ When a Blazor component has multiple constructors (both parameterless and parame
 The validator checks the following:
 
 1. **Classes that inherit from ComponentBase or MapComponent** - Only these classes are validated
-2. **Classes with both parameterless and parameterized constructors** - If all constructors are parameterless, no attribute is needed
-3. **Parameterless constructor must have the attribute** - When both types exist, the parameterless one needs `[ActivatorUtilitiesConstructor]`
+2. **Classes with both parameterless and parameterized constructors** - The parameterless constructor must have the attribute
+3. **Both `.cs` and `.gb.cs` files are validated** - Generated code must also follow the pattern
 
 ## What Gets Skipped
 
 - Classes with only parameterless constructors (no attribute needed)
-- Classes with only parameterized constructors (compiler will catch this)
-- Generated code files (`.gb.cs`) - These are auto-generated and should not be modified
+- Classes with only parameterized constructors (compiler will handle this)
 - Non-ComponentBase classes
 
 ## Usage
 
-The validator runs automatically as part of the build process for the GeoBlazor.Core project.
+The validator can be used with any GeoBlazor project (Core, Pro, etc.).
+
+### Automatic Build Integration
+
+The validator runs automatically before building GeoBlazor projects via an MSBuild target:
+
+```xml
+<Target Name="ValidateConstructors" BeforeTargets="Build">
+    <Message Importance="high" Text="Validating constructor patterns..." />
+    <Exec Command="dotnet run -- $(MSBuildProjectFullPath)"
+          WorkingDirectory="$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator"
+          ContinueOnError="false"
+          IgnoreExitCode="false" />
+</Target>
+```
 
 ### Manual Execution
 
 ```bash
-dotnet run --project src/dymaptic.GeoBlazor.Core.Validator/dymaptic.GeoBlazor.Core.Validator.csproj -- <path-to-project>
+# From the validator directory
+cd src/dymaptic.GeoBlazor.Core.Validator
+dotnet run -- <path-to-project-file>
+
+# Or from anywhere
+dotnet run --project src/dymaptic.GeoBlazor.Core.Validator/dymaptic.GeoBlazor.Core.Validator.csproj -- <path-to-project-file>
 ```
 
-Example:
+Examples:
 ```bash
-dotnet run --project src/dymaptic.GeoBlazor.Core.Validator/dymaptic.GeoBlazor.Core.Validator.csproj -- src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
+# Validate GeoBlazor.Core
+dotnet run -- ../dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
+
+# Validate GeoBlazor.Pro
+dotnet run -- ../dymaptic.GeoBlazor.Pro/dymaptic.GeoBlazor.Pro.csproj
 ```
 
-## Build Integration
+## Output
 
-The validator is integrated into the GeoBlazor.Core build process via an MSBuild target:
-
-```xml
-<Target Name="ValidateConstructors" AfterTargets="Build">
-    <Exec Command="$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator/bin/$(Configuration)/net9.0/dymaptic.GeoBlazor.Core.Validator.exe $(MSBuildProjectFullPath)"
-          ContinueOnError="false"
-          Condition="Exists('$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator/bin/$(Configuration)/net9.0/dymaptic.GeoBlazor.Core.Validator.exe')" />
-</Target>
-```
-
-The build will fail if any violations are found.
+The validator reports:
+- Number of files analyzed (including breakdown of `.cs` vs `.gb.cs` files)
+- Success message if all classes are compliant
+- List of non-compliant classes with their file paths if violations are found
 
 ## Example Violations
 

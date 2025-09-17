@@ -115,11 +115,11 @@
         <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />
     </Target>
 
-    <Target Name="ValidateConstructors" AfterTargets="Build">
+    <Target Name="ValidateConstructors" BeforeTargets="Build">
         <Message Importance="high" Text="Validating constructor patterns..." />
-        <Exec Command="$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator/bin/$(Configuration)/net9.0/dymaptic.GeoBlazor.Core.Validator.exe $(MSBuildProjectFullPath)"
-              WorkingDirectory="$(ProjectDir)"
+        <Exec Command="dotnet run dymaptic.GeoBlazor.Core.Validator.csproj $(MSBuildProjectFullPath)"
+              WorkingDirectory="$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator"
               ContinueOnError="false"
-              Condition="Exists('$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator/bin/$(Configuration)/net9.0/dymaptic.GeoBlazor.Core.Validator.exe')" />
+              IgnoreExitCode="false" />
     </Target>
 </Project>

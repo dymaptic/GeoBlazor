@@ -10,17 +10,16 @@ const string FAILURE_MESSAGE = "The following classes contain 2+ constructors, b
 // Define a record for violations instead of tuple
 record Violation(string ClassName, string FilePath);
 
-if (args.Length == 0)
+string? geoBlazorProjectPath = args.Length > 0 ? args[0] : null;
+
+if (geoBlazorProjectPath is null)
 {
-    Console.WriteLine("Usage: dymaptic.GeoBlazor.Core.Validator <path-to-project-file>");
-    return 1;
+    throw new Exception("Must pass in the path to the GeoBlazor project to Validate");
 }
 
-var projectPath = args[0];
-
-if (!File.Exists(projectPath))
+if (!File.Exists(geoBlazorProjectPath))
 {
-    Console.WriteLine($"Project file not found: {projectPath}");
+    Console.WriteLine($"Project file not found: {geoBlazorProjectPath}");
     return 1;
 }
 
@@ -30,7 +29,7 @@ try
     MSBuildLocator.RegisterDefaults();
 
     // Analyze the project
-    var violations = await AnalyzeProject(projectPath);
+    var violations = await AnalyzeProject(geoBlazorProjectPath);
 
     // Report results
     return ReportResults(violations);
@@ -169,10 +168,10 @@ bool InheritsFromComponentBase(INamedTypeSymbol classSymbol)
             return true;
         }
 
-        // Check for ComponentBase (base class of MapComponent and other Blazor components)
+        // Check for ComponentBase - in GeoBlazor, all components should inherit from MapComponent
         if (typeName == "ComponentBase")
         {
-            return true;
+            throw new Exception($"Class {classSymbol.Name} inherits directly from ComponentBase instead of MapComponent. All GeoBlazor components must inherit from MapComponent.");
         }
 
         baseType = baseType.BaseType;
