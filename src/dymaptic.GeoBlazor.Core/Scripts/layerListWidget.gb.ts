@@ -389,6 +389,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     
 
     let { default: LayerListWidgetWrapper } = await import('./layerListWidget');
+
     let layerListWidgetWrapper = new LayerListWidgetWrapper(jsLayerList);
     layerListWidgetWrapper.geoBlazorId = dotNetObject.id;
     layerListWidgetWrapper.viewId = viewId;

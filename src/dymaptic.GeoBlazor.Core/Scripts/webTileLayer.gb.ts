@@ -394,6 +394,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     
 
             let { default: WebTileLayerWrapper } = await import('./webTileLayer');
+
             let webTileLayerWrapper = new WebTileLayerWrapper(jsWebTileLayer);
             webTileLayerWrapper.geoBlazorId = dotNetObject.id;
             webTileLayerWrapper.viewId = viewId;

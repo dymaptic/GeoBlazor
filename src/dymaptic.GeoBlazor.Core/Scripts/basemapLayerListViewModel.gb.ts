@@ -119,6 +119,7 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
     let jsBasemapLayerListViewModel = new BasemapLayerListViewModel(properties);
 
     let { default: BasemapLayerListViewModelWrapper } = await import('./basemapLayerListViewModel');
+
     let basemapLayerListViewModelWrapper = new BasemapLayerListViewModelWrapper(jsBasemapLayerListViewModel);
     basemapLayerListViewModelWrapper.geoBlazorId = dotNetObject.id;
     basemapLayerListViewModelWrapper.viewId = viewId;

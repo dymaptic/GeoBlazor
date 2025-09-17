@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IBlendLayer.html">GeoBlazor Docs</a>
-///     Interface for types BaseTileLayer, BingMapsLayer, CatalogDynamicGroupLayer, CatalogFootprintLayer, CatalogLayer, CSVLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, GraphicsLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, OpenStreetMapLayer, TileLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///     Interface for types BaseTileLayer, BingMapsLayer, CatalogDynamicGroupLayer, CatalogFootprintLayer, CatalogLayer, CSVLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, GraphicsLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, OGCFeatureLayer, OpenStreetMapLayer, TileLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
 public partial interface IBlendLayer : IMapComponent
 {

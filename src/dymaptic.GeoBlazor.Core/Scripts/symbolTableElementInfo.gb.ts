@@ -9,7 +9,7 @@ export async function buildJsSymbolTableElementInfoGenerated(dotNetObject: any, 
     let jsSymbolTableElementInfo: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsSymbolTableElementInfo.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        jsSymbolTableElementInfo.symbol = buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -32,7 +32,7 @@ export async function buildJsSymbolTableElementInfoGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetSymbolTableElementInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSymbolTableElementInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -41,7 +41,7 @@ export async function buildDotNetSymbolTableElementInfoGenerated(jsObject: any, 
     
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSymbolTableElementInfo.symbol = buildDotNetSymbol(jsObject.symbol);
+        dotNetSymbolTableElementInfo.symbol = buildDotNetSymbol(jsObject.symbol, viewId);
     }
     
     if (hasValue(jsObject.label)) {

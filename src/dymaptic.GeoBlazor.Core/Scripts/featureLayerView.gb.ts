@@ -119,7 +119,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(this.component.layer, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayer(this.component.layer, this.viewId);
     }
     
     getProperty(prop: string): any {
@@ -163,6 +163,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     let jsFeatureLayerView = new FeatureLayerView(properties);
 
     let { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
+
     let featureLayerViewWrapper = new FeatureLayerViewWrapper(jsFeatureLayerView);
     featureLayerViewWrapper.geoBlazorId = dotNetObject.id;
     featureLayerViewWrapper.viewId = viewId;

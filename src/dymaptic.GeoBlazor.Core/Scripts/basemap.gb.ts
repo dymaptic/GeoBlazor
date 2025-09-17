@@ -247,6 +247,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     let jsBasemap = new Basemap(properties);
 
     let { default: BasemapWrapper } = await import('./basemap');
+
     let basemapWrapper = new BasemapWrapper(jsBasemap);
     basemapWrapper.geoBlazorId = dotNetObject.id;
     basemapWrapper.viewId = viewId;

@@ -131,6 +131,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     let jsPixelBlock = new PixelBlock(properties);
 
     let { default: PixelBlockWrapper } = await import('./pixelBlock');
+
     let pixelBlockWrapper = new PixelBlockWrapper(jsPixelBlock);
     pixelBlockWrapper.geoBlazorId = dotNetObject.id;
     pixelBlockWrapper.viewId = viewId;

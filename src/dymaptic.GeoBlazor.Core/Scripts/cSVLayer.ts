@@ -12,7 +12,7 @@ export default class CSVLayerWrapper extends CSVLayerGenerated {
         try {
             let jsFeatureReduction = this.layer.featureReduction;
             let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
+            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.viewId);
         } catch (error) {
             throw new Error("Available only in GeoBlazor Pro. " + error);
         }
@@ -35,7 +35,7 @@ export async function buildJsCSVLayer(dotNetObject: any, layerId: string | null,
     return await buildJsCSVLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetCSVLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCSVLayer(jsObject: any, viewId: string | null): Promise<any> {
     let {buildDotNetCSVLayerGenerated} = await import('./cSVLayer.gb');
-    return await buildDotNetCSVLayerGenerated(jsObject, layerId, viewId);
+    return await buildDotNetCSVLayerGenerated(jsObject, viewId);
 }

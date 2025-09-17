@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISymbolsSymbol.html">GeoBlazor Docs</a>
-///     
+///     Interface for types WebStyleSymbol
 /// </summary>
 public partial interface ISymbolsSymbol : IMapComponent
 {

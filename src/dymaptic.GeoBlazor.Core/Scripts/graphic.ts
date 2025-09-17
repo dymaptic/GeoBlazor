@@ -18,11 +18,11 @@ export function buildJsGraphic(graphicObject: any): any {
     let graphic: Graphic | null = lookupJsGraphicById(graphicObject.id, graphicObject.layerId, graphicObject.viewId);
     if (graphic !== null) {
         graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
-        graphic.symbol = buildJsSymbol(graphicObject.symbol) as any ?? graphic.symbol;
+        graphic.symbol = buildJsSymbol(graphicObject.symbol, graphicObject.layerId, graphicObject.viewId) as any ?? graphic.symbol;
     } else {
         graphic = new Graphic({
             geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
-            symbol: buildJsSymbol(graphicObject.symbol) as any ?? null,
+            symbol: buildJsSymbol(graphicObject.symbol, graphicObject.layerId, graphicObject.viewId) as any ?? null,
         });
     }
 
@@ -92,7 +92,7 @@ export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, vie
     dotNetGraphic.viewId = viewId;
 
     if (hasValue(graphic.symbol)) {
-        dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
+        dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol, viewId);
     }
 
     if (hasValue(graphic.geometry)) {

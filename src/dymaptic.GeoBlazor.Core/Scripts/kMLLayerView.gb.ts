@@ -116,6 +116,7 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
     }
 
     let { default: KMLLayerViewWrapper } = await import('./kMLLayerView');
+
     let kMLLayerViewWrapper = new KMLLayerViewWrapper(jsKMLLayerView);
     kMLLayerViewWrapper.geoBlazorId = dotNetObject.id;
     kMLLayerViewWrapper.viewId = viewId;

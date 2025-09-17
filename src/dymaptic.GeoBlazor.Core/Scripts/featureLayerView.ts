@@ -101,7 +101,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         }
     }
 
-    async queryObjectIds(query: DotNetQuery, options: any): Promise<string[]> {
+    async queryObjectIds(query: DotNetQuery, options: any): Promise<(string | number)[]> {
         let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query);
         let objectIds = await this.component.queryObjectIds(jsQuery, options);

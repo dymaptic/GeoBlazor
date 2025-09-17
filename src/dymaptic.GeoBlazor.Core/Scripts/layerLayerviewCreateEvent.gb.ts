@@ -17,7 +17,7 @@ export async function buildJsLayerLayerviewCreateEventGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerLayerviewCreateEvent;
     
-    let dnInstantiatedObject = await buildDotNetLayerLayerviewCreateEvent(jsLayerLayerviewCreateEvent);
+    let dnInstantiatedObject = await buildDotNetLayerLayerviewCreateEvent(jsLayerLayerviewCreateEvent, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -28,7 +28,7 @@ export async function buildJsLayerLayerviewCreateEventGenerated(dotNetObject: an
     return jsLayerLayerviewCreateEvent;
 }
 
-export async function buildDotNetLayerLayerviewCreateEventGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerLayerviewCreateEventGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -39,7 +39,7 @@ export async function buildDotNetLayerLayerviewCreateEventGenerated(jsObject: an
     };
         if (hasValue(jsObject.layerView)) {
             let { buildDotNetLayerView } = await import('./layerView');
-            dotNetLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
+            dotNetLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView, viewId);
         }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

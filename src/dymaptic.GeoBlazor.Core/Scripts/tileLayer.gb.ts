@@ -502,6 +502,7 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     
 
     let { default: TileLayerWrapper } = await import('./tileLayer');
+
     let tileLayerWrapper = new TileLayerWrapper(jsTileLayer);
     tileLayerWrapper.geoBlazorId = dotNetObject.id;
     tileLayerWrapper.viewId = viewId;

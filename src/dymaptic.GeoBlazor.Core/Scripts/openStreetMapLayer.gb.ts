@@ -389,6 +389,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     
 
     let { default: OpenStreetMapLayerWrapper } = await import('./openStreetMapLayer');
+
     let openStreetMapLayerWrapper = new OpenStreetMapLayerWrapper(jsOpenStreetMapLayer);
     openStreetMapLayerWrapper.geoBlazorId = dotNetObject.id;
     openStreetMapLayerWrapper.viewId = viewId;

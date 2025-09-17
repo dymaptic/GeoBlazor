@@ -77,6 +77,7 @@ export async function buildJsGeographicTransformationGenerated(dotNetObject: any
     let jsGeographicTransformation = new GeographicTransformation(properties);
 
     let { default: GeographicTransformationWrapper } = await import('./geographicTransformation');
+
     let geographicTransformationWrapper = new GeographicTransformationWrapper(jsGeographicTransformation);
     geographicTransformationWrapper.geoBlazorId = dotNetObject.id;
     geographicTransformationWrapper.viewId = viewId;

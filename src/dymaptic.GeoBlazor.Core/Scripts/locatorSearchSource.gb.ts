@@ -18,7 +18,7 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        properties.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
+        properties.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
@@ -118,7 +118,7 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any, vie
     
     if (hasValue(jsObject.resultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
+        dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol, viewId);
     }
     
     if (hasValue(jsObject.apiKey)) {
