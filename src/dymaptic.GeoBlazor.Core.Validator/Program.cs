@@ -1,7 +1,6 @@
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 
 const string SUCCESS_MESSAGE = "All classes with 2+ constructors have a parameterless constructor using the [ActivatorUtilitiesConstructor] attribute.";
@@ -22,13 +21,10 @@ if (!File.Exists(geoBlazorProjectPath))
 
 try
 {
-    // Initialize MSBuild for Roslyn workspace
     MSBuildLocator.RegisterDefaults();
 
-    // Analyze the project
     var violations = await AnalyzeProject(geoBlazorProjectPath);
 
-    // Report results
     return ReportResults(violations);
 }
 catch (Exception ex)
@@ -61,7 +57,6 @@ async Task<List<Violation>> AnalyzeProject(string projectPath)
         return violations;
     }
 
-    // Get all types from compilation - Roslyn has already merged partial classes
     var allTypes = compilation.GetSymbolsWithName(_ => true, SymbolFilter.Type)
         .OfType<INamedTypeSymbol>()
         .Where(t => t != null && t.TypeKind == TypeKind.Class)
@@ -74,19 +69,14 @@ async Task<List<Violation>> AnalyzeProject(string projectPath)
 
     foreach (var classSymbol in allTypes)
     {
-        // Skip null symbols (shouldn't happen but let's be safe)
-        if (classSymbol == null) continue;
-
         checkedClasses++;
         if (checkedClasses % 100 == 0)
         {
             Console.WriteLine($"Progress: {checkedClasses}/{allTypes.Count} classes checked...");
         }
 
-        // Check if this class has a violation
         if (HasViolation(classSymbol))
         {
-            // Get all file paths for this class (handles partial classes)
             var filePaths = classSymbol.Locations
                 .Where(loc => loc.IsInSource && loc.SourceTree?.FilePath != null)
                 .Select(loc =>
@@ -101,20 +91,17 @@ async Task<List<Violation>> AnalyzeProject(string projectPath)
                 .OrderBy(p => p)
                 .ToList();
 
-            // Only add violation if we have at least one valid file path
             if (filePaths.Count > 0)
             {
                 violations.Add(new Violation(classSymbol.Name, filePaths));
             }
             else
             {
-                // This shouldn't happen for source code, but log it
                 Console.WriteLine($"Warning: Class {classSymbol.Name} has a violation but no source file paths found.");
             }
         }
     }
 
-    // Summary
     var syntaxTrees = compilation.SyntaxTrees.ToList();
     var gbFiles = syntaxTrees.Count(t => t.FilePath != null && t.FilePath.EndsWith(".gb.cs"));
     var regularCs = syntaxTrees.Count(t => t.FilePath != null && t.FilePath.EndsWith(".cs") && !t.FilePath.EndsWith(".gb.cs"));
@@ -125,15 +112,12 @@ async Task<List<Violation>> AnalyzeProject(string projectPath)
 
 bool HasViolation(INamedTypeSymbol classSymbol)
 {
-    // Skip classes that don't inherit from ComponentBase
     if (!InheritsFromComponentBase(classSymbol)) return false;
 
-    // Get public constructors (excluding compiler-generated ones)
     var constructors = classSymbol.Constructors
         .Where(c => !c.IsImplicitlyDeclared && c.DeclaredAccessibility == Accessibility.Public)
         .ToList();
 
-    // If all constructors are parameterless, we don't need the attribute
     if (constructors.All(c => c.Parameters.Length == 0))
     {
         return false;
@@ -144,17 +128,14 @@ bool HasViolation(INamedTypeSymbol classSymbol)
     if (parameterlessConstructors.Count > 0 &&
         parameterlessConstructors.Any(HasActivatorUtilitiesConstructorAttribute))
     {
-        // Compliant: parameterless constructor has the attribute
         return false;
     }
 
-    // Only report violation if there IS a parameterless constructor without the attribute
     return parameterlessConstructors.Count > 0;
 }
 
 bool InheritsFromComponentBase(INamedTypeSymbol classSymbol)
 {
-    // Skip MapComponent itself
     if (classSymbol.Name == "MapComponent")
     {
         return false;
@@ -168,13 +149,11 @@ bool InheritsFromComponentBase(INamedTypeSymbol classSymbol)
 
         if (typeName == "MapComponent")
         {
-            // This class inherits from MapComponent - validate it
             return true;
         }
 
         if (typeName == "ComponentBase")
         {
-            // This class inherits directly from ComponentBase (not via MapComponent) - error
             throw new Exception($"Class {classSymbol.Name} inherits directly from ComponentBase instead of MapComponent. All GeoBlazor components must inherit from MapComponent.");
         }
 
@@ -210,5 +189,4 @@ int ReportResults(List<Violation>? violations)
     return 1;
 }
 
-// Define a record for violations
 record Violation(string ClassName, List<string> FilePaths);

@@ -97,8 +97,35 @@ public class MyComponent : MapComponent
 - `0` - All validations passed
 - `1` - Validation failures found or error occurred
 
+## Technical Implementation
+
+### Roslyn Semantic Model
+
+The validator leverages Roslyn's semantic model for accurate code analysis:
+
+1. **Compilation-level analysis** - Instead of parsing individual files, the validator uses `compilation.GetSymbolsWithName()` to get all type symbols from the entire compilation
+2. **Automatic partial class merging** - Roslyn's semantic model automatically merges partial classes into single `INamedTypeSymbol` instances, eliminating duplicate checking
+3. **Complete type information** - The semantic model provides full inheritance chains, constructor details, and attribute information
+
+### Handling Partial Classes
+
+When a class is defined across multiple files (partial classes):
+- Roslyn merges all partial definitions into a single symbol
+- The validator checks the merged class only once
+- If a violation is found, all source file locations are reported using `classSymbol.Locations`
+- This ensures accurate validation without duplicate reports for partial classes
+
+### File Source Tracking
+
+The validator tracks source files through Roslyn's `Location` API:
+- Each `INamedTypeSymbol` contains all `Locations` where the class is defined
+- For partial classes, multiple locations are captured
+- File paths are converted to relative paths for cleaner output
+- Both `.cs` and `.gb.cs` (generated) files are included in analysis
+
 ## Notes
 
-- The validator uses Roslyn to analyze the C# syntax tree
+- The validator uses Roslyn's semantic model for complete type analysis
 - Only public constructors are checked (private/protected are ignored)
 - Compiler-generated constructors are excluded from validation
+- **Attribute Name Resolution**: In C# source files, attributes appear as `[ActivatorUtilitiesConstructor]`, but .NET's compiler automatically appends "Attribute" to create the full class name. Therefore, the validator checks for `"ActivatorUtilitiesConstructorAttribute"` when examining the semantic model, even though developers write `[ActivatorUtilitiesConstructor]` in their code
