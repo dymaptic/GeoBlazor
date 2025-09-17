@@ -117,10 +117,9 @@
 
     <Target Name="ValidateConstructors" AfterTargets="Build">
         <Message Importance="high" Text="Validating constructor patterns..." />
-        <Exec Command="$(ProjectDir)../../test/dymaptic.GeoBlazor.Core.Test.ConstructorTesting/bin/$(Configuration)/net9.0/dymaptic.GeoBlazor.Core.Test.ConstructorTesting.exe"
+        <Exec Command="$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator/bin/$(Configuration)/net9.0/dymaptic.GeoBlazor.Core.Validator.exe $(MSBuildProjectFullPath)"
               WorkingDirectory="$(ProjectDir)"
-              ContinueOnError="true"
-              IgnoreExitCode="true"
-              Condition="Exists('$(ProjectDir)../../test/dymaptic.GeoBlazor.Core.Test.ConstructorTesting/bin/$(Configuration)/net9.0/dymaptic.GeoBlazor.Core.Test.ConstructorTesting.exe')" />
+              ContinueOnError="false"
+              Condition="Exists('$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator/bin/$(Configuration)/net9.0/dymaptic.GeoBlazor.Core.Validator.exe')" />
     </Target>
 </Project>
