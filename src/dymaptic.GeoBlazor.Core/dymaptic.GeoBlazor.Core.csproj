@@ -119,6 +119,7 @@
         <Message Importance="high" Text="Validating constructor patterns..." />
         <Exec Command="dotnet run --project dymaptic.GeoBlazor.Core.Validator.csproj -- $(MSBuildProjectFullPath)"
               WorkingDirectory="$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator"
+              ConsoleToMSBuild="true"
               ContinueOnError="false"
               IgnoreExitCode="false" />
     </Target>
