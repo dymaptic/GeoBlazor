@@ -35,7 +35,7 @@ The validator runs automatically before building GeoBlazor projects via an MSBui
 ```xml
 <Target Name="ValidateConstructors" BeforeTargets="Build">
     <Message Importance="high" Text="Validating constructor patterns..." />
-    <Exec Command="dotnet run -- $(MSBuildProjectFullPath)"
+    <Exec Command="dotnet run --project dymaptic.GeoBlazor.Core.Validator.csproj -- $(MSBuildProjectFullPath)"
           WorkingDirectory="$(ProjectDir)../dymaptic.GeoBlazor.Core.Validator"
           ContinueOnError="false"
           IgnoreExitCode="false" />
