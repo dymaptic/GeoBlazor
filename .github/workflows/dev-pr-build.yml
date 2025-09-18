@@ -17,46 +17,39 @@ jobs:
   build: 
     runs-on: ubuntu-latest
     steps:
-        # Checkout the repository to the GitHub Actions runner
+      # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
+      continue-on-error: false
       with:
         submodules: true
         repository: ${{ github.event.pull_request.head.repo.full_name }}
         ref: ${{ github.event.pull_request.head.ref }}
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
+      continue-on-error: false
       with:
         dotnet-version: 9.x
 
-    - name: Bump Version
-      shell: pwsh
-      run: |
-        ./bumpVersion.ps1
-        
     - name: Update NPM
       uses: actions/setup-node@v4
+      continue-on-error: false
       with:
         node-version: '>=22.11.0'
         check-latest: 'true'
-        
-    # This step will install the NPM dependencies and build the JS files with ESBuild
-    - name: Generate JS
+          
+      # This runs the main GeoBlazor build script
+    - name: Build GeoBlazor
       shell: pwsh
+      continue-on-error: false
       run: |
-        cd ./src/dymaptic.GeoBlazor.Core
-        ./esBuild.ps1 -c Release
-        cd ../..
+        ./GeoBlazorBuild.ps1 -docs -c "Release"
         
-    - name: Restore dependencies
-      run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
-    
-    - name: Build Core
-      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:GenerateDocs=true /p:PipelineBuild=true -c Release
-
       # Copies the nuget package to the artifacts directory
     - name: Upload nuget artifact
       uses: actions/upload-artifact@v4.6.0
+      continue-on-error: true
       with:
         name: .core-nuget
         retention-days: 4
