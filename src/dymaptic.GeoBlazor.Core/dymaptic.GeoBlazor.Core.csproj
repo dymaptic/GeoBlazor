@@ -100,7 +100,9 @@
 
     <ItemGroup>
         <Folder Include="Documentation/" />
-        <Folder Include="wwwroot/js/" Watch="false" />
+        <Folder Include="wwwroot/js/" />
+        <Content Remove="wwwroot/js/*" Watch="false" Pack="true" />
+        <Content Include="wwwroot/js/*" Watch="false" Pack="true" />
         <Content Remove="esBuild*" Watch="false" Pack="false" />
         <Content Include="esBuild*" Watch="false" Pack="false" />
     </ItemGroup>

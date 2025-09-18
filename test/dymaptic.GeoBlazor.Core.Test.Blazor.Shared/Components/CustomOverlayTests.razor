@@ -1,0 +1,45 @@
+@using System.Drawing
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+	[TestMethod]
+	public async Task TestCanStackCustomOverlayAndWidgetsWithoutColliding(Action renderHandler)
+	{
+		HomeWidget? homeWidget = null;
+		CustomOverlay? customOverlay = null;
+		bool clickTriggered = false;
+		void Callback()
+		{
+			clickTriggered = true;
+		}
+
+		AddMapRenderFragment(
+			@<MapView class="map-view" OnViewRendered="renderHandler">
+                 <Map>
+                     <Basemap>
+	                     <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                     </Basemap>
+                 </Map>
+                 <HomeWidget @ref="homeWidget" Position="OverlayPosition.TopRight" />
+                 <CustomOverlay @ref="customOverlay" Position="OverlayPosition.TopRight">
+	                 <calcite-button id="test-btn" icon-start="accessibilty" label="Test" @onclick="Callback"></calcite-button>
+                 </CustomOverlay>
+			 </MapView>
+	);
+
+		await WaitForMapToRender();
+
+		Rectangle widgetRect = await TestRunnerJsModule!.InvokeAsync<Rectangle>("getArcGisComponentRect", homeWidget!.Id);
+		Rectangle overlayRect = await TestRunnerJsModule!.InvokeAsync<Rectangle>("getElementRect", "test-btn");
+		Assert.IsFalse(widgetRect.IntersectsWith(overlayRect), "The CustomOverlay is overlapping the HomeWidget.");
+
+		await AssertJavaScript("clickOnElement", args: "test-btn");
+		Assert.IsTrue(clickTriggered, "Click event was not triggered on the button inside the CustomOverlay.");
+	}
+
+}

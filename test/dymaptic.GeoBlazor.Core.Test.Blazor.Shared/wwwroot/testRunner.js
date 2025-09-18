@@ -239,6 +239,49 @@ export async function clickOnMap(methodName) {
     mapContainer.dispatchEvent(clickEvent);
 }
 
+export async function clickOnElement(methodName, id) {
+    let element = document.getElementById(id);
+    if (element === null) {
+        throw new Error(`Element with id ${id} not found`);
+    }
+    
+    let clickEvent = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true
+    });
+    
+    element.dispatchEvent(clickEvent);
+}
+
+export function getArcGisComponentRect(componentId) {
+    let component = arcGisObjectRefs[componentId];
+    if (component === undefined) {
+        throw new Error(`Component with id ${componentId} not found`);
+    }
+
+    let rect = component.container.getBoundingClientRect();
+    return {
+        x: rect.left,
+        y: rect.top,
+        width: rect.width,
+        height: rect.height
+    };
+}
+
+export function getElementRect(id) {
+    let element = document.getElementById(id);
+    if (element === null) {
+        throw new Error(`Element with id ${id} not found`);
+    }
+    let rect = element.getBoundingClientRect();
+    return {
+        x: rect.left,
+        y: rect.top,
+        width: rect.width,
+        height: rect.height
+    };
+}
+
 export async function triggerSearchHandlers() {
     let searchInput = document.querySelector('.esri-search__autocomplete')
         .shadowRoot.querySelector('calcite-input')

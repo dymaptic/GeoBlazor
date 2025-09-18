@@ -133,14 +133,14 @@
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (_jsObjectReference is null)
+        if (TestRunnerJsModule is null)
         {
             IJSObjectReference? proJs = await JsModuleManager.GetArcGisJsPro(JsRuntime, default);
             IJSObjectReference coreJs = await JsModuleManager.GetArcGisJsCore(JsRuntime, proJs, default);
 
-            _jsObjectReference = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+            TestRunnerJsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
                 "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
-            await _jsObjectReference.InvokeVoidAsync("initialize", coreJs);
+            await TestRunnerJsModule.InvokeVoidAsync("initialize", coreJs);
         }
     }
 
@@ -284,7 +284,7 @@
             }
             else
             {
-                await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());
+                await TestRunnerJsModule!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());
             }
         }
         catch (Exception)
@@ -303,9 +303,9 @@
 
     protected async Task WaitForJsTimeout(long time, [CallerMemberName] string methodName = "")
     {
-        await _jsObjectReference!.InvokeVoidAsync("setJsTimeout", time, methodName);
+        await TestRunnerJsModule!.InvokeVoidAsync("setJsTimeout", time, methodName);
 
-        while (!await _jsObjectReference!.InvokeAsync<bool>("timeoutComplete", methodName))
+        while (!await TestRunnerJsModule!.InvokeAsync<bool>("timeoutComplete", methodName))
         {
             await Task.Delay(100);
         }
@@ -425,7 +425,7 @@
 
     private string ClassName => GetType().Name;
     private int Remaining => _methodInfos is null ? 0 : _methodInfos.Length - (_passed.Count + _failed.Count);
-    private IJSObjectReference? _jsObjectReference;
+    protected IJSObjectReference? TestRunnerJsModule;
     private StringBuilder _resultBuilder = new();
     private MethodInfo[]? _methodInfos;
     private Dictionary<string, string> _testResults = new();
