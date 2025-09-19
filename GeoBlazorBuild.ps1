@@ -4,11 +4,11 @@ param(
     [switch][Alias("pub")]$Publish,
     [switch][Alias("obf")]$Obfuscate,
     [switch][Alias("docs")]$GenerateDocs,
-    [string][Alias("c")]$Configuration = "Release", 
     [string][Alias("v")]$Version,
+    [string][Alias("c")]$Configuration = "Release", 
     [string][Alias("vc")]$ValidatorConfig = "Release",
     [string][Alias("su")]$ServerUrl = "https://licensing.dymaptic.com")
-
+    
 $scriptStartTime = Get-Date
 
 $CoreRepoRoot = $PSScriptRoot
@@ -252,7 +252,9 @@ try {
         $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";"
         Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline
         
-        dotnet build dymaptic.GeoBlazor.Pro.V.csproj /p:OptOutFromObfuscation=$($Obfuscate.ToString().ToLower()) `
+        $OptOutFromObfuscation = $Obfuscate -eq $false
+        
+        dotnet build dymaptic.GeoBlazor.Pro.V.csproj /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) `
             /p:ProVersion=$Version -c $ValidatorConfig 2>&1 | Tee-Object -Variable Build
         
         # Restore the ServerUrls in the Validator project
@@ -316,7 +318,7 @@ try {
         Write-Host ""
         dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore `
             /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version `
-            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($Obfuscate.ToString().ToLower()) -c `
+            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c `
             $Configuration 2>&1 | Tee-Object -Variable Build
         $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
         if ($HasError -eq $true) {
@@ -324,7 +326,7 @@ try {
                 # this is a Microsoft bug, try again
                 dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore `
                     /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version `
-                    /p:ProVersion=$Version /p:OptOutFromObfuscation=$($Obfuscate.ToString().ToLower()) -c `
+                    /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c `
                     $Configuration 2>&1 | Tee-Object -Variable Build
                 $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
                 if ($HasError -eq $true) {
