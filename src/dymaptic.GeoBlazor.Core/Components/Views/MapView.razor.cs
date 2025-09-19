@@ -2133,7 +2133,7 @@ public partial class MapView : MapComponent
             widget.CoreJsModule ??= CoreJsModule;
         }
 
-        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return Task.CompletedTask;
+        if (CoreJsModule is null || !MapRendered) return Task.CompletedTask;
 
         _newWidgets.Add(widget);
         StateHasChanged();

@@ -68,11 +68,6 @@ public abstract partial class Widget : MapComponent
     /// </summary>
     protected virtual bool Hidden => false;
 
-    /// <summary>
-    ///     Indicates that the widget is sent to ArcGIS JS to render. Custom GeoBlazor Widgets should override this to return false.
-    /// </summary>
-    protected internal virtual bool ArcGISWidget => true;
-
     /// <inheritdoc />
     [JSInvokable]
     public override async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference,

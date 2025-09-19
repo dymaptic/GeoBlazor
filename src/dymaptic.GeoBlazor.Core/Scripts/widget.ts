@@ -173,21 +173,3 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
 export async function buildDotNetWidget(jsObject: any): Promise<any> {
     return removeCircularReferences(jsObject);
 }
-
-export async function preloadWidgetTypes(widgets: any[], viewId: string): Promise<string[]> {
-    let importedWidgets: string[] = [];
-    for (const widget of widgets) {
-        if (widget.type === 'expand' && hasValue(widget.widgetContent)) {
-            // remove inner widget and load separately
-            let { widgetContent, ...expandWidget } = widget;
-            await buildJsWidget(expandWidget, widget.layerId, viewId);
-            await buildJsWidget(widgetContent, widgetContent.layerId, viewId);
-            continue;
-        }
-        let _ = await buildJsWidget(widget, widget.layerId, viewId);
-        importedWidgets.push(widget.type);
-        await disposeMapComponent(widget.id, viewId);
-    }
-    
-    return importedWidgets;
-}

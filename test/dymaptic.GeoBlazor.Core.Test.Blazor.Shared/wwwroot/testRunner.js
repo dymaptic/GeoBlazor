@@ -261,10 +261,10 @@ export function getArcGisComponentRect(componentId) {
 
     let rect = component.container.getBoundingClientRect();
     return {
-        x: rect.left,
-        y: rect.top,
-        width: rect.width,
-        height: rect.height
+        x: Math.round(rect.x),
+        y: Math.round(rect.y),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height)
     };
 }
 
@@ -275,10 +275,10 @@ export function getElementRect(id) {
     }
     let rect = element.getBoundingClientRect();
     return {
-        x: rect.left,
-        y: rect.top,
-        width: rect.width,
-        height: rect.height
+        x: Math.round(rect.x),
+        y: Math.round(rect.y),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height)
     };
 }
 

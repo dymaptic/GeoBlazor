@@ -24,7 +24,13 @@ button {
 
 .detail-results {
     max-height: 600px;
+    height: 600px;
     overflow-y: auto;
+    padding-top: 50px;
+}
+
+.detail-results h3 {
+    margin-right: 400px;
 }
 
 .test-results-container {

@@ -1752,7 +1752,44 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
             const inMapWidget = mapComponent?.querySelector(`#widget-container-${widget.id}`);
             const widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
             if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
-                view.ui.add(newWidget, widget.position);
+                if (widget.type === 'graphics-legend' || widget.type === 'custom-overlay') {
+                    // not ArcGIS widgets
+                    // find the corner class
+                    let cornerContainer: HTMLElement | null;
+                    switch (widget.position) {
+                        case 'top-left':
+                            cornerContainer = document.querySelector('.esri-ui-top-left');
+                            break;
+                        case 'top-right':
+                            cornerContainer = document.querySelector('.esri-ui-top-right');
+                            break;
+                        case 'bottom-left':
+                            cornerContainer = document.querySelector('.esri-ui-bottom-left');
+                            break;
+                        case 'bottom-right':
+                            cornerContainer = document.querySelector('.esri-ui-bottom-right');
+                            break;
+                        case 'manual':
+                            cornerContainer = null; // don't move manually positioned widgets
+                            break;
+                        default:
+                            cornerContainer = document.querySelector('.esri-ui-top-left');
+                            break;
+                    }
+
+                    if (hasValue(cornerContainer)) {
+                        // move to corner container
+                        if (hasValue(widgetContainer) && hasValue(widgetContainer!.parentElement)) {
+                            widgetContainer!.parentElement!.removeChild(widgetContainer!);
+                            cornerContainer!.appendChild(widgetContainer!);
+                        }
+                    }
+                    
+                    widgetContainer.hidden = false;
+                } else {
+                    // ArcGIS widgets - add to map view ui
+                    view.ui.add(newWidget, widget.position);
+                }
             } else {
                 // default to using the pre-defined widget container
                 widgetContainer.innerHTML = '';

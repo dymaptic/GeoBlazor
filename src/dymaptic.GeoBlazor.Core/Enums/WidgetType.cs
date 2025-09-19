@@ -80,6 +80,7 @@ public enum WidgetType
     VideoPlayer,
     Weather,
     Zoom,
-    BatchAttributeForm
+    BatchAttributeForm,
+    CustomOverlay
 #pragma warning restore CS1591
 }
