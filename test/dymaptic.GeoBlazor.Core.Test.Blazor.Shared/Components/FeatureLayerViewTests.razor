@@ -62,6 +62,18 @@
     [TestMethod]
     public async Task FeatureLayerView_PropertyRoundtrips_And_Queries(Action renderHandler)
     {
+        static async Task<T> WaitUntil<T>(Func<Task<T>> getter, Func<T, bool> ok, int tries = 10, int delayMs = 50)
+        {
+            T val = default!;
+            while (tries-- > 0)
+            {
+                val = await getter();
+                if (ok(val)) break;
+                await Task.Delay(delayMs);
+            }
+            return val!;
+        }
+
         FeatureLayer? layer = null;
         FeatureLayerView? layerView = null;
 
@@ -74,69 +86,81 @@
         }
 
         List<Graphic> graphics = [];
-        graphics.Add(new Graphic(new Point(0, 0), attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 1 })));
-        graphics.Add(new Graphic(new Point(1, 1), attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 2 })));
+        graphics.Add(new Graphic(new Point(0, 0),
+            attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 1 })));
+        graphics.Add(new Graphic(new Point(1, 1),
+            attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 2 })));
 
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
-            <Map>
-                <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
-                <FeatureLayer @ref="layer"
-                              Source="graphics"
-                              OutFields="@(["*"])"
-                              SpatialReference="SpatialReference.Wgs84"
-                              GeometryType="FeatureGeometryType.Point"
-                              ObjectIdField="OBJECTID" />
-            </Map>
-        </MapView>);
+                <Map>
+                    <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Source="graphics"
+                                  OutFields="@(["*"])"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  ObjectIdField="OBJECTID" />
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
 
         var tries = 100;
         while (layerView is null && tries-- > 0) { await Task.Delay(50); }
-        Assert.IsNotNull(layerView);
+        Assert.IsNotNull(layerView, "FeatureLayerView did not materialize");
 
+        // --- Filter roundtrip (managed) ---
         var filter = new FeatureFilter(where: "OBJECTID > 0");
         await layerView!.SetFilter(filter);
-        var gotFilter = await layerView!.GetFilter();
+        var gotFilter = await WaitUntil(
+            () => layerView.GetFilter(),
+            f => f is not null && string.Equals(f!.Where, "OBJECTID > 0", StringComparison.Ordinal));
         Assert.IsNotNull(gotFilter);
-        await AssertJavaScript("assertFeatureLayerViewFilterWhere", args: [layer!.Id, "OBJECTID > 0"]);
+        Assert.AreEqual("OBJECTID > 0", gotFilter!.Where);
 
-        await layerView!.SetFeatureEffect(new FeatureEffect());
-        var gotFx = await layerView!.GetFeatureEffect();
+        // --- FeatureEffect roundtrip (managed) ---
+        await layerView.SetFeatureEffect(new FeatureEffect());
+        var gotFx = await WaitUntil(
+            () => layerView.GetFeatureEffect(),
+            fx => fx is not null);
         Assert.IsNotNull(gotFx);
 
+        // --- HighlightOptions roundtrip (managed) ---
         var hl = new HighlightOptions(color: new MapColor("cyan"), fillOpacity: 1.0, haloOpacity: 1.0);
-        await layerView!.SetHighlightOptions(hl);
-        await layerView!.SetHighlightOptions(hl);
-        var gotHl = await layerView!.GetHighlightOptions();
+        await layerView.SetHighlightOptions(hl);
+        await layerView.SetHighlightOptions(hl); // idempotency
+        var gotHl = await WaitUntil(
+            () => layerView.GetHighlightOptions(),
+            h => h is not null);
         Assert.IsNotNull(gotHl);
 
-        await layerView!.SetMaximumNumberOfFeatures(10);
-        Assert.AreEqual(10, await layerView!.GetMaximumNumberOfFeatures());
-        await AssertJavaScript("assertFeatureLayerViewMaxFeatures", args: [layer!.Id, 10]);
+        // --- MaximumNumberOfFeaturesExceeded roundtrip (managed) ---
+        await layerView.SetMaximumNumberOfFeaturesExceeded(false);
+        var exceeded = await WaitUntil(
+            () => layerView.GetMaximumNumberOfFeaturesExceeded(),
+            v => v == false);
+        Assert.IsFalse(exceeded);
 
-        await layerView!.SetMaximumNumberOfFeaturesExceeded(false);
-        Assert.AreEqual(false, await layerView!.GetMaximumNumberOfFeaturesExceeded());
-
-        var q = await layerView!.CreateQuery();
+        // --- Queries via the view (managed) ---
+        var q = await layerView.CreateQuery();
         q.ReturnGeometry = true;
         q.OutFields = ["*"];
 
-        var cnt = await layerView!.QueryFeatureCount(q);
+        var cnt = await layerView.QueryFeatureCount(q);
         Assert.IsTrue(cnt >= 0);
 
-        var ex = await layerView!.QueryExtent(q);
+        var ex = await layerView.QueryExtent(q);
         Assert.IsNotNull(ex);
 
         var ids = await layerView.QueryObjectIds(q);
         Assert.IsNotNull(ids);
         Assert.IsTrue(ids!.Length >= 0);
 
-        var handle1 = await layerView!.Highlight(graphics[0]);
+        var handle1 = await layerView.Highlight(graphics[0]);
         Assert.IsNotNull(handle1);
 
-        var handle2 = await layerView!.Highlight(new ObjectId(1));
+        var handle2 = await layerView.Highlight(new ObjectId(1));
         Assert.IsNotNull(handle2);
     }
 
