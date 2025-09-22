@@ -2,7 +2,7 @@
 import UniqueValueGroup from '@arcgis/core/renderers/support/UniqueValueGroup';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 
-export async function buildJsUniqueValueGroupGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -10,7 +10,7 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any): Promi
     let properties: any = {};
     if (hasValue(dotNetObject.classes) && dotNetObject.classes.length > 0) {
         let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
-        properties.classes = await Promise.all(dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i))) as any;
+        properties.classes = await Promise.all(dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.heading)) {
@@ -25,7 +25,7 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any): Promi
 }
 
 
-export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValueGroupGenerated(jsObject: any, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -34,7 +34,7 @@ export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promi
     
     if (hasValue(jsObject.classes)) {
         let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
-        dotNetUniqueValueGroup.classes = await Promise.all(jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i)));
+        dotNetUniqueValueGroup.classes = await Promise.all(jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i, viewId)));
     }
     
     if (hasValue(jsObject.heading)) {

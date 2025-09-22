@@ -94,7 +94,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayer(result, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -506,6 +506,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     let jsSublayer = new Sublayer(properties);
 
     let { default: SublayerWrapper } = await import('./sublayer');
+
     let sublayerWrapper = new SublayerWrapper(jsSublayer);
     sublayerWrapper.geoBlazorId = dotNetObject.id;
     sublayerWrapper.viewId = viewId;

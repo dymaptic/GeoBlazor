@@ -13,12 +13,12 @@ export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 
     async setEffect(effect: any) {
         let {buildJsEffect} = await import('./effect');
-        this.layer.effect = buildJsEffect(effect, this.viewId);
+        this.layer.effect = buildJsEffect(effect);
     }
 
     async setSpatialReference(spatialReference: any): Promise<void> {
         let {buildJsSpatialReference} = await import('./spatialReference');
-        this.layer.spatialReference = buildJsSpatialReference(spatialReference, this.viewId) as any;
+        this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
     }
 }
 

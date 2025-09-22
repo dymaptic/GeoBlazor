@@ -331,6 +331,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
     
 
             let { default: BaseTileLayerWrapper } = await import('./baseTileLayer');
+
             let baseTileLayerWrapper = new BaseTileLayerWrapper(jsBaseTileLayer);
             baseTileLayerWrapper.geoBlazorId = dotNetObject.id;
             baseTileLayerWrapper.viewId = viewId;

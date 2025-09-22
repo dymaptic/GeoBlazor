@@ -2,6 +2,141 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 public partial class GraphicsLayer : Layer
 {
+    
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    [CodeGenerationIgnore]
+    public GraphicsLayer()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="graphics">
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">graphics</a> in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#graphics">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="title">
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="opacity">
+    ///     The opacity of the layer.
+    ///     default 1
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="listMode">
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     default "show"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="persistenceEnabled">
+    ///     When `true`, the layer can be persisted.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="minScale">
+    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="maxScale">
+    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="screenSizePerspectiveEnabled">
+    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="blendMode">
+    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
+    ///     default normal
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="effect">
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="elevationInfo">
+    ///     Specifies how graphics are placed on the vertical axis (z).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="fullExtent">
+    ///     The full extent of the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
+    /// <param name="visibilityTimeExtent">
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
+    [CodeGenerationIgnore]
+    public GraphicsLayer(
+        IReadOnlyCollection<Graphic>? graphics = null,
+        string? title = null,
+        double? opacity = null,
+        bool? visible = null,
+        ListMode? listMode = null,
+        bool? persistenceEnabled = null,
+        double? minScale = null,
+        double? maxScale = null,
+        bool? screenSizePerspectiveEnabled = null,
+        BlendMode? blendMode = null,
+        string? arcGISLayerId = null,
+        Effect? effect = null,
+        GraphicsLayerElevationInfo? elevationInfo = null,
+        Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        if (graphics is not null)
+        {
+            Graphics = graphics;
+        }
+        Title = title;
+        Opacity = opacity;
+        Visible = visible;
+        ListMode = listMode;
+        PersistenceEnabled = persistenceEnabled;
+        MinScale = minScale;
+        MaxScale = maxScale;
+        ScreenSizePerspectiveEnabled = screenSizePerspectiveEnabled;
+        BlendMode = blendMode;
+        ArcGISLayerId = arcGISLayerId;
+        Effect = effect;
+        ElevationInfo = elevationInfo;
+        FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
+        VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
+#pragma warning restore BL0005    
+    }
+    
     /// <summary>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
     /// </summary>

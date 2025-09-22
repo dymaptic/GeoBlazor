@@ -381,6 +381,22 @@
                         "id": {
                           "type": "string",
                           "id": 28
+                        },
+                        "name": {
+                            "type": "string",
+                            "id": 29
+                        },
+                        "portalUrl": {
+                          "type": "string",
+                          "id": 30
+                        },
+                        "styleName": {
+                          "type": "string",
+                          "id": 31
+                        },
+                        "styleUrl": {
+                          "type": "string",
+                          "id": 32
                         }
                       }
                     },

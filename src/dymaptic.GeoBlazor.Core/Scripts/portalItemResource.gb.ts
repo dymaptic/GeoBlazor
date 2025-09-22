@@ -110,6 +110,7 @@ export async function buildJsPortalItemResourceGenerated(dotNetObject: any, laye
     let jsPortalItemResource = new PortalItemResource(properties);
 
     let { default: PortalItemResourceWrapper } = await import('./portalItemResource');
+
     let portalItemResourceWrapper = new PortalItemResourceWrapper(jsPortalItemResource);
     portalItemResourceWrapper.geoBlazorId = dotNetObject.id;
     portalItemResourceWrapper.viewId = viewId;

@@ -246,6 +246,7 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     
 
     let { default: HomeWidgetWrapper } = await import('./homeWidget');
+
     let homeWidgetWrapper = new HomeWidgetWrapper(jsHome);
     homeWidgetWrapper.geoBlazorId = dotNetObject.id;
     homeWidgetWrapper.viewId = viewId;

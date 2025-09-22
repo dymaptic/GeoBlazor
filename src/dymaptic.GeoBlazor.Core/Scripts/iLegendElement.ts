@@ -1,6 +1,6 @@
 import {removeCircularReferences, sanitize} from "./arcGisJsInterop";
 
-export async function buildJsILegendElement(dotNetObject: any): Promise<any> {
+export async function buildJsILegendElement(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     switch (dotNetObject.type) {
         case 'symbol-table':
             let { buildJsSymbolTableElement } = await import('./symbolTableElement');
@@ -16,7 +16,7 @@ export async function buildJsILegendElement(dotNetObject: any): Promise<any> {
             return await buildJsOpacityRampElement(dotNetObject);
         case 'size-ramp':
             let { buildJsSizeRampElement } = await import('./sizeRampElement');
-            return await buildJsSizeRampElement(dotNetObject);
+            return await buildJsSizeRampElement(dotNetObject, layerId, viewId);
         default:
             return sanitize(dotNetObject);
     }

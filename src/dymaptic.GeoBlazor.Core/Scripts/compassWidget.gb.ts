@@ -195,6 +195,7 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     let jsCompass = new Compass(properties);
 
     let { default: CompassWidgetWrapper } = await import('./compassWidget');
+
     let compassWidgetWrapper = new CompassWidgetWrapper(jsCompass);
     compassWidgetWrapper.geoBlazorId = dotNetObject.id;
     compassWidgetWrapper.viewId = viewId;

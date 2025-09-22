@@ -82,6 +82,7 @@ export async function buildJsGeographicTransformationStepGenerated(dotNetObject:
     let jsGeographicTransformationStep = new GeographicTransformationStep(properties);
 
     let { default: GeographicTransformationStepWrapper } = await import('./geographicTransformationStep');
+
     let geographicTransformationStepWrapper = new GeographicTransformationStepWrapper(jsGeographicTransformationStep);
     geographicTransformationStepWrapper.geoBlazorId = dotNetObject.id;
     geographicTransformationStepWrapper.viewId = viewId;

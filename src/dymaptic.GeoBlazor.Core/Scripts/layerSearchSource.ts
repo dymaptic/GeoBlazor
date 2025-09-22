@@ -36,7 +36,7 @@ export async function buildJsLayerSearchSource(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        properties.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
+        properties.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.autoNavigate)) {

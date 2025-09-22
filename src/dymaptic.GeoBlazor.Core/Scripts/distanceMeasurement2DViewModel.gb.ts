@@ -108,6 +108,7 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
     let jsDistanceMeasurement2DViewModel = new DistanceMeasurement2DViewModel(properties);
 
     let { default: DistanceMeasurement2DViewModelWrapper } = await import('./distanceMeasurement2DViewModel');
+
     let distanceMeasurement2DViewModelWrapper = new DistanceMeasurement2DViewModelWrapper(jsDistanceMeasurement2DViewModel);
     distanceMeasurement2DViewModelWrapper.geoBlazorId = dotNetObject.id;
     distanceMeasurement2DViewModelWrapper.viewId = viewId;
