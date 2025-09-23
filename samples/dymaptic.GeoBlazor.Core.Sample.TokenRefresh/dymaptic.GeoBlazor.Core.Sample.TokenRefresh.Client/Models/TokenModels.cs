@@ -29,6 +29,15 @@ public record ErrorDetails(int Code, string? Message);
 /// <summary>
 ///     Client configuration response containing static keys.
 /// </summary>
-public record ClientConfigResponse(string? GeoBlazorLicenseKey, string? ArcGISPortalUrl, string? ArcGISAppId);
+public record ClientConfigResponse(
+    string? GeoBlazorLicenseKey,
+    string? ArcGISPortalUrl,
+    string? ArcGISAppId,
+    string? EnterprisePortalUrl,
+    string? EnterpriseAppId,
+    string? EnterpriseClientSecret
+    );                                        
 
 public record ClientTokenRequest(bool ForceRefresh);
+
+public record PortalTokenRequest(string PortalUrl);

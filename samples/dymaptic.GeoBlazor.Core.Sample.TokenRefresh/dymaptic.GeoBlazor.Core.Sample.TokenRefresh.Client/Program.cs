@@ -17,6 +17,9 @@ try
     tempConfig["GeoBlazor:LicenseKey"] = cfg.GeoBlazorLicenseKey;
     tempConfig["ArcGISPortalUrl"] = cfg.ArcGISPortalUrl;
     tempConfig["ArcGISAppId"] = cfg.ArcGISAppId;
+    tempConfig["EnterprisePortalUrl"] = cfg.EnterprisePortalUrl;
+    tempConfig["EnterpriseAppId"] = cfg.EnterpriseAppId;
+    tempConfig["EnterpriseClientSecret"] = cfg.EnterpriseClientSecret;
 }
 catch (Exception ex)
 {
@@ -26,6 +29,8 @@ catch (Exception ex)
 builder.Configuration.AddInMemoryCollection(tempConfig);
 
 builder.Services.AddScoped<IAuthService, WasmAuthService>();
+builder.Services.AddScoped<MultiPortalService>();
+builder.Services.AddScoped<IConfiguration>(_ => builder.Configuration);
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = baseAddress });
 builder.Services.AddGeoBlazor(builder.Configuration);
 await builder.Build().RunAsync();

@@ -126,8 +126,8 @@ public class MultiPortalService
         DateTimeOffset expires, string portalUrl)
     {
         var jsInterop = await _authenticationManager.GetArcGisJsInterop();
-        await jsInterop.InvokeVoidAsync("registerPortalToken",
-            token, expires.ToUnixTimeMilliseconds(), portalUrl);
+        await jsInterop.InvokeVoidAsync("registerPortalToken", token, expires.ToUnixTimeMilliseconds(), portalUrl);
+
     }
 
     private string NormalizePortalUrl(string url)
