@@ -20,7 +20,7 @@
         <PackageProjectUrl>https://geoblazor.com</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
         <PackageIcon>GeoBlazor-Icon-500px.png</PackageIcon>
-        <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE' AND $(GeneratePackage) != 'false'">true</GeneratePackageOnBuild>
+        <GeneratePackageOnBuild Condition="$(GeneratePackage) == 'true'">true</GeneratePackageOnBuild>
         <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoWarn>GeoBlazor_Untested</NoWarn>

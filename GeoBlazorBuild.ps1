@@ -1,13 +1,25 @@
 # This is the primary build script for GeoBlazor and GeoBlazor Pro.
 param(
     [switch]$Pro,
-    [switch][Alias("pub")]$Publish,
+    [switch][Alias("pub")]$PublishVersion,
     [switch][Alias("obf")]$Obfuscate,
     [switch][Alias("docs")]$GenerateDocs,
+    [switch][Alias("np")]$NoPackage,
     [string][Alias("v")]$Version,
     [string][Alias("c")]$Configuration = "Release", 
     [string][Alias("vc")]$ValidatorConfig = "Release",
     [string][Alias("su")]$ServerUrl = "https://licensing.dymaptic.com")
+
+Write-Host "Starting GeoBlazor Build Script"
+Write-Host "Pro Build: $Pro"
+Write-Host "Set Nuget Publish Version Build: $PublishVersion"
+Write-Host "Obfuscate Pro Build: $Obfuscate"
+Write-Host "Generate XML Documentation: $GenerateDocs"
+Write-Host "Build Package: $($NoPackage -ne $true)"
+Write-Host "Version: $Version"
+Write-Host "Configuration: $Configuration"
+Write-Host "Validator Configuration: $ValidatorConfig"
+Write-Host "License Server URL: $ServerUrl"
     
 $scriptStartTime = Get-Date
 
@@ -104,7 +116,7 @@ try {
         Write-Host ""
 
         if ($Pro -eq $true) {
-            if ($Publish) {
+            if ($PublishVersion) {
                 $Version = ./bumpVersion.ps1 -publish -pro
             } else {
                 $Version = ./bumpVersion.ps1 -pro
@@ -126,7 +138,7 @@ try {
         [xml]$CoreProps = [xml](Get-Content $CorePropsPath)
         $CurrentCoreVersion = $CoreProps.Project.PropertyGroup.CoreVersion
 
-        if ($Publish) {
+        if ($PublishVersion) {
             $NewCoreVersion = ./bumpVersion.ps1 -publish
         } else {
             $NewCoreVersion = ./bumpVersion.ps1
@@ -195,16 +207,17 @@ try {
     Write-Host "$Step. Building Core Project and NuGet Package" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
     Write-Host ""
     Write-Host ""
+    $GeneratePackage = $NoPackage -ne $true
     dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore /p:PipelineBuild=true `
             /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration 2>&1 `
-            | Tee-Object -Variable Build
+            /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
     $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
     if ($HasError -eq $true) {
         if ($Build.Contains("No file exists for the asset") -or $Build.Contains("File not found")) {
             # this is a Microsoft bug, try again
             dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore /p:PipelineBuild=true `
                     /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration 2>&1 `
-                    | Tee-Object -Variable Build
+                    /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
             $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
             if ($HasError -eq $true) {
                 exit 1
@@ -215,9 +228,9 @@ try {
         }
     }
 
-    if ($Configuration.ToLowerInvariant() -eq "release") {
+    if ($GeneratePackage -eq $true) {
         # Copy generated NuGet package to script root
-        $CoreNupkg = Get-ChildItem -Path "bin/Release" -Filter "*.nupkg" -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+        $CoreNupkg = Get-ChildItem -Path "bin/$Configuration" -Filter "*.nupkg" -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
         if ($CoreNupkg) {
             Copy-Item -Path $CoreNupkg.FullName -Destination $CoreRepoRoot -Force
             Write-Host "Copied $($CoreNupkg.Name) to $CoreRepoRoot"
@@ -234,6 +247,19 @@ try {
     $Step++
 
     if ($Pro -eq $true) {
+        Set-Location $ProProjectPath
+
+        $StepStartTime = Get-Date
+        Write-Host ""
+        Write-Host "$Step. Restoring .NET Packages" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
+        Write-Host ""
+        Write-Host ""
+        dotnet restore /p:PipelineBuild=true
+        Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
+        Write-Host ""
+
+        $Step++
+        
         ## Build the Validator MSBuild task
         $StepStartTime = Get-Date
         Set-Location $ValidatorProjectPath
@@ -248,9 +274,19 @@ try {
         $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
         $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";"
         Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline
+        Start-Sleep -Milliseconds 200
+        $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
+        if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";")) {
+            throw "Failed to set ServerUrl in DevBuildValidator.cs"
+        }
         $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
         $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";"
         Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline
+        Start-Sleep -Milliseconds 200
+        $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
+        if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";")) {
+            throw "Failed to set ServerUrl in PublishTaskValidator.cs"
+        }
         
         $OptOutFromObfuscation = $Obfuscate -eq $false
         
@@ -302,24 +338,13 @@ try {
 
         $StepStartTime = Get-Date
         Write-Host ""
-        Write-Host "$Step. Restoring .NET Packages" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
-        Write-Host ""
-        Write-Host ""
-        dotnet restore /p:PipelineBuild=true
-        Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
-        Write-Host ""
-        
-        $Step++
-
-        $StepStartTime = Get-Date
-        Write-Host ""
         Write-Host "$Step. Building Pro project and package" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
         Write-Host ""
         Write-Host ""
         dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore `
             /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version `
             /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c `
-            $Configuration 2>&1 | Tee-Object -Variable Build
+            $Configuration 2>&1 /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
         $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
         if ($HasError -eq $true) {
             if ($Build.Contains("No file exists for the asset") -or $Build.Contains("File not found")) {
@@ -327,7 +352,7 @@ try {
                 dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore `
                     /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version `
                     /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c `
-                    $Configuration 2>&1 | Tee-Object -Variable Build
+                    $Configuration 2>&1 /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
                 $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
                 if ($HasError -eq $true) {
                     exit 1
@@ -338,9 +363,9 @@ try {
             }
         }
         
-        if ($Configuration.ToLowerInvariant() -eq "release") {
+        if ($GeneratePackage -eq $true) {
             # Copy generated NuGet package to script root
-            $ProNupkg = Get-ChildItem -Path "bin/Release" -Filter "*.nupkg" -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+            $ProNupkg = Get-ChildItem -Path "bin/$Configuration" -Filter "*.nupkg" -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
             if ($ProNupkg) {
                 Copy-Item -Path $ProNupkg.FullName -Destination $ProRepoRoot -Force
                 Write-Host "Copied $($ProNupkg.Name) to $ProRepoRoot"
