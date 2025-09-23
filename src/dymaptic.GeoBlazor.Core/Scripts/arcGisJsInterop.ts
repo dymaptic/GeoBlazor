@@ -28,12 +28,14 @@ import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
 import AuthenticationManager from "./authenticationManager";
 import Camera from "@arcgis/core/Camera";
 import Color from "@arcgis/core/Color";
+import Credential from "@arcgis/core/identity/Credential";
 import esriConfig from "@arcgis/core/config";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import GeometryEngineWrapper from "./geometryEngine";
 import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import IdentityManager from "@arcgis/core/identity/IdentityManager";
 import Layer from "@arcgis/core/layers/Layer";
 import LocatorWrapper from "./locationService";
 import Map from "@arcgis/core/Map";
@@ -2402,3 +2404,49 @@ export function buildEncodedJson(object: any) {
     let encodedArray = encoder.encode(json!);
     return encodedArray;
 }
+
+export async function registerPortalToken(
+    token: string,
+    expires: number,
+    portalUrl: string
+    ): Promise<void> {
+        try {
+            // Normalize the base portal URL
+            let baseUrl = portalUrl.trim().replace(/\/$/, '');
+
+            // AGOL: remove /portal suffix
+            if (baseUrl.includes('arcgis.com') && baseUrl.endsWith('/portal')) {
+                baseUrl = baseUrl.slice(0, -7);
+            }
+            // Enterprise: ensure /portal suffix
+            else if (!baseUrl.includes('arcgis.com') && !baseUrl.endsWith('/portal')) {
+                baseUrl += '/portal';
+            }
+
+
+            // Register token for multiple server patterns that might be used
+            const serverUrls = [
+                baseUrl,                           // Base portal URL
+                `${baseUrl}/sharing`,              // Sharing endpoint
+                `${baseUrl}/sharing/rest`,         // REST endpoint
+                `${baseUrl}/sharing/rest/content`, // Content endpoint
+                baseUrl.replace('https://', 'https://www.')  // With www prefix if needed
+            ];
+
+            // Register token for each possible server URL pattern
+            serverUrls.forEach(serverUrl => {
+                IdentityManager.registerToken({
+                    server: serverUrl,
+                    token: token,
+                    expires: expires,
+                    ssl: true
+                });
+            });
+
+        console.log(`Token registered for portal: ${baseUrl} and related endpoints`);
+        } 
+        catch (error) {
+        console.error(`Failed to register token for ${portalUrl}:`, error);
+        throw error;
+        }
+  }

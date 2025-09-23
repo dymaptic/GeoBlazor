@@ -11,6 +11,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddHttpClient<IAuthService, ArcGisAuthService>();
+builder.Services.AddHttpClient<MultiPortalService>();
+builder.Services.AddScoped<MultiPortalService>();
 builder.Services.AddGeoBlazor(builder.Configuration);
 builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
 

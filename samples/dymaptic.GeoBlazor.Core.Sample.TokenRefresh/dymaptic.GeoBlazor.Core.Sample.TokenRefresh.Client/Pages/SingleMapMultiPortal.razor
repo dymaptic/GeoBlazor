@@ -1,0 +1,217 @@
+﻿@page "/single-map-dual-portal"
+  @rendermode InteractiveAuto
+  @using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Services
+  @using dymaptic.GeoBlazor.Core.Components
+
+  <div class="alert alert-info mb-3">
+      <h4>🗺️ Single Map - Dual Portal Demo</h4>
+      <p><strong>The True Test:</strong> This map displays feature layers from both ArcGIS
+  Online AND Enterprise portals simultaneously on a single map.</p>
+  </div>
+
+  <!-- Authentication Status -->
+  <div class="card mb-4">
+      <div class="card-header">
+          <h5>Authentication Status</h5>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-md-6">
+                  <h6>ArcGIS Online</h6>
+                  <div class="badge @(_agolAuthenticated ? "bg-success" : "bg-warning")">
+                      @(_agolAuthenticated ? "✓ Authenticated" : "⏳ Authenticating...")
+                  </div>
+                  @if (!string.IsNullOrEmpty(_agolTokenInfo))
+                  {
+                      <small class="d-block mt-2">@_agolTokenInfo</small>
+                  }
+              </div>
+              <div class="col-md-6">
+                  <h6>ArcGIS Enterprise</h6>
+                  <div class="badge @(_enterpriseAuthenticated ? "bg-success" : "bg-warning")">
+                      @(_enterpriseAuthenticated ? "✓ Authenticated" : "⏳ Authenticating...")
+                  </div>
+                  @if (!string.IsNullOrEmpty(_enterpriseTokenInfo))
+                  {
+                      <small class="d-block mt-2">@_enterpriseTokenInfo</small>
+                  }
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Layer Sources -->
+  <div class="card mb-4">
+      <div class="card-header">
+          <h5>Layer Sources</h5>
+      </div>
+      <div class="card-body">
+          <table class="table table-sm">
+              <thead>
+                  <tr>
+                      <th>Layer</th>
+                      <th>Source Portal</th>
+                      <th>Portal Item ID</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Basemap</td>
+                      <td><span class="badge bg-primary">AGOL</span></td>
+                      <td><code>de26a3cf4cc9451298ea173c4b324736</code></td>
+                  </tr>
+                  <tr>
+                      <td>AGOL Feature Layer</td>
+                      <td><span class="badge bg-info">AGOL</span></td>
+                      <td><code>@AgolLayerId</code></td>
+                  </tr>
+                  <tr>
+                      <td>Enterprise Feature Layer</td>
+                      <td><span class="badge bg-warning text-dark">Enterprise</span></td>
+                      <td><code>@EnterpriseLayerId</code></td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+
+  <!-- THE MAP -->
+  @if (_agolAuthenticated && _enterpriseAuthenticated )
+  {
+      <div class="card">
+          <div class="card-header">
+              <h5>🌍 Multi-Portal Map - Data from Two Different Sources</h5>
+          </div>
+          <div class="card-body">
+              <MapView @ref="mapView" Class="map-view" Style="height: 600px;">
+                  <Map>
+                      <!-- Basemap from AGOL (default, no Portal needed) -->
+                      <Basemap>
+                          <PortalItem PortalItemId="de26a3cf4cc9451298ea173c4b324736" />
+                      </Basemap>
+
+                      <!-- Feature Layer from AGOL with explicit Portal -->
+                      <FeatureLayer Title="AGOL Public Data">
+                          <PortalItem PortalItemId="@AgolLayerId">
+                              <Portal Url="https://www.arcgis.com" />
+                          </PortalItem>
+                      </FeatureLayer>
+
+                      <!-- Feature Layer from Enterprise Portal -->
+                      <FeatureLayer Title="Enterprise Private Data">
+                          <PortalItem PortalItemId="@EnterpriseLayerId">
+                              <Portal Url="@EnterprisePortalUrl" />
+                          </PortalItem>
+                      </FeatureLayer>
+                  </Map>
+
+                  <!-- Widgets to see both layers -->
+                  <LayerListWidget Position="OverlayPosition.TopRight" />
+                  <LegendWidget Position="OverlayPosition.BottomRight" />
+              </MapView>
+          </div>
+      </div>
+  }
+  else
+  {
+      <div class="alert alert-warning">
+          <h5>Authenticating with both portals...</h5>
+          <ul>
+              <li>AGOL: @(_agolAuthenticated ? "✓ Ready" : "⏳ Authenticating...")</li>
+              <li>Enterprise: @(_enterpriseAuthenticated ? "✓ Ready" : "⏳ Authenticating...")</li>
+          </ul>
+      </div>
+  }
+
+  @if (!string.IsNullOrEmpty(_errorMessage))
+  {
+      <div class="alert alert-danger mt-3">
+          <h6>Error:</h6>
+          <pre>@_errorMessage</pre>
+      </div>
+  }
+
+  @code {
+      [Inject] public required MultiPortalService PortalService { get; set; }
+      [Inject] public required IConfiguration Configuration { get; set; }
+
+      private MapView? mapView;
+
+      // Replace these with your actual portal item IDs
+      private string AgolLayerId = "a8203dcb7dfa4d538e4a7f5ca00ca652";
+      private string EnterpriseLayerId = "1bf19e76cb6e45db8ab9739e560e9307";
+      private string EnterprisePortalUrl = "";
+
+      private bool _agolAuthenticated;
+      private bool _enterpriseAuthenticated;
+      private string _agolTokenInfo = "";
+      private string _enterpriseTokenInfo = "";
+      private string _errorMessage = "";
+
+      protected override void OnInitialized()
+      {
+          // Get Enterprise URL from configuration
+          EnterprisePortalUrl = Configuration["EnterprisePortalUrl"] ??
+                                "https://your-enterprise.com/portal";
+
+          // Register portal item mappings
+          var mappings = new Dictionary<string, string>
+          {
+              { AgolLayerId, "https://www.arcgis.com" },
+              { EnterpriseLayerId, EnterprisePortalUrl }
+          };
+          PortalService.RegisterPortalItemMappings(mappings);
+      }
+
+      protected override async Task OnAfterRenderAsync(bool firstRender)
+      {
+          if (firstRender)
+          {
+              await AuthenticateBothPortals();
+          }
+      }
+
+      private async Task AuthenticateBothPortals()
+      {
+          try
+          {
+              // Authenticate with AGOL
+              _agolTokenInfo = "Requesting token...";
+              StateHasChanged();
+
+              var agolToken = await
+  PortalService.GetTokenForPortalAsync("https://www.arcgis.com");
+              if (agolToken.Success)
+              {
+                  _agolAuthenticated = true;
+                  _agolTokenInfo = $"Expires: {agolToken.Expires:g}";
+              }
+              else
+              {
+                  _errorMessage = $"AGOL auth failed: {agolToken.ErrorMessage}";
+              }
+              StateHasChanged();
+
+              // Authenticate with Enterprise
+              _enterpriseTokenInfo = "Requesting token...";
+              StateHasChanged();
+
+              var entToken = await PortalService.GetTokenForPortalAsync(EnterprisePortalUrl);
+              if (entToken.Success)
+              {
+                  _enterpriseAuthenticated = true;
+                  _enterpriseTokenInfo = $"Expires: {entToken.Expires:g}";
+              }
+              else
+              {
+                  _errorMessage = $"Enterprise auth failed: {entToken.ErrorMessage}";
+              }
+              StateHasChanged();
+          }
+          catch (Exception ex)
+          {
+              _errorMessage = $"Authentication error: {ex.Message}";
+              StateHasChanged();
+          }
+      }
+  }
