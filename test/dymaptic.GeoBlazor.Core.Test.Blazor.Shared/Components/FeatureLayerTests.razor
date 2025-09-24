@@ -61,7 +61,7 @@
             Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
             Graphic graphic = new(point, attributes: new AttributesDictionary(new Dictionary<string, object?>()
                                 {
-                { "OBJECT_ID", i }
+                { "OBJECTID", i }
                                 }));
             graphics.Add(graphic);
         }
@@ -73,7 +73,7 @@
 		            </Basemap>
 		            <FeatureLayer @ref="layer" Source="graphics"
                                   GeometryType="FeatureGeometryType.Point"
-		                          ObjectIdField="OBJECT_ID">
+		                          ObjectIdField="OBJECTID">
 		            </FeatureLayer>
 		        </Map>
 		    </MapView>);
@@ -150,7 +150,7 @@
 		            </Basemap>
 		            <FeatureLayer @ref="layer" Source="@([])"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID"
+                                  ObjectIdField="OBJECTID"
                                   SpatialReference="SpatialReference.Wgs84"
                                   OutFields="@(["*"])">
 		            </FeatureLayer>
@@ -184,7 +184,7 @@
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID">
+                                  ObjectIdField="OBJECTID">
                     </FeatureLayer>
                 </Map>
             </MapView>);
@@ -210,7 +210,7 @@
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID">
+                                  ObjectIdField="OBJECTID">
                     </FeatureLayer>
                 </Map>
             </MapView>);
@@ -249,7 +249,7 @@
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID">
+                                  ObjectIdField="OBJECTID">
                     </FeatureLayer>
                 </Map>
             </MapView>);
@@ -302,8 +302,8 @@
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
                                   OutFields="@( ["*"])"
-                                  ObjectIdField="OBJECT_ID">
-                        <Field Name="OBJECT_ID" Type="FieldType.Integer" />
+                                  ObjectIdField="OBJECTID">
+                        <Field Name="OBJECTID" Type="FieldType.Integer" />
                     </FeatureLayer>
                 </Map>
             </MapView>);
@@ -315,7 +315,7 @@
         for (var i = 1; i <= 2000; i++)
         {
             AttributesDictionary attributes = new();
-            await attributes.AddOrUpdate("OBJECT_ID", i);
+            await attributes.AddOrUpdate("OBJECTID", i);
             Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
             Graphic graphic = new(point, attributes: attributes);
             graphics.Add(graphic);
@@ -333,8 +333,8 @@
             DeleteFeatures = graphics
         };
         result = await layer!.ApplyEdits(edits);
-        await Assert.ThrowsExceptionAsync<JSException>(async () =>
-            await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]));
+
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 0]);
         Assert.AreEqual(2000, result.DeleteFeatureResults.Length);
     }
 
@@ -487,7 +487,7 @@
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID" />
+                                  ObjectIdField="OBJECTID" />
                 </Map>
             </MapView>);
 
@@ -550,9 +550,9 @@
         Assert.AreEqual("UTC", await layer.GetDateFieldsTimeZone());
         await AssertJavaScript("featureLayerAsserts.assertFeatureLayerStringPropEquals", args: [layer!.Id, "dateFieldsTimeZone", "UTC"]);
 
-        await layer!.SetDisplayField("OBJECT_ID");
-        Assert.AreEqual("OBJECT_ID", await layer.GetDisplayField());
-        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerStringPropEquals", args: [layer!.Id, "displayField", "OBJECT_ID"]);
+        await layer!.SetDisplayField("OBJECTID");
+        Assert.AreEqual("OBJECTID", await layer.GetDisplayField());
+        await AssertJavaScript("featureLayerAsserts.assertFeatureLayerStringPropEquals", args: [layer!.Id, "displayField", "OBJECTID"]);
     }
 
     [TestMethod]
@@ -625,7 +625,7 @@
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID" />
+                                  ObjectIdField="OBJECTID" />
                 </Map>
             </MapView>);
 
@@ -661,7 +661,8 @@
                     <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
                     <FeatureLayer @ref="layer"
                                   OutFields="@(new [] { "*" })"
-                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0"
+                                  ObjectIdField="OBJECTID"/>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
@@ -721,7 +722,8 @@
             <Map>
                 <FeatureLayer @ref="eventLayer"
                               Source="@([])"
-                              OutFields="@(new[] { "OBJECTID" })"
+                              OutFields="@(new[] { "*" })"
+                              ObjectIdField="OBJECTID"
                               OnRefresh="@(EventCallback.Factory.Create<RefreshEvent>(this, e => refreshTcs.TrySetResult(e)))" />
             </Map>
         </MapView>);
