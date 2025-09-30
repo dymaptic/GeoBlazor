@@ -273,16 +273,22 @@ try {
         Write-Host "Setting License Server Url to $ServerUrl"
         $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
         $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";"
-        Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline
-        Start-Sleep -Milliseconds 200
+        Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
+        if ($IsMacOS) {
+            & sync
+        }
+        Start-Sleep -Milliseconds 500
         $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
         if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";")) {
             throw "Failed to set ServerUrl in DevBuildValidator.cs"
         }
         $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
         $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";"
-        Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline
-        Start-Sleep -Milliseconds 200
+        Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
+        if ($IsMacOS) {
+            & sync
+        }
+        Start-Sleep -Milliseconds 500
         $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
         if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";")) {
             throw "Failed to set ServerUrl in PublishTaskValidator.cs"
