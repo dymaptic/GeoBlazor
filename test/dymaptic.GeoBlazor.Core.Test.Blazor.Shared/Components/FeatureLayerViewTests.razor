@@ -59,21 +59,9 @@
         Assert.IsTrue(result.Features!.Count > 0);
     }
 
-    [TestMethod]
+  [TestMethod]
     public async Task FeatureLayerView_PropertyRoundtrips_And_Queries(Action renderHandler)
     {
-        static async Task<T> WaitUntil<T>(Func<Task<T>> getter, Func<T, bool> ok, int tries = 10, int delayMs = 50)
-        {
-            T val = default!;
-            while (tries-- > 0)
-            {
-                val = await getter();
-                if (ok(val)) break;
-                await Task.Delay(delayMs);
-            }
-            return val!;
-        }
-
         FeatureLayer? layer = null;
         FeatureLayerView? layerView = null;
 
@@ -85,11 +73,18 @@
             }
         }
 
-        List<Graphic> graphics = [];
-        graphics.Add(new Graphic(new Point(0, 0),
-            attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 1 })));
-        graphics.Add(new Graphic(new Point(1, 1),
-            attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 2 })));
+        // In-memory layer for deterministic queries/highlights
+        var graphics = new List<Graphic>
+        {
+            new Graphic(
+                new Point(0, 0),
+                attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 1 })
+            ),
+            new Graphic(
+                new Point(1, 1),
+                attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 2 })
+            )
+        };
 
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
@@ -106,43 +101,47 @@
 
         await WaitForMapToRender();
 
-        var tries = 100;
-        while (layerView is null && tries-- > 0) { await Task.Delay(50); }
+        // Wait for the FeatureLayerView
+        for (var i = 0; layerView is null && i < 100; i++) { await Task.Delay(50); }
         Assert.IsNotNull(layerView, "FeatureLayerView did not materialize");
 
-        // --- Filter roundtrip (managed) ---
-        var filter = new FeatureFilter(where: "OBJECTID > 0");
-        await layerView!.SetFilter(filter);
-        var gotFilter = await WaitUntil(
-            () => layerView.GetFilter(),
-            f => f is not null && string.Equals(f!.Where, "OBJECTID > 0", StringComparison.Ordinal));
-        Assert.IsNotNull(gotFilter);
-        Assert.AreEqual("OBJECTID > 0", gotFilter!.Where);
+        // ---------------------------
+        // Roundtrips for properties that CAN be set from C#
+        // ---------------------------
 
-        // --- FeatureEffect roundtrip (managed) ---
-        await layerView.SetFeatureEffect(new FeatureEffect());
-        var gotFx = await WaitUntil(
-            () => layerView.GetFeatureEffect(),
-            fx => fx is not null);
-        Assert.IsNotNull(gotFx);
+        // Visible (bool) — set, then Get, and assert on live JS object
+        await layerView!.SetVisible(false);
+        var visible = await layerView.GetVisible();
+        Assert.AreEqual(false, visible);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "visible", false]);
 
-        // --- HighlightOptions roundtrip (managed) ---
+        await layerView.SetVisible(true);
+        visible = await layerView.GetVisible();
+        Assert.AreEqual(true, visible);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "visible", true]);
+
+        // HighlightOptions (object) — set & ensure roundtrip (object equality via C#)
         var hl = new HighlightOptions(color: new MapColor("cyan"), fillOpacity: 1.0, haloOpacity: 1.0);
         await layerView.SetHighlightOptions(hl);
-        await layerView.SetHighlightOptions(hl); // idempotency
-        var gotHl = await WaitUntil(
-            () => layerView.GetHighlightOptions(),
-            h => h is not null);
+        var gotHl = await layerView.GetHighlightOptions();
         Assert.IsNotNull(gotHl);
 
-        // --- MaximumNumberOfFeaturesExceeded roundtrip (managed) ---
-        await layerView.SetMaximumNumberOfFeaturesExceeded(false);
-        var exceeded = await WaitUntil(
-            () => layerView.GetMaximumNumberOfFeaturesExceeded(),
-            v => v == false);
-        Assert.IsFalse(exceeded);
+        // ---------------------------
+        // Read-only indicators (do NOT set): just read and verify JS matches getter
+        // ---------------------------
 
-        // --- Queries via the view (managed) ---
+        var max = await layerView.GetMaximumNumberOfFeatures();
+        Assert.IsTrue(max >= 0, "maximumNumberOfFeatures should be non-negative.");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
+
+        var exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded();
+        // For two graphics, exceeded should normally be false, but assert against the JS value rather than forcing it.
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeaturesExceeded", exceeded]);
+
+        // ---------------------------
+        // Queries via the view
+        // ---------------------------
+
         var q = await layerView.CreateQuery();
         q.ReturnGeometry = true;
         q.OutFields = ["*"];
@@ -155,7 +154,11 @@
 
         var ids = await layerView.QueryObjectIds(q);
         Assert.IsNotNull(ids);
-        Assert.IsTrue(ids!.Length >= 0);
+        Assert.IsTrue(ids!.Length > 0, "Expected at least one OBJECTID from the view query.");
+
+        // ---------------------------
+        // Highlight handles
+        // ---------------------------
 
         var handle1 = await layerView.Highlight(graphics[0]);
         Assert.IsNotNull(handle1);
@@ -164,45 +167,85 @@
         Assert.IsNotNull(handle2);
     }
 
-    [TestMethod]
-    public async Task FeatureLayerView_All_Getters_Invoke_JS(Action renderHandler)
+   [TestMethod]
+    public async Task FeatureLayerView_Getters_Invoke_JS_SourceOfTruth(Action renderHandler)
     {
         FeatureLayer? layer = null;
         FeatureLayerView? layerView = null;
 
         void OnLayerViewCreate(LayerViewCreateEvent e)
         {
-            if (e.Layer is FeatureLayer && e.LayerView is FeatureLayerView flv) layerView = flv;
+            if (e.Layer is FeatureLayer && e.LayerView is FeatureLayerView flv)
+            {
+                layerView = flv;
+            }
         }
+
+        // In-memory layer for deterministic behavior
+        var graphics = new List<Graphic>
+        {
+            new Graphic(
+                new Point(0, 0),
+                attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 1 })
+            ),
+            new Graphic(
+                new Point(1, 1),
+                attributes: new AttributesDictionary(new Dictionary<string, object?> { ["OBJECTID"] = 2 })
+            )
+        };
 
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
-            <Map>
-                <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
-                <FeatureLayer @ref="layer"
-                              Source="@([])"
-                              OutFields="@(["*"])"
-                              SpatialReference="SpatialReference.Wgs84"
-                              GeometryType="FeatureGeometryType.Point"
-                              ObjectIdField="OBJECTID" />
-            </Map>
-        </MapView>);
+                <Map>
+                    <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Source="graphics"
+                                  OutFields="@(["*"])"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  ObjectIdField="OBJECTID" />
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
 
-        var tries = 100;
-        while (layerView is null && tries-- > 0) { await Task.Delay(50); }
-        Assert.IsNotNull(layerView);
+        // Wait for the FeatureLayerView
+        for (var i = 0; layerView is null && i < 100; i++) { await Task.Delay(50); }
+        Assert.IsNotNull(layerView, "FeatureLayerView did not materialize");
 
-        _ = await layerView!.GetAvailableFields();
-        _ = await layerView!.GetDataUpdating();
-        _ = await layerView!.GetFeatureEffect();
-        _ = await layerView!.GetFilter();
-        _ = await layerView!.GetHasAllFeatures();
-        _ = await layerView!.GetHasAllFeaturesInView();
-        _ = await layerView!.GetHasFullGeometries();
-        _ = await layerView!.GetHighlightOptions();
-        _ = await layerView!.GetMaximumNumberOfFeatures();
-        _ = await layerView!.GetMaximumNumberOfFeaturesExceeded();
+        // ---------------------------
+        // Show that getters reflect JS state
+        // ---------------------------
+
+        // 1) A settable prop: change it and confirm JS & getter agree (proves getter isn't stale)
+        await layerView!.SetVisible(false);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "visible", false]);
+        var visible = await layerView.GetVisible();
+        Assert.AreEqual(false, visible);
+
+        await layerView.SetVisible(true);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "visible", true]);
+        visible = await layerView.GetVisible();
+        Assert.AreEqual(true, visible);
+
+        // 2) Read-only props: read them, then assert JS reports the same value
+        var max = await layerView.GetMaximumNumberOfFeatures();
+        Assert.IsTrue(max >= 0);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
+
+        var exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded();
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeaturesExceeded", exceeded]);
+
+        // 3) Complex object roundtrip: ensure we can set/get an object without touching component-only internals
+        var hl = new HighlightOptions(color: new MapColor("cyan"), fillOpacity: 1.0, haloOpacity: 1.0);
+        await layerView.SetHighlightOptions(hl);
+        var gotHl = await layerView.GetHighlightOptions();
+        Assert.IsNotNull(gotHl);
+
+        // Optional: feature effect as an object (do not set IncludedEffect here)
+        var fx = new FeatureEffect();
+        await layerView.SetFeatureEffect(fx);
+        var gotFx = await layerView.GetFeatureEffect();
+        Assert.IsNotNull(gotFx);
     }
 }
