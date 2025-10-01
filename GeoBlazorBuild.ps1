@@ -208,24 +208,39 @@ try {
     Write-Host ""
     Write-Host ""
     $GeneratePackage = $NoPackage -ne $true
-    dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore /p:PipelineBuild=true `
-            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration 2>&1 `
-            /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
-    $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
-    if ($HasError -eq $true) {
-        if ($Build.Contains("No file exists for the asset") -or $Build.Contains("File not found")) {
-            # this is a Microsoft bug, try again
+
+    $Tries = 5
+
+    # sometimes the build fails due to a Microsoft bug, retry a few times
+    for ($i = 1; $i -lt $Tries; $i++) {
+        try
+        {
             dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore /p:PipelineBuild=true `
-                    /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration 2>&1 `
-                    /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
+                /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration 2>&1 `
+                /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
             $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
-            if ($HasError -eq $true) {
-                exit 1
+            if ($HasError -eq $false)
+            {
+                break
             }
         }
-        else {
-            exit 1
+        catch
+        {
+            $HasError = $true
+            Write-Host "Build attempt $i of $Tries failed with exception: $_"
         }
+
+        Write-Host "Build attempt $i of $Tries failed."
+        if ($i -lt $Tries -1)
+        {
+            Write-Host "Waiting 2 seconds before retrying..."
+            Start-Sleep -Seconds 2
+        }
+    }
+
+    if ($HasError -eq $true)
+    {
+        exit 1
     }
 
     if ($GeneratePackage -eq $true) {
@@ -347,26 +362,40 @@ try {
         Write-Host "$Step. Building Pro project and package" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
         Write-Host ""
         Write-Host ""
-        dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore `
-            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version `
-            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c `
-            $Configuration 2>&1 /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
-        $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
-        if ($HasError -eq $true) {
-            if ($Build.Contains("No file exists for the asset") -or $Build.Contains("File not found")) {
-                # this is a Microsoft bug, try again
+        
+        $Tries = 5
+
+        # sometimes the build fails due to a Microsoft bug, retry a few times
+        for ($i = 1; $i -lt $Tries; $i++) {
+            try
+            {
                 dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore `
-                    /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version `
-                    /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c `
-                    $Configuration 2>&1 /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
+                            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower() ) /p:PipelineBuild=true  /p:CoreVersion=$Version `
+                            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower() ) -c `
+                            $Configuration 2>&1 /p:GeneratePackage=$($GeneratePackage.ToString().ToLower() ) | Tee-Object -Variable Build
                 $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
-                if ($HasError -eq $true) {
-                    exit 1
+                if ($HasError -eq $false)
+                {
+                    break
                 }
             }
-            else {
-                exit 1
+            catch
+            {
+                $HasError = $true
+                Write-Host "Build attempt $i of $Tries failed with exception: $_"
             }
+            
+            Write-Host "Build attempt $i of $Tries failed."
+            if ($i -lt $Tries -1)
+            {
+                Write-Host "Waiting 2 seconds before retrying..."
+                Start-Sleep -Seconds 2
+            }
+        }
+        
+        if ($HasError -eq $true)
+        {
+            exit 1
         }
         
         if ($GeneratePackage -eq $true) {
