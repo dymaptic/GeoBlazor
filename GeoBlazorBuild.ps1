@@ -71,14 +71,19 @@ try {
     dotnet clean (Join-Path $CoreProjectPath dymaptic.GeoBlazor.Core.csproj) /p:PipelineBuild=true
     Get-ChildItem -Path (Join-Path $CoreProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
     Get-ChildItem -Path (Join-Path $CoreProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
-    Get-ChildItem -Path (Join-Path $CoreProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
+    if (Test-Path (Join-Path $CoreProjectPath "wwwroot/js")) {
+        Get-ChildItem -Path (Join-Path $CoreProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
+    }
+    
     if ($Pro -eq $true) {
         dotnet clean (Join-Path $ProProjectPath dymaptic.GeoBlazor.Pro.csproj) /p:PipelineBuild=true
         Get-ChildItem -Path (Join-Path $ProProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "build/resources") -Recurse -Force | Remove-Item -Recurse -Force
-        Get-ChildItem -Path (Join-Path $ProProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
+        if (Test-Path (Join-Path $ProProjectPath "wwwroot/js")) {
+            Get-ChildItem -Path (Join-Path $ProProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
+        }
         dotnet clean (Join-Path $ValidatorProjectPath dymaptic.GeoBlazor.Pro.V.csproj)
         Get-ChildItem -Path (Join-Path $ValidatorProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
