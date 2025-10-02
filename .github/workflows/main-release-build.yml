@@ -33,7 +33,7 @@ jobs:
       shell: pwsh
       continue-on-error: false
       run: |
-        ./GeoBlazorBuild.ps1 -pub -docs -c "Release"
+        ./GeoBlazorBuild.ps1 -pkg -pub -c "Release"
         
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint

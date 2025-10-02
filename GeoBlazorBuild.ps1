@@ -218,6 +218,7 @@ try {
     Write-Host ""
     Write-Host ""
 
+    # double-escape line breaks
     $CoreBuild = "dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore /p:PipelineBuild=true ``
                 /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration ``
                 /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
@@ -378,10 +379,11 @@ try {
         Write-Host "$Step. Building Pro project and package" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
         Write-Host ""
         Write-Host ""
-        
-        $ProBuild = "dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore `
-                            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version `
-                            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c `
+
+        # double-escape line breaks
+        $ProBuild = "dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore ``
+                            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version ``
+                            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c ``
                             $Configuration /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
         Write-Host "Executing '$ProBuild'"
         $Tries = 5
