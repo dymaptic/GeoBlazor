@@ -4,7 +4,8 @@ param(
     [switch][Alias("pub")]$PublishVersion,
     [switch][Alias("obf")]$Obfuscate,
     [switch][Alias("docs")]$GenerateDocs,
-    [switch][Alias("np")]$NoPackage,
+    [switch][Alias("pkg")]$Package,
+    [switch][Alias("bl")]$Binlog,
     [string][Alias("v")]$Version,
     [string][Alias("c")]$Configuration = "Release", 
     [string][Alias("vc")]$ValidatorConfig = "Release",
@@ -15,7 +16,7 @@ Write-Host "Pro Build: $Pro"
 Write-Host "Set Nuget Publish Version Build: $PublishVersion"
 Write-Host "Obfuscate Pro Build: $Obfuscate"
 Write-Host "Generate XML Documentation: $GenerateDocs"
-Write-Host "Build Package: $($NoPackage -ne $true)"
+Write-Host "Build Package: $($Package -eq $true)"
 Write-Host "Version: $Version"
 Write-Host "Configuration: $Configuration"
 Write-Host "Validator Configuration: $ValidatorConfig"
@@ -25,7 +26,7 @@ $scriptStartTime = Get-Date
 
 $CoreRepoRoot = $PSScriptRoot
 $ProRepoRoot = (Join-Path -Path $PSScriptRoot "..")
-$ProProps
+$BinlogFlag = $Binlog ? ' -bl' : ''
 
 try {
     ## Paths
@@ -120,11 +121,26 @@ try {
         Write-Host ""
         Write-Host ""
 
+        [xml]$CoreProps = [xml](Get-Content $CorePropsPath)
+        $CurrentCoreVersion = $CoreProps.Project.PropertyGroup.CoreVersion
+
+        if ($PublishVersion) {
+            $NewCoreVersion = ./bumpVersion.ps1 -publish
+        } else {
+            $NewCoreVersion = ./bumpVersion.ps1
+        }
+
         if ($Pro -eq $true) {
             if ($PublishVersion) {
                 $Version = ./bumpVersion.ps1 -publish -pro
             } else {
                 $Version = ./bumpVersion.ps1 -pro
+            }
+
+            if ($NewCoreVersion -gt $Version) {
+                $Version = $NewCoreVersion
+            } elseif ($NewCoreVersion -lt $Version) {
+                "Core version ($NewCoreVersion) and Pro version ($Version) do not match after bumping. Please ensure both versions are the same in Directory.Build.props."
             }
 
             [xml]$ProProps = [xml](Get-Content $ProPropsPath)
@@ -138,19 +154,8 @@ try {
                 $ProProps.Project.PropertyGroup.ProVersion = $Version
                 $ProProps.Save($ProPropsPath)
             }
-        }
-
-        [xml]$CoreProps = [xml](Get-Content $CorePropsPath)
-        $CurrentCoreVersion = $CoreProps.Project.PropertyGroup.CoreVersion
-
-        if ($PublishVersion) {
-            $NewCoreVersion = ./bumpVersion.ps1 -publish
         } else {
-            $NewCoreVersion = ./bumpVersion.ps1
-        }
-        
-        if ($Pro -eq $true -and $NewCoreVersion -ne $Version) {
-            throw "Core version ($NewCoreVersion) and Pro version ($Version) do not match after bumping. Please ensure both versions are the same in Directory.Build.props."
+            $Version = $NewCoreVersion
         }
         
         if ($CurrentCoreVersion -eq $Version) {
@@ -212,17 +217,23 @@ try {
     Write-Host "$Step. Building Core Project and NuGet Package" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
     Write-Host ""
     Write-Host ""
-    $GeneratePackage = $NoPackage -ne $true
 
+    $CoreBuild = "dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore /p:PipelineBuild=true ``
+                /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration ``
+                /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
+    Write-Host "Executing '$CoreBuild'"
     $Tries = 5
 
     # sometimes the build fails due to a Microsoft bug, retry a few times
     for ($i = 1; $i -lt $Tries; $i++) {
         try
         {
-            dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore /p:PipelineBuild=true `
-                /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration 2>&1 `
-                /p:GeneratePackage=$($GeneratePackage.ToString().ToLower()) | Tee-Object -Variable Build
+            Invoke-Expression $CoreBuild | Tee-Object -Variable Build
+            if ($LASTEXITCODE -ne 0) {
+                Write-Host "ERROR: Core Build command failed with exit code $LASTEXITCODE. Exiting."
+                $HasError = true
+                break
+            }
             $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
             if ($HasError -eq $false)
             {
@@ -248,7 +259,7 @@ try {
         exit 1
     }
 
-    if ($GeneratePackage -eq $true) {
+    if ($Package -eq $true) {
         # Copy generated NuGet package to script root
         $CoreNupkg = Get-ChildItem -Path "bin/$Configuration" -Filter "*.nupkg" -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
         if ($CoreNupkg) {
@@ -317,7 +328,7 @@ try {
         $OptOutFromObfuscation = $Obfuscate -eq $false
         
         dotnet build dymaptic.GeoBlazor.Pro.V.csproj /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) `
-            /p:ProVersion=$Version -c $ValidatorConfig 2>&1 | Tee-Object -Variable Build
+            /p:ProVersion=$Version -c $ValidatorConfig $BinlogFlag 2>&1 | Tee-Object -Variable Build
         
         # Restore the ServerUrls in the Validator project
         $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
@@ -368,16 +379,23 @@ try {
         Write-Host ""
         Write-Host ""
         
+        $ProBuild = "dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore `
+                            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version `
+                            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c `
+                            $Configuration /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
+        Write-Host "Executing '$ProBuild'"
         $Tries = 5
 
         # sometimes the build fails due to a Microsoft bug, retry a few times
         for ($i = 1; $i -lt $Tries; $i++) {
             try
             {
-                dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore `
-                            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower() ) /p:PipelineBuild=true  /p:CoreVersion=$Version `
-                            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower() ) -c `
-                            $Configuration 2>&1 /p:GeneratePackage=$($GeneratePackage.ToString().ToLower() ) | Tee-Object -Variable Build
+                Invoke-Expression $ProBuild | Tee-Object -Variable Build
+                if ($LASTEXITCODE -ne 0) {
+                    Write-Host "ERROR: Pro Build command failed with exit code $LASTEXITCODE. Exiting."
+                    $HasError = true
+                    break
+                }
                 $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
                 if ($HasError -eq $false)
                 {
@@ -403,7 +421,7 @@ try {
             exit 1
         }
         
-        if ($GeneratePackage -eq $true) {
+        if ($Package -eq $true) {
             # Copy generated NuGet package to script root
             $ProNupkg = Get-ChildItem -Path "bin/$Configuration" -Filter "*.nupkg" -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
             if ($ProNupkg) {
