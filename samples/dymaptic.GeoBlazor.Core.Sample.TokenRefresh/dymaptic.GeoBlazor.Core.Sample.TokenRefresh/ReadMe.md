@@ -15,7 +15,7 @@ Configure your ArcGIS authentication settings in `appsettings.Development.json` 
 - **ArcGISPortalUrl**:
   - If not specified, defaults to `https://www.arcgis.com` (ArcGIS Online).
   - For an organizational AGOL account, set to `https://your-company.arcgis.com`.
-  - For Enterprise Portal, set to your portal host (e.g., `https://your-server/portal`), which typically ends with `/portal.
+  - For Enterprise Portal, set to your portal host (e.g., `https://your-server/portal`), which typically ends with `/portal`.
     On rare occasion, the Enterprise setup will have altered the endpoint to not end with `/portal`.
 - **ArcGISAppId**: Your registered application's Client ID.
 - **ArcGISClientSecret**: Your application's Client Secret.
