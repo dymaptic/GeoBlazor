@@ -17,12 +17,20 @@ jobs:
   build: 
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository to the GitHub Actions runner
+    - name: Generate Github App token
+      uses: actions/create-github-app-token@v2
+      id: app-token
+      with:
+        app-id: ${{ secrets.SUBMODULE_APP_ID }}
+        private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        repositories: 'GeoBlazor'
+    
+    # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
-      continue-on-error: false
       with:
-        submodules: true
+        token: ${{ steps.app-token.outputs.token }}
         repository: ${{ github.event.pull_request.head.repo.full_name }}
         ref: ${{ github.event.pull_request.head.ref }}
     
@@ -55,11 +63,17 @@ jobs:
         retention-days: 4
         path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
 
+    - name: Get GitHub App User ID
+      id: get-user-id
+      run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+      env:
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
     - name: Add & Commit
       continue-on-error: true
       run: |
-        git config --global user.name "dymaptic"
-        git config --global user.email "geoblazor@dymaptic.com"
+        git config --global user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
+        git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
         git add .
         git commit -m "Pipeline Build Commit of Version Bump"
         git push
