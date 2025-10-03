@@ -43,12 +43,11 @@ try {
     # Set up locks
     $CoreLockFilePath = Join-Path -Path $CoreProjectPath "esBuild.$OtherConfiguration.lock"
     $ProLockFilePath = Join-Path -Path $ProProjectPath "esProBuild.$OtherConfiguration.lock"
-    $Locked = $null -ne (Get-Item -Path $CoreLockFilePath -EA 0) -or $null -ne (Get-Item -Path $ProLockFilePath -EA 0)
     
-    if ($Locked) {
+    if ((Test-Path $CoreLockFilePath) -or (Test-Path $ProLockFilePath)) {
         # wait for the lock to be released
         Write-Host "Another instance of the esBuild scripts are already running, please wait."
-        while (Test-Path $CoreLockFilePath -or Test-Path $ProLockFilePath) {
+        while ((Test-Path $CoreLockFilePath) -or (Test-Path $ProLockFilePath)) {
             Start-Sleep -Seconds 1
             Write-Host -NoNewline "."
         }
@@ -57,7 +56,9 @@ try {
     
     ## Create lock files to prevent multiple instances of the script from running at the same time
     New-Item -Path $CoreLockFilePath
-    New-Item -Path $ProLockFilePath
+    if ($Pro -eq $true) {
+        New-Item -Path $ProLockFilePath
+    }
     
     # Set Environment Variables
     $env:PipelineBuild = "true"
@@ -76,6 +77,9 @@ try {
     if (Test-Path (Join-Path $CoreProjectPath "wwwroot/js")) {
         Get-ChildItem -Path (Join-Path $CoreProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
     }
+    if (Test-Path (Join-Path $CoreProjectPath "node_modules")) {
+        Get-ChildItem -Path (Join-Path $CoreProjectPath "node_modules") -Recurse -Force | Remove-Item -Recurse -Force
+    }
     
     if ($Pro -eq $true) {
         dotnet clean (Join-Path $ProProjectPath dymaptic.GeoBlazor.Pro.csproj) /p:PipelineBuild=true
@@ -85,6 +89,9 @@ try {
         Get-ChildItem -Path (Join-Path $ProProjectPath "build/resources") -Recurse -Force | Remove-Item -Recurse -Force
         if (Test-Path (Join-Path $ProProjectPath "wwwroot/js")) {
             Get-ChildItem -Path (Join-Path $ProProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
+        }
+        if (Test-Path (Join-Path $ProProjectPath "node_modules")) {
+            Get-ChildItem -Path (Join-Path $ProProjectPath "node_modules") -Recurse -Force | Remove-Item -Recurse -Force
         }
         dotnet clean (Join-Path $ValidatorProjectPath dymaptic.GeoBlazor.Pro.V.csproj)
         Get-ChildItem -Path (Join-Path $ValidatorProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
@@ -197,6 +204,10 @@ try {
     Write-Host ""
     Write-Host ""
     ./esBuild.ps1 -c $Configuration
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "ERROR: esBuild.ps1 failed with exit code $LASTEXITCODE. Exiting." -ForegroundColor Red
+        exit 1
+    }
     Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
     Write-Host ""
 
@@ -235,7 +246,7 @@ try {
                 $HasError = true
                 break
             }
-            $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
+            $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
             if ($HasError -eq $false)
             {
                 break
@@ -338,7 +349,7 @@ try {
         $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
         $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = ".*";', 'public string SU { get; set; } = null!;'
         Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline
-        $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
+        $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
         if ($HasError -eq $true) {
             exit 1
         }
@@ -351,10 +362,7 @@ try {
 
         $StepStartTime = Get-Date
 
-        $ProLockFilePath = Join-Path -Path $ProProjectPath "esProBuild.$Configuration.lock"
-        $Locked = $null -ne (Get-Item -Path $ProLockFilePath -EA 0)
-
-        if ($Locked) {
+        if (Test-Path $ProLockFilePath) {
             # wait for the lock to be released
             Write-Host "Another instance of the esBuild scripts are already running, please wait."
             while (Test-Path $ProLockFilePath) {
@@ -369,6 +377,10 @@ try {
         Write-Host ""
         Write-Host ""
         ./esProBuild.ps1 -c $Configuration
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "ERROR: esProBuild.ps1 failed with exit code $LASTEXITCODE. Exiting." -ForegroundColor Red
+            exit 1
+        }
         Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
         Write-Host ""
 
@@ -397,7 +409,7 @@ try {
                     $HasError = true
                     break
                 }
-                $HasError = ($Build -match "[1-9][0-9]* [Ee]rror(s)" -or $Build -match "Build FAILED")
+                $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
                 if ($HasError -eq $false)
                 {
                     break
