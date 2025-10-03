@@ -50,6 +50,16 @@ try {
         while ((Test-Path $CoreLockFilePath) -or (Test-Path $ProLockFilePath)) {
             Start-Sleep -Seconds 1
             Write-Host -NoNewline "."
+            if ($scriptStartTime.AddMinutes(1) -lt (Get-Date)) {
+                if (Test-Path $CoreLockFilePath) {
+                    Write-Host "`nLock file $CoreLockFilePath still exists after 1 minute, removing stale lock."
+                    Remove-Item -Path $CoreLockFilePath -Force
+                }
+                if (Test-Path $ProLockFilePath) {
+                    Write-Host "`nLock file $ProLockFilePath still exists after 1 minute, removing stale lock."
+                    Remove-Item -Path $ProLockFilePath -Force
+                }
+            }
         }
         Write-Host "Lock released, continuing..."
     }
@@ -244,12 +254,12 @@ try {
             if ($LASTEXITCODE -ne 0) {
                 Write-Host "ERROR: Core Build command failed with exit code $LASTEXITCODE. Exiting."
                 $HasError = true
-                break
-            }
-            $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
-            if ($HasError -eq $false)
-            {
-                break
+            } else {
+                $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
+                if ($HasError -eq $false)
+                {
+                    break
+                }
             }
         }
         catch
@@ -407,12 +417,12 @@ try {
                 if ($LASTEXITCODE -ne 0) {
                     Write-Host "ERROR: Pro Build command failed with exit code $LASTEXITCODE. Exiting."
                     $HasError = true
-                    break
-                }
-                $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
-                if ($HasError -eq $false)
-                {
-                    break
+                } else {
+                    $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
+                    if ($HasError -eq $false)
+                    {
+                        break
+                    }
                 }
             }
             catch
