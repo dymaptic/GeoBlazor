@@ -24,8 +24,9 @@
     "@types/node": "^22.14.0",
     "esbuild-plugin-eslint": "^0.3.12",
     "eslint": "9.24.0",
+    "eslint-plugin-sonarjs": "^3.0.4",
     "globals": "^16.0.0",
-    "typescript-eslint": "^8.29.0",
-    "eslint-plugin-sonarjs": "^3.0.4"
+    "process": "^0.11.10",
+    "typescript-eslint": "^8.29.0"
   }
 }
