@@ -9,7 +9,8 @@ param(
     [string][Alias("v")]$Version,
     [string][Alias("c")]$Configuration = "Release", 
     [string][Alias("vc")]$ValidatorConfig = "Release",
-    [string][Alias("su")]$ServerUrl = "https://licensing.dymaptic.com")
+    [string][Alias("su")]$ServerUrl = "https://licensing.dymaptic.com",
+    [int][Alias("retries")]$BuildRetries = 5)
 
 Write-Host "Starting GeoBlazor Build Script"
 Write-Host "Pro Build: $Pro"
@@ -223,10 +224,9 @@ try {
                 /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration ``
                 /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
     Write-Host "Executing '$CoreBuild'"
-    $Tries = 5
 
     # sometimes the build fails due to a Microsoft bug, retry a few times
-    for ($i = 1; $i -lt $Tries; $i++) {
+    for ($i = 1; $i -lt $BuildRetries; $i++) {
         try
         {
             Invoke-Expression $CoreBuild | Tee-Object -Variable Build
@@ -244,11 +244,11 @@ try {
         catch
         {
             $HasError = $true
-            Write-Host "Build attempt $i of $Tries failed with exception: $_"
+            Write-Host "Build attempt $i of $BuildRetries failed with exception: $_"
         }
 
-        Write-Host "Build attempt $i of $Tries failed."
-        if ($i -lt $Tries -1)
+        Write-Host "Build attempt $i of $BuildRetries failed."
+        if ($i -lt $BuildRetries -1)
         {
             Write-Host "Waiting 2 seconds before retrying..."
             Start-Sleep -Seconds 2
@@ -386,10 +386,9 @@ try {
                             /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c ``
                             $Configuration /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
         Write-Host "Executing '$ProBuild'"
-        $Tries = 5
 
         # sometimes the build fails due to a Microsoft bug, retry a few times
-        for ($i = 1; $i -lt $Tries; $i++) {
+        for ($i = 1; $i -lt $BuildRetries; $i++) {
             try
             {
                 Invoke-Expression $ProBuild | Tee-Object -Variable Build
@@ -407,11 +406,11 @@ try {
             catch
             {
                 $HasError = $true
-                Write-Host "Build attempt $i of $Tries failed with exception: $_"
+                Write-Host "Build attempt $i of $BuildRetries failed with exception: $_"
             }
             
-            Write-Host "Build attempt $i of $Tries failed."
-            if ($i -lt $Tries -1)
+            Write-Host "Build attempt $i of $BuildRetries failed."
+            if ($i -lt $BuildRetries -1)
             {
                 Write-Host "Waiting 2 seconds before retrying..."
                 Start-Sleep -Seconds 2
