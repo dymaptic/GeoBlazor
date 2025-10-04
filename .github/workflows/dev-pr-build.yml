@@ -25,6 +25,11 @@ jobs:
         private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
         owner: ${{ github.repository_owner }}
         repositories: 'GeoBlazor'
+    - name: Check for previous bot commit
+      if: github.actor == '${{ steps.app-token.outputs.app-slug }}[bot]'
+      run: |
+        echo "Skipping build for bot commit"
+        exit 0
     
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
