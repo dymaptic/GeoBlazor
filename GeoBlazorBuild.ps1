@@ -6,11 +6,31 @@ param(
     [switch][Alias("docs")]$GenerateDocs,
     [switch][Alias("pkg")]$Package,
     [switch][Alias("bl")]$Binlog,
+    [switch][Alias("h")]$Help,
     [string][Alias("v")]$Version,
     [string][Alias("c")]$Configuration = "Release", 
     [string][Alias("vc")]$ValidatorConfig = "Release",
     [string][Alias("su")]$ServerUrl = "https://licensing.dymaptic.com",
     [int][Alias("retries")]$BuildRetries = 5)
+
+if ($Help) {
+    Write-Host "GeoBlazor Build Script"
+    Write-Host ""
+    Write-Host "Parameters:"
+    Write-Host "  -Pro (-pro)                    Build GeoBlazor Pro as well as Core (default is false)"
+    Write-Host "  -PublishVersion (-pub)         Truncate the build version to 3 digits for NuGet (default is false)"
+    Write-Host "  -Obfuscate (-obf)              Obfuscate the Pro license validation logic (default is false)"
+    Write-Host "  -GenerateDocs (-docs)          Generate documentation files for the docs site (default is false)"
+    Write-Host "  -Package (-pkg)                Create NuGet packages (default is false)"
+    Write-Host "  -Binlog (-bl)                  Generate MSBuild binary log files (default is false)"
+    Write-Host "  -Version (-v) <string>         Specify a custom version number (default is to auto-increment the current build version)"
+    Write-Host "  -Configuration (-c) <string>   Build configuration (default is 'Release')"
+    Write-Host "  -ValidatorConfig (-v) <string> Validator build configuration (default is 'Release')"
+    Write-Host "  -ServerUrl (-su) <string>      License server URL (default is 'https://licensing.dymaptic.com')"
+    Write-Host "  -BuildRetries (-retries) <int> Number of times to retry the build on failure (default is 5)"
+    Write-Host "  -Help (-h)                     Display this help message"
+    exit 0
+}
 
 Write-Host "Starting GeoBlazor Build Script"
 Write-Host "Pro Build: $Pro"
@@ -403,7 +423,7 @@ try {
         Write-Host ""
 
         # double-escape line breaks
-        $ProBuild = "dotnet build dymaptic.GeoBlazor.Pro.csproj --no-dependencies --no-restore ``
+        $ProBuild = "dotnet build dymaptic.GeoBlazor.Pro.csproj --no-restore ``
                             /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version ``
                             /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c ``
                             $Configuration /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
