@@ -14,19 +14,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  token-setup:
+  actor-check:
     runs-on: ubuntu-latest
     outputs:
       was-bot: ${{ steps.check-bot.outputs.was-bot }}
     steps:
       - name: Check for previous bot commit
+        id: check-bot
         if: contains(github.actor, '[bot]')
         run: |
           echo "was-bot=true" >> "$GITHUB_OUTPUT"
           echo "Skipping build for bot commit"
   build: 
-    needs: token-setup
-    if: needs.token-setup.outputs.was-bot != 'true'
+    needs: actor-check
+    if: needs.actor-check.outputs.was-bot != 'true'
     runs-on: ubuntu-latest
     steps:
     - name: Generate Github App token
