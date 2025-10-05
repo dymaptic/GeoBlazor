@@ -238,6 +238,18 @@ try {
         Write-Host "ERROR: esBuild.ps1 failed with exit code $LASTEXITCODE. Exiting." -ForegroundColor Red
         exit 1
     }
+
+    # Verify JavaScript files were created
+    $CoreJsPath = Join-Path -Path $CoreProjectPath "wwwroot/js"
+    if (-not (Test-Path $CoreJsPath) -or (Get-ChildItem -Path $CoreJsPath -Filter "*.js" | Measure-Object).Count -eq 0) {
+        Write-Host "WARNING: Core JavaScript files not found at $CoreJsPath, waiting..." -ForegroundColor Yellow
+        Start-Sleep -Seconds 2
+        if (-not (Test-Path $CoreJsPath) -or (Get-ChildItem -Path $CoreJsPath -Filter "*.js" | Measure-Object).Count -eq 0) {
+            Write-Host "ERROR: Core JavaScript files still not found after waiting. Exiting." -ForegroundColor Red
+            exit 1
+        }
+    }
+    
     Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
     Write-Host ""
 
@@ -411,6 +423,18 @@ try {
             Write-Host "ERROR: esProBuild.ps1 failed with exit code $LASTEXITCODE. Exiting." -ForegroundColor Red
             exit 1
         }
+
+        # Verify JavaScript files were created
+        $ProJsPath = Join-Path -Path $ProProjectPath "wwwroot/js"
+        if (-not (Test-Path $ProJsPath) -or (Get-ChildItem -Path $ProJsPath -Filter "*.js" | Measure-Object).Count -eq 0) {
+            Write-Host "WARNING: Pro JavaScript files not found at $ProJsPath, waiting..." -ForegroundColor Yellow
+            Start-Sleep -Seconds 2
+            if (-not (Test-Path $ProJsPath) -or (Get-ChildItem -Path $ProJsPath -Filter "*.js" | Measure-Object).Count -eq 0) {
+                Write-Host "ERROR: Pro JavaScript files still not found after waiting. Exiting." -ForegroundColor Red
+                exit 1
+            }
+        }
+
         Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
         Write-Host ""
 
