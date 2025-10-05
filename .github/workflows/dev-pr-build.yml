@@ -14,28 +14,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build: 
+  token-setup:
     runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.app-token.outputs.token }}
+      user-id: ${{ steps.get-user-id.outputs.user-id }}
+      app-slug: ${{ steps.app-token.outputs.app-slug }}
+      was-bot: ${{ steps.check-bot.outputs.was-bot }}
     steps:
-    - name: Generate Github App token
-      uses: actions/create-github-app-token@v2
-      id: app-token
-      with:
-        app-id: ${{ secrets.SUBMODULE_APP_ID }}
-        private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
-        owner: ${{ github.repository_owner }}
-        repositories: 'GeoBlazor'
-    - name: Check for previous bot commit
-      if: github.actor == '${{ steps.app-token.outputs.app-slug }}[bot]'
-      run: |
-        echo "Skipping build for bot commit"
-        exit 0
-    
+      - name: Generate Github App token
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.SUBMODULE_APP_ID }}
+          private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: 'GeoBlazor'
+      - name: Check for previous bot commit
+        if: github.actor == '${{ steps.app-token.outputs.app-slug }}[bot]'
+        run: |
+          echo "was-bot=true" >> "$GITHUB_OUTPUT"
+          echo "Skipping build for bot commit"
+  build: 
+    needs: token-setup
+    if: needs.token-setup.outputs.was-bot != 'true'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ needs.token-setup.outputs.token }}
+    steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        token: ${{ steps.app-token.outputs.token }}
+        token: ${{ needs.token-setup.outputs.token }}
         repository: ${{ github.event.pull_request.head.repo.full_name }}
         ref: ${{ github.event.pull_request.head.ref }}
     
@@ -70,15 +81,15 @@ jobs:
 
     - name: Get GitHub App User ID
       id: get-user-id
-      run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+      run: echo "user-id=$(gh api "/users/${{ needs.token-setup.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
       env:
-        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        GH_TOKEN: ${{ needs.token-setup.outputs.token }}
 
-    - name: Add & Commit
-      continue-on-error: true
+      # This step will commit the updated version number back to the develop branch
+    - name: Add Changes to Git
       run: |
-        git config --global user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
-        git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
+          git config --global user.name '${{ needs.token-setup.outputs.app-slug }}[bot]'
+          git config --global user.email '${{ needs.token-setup.outputs.user-id }}+${{ needs.token-setup.outputs.app-slug }}[bot]@users.noreply.github.com'
         git add .
-        git commit -m "Pipeline Build Commit of Version Bump"
+         git commit -m "Pipeline Build Commit of Version Bump"
         git push
