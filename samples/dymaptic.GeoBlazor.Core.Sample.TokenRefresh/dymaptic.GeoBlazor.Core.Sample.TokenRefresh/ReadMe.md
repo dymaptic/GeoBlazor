@@ -1,6 +1,6 @@
 # GeoBlazor Token Refresh Sample
 
-This sample demonstrates how o implement automatic token refresh in GeoBlazor applications using server-side authentication with ArcGIS Portal, ArcGIS Online, or both platforms.
+This sample demonstrates how to implement automatic token refresh in GeoBlazor applications using server-side authentication with ArcGIS Portal, ArcGIS Online, or both platforms.
 
 ## App Registration Requirements
 - [Register your application on ArcGIS Online](https://enterprise.arcgis.com/en/portal/latest/use/add-app-url.htm#REG_APP)
