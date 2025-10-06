@@ -28,8 +28,7 @@ namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
      * NOTES:
      * - You need SEPARATE app registrations for AGOL and for Enterprise Portal if you test both.
      * - For AGOL, use TestAGOUrl = https://www.arcgis.com   (do NOT append /portal)
-     * - For Enterprise, TestPortalUrl can be either https://yourserver OR https://yourserver/portal
-     *   (AuthenticationManager will normalize it to the correct format internally.)
+     * - For Enterprise, TestPortalUrl should be https://yourserver/portal
      *
      * Recommended: keep secrets out of source control using .NET user-secrets:
      *
