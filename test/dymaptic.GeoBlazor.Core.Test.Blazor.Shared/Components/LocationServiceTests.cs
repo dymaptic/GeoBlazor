@@ -74,13 +74,13 @@ public class LocationServiceTests : TestRunnerBase
             .FirstOrDefault(x => x.Address!.Contains(_expectedStreetAddress1));
 
         Assert.IsNotNull(firstAddress?.Location);
-        Assert.AreEqual(firstAddress.Location.Latitude, 34.053834157090002);
+        Assert.IsTrue(LocationsMatch(_expectedLocation1, firstAddress.Location));
 
         var secondAddress = locations
             .FirstOrDefault(x => x.Address!.Contains(_expectedStreetAddress2));
 
         Assert.IsNotNull(secondAddress?.Location);
-        Assert.AreEqual(secondAddress.Location.Latitude, 34.057451663745);
+        Assert.IsTrue(LocationsMatch(_expectedLocation2, secondAddress.Location));
     }
     
     private bool LocationsMatch(Point loc1, Point loc2)
