@@ -5,17 +5,28 @@ name: Main Branch Release Build
 
 on:
   push:
-    branches: [ "main", "gh-action-testing" ]
+    branches: [ "main" ]
 
 jobs:
   build: 
     runs-on: ubuntu-latest
     steps:
-        # Checkout the repository to the GitHub Actions runner
+    - name: Generate Github App token
+      uses: actions/create-github-app-token@v2
+      id: app-token
+      with:
+        app-id: ${{ secrets.SUBMODULE_APP_ID }}
+        private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        repositories: 'GeoBlazor'
+    
+    # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        submodules: true
+        token: ${{ steps.app-token.outputs.token }}
+        repository: ${{ github.repository }}
+        ref: ${{ github.ref }}
         
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -31,46 +42,24 @@ jobs:
       # This runs the main GeoBlazor build script
     - name: Build GeoBlazor
       shell: pwsh
-      continue-on-error: false
       run: |
         ./GeoBlazorBuild.ps1 -pkg -pub -c "Release"
         
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint
       shell: bash
-      continue-on-error: false
       run: |
         sudo apt update
         sudo apt install -y libxml2-utils
     
       # This step will copy the version number from the Directory.Build.props file to an environment variable
-    - name: Copy Build Versions
-      continue-on-error: false
+    - name: Copy Build Version
       run: |
         CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
         echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
-
-      # Verify that the JS files are present in the output directory
-    - name: Verify JS Files and Assets
-      shell: pwsh
-      continue-on-error: false
-      run: |
-        $nugetPath = "./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.${{env.CORE_VERSION}}.nupkg"
-        $extractPath = "./src/dymaptic.GeoBlazor.Core/bin/Release/extract"
-        $jsFilePath = "staticwebassets/js/arcGisJsInterop.js"
-        Expand-Archive -Path $nugetPath -Force -DestinationPath $extractPath
-        $contents = Get-ChildItem -Path $extractPath -Recurse
-        $fileExists = $contents -match [regex]::Escape($jsFilePath)
-        if ($fileExists) {
-            Write-Output "JS file exists"
-        } else {
-            Write-Error "JS file does not exist"
-            Exit 1
-        }
         
       # This step will copy the PR description to an environment variable
     - name: Copy PR Release Notes
-      continue-on-error: false
       run: |
         PR_DESCRIPTION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
         "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&sort=updated&direction=desc" | \
@@ -82,7 +71,6 @@ jobs:
     
       # Copies the nuget package to the artifacts directory
     - name: Upload nuget artifact
-      continue-on-error: false
       uses: actions/upload-artifact@v4.6.0
       with:
         name: .core-nuget
@@ -90,12 +78,9 @@ jobs:
     
       # Creates a GitHub Release based on the Version and the PR description
     - name: Create Release
-      # Only run this step if the branch is main
-      if: github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v1
-      continue-on-error: false
       with:
-        body: "${{env.PR_DESCRIPTION}}"
+        body: ${{env.PR_DESCRIPTION}}
         tag_name: "v${{env.CORE_VERSION}}"
         generate_release_notes: true
         prerelease: false
@@ -104,8 +89,6 @@ jobs:
   
   # This step will publish the Pro NuGet package to NuGet.org
   nuget-push:
-    # Only run this step if the branch is main
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
     steps:
