@@ -34,9 +34,9 @@ if ($Publish)
     }
     
     ## Check the latest version on Nuget.org using web API
-    $NuGetUrl = $Pro 
-        ? "https://azuresearch-usnc.nuget.org/query?q=dymaptic.geoblazor.pro&prerelease=false" 
-        : "https://azuresearch-usnc.nuget.org/query?q=dymaptic.geoblazor.core&prerelease=false"
+    $NuGetUrl = $Pro `
+        ? "https://azuresearch-usnc.nuget.org/query?q=dymaptic.geoblazor.pro&prerelease=false" `
+        : "https://azuresearch-usnc.nuget.org/query?q=dymaptic.geoblazor.core&prerelease=false" 
     $Response = Invoke-RestMethod -Uri $NuGetUrl -Method Get
     $LatestVersion = $null
     if ($Response.data.Count -gt 0) {
