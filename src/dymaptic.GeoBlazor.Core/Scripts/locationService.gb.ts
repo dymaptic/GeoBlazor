@@ -45,6 +45,7 @@ export async function buildJsLocationServiceGenerated(dotNetObject: any, layerId
 
 
     let { default: LocationServiceWrapper } = await import('./locationService');
+
     let locationServiceWrapper = new LocationServiceWrapper(jslocator);
     locationServiceWrapper.geoBlazorId = dotNetObject.id;
     locationServiceWrapper.viewId = viewId;

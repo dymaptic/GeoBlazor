@@ -69,6 +69,7 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
     let jsZoomViewModel = new ZoomViewModel(properties);
 
     let { default: ZoomViewModelWrapper } = await import('./zoomViewModel');
+
     let zoomViewModelWrapper = new ZoomViewModelWrapper(jsZoomViewModel);
     zoomViewModelWrapper.geoBlazorId = dotNetObject.id;
     zoomViewModelWrapper.viewId = viewId;

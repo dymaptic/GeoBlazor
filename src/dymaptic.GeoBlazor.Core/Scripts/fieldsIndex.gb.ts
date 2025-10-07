@@ -86,6 +86,7 @@ export async function buildJsFieldsIndexGenerated(dotNetObject: any, layerId: st
 
 
     let { default: FieldsIndexWrapper } = await import('./fieldsIndex');
+
     let fieldsIndexWrapper = new FieldsIndexWrapper(jsFieldsIndex);
     fieldsIndexWrapper.geoBlazorId = dotNetObject.id;
     fieldsIndexWrapper.viewId = viewId;

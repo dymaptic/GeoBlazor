@@ -181,6 +181,7 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     let jsScaleBar = new ScaleBar(properties);
 
     let { default: ScaleBarWidgetWrapper } = await import('./scaleBarWidget');
+
     let scaleBarWidgetWrapper = new ScaleBarWidgetWrapper(jsScaleBar);
     scaleBarWidgetWrapper.geoBlazorId = dotNetObject.id;
     scaleBarWidgetWrapper.viewId = viewId;

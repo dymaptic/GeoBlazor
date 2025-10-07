@@ -195,6 +195,7 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     let jsBookmarksViewModel = new BookmarksViewModel(properties);
 
     let { default: BookmarksViewModelWrapper } = await import('./bookmarksViewModel');
+
     let bookmarksViewModelWrapper = new BookmarksViewModelWrapper(jsBookmarksViewModel);
     bookmarksViewModelWrapper.geoBlazorId = dotNetObject.id;
     bookmarksViewModelWrapper.viewId = viewId;

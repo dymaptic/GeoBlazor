@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IAPIKeyMixin.html">GeoBlazor Docs</a>
-///     Interface for types CatalogLayer, FeatureLayer, SceneLayer, TileLayer
+///     Interface for types CatalogLayer, FeatureLayer, OGCFeatureLayer, SceneLayer, TileLayer
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IAPIKeyMixin>))]
 public partial interface IAPIKeyMixin : IMapComponent

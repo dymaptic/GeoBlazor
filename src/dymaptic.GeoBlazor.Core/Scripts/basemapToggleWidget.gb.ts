@@ -228,6 +228,7 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
     let jsBasemapToggle = new BasemapToggle(properties);
 
     let { default: BasemapToggleWidgetWrapper } = await import('./basemapToggleWidget');
+
     let basemapToggleWidgetWrapper = new BasemapToggleWidgetWrapper(jsBasemapToggle);
     basemapToggleWidgetWrapper.geoBlazorId = dotNetObject.id;
     basemapToggleWidgetWrapper.viewId = viewId;

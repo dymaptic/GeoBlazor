@@ -220,6 +220,7 @@ export async function buildJsGeoJSONLayerViewGenerated(dotNetObject: any, layerI
     }
 
     let { default: GeoJSONLayerViewWrapper } = await import('./geoJSONLayerView');
+
     let geoJSONLayerViewWrapper = new GeoJSONLayerViewWrapper(jsGeoJSONLayerView);
     geoJSONLayerViewWrapper.geoBlazorId = dotNetObject.id;
     geoJSONLayerViewWrapper.viewId = viewId;

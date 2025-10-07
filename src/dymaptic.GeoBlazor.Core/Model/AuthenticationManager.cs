@@ -35,7 +35,6 @@ public class AuthenticationManager
             {
                 _appId = _configuration["ArcGISAppId"];
             }
-
             return _appId;
         }
         set
@@ -56,16 +55,16 @@ public class AuthenticationManager
         {
             if (string.IsNullOrWhiteSpace(_portalUrl))
             {
-                _portalUrl = _configuration["ArcGISPortalUrl"];
+                string? fromConfig = _configuration["ArcGISPortalUrl"];
+                _portalUrl = fromConfig?.TrimEnd('/');
             }
-
             return _portalUrl;
         }
         set
         {
             if (!string.IsNullOrWhiteSpace(value))
             {
-                _portalUrl = value;
+                _portalUrl = value.TrimEnd('/');
             }
         }
     }
@@ -192,7 +191,7 @@ public class AuthenticationManager
     /// </summary>
     public async Task<string?> GetCurrentToken()
     {
-        if (!string.IsNullOrWhiteSpace(ApiKey))
+        if (!string.IsNullOrWhiteSpace(ApiKey) && !ExcludeApiKey)
         {
             return ApiKey;
         }
@@ -280,7 +279,7 @@ public class AuthenticationManager
         
         return TokenExpirationDateTime;
     }
-    
+
     /// <summary>
     ///     Allows the user to prevent the ApiKey from being used in the authentication process for the current MapView.
     ///     This value is copied from MapView.ExcludeApiKey, and will be reset (default to false) when a new MapView is created.
