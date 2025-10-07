@@ -1,12 +1,10 @@
 ﻿import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
 import IdentityManager from "@arcgis/core/identity/IdentityManager";
 import esriConfig from "@arcgis/core/config";
-
 export default class AuthenticationManager {
     private appId: string | undefined;
     private info: OAuthInfo | undefined;
     private dotNetRef: any;
-
     constructor(dotNetReference, apiKey, appId, portalUrl, trustedServers, fontsUrl) {
         if (appId !== null) {
             this.appId = appId;
@@ -25,22 +23,19 @@ export default class AuthenticationManager {
         if (portalUrl !== undefined && portalUrl !== null) {
             esriConfig.portalUrl = portalUrl;
         }
-
         if (trustedServers !== null) {
             esriConfig.request.trustedServers = esriConfig.request.trustedServers !== undefined ? esriConfig.request.trustedServers.concat(trustedServers) : trustedServers;
         }
-
         if (fontsUrl !== null) {
             esriConfig.fontsUrl = fontsUrl;
         }
-
         this.dotNetRef = dotNetReference;
     }
 
     setApiKey(apiKey: string | null): void {
         esriConfig.apiKey = apiKey;
     }
-    
+
     async isLoggedIn(): Promise<boolean> {
             await IdentityManager.checkSignInStatus(this.info?.portalUrl + "/sharing");
         return true;
@@ -49,7 +44,7 @@ export default class AuthenticationManager {
     doLogin(): void {
         IdentityManager.getCredential(this.info?.portalUrl + "/sharing");
     }
-    
+
     doLogout(): void {
         IdentityManager.destroyCredentials();
         window.location.reload();
@@ -74,7 +69,7 @@ export default class AuthenticationManager {
     registerToken(token: string, expires: number): void {
         let server: string;
         if (this.info?.portalUrl !== undefined && this.info?.portalUrl !== null) {
-            server = this.info.portalUrl + "/portal/sharing/rest";
+            server = this.info.portalUrl + "/sharing/rest";
         } else {
             server = "https://www.arcgis.com/sharing/rest";
         }

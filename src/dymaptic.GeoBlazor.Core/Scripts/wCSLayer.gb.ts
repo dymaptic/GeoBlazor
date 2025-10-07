@@ -627,6 +627,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     
 
     let { default: WCSLayerWrapper } = await import('./wCSLayer');
+
     let wCSLayerWrapper = new WCSLayerWrapper(jsWCSLayer);
     wCSLayerWrapper.geoBlazorId = dotNetObject.id;
     wCSLayerWrapper.viewId = viewId;

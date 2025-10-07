@@ -606,6 +606,7 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     
 
     let { default: MapImageLayerWrapper } = await import('./mapImageLayer');
+
     let mapImageLayerWrapper = new MapImageLayerWrapper(jsMapImageLayer);
     mapImageLayerWrapper.geoBlazorId = dotNetObject.id;
     mapImageLayerWrapper.viewId = viewId;

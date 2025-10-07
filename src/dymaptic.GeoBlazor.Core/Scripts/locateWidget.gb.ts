@@ -273,6 +273,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     
 
     let { default: LocateWidgetWrapper } = await import('./locateWidget');
+
     let locateWidgetWrapper = new LocateWidgetWrapper(jsLocate);
     locateWidgetWrapper.geoBlazorId = dotNetObject.id;
     locateWidgetWrapper.viewId = viewId;

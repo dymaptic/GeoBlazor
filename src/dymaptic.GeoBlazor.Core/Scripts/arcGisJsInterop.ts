@@ -64,9 +64,9 @@ import Widget from "@arcgis/core/widgets/Widget";
 import {load} from "protobufjs";
 import {buildDotNetExtent, buildJsExtent} from './extent';
 import {buildJsGraphic} from './graphic';
-import {buildDotNetLayer, buildJsLayer} from './layer';
+import {buildDotNetLayer, buildJsLayer, buildJsLayerWrapper} from './layer';
 import {buildDotNetPoint, buildJsPoint} from './point';
-import {buildDotNetLayerView} from './layerView';
+import {buildDotNetLayerView, buildJsLayerViewWrapper} from './layerView';
 import {buildDotNetSpatialReference} from './spatialReference';
 import {buildDotNetGeometry, buildJsGeometry} from './geometry';
 import {buildDotNetSymbol, buildJsSymbol} from './symbol';
@@ -774,23 +774,8 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
                 }
             }
 
-            let jsLayer: any = evt.layer;
-            let jsLayerView: any = evt.layerView;
-
-            switch (jsLayer.type) {
-                case 'feature':
-                    const {default: FeatureLayerWrapper} = await import('./featureLayer');
-                    jsLayer = new FeatureLayerWrapper(jsLayer);
-                    const {default: FeatureLayerViewWrapper} = await import('./featureLayerView');
-                    jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
-                    break;
-                case 'geojson':
-                    const {default: GeoJSONLayerWrapper} = await import('./geoJSONLayer');
-                    jsLayer = new GeoJSONLayerWrapper(jsLayer);
-                    const {default: GeoJSONLayerViewWrapper} = await import('./geoJSONLayerView');
-                    jsLayerView = new GeoJSONLayerViewWrapper(jsLayerView);
-                    break;
-            }
+            let jsLayer: any = await buildJsLayerWrapper(evt.layer);
+            let jsLayerView: any = await buildJsLayerViewWrapper(evt.layerView);
 
             const layerRef = DotNet.createJSObjectReference(jsLayer);
             const layerViewRef = DotNet.createJSObjectReference(jsLayerView);
@@ -1388,7 +1373,7 @@ export function getGraphicGeometry(id: string, layerId: string | null, viewId: s
 
 export function setGraphicSymbol(id: string, symbol: any, layerId: string | null, viewId: string | null): void {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
-    const jsSymbol = buildJsSymbol(symbol);
+    const jsSymbol = buildJsSymbol(symbol, layerId, viewId);
     if (graphic !== null && hasValue(symbol) && graphic.symbol !== jsSymbol) {
         graphic.symbol = jsSymbol as any;
     }
@@ -1397,7 +1382,7 @@ export function setGraphicSymbol(id: string, symbol: any, layerId: string | null
 export function getGraphicSymbol(id: string, layerId: string | null, viewId: string | null): any {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (hasValue(graphic?.symbol)) {
-        return buildDotNetSymbol(graphic!.symbol!);
+        return buildDotNetSymbol(graphic!.symbol!, viewId);
     }
 
     return null;
@@ -1588,7 +1573,7 @@ export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: a
 }
 
 export function solveServiceArea(url: string, driveTimeCutoffs: number[], serviceAreaSymbol: any, viewId: string): void {
-    let jsServiceAreaSymbol = buildJsSymbol(serviceAreaSymbol);
+    let jsServiceAreaSymbol = buildJsSymbol(serviceAreaSymbol, null, viewId);
     const view = arcGisObjectRefs[viewId] as View;
     const featureSet = new FeatureSet({
         features: [(view.graphics as MapCollection).items[0]]
@@ -2189,6 +2174,9 @@ function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | 
             symbol.outline.color = {
                 hexOrNameValue: symbol.outline.color
             }
+        }
+        if (hasValue(symbol.portal)) {
+            symbol.portalUrl = symbol.portal.url;
         }
     }
 }

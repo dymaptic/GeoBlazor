@@ -203,6 +203,7 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     let jsAreaMeasurement2D = new AreaMeasurement2D(properties);
 
     let { default: AreaMeasurement2DWidgetWrapper } = await import('./areaMeasurement2DWidget');
+
     let areaMeasurement2DWidgetWrapper = new AreaMeasurement2DWidgetWrapper(jsAreaMeasurement2D);
     areaMeasurement2DWidgetWrapper.geoBlazorId = dotNetObject.id;
     areaMeasurement2DWidgetWrapper.viewId = viewId;

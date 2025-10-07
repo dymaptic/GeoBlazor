@@ -141,6 +141,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     let jsTileInfo = new TileInfo(properties);
 
     let { default: TileInfoWrapper } = await import('./tileInfo');
+
     let tileInfoWrapper = new TileInfoWrapper(jsTileInfo);
     tileInfoWrapper.geoBlazorId = dotNetObject.id;
     tileInfoWrapper.viewId = viewId;

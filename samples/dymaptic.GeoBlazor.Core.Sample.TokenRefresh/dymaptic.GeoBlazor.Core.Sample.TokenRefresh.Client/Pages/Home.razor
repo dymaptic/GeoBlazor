@@ -1,0 +1,166 @@
+﻿@page "/"
+
+<PageTitle>GeoBlazor Token Refresh Sample</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">GeoBlazor Token Refresh Sample</h1>
+
+            <!-- Documentation Section -->
+            <div class="documentation-section mb-4">
+                <p><strong>Token Authentication Process</strong></p>
+                <p>
+                    <strong>
+                        This sample demonstrates how to implement automatic token refresh in GeoBlazor applications
+                        using server-side authentication with ArcGIS Portal, ArcGIS Online, or both platforms.
+                    </strong>
+                    For end-to-end setup and guidance, see the GeoBlazor docs:
+                    <a href="https://docs.geoblazor.com/pages/appTokenRefresh.html" target="_blank">
+                        Token Refresh (App Authentication)
+                    </a>.
+                </p>
+
+                <div class="alert alert-primary">
+                    <strong>⚠️ App Registration Requirements</strong>
+                    <p class="mb-2">
+                        The token refresh sample can handle a registered app on your organization's portal, on ArcGIS Online, and on both platforms. 
+                        However, it is important to note that <strong>the app must be registered independently on both platforms in order to access both</strong>.
+                    </p>
+                    <ul class="mb-2">
+                        <li>An app only registered on your organization's portal can access content on your portal only</li>
+                        <li>An app only registered on ArcGIS Online can access ArcGIS Online content only</li>
+                        <li><strong>For dual access:</strong> The application must be registered specifically on both services</li>
+                    </ul>
+                    <p class="mb-0">
+                        <strong>Registration Documentation:</strong>
+                        <a href="https://enterprise.arcgis.com/en/portal/latest/use/add-app-url.htm#REG_APP" target="_blank">
+                            Register your application on ArcGIS Online
+                        </a> and 
+                        <a href="https://developers.arcgis.com/documentation/security-and-authentication/app-authentication/tutorials/create-oauth-credentials-app-auth/" target="_blank">
+                            Create OAuth credentials for your organization's portal
+                        </a> provide instructions for registering your application on both platforms.
+                    </p>
+                </div>
+
+                <p><strong>1. Configuration Setup</strong></p>
+                <p>
+                    Configure your ArcGIS authentication settings in <code>appsettings.json</code> or user secrets:
+                </p>
+
+                <div class="alert alert-info">
+                    <strong>Effective Server Configuration (from IConfiguration)</strong>
+                    <pre><code>@_currentConfig</code></pre>
+                </div>
+
+                <div class="alert alert-warning">
+                    <strong>Configuring your ArcGISPortalUrl value</strong>
+                    <ul>
+                        <li><strong>ArcGIS Online (default):</strong> This can either be <code>https://www.arcgis.com</code> or an organizational subdomain like <code>https://your-company.arcgis.com</code>.</li>
+                        <li><strong>Enterprise Portal:</strong> Set <code>ArcGISPortalUrl</code> to your portal host. This typically would be a path ending with <code>/portal</code>.</li>
+                    </ul>
+                </div>
+
+                <p><strong>2. Authentication Flow</strong></p>
+                <p>The flow has two parts: what <em>you implement</em> in this sample, and what <em>GeoBlazor provides</em>.</p>
+
+                <p><strong>You implement (in this sample)</strong></p>
+                <ul>
+                    <li>🌐 <strong>Minimal API endpoints</strong> — <code>/api/config</code> and <code>/api/auth/token</code> (server)</li>
+                    <li>🔒 <strong>ArcGisAuthService</strong> (server) — calls the ArcGIS OAuth2 token endpoint using client credentials, caches tokens, and returns them to the client</li>
+                </ul>
+
+                <p><strong>GeoBlazor provides</strong></p>
+                <ul>
+                    <li>
+                        📦 <strong>AuthenticationManager</strong> — comes from the GeoBlazor NuGet package (you do <em>not</em> implement it). Inject it where needed (pages/services, server or client) and call:
+                        <ul>
+                            <li><code>RegisterToken(string token, DateTimeOffset expires)</code> — to register tokens you obtained from your server</li>
+                            <li><code>IsLoggedIn()</code> / <code>GetTokenExpirationDateTime()</code> — to check auth state as needed</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="alert alert-primary">
+                    <strong>Ready to Test?</strong>
+                    <p class="mb-2">Choose which render mode demonstration you'd like to see:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card border-primary">
+                                <div class="card-body">
+                                    <h6 class="card-title">🖥️ InteractiveServer Mode</h6>
+                                    <p class="card-text small">Server-side execution over SignalR. Best for fast first render and secure token handling.</p>
+                                    <a href="/map-server" class="btn btn-primary btn-sm">View Server Mode Demo</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-success">
+                                <div class="card-body">
+                                    <h6 class="card-title">💻 InteractiveWebAssembly Mode</h6>
+                                    <p class="card-text small">Pure client-side execution. Best for rich interactivity and offline capability.</p>
+                                    <a href="/map-webassembly" class="btn btn-success btn-sm">View WebAssembly Demo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <p>
+                        Once your tokens are configured and working, navigate to the one of the map pages
+                        to see the fully authenticated GeoBlazor map in action!
+                    </p>
+                    <ul>
+                        <li>Automatic token refresh keeps your map sessions active</li>
+                        <li>Secure server-side authentication protects your credentials</li>
+                        <li>Seamless integration with ArcGIS Portal or ArcGIS Online</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject] public required IConfiguration Configuration { get; set; }
+
+    private string _currentConfig = "";
+
+    protected override void OnInitialized()
+    {
+        // Build a safe, readable snapshot of relevant settings
+        var configView = new
+        {
+            Logging = new
+            {
+                LogLevel = new
+                {
+                    Default = Configuration["Logging:LogLevel:Default"] ?? "Information",
+                    MicrosoftAspNetCore = Configuration["Logging:LogLevel:Microsoft.AspNetCore"] ?? "Warning"
+                }
+            },
+            ArcGISAppId = Configuration["ArcGISAppId"] ?? "(not set)",
+            ArcGISClientSecret = Mask(Configuration["ArcGISClientSecret"]),
+            ArcGISPortalUrl = Configuration["ArcGISPortalUrl"] ?? "(default: https://www.arcgis.com)",
+            ArcGISAppTokenCacheFile = Configuration["ArcGISAppTokenCacheFile"] ?? "(not set)",
+            ArcGISTokenExpirationMinutes = Configuration["ArcGISTokenExpirationMinutes"] ?? "1440",
+            GeoBlazor = new
+            {
+                LicenseKey = Mask(Configuration["GeoBlazor:LicenseKey"] ?? Configuration["GeoBlazor:RegistrationKey"])
+            }
+        };
+
+        _currentConfig = System.Text.Json.JsonSerializer.Serialize(
+        configView,
+        new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
+        );
+    }
+
+    private static string? Mask(string? value, int keepLeft = 4, int keepRight = 2)
+    {
+        if (string.IsNullOrEmpty(value)) return value;
+        if (value.Length <= keepLeft + keepRight) return new string('*', value.Length);
+        return value.Substring(0, keepLeft) + new string('*', value.Length - keepLeft - keepRight) + value.Substring(value.Length - keepRight);
+    }
+}

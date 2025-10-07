@@ -42,6 +42,13 @@ public class ExpandWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? CloseOnEsc { get; set; }
+    
+    /// <summary>
+    ///     This value associates two or more Expand widget instances with each other, allowing one instance to auto collapse when another instance in the same group is expanded.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Group { get; set; }
 
     /// <summary>
     ///     The custom HTML content to display within the expanded Expand widget.
@@ -88,6 +95,463 @@ public class ExpandWidget : Widget
     /// </summary>
     [Parameter]
     public ExpandMode Mode { get; set; } = ExpandMode.Auto;
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Expand property.
+    /// </summary>
+    public async Task<bool?> GetExpanded()
+    {
+        if (CoreJsModule is null)
+        {
+            return Expanded;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Expanded;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "expanded");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Expanded = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Expanded)] = Expanded;
+        }
+         
+        return Expanded;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the CollapseIcon property.
+    /// </summary>
+    public async Task<string?> GetCollapseIcon()
+    {
+        if (CoreJsModule is null)
+        {
+            return CollapseIcon;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return CollapseIcon;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getCollapseIcon",
+            CancellationTokenSource.Token);
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            CollapseIcon = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(CollapseIcon)] = CollapseIcon;
+        }
+         
+        return CollapseIcon;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the CollapseTooltip property.
+    /// </summary>
+    public async Task<string?> GetCollapseTooltip()
+    {
+        if (CoreJsModule is null)
+        {
+            return CollapseTooltip;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return CollapseTooltip;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getCollapseTooltip",
+            CancellationTokenSource.Token);
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            CollapseTooltip = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(CollapseTooltip)] = CollapseTooltip;
+        }
+         
+        return CollapseTooltip;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ExpandIcon property.
+    /// </summary>
+    public async Task<string?> GetExpandIcon()
+    {
+        if (CoreJsModule is null)
+        {
+            return ExpandIcon;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ExpandIcon;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getExpandIcon",
+            CancellationTokenSource.Token);
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ExpandIcon = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ExpandIcon)] = ExpandIcon;
+        }
+         
+        return ExpandIcon;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ExpandTooltip property.
+    /// </summary>
+    public async Task<string?> GetExpandTooltip()
+    {
+        if (CoreJsModule is null)
+        {
+            return ExpandTooltip;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ExpandTooltip;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getExpandTooltip",
+            CancellationTokenSource.Token);
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ExpandTooltip = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ExpandTooltip)] = ExpandTooltip;
+        }
+         
+        return ExpandTooltip;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Group property.
+    /// </summary>
+    public async Task<string?> GetGroup()
+    {
+        if (CoreJsModule is null)
+        {
+            return Group;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Group;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getGroup",
+            CancellationTokenSource.Token);
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Group = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Group)] = Group;
+        }
+         
+        return Group;
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Expanded property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetExpanded(bool? value)
+    {
+#pragma warning disable BL0005
+        Expanded = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Expanded)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "expanded", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the CollapseIcon property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCollapseIcon(string? value)
+    {
+#pragma warning disable BL0005
+        CollapseIcon = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(CollapseIcon)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setCollapseIcon", CancellationTokenSource.Token,
+            value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the CollapseTooltip property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCollapseTooltip(string? value)
+    {
+#pragma warning disable BL0005
+        CollapseTooltip = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(CollapseTooltip)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setCollapseTooltip", CancellationTokenSource.Token,
+            value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ExpandIcon property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetExpandIcon(string? value)
+    {
+#pragma warning disable BL0005
+        ExpandIcon = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ExpandIcon)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setExpandIcon", CancellationTokenSource.Token,
+            value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ExpandTooltip property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetExpandTooltip(string? value)
+    {
+#pragma warning disable BL0005
+        ExpandTooltip = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ExpandTooltip)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setExpandTooltip", CancellationTokenSource.Token,
+            value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Group property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetGroup(string? value)
+    {
+#pragma warning disable BL0005
+        Group = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Group)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setGroup", CancellationTokenSource.Token,
+            value);
+    }
+    
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)

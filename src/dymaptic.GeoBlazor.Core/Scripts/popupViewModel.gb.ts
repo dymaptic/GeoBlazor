@@ -478,6 +478,7 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     
 
     let { default: PopupViewModelWrapper } = await import('./popupViewModel');
+
     let popupViewModelWrapper = new PopupViewModelWrapper(jsPopupViewModel);
     popupViewModelWrapper.geoBlazorId = dotNetObject.id;
     popupViewModelWrapper.viewId = viewId;

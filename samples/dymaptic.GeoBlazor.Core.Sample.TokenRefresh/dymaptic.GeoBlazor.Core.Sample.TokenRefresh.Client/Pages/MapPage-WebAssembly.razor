@@ -1,0 +1,310 @@
+﻿@page "/map-webassembly"
+@rendermode InteractiveWebAssembly
+
+<!-- Render Mode Information -->
+<div class="alert alert-success mb-3">
+    <div class="d-flex align-items-center">
+        <strong class="me-2">💻 InteractiveWebAssembly Mode</strong>
+        <span class="badge bg-success">Client-Side Only</span>
+    </div>
+    <small class="mt-1 d-block">
+        This page runs entirely in the browser using WebAssembly.
+        All authentication calls go directly from the browser to the server API endpoints.
+    </small>
+</div>
+
+<!-- Token Testing Panel -->
+<div class="token-test-panel mb-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>Token Testing Panel - WebAssembly Mode</h4>
+            <p>
+                This panel demonstrates the token authentication flow in <strong>InteractiveWebAssembly</strong> mode.
+                The map below uses a secured portal item that requires authentication. Replace the PortalItemId in the 
+                Basemap component with a portal item from your ArcGIS Online or Enterprise portal that you have access to.
+            </p>
+        </div>
+        <div class="card-body">
+            <div class="btn-group mb-3" role="group">
+                <button class="btn btn-primary" @onclick="GetToken" disabled="@_isTestingToken">
+                    @if (_isTestingToken)
+                    {
+                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                    }
+                    Get Token
+                </button>
+                <button class="btn btn-secondary" @onclick="CheckAuthStatus" disabled="@_isTestingToken">Check Auth Status</button>
+                <button class="btn btn-info" @onclick="GetTokenExpires" disabled="@_isTestingToken">Get Token Expires</button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h6>Get Token</h6>
+                            <small>Tests the complete flow: ArcGisAuthService → AuthenticationManager registration → token retrieval</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-secondary">
+                        <div class="card-body">
+                            <h6>Check Auth Status</h6>
+                            <small>Calls AuthenticationManager.IsLoggedIn() to verify authentication state</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-info">
+                        <div class="card-body">
+                            <h6>Get Token Expires</h6>
+                            <small>Retrieves token expiration from AuthenticationManager.GetTokenExpirationDateTime()</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            @if (!string.IsNullOrEmpty(_tokenTestResult))
+            {
+                <div class="alert alert-success mt-3">
+                    <h6>Test Result:</h6>
+                    <pre class="mb-0">@_tokenTestResult</pre>
+                </div>
+            }
+            
+            @if (!string.IsNullOrEmpty(_errorMessage))
+            {
+                <div class="alert alert-danger mt-3">
+                    <h6>Error:</h6>
+                    <pre class="mb-0">@_errorMessage</pre>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@if (!_isInitialized)
+{
+    <div class="progress mb-4" style="width: 50%;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(_progressPercent)%; color: black;" aria-valuenow="@_progressPercent" aria-valuemin="0" aria-valuemax="100">
+            @_progressMessage (@_progressPercent%)
+        </div>
+    </div>
+}
+else
+{
+    <MapView Class="map-view" PromptForOAuthLogin="true">
+        @if (_isArcGisOnline)
+        {
+            <WebMap>
+                <PortalItem PortalItemId="237b9584339446a0b56317b5962a4971" />
+            </WebMap>
+        }
+        else
+        {
+            <WebMap>
+                <PortalItem PortalItemId="1bf19e76cb6e45db8ab9739e560e9307" />
+            </WebMap>
+        }
+    </MapView>
+}
+
+@code {
+    [Inject]
+    public required AuthenticationManager AuthenticationManager { get; set; }
+    
+    [Inject]
+    public required IAuthService AuthService { get; set; }
+
+    private bool _isInitialized;
+    private bool _isTestingToken;
+    private bool _tokenRequestInProgress;
+    private string _tokenTestResult = "";
+    private string _errorMessage = "";
+    private bool _isArcGisOnline;
+    private int _progressPercent;
+    private string _progressMessage = "Starting...";
+
+    protected override void OnInitialized()
+    {
+        // Decide Online vs Enterprise from the configured/normalized PortalUrl
+        string portalUrl = AuthenticationManager.PortalUrl ?? "https://www.arcgis.com";
+        if (Uri.TryCreate(portalUrl, UriKind.Absolute, out Uri? uri))
+        {
+            _isArcGisOnline = uri.Host.EndsWith("arcgis.com", StringComparison.OrdinalIgnoreCase);
+        }
+        else
+        {
+            // Fallback: treat unknown as Enterprise
+            _isArcGisOnline = false;
+        }
+    }
+
+    // Initialize authentication after first render when JavaScript interop is available.
+    // This method calls the server API endpoint (/api/auth/token) to get a fresh token,
+    // then registers it with GeoBlazor's AuthenticationManager for use with ArcGIS services.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_tokenRequestInProgress)
+        {
+            _tokenRequestInProgress = true;
+            try
+            {
+                _progressPercent = 25;
+                _progressMessage = "Requesting token from server...";
+                StateHasChanged();
+
+                TokenResponse tokenResponse = await AuthService.GetTokenAsync(true);
+                
+                _progressPercent = 75;
+                _progressMessage = "Registering token with AuthenticationManager...";
+                StateHasChanged();
+                
+                if (tokenResponse is { Success: true, AccessToken: not null })
+                {
+                    await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires!);
+                    _progressPercent = 100;
+                    _progressMessage = "Complete";
+                    StateHasChanged();
+                    
+                    _isInitialized = true;
+                    StateHasChanged();
+                }
+                else
+                {
+                    _progressPercent = 100;
+                    _progressMessage = "Complete";
+                    _errorMessage = $"❌ Token request failed: {tokenResponse.ErrorMessage}";
+                    StateHasChanged();
+                    
+                    _isInitialized = true;
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                _progressPercent = 100;
+                _progressMessage = "Complete";
+                _errorMessage = $"❌ Exception occurred: {ex.Message}";
+                StateHasChanged();
+                
+                _isInitialized = true;
+                StateHasChanged();
+            }
+            finally
+            {
+                _tokenRequestInProgress = false;
+            }
+        }
+    }
+
+    private async Task GetToken()
+    {
+        if (_tokenRequestInProgress) return;
+        
+        _tokenRequestInProgress = true;
+        _isTestingToken = true;
+        _tokenTestResult = "";
+        _errorMessage = "";
+        StateHasChanged();
+        
+        try
+        {
+            TokenResponse tokenResponse = await AuthService.GetTokenAsync(true);
+            if (tokenResponse is { Success: true, AccessToken: not null })
+            {
+                string result = $"✅ ArcGisAuthService Success!\nToken (first 20 chars): {tokenResponse.AccessToken[..Math.Min(20, tokenResponse.AccessToken.Length)]}...\nExpires: {tokenResponse.Expires}";
+                
+                await AuthenticationManager.RegisterToken(tokenResponse.AccessToken, (DateTimeOffset)tokenResponse.Expires!);
+                
+                string? authManagerToken = await AuthenticationManager.GetCurrentToken();
+                result += !string.IsNullOrEmpty(authManagerToken) 
+                    ? "\n✅ AuthenticationManager token retrieved successfully!"
+                    : "\n⚠️ AuthenticationManager returned null token";
+                
+                _tokenTestResult = result;
+            }
+            else
+            {
+                _errorMessage = $"❌ Token request failed: {tokenResponse.ErrorMessage}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"❌ Exception occurred: {ex.Message}";
+        }
+        finally
+        {
+            _isTestingToken = false;
+            _tokenRequestInProgress = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task CheckAuthStatus()
+    {
+        _isTestingToken = true;
+        _tokenTestResult = "";
+        _errorMessage = "";
+        StateHasChanged();
+
+        try
+        {
+            bool isLoggedIn = await AuthenticationManager.IsLoggedIn();
+            string result = $"Auth Status: {(isLoggedIn ? "✅ Logged In" : "❌ Not Logged In")}";
+            
+            result += isLoggedIn 
+                ? "\n📋 Authentication Manager indicates user is authenticated\n🔗 Ready for ArcGIS API calls and map operations"
+                : "\n⚠️ No valid authentication found\n💡 Try running 'Get Token' first to authenticate";
+
+            _tokenTestResult = result;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"❌ Error checking auth status: {ex.Message}";
+        }
+
+        _isTestingToken = false;
+        StateHasChanged();
+    }
+
+    private async Task GetTokenExpires()
+    {
+        _isTestingToken = true;
+        _tokenTestResult = "";
+        _errorMessage = "";
+        StateHasChanged();
+
+        try
+        {
+            DateTime? expires = await AuthenticationManager.GetTokenExpirationDateTime();
+            if (expires.HasValue)
+            {
+                TimeSpan timeRemaining = expires.Value - DateTime.UtcNow;
+                string result = $"Token Expires: {expires.Value:yyyy-MM-dd HH:mm:ss} UTC";
+                
+                if (timeRemaining.TotalMinutes > 0)
+                {
+                    result += $"\nTime Remaining: {timeRemaining.Days}d {timeRemaining.Hours}h {timeRemaining.Minutes}m\n✅ Token is still valid";
+                }
+                else
+                {
+                    result += $"\n❌ Token has expired ({Math.Abs(timeRemaining.TotalMinutes):F0} minutes ago)\n💡 Run 'Get Token' to refresh";
+                }
+
+                _tokenTestResult = result;
+            }
+            else
+            {
+                _tokenTestResult = "Token expiration not available (possibly using API key)";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"❌ Error getting token expiration: {ex.Message}";
+        }
+
+        _isTestingToken = false;
+        StateHasChanged();
+    }
+}
