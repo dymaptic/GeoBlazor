@@ -84,6 +84,11 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
     {
         return new MapPathSerializationRecord(this.Select(p => p.ToSerializationRecord()).ToArray());
     }
+    
+    public MapComponentSerializationRecord ToProtobuf()
+    {
+        return ToSerializationRecord();
+    }
 }
 
 /// <summary>
@@ -152,7 +157,7 @@ public class MapPoint : List<double>, IEquatable<MapPoint>
 }
 
 [ProtoContract(Name = "MapPath")]
-internal record MapPathSerializationRecord
+internal record MapPathSerializationRecord: MapComponentSerializationRecord
 {
     public MapPathSerializationRecord()
     {

@@ -3,8 +3,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 [CodeGenerationIgnore]
 public partial class ActionButton : ActionBase
 {
-
-    
     /// <inheritdoc />
     public override string Type => "button";
 

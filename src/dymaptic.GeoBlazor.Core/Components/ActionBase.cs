@@ -2,7 +2,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 [JsonConverter(typeof(ActionBaseConverter))]
 [CodeGenerationIgnore]
-public abstract partial class ActionBase : MapComponent
+public abstract partial class ActionBase : MapComponent, IProtobufSerializable
 {
     /// <summary>
     ///     The title of the action.
@@ -66,6 +66,11 @@ public abstract partial class ActionBase : MapComponent
     public abstract string Type { get; }
     
     internal abstract ActionBaseSerializationRecord ToSerializationRecord();
+    
+    public MapComponentSerializationRecord ToProtobuf()
+    {
+        return ToSerializationRecord();
+    }
 }
 
 [ProtoContract(Name = "Action")]

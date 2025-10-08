@@ -350,7 +350,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.layer.sublayers.removeAll();
+            this.layer.sublayers?.removeAll();
         }
         let { buildJsSublayer } = await import('./sublayer');
         this.layer.sublayers = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;

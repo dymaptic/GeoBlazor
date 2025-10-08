@@ -3,19 +3,9 @@
 /// <summary>
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.
 /// </summary>
-public abstract class LogicComponent : IDisposable
+public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRuntime, 
+    JsModuleManager jsModuleManager)
 {
-    /// <summary>
-    ///     Default constructor
-    /// </summary>
-    /// <param name="authenticationManager">
-    ///     Injected Identity Manager reference
-    /// </param>
-    protected LogicComponent(AuthenticationManager authenticationManager)
-    {
-        AuthenticationManager = authenticationManager;
-    }
-
     /// <summary>
     ///     The name of the logic component.
     /// </summary>
@@ -39,14 +29,6 @@ public abstract class LogicComponent : IDisposable
     protected virtual string Library => "Core";
 
     /// <summary>
-    ///     Disposes of the Logic Component and cancels all external calls
-    /// </summary>
-    public void Dispose()
-    {
-        CancellationTokenSource.Dispose();
-    }
-
-    /// <summary>
     ///     A JavaScript invokable method that returns a JS Error and converts it to an Exception.
     /// </summary>
     /// <param name="error">
@@ -65,16 +47,18 @@ public abstract class LogicComponent : IDisposable
     /// <summary>
     ///     Initializes the JavaScript reference component, if not already initialized.
     /// </summary>
-    public virtual async Task Initialize()
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+    /// </param>
+    public virtual async Task Initialize(CancellationToken cancellationToken = default)
     {
-        if (Component is null)
+        if (!_validated)
         {
-            await AuthenticationManager.Initialize();
-            IJSObjectReference module = await AuthenticationManager.GetArcGisJsInterop();
-
-            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetComponentReference);
+            await appValidator.ValidateLicense();
+            _validated = true;
         }
+
+        Component ??= await jsModuleManager.GetLogicComponent(jsRuntime, ComponentName, cancellationToken);
     }
 
     /// <summary>
@@ -86,11 +70,14 @@ public abstract class LogicComponent : IDisposable
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    protected virtual async Task InvokeVoidAsync(string method, params object?[] parameters)
+    internal virtual async Task InvokeVoidAsync(string method, params object?[] parameters)
     {
         await Initialize();
+        
+        object?[] parameterList = GenerateSerializedParameters(parameters);
 
-        await Component!.InvokeVoidAsync(method, CancellationTokenSource.Token, parameters);
+        await Component!.InvokeVoidAsync(
+            "invokeVoidSerializedMethod", [method, IsServer, ..parameterList]);
     }
 
     /// <summary>
@@ -102,11 +89,9 @@ public abstract class LogicComponent : IDisposable
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    protected virtual async Task<T> InvokeAsync<T>(string method, params object?[] parameters)
+    internal virtual Task<T> InvokeAsync<T>(string method, params object?[] parameters)
     {
-        await Initialize();
-
-        return await Component!.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
+        return InvokeAsync<T>(method, CancellationToken.None, parameters);
     }
     
     /// <summary>
@@ -121,20 +106,135 @@ public abstract class LogicComponent : IDisposable
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    protected virtual async Task<T> InvokeAsync<T>(string method, CancellationToken cancellationToken, params object?[] parameters)
+    internal virtual async Task<T> InvokeAsync<T>(string method, CancellationToken cancellationToken, params object?[] parameters)
     {
-        await Initialize();
+        await Initialize(cancellationToken);
+        
+        object?[] parameterList = GenerateSerializedParameters(parameters);
 
-        return await Component!.InvokeAsync<T>(method, cancellationToken, parameters);
+        if (IsServer)
+        {
+            IJSStreamReference streamRef = await Component!.InvokeAsync<IJSStreamReference>(
+                "invokeSerializedMethod", cancellationToken, [method, true, ..parameterList]);
+            return (await streamRef.ReadJsStreamReference<T>())!;
+        }
+
+        return await Component!.InvokeAsync<T>(
+            "invokeSerializedMethod", cancellationToken, [method, false, ..parameterList]);
+    }
+    
+    private object?[] GenerateSerializedParameters(object?[] parameters)
+    {
+        return parameters.SelectMany(p => ProcessParameter(p)).ToArray();
     }
     
     /// <summary>
-    ///    The reference to the Authentication Manager.
+    ///     Returns the processed parameter Type and a Serialized or DotNetStreamReference of the serialized parameter value.
     /// </summary>
-    protected readonly AuthenticationManager AuthenticationManager;
+    /// <param name="parameter">
+    ///     The original parameter to process.
+    /// </param>
+    /// <param name="nested">
+    ///     True if the parameter is nested within a collection, false if it is a top-level parameter.
+    /// </param>
+    private object?[] ProcessParameter(object? parameter, bool nested = false)
+    {
+        if (parameter is null)
+        {
+            return ["null", null];
+        }
+        
+        Type paramType = parameter.GetType();
 
+        if (_simpleTypes.Contains(paramType))
+        {
+            return [paramType.Name, parameter];
+        }
+        
+        if (parameter is ICollection collection)
+        {
+            List<object?> items = [];
+            foreach (object? item in collection)
+            {
+                items.Add(ProcessParameter(item, true));
+            }
+
+            if (items.All(i => i is GraphicSerializationRecord))
+            {
+                ProtoGraphicCollection protoGraphicCollection = new(items.Cast<GraphicSerializationRecord>().ToArray());
+                return [nameof(ProtoGraphicCollection), 
+                    nested ? protoGraphicCollection : GenerateProtobufParameter(protoGraphicCollection)];
+            }
+            
+            return ["Array", nested ? items : GenerateJsonParameter(items)];
+        }
+        if (parameter is IProtobufSerializable protobufSerializable)
+        {
+            MapComponentSerializationRecord protoRecord = protobufSerializable.ToProtobuf();
+            return [GetProtoContractName(protoRecord), nested ? protoRecord : GenerateProtobufParameter(protoRecord)];
+        }
+        if (parameter is IProtobufArraySerializable protobufArraySerializable)
+        {
+            MapComponentSerializationRecord[] protoArray = protobufArraySerializable.ToProtobufArray();
+            return [GetProtoContractName(protoArray), nested ? protoArray : GenerateProtobufParameter(protoArray)];
+        }
+
+        return [parameter.GetType().Name, nested ? parameter : GenerateJsonParameter(parameter)];
+    }
+    
+    private object GenerateProtobufParameter(object obj)
+    {
+        MemoryStream memoryStream = new();
+        Serializer.Serialize(memoryStream, obj);
+        memoryStream.Seek(0, SeekOrigin.Begin);
+        
+        if (IsServer)
+        {
+            return new DotNetStreamReference(memoryStream);   
+        }
+
+        byte[] data = memoryStream.ToArray();
+        memoryStream.Dispose();
+
+        return data;
+    }
+    
+    private object GenerateJsonParameter(object obj)
+    {
+        if (IsServer)
+        {
+            MemoryStream memoryStream = new();
+            JsonSerializer.Serialize(memoryStream, obj, GeoBlazorSerialization.JsonSerializerOptions);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return new DotNetStreamReference(memoryStream);   
+        }
+        
+        return JsonSerializer.Serialize(obj, GeoBlazorSerialization.JsonSerializerOptions);
+    }
+    
+    private string GetProtoContractName(object obj)
+    {
+        Type type = obj.GetType();
+        ProtoContractAttribute? protoContract = type.GetCustomAttribute<ProtoContractAttribute>();
+        if (protoContract?.Name is not null)
+        {
+            return protoContract.Name;
+        }
+
+        return type.Name.Replace("SerializationRecord", string.Empty);
+    }
+
+    private bool _validated;
+    private readonly Type[] _simpleTypes =
+    [
+        typeof(string), typeof(char), typeof(bool), typeof(byte), typeof(sbyte), typeof(short),
+        typeof(ushort), typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float),
+        typeof(double), typeof(decimal), typeof(DateTime), typeof(DateTimeOffset), typeof(TimeSpan),
+        typeof(Guid), typeof(DateOnly), typeof(TimeOnly)
+    ];
+    
     /// <summary>
-    ///     Creates a cancellation token to control external calls
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
-    protected readonly CancellationTokenSource CancellationTokenSource = new();
+    protected bool IsServer => jsRuntime.GetType().Name.Contains("Remote");
 }

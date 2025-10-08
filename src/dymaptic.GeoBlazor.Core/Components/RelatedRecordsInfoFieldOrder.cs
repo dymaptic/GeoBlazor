@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-RelatedRecordsInfoFieldOrder.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [CodeGenerationIgnore]
-public class RelatedRecordsInfoFieldOrder : MapComponent
+public class RelatedRecordsInfoFieldOrder : MapComponent, IProtobufSerializable
 {
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
@@ -48,13 +48,18 @@ public class RelatedRecordsInfoFieldOrder : MapComponent
     {
         return new RelatedRecordsInfoFieldOrderSerializationRecord(Field, Order, Id.ToString());
     }
+    
+    public MapComponentSerializationRecord ToProtobuf()
+    {
+        return ToSerializationRecord();
+    }
 }
 
 [ProtoContract(Name = "RelatedRecordsInfoFieldOrder")]
 internal record RelatedRecordsInfoFieldOrderSerializationRecord(
     [property: ProtoMember(1)] string? Field, 
     [property: ProtoMember(2)] OrderBy? Order,
-    [property: ProtoMember(3)] string Id)
+    [property: ProtoMember(3)] string Id): MapComponentSerializationRecord
 {
     public RelatedRecordsInfoFieldOrder FromSerializationRecord()
     {

@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 [JsonConverter(typeof(SymbolJsonConverter))]
-public abstract partial class Symbol : MapComponent
+public abstract partial class Symbol : MapComponent, IProtobufSerializable
 {
     /// <summary>
     ///     The color of the symbol.
@@ -17,6 +17,11 @@ public abstract partial class Symbol : MapComponent
     public abstract SymbolType Type { get; }
 
     internal abstract SymbolSerializationRecord ToSerializationRecord();
+    
+    public MapComponentSerializationRecord ToProtobuf()
+    {
+        return ToSerializationRecord();
+    }
 }
 
 [ProtoContract(Name = "Symbol")]

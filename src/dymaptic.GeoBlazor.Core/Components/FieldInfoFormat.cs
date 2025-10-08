@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class FieldInfoFormat : MapComponent
+public partial class FieldInfoFormat : MapComponent, IProtobufSerializable
 {
 
 
@@ -60,6 +60,11 @@ public partial class FieldInfoFormat : MapComponent
             _ => null
         };
         return new FieldInfoFormatSerializationRecord(Id.ToString(), Places, DigitSeparator, dateFormat);
+    }
+    
+    public MapComponentSerializationRecord ToProtobuf()
+    {
+        return ToSerializationRecord();
     }
 }
 

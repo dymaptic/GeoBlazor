@@ -23,13 +23,9 @@ import Mesh from "@arcgis/core/geometry/Mesh";
 import Multipoint from "@arcgis/core/geometry/Multipoint";
 import { hasValue } from './arcGisJsInterop';
 import GeometryUnion = __esri.GeometryUnion;
+import BaseComponent from "./baseComponent";
 
-export default class GeometryEngineWrapper {
-    private readonly returnToDotNet: boolean;
-    
-    constructor(returnToDotNet: boolean = true) {
-        this.returnToDotNet = returnToDotNet;
-    }
+export default class GeometryEngineWrapper extends BaseComponent {
     
     async buffer(geometries: DotNetGeometry | Array<DotNetGeometry>, distances: number | Array<number>,
                  unit: LinearUnits | null, unionResults: boolean | null): Promise<any> {
@@ -47,7 +43,7 @@ export default class GeometryEngineWrapper {
                 options.union = unionResults;
             }
             jsBuffer = bufferOperator.executeMany(jsGeometries as GeometryUnion[], distances as number[], options);
-            return this.returnToDotNet ? jsBuffer.map(g => buildDotNetPolygon(g) as DotNetPolygon) : jsBuffer;
+            return jsBuffer.map(g => buildDotNetPolygon(g) as DotNetPolygon);
         }
 
         jsGeometries = buildJsGeometry(geometries) as Geometry;
@@ -56,14 +52,14 @@ export default class GeometryEngineWrapper {
         }
         jsBuffer = bufferOperator.execute(jsGeometries as GeometryUnion, distances as number, options) as Polygon;
         
-        return this.returnToDotNet ? buildDotNetPolygon(jsBuffer) : jsBuffer;
+        return buildDotNetPolygon(jsBuffer);
 
     }
 
     async clip(geometry: DotNetGeometry, extent: DotNetExtent): Promise<any> {
         let clipOperator = await import('@arcgis/core/geometry/operators/clipOperator');
         let jsClip = clipOperator.execute(buildJsGeometry(geometry) as any, buildJsExtent(extent, null));
-        return this.returnToDotNet ? buildDotNetGeometry(jsClip) : jsClip;
+        return buildDotNetGeometry(jsClip);
 
     }
 
@@ -86,13 +82,13 @@ export default class GeometryEngineWrapper {
                 options.merge = merge;
             }
             jsHull = convexHullOperator.executeMany(jsGeometries as GeometryUnion[], options) as GeometryUnion[];
-            return this.returnToDotNet ? jsHull.map(g => buildDotNetGeometry(g) as DotNetGeometry) : jsHull;
+            return jsHull.map(g => buildDotNetGeometry(g) as DotNetGeometry);
         }
 
         jsGeometries = buildJsGeometry(geometries) as Geometry;
         jsHull = convexHullOperator.execute(jsGeometries as any) as GeometryUnion;
         
-        return this.returnToDotNet ? buildDotNetGeometry(jsHull) : jsHull;
+        return buildDotNetGeometry(jsHull);
 
     }
 
@@ -105,7 +101,7 @@ export default class GeometryEngineWrapper {
     async cut(geometry: DotNetGeometry, cutter: DotNetPolyline): Promise<any> {
         let cutOperator = await import('@arcgis/core/geometry/operators/cutOperator');
         let jsCut = cutOperator.execute(buildJsGeometry(geometry) as GeometryUnion, buildJsPolyline(cutter) as Polyline);
-        return this.returnToDotNet ? jsCut.map(g => buildDotNetGeometry(g) as DotNetGeometry) : jsCut;
+        return jsCut.map(g => buildDotNetGeometry(g) as DotNetGeometry);
 
     }
 
@@ -120,7 +116,7 @@ export default class GeometryEngineWrapper {
         }
         jsDensified = densifyOperator.execute(jsGeometry, maxSegmentLength, options);
 
-        return this.returnToDotNet ? buildDotNetGeometry(jsDensified) : jsDensified;
+        return buildDotNetGeometry(jsDensified);
 
     }
 
@@ -133,12 +129,12 @@ export default class GeometryEngineWrapper {
             jsGeometries = [];
             geometries.forEach(g => (jsGeometries as Array<GeometryUnion>).push(buildJsGeometry(g) as GeometryUnion));
             jsDifference = differenceOperator.executeMany(jsGeometries as GeometryUnion[], buildJsGeometry(subtractor) as GeometryUnion);
-            return this.returnToDotNet ? jsDifference.map(g => buildDotNetGeometry(g) as DotNetGeometry) : jsDifference;
+            return jsDifference.map(g => buildDotNetGeometry(g) as DotNetGeometry);
         }
 
         jsGeometries = buildJsGeometry(geometries) as GeometryUnion;
         jsDifference = differenceOperator.execute(jsGeometries as any, buildJsGeometry(subtractor) as GeometryUnion);
-        return this.returnToDotNet ? buildDotNetGeometry(jsDifference) : jsDifference;
+        return buildDotNetGeometry(jsDifference);
     }
 
     async disjoint(geometry1: DotNetGeometry, geometry2: DotNetGeometry): Promise<any> {
@@ -192,7 +188,7 @@ export default class GeometryEngineWrapper {
         transformation.flipY(y0, y1);
         let jsFlip = affineTransformOperator.execute(jsGeometry as any, transformation);
 
-        return this.returnToDotNet ? buildDotNetGeometry(jsFlip) : jsFlip;
+        return buildDotNetGeometry(jsFlip);
 
     }
 
@@ -217,7 +213,7 @@ export default class GeometryEngineWrapper {
         transformation.flipX(x0, x1);
         let jsFlip = affineTransformOperator.execute(jsGeometry as any, transformation);
 
-        return this.returnToDotNet ? buildDotNetGeometry(jsFlip) : jsFlip;
+        return buildDotNetGeometry(jsFlip);
 
     }
 
@@ -236,7 +232,7 @@ export default class GeometryEngineWrapper {
         
         jsGeneralize = generalizeOperator.execute(jsGeometry as GeometryUnion, maxDeviation, options) as GeometryUnion;
 
-        return this.returnToDotNet ? buildDotNetGeometry(jsGeneralize) : jsGeneralize;
+        return buildDotNetGeometry(jsGeneralize);
 
     }
 
@@ -276,12 +272,12 @@ export default class GeometryEngineWrapper {
             jsGeometries = [];
             geometries.forEach(g => (jsGeometries as Array<GeometryUnion>).push(buildJsGeometry(g) as GeometryUnion));
             jsBuffer = geodesicBufferOperator.executeMany(jsGeometries as GeometryUnion[], distances as number[], options);
-            return this.returnToDotNet ? jsBuffer.map(g => buildDotNetPolygon(g) as DotNetPolygon) : jsBuffer;
+            return jsBuffer.map(g => buildDotNetPolygon(g) as DotNetPolygon);
         }
 
         jsGeometries = buildJsGeometry(geometries) as Geometry;
         jsBuffer = geodesicBufferOperator.execute(jsGeometries as GeometryUnion, distances as number, options) as Polygon;
-        return this.returnToDotNet ? buildDotNetPolygon(jsBuffer) : jsBuffer;
+        return buildDotNetPolygon(jsBuffer);
     }
 
     async geodesicDensify(geometry: DotNetGeometry, maxSegmentLength: number,
@@ -297,7 +293,7 @@ export default class GeometryEngineWrapper {
         }
         jsDensify = geodeticDensifyOperator.execute(buildJsGeometry(geometry) as GeometryUnion, maxSegmentLength, options) as GeometryUnion;
         
-        return this.returnToDotNet ? buildDotNetGeometry(jsDensify) : jsDensify;
+        return buildDotNetGeometry(jsDensify);
 
     }
 
@@ -322,12 +318,12 @@ export default class GeometryEngineWrapper {
             jsGeometries = [];
             geometry1.forEach(g => (jsGeometries as Array<GeometryUnion>).push(buildJsGeometry(g) as GeometryUnion));
             jsIntersection = intersectionOperator.executeMany(jsGeometries as GeometryUnion[], buildJsGeometry(geometry2) as GeometryUnion);
-            return this.returnToDotNet ? jsIntersection.map(g => buildDotNetGeometry(g) as DotNetGeometry) : jsIntersection;
+            return jsIntersection.map(g => buildDotNetGeometry(g) as DotNetGeometry);
         }
 
         jsGeometries = buildJsGeometry(geometry1) as GeometryUnion;
         jsIntersection = intersectionOperator.execute(jsGeometries, buildJsGeometry(geometry2) as GeometryUnion) as GeometryUnion;
-        return this.returnToDotNet ? buildDotNetGeometry(jsIntersection) : jsIntersection;
+        return buildDotNetGeometry(jsIntersection);
 
     }
 
@@ -347,24 +343,24 @@ export default class GeometryEngineWrapper {
         : Promise<any> {
         let proximityOperator = await import('@arcgis/core/geometry/operators/proximityOperator');
         let jsResult = proximityOperator.getNearestCoordinate(buildJsGeometry(geometry) as any, buildJsPoint(inputPoint) as Point);
-        return this.returnToDotNet ? {
+        return {
             coordinate: buildJsPoint(jsResult.coordinate),
             distance: jsResult.distance,
             isEmpty: jsResult.isEmpty,
             vertexIndex: jsResult.vertexIndex,
             isRightSide: jsResult.isRightSide
-        } : jsResult;
+        };
     }
 
     async nearestVertex(geometry: DotNetGeometry, inputPoint: DotNetPoint): Promise<any> {
         let proximityOperator = await import('@arcgis/core/geometry/operators/proximityOperator');
         let jsResult = proximityOperator.getNearestVertex(buildJsGeometry(geometry) as GeometryUnion, buildJsPoint(inputPoint) as Point);
-        return this.returnToDotNet ? {
+        return {
             coordinate: buildDotNetPoint(jsResult.coordinate) as DotNetPoint,
             distance: jsResult.distance,
             vertexIndex: jsResult.vertexIndex,
             isEmpty: jsResult.isEmpty
-        } : jsResult;
+        };
 
     }
 
@@ -374,14 +370,14 @@ export default class GeometryEngineWrapper {
         let jsResult = proximityOperator.getNearestVertices(
             buildJsGeometry(geometry) as GeometryUnion, buildJsPoint(inputPoint) as Point,
             searchRadius, maxVertexCountToReturn);
-        return this.returnToDotNet ? jsResult.filter(v => v !== undefined).map(r => {
+        return jsResult.filter(v => v !== undefined).map(r => {
             return {
                 coordinate: buildDotNetPoint(r.coordinate) as DotNetPoint,
                 distance: r.distance,
                 vertexIndex: r.vertexIndex,
                 isEmpty: r.isEmpty
             };
-        }) : jsResult.filter(v => v !== undefined);
+        });
 
     }
 
@@ -404,12 +400,12 @@ export default class GeometryEngineWrapper {
             jsGeometries = [];
             geometries.forEach(g => (jsGeometries as Array<GeometryUnion>).push(buildJsGeometry(g) as GeometryUnion));
             let jsOffset = offsetOperator.executeMany(jsGeometries as GeometryUnion[], offsetDistance, options);
-            return this.returnToDotNet ? jsOffset.map(g => buildDotNetGeometry(g) as DotNetGeometry) : jsOffset;
+            return jsOffset.map(g => buildDotNetGeometry(g) as DotNetGeometry);
         } 
             
         jsGeometries = buildJsGeometry(geometries as DotNetGeometry) as GeometryUnion;
         let jsOffset = offsetOperator.execute(jsGeometries as GeometryUnion, offsetDistance, options) as GeometryUnion;
-        return this.returnToDotNet ? buildDotNetGeometry(jsOffset) : jsOffset;
+        return buildDotNetGeometry(jsOffset);
     }
 
     async overlaps(geometry1: DotNetGeometry, geometry2: DotNetGeometry): Promise<boolean | null> {
@@ -449,14 +445,14 @@ export default class GeometryEngineWrapper {
         transformation.rotate(angle, jsRotationOrigin.x, jsRotationOrigin.y)
         let jsRotated = affineTransformOperator.execute(buildJsGeometry(geometry) as GeometryUnion, 
             transformation);
-        return this.returnToDotNet ? buildDotNetGeometry(jsRotated) : jsRotated;
+        return buildDotNetGeometry(jsRotated);
 
     }
 
     async simplify(geometry: DotNetGeometry): Promise<any> {
         let simplifyOperator = await import('@arcgis/core/geometry/operators/simplifyOperator');
         let jsSimplified = simplifyOperator.execute(buildJsGeometry(geometry) as GeometryUnion);
-        return this.returnToDotNet ? buildDotNetGeometry(jsSimplified) : jsSimplified;
+        return buildDotNetGeometry(jsSimplified);
 
     }
 
@@ -468,12 +464,12 @@ export default class GeometryEngineWrapper {
             jsGeometries = [];
             leftGeometry.forEach(g => (jsGeometries as Array<GeometryUnion>).push(buildJsGeometry(g) as GeometryUnion));
             let jsDifference = symmetricDifferenceOperator.executeMany(jsGeometries as GeometryUnion[], buildJsGeometry(rightGeometry) as GeometryUnion);
-            return this.returnToDotNet ? jsDifference.map(g => buildDotNetGeometry(g) as DotNetGeometry) : jsDifference;
+            return jsDifference.map(g => buildDotNetGeometry(g) as DotNetGeometry);
         }
         
         jsGeometries = buildJsGeometry(leftGeometry) as GeometryUnion;
         let jsDifference = symmetricDifferenceOperator.execute(jsGeometries as GeometryUnion, buildJsGeometry(rightGeometry) as GeometryUnion);
-        return this.returnToDotNet ? buildDotNetGeometry(jsDifference) : jsDifference;
+        return buildDotNetGeometry(jsDifference);
 
     }
 
@@ -493,7 +489,7 @@ export default class GeometryEngineWrapper {
         }
 
         let jsUnion = unionOperator.executeMany(jsGeometries);
-        return this.returnToDotNet ? buildDotNetGeometry(jsUnion) : jsUnion;
+        return buildDotNetGeometry(jsUnion);
     }
 
     async within(innerGeometry: DotNetGeometry, outerGeometry: DotNetGeometry): Promise<boolean | null> {
@@ -527,7 +523,7 @@ export default class GeometryEngineWrapper {
             default:
                 throw new Error("Invalid geometry type");
         }
-        return this.returnToDotNet ? buildDotNetGeometry(jsGeometry) : jsGeometry;
+        return buildDotNetGeometry(jsGeometry);
 
     }
 
@@ -539,20 +535,20 @@ export default class GeometryEngineWrapper {
     async clone(geometry: DotNetGeometry): Promise<any> {
         let jsGeometry = buildJsGeometry(geometry) as Geometry;
         let clonedGeometry = jsGeometry.clone();
-        return this.returnToDotNet ? buildDotNetGeometry(clonedGeometry) : clonedGeometry;
+        return buildDotNetGeometry(clonedGeometry);
 
     }
 
     async centerExtentAt(extent: DotNetExtent, center: DotNetPoint): Promise<any> {
         let jsExtent = buildJsExtent(extent, null) as Extent;
         let newExtent = jsExtent.centerAt(buildJsPoint(center) as Point);
-        return this.returnToDotNet ? buildDotNetExtent(newExtent) : newExtent;
+        return buildDotNetExtent(newExtent);
     }
 
     async expand(extent: DotNetExtent, factor: number): Promise<any> {
         let jsExtent = buildJsExtent(extent, null) as Extent;
         let newExtent = jsExtent.expand(factor);
-        return this.returnToDotNet ? buildDotNetExtent(newExtent) : newExtent;
+        return buildDotNetExtent(newExtent);
     }
 
     async normalizeExtent(extent: DotNetExtent): Promise<DotNetExtent[] | null> {
@@ -742,12 +738,17 @@ export default class GeometryEngineWrapper {
         
         return pointResults;
     }
+    
+    convertMultipartGeometriesToSinglePartGeometries(geometries: DotNetGeometry[], simplifyPolygons: boolean)
+        : DotNetGeometry[] {
+        
+    }
 }
 
 export async function buildJsGeometryEngine(dotNetObject: any, viewId: string | null): Promise<any> {
-    return new GeometryEngineWrapper(dotNetObject);
+    // excluded
 }
 
 export async function buildDotNetGeometryEngine(jsObject: any, viewId: string | null): Promise<any> {
-    return null; // not used
+    // excluded
 }

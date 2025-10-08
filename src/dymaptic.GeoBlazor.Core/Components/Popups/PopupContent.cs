@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 [JsonConverter(typeof(PopupContentConverter))]
-public abstract partial class PopupContent : MapComponent
+public abstract partial class PopupContent : MapComponent, IProtobufSerializable
 {
     /// <summary>
     ///     The type of Popup Content
@@ -9,6 +9,11 @@ public abstract partial class PopupContent : MapComponent
     public abstract PopupContentType Type { get; }
 
     internal abstract PopupContentSerializationRecord ToSerializationRecord();
+    
+    public MapComponentSerializationRecord ToProtobuf()
+    {
+        return ToSerializationRecord();
+    }
 }
 
 [ProtoContract(Name = "PopupContent")]

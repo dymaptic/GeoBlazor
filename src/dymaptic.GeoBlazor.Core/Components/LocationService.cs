@@ -6,10 +6,8 @@ public partial class LocationService : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name="authenticationManager">
-    ///     Injected Identity Manager reference
-    /// </param>
-    public LocationService(AuthenticationManager authenticationManager) : base(authenticationManager)
+    public LocationService(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager) 
+        : base(appValidator, jsRuntime, jsModuleManager)
     {
     }
 

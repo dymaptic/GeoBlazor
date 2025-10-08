@@ -362,10 +362,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         
         ms.Seek(0, SeekOrigin.Begin);
 
-        FeatureEditsResult result;
-
         try
         {
+            FeatureEditsResult result;
+
             if (View!.IsWebAssembly)
             {
                 result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsSynchronously",

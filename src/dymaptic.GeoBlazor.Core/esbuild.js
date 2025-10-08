@@ -11,7 +11,12 @@ const isRelease = args.includes('--release');
 const OUTPUT_DIR = path.resolve('./wwwroot/js');
 
 let options = {
-    entryPoints: ['./Scripts/arcGisJsInterop.ts'],
+    entryPoints: [
+        './Scripts/arcGisJsInterop.ts', // main entry point
+        './Scripts/geometryEngine.ts', // logic components
+        './Scripts/locationService.ts',
+        './Scripts/projection.ts'
+    ],
     chunkNames: 'core_[name]_[hash]',
     bundle: true,
     sourcemap: true,

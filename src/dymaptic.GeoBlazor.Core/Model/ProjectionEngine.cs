@@ -10,11 +10,8 @@ public class ProjectionEngine : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name="authenticationManager">
-    ///     Injected Identity Manager reference
-    /// </param>
-    public ProjectionEngine(AuthenticationManager authenticationManager) : 
-        base(authenticationManager)
+    public ProjectionEngine(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager) 
+        : base(appValidator, jsRuntime, jsModuleManager)
     {
     }
 

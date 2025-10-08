@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [JsonConverter(typeof(SpatialReferenceConverter))]
-public partial class SpatialReference : MapComponent, IEquatable<SpatialReference>
+public partial class SpatialReference : MapComponent, IEquatable<SpatialReference>, IProtobufSerializable
 {
     /// <summary>
     ///     Constructor for use in C# code.
@@ -109,6 +109,11 @@ public partial class SpatialReference : MapComponent, IEquatable<SpatialReferenc
     internal SpatialReferenceSerializationRecord ToSerializationRecord()
     {
         return new SpatialReferenceSerializationRecord(Wkid, Wkt);
+    }
+    
+    public MapComponentSerializationRecord ToProtobuf()
+    {
+        return ToSerializationRecord();
     }
 
     /// <summary>

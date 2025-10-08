@@ -10,15 +10,13 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name="authenticationManager">
-    ///     Injected Identity Manager reference
-    /// </param>
-    public GeometryEngine(AuthenticationManager authenticationManager) : base(authenticationManager)
+    public GeometryEngine(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager) 
+        : base(appValidator, jsRuntime, jsModuleManager)
     {
     }
 
     /// <inheritdoc/>
-    protected override string ComponentName => nameof(GeometryEngine);
+    protected override string ComponentName => nameof(GeometryEngine).ToLowerFirstChar();
 
     /// <summary>
     ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.

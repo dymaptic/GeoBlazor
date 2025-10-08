@@ -1,6 +1,9 @@
+using System.Runtime.Serialization.Formatters;
+
+
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class FieldInfo : MapComponent
+public partial class FieldInfo : MapComponent, IProtobufSerializable
 {
 
 
@@ -44,6 +47,11 @@ public partial class FieldInfo : MapComponent
     {
         return new FieldInfoSerializationRecord(Id.ToString(), FieldName, Label, Tooltip, 
             StringFieldOption?.ToString().ToKebabCase(), Format?.ToSerializationRecord(), IsEditable, Visible);
+    }
+    
+    public MapComponentSerializationRecord ToProtobuf()
+    {
+        return ToSerializationRecord();
     }
 }
 

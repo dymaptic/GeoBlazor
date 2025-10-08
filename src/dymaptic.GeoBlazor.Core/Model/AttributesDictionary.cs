@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Dictionary of Graphic Attributes that can be asynchronously updated
 /// </summary>
 [JsonConverter(typeof(AttributesDictionaryConverter))]
-public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerable<KeyValuePair<string, object?>>
+public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerable<KeyValuePair<string, object?>>,
+    IProtobufArraySerializable
 {
     /// <summary>
     ///     Constructor for a new, empty dictionary
@@ -525,6 +526,11 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                 return new AttributeSerializationRecord(kvp.Key, stringVal, valueType!);
             })
             .ToArray();
+    }
+    
+    public MapComponentSerializationRecord[] ToProtobufArray()
+    {
+        return ToSerializationRecord().Cast<MapComponentSerializationRecord>().ToArray();
     }
 
     private readonly Dictionary<string, object?> _backingDictionary;

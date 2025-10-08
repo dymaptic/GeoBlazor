@@ -51,6 +51,25 @@ public class JsModuleManager
 
         return _proModule;
     }
+
+    public async Task<IJSObjectReference?> GetLogicComponent(IJSRuntime jsRuntime, string moduleName,
+        CancellationToken cancellationToken)
+    {
+        if (!_proChecked)
+        {
+            await GetArcGisJsPro(jsRuntime, cancellationToken);
+        }
+
+        if (_coreModule is null)
+        {
+            await GetArcGisJsCore(jsRuntime, _proModule, cancellationToken);
+        }
+
+        string modulePath = $"./_content/dymaptic.GeoBlazor.{(_proModule is null ? "Core" : "Pro")}/js/{moduleName}.js?v={_version}";
+        IJSObjectReference module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", cancellationToken, modulePath);
+        // load the default export class from the module
+        return await _coreModule!.InvokeAsync<IJSObjectReference>("getDefaultClassInstanceFromModule", cancellationToken, module);
+    }
     
     private IJSObjectReference? _proModule;
     private IJSObjectReference? _coreModule;

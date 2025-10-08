@@ -35,11 +35,10 @@ import GeometryEngineWrapper from "./geometryEngine";
 import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Layer from "@arcgis/core/layers/Layer";
-import LocatorWrapper from "./locationService";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
-import { ArcgisMap } from "@arcgis/map-components/components/arcgis-map";
-import { ArcgisScene } from "@arcgis/map-components/components/arcgis-scene";
+import {ArcgisMap} from "@arcgis/map-components/components/arcgis-map";
+import {ArcgisScene} from "@arcgis/map-components/components/arcgis-scene";
 // @ts-ignore
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
 import Point from "@arcgis/core/geometry/Point";
@@ -73,14 +72,14 @@ import {buildDotNetSymbol, buildJsSymbol} from './symbol';
 import {buildDotNetPopupTemplate} from './popupTemplate';
 import {buildDotNetHitTestResult, buildViewExtentUpdate} from './mapView';
 import {buildJsAttributes} from './attributes';
+import {buildJsWidget} from "./widget";
+import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
+import {buildJsColor} from './mapColor';
+import {buildJsBasemap} from "./basemap";
+import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
-import {buildJsWidget} from "./widget";
-import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
-import { buildJsColor } from './mapColor';
-import {buildJsBasemap} from "./basemap";
-import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 
 // region exports
 
@@ -109,7 +108,7 @@ export const actionHandlers: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 
-export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper(false);
+export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper();
 export let projectionEngine: ProjectionWrapper = new ProjectionWrapper(false);
 
 // region module variables
@@ -290,28 +289,6 @@ export function addHeadLink(source: string) {
 
     let geoblazorLink = document.querySelector('link[href*="_content/dymaptic.GeoBlazor.Core"]');
     document.head.insertBefore(link, geoblazorLink);
-}
-
-export async function getProjectionEngineWrapper(): Promise<ProjectionWrapper> {
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
-    }
-    return new ProjectionWrapper();
-}
-
-export async function getGeometryEngineWrapper(): Promise<GeometryEngineWrapper> {
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
-    }
-    return new GeometryEngineWrapper();
-}
-
-export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
-    }
-
-    return new LocatorWrapper(locator);
 }
 
 export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetReference: any, long: number | null, lat: number | null,
@@ -2067,15 +2044,29 @@ function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapV
 export let ProtoGraphicCollection;
 export let ProtoViewHitCollection;
 
-export async function loadProtobuf() {
-    load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
-        if (err) {
-            throw err;
+export let ProtoTypes: {[key: string]: any} = {};
+
+export async function loadProtobuf(): Promise<void> {
+    if (ProtoGraphicCollection !== undefined && ProtoViewHitCollection !== undefined) {
+        return;
+    }
+    
+    let root = await load("_content/dymaptic.GeoBlazor.Core/graphic.json");
+    if (!hasValue(root)) {
+        throw new Error('Could not load graphic protobuf definition');
+    }
+
+    // Load all types from root into ProtoTypes
+    // @ts-ignore unknown types
+    root.nested.dymaptic.GeoBlazor.Core.nestedArray[0].nestedArray.forEach((type: any) => {
+        if (type && type.name) {
+            ProtoTypes[type.name] = type;
         }
-        ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
-        ProtoViewHitCollection = root?.lookupType("ProtoViewHitCollection");
-        console.debug('Protobuf graphics json loaded');
     });
+
+    ProtoGraphicCollection = ProtoTypes["GraphicCollection"];
+    ProtoViewHitCollection = ProtoTypes["ViewHitCollection"];
+    console.debug('Protobuf graphic types initialized');
 }
 
 export async function getGraphicsFromProtobufStream(streamRef): Promise<any[] | null> {
@@ -2291,7 +2282,7 @@ export async function takeScreenshot(viewId, options): Promise<any> {
 
     const buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
 
-        const jsStreamRef = DotNet.createJSStreamReference(buffer);
+    const jsStreamRef = DotNet.createJSStreamReference(buffer);
 
     return {
         width: screenshot.data.width,
@@ -2384,13 +2375,11 @@ export function removeCircularReferences(jsObject: any) {
 }
 
 export function buildJsStreamReference(dnObject: any) {
-    let json = generateSerializableJson(dnObject);
-    if (!hasValue(json)) {
+    let encodedArray = buildEncodedJson(dnObject);
+    if (!hasValue(encodedArray)) {
         return null;
     }
-    let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json!);
-    return DotNet.createJSStreamReference(encodedArray);
+    return DotNet.createJSStreamReference(encodedArray!);
 }
 
 export function buildEncodedJson(object: any) {
@@ -2399,6 +2388,21 @@ export function buildEncodedJson(object: any) {
         return null;
     }
     let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json!);
-    return encodedArray;
+    return encoder.encode(json!);
+}
+
+export function getDefaultClassInstanceFromModule(module: any) {
+    if (module === null || module === undefined) {
+        return null;
+    }
+    if (module.default !== undefined) {
+        return new module.default();
+    }
+    // find the first class in the module
+    for (const key in module) {
+        if (typeof module[key] === 'function') {
+            return new module[key]();
+        }
+    }
+    return null;
 }
