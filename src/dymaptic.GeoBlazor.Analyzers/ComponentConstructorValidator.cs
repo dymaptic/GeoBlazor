@@ -1,7 +1,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 
 namespace dymaptic.GeoBlazor.Analyzers;
@@ -17,8 +19,9 @@ internal class ComponentConstructorValidator : DiagnosticAnalyzer
     }
 
     internal static DiagnosticDescriptor Rule = new("GeoBlazor_AUC", "Missing ActivatorUtilitiesConstructorAttribute",
-            "Class '{0}' has multiple constructors but does not have a parameterless constructor with the [ActivatorUtilitiesConstructor] attribute",
-            "Usage", DiagnosticSeverity.Error, isEnabledByDefault: true);
+            "Class '{0}' has multiple constructors but does not have a parameterless constructor with the [ActivatorUtilitiesConstructor] attribute. Add [ActivatorUtilitiesConstructor] to the parameterless constructor to enable proper dependency injection.",
+            "Usage", DiagnosticSeverity.Error, isEnabledByDefault: true,
+            description: "When a Blazor component has multiple constructors, the parameterless constructor must be marked with [ActivatorUtilitiesConstructor] to ensure proper instantiation. Example: [ActivatorUtilitiesConstructor] public YourComponent() { }.");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
