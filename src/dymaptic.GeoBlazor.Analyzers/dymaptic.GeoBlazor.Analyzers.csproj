@@ -9,8 +9,8 @@
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <IsRoslynComponent>true</IsRoslynComponent>
 
-        <RootNamespace>dymaptic.GeoBlazor.Core.SourceGenerator</RootNamespace>
-        <PackageId>dymaptic.GeoBlazor.Core.SourceGenerator</PackageId>
+        <RootNamespace>dymaptic.GeoBlazor.Analyzers</RootNamespace>
+        <PackageId>dymaptic.GeoBlazor.Analyzers</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,7 +23,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\dymaptic.GeoBlazor.Analyzers\dymaptic.GeoBlazor.Analyzers.csproj" />
+        <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+        <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
     </ItemGroup>
 
 </Project>

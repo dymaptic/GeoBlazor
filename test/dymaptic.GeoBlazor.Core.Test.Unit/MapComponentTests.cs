@@ -98,6 +98,53 @@ public class MapComponentTests
         }
 
         private List<TestChildInCollection> _testChildrenInCollection = [];
+
+        public override async Task RegisterChildComponent(MapComponent child)
+        {
+            switch (child)
+            {
+                case TestChildComponent testChild:
+                    TestChildComponent = testChild;
+                    break;
+                case TestChildInCollection testChildInCollection:
+                    _testChildrenInCollection.Add(testChildInCollection);
+                    break;
+                default:
+                    await base.RegisterChildComponent(child);
+                    break;
+            }
+        }
+
+        public override async Task UnregisterChildComponent(MapComponent child)
+        {
+            switch (child)
+            {
+                case TestChildComponent _:
+                    TestChildComponent = null;
+                    break;
+                case TestChildInCollection testChildInCollection:
+                    _testChildrenInCollection.Remove(testChildInCollection);
+                    break;
+                default:
+                    await base.UnregisterChildComponent(child);
+                    break;
+            }
+        }
+
+        public override void ValidateRequiredChildren()
+        {
+            base.ValidateRequiredChildren();
+
+            TestChildComponent?.ValidateRequiredChildren();
+
+            if (TestChildrenInCollection is not null)
+            {
+                foreach (TestChildInCollection child in TestChildrenInCollection)
+                {
+                    child.ValidateRequiredChildren();
+                }
+            }
+        }
     }
 
     public class TestChildComponent : MapComponent
