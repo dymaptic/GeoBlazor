@@ -135,8 +135,8 @@
 
         if (_jsObjectReference is null)
         {
-            IJSObjectReference? proJs = await JsModuleManager.GetArcGisJsPro(JsRuntime, default);
-            IJSObjectReference coreJs = await JsModuleManager.GetArcGisJsCore(JsRuntime, proJs, default);
+            IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, default);
+            IJSObjectReference coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, default);
 
             _jsObjectReference = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
                 "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");

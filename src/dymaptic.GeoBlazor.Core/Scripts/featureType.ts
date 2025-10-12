@@ -1,6 +1,6 @@
 // override generated code in this file
 
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 
 export async function buildDotNetFeatureType(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

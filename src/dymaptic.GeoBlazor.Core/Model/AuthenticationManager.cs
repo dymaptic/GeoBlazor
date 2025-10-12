@@ -147,9 +147,9 @@ public class AuthenticationManager
     {
         if (_module is null)
         {
-            IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
+            IJSObjectReference coreJsModule = await GetCoreJsModule();
 
-            _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
+            _module = await coreJsModule.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
                 _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl, 
                 TrustedServers, FontsUrl);
         }
@@ -235,14 +235,14 @@ public class AuthenticationManager
     }
 
     /// <summary>
-    ///     Retrieves the correct copy of the ArcGisJsInterop based on the nuget package
+    ///     Retrieves the correct copy of the geoBlazorCore.ts module
     /// </summary>
-    public async Task<IJSObjectReference> GetArcGisJsInterop()
+    public async Task<IJSObjectReference> GetCoreJsModule()
     {
-        IJSObjectReference? arcGisPro = await _jsModuleManager.GetArcGisJsPro(_jsRuntime, CancellationToken.None);
-        IJSObjectReference arcGisJsInterop = await _jsModuleManager.GetArcGisJsCore(_jsRuntime, arcGisPro, CancellationToken.None);
+        IJSObjectReference? proModule = await _jsModuleManager.GetProJsModule(_jsRuntime, CancellationToken.None);
+        IJSObjectReference coreModule = await _jsModuleManager.GetCoreJsModule(_jsRuntime, proModule, CancellationToken.None);
         
-        return arcGisJsInterop;
+        return coreModule;
     }
 
     /// <summary>

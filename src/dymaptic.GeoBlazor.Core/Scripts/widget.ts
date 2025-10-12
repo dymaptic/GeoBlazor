@@ -1,5 +1,5 @@
 // override generated code in this file
-import {arcGisObjectRefs, disposeMapComponent, hasValue, removeCircularReferences} from "./arcGisJsInterop";
+import {arcGisObjectRefs, disposeMapComponent, hasValue, removeCircularReferences} from './geoBlazorCore';
 
 export async function buildJsWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {

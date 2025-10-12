@@ -19,7 +19,7 @@ import {
     getProtobufGraphicStream,
     hasValue,
     lookupJsGraphicById
-} from "./arcGisJsInterop";
+} from './geoBlazorCore';
 import Graphic from "@arcgis/core/Graphic";
 import {buildDotNetPopupTemplate} from './popupTemplate';
 import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;

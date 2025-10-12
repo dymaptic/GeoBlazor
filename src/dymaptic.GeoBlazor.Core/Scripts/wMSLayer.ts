@@ -1,7 +1,7 @@
 // override generated code in this file
 import WMSLayerGenerated from './wMSLayer.gb';
 import WMSLayer from '@arcgis/core/layers/WMSLayer';
-import {hasValue} from './arcGisJsInterop';
+import {hasValue} from './geoBlazorCore';
 
 export default class WMSLayerWrapper extends WMSLayerGenerated {
 

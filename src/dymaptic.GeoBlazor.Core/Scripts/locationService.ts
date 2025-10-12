@@ -1,7 +1,7 @@
 import LocationServiceGenerated from './locationService.gb';
 import * as locator from "@arcgis/core/rest/locator";
 import {DotNetAddressCandidate, DotNetExtent, DotNetPoint, DotNetSpatialReference} from "./definitions";
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import AddressCandidate from "@arcgis/core/rest/support/AddressCandidate";
 import Point from "@arcgis/core/geometry/Point";
 import {buildJsExtent} from "./extent";
@@ -13,8 +13,8 @@ import locatorAddressToLocationsParams = __esri.locatorAddressToLocationsParams;
 import locatorAddressesToLocationsParams = __esri.locatorAddressesToLocationsParams;
 import SuggestionResult = __esri.SuggestionResult;
 
-export default class LocatorWrapper extends LocationServiceGenerated {
-
+export default class LocatorWrapper {
+    
     async addressesToLocations(url: string, addresses: any, countryCode: string | null,
                                categories: string[] | null, locationType: string | null,
                                outSpatialReference: DotNetSpatialReference | null,
@@ -66,7 +66,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r, this.viewId));
+        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
 
         let json = JSON.stringify(dotNetResult);
         let encoded = new TextEncoder().encode(json);
@@ -134,7 +134,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r, this.viewId));
+        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
 
         let json = JSON.stringify(dotNetResult);
         let encoded = new TextEncoder().encode(json);
@@ -149,7 +149,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         } as locatorLocationToAddressParams;
 
         if (hasValue(locationType)) {
-            params.locationType = locationType as string;
+            params.locationType = locationType as any;
         }
         if (hasValue(outSpatialReference)) {
             params.outSpatialReference = buildJsSpatialReference(outSpatialReference as DotNetSpatialReference) as any;
@@ -164,7 +164,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        return buildDotNetAddressCandidate(result, this.viewId);
+        return buildDotNetAddressCandidate(result);
     }
 
     async suggestLocations(url: string, location: DotNetPoint, text: string, categories: string[] | null,
@@ -187,11 +187,9 @@ export default class LocatorWrapper extends LocationServiceGenerated {
 }
 
 export async function buildJsLocationService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsLocationServiceGenerated} = await import('./locationService.gb');
-    return await buildJsLocationServiceGenerated(dotNetObject, layerId, viewId);
+    // not used
 }
 
 export async function buildDotNetLocationService(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildDotNetLocationServiceGenerated} = await import('./locationService.gb');
-    return await buildDotNetLocationServiceGenerated(jsObject, layerId, viewId);
+    // not used
 }

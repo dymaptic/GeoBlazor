@@ -9,12 +9,21 @@
 <div class="flex-column">
     <div class="toggle-row">
         <label class="radio-container">
-            From Style
+            Default Basemap
             <input type="radio" checked
                    name="basemap-type" @onclick="@(() => SetBasemap(0))" />
             <div class="radio-box" />
         </label>
-        @if (_basemapType == 0)
+        <a class="btn btn-secondary" target="_blank" href="https://wiki.openstreetmap.org/wiki/Main_Page">OpenStreetMap.org</a>
+    </div>
+    <div class="toggle-row">
+        <label class="radio-container">
+            From Style
+            <input type="radio" 
+                   name="basemap-type" @onclick="@(() => SetBasemap(1))" />
+            <div class="radio-box" />
+        </label>
+        @if (_basemapType == 1)
         {
             <select @onchange="SelectStyleMapChanged">
                 @foreach (BasemapStyleName style in Enum.GetValues(typeof(BasemapStyleName)))
@@ -29,10 +38,10 @@
         <label class="radio-container">
             From Portal Id
             <input type="radio"
-                   name="basemap-type" @onclick="@(() => SetBasemap(1))" />
+                   name="basemap-type" @onclick="@(() => SetBasemap(2))" />
             <div class="radio-box"></div>
         </label>
-        @if (_basemapType == 1)
+        @if (_basemapType == 2)
         {
             <select @onchange="SelectPortalMapChanged">
                 <option value="55ebf90799fa4a3fa57562700a68c405">Default-Street</option>
@@ -53,7 +62,7 @@
         <label class="radio-container">
             From Tile Layers
             <input type="radio"
-                   name="basemap-type" @onclick="@(() => SetBasemap(2))" />
+                   name="basemap-type" @onclick="@(() => SetBasemap(3))" />
             <div class="radio-box" />
         </label>
         <a class="btn btn-secondary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1b243539f4514b6ba35e7d995890db1d">World Hillshade Tile Layer</a>
@@ -64,6 +73,12 @@
 @switch (_basemapType)
 {
     case 0:
+        <MapView Class="map-view" Zoom="14" Latitude="52.5" Longitude="13.5">
+            <Map></Map>
+        </MapView>
+
+        break;
+    case 1:
         <MapView @ref="_mapView1" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
@@ -72,7 +87,7 @@
             </Map>
         </MapView>
         break;
-    case 1:
+    case 2:
         <MapView @ref="_mapView2" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
@@ -81,7 +96,7 @@
             </Map>
         </MapView>
         break;
-    case 2:
+    case 3:
         <MapView Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>

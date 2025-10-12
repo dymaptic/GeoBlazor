@@ -1,6 +1,6 @@
 import ImageryTileLayerGenerated from './imageryTileLayer.gb';
 import ImageryTileLayer from '@arcgis/core/layers/ImageryTileLayer';
-import {hasValue} from './arcGisJsInterop';
+import {hasValue} from './geoBlazorCore';
 import {buildDotNetSpatialReference} from './spatialReference';
 import {buildDotNetExtent} from './extent';
 

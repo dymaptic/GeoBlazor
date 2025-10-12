@@ -1,6 +1,6 @@
 // override generated code in this file
 import MediaContent from "@arcgis/core/popup/content/MediaContent";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import {buildDotNetMediaInfo, buildJsMediaInfo} from './mediaInfo';
 
 

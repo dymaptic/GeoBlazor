@@ -21,7 +21,7 @@ import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
 import AreaUnits = __esri.AreaUnits;
 import Mesh from "@arcgis/core/geometry/Mesh";
 import Multipoint from "@arcgis/core/geometry/Multipoint";
-import { hasValue } from './arcGisJsInterop';
+import { hasValue } from './geoBlazorCore';
 import GeometryUnion = __esri.GeometryUnion;
 
 export default class GeometryEngineWrapper {

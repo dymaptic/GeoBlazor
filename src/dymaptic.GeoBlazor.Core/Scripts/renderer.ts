@@ -1,6 +1,6 @@
 // override generated code in this file
 
-import {hasValue, sanitize} from "./arcGisJsInterop";
+import {hasValue, sanitize} from './geoBlazorCore';
 
 export async function buildJsRenderer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {

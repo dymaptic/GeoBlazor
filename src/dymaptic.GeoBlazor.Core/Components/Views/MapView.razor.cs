@@ -159,13 +159,13 @@ public partial class MapView : MapComponent
 #region Public Properties
 
     /// <summary>
-    ///     The reference to arcGisJsInterop.ts from .NET
+    ///     The reference to geoBlazorCore.ts from .NET
     /// </summary>
     [Obsolete("Use CoreJsModule instead.")]
     public IJSObjectReference? ViewJsModule => CoreJsModule;
 
     /// <summary>
-    ///     The reference to arcGisJsInterop.ts from .NET
+    ///     The reference to geoBlazorPro.ts from .NET
     /// </summary>
     [Obsolete("Use ProJsModule instead.")]
     public IJSObjectReference? ProViewJsModule => ProJsModule;
@@ -2388,25 +2388,6 @@ public partial class MapView : MapComponent
 
         if (!AuthenticationInitialized || Rendering || Map is null || CoreJsModule is null) return;
 
-        if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
-            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId)
-            && !ExcludeApiKey)
-        {
-            var newErrorMessage =
-                "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
-
-            if (ErrorMessage == newErrorMessage)
-            {
-                return;
-            }
-
-            ErrorMessage = newErrorMessage;
-            Debug.WriteLine(ErrorMessage);
-            StateHasChanged();
-
-            return;
-        }
-
         Rendering = true;
         Map.Layers.RemoveAll(l => l.Imported);
 
@@ -2459,14 +2440,10 @@ public partial class MapView : MapComponent
             {
                 await Task.Delay(1);
             }
-
-            if (!ExcludeApiKey)
-            {
-                // ensure a basemap is added, but only if the user hasn't removed the API key
-                Map.Basemap ??= new Basemap(style: new BasemapStyle(BasemapStyleName.ArcgisLightGray));
-            }
             
             await SetTheme();
+
+            EnsureBasemap();
 
             await BuildMapView();
 
@@ -2485,7 +2462,6 @@ public partial class MapView : MapComponent
             string mapType = Map is WebMap ? "webmap" : "map";
             IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
             CancellationTokenSource.CancelAfter(MapRenderTimeoutInMilliseconds); // timeout for the map view to be built
-
             await CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, abortSignal, Id,
                 DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
@@ -2524,6 +2500,36 @@ public partial class MapView : MapComponent
             // set these both so they don't cause a render loop
             _lastTheme = newTheme;
             Theme = newTheme;
+        }
+    }
+
+    private void EnsureBasemap()
+    {
+        if (Map!.Basemap?.PortalItem is null
+            && Map.Basemap?.Style is null
+#pragma warning disable CS0618 // Type or member is obsolete
+            && Map.ArcGISDefaultBasemap is null
+#pragma warning restore CS0618 // Type or member is obsolete
+            && !(Map.Basemap?.BaseLayers?.Count > 0)
+            && !(Map.Basemap?.ReferenceLayers?.Count > 0)
+            && !(Map.Layers.Count(l => 
+                // these are "image/tile" layers that would fill the map like a basemap, even if not placed in the basemap
+                l is ITileLayer or ImageryLayer or WMSLayer or WMTSLayer) > 0))
+        {
+            // add a default OSM basemap if there are no ArcGIS rendered layers so the map can render
+            Map.Basemap ??= new Basemap();
+
+            OpenStreetMapLayer placeholder = new();
+#pragma warning disable BL0005
+            if (Map.Basemap.BaseLayers is null)
+            {
+                Map.Basemap.BaseLayers = [placeholder];
+            }
+            else
+            {
+                Map.Basemap.BaseLayers = [..Map.Basemap.BaseLayers!, placeholder];
+            }
+#pragma warning restore BL0005
         }
     }
 #endregion

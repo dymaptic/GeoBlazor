@@ -2,7 +2,7 @@
 
 
 import Font from "@arcgis/core/symbols/Font";
-import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from './geoBlazorCore';
 
 export function buildJsMapFont(dotNetObject: any): any {
     let properties: any = {};

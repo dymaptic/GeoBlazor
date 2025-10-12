@@ -1,7 +1,7 @@
 // override generated code in this file
 import WebMapGenerated from './webMap.gb';
 import WebMap from '@arcgis/core/WebMap';
-import {esriConfig, hasValue} from "./arcGisJsInterop";
+import {esriConfig, hasValue} from './geoBlazorCore';
 
 export default class WebMapWrapper extends WebMapGenerated {
 

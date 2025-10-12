@@ -1,7 +1,7 @@
 import { buildDotNetExtent } from "./extent";
 import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
 import Point from "@arcgis/core/geometry/Point";
-import { arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs } from "./arcGisJsInterop";
+import { arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs } from './geoBlazorCore';
 
 export function buildDotNetPoint(point: any): any {
     if (point === undefined || point === null) return null;

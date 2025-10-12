@@ -1,7 +1,7 @@
 // override generated code in this file
 import PortalItemGenerated from './portalItem.gb';
 import PortalItem from '@arcgis/core/portal/PortalItem';
-import { hasValue, esriConfig } from './arcGisJsInterop';
+import { hasValue, esriConfig } from './geoBlazorCore';
 
 export default class PortalItemWrapper extends PortalItemGenerated {
 

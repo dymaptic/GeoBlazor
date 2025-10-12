@@ -1,6 +1,6 @@
 // override generated code in this file
 import AttachmentsContent from "@arcgis/core/popup/content/AttachmentsContent";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 
 export function buildJsAttachmentsPopupContent(dotNetObject: any): any {
     let properties: any = {};    

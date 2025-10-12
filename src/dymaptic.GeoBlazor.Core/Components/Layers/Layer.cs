@@ -315,7 +315,7 @@ public abstract partial class Layer : MapComponent
             if (JsModuleManager is not null && JsRuntime is not null)
             {
                 // rendered object, but not ready yet
-                CoreJsModule = await JsModuleManager.GetArcGisJsCore(JsRuntime, null, cancellationToken);
+                CoreJsModule = await JsModuleManager.GetCoreJsModule(JsRuntime, null, cancellationToken);
             }
             else
             {

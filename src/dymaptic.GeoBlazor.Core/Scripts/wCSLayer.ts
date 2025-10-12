@@ -1,7 +1,7 @@
 // override generated code in this file
 import WCSLayerGenerated from './wCSLayer.gb';
 import WCSLayer from '@arcgis/core/layers/WCSLayer';
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 
 export default class WCSLayerWrapper extends WCSLayerGenerated {
 

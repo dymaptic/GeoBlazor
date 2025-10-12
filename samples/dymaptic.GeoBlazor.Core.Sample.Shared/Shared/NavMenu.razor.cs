@@ -40,8 +40,8 @@ public partial class NavMenu: IDisposable
         if (firstRender)
         {
             // instantiate GeoBlazor modules here so we can initialize our JS and register the views
-            IJSObjectReference? pro = await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationToken.None);
-            IJSObjectReference core = await JsModuleManager.GetArcGisJsCore(JsRuntime, pro, CancellationToken.None);
+            IJSObjectReference? pro = await JsModuleManager.GetProJsModule(JsRuntime, CancellationToken.None);
+            IJSObjectReference core = await JsModuleManager.GetCoreJsModule(JsRuntime, pro, CancellationToken.None);
             await JsRuntime.InvokeVoidAsync("initializeGeoBlazor", core);
 
             string currentPage = NavigationManager
