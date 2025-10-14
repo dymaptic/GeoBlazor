@@ -470,4 +470,25 @@
         await AssertJavaScript("assertLayerExists", args: "tile");
         await AssertJavaScript("assertLayerExists", args: "feature");
     }
+
+    [TestMethod]
+    public async Task TestCanQueryFeatureLayerLoadedWithoutMap()
+    {
+        FeatureLayer layer = new(portalItem: new PortalItem("234d2e3f6f554e0e84757662469c26d3"), outFields: ["*"]);
+        await layer.Load(JsRuntime, JsModuleManager, CancellationToken.None);
+        Point point = new(x: -13627933.093831237, y: 4547153.388126561, spatialReference: new(102100));
+        var query = new Query
+        {
+            Geometry = point,
+            Distance = 0.5,
+            Units = QueryUnits.Miles,
+            SpatialRelationship = SpatialRelationship.Intersects,
+            ReturnGeometry = false,
+            ReturnQueryGeometry = true,
+            OutFields = new HashSet<string> { "*" }
+        };
+        FeatureSet? result = await layer.QueryFeatures(query);
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.Features!.Count > 0);
+    }
 }
