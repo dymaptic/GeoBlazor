@@ -229,8 +229,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             [],
             [],
             [],
-            [],
-            null);
+            []);
 
         if (cancellationToken.IsCancellationRequested ||
             CancellationTokenSource.Token.IsCancellationRequested)
@@ -1035,41 +1034,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         return result;
     }
 
-
-    /// <inheritdoc />
-    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
-    {
-        await base.UpdateFromJavaScript(renderedLayer);
-        var renderedFeatureLayer = (FeatureLayer)renderedLayer;
-        
-        if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())
-        {
-            Fields = Fields?
-                .Concat(renderedFeatureLayer.Fields)
-                .ToList() 
-                ?? renderedFeatureLayer.Fields;
-        }
-
-        if (renderedFeatureLayer.LabelingInfo is not null && renderedFeatureLayer.LabelingInfo.Any())
-        {
-            if (LabelingInfo is null || !LabelingInfo.Any())
-            {
-                LabelingInfo = renderedFeatureLayer.LabelingInfo;
-            }
-            else
-            {
-                LabelingInfo ??= new List<Label>();
-
-                foreach (Label label in renderedFeatureLayer.LabelingInfo)
-                {
-                    LabelingInfo = LabelingInfo.Append(label).ToList();
-                }
-            }
-        }
-    }
-
-    private Dictionary<Guid, Graphic[]> _activeQueries = new();
-    private Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
+    private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();
+    private readonly Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
 }
 
 /// <summary>

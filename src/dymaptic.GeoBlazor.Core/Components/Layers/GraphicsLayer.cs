@@ -573,13 +573,7 @@ public partial class GraphicsLayer : Layer
         }
     }
 
-    /// <inheritdoc />
-    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
-    {
-        await base.UpdateFromJavaScript(renderedLayer);
-    }
-
-    private HashSet<Graphic> _graphics = [];
+    private readonly HashSet<Graphic> _graphics = [];
 }
 
 internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollection<Graphic>>

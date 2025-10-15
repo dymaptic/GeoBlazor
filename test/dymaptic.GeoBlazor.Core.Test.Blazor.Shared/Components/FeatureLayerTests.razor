@@ -490,5 +490,7 @@
         FeatureSet? result = await layer.QueryFeatures(query);
         Assert.IsNotNull(result);
         Assert.IsTrue(result.Features!.Count > 0);
+        Assert.IsNotNull(layer.Fields);
+        Assert.IsTrue(layer.Fields.Count > 0);
     }
 }

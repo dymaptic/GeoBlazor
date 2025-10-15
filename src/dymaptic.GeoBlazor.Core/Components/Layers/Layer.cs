@@ -337,7 +337,16 @@ public abstract partial class Layer : MapComponent
         JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", cancellationToken, Id);
         
-        await JsComponentReference!.InvokeVoidAsync("load", cancellationToken, abortSignal);
+        IJSStreamReference streamRef = await JsComponentReference!.InvokeAsync<IJSStreamReference>("load", 
+            cancellationToken, abortSignal);
+        Type type = GetType();
+        Layer? deserializedLayer = await streamRef.ReadJsStreamReference(type) as Layer;
+        if (deserializedLayer is null)
+        {
+            throw new InvalidOperationException($"Could not load layer of type {type.Name}");
+        }
+        CopyProperties(deserializedLayer);
+        await UpdateFromJavaScript(deserializedLayer);
         await AbortManager.DisposeAbortController(cancellationToken);
     }
 
@@ -381,8 +390,8 @@ public abstract partial class Layer : MapComponent
     /// </param>
     internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
     {
-        FullExtent ??= renderedLayer.FullExtent;
-
+        // This is called after MapComponent.CopyProperties, so it should only be used for properties
+        // that would fail to be copied by regular reflection-based copying.
         return Task.CompletedTask;
     }
 
