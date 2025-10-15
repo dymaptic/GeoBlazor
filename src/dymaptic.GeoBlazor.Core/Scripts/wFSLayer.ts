@@ -1,11 +1,18 @@
 // override generated code in this file
 import WFSLayerGenerated from './wFSLayer.gb';
 import WFSLayer from '@arcgis/core/layers/WFSLayer';
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class WFSLayerWrapper extends WFSLayerGenerated {
 
     constructor(layer: WFSLayer) {
         super(layer);
+    }
+
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetWFSLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 
     async getFeatureReduction(): Promise<any> {

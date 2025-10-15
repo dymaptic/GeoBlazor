@@ -1,7 +1,7 @@
 // override generated code in this file
 import GraphicsLayerGenerated from './graphicsLayer.gb';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
-import {graphicsRefs, hasValue, lookupJsGraphicById} from "./arcGisJsInterop";
+import {buildEncodedJson, graphicsRefs, hasValue, lookupJsGraphicById} from "./arcGisJsInterop";
 
 export default class GraphicsLayerWrapper extends GraphicsLayerGenerated {
 
@@ -9,6 +9,11 @@ export default class GraphicsLayerWrapper extends GraphicsLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetGraphicsLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
     async remove(graphic: any): Promise<void> {
         let jsGraphic = lookupJsGraphicById(graphic.id, this.geoBlazorId, this.viewId);
         if (hasValue(jsGraphic)) {

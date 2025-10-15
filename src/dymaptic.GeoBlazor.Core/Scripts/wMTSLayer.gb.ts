@@ -61,12 +61,6 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.layer.load(options);
-        
-        return generateSerializableJson(result);
-    }
-
     async refresh(): Promise<void> {
         this.layer.refresh();
     }
@@ -184,7 +178,7 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.layer.sublayers.removeAll();
+            this.layer.sublayers?.removeAll();
         }
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
         this.layer.sublayers = await Promise.all(value.map(async i => await buildJsWMTSSublayer(i, this.layerId, this.viewId))) as any;

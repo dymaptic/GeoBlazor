@@ -1,6 +1,7 @@
 // override generated code in this file
 import GeoRSSLayerGenerated from './geoRSSLayer.gb';
 import GeoRSSLayer from '@arcgis/core/layers/GeoRSSLayer';
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class GeoRSSLayerWrapper extends GeoRSSLayerGenerated {
 
@@ -8,8 +9,14 @@ export default class GeoRSSLayerWrapper extends GeoRSSLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetGeoRSSLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
+
     async getPointSymbol(): Promise<any> {
-        switch (this.layer.pointSymbol.type) {
+        switch (this.layer.pointSymbol?.type) {
             case 'picture-marker':
                 let {buildDotNetPictureMarkerSymbol} = await import('./pictureMarkerSymbol');
                 return await buildDotNetPictureMarkerSymbol(this.layer.pointSymbol);
