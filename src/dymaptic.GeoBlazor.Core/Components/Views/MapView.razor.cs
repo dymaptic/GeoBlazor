@@ -2511,7 +2511,6 @@ public partial class MapView : MapComponent
             && Map.ArcGISDefaultBasemap is null
 #pragma warning restore CS0618 // Type or member is obsolete
             && !(Map.Basemap?.BaseLayers?.Count > 0)
-            && !(Map.Basemap?.ReferenceLayers?.Count > 0)
             && !(Map.Layers.Count(l => 
                 // these are "image/tile" layers that would fill the map like a basemap, even if not placed in the basemap
                 l is ITileLayer or ImageryLayer or WMSLayer or WMTSLayer) > 0))

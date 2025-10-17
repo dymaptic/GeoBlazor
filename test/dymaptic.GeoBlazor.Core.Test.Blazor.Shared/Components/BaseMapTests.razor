@@ -5,12 +5,28 @@
 }
 
 @code {
-
+    
     [TestMethod]
-    public async Task TestCanRenderArcGisDefaultBasemap(Action renderHandler)
+    public async Task TestCanRenderDefaultOSMBasemap(Action renderHandler, 
+        Action<LayerViewCreateEvent> layerViewCreated)
     {
         AddMapRenderFragment(
-		    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreated">
+                <Map>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<OpenStreetMapLayer>();
+        Assert.IsNotNull(createEvent.LayerView);
+        Assert.IsNotNull(createEvent.Layer);
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderArcGisDefaultBasemap(Action renderHandler, 
+        Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        AddMapRenderFragment(
+		    @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreated">
 		        <Map>
 		            <Basemap>
 		                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
@@ -18,13 +34,17 @@
 		        </Map>
 		    </MapView>);
         await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<TileLayer>();
+        Assert.IsNotNull(createEvent.LayerView);
+        Assert.IsNotNull(createEvent.Layer);
     }
 
     [TestMethod]
-    public async Task TestCanRenderBasemapFromPortalId(Action renderHandler)
+    public async Task TestCanRenderBasemapFromPortalId(Action renderHandler, 
+        Action<LayerViewCreateEvent> layerViewCreated)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+    @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreated">
         <Map>
             <Basemap>
                 <PortalItem PortalItemId="55ebf90799fa4a3fa57562700a68c405" />
@@ -33,13 +53,17 @@
     </MapView>);
 
         await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<VectorTileLayer>();
+        Assert.IsNotNull(createEvent.LayerView);
+        Assert.IsNotNull(createEvent.Layer);
     }
 
     [TestMethod]
-    public async Task TestCanRenderBasemapFromTileLayers(Action renderHandler)
+    public async Task TestCanRenderBasemapFromTileLayers(Action renderHandler, 
+        Action<LayerViewCreateEvent> layerViewCreated)
     {
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreated">
                 <Map>
                     <Basemap>
                         <VectorTileLayer Opacity="0.75">
@@ -53,17 +77,21 @@
             </MapView>);
 
         await WaitForMapToRender();
+        await WaitForLayerToRender<TileLayer>();
+        await WaitForLayerToRender<VectorTileLayer>();
         await AssertJavaScript("assertBasemapHasTwoLayers");
     }
 
     [TestMethod]
-    public async Task TestCanSetBaseMapLayerVisibility(Action renderHandler)
+    public async Task TestCanSetBaseMapLayerVisibility(Action renderHandler, 
+        Action<LayerViewCreateEvent> layerViewCreated)
     {
         MapView? mapView = null;
         
         AddMapRenderFragment(
     @<MapView @ref="@mapView" class="map-view"
-              OnViewRendered="renderHandler">
+              OnViewRendered="renderHandler"
+              OnLayerViewCreate="layerViewCreated">
         <Map>
             <Basemap>
                 <PortalItem PortalItemId="55ebf90799fa4a3fa57562700a68c405" />
@@ -75,7 +103,7 @@
         await mapView!.AddLayer(new ImageryTileLayer(
                 "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"),
             isBasemapLayer: true);
-        await Task.Delay(1000);
+        await WaitForLayerToRender<ImageryTileLayer>();
 
         ImageryTileLayer? imageryTileLayer = mapView!.Map!.Basemap!.BaseLayers?.OfType<ImageryTileLayer>().SingleOrDefault();
 
@@ -88,13 +116,15 @@
     }
     
     [TestMethod]
-    public async Task TestCanUpdateBasemapStyle(Action renderHandler)
+    public async Task TestCanUpdateBasemapStyle(Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
     {
         MapView? mapView = null;
         BasemapStyle? baseMapStyle = null;
 
         AddMapRenderFragment(
-            @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+            @<MapView @ref="@mapView" class="map-view" 
+                      OnViewRendered="renderHandler" 
+                      OnLayerViewCreate="layerViewCreated">
                 <Map>
                     <Basemap>
                         <BasemapStyle @ref="baseMapStyle" Name="BasemapStyleName.ArcgisDarkGrayBase" />
@@ -109,7 +139,7 @@
 
         await baseMapStyle.SetName(BasemapStyleName.ArcgisImagery);
         await mapView!.Map!.Basemap!.Refresh();
-        await Task.Delay(1000);
+        await WaitForLayerToRender<VectorTileLayer>();
         BasemapStyle? checkedBaseMapStyle = await mapView!.Map!.Basemap!.GetStyle();
 
         Assert.AreEqual(BasemapStyleName.ArcgisImagery, checkedBaseMapStyle!.Name);
