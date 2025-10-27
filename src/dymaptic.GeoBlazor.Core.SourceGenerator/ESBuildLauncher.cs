@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Text;
+using System.Text.RegularExpressions;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator;
@@ -238,28 +239,15 @@ public class ESBuildLauncher : IIncrementalGenerator
             return;
         }
         StringBuilder loggerOutput = new StringBuilder();
-        string[] contentLines = content.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-
-        bool isFinalError = isError;
-        isError = false;
-
-        for (var i = 0; i < contentLines.Length; i++)
+        content = Regex.Replace(content, @"\r?\n\s*?\r?\n", "\n");
+        
+        if (!RunPowerShellScript("Logger", "esBuildLogger.ps1", _corePath!,
+                $"-c \"{content}\" -e {isError.ToString().ToLower()}", loggerOutput,
+                CancellationToken.None)
+            .GetAwaiter()
+            .GetResult())
         {
-            string line = contentLines[i];
-
-            if (i == contentLines.Length - 1)
-            {
-                isError = isFinalError;
-            }
-
-            if (!RunPowerShellScript("Logger", "esBuildLogger.ps1", _corePath!,
-                    $"-c \"{line}\" -e {isError.ToString().ToLower()}", loggerOutput,
-                    CancellationToken.None)
-                .GetAwaiter()
-                .GetResult())
-            {
-                throw new Exception($"Failed to run the ESBuild logger script. {loggerOutput}");
-            }
+            throw new Exception($"Failed to run the ESBuild logger script. {loggerOutput}");
         }
     }
 

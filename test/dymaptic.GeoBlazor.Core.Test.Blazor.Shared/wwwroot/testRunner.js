@@ -13,6 +13,15 @@ export function initialize(core) {
     Portal = Core.Portal;
     SimpleRenderer = Core.SimpleRenderer;
     esriConfig = Core.esriConfig;
+    setWaitCursor()
+}
+
+export function setWaitCursor(wait) {
+    if (wait) {
+        document.body.style.cursor = 'wait';
+    } else {
+        document.body.style.cursor = 'default';
+    }
 }
 
 export function setJsTimeout(time, methodName) {
@@ -331,4 +340,28 @@ export function waitForWidgetToLoad(methodName, widgetClass) {
             }
         }, 100);
     });
+}
+
+export function saveSettings(settings) {
+    sessionStorage.setItem('testSettings', JSON.stringify(settings));
+}
+
+export function loadSettings() {
+    let settings = sessionStorage.getItem('testSettings');
+    if (settings) {
+        return JSON.parse(settings);
+    }
+    return null;
+}
+
+export function saveTestResults(results) {
+    sessionStorage.setItem('testResults', JSON.stringify(results));
+}
+
+export function getTestResults() {
+    let results = sessionStorage.getItem('testResults');
+    if (results) {
+        return JSON.parse(results);
+    }
+    return null;
 }

@@ -333,7 +333,7 @@
             DeleteFeatures = graphics
         };
         result = await layer!.ApplyEdits(edits);
-        await Assert.ThrowsExceptionAsync<JSException>(async () =>
+        await Assert.ThrowsAsync<JSException>(async () =>
             await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]));
         Assert.AreEqual(2000, result.DeleteFeatureResults.Length);
     }

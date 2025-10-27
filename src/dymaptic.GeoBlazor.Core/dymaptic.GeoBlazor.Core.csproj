@@ -97,6 +97,7 @@
       <AdditionalFiles Include="Scripts\*.ts" />
       <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
       <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
+      <CompilerVisibleProperty Include="LogESBuildOutput" Value="$(LogESBuildOutput)" />
     </ItemGroup>
 
     <ItemGroup>

@@ -81,6 +81,7 @@ import {buildJsBasemap} from "./basemap";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import {
     arcGisObjectRefs,
+    dotNetRefs,
     jsObjectRefs,
     buildJsStreamReference,
     generateSerializableJson,
@@ -114,7 +115,6 @@ export {
 
 export const popupTemplateRefs: Record<string, Accessor> = {};
 export const graphicsRefs: Record<string, Record<string, Graphic>> = {};
-export const dotNetRefs: Record<string, any> = {};
 export const actionHandlers: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
@@ -835,55 +835,6 @@ export function toMap(screenPoint: any, viewId: string): DotNetPoint | null {
 export function toScreen(mapPoint: any, viewId: string): ScreenPoint {
     const view = arcGisObjectRefs[viewId] as MapView;
     return view.toScreen(buildJsPoint(mapPoint) as Point) as ScreenPoint;
-}
-
-export async function disposeMapComponent(componentId: string, viewId: string): Promise<void> {
-    try {
-        const component = arcGisObjectRefs[componentId];
-
-        if (!hasValue(component)) {
-            return;
-        }
-
-        switch (component?.declaredClass) {
-            case 'esri.Graphic':
-                await disposeGraphic(componentId);
-                return;
-        }
-
-        if (arcGisObjectRefs.hasOwnProperty(componentId)) {
-            delete arcGisObjectRefs[componentId];
-        }
-        if (dotNetRefs.hasOwnProperty(componentId)) {
-            delete dotNetRefs[componentId];
-        }
-        if (jsObjectRefs.hasOwnProperty(componentId)) {
-            delete jsObjectRefs[componentId];
-        }
-        if (popupTemplateRefs.hasOwnProperty(componentId)) {
-            delete popupTemplateRefs[componentId];
-        }
-        if (actionHandlers.hasOwnProperty(componentId)) {
-            actionHandlers[componentId].remove();
-            delete actionHandlers[componentId];
-        }
-        const view = arcGisObjectRefs[viewId] as MapView;
-        view?.ui?.remove(component as any);
-        component.destroy();
-    }
-    catch {
-        // ignore
-    }
-}
-
-export async function disposeGraphic(graphicId: string) {
-    for (const groupId in graphicsRefs) {
-        const graphics = graphicsRefs[groupId];
-        if (graphics.hasOwnProperty(graphicId)) {
-            delete graphics[graphicId];
-            return;
-        }
-    }
 }
 
 export function updateView(viewObject: any) {

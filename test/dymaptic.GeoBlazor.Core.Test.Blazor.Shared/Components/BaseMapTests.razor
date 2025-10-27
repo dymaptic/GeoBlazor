@@ -6,6 +6,9 @@
 
 @code {
     
+    [Inject]
+    public required AuthenticationManager AuthenticationManager { get; set; }
+     
     [TestMethod]
     public async Task TestCanRenderDefaultOSMBasemap(Action renderHandler, 
         Action<LayerViewCreateEvent> layerViewCreated)
@@ -133,15 +136,14 @@
             </MapView>);
 
         await WaitForMapToRender();
-
+        await WaitForLayerToRender<VectorTileLayer>();
         Assert.IsTrue(mapView!.Map!.Basemap!.Style!.Name == baseMapStyle!.Name);
         await AssertJavaScript("assertBasemapHasStyle", args: baseMapStyle.Name!);
-
+        ClearLayerViewEvents();
         await baseMapStyle.SetName(BasemapStyleName.ArcgisImagery);
         await mapView!.Map!.Basemap!.Refresh();
-        await WaitForLayerToRender<VectorTileLayer>();
         BasemapStyle? checkedBaseMapStyle = await mapView!.Map!.Basemap!.GetStyle();
-
+        await WaitForLayerToRender<VectorTileLayer>();
         Assert.AreEqual(BasemapStyleName.ArcgisImagery, checkedBaseMapStyle!.Name);
         await AssertJavaScript("assertBasemapHasStyle", args: BasemapStyleName.ArcgisImagery);
     }

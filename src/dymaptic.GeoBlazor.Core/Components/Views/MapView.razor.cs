@@ -2466,7 +2466,8 @@ public partial class MapView : MapComponent
                 DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
-                Theme?.ToString().ToLowerInvariant());
+                Theme?.ToString().ToLowerInvariant(), AllowDefaultEsriLogin, 
+                AuthenticationManager.ExcludeApiKey ? null : AuthenticationManager.ApiKey, AuthenticationManager.AppId);
             await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
         }
         catch (Exception ex)

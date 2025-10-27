@@ -1,6 +1,8 @@
 // override generated code in this file
 import BasemapGenerated from './basemap.gb';
 import Basemap from '@arcgis/core/Basemap';
+import {arcGisObjectRefs} from "./geoBlazorCore";
+import MapView from "@arcgis/core/views/MapView";
 
 export default class BasemapWrapper extends BasemapGenerated {
 
@@ -11,6 +13,24 @@ export default class BasemapWrapper extends BasemapGenerated {
     async setSpatialReference(spatialReference: any): Promise<void> {
         let {buildJsSpatialReference} = await import('./spatialReference');
         this.component.spatialReference = buildJsSpatialReference(spatialReference) as any;
+    }
+
+    async setStyle(value: any): Promise<void> {
+        let { buildJsBasemapStyle } = await import('./basemapStyle');
+        let style = await  buildJsBasemapStyle(value);
+        let newBasemap = new Basemap({ style: style });
+        let view = arcGisObjectRefs[this.viewId!] as MapView;
+        view.map!.basemap = newBasemap;
+        this.component = newBasemap;
+    }
+
+    async setPortalItem(value: any): Promise<void> {
+        let { buildJsPortalItem } = await import('./portalItem');
+        let portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+        let newBasemap = new Basemap({ portalItem: portalItem });
+        let view = arcGisObjectRefs[this.viewId!] as MapView;
+        view.map!.basemap = newBasemap;
+        this.component = newBasemap;
     }
 }
 

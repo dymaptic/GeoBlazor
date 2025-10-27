@@ -2,7 +2,10 @@ import {
     addArcGisLayer,
     graphicsRefs,
     buildArcGisMapView,
-    loadProtobuf, ProtoGraphicCollection
+    loadProtobuf, 
+    ProtoGraphicCollection,
+    popupTemplateRefs,
+    actionHandlers
 } from './arcGisJsInterop';
 import AuthenticationManager from "./authenticationManager";
 import ProjectionWrapper from "./projection";
@@ -14,6 +17,9 @@ export * from './arcGisJsInterop';
 export const arcGisObjectRefs: Record<string, any> = {};
 // this could be either the arcGIS object or a "wrapper" class
 export const jsObjectRefs: Record<string, any> = {};
+export const dotNetRefs: Record<string, any> = {};
+
+const observers: Record<string, any> = {};
 export let Pro: any;
 export async function setPro(pro: any): Promise<void> {
     Pro = pro;
@@ -25,12 +31,54 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    spatialReference: any, constraints: any, extent: any, backgroundColor: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                                    isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, 
-                                   theme?: string | null, zIndex?: number, tilt?: number) : Promise<any> {
+                                   theme?: string | null, allowDefaultEsriLogin?: boolean | null, apiKey?: string | null,
+                                   appId?: string | null, zIndex?: number, 
+                                   tilt?: number) : Promise<any> {
     try {
-
-        // Order of operations in this function is very important
-        // do not change without significant testing.
         await setCursor('wait');
+        
+        if (allowDefaultEsriLogin !== true && !hasValue(apiKey) && !hasValue(appId)) {
+            let errorMessage = `Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
+            let errorMessageHtml = `<p>Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See <a style="color: red; text-decoration: underline" target="_blank" href="https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication">ArcGIS Authentication</a> for more information.</p>`;
+            globalThis.overflowStyle ??= document.documentElement.style.overflow;
+            // listen for the esri-identity-modal popup and hide it
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node instanceof HTMLElement) {
+                                // Check the node itself
+                                if (node.classList.contains('esri-identity-modal')) {
+                                    overrideEsriLoginModal(node, id, errorMessage, errorMessageHtml);
+                                }
+                                // Check descendants
+                                node.querySelectorAll?.('.esri-identity-modal').forEach((modal) => {
+                                    overrideEsriLoginModal(modal as HTMLElement, id, errorMessage, errorMessageHtml);
+                                });
+                            }
+                        });
+                    } else if (mutation.type === 'attributes') {
+                        const target = mutation.target as HTMLElement;
+                        if (target.classList.contains('esri-identity-modal')) {
+                            overrideEsriLoginModal(target, id, errorMessage, errorMessageHtml)
+                        } else if (target.tagName === 'html' && target.style.overflow === 'hidden') {
+                            // reset overflow style
+                            document.documentElement!.style.overflow = globalThis.overflowStyle ?? 'unset';
+                        }
+                    }
+                });
+            });
+
+            observer.observe(document.body, { 
+                childList: true, 
+                subtree: true, 
+                attributes: true, 
+                attributeFilter: ['class', 'style'] 
+            });
+            
+            observers[id] = observer;
+        }
+        
 
         await buildArcGisMapView(abortSignal, id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, mapType,
             widgets, graphics, spatialReference, constraints, extent, backgroundColor, eventRateLimitInMilliseconds,
@@ -43,6 +91,96 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         throw e;
     } finally {
         await setCursor('unset');
+    }
+}
+
+// hides the ArcGIS popup modal login screen, and shows the warning to add an ArcGIS API key instead.
+function overrideEsriLoginModal(element: HTMLElement, viewId: string, errorMessageString: string, 
+                                errorMessageHtml: string): void {
+    element.parentElement?.removeChild(element);
+    // reset overflow style
+    document.documentElement!.style.overflow = globalThis.overflowStyle ?? 'unset';
+    showError(viewId, errorMessageHtml);
+    console.error(errorMessageString);
+}
+
+function showError(viewId: string, errorMessage: string) {
+    let mapViewContainer = document.querySelector(`#map-container-${viewId}`);
+    let errorDiv: HTMLDivElement | null = mapViewContainer?.querySelector('.validation-message') as HTMLDivElement;
+    if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.style.cssText = `
+        position: absolute; 
+        top: 15px; 
+        left: 15px; 
+        z-index: 1000; 
+        max-width: calc(100% - 30px);
+        padding: 1rem;
+        background-color: white;
+        border-radius: 1rem;
+        color: red;`;
+        errorDiv.className = 'validation-message';
+        errorDiv.innerHTML = errorMessage;
+        mapViewContainer?.appendChild(errorDiv);
+    } else {
+        errorDiv.innerHTML = errorMessage;
+    }
+}
+
+export async function disposeMapComponent(componentId: string, viewId: string): Promise<void> {
+    try {
+        // dispose observer when disposing the map view
+        if (observers.hasOwnProperty(componentId)) {
+            observers[componentId].disconnect();
+            delete observers[componentId];
+        }
+        
+        const component = arcGisObjectRefs[componentId];
+
+        if (!hasValue(component)) {
+            return;
+        }
+
+        switch (component?.declaredClass) {
+            case 'esri.Graphic':
+                await disposeGraphic(componentId);
+                return;
+        }
+
+        if (arcGisObjectRefs.hasOwnProperty(componentId)) {
+            delete arcGisObjectRefs[componentId];
+        }
+        if (dotNetRefs.hasOwnProperty(componentId)) {
+            delete dotNetRefs[componentId];
+        }
+        if (jsObjectRefs.hasOwnProperty(componentId)) {
+            delete jsObjectRefs[componentId];
+        }
+        // @ts-ignore hasOwn error
+        if (popupTemplateRefs.hasOwnProperty(componentId)) {
+            delete popupTemplateRefs[componentId];
+        }
+        if (actionHandlers.hasOwnProperty(componentId)) {
+            actionHandlers[componentId].remove();
+            delete actionHandlers[componentId];
+        }
+        const view = arcGisObjectRefs[viewId];
+        view?.ui?.remove(component as any);
+        component.destroy();
+    }
+    catch {
+        // ignore
+    }
+}
+
+export async function disposeGraphic(graphicId: string) {
+    for (const groupId in graphicsRefs) {
+        const graphics = graphicsRefs[groupId];
+        // @ts-ignore hasOwn error
+        if (graphics.hasOwnProperty(graphicId)) {
+            delete graphics[graphicId];
+            return;
+        }
     }
 }
 
