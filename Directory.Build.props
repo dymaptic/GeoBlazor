@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <CoreVersion>4.3.0.1</CoreVersion>
+    <CoreVersion>4.3.0.2</CoreVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <LogESBuildOutput>false</LogESBuildOutput>
     <CompressionEnabled Condition="$(Configuration) != 'RELEASE' OR $(EnableCompression) != 'true'">false</CompressionEnabled>
