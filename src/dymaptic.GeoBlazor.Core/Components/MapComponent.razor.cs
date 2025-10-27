@@ -695,8 +695,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
     internal void CopyProperties(MapComponent deserializedComponent)
     {
-        foreach (PropertyInfo prop in MapComponentType.GetProperties()
-            .Where(p => p.SetMethod is not null))
+        Props ??= MapComponentType
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        foreach (PropertyInfo prop in Props.Where(p => p.SetMethod is not null))
         {
             if (IsDisposed)
             {
@@ -705,7 +706,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             
             if (prop.Name == nameof(CoreJsModule)
                 || prop.Name == nameof(Layer)
-                || prop.Name == nameof(View))
+                || prop.Name == nameof(View)
+                || prop.PropertyType == typeof(EventCallback)
+                || (prop.PropertyType.IsGenericType 
+                    && prop.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
             {
                 continue;
             }
@@ -743,7 +747,53 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
         else
         {
+            if (newValue is MapComponent newComponent)
+            {
+                newComponent.CoreJsModule = CoreJsModule;
+                newComponent.View = View;
+                newComponent.Layer = Layer;
+                newComponent.Parent = this;
+            }
             prop.SetValue(this, newValue);
+        }
+
+        if (prop.GetCustomAttribute<ParameterAttribute>() is { })
+        {
+            // find matching callback parameter
+            PropertyInfo? callbackProp = Props!.FirstOrDefault(cp =>
+                cp.Name == $"{prop.Name}Changed" &&
+                (cp.PropertyType.IsAssignableTo(typeof(EventCallback))
+                    || (cp.PropertyType.IsGenericType &&
+                        cp.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>))));
+        
+            if (callbackProp is not null)
+            {
+                // invoke the callback to notify of the changed value
+                if (callbackProp.GetValue(this) is EventCallback eventCallback)
+                {
+                    _ = eventCallback.InvokeAsync(newValue);
+                }
+                else
+                {
+                    object? callbackValue = callbackProp.GetValue(this);
+                    // find an InvokeAsync method with exactly one parameter
+                    MethodInfo? invokeAsync = callbackProp.PropertyType
+                        .GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                        .FirstOrDefault(m => m.Name == "InvokeAsync" && m.GetParameters().Length == 1);
+
+                    if (invokeAsync is not null)
+                    {
+                        try
+                        {
+                            _ = invokeAsync.Invoke(callbackValue, [newValue]);
+                        }
+                        catch
+                        {
+                            // ignore invocation errors (matching existing pattern)
+                        }
+                    }
+                }
+            }
         }
     }
 

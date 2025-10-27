@@ -434,18 +434,31 @@ public abstract partial class Widget : MapComponent
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (View is null && MapView is not null && !_externalWidgetRegistered)
+        if (View is null)
         {
-            // Widgets might be added in markup and registered after the call to MapView.RenderView, but before that is completed.
-            // this loop allows a little time to let the map render before trying to register the widget.
-            int tries = 10;
-            while (!MapRendered && !IsDisposed && tries > 0)
+            if (MapView is null)
             {
                 await Task.Delay(200);
-                tries--;
+                StateHasChanged();
+                // try a render cycle to get the MapView set if it is defined as a parameter
+                return;
             }
-            await MapView!.AddWidget(this);
-            _externalWidgetRegistered = true;
+
+            if (!_externalWidgetRegistered)
+            {
+                // Widgets might be added in markup and registered after the call to MapView.RenderView, but before that is completed.
+                // this loop allows a little time to let the map render before trying to register the widget.
+                int tries = 10;
+
+                while (!MapRendered && !IsDisposed && tries > 0)
+                {
+                    await Task.Delay(200);
+                    tries--;
+                }
+
+                await MapView!.AddWidget(this);
+                _externalWidgetRegistered = true;
+            }
         }
 
         if (_delayedUpdate)

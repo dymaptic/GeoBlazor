@@ -11,7 +11,7 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
     }
 
     switch (dotNetObject.type) {
-        case 'area-measurement2-d':
+        case 'area-measurement-2d':
             let {buildJsAreaMeasurement2DWidget} = await import('./areaMeasurement2DWidget');
             return await buildJsAreaMeasurement2DWidget(dotNetObject, layerId, viewId);
         case 'basemap-gallery':
