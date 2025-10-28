@@ -6309,7 +6309,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayeronrefresh-property">GeoBlazor Docs</a>
-    ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
+    ///     Fires if the layer has the <see cref="RefreshInterval" /> set or when <see cref="Refresh" /> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>
     [Parameter]
@@ -6663,5 +6663,4 @@ public partial class FeatureLayer : IAPIKeyMixin,
         TrackInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
-      
 }
