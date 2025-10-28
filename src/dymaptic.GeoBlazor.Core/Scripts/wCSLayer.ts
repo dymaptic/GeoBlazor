@@ -1,7 +1,7 @@
 // override generated code in this file
 import WCSLayerGenerated from './wCSLayer.gb';
 import WCSLayer from '@arcgis/core/layers/WCSLayer';
-import {hasValue} from "./arcGisJsInterop";
+import {buildEncodedJson, hasValue} from "./arcGisJsInterop";
 
 export default class WCSLayerWrapper extends WCSLayerGenerated {
 
@@ -9,6 +9,11 @@ export default class WCSLayerWrapper extends WCSLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetWCSLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
 }
 
 export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
@@ -29,7 +34,7 @@ export async function buildDotNetWCSLayer(jsObject: any, viewId: string | null):
     
     if (hasValue(jsObject.renderer)) {
         let {buildDotNetImageryRenderer} = await import('./imageryRenderer');
-        dnObject.renderer = await buildDotNetImageryRenderer(jsObject.renderer);
+        dnObject.renderer = await buildDotNetImageryRenderer(jsObject.renderer, viewId);
     }
     
     return dnObject;

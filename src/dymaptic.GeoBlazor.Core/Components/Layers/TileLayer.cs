@@ -80,23 +80,6 @@ public partial class TileLayer : Layer, ISublayersLayer
     {
         await base.UpdateFromJavaScript(renderedLayer);
         TileLayer renderedTileLayer = (TileLayer)renderedLayer;
-        Url ??= renderedTileLayer.Url;
-        Title ??= renderedTileLayer.Title;
-        Effect ??= renderedTileLayer.Effect;
-        LegendEnabled ??= renderedTileLayer.LegendEnabled;
-        ListMode ??= renderedTileLayer.ListMode;
-        MaxScale ??= renderedTileLayer.MaxScale;
-        MinScale ??= renderedTileLayer.MinScale;
-        Opacity ??= renderedTileLayer.Opacity;
-        PersistenceEnabled ??= renderedTileLayer.PersistenceEnabled;
-        RefreshInterval ??= renderedTileLayer.RefreshInterval;
-        Capabilities ??= renderedTileLayer.Capabilities;
-        Copyright ??= renderedTileLayer.Copyright;
-        SourceJSON ??= renderedTileLayer.SourceJSON;
-        SpatialReference ??= renderedTileLayer.SpatialReference;
-        MinScale ??= renderedTileLayer.MinScale;
-        MaxScale ??= renderedTileLayer.MaxScale;
-        PortalItem ??= renderedTileLayer.PortalItem;
         
         Sublayers ??= [];
 

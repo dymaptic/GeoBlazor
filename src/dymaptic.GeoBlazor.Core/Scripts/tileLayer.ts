@@ -1,7 +1,7 @@
 // override generated code in this file
 import TileLayerGenerated from './tileLayer.gb';
 import TileLayer from '@arcgis/core/layers/TileLayer';
-import {hasValue} from "./arcGisJsInterop";
+import {buildEncodedJson, hasValue} from "./arcGisJsInterop";
 
 export default class TileLayerWrapper extends TileLayerGenerated {
 
@@ -9,6 +9,11 @@ export default class TileLayerWrapper extends TileLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetTileLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
 }
 
 export async function buildJsTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
