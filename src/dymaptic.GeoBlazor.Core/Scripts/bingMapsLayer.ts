@@ -1,5 +1,6 @@
 import BingMapsLayer from '@arcgis/core/layers/BingMapsLayer';
 import BingMapsLayerGenerated from './bingMapsLayer.gb';
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class BingMapsLayerWrapper extends BingMapsLayerGenerated {
 
@@ -21,7 +22,13 @@ export default class BingMapsLayerWrapper extends BingMapsLayerGenerated {
 
     async getTileInfo() {
         let {buildDotNetTileInfo} = await import('./tileInfo');
-        return buildDotNetTileInfo(this.layer.tileInfo);
+        return buildDotNetTileInfo(this.layer.tileInfo, this.viewId);
+    }
+
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetBingMapsLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 }
 

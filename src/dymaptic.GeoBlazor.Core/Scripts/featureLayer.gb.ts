@@ -281,12 +281,6 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.layer.load(options);
-        
-        return generateSerializableJson(result);
-    }
-
     async queryAttachments(attachmentQuery: any,
         options: any): Promise<any> {
         let result = await this.layer.queryAttachments(attachmentQuery,

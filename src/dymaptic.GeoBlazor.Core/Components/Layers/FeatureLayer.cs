@@ -233,8 +233,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             [],
             [],
             [],
-            [],
-            null);
+            []);
 
         if (cancellationToken.IsCancellationRequested ||
             CancellationTokenSource.Token.IsCancellationRequested)
@@ -1040,39 +1039,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
-    }
-
-
-    /// <inheritdoc />
-    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
-    {
-        await base.UpdateFromJavaScript(renderedLayer);
-        var renderedFeatureLayer = (FeatureLayer)renderedLayer;
-        
-        if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())
-        {
-            Fields = Fields?
-                .Concat(renderedFeatureLayer.Fields)
-                .ToList() 
-                ?? renderedFeatureLayer.Fields;
-        }
-
-        if (renderedFeatureLayer.LabelingInfo is not null && renderedFeatureLayer.LabelingInfo.Any())
-        {
-            if (LabelingInfo is null || !LabelingInfo.Any())
-            {
-                LabelingInfo = renderedFeatureLayer.LabelingInfo;
-            }
-            else
-            {
-                LabelingInfo ??= new List<Label>();
-
-                foreach (Label label in renderedFeatureLayer.LabelingInfo)
-                {
-                    LabelingInfo = LabelingInfo.Append(label).ToList();
-                }
-            }
-        }
     }
 
     private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();

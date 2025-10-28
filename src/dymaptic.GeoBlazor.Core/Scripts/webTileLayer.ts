@@ -1,6 +1,7 @@
 // override generated code in this file
 import WebTileLayerGenerated from './webTileLayer.gb';
 import WebTileLayer from '@arcgis/core/layers/WebTileLayer';
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class WebTileLayerWrapper extends WebTileLayerGenerated {
 
@@ -8,6 +9,11 @@ export default class WebTileLayerWrapper extends WebTileLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetWebTileLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
 }
 
 export async function buildJsWebTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
