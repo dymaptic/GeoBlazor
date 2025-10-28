@@ -7,12 +7,14 @@
 @code {
 
     [TestMethod]
-    public async Task TestCanSetFeatureLayerVisibility(Action renderHandler)
+    public async Task TestCanSetFeatureLayerVisibility(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         MapView? mapView = null;
         
         AddMapRenderFragment(
-		    @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+            @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler" 
+                      OnLayerViewCreate="layerViewCreateHandler">
 		        <Map>
 		            <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
@@ -24,7 +26,7 @@
         await mapView!.AddLayer(
             new FeatureLayer("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0",
                 title: "Test"));
-        await Task.Delay(100);
+        await WaitForLayerToRender<FeatureLayer>();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
         FeatureLayer? featureLayer = mapView!.Map!.Layers.OfType<FeatureLayer>().SingleOrDefault();
@@ -613,9 +615,7 @@
         outFields = await layer.GetOutFields();
         CollectionAssert.AreEquivalent(new[] { "Field1", "OBJECTID", "Field2" }, outFields?.ToArray());
 
-        await layer.SetOrderBy([
-            new OrderByInfo(field: "OBJECTID", order: SortOrder.Ascending)
-    ]);
+        await layer.SetOrderBy([new OrderByInfo(field: "OBJECTID", order: SortOrder.Ascending)]);
         IReadOnlyList<OrderByInfo>? orderBy = await layer.GetOrderBy();
         Assert.IsTrue(orderBy != null &&
                       orderBy.Any(o => o is { Field: "OBJECTID", Order: SortOrder.Ascending }));

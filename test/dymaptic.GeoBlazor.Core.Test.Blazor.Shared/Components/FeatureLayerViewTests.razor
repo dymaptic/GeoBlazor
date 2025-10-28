@@ -43,14 +43,8 @@
             ReturnQueryGeometry = true,
             OutFields = new HashSet<string> { "*" }
         };
-
-        var tries = 200;
-        while (layerView is null && tries > 0)
-        {
-            await Task.Delay(100);
-            tries--;
-        }
-        FeatureSet? result = await layerView!.QueryFeatures(query);
+        
+        FeatureSet? result = await layerView.QueryFeatures(query);
         Assert.IsNotNull(result);
         Assert.IsTrue(result.Features!.Count > 0);
     }
@@ -218,7 +212,8 @@
         Assert.IsTrue(max >= 0);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
 
-        bool? exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded() ?? false;
+        bool? exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded();
+        Assert.IsNotNull(exceeded);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeaturesExceeded", exceeded]);
 
         // 3) Complex object roundtrip: ensure we can set/get an object without touching component-only internals
