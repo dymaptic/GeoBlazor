@@ -10,6 +10,7 @@ public class PolyLine : Polyline
     /// <summary>
     ///     Constructor for the PolyLine class.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public PolyLine()
     {
     }
