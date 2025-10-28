@@ -821,6 +821,27 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                 throw new MissingRequiredOptionsChildElementException(MapComponentType.Name, option.Options);
             }
         }
+        
+        IEnumerable<PropertyInfo> conditionallyRequiredProps = Props.Where(p =>
+            Attribute.IsDefined(p, typeof(ConditionallyRequiredPropertyAttribute)));
+
+        foreach (PropertyInfo condRequiredProp in conditionallyRequiredProps)
+        {
+            PropertyInfo dependentProp = Props.First(p =>
+                p.Name == ((ConditionallyRequiredPropertyAttribute)condRequiredProp
+                    .GetCustomAttributes(typeof(ConditionallyRequiredPropertyAttribute), true)[0]).DependentOn);
+            object? dependentValue = dependentProp.GetValue(this);
+
+            if (dependentValue is not null)
+            {
+                object? condValue = condRequiredProp.GetValue(this);
+                if (condValue is null)
+                {
+                    throw new MissingConditionallyRequiredChildElementException(MapComponentType.Name, 
+                        dependentProp.Name, condRequiredProp.Name);
+                }
+            }
+        }
 
         IsValidated = true;
     }
