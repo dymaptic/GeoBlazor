@@ -1,14 +1,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+
 
 namespace dymaptic.GeoBlazor.Core.Test.Unit;
 
@@ -190,8 +185,8 @@ namespace TestNamespace
         var analyzerAssemblyPath = Path.Combine(
             Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..",
-            "src", "dymaptic.GeoBlazor.Analyzers", "bin", "Debug", "netstandard2.0",
-            "dymaptic.GeoBlazor.Analyzers.dll");
+            "src", "dymaptic.GeoBlazor.Core.Analyzers", "bin", "Debug", "netstandard2.0",
+            "dymaptic.GeoBlazor.Core.Analyzers.dll");
 
         if (!File.Exists(analyzerAssemblyPath))
         {

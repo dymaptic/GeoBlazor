@@ -1,12 +1,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 
-namespace dymaptic.GeoBlazor.Analyzers;
+namespace dymaptic.GeoBlazor.Core.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 internal class ComponentConstructorValidator : DiagnosticAnalyzer
@@ -15,15 +12,15 @@ internal class ComponentConstructorValidator : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterSymbolAction(ctx => ValidateSymbol(ctx), SymbolKind.NamedType);
+        context.RegisterSymbolAction(ValidateSymbol, SymbolKind.NamedType);
     }
 
-    internal static DiagnosticDescriptor Rule = new("GeoBlazor_AUC", "Missing ActivatorUtilitiesConstructorAttribute",
+    private static readonly DiagnosticDescriptor rule = new("GeoBlazor_AUC", "Missing ActivatorUtilitiesConstructorAttribute",
             "Class '{0}' has multiple constructors but does not have a parameterless constructor with the [ActivatorUtilitiesConstructor] attribute. Add [ActivatorUtilitiesConstructor] to the parameterless constructor to enable proper dependency injection.",
             "Usage", DiagnosticSeverity.Error, isEnabledByDefault: true,
             description: "When a Blazor component has multiple constructors, the parameterless constructor must be marked with [ActivatorUtilitiesConstructor] to ensure proper instantiation. Example: [ActivatorUtilitiesConstructor] public YourComponent() { }.");
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(rule);
 
     private void ValidateSymbol(SymbolAnalysisContext context)
     {
@@ -51,20 +48,14 @@ internal class ComponentConstructorValidator : DiagnosticAnalyzer
     {
         INamedTypeSymbol? baseType = classSymbol.BaseType;
 
-        while (baseType != null)
+        while (baseType is not null)
         {
-            string typeName = baseType.Name;
-
-            if (typeName == "MapComponent")
+            // check simple name first (fast)
+            if (baseType.Name == "MapComponent" || baseType.Name == "ComponentBase")
             {
                 return true;
             }
-
-            if (typeName == "ComponentBase")
-            {
-                return true;
-            }
-
+            
             baseType = baseType.BaseType;
         }
 

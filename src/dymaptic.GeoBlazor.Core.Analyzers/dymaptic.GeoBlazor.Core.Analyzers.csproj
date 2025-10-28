@@ -8,9 +8,7 @@
 
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <IsRoslynComponent>true</IsRoslynComponent>
-
-        <RootNamespace>dymaptic.GeoBlazor.Analyzers</RootNamespace>
-        <PackageId>dymaptic.GeoBlazor.Analyzers</PackageId>
+        <PackageId>dymaptic.GeoBlazor.Core.Analyzers</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
