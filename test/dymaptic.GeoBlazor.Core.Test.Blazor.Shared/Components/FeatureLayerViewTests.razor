@@ -7,19 +7,12 @@
 @code {
     
     [TestMethod]
-    public async Task TestCanQueryFeatures(Action renderHandler)
+    public async Task TestCanQueryFeatures(Action renderHandler, Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         FeatureLayerView? layerView = null;
-        void OnLayerViewCreate(LayerViewCreateEvent createEvent)
-        {
-            if (createEvent.Layer is FeatureLayer)
-            {
-                layerView = createEvent.LayerView as FeatureLayerView;   
-            }
-        }
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler"
-                      OnLayerViewCreate="OnLayerViewCreate">
+                      OnLayerViewCreate="layerViewCreatedHandler">
                 <Map>
                     <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
@@ -36,6 +29,9 @@
                 </Extent>
             </MapView>);
         await WaitForMapToRender();
+        LayerViewCreateEvent layerViewCreatedEvent = await WaitForLayerToRender<FeatureLayer>();
+        layerView = layerViewCreatedEvent.LayerView as FeatureLayerView;
+        Assert.IsNotNull(layerView, "FeatureLayerView did not materialize");
         Point point = new(x: -13627933.093831237, y: 4547153.388126561, spatialReference: new(102100));
         var query = new Query
         {
@@ -60,18 +56,11 @@
     }
 
   [TestMethod]
-    public async Task FeatureLayerView_PropertyRoundtrips_And_Queries(Action renderHandler)
+    public async Task FeatureLayerView_PropertyRoundtrips_And_Queries(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         FeatureLayer? layer = null;
         FeatureLayerView? layerView = null;
-
-        void OnLayerViewCreate(LayerViewCreateEvent e)
-        {
-            if (e.Layer is FeatureLayer && e.LayerView is FeatureLayerView flv)
-            {
-                layerView = flv;
-            }
-        }
 
         // In-memory layer for deterministic queries/highlights
         var graphics = new List<Graphic>
@@ -87,7 +76,7 @@
         };
 
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreatedHandler">
                 <Map>
                     <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
                     <FeatureLayer @ref="layer"
@@ -102,7 +91,8 @@
         await WaitForMapToRender();
 
         // Wait for the FeatureLayerView
-        for (var i = 0; layerView is null && i < 100; i++) { await Task.Delay(50); }
+        LayerViewCreateEvent layerViewCreatedEvent = await WaitForLayerToRender<FeatureLayer>();
+        layerView = layerViewCreatedEvent.LayerView as FeatureLayerView;
         Assert.IsNotNull(layerView, "FeatureLayerView did not materialize");
 
         // ---------------------------
@@ -110,8 +100,8 @@
         // ---------------------------
 
         // Visible (bool) — set, then Get, and assert on live JS object
-        await layerView!.SetVisible(false);
-        var visible = await layerView.GetVisible();
+        await layerView.SetVisible(false);
+        bool? visible = await layerView.GetVisible();
         Assert.AreEqual(false, visible);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "visible", false]);
 
@@ -123,18 +113,19 @@
         // HighlightOptions (object) — set & ensure roundtrip (object equality via C#)
         var hl = new HighlightOptions(color: new MapColor("cyan"), fillOpacity: 1.0, haloOpacity: 1.0);
         await layerView.SetHighlightOptions(hl);
-        var gotHl = await layerView.GetHighlightOptions();
+        HighlightOptions? gotHl = await layerView.GetHighlightOptions();
         Assert.IsNotNull(gotHl);
+        // Skipping JS assert because it is hard to compare the color object deeply in JS, but this has been tested manually
 
         // ---------------------------
         // Read-only indicators (do NOT set): just read and verify JS matches getter
         // ---------------------------
 
-        var max = await layerView.GetMaximumNumberOfFeatures();
+        double? max = await layerView.GetMaximumNumberOfFeatures();
         Assert.IsTrue(max >= 0, "maximumNumberOfFeatures should be non-negative.");
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
 
-        var exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded();
+        bool exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded() ?? false;
         // For two graphics, exceeded should normally be false, but assert against the JS value rather than forcing it.
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeaturesExceeded", exceeded]);
 
@@ -142,44 +133,39 @@
         // Queries via the view
         // ---------------------------
 
-        var q = await layerView.CreateQuery();
+        Query q = await layerView.CreateQuery();
         q.ReturnGeometry = true;
         q.OutFields = ["*"];
 
-        var cnt = await layerView.QueryFeatureCount(q);
+        int? cnt = await layerView.QueryFeatureCount(q);
         Assert.IsTrue(cnt >= 0);
 
-        var ex = await layerView.QueryExtent(q);
+        ExtentQueryResult? ex = await layerView.QueryExtent(q);
         Assert.IsNotNull(ex);
 
-        var ids = await layerView.QueryObjectIds(q);
+        ObjectId[]? ids = await layerView.QueryObjectIds(q);
         Assert.IsNotNull(ids);
-        Assert.IsTrue(ids!.Length > 0, "Expected at least one OBJECTID from the view query.");
+        Assert.IsTrue(ids.Length > 0, "Expected at least one OBJECTID from the view query.");
 
         // ---------------------------
         // Highlight handles
         // ---------------------------
 
-        var handle1 = await layerView.Highlight(graphics[0]);
+        Handle handle1 = await layerView.Highlight(graphics[0]);
         Assert.IsNotNull(handle1);
+        await handle1.Remove();
 
-        var handle2 = await layerView.Highlight(new ObjectId(1));
+        Handle handle2 = await layerView.Highlight(new ObjectId(1));
         Assert.IsNotNull(handle2);
+        await handle2.Remove();
     }
 
    [TestMethod]
-    public async Task FeatureLayerView_Getters_Invoke_JS_SourceOfTruth(Action renderHandler)
+    public async Task FeatureLayerView_Getters_Invoke_JS_SourceOfTruth(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         FeatureLayer? layer = null;
         FeatureLayerView? layerView = null;
-
-        void OnLayerViewCreate(LayerViewCreateEvent e)
-        {
-            if (e.Layer is FeatureLayer && e.LayerView is FeatureLayerView flv)
-            {
-                layerView = flv;
-            }
-        }
 
         // In-memory layer for deterministic behavior
         var graphics = new List<Graphic>
@@ -195,7 +181,7 @@
         };
 
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreatedHandler">
                 <Map>
                     <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
                     <FeatureLayer @ref="layer"
@@ -208,9 +194,8 @@
             </MapView>);
 
         await WaitForMapToRender();
-
-        // Wait for the FeatureLayerView
-        for (var i = 0; layerView is null && i < 100; i++) { await Task.Delay(50); }
+        LayerViewCreateEvent layerViewCreatedEvent = await WaitForLayerToRender<FeatureLayer>();
+        layerView = layerViewCreatedEvent.LayerView as FeatureLayerView;
         Assert.IsNotNull(layerView, "FeatureLayerView did not materialize");
 
         // ---------------------------
@@ -218,9 +203,9 @@
         // ---------------------------
 
         // 1) A settable prop: change it and confirm JS & getter agree (proves getter isn't stale)
-        await layerView!.SetVisible(false);
+        await layerView.SetVisible(false);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "visible", false]);
-        var visible = await layerView.GetVisible();
+        bool? visible = await layerView.GetVisible();
         Assert.AreEqual(false, visible);
 
         await layerView.SetVisible(true);
@@ -229,23 +214,23 @@
         Assert.AreEqual(true, visible);
 
         // 2) Read-only props: read them, then assert JS reports the same value
-        var max = await layerView.GetMaximumNumberOfFeatures();
+        double? max = await layerView.GetMaximumNumberOfFeatures();
         Assert.IsTrue(max >= 0);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
 
-        var exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded();
+        bool? exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded() ?? false;
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeaturesExceeded", exceeded]);
 
         // 3) Complex object roundtrip: ensure we can set/get an object without touching component-only internals
         var hl = new HighlightOptions(color: new MapColor("cyan"), fillOpacity: 1.0, haloOpacity: 1.0);
         await layerView.SetHighlightOptions(hl);
-        var gotHl = await layerView.GetHighlightOptions();
+        HighlightOptions? gotHl = await layerView.GetHighlightOptions();
         Assert.IsNotNull(gotHl);
 
         // Optional: feature effect as an object (do not set IncludedEffect here)
         var fx = new FeatureEffect();
         await layerView.SetFeatureEffect(fx);
-        var gotFx = await layerView.GetFeatureEffect();
+        FeatureEffect? gotFx = await layerView.GetFeatureEffect();
         Assert.IsNotNull(gotFx);
     }
 }

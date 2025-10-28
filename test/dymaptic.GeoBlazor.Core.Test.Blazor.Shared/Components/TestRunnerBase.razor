@@ -227,6 +227,11 @@
         return createEvent;
     }
     
+    protected void ClearLayerViewEvents([CallerMemberName] string methodName = "")
+    {
+        layerViewCreatedEvents.Remove(methodName);
+    }
+    
     /// <summary>
     ///     Handles the ListItemCreated event and waits for a ListItem to be created.
     /// </summary>

@@ -51,6 +51,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ConditionallyRequiredProperty(nameof(Source))]
+    [CodeGenerationIgnore]
     public string? ObjectIdField { get; set; }
 
     /// <summary>
@@ -58,6 +60,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ConditionallyRequiredProperty(nameof(Source))]
+    [CodeGenerationIgnore]
     public FeatureGeometryType? GeometryType { get; set; }
     
     /// <summary>
@@ -608,6 +612,18 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             {
                 graphic.ValidateRequiredChildren();
             }
+
+            if (ObjectIdField is null)
+            {
+                throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
+                    nameof(Source), nameof(ObjectIdField));
+            }
+
+            if (GeometryType is null)
+            {
+                throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
+                    nameof(Source), nameof(GeometryType));
+            }
         }
         
         if (Fields is not null)
@@ -1059,8 +1075,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         }
     }
 
-    private Dictionary<Guid, Graphic[]> _activeQueries = new();
-    private Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
+    private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();
+    private readonly Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
 }
 
 /// <summary>
