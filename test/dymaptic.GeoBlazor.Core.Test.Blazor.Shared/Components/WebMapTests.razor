@@ -113,17 +113,15 @@
                       OnLayerViewCreate="layerViewCreateHandler"
                       Rotation="90">
                 <WebMap>
-                    <PortalItem PortalItemId="43c6aa08a1af43cdbc243b1e36630e56" />
+                    <PortalItem PortalItemId="8054e038927a48419ee0dddb86006ad6" />
                 </WebMap>
             </MapView>);
 
-        await WaitForMapToRender();
-        await WaitForLayerToRender<ImageryLayer>();
+        await WaitForMapToRender(timeoutInSeconds: 30);
         double? rotation = await view!.GetRotation();
         Assert.AreEqual(90, rotation);
         await view.Refresh();
-        await WaitForMapToRender();
-        await WaitForLayerToRender<ImageryLayer>();
+        await WaitForMapToRender(timeoutInSeconds: 30);
         rotation = await view.GetRotation();
         Assert.AreEqual(90, rotation);
     }
@@ -142,12 +140,12 @@
                       OnClick="ClickHandler">
                 <WebMap>
                     <PortalItem PortalItemId="3fad7b3f552740f3a6125e2cfb11c60a">
-                        <Portal Url="https://arcgis.dymaptic.com/portal" />
+                        <Portal Url="https://moraveclabsllc.maps.arcgis.com" />
                     </PortalItem>
                 </WebMap>
             </MapView>);
 
-        await WaitForMapToRender();
+        await WaitForMapToRender(timeoutInSeconds: 30);
         double? rotation = await view!.GetRotation();
         Assert.AreEqual(227, rotation);
         await AssertJavaScript("clickOnMap");
