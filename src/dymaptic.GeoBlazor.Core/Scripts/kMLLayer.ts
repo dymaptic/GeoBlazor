@@ -1,6 +1,7 @@
 // override generated code in this file
 import KMLLayerGenerated from './kMLLayer.gb';
 import KMLLayer from '@arcgis/core/layers/KMLLayer';
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class KMLLayerWrapper extends KMLLayerGenerated {
 
@@ -8,6 +9,11 @@ export default class KMLLayerWrapper extends KMLLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetKMLLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
 }
 
 export async function buildJsKMLLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

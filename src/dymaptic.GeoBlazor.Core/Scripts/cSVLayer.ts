@@ -1,11 +1,18 @@
 // override generated code in this file
 import CSVLayerGenerated from './cSVLayer.gb';
 import CSVLayer from '@arcgis/core/layers/CSVLayer';
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class CSVLayerWrapper extends CSVLayerGenerated {
 
     constructor(layer: CSVLayer) {
         super(layer);
+    }
+
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetCSVLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 
     async getFeatureReduction(): Promise<any> {

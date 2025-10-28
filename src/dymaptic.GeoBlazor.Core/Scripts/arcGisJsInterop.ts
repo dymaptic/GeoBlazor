@@ -2050,7 +2050,7 @@ export async function loadProtobuf(): Promise<void> {
     if (ProtoGraphicCollection !== undefined && ProtoViewHitCollection !== undefined) {
         return;
     }
-    
+
     let root = await load("_content/dymaptic.GeoBlazor.Core/graphic.json");
     if (!hasValue(root)) {
         throw new Error('Could not load graphic protobuf definition');

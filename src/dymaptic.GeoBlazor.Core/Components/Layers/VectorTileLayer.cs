@@ -41,26 +41,7 @@ public partial class VectorTileLayer : Layer
 
     /// <inheritdoc />
     [ArcGISProperty]
-    public override LayerType Type => LayerType.VectorTile;  
-  
-    /// <inheritdoc />
-    internal override async Task UpdateFromJavaScript(Layer renderedLayer)  
-    {        await base.UpdateFromJavaScript(renderedLayer);  
-        VectorTileLayer renderedTileLayer = (VectorTileLayer)renderedLayer;  
-        Url ??= renderedTileLayer.Url;  
-        Title ??= renderedTileLayer.Title;  
-        Effect ??= renderedTileLayer.Effect;  
-        ListMode ??= renderedTileLayer.ListMode;  
-        MaxScale ??= renderedTileLayer.MaxScale;  
-        MinScale ??= renderedTileLayer.MinScale;  
-        Opacity ??= renderedTileLayer.Opacity;  
-        PersistenceEnabled ??= renderedTileLayer.PersistenceEnabled;  
-        Capabilities ??= renderedTileLayer.Capabilities;  
-        SpatialReference ??= renderedTileLayer.SpatialReference;  
-        MinScale ??= renderedTileLayer.MinScale;  
-        MaxScale ??= renderedTileLayer.MaxScale;  
-        PortalItem ??= renderedTileLayer.PortalItem;  
-    }
+    public override LayerType Type => LayerType.VectorTile;
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)

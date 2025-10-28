@@ -14,6 +14,7 @@ import {
     DotNetTopFeaturesQuery
 } from "./definitions";
 import {
+    buildEncodedJson,
     decodeProtobufGraphics,
     getGraphicsFromProtobufStream,
     getProtobufGraphicStream,
@@ -42,6 +43,12 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     createQuery(): Query {
         return this.layer.createQuery();
+    }
+
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetFeatureLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {

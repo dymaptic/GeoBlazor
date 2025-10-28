@@ -1,5 +1,6 @@
 import BaseTileLayerGenerated from './baseTileLayer.gb';
 import BaseTileLayer from '@arcgis/core/layers/BaseTileLayer';
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 
@@ -9,6 +10,12 @@ export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 
     getTileBounds(level: number, row: number, col: number): any {
         return this.layer.getTileBounds(level, row, col);
+    }
+
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetBaseTileLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 
     async setEffect(effect: any) {

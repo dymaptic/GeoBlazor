@@ -39,3 +39,21 @@ public class MissingRequiredOptionsChildElementException : Exception
     {
     }
 }
+
+/// <summary>
+///     An exception that specifies that a specific child component/parameter must be added when another specific parameter is assigned.
+/// </summary>
+/// <param name="parentType">
+///     The parent type.
+/// </param>
+/// <param name="assignedParameter">
+///     A parameter which, when assigned, requires another parameter as well.
+/// </param>
+/// <param name="childType">
+///     The missing required child type/parameter.
+/// </param>
+public class MissingConditionallyRequiredChildElementException(string parentType, string assignedParameter, 
+    string childType) :
+    Exception($"The type {childType} must be added as a child of type {parentType} when {assignedParameter} is also assigned.")
+{
+}
