@@ -1,7 +1,9 @@
-import {buildEncodedJson, hasValue, loadProtobuf, ProtoTypes} from "./arcGisJsInterop";
+import {Field, Type } from "protobufjs";
+import {buildEncodedJson, hasValue, loadProtobuf, protobufRoot, ProtoTypes} from "./arcGisJsInterop";
 
+// base class for components that need to invoke methods with serialized parameters
 export default class BaseComponent {
-    
+
     async invokeSerializedMethod(methodName: string, useStreams: boolean, ...parameters: any[]): Promise<any> {
         await loadProtobuf();
         let methodParams: any[] = [];
@@ -10,7 +12,7 @@ export default class BaseComponent {
             let paramValue = parameters[i + 1];
             methodParams.push(await this.parseParameter(paramType, paramValue, useStreams));
         }
-        
+
         let result = this[methodName](...methodParams);
         if (result instanceof Error) {
             throw result;
@@ -18,11 +20,11 @@ export default class BaseComponent {
         if (result instanceof Promise) {
             result = await result;
         }
-        
+
         if (useStreams) {
             return buildEncodedJson(result);
         }
-        
+
         return result;
     }
 
@@ -37,42 +39,90 @@ export default class BaseComponent {
 
         await this[methodName](...methodParams);
     }
-    
+
     async parseParameter(paramType: string, paramValue: any, useStreams: boolean): Promise<any> {
         if (!hasValue(paramValue)) {
             return null;
         }
-        
-        if (this.simpleDotNetTypes.includes(paramType.toLowerCase())) {
-            // don't convert simple types
-            return paramValue;
+
+        if (Array.isArray(paramValue)) {
+            let arrayValues: any[] = [];
+            for (let i = 0; i < paramValue.length; i++) {
+                let itemValue = paramValue[i];
+                let parsedItem = await this.parseParameter(paramType, itemValue, useStreams);
+                arrayValues.push(parsedItem);
+            }
+            return arrayValues;
         }
-        
+
+        let isArrayType = false;
+        if (paramType.startsWith('Array_')) {
+            isArrayType = true;
+            paramType = paramType.replace("Array_", "");
+        }
+
         // server is sending a stream, could be a protobuf or json stream
-        if (useStreams) {
-            return await this.parseDotNetStream(paramType, paramValue);
+        if (useStreams && paramValue.hasOwnProperty('_streamPromise')) {
+            return await this.parseDotNetStream(paramType, paramValue, isArrayType);
         }
-        
+
         // server is sending a byte array, should be protobuf, but falls back to json for unknown types
         if (paramValue instanceof Uint8Array) {
-            return this.parseDotNetUint8Array(paramType, paramValue);
+            return this.parseDotNetUint8Array(paramType, paramValue, isArrayType);
+        }
+
+        if (!isArrayType && this.simpleDotNetTypes.includes(paramType.toLowerCase())) {
+            // don't convert simple types, but trim quotes
+            if (typeof paramValue === 'string') {
+                return paramValue.replace(/^"(.*)"$/, "$1");
+            }
+            return paramValue;
         }
 
         // server is sending a string of a non-simple type, should be json
         return this.parseDotNetJson(paramValue);
     }
 
-    async parseDotNetStream(typeName: string, streamRef: any): Promise<any> {
+    async parseDotNetStream(typeName: string, streamRef: any, isArrayType: boolean): Promise<any> {
         let arrayBuffer: ArrayBuffer = await streamRef.arrayBuffer();
         let uint8 = new Uint8Array(arrayBuffer);
 
-        return this.parseDotNetUint8Array(typeName, uint8);
+        return this.parseDotNetUint8Array(typeName, uint8, isArrayType);
     }
-    
-    parseDotNetUint8Array(typeName: string, uint8: Uint8Array): any {
+
+    parseDotNetUint8Array(typeName: string, uint8: Uint8Array, isArrayType: boolean): any {
         if (Object.hasOwn(ProtoTypes, typeName)) {
-            const protoType = ProtoTypes[typeName];
             try {
+                const protoType = ProtoTypes[typeName];
+                
+                if (isArrayType) {
+                    let collectionType = `${typeName}Collection`;
+                    let ProtoCollectionType: any = ProtoTypes[collectionType];
+                    if (!ProtoCollectionType) {
+                        // create missing protobuf type for array of this type
+                        ProtoCollectionType = new Type(collectionType)
+                            .add(new Field('items', 1, protoType.name, 'repeated'));
+                        ProtoTypes[collectionType] = ProtoCollectionType;
+                        protobufRoot.nested.dymaptic.GeoBlazor.Core.add(ProtoCollectionType)
+                    }
+
+                    const decodedCollection = ProtoCollectionType.decode(uint8);
+                    let parsedCollection = ProtoCollectionType.toObject(decodedCollection, {
+                        defaults: false,
+                        enums: String,
+                        longs: String,
+                        arrays: false,
+                        objects: false
+                    });
+
+                    let resultArray: any[] = [];
+                    for (let i = 0; i < parsedCollection.items.length; i++) {
+                        let itemValue = parsedCollection.items[i];
+                        resultArray.push(itemValue);
+                    }
+                    return resultArray;
+                }
+            
                 const decoded = protoType.decode(uint8);
                 return protoType.toObject(decoded, {
                     defaults: false,
@@ -87,12 +137,12 @@ export default class BaseComponent {
             }
         }
 
-        // Fallback to JSON parsing
+        // Fallback to JSON parsing for simple types
         let decoder = new TextDecoder();
         let text = decoder.decode(uint8);
         return this.parseDotNetJson(text);
     }
-    
+
     parseDotNetJson(text: string): any {
         try {
             // valid JSON must start with { or [
@@ -106,16 +156,16 @@ export default class BaseComponent {
 
             if (text[0] === '"') {
                 // trim off leading and trailing quotes
-                return text.replace(/"(.*)"/, "$&");
+                return text.replace(/^"(.*)"$/, "$1");
             }
-            
+
             return text;
         } catch (e) {
             console.error(e);
             return null;
         }
     }
-    
+
     simpleDotNetTypes = ['int32', 'int64', 'long', 'decimal', 'double', 'single', 'float', 'int', 'bool',
         'ulong', 'uint', 'ushort', 'byte', 'sbyte', 'char',
         'string', 'datetime', 'dateonly', 'timeonly', 'guid', 'datetimeoffset', 'timespan'];

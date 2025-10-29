@@ -60,14 +60,12 @@ export default class GeometryEngineWrapper extends BaseComponent {
         let clipOperator = await import('@arcgis/core/geometry/operators/clipOperator');
         let jsClip = clipOperator.execute(buildJsGeometry(geometry) as any, buildJsExtent(extent, null));
         return buildDotNetGeometry(jsClip);
-
     }
 
     async contains(containerGeometry: DotNetGeometry, insideGeometry: DotNetGeometry): Promise<any> {
         let containsOperator = await import('@arcgis/core/geometry/operators/containsOperator');
         return containsOperator.execute(buildJsGeometry(containerGeometry) as GeometryUnion,
             buildJsGeometry(insideGeometry) as GeometryUnion);
-
     }
 
     async convexHull(geometries: Array<DotNetGeometry> | DotNetGeometry, merge: boolean | null): Promise<any> {
@@ -89,20 +87,17 @@ export default class GeometryEngineWrapper extends BaseComponent {
         jsHull = convexHullOperator.execute(jsGeometries as any) as GeometryUnion;
         
         return buildDotNetGeometry(jsHull);
-
     }
 
     async crosses(geometry1: DotNetGeometry, geometry2: DotNetGeometry): Promise<boolean | null> {
         let crossesOperator = await import('@arcgis/core/geometry/operators/crossesOperator');
         return crossesOperator.execute(buildJsGeometry(geometry1) as GeometryUnion, buildJsGeometry(geometry2) as GeometryUnion);
-
     }
 
     async cut(geometry: DotNetGeometry, cutter: DotNetPolyline): Promise<any> {
         let cutOperator = await import('@arcgis/core/geometry/operators/cutOperator');
         let jsCut = cutOperator.execute(buildJsGeometry(geometry) as GeometryUnion, buildJsPolyline(cutter) as Polyline);
         return jsCut.map(g => buildDotNetGeometry(g) as DotNetGeometry);
-
     }
 
     async densify(geometry: DotNetGeometry, maxSegmentLength: number, maxSegmentLengthUnit: LinearUnits | null)
@@ -117,7 +112,6 @@ export default class GeometryEngineWrapper extends BaseComponent {
         jsDensified = densifyOperator.execute(jsGeometry, maxSegmentLength, options);
 
         return buildDotNetGeometry(jsDensified);
-
     }
 
     async difference(geometries: Array<DotNetGeometry> | DotNetGeometry, subtractor: DotNetGeometry)
@@ -140,7 +134,6 @@ export default class GeometryEngineWrapper extends BaseComponent {
     async disjoint(geometry1: DotNetGeometry, geometry2: DotNetGeometry): Promise<any> {
         let disjointOperator = await import('@arcgis/core/geometry/operators/disjointOperator');
         return disjointOperator.execute(buildJsGeometry(geometry1) as GeometryUnion, buildJsGeometry(geometry2) as GeometryUnion);
-
     }
 
     async distance(geometry1: DotNetGeometry, geometry2: DotNetGeometry, distanceUnit: LinearUnits | null)
@@ -189,7 +182,6 @@ export default class GeometryEngineWrapper extends BaseComponent {
         let jsFlip = affineTransformOperator.execute(jsGeometry as any, transformation);
 
         return buildDotNetGeometry(jsFlip);
-
     }
 
     async flipVertical(geometry: DotNetGeometry, flipOrigin: DotNetPoint | null): Promise<any> {
@@ -214,7 +206,6 @@ export default class GeometryEngineWrapper extends BaseComponent {
         let jsFlip = affineTransformOperator.execute(jsGeometry as any, transformation);
 
         return buildDotNetGeometry(jsFlip);
-
     }
 
     async generalize(geometry: DotNetGeometry, maxDeviation: number, removeDegenerateParts: boolean | null,
@@ -233,7 +224,6 @@ export default class GeometryEngineWrapper extends BaseComponent {
         jsGeneralize = generalizeOperator.execute(jsGeometry as GeometryUnion, maxDeviation, options) as GeometryUnion;
 
         return buildDotNetGeometry(jsGeneralize);
-
     }
 
     async geodesicArea(geometry: DotNetPolygon, unit: AreaUnits | null): Promise<any> {
@@ -739,9 +729,13 @@ export default class GeometryEngineWrapper extends BaseComponent {
         return pointResults;
     }
     
-    convertMultipartGeometriesToSinglePartGeometries(geometries: DotNetGeometry[], simplifyPolygons: boolean)
-        : DotNetGeometry[] {
-        
+    async convertMultipartGeometriesToSinglePartGeometries(geometries: DotNetGeometry[], simplifyPolygons: boolean)
+        : Promise<DotNetGeometry[]> {
+        const jsGeometries = geometries.map(buildJsGeometry);
+        let multiPartToSinglePartOperator = await import("@arcgis/core/geometry/operators/multiPartToSinglePartOperator");
+        const results = multiPartToSinglePartOperator.executeMany(jsGeometries,
+            {simplifyPolygons: simplifyPolygons});
+        return results.map(buildDotNetGeometry);
     }
 }
 

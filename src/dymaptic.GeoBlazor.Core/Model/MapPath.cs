@@ -156,48 +156,6 @@ public class MapPoint : List<double>, IEquatable<MapPoint>
     }
 }
 
-[ProtoContract(Name = "MapPath")]
-internal record MapPathSerializationRecord: MapComponentSerializationRecord
-{
-    public MapPathSerializationRecord()
-    {
-    }
-    
-    public MapPathSerializationRecord(MapPointSerializationRecord[] Points)
-    {
-        this.Points = Points;
-    }
-
-    public MapPath FromSerializationRecord()
-    {
-        return new MapPath(Points.Select(p => p.FromSerializationRecord()));
-    }
-
-    [ProtoMember(1)]
-    public MapPointSerializationRecord[] Points { get; init; } = []; 
-}
-
-[ProtoContract(Name = "MapPoint")]
-internal record MapPointSerializationRecord
-{
-    public MapPointSerializationRecord()
-    {
-    }
-    
-    public MapPointSerializationRecord(double[] Coordinates)
-    {
-        this.Coordinates = Coordinates;
-    }
-
-    public MapPoint FromSerializationRecord()
-    {
-        return new MapPoint(Coordinates);
-    }
-
-    [ProtoMember(1)]
-    public double[] Coordinates { get; init; } = [];
-}
-
 internal class MapPointEqualityComparer : EqualityComparer<MapPoint>
 {
     public static MapPointEqualityComparer Instance => _instance ??= new MapPointEqualityComparer();

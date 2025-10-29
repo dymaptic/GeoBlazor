@@ -389,9 +389,9 @@ public partial class FeatureLayerView : LayerView
             using var ms = new MemoryStream();
             await stream.CopyToAsync(ms);
             ms.Seek(0, SeekOrigin.Begin);
-            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            GraphicCollectionSerializationRecord collection = Serializer.Deserialize<GraphicCollectionSerializationRecord>(ms);
           
-            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
+            Graphic[] graphics = collection?.Items?.Select(g => g.FromSerializationRecord()).ToArray()!;
 
             _activeQueries[queryId] = graphics;
         }

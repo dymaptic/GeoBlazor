@@ -1322,7 +1322,7 @@ public partial class MapView : MapComponent
                     return;
                 }
 
-                ProtoGraphicCollection collection =
+                GraphicCollectionSerializationRecord collection =
                     new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
@@ -1355,7 +1355,7 @@ public partial class MapView : MapComponent
                     return;
                 }
                 
-                ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                GraphicCollectionSerializationRecord collection = new(newGraphics.Skip(skip).Take(chunkSize)
                     .Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
@@ -1391,7 +1391,7 @@ public partial class MapView : MapComponent
                         return;
                     }
                     
-                    ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                    GraphicCollectionSerializationRecord collection = new(newGraphics.Skip(skip).Take(chunkSize)
                         .Select(g => g.ToSerializationRecord(true)).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
@@ -1434,7 +1434,7 @@ public partial class MapView : MapComponent
 
             if (CoreJsModule is null) return;
 
-            ProtoGraphicCollection collection = new([graphic.ToSerializationRecord(true)]);
+            GraphicCollectionSerializationRecord collection = new([graphic.ToSerializationRecord(true)]);
             MemoryStream ms = new();
             Serializer.Serialize(ms, collection);
             ms.Seek(0, SeekOrigin.Begin);
@@ -2704,8 +2704,8 @@ public partial class MapView : MapComponent
             using var ms = new MemoryStream();
             await stream.CopyToAsync(ms);
             ms.Seek(0, SeekOrigin.Begin);
-            ProtoViewHitCollection collection = Serializer.Deserialize<ProtoViewHitCollection>(ms);
-            ViewHit[] viewHits = collection.ViewHits!.Select(g => g.FromSerializationRecord()).ToArray();
+            ViewHitCollectionSerializationRecord collection = Serializer.Deserialize<ViewHitCollectionSerializationRecord>(ms);
+            ViewHit[] viewHits = collection.Items!.Select(g => g.FromSerializationRecord()).ToArray();
 
             _activeHitTests[hitTestId] = viewHits;
         }

@@ -1776,21 +1776,3 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
             GeoBlazorSerialization.JsonSerializerOptions));
     }
 }
-
-public record MapComponentSerializationRecord;
-
-[ProtoContract]
-internal record ProtoArray
-{
-    public ProtoArray()
-    {
-    }
-    
-    public ProtoArray(MapComponentSerializationRecord[] components)
-    {
-        Components = components;
-    }
-
-    [property: ProtoMember(1)]
-    public MapComponentSerializationRecord[] Components { get; init; } = [];
-}

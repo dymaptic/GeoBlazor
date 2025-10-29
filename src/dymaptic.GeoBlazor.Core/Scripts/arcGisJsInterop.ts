@@ -310,7 +310,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         blazorServer = isServer;
         const dotNetRef = dotNetReference;
 
-        if (ProtoGraphicCollection === undefined) {
+        if (GraphicCollectionSerializationRecord === undefined) {
             await loadProtobuf();
         }
         
@@ -2041,30 +2041,31 @@ function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapV
     return hitOptions;
 }
 
-export let ProtoGraphicCollection;
+export let GraphicCollectionSerializationRecord;
 export let ProtoViewHitCollection;
 
 export let ProtoTypes: {[key: string]: any} = {};
+export let protobufRoot: any = null;
 
 export async function loadProtobuf(): Promise<void> {
-    if (ProtoGraphicCollection !== undefined && ProtoViewHitCollection !== undefined) {
+    if (GraphicCollectionSerializationRecord !== undefined && ProtoViewHitCollection !== undefined) {
         return;
     }
 
-    let root = await load("_content/dymaptic.GeoBlazor.Core/graphic.json");
-    if (!hasValue(root)) {
+    protobufRoot = await load("_content/dymaptic.GeoBlazor.Core/geoblazor.proto");
+    if (!hasValue(protobufRoot)) {
         throw new Error('Could not load graphic protobuf definition');
     }
 
     // Load all types from root into ProtoTypes
     // @ts-ignore unknown types
-    root.nested.dymaptic.GeoBlazor.Core.nestedArray[0].nestedArray.forEach((type: any) => {
+    protobufRoot.nested.dymaptic.GeoBlazor.ProtoGen.nestedArray[0].nestedArray.forEach((type: any) => {
         if (type && type.name) {
             ProtoTypes[type.name] = type;
         }
     });
 
-    ProtoGraphicCollection = ProtoTypes["GraphicCollection"];
+    GraphicCollectionSerializationRecord = ProtoTypes["GraphicCollection"];
     ProtoViewHitCollection = ProtoTypes["ViewHitCollection"];
     console.debug('Protobuf graphic types initialized');
 }
@@ -2075,8 +2076,8 @@ export async function getGraphicsFromProtobufStream(streamRef): Promise<any[] | 
 }
 
 export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
-    const decoded = ProtoGraphicCollection.decode(uintArray);
-    const array = ProtoGraphicCollection.toObject(decoded, {
+    const decoded = GraphicCollectionSerializationRecord.decode(uintArray);
+    const array = GraphicCollectionSerializationRecord.toObject(decoded, {
         defaults: false,
         enums: String,
         longs: String,
@@ -2093,8 +2094,8 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: Featu
     const obj = {
         graphics: graphics
     };
-    const collection = ProtoGraphicCollection.fromObject(obj);
-    const encoded = ProtoGraphicCollection.encode(collection).finish();
+    const collection = GraphicCollectionSerializationRecord.fromObject(obj);
+    const encoded = GraphicCollectionSerializationRecord.encode(collection).finish();
         return DotNet.createJSStreamReference(encoded);
 }
 

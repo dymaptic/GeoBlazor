@@ -30,43 +30,16 @@ public record HitTestResult(ScreenPoint ScreenPoint)
 ///     The point geometry in the spatial reference of the view corresponding with the input screen coordinates.
 /// </param>
 [JsonConverter(typeof(ViewHitConverter))]
-public record ViewHit(string Type, Point MapPoint);
-
-[ProtoContract]
-internal record ProtoViewHitCollection
+public record ViewHit(string Type, Point MapPoint) : IProtobufSerializable
 {
-    [ProtoMember(1)]
-    public ProtoViewHit[]? ViewHits { get; set; }
-}
-
-[ProtoContract]
-internal record ProtoViewHit
-{
-    [ProtoMember(1)]
-    public string? Type { get; set; }
-    
-    [ProtoMember(2)]
-    public GeometrySerializationRecord? MapPoint { get; set; }
-    
-    [ProtoMember(3)]
-    public GraphicSerializationRecord? Graphic { get; set; }
-    
-    [ProtoMember(4)]
-    public string? LayerId { get; set; }
-
-    public ViewHit FromSerializationRecord()
+    public virtual MapComponentSerializationRecord ToProtobuf()
     {
-        if (Type == "graphic")
-        {
-            Guid? layerId = null;
-            if (Guid.TryParse(LayerId, out Guid layerGuid))
-            {
-                layerId = layerGuid;
-            }
-            return new GraphicHit(Graphic!.FromSerializationRecord(), layerId, 
-                (Point)MapPoint!.FromSerializationRecord());
-        }
-        return new ViewHit(Type!, (Point)MapPoint!.FromSerializationRecord());
+        return ToSerializationRecord();
+    }
+    
+    internal virtual ViewHitSerializationRecord ToSerializationRecord()
+    {
+        return new ViewHitSerializationRecord(Type, MapPoint.ToSerializationRecord(), null, null);
     }
 }
 

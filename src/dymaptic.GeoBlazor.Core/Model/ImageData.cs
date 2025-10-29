@@ -16,7 +16,16 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="Width">
 ///     The width of the image.
 /// </param>
-public record ImageData(byte[] Data, string ColorSpace, long Height, long Width);
+[ProtoContract]
+public record ImageData(
+    [property: ProtoMember(1)]
+    byte[] Data, 
+    [property: ProtoMember(2)]
+    string ColorSpace, 
+    [property: ProtoMember(3)]
+    long Height, 
+    [property: ProtoMember(4)]
+    long Width);
 
 /// <summary>
 ///     Internal representation of a screenshot, for passing from JavaScript.

@@ -74,7 +74,7 @@ public class SerializationUnitTests
             new AttributesDictionary(
                 new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
         var sw = Stopwatch.StartNew();
-        ProtoGraphicCollection collection = new([graphic.ToSerializationRecord()]);
+        GraphicCollectionSerializationRecord collection = new([graphic.ToSerializationRecord()]);
         using MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
         byte[] data = ms.ToArray();
@@ -92,12 +92,12 @@ public class SerializationUnitTests
             new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", ["*"]),
             new AttributesDictionary(
                 new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
-        ProtoGraphicCollection collection = new([graphic.ToSerializationRecord()]);
+        GraphicCollectionSerializationRecord collection = new([graphic.ToSerializationRecord()]);
         using MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
         byte[] data = ms.ToArray();
-        ProtoGraphicCollection deserializedCollection =
-            Serializer.Deserialize<ProtoGraphicCollection>((ReadOnlyMemory<byte>)data);
+        GraphicCollectionSerializationRecord deserializedCollection =
+            Serializer.Deserialize<GraphicCollectionSerializationRecord>((ReadOnlyMemory<byte>)data);
         Graphic deserialized = deserializedCollection.Graphics[0].FromSerializationRecord();
         Assert.AreEqual(((Point)graphic.Geometry!).Latitude, ((Point)deserialized.Geometry!).Latitude);
         Assert.AreEqual(((Point)graphic.Geometry!).Longitude, ((Point)deserialized.Geometry!).Longitude);

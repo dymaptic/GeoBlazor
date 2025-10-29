@@ -24,6 +24,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoWarn>GeoBlazor_Untested</NoWarn>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -50,6 +51,7 @@
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.CodeGen" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.ProtoGen" />
     </ItemGroup>
 
     <ItemGroup>

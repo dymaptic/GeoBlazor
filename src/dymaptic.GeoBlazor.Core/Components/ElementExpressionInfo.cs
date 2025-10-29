@@ -14,28 +14,3 @@ public partial class ElementExpressionInfo: IProtobufSerializable
           return ToSerializationRecord();
       }
 }
-
-[ProtoContract(Name = "ElementExpressionInfo")]
-internal record ElementExpressionInfoSerializationRecord: MapComponentSerializationRecord
-{
-    public ElementExpressionInfoSerializationRecord()
-    {
-    }
-    
-    public ElementExpressionInfoSerializationRecord(string? expression, string? title)
-    {
-        Expression = expression;
-        Title = title;
-    }
-    
-    [ProtoMember(1)]
-    public string? Expression { get; init; }
-    
-    [ProtoMember(2)]
-    public string? Title { get; init; }
-    
-    public ElementExpressionInfo FromSerializationRecord()
-    {
-        return new ElementExpressionInfo(Expression, Title);
-    }
-}

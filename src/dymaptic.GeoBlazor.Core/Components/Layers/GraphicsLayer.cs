@@ -250,7 +250,7 @@ public partial class GraphicsLayer : Layer
                     return;
                 }
 
-                ProtoGraphicCollection collection =
+                GraphicCollectionSerializationRecord collection =
                     new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
@@ -283,7 +283,7 @@ public partial class GraphicsLayer : Layer
                     return;
                 }
                 
-                ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                GraphicCollectionSerializationRecord collection = new(newGraphics.Skip(skip).Take(chunkSize)
                     .Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
@@ -319,7 +319,7 @@ public partial class GraphicsLayer : Layer
                         return;
                     }
                     
-                    ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                    GraphicCollectionSerializationRecord collection = new(newGraphics.Skip(skip).Take(chunkSize)
                         .Select(g => g.ToSerializationRecord(true)).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
@@ -613,20 +613,4 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
 
         writer.WriteEndArray();
     }
-}
-
-[ProtoContract]
-internal record ProtoGraphicCollection
-{
-    public ProtoGraphicCollection()
-    {
-    }
-    
-    public ProtoGraphicCollection(GraphicSerializationRecord[] graphics)
-    {
-        Graphics = graphics;
-    }
-
-    [property: ProtoMember(1)]
-    public GraphicSerializationRecord[] Graphics { get; set; } = [];
 }

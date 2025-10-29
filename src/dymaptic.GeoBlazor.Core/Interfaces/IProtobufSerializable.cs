@@ -5,13 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// </summary>
 public interface IProtobufSerializable
 {
-    public MapComponentSerializationRecord ToProtobuf();
-}
-
-/// <summary>
-///     Interface to indicate that a class can be serialized to and from an array of Protobuf format records.
-/// </summary>
-public interface IProtobufArraySerializable
-{
-    public MapComponentSerializationRecord[] ToProtobufArray();
+    /// <summary>
+    ///     Converts the class to its Protobuf serialization record.
+    /// </summary>
+    /// <returns></returns>
+    MapComponentSerializationRecord ToProtobuf();
 }
