@@ -14,12 +14,28 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
-            <PrivateAssets>all</PrivateAssets>
+        <PackageReference Include="CliWrap" Version="3.9.0" PrivateAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.10" PrivateAssets="all" 
+                          GeneratePathProperty="true" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" 
+                          Version="3.3.4" PrivateAssets="all">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0"/>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0"/>
+        <PackageReference Include="protobuf-net.Grpc" Version="1.2.2" PrivateAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
+
+    <PropertyGroup>
+        <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+    </PropertyGroup>
+
+    <Target Name="GetDependencyTargetPaths">
+        <ItemGroup>
+            <TargetPathWithTargetPlatformMoniker Include="$(PkgCliWrap)\lib\netstandard2.0\CliWrap.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PkgMicrosoft_Bcl_AsyncInterfaces)\lib\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PkgProtobuf-net_Grpc)\lib\netstandard2.0\protobuf-net.Grpc.dll" IncludeRuntimeDependency="false" />
+        </ItemGroup>
+    </Target>
 
 </Project>

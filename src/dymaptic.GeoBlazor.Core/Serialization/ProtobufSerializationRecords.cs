@@ -82,7 +82,7 @@ public abstract record MapComponentCollectionSerializationRecord<TItem>: MapComp
 }
 
 [ProtoContract(Name = "Geometry")]
-internal record GeometrySerializationRecord : MapComponentSerializationRecord
+public record GeometrySerializationRecord : MapComponentSerializationRecord
 {
     public GeometrySerializationRecord()
     {
@@ -320,7 +320,7 @@ internal record GeometryCollectionSerializationRecord: MapComponentCollectionSer
 }
 
 [ProtoContract(Name = "PopupContent")]
-internal record PopupContentSerializationRecord : MapComponentSerializationRecord
+public record PopupContentSerializationRecord : MapComponentSerializationRecord
 {
     public PopupContentSerializationRecord()
     {
@@ -444,7 +444,7 @@ internal record PopupContentCollectionSerializationRecord: MapComponentCollectio
 }
 
 [ProtoContract(Name = "ExpressionInfo")]
-internal record PopupExpressionInfoSerializationRecord : MapComponentSerializationRecord
+public record PopupExpressionInfoSerializationRecord : MapComponentSerializationRecord
 {
     public PopupExpressionInfoSerializationRecord()
     {
@@ -513,7 +513,7 @@ internal record PopupExpressionInfoCollectionSerializationRecord: MapComponentCo
 }
 
 [ProtoContract(Name = "PopupTemplate")]
-internal record PopupTemplateSerializationRecord : MapComponentSerializationRecord
+public record PopupTemplateSerializationRecord : MapComponentSerializationRecord
 {
     public PopupTemplateSerializationRecord()
     {
@@ -612,7 +612,7 @@ internal record PopupTemplateCollectionSerializationRecord: MapComponentCollecti
 }
 
 [ProtoContract(Name = "Symbol")]
-internal record SymbolSerializationRecord : MapComponentSerializationRecord
+public record SymbolSerializationRecord : MapComponentSerializationRecord
 {
     public SymbolSerializationRecord()
     {
@@ -806,7 +806,7 @@ internal record SymbolCollectionSerializationRecord: MapComponentCollectionSeria
 }
 
 [ProtoContract(Name = "Action")]
-internal record ActionBaseSerializationRecord : MapComponentSerializationRecord
+public record ActionBaseSerializationRecord : MapComponentSerializationRecord
 {
     public ActionBaseSerializationRecord()
     {
@@ -909,7 +909,7 @@ internal record ActionBaseCollectionSerializationRecord: MapComponentCollectionS
 }
 
 [ProtoContract(Name = "ChartMediaInfoValue")]
-internal record ChartMediaInfoValueSerializationRecord : MapComponentSerializationRecord
+public record ChartMediaInfoValueSerializationRecord : MapComponentSerializationRecord
 {
     public ChartMediaInfoValueSerializationRecord()
     {
@@ -995,7 +995,7 @@ internal record ChartMediaInfoValueCollectionSerializationRecord: MapComponentCo
 }
 
 [ProtoContract(Name = "ChartMediaInfoValueSeries")]
-internal record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSerializationRecord
+public record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSerializationRecord
 {
     public ChartMediaInfoValueSeriesSerializationRecord()
     {
@@ -1054,7 +1054,7 @@ internal record ChartMediaInfoValueSeriesCollectionSerializationRecord: MapCompo
 }
 
 [ProtoContract(Name = "ElementExpressionInfo")]
-internal record ElementExpressionInfoSerializationRecord: MapComponentSerializationRecord
+public record ElementExpressionInfoSerializationRecord: MapComponentSerializationRecord
 {
     public ElementExpressionInfoSerializationRecord()
     {
@@ -1097,7 +1097,7 @@ internal record ElementExpressionInfoCollectionSerializationRecord: MapComponent
 }
 
 [ProtoContract(Name = "FieldInfo")]
-internal record FieldInfoSerializationRecord : MapComponentSerializationRecord
+public record FieldInfoSerializationRecord : MapComponentSerializationRecord
 {
     public FieldInfoSerializationRecord()
     {
@@ -1188,7 +1188,7 @@ internal record FieldInfoCollectionSerializationRecord: MapComponentCollectionSe
 }
 
 [ProtoContract(Name = "FieldInfoFormat")]
-internal record FieldInfoFormatSerializationRecord : MapComponentSerializationRecord
+public record FieldInfoFormatSerializationRecord : MapComponentSerializationRecord
 {
     public FieldInfoFormatSerializationRecord()
     {
@@ -1280,7 +1280,7 @@ internal record FieldInfoFormatCollectionSerializationRecord: MapComponentCollec
 }
 
 [ProtoContract(Name = "Graphic")]
-internal record GraphicSerializationRecord : MapComponentSerializationRecord
+public record GraphicSerializationRecord : MapComponentSerializationRecord
 {
     public GraphicSerializationRecord()
     {
@@ -1376,6 +1376,10 @@ internal record GraphicSerializationRecord : MapComponentSerializationRecord
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(10)]
     public string? ViewId { get; set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(11)]
+    public AttributeSerializationRecord[]? StackedAttributes { get; set; }
 }
 
 [ProtoContract(Name = "GraphicCollection")]
@@ -1395,7 +1399,7 @@ internal record GraphicCollectionSerializationRecord: MapComponentCollectionSeri
 }
 
 [ProtoContract]
-internal record MapFontSerializationRecord: MapComponentSerializationRecord
+public record MapFontSerializationRecord: MapComponentSerializationRecord
 {
     public MapFontSerializationRecord()
     {
@@ -1462,7 +1466,7 @@ internal record MapFontCollectionSerializationRecord: MapComponentCollectionSeri
 }
 
 [ProtoContract(Name = "MediaInfo")]
-internal record MediaInfoSerializationRecord : MapComponentSerializationRecord
+public record MediaInfoSerializationRecord : MapComponentSerializationRecord
 {
     public MediaInfoSerializationRecord()
     {
@@ -1539,13 +1543,17 @@ internal record MediaInfoCollectionSerializationRecord: MapComponentCollectionSe
 }
 
 [ProtoContract(Name = "RelatedRecordsInfoFieldOrder")]
-internal record RelatedRecordsInfoFieldOrderSerializationRecord(
-    [property: ProtoMember(1)] string? Field, 
+public record RelatedRecordsInfoFieldOrderSerializationRecord(
+    [property: ProtoMember(1)] string? Field,
     [property: ProtoMember(2)] string? Order,
-    [property: ProtoMember(3)] string Id): MapComponentSerializationRecord
+    [property: ProtoMember(3)] string Id) : MapComponentSerializationRecord
 {
+    public RelatedRecordsInfoFieldOrderSerializationRecord() : this(null, null, Guid.NewGuid().ToString())
+    {
+    }
+
     public override Type CollectionType => typeof(RelatedRecordsInfoFieldOrderCollectionSerializationRecord);
-    
+
     public RelatedRecordsInfoFieldOrder FromSerializationRecord()
     {
         Guid id = Guid.NewGuid();
@@ -1577,7 +1585,7 @@ internal record RelatedRecordsInfoFieldOrderCollectionSerializationRecord: MapCo
 }
 
 [ProtoContract(Name = "SpatialReference")]
-internal record SpatialReferenceSerializationRecord : MapComponentSerializationRecord
+public record SpatialReferenceSerializationRecord : MapComponentSerializationRecord
 {
     public SpatialReferenceSerializationRecord()
     {
@@ -1622,7 +1630,7 @@ internal record SpatialReferenceCollectionSerializationRecord: MapComponentColle
 }
 
 [ProtoContract(Name = "Attribute")]
-internal record AttributeSerializationRecord : MapComponentSerializationRecord
+public record AttributeSerializationRecord : MapComponentSerializationRecord
 {
     public AttributeSerializationRecord()
     {
@@ -1648,7 +1656,7 @@ internal record AttributeSerializationRecord : MapComponentSerializationRecord
 }
 
 [ProtoContract(Name = "AttributeCollection")]
-internal record AttributeCollectionSerializationRecord: MapComponentCollectionSerializationRecord<AttributeSerializationRecord>
+public record AttributeCollectionSerializationRecord: MapComponentCollectionSerializationRecord<AttributeSerializationRecord>
 {
     public AttributeCollectionSerializationRecord()
     {
@@ -1664,7 +1672,7 @@ internal record AttributeCollectionSerializationRecord: MapComponentCollectionSe
 }
 
 [ProtoContract(Name = "GraphicOrigin")]
-internal record GraphicOriginSerializationRecord : MapComponentSerializationRecord
+public record GraphicOriginSerializationRecord : MapComponentSerializationRecord
 {
     public GraphicOriginSerializationRecord()
     {
@@ -1715,7 +1723,7 @@ internal record GraphicOriginCollectionSerializationRecord: MapComponentCollecti
 }
 
 [ProtoContract(Name = "MapPath")]
-internal record MapPathSerializationRecord: MapComponentSerializationRecord
+public record MapPathSerializationRecord: MapComponentSerializationRecord
 {
     public MapPathSerializationRecord()
     {
@@ -1754,7 +1762,7 @@ internal record MapPathCollectionSerializationRecord: MapComponentCollectionSeri
 }
 
 [ProtoContract(Name = "MapPoint")]
-internal record MapPointSerializationRecord: MapComponentSerializationRecord
+public record MapPointSerializationRecord: MapComponentSerializationRecord
 {
     public MapPointSerializationRecord()
     {
@@ -1793,7 +1801,7 @@ internal record MapPointCollectionSerializationRecord: MapComponentCollectionSer
 }
 
 [ProtoContract(Name = "MeshComponent")]
-internal record MeshComponentSerializationRecord: MapComponentSerializationRecord
+public record MeshComponentSerializationRecord: MapComponentSerializationRecord
 {
     public MeshComponentSerializationRecord()
     {
@@ -1843,7 +1851,7 @@ internal record
 }
 
 [ProtoContract(Name = "MeshComponentMaterial")]
-internal record MeshComponentMaterialSerializationRecord : MapComponentSerializationRecord
+public record MeshComponentMaterialSerializationRecord : MapComponentSerializationRecord
 {
     public MeshComponentMaterialSerializationRecord()
     {
@@ -1983,7 +1991,7 @@ internal record MeshComponentMaterialCollectionSerializationRecord : MapComponen
 }
 
 [ProtoContract(Name = "MeshTexture")]
-internal record MeshTextureSerializationRecord : MapComponentSerializationRecord
+public record MeshTextureSerializationRecord : MapComponentSerializationRecord
 {
     public MeshTextureSerializationRecord()
     {
@@ -2051,7 +2059,7 @@ internal record MeshTextureCollectionSerializationRecord : MapComponentCollectio
 }
 
 [ProtoContract(Name = "MeshTextureTransform")]
-internal record MeshTextureTransformSerializationRecord : MapComponentSerializationRecord
+public record MeshTextureTransformSerializationRecord : MapComponentSerializationRecord
 {
     public MeshTextureTransformSerializationRecord()
     {
@@ -2096,7 +2104,7 @@ internal record MeshTextureTransformCollectionSerializationRecord : MapComponent
 }
 
 [ProtoContract(Name = "MeshTransform")]
-internal record MeshTransformSerializationRecord : MapComponentSerializationRecord
+public record MeshTransformSerializationRecord : MapComponentSerializationRecord
 {
     public MeshTransformSerializationRecord()
     {
@@ -2146,7 +2154,7 @@ internal record MeshTransformCollectionSerializationRecord : MapComponentCollect
 }
 
 [ProtoContract(Name = "MeshVertexAttributes")]
-internal record MeshVertexAttributesSerializationRecord : MapComponentSerializationRecord
+public record MeshVertexAttributesSerializationRecord : MapComponentSerializationRecord
 {
     public MeshVertexAttributesSerializationRecord()
     {
@@ -2201,7 +2209,7 @@ internal record MeshVertexAttributesCollectionSerializationRecord : MapComponent
 }
 
 [ProtoContract(Name = "MeshVertexSpace")]
-internal record MeshVertexSpaceSerializationRecord : MapComponentSerializationRecord
+public record MeshVertexSpaceSerializationRecord : MapComponentSerializationRecord
 {
     public MeshVertexSpaceSerializationRecord()
     {
@@ -2245,7 +2253,7 @@ internal record MeshVertexSpaceCollectionSerializationRecord : MapComponentColle
     public sealed override MeshVertexSpaceSerializationRecord[]? Items { get; set; } = [];
 }
 
-[ProtoContract]
+[ProtoContract(Name = "ViewHitCollection")]
 internal record ViewHitCollectionSerializationRecord: MapComponentCollectionSerializationRecord<ViewHitSerializationRecord>
 {
     public ViewHitCollectionSerializationRecord()
@@ -2261,8 +2269,8 @@ internal record ViewHitCollectionSerializationRecord: MapComponentCollectionSeri
     public sealed override ViewHitSerializationRecord[]? Items { get; set; }
 }
 
-[ProtoContract]
-internal record ViewHitSerializationRecord: MapComponentSerializationRecord
+[ProtoContract(Name = "ViewHit")]
+public record ViewHitSerializationRecord: MapComponentSerializationRecord
 {
     public ViewHitSerializationRecord()
     {

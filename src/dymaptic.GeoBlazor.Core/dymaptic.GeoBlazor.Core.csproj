@@ -44,14 +44,14 @@
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Unit" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.CodeGen" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.ProtoGen" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.ProtoGen" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Unit" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
     </ItemGroup>
 
     <ItemGroup>
@@ -99,11 +99,12 @@
       <AdditionalFiles Include="Scripts\*.ts" />
       <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
       <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
+      <CompilerVisibleProperty Include="LogSourceGenOutput" Value="$(LogSourceGenOutput)" />
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="Documentation/" />
-        <Folder Include="wwwroot/js/" Watch="false" />
+        <Folder Include="wwwroot" Watch="false" />
         <Content Remove="esBuild*" Watch="false" Pack="false" />
         <Content Include="esBuild*" Watch="false" Pack="false" />
     </ItemGroup>

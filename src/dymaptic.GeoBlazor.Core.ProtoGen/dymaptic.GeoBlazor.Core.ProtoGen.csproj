@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="protobuf-net.Grpc.Reflection" Version="1.2.2" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -6,5 +6,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CompressionEnabled Condition="$(Configuration) != 'RELEASE' OR $(EnableCompression) != 'true'">false</CompressionEnabled>
     <DefineConstants Condition="$(EnableCompression) == 'true'">$(DefineConstants);ENABLE_COMPRESSION</DefineConstants>
+    <LogSourceGenOutput>true</LogSourceGenOutput>
   </PropertyGroup>
 </Project>

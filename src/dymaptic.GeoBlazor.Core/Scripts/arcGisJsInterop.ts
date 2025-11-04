@@ -2059,7 +2059,7 @@ export async function loadProtobuf(): Promise<void> {
 
     // Load all types from root into ProtoTypes
     // @ts-ignore unknown types
-    protobufRoot.nested.dymaptic.GeoBlazor.ProtoGen.nestedArray[0].nestedArray.forEach((type: any) => {
+    protobufRoot.nested.dymaptic.GeoBlazor.ProtoGen.nestedArray.forEach((type: any) => {
         if (type && type.name) {
             ProtoTypes[type.name] = type;
         }

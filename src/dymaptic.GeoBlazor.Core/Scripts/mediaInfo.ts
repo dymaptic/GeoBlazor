@@ -27,7 +27,7 @@ export function buildJsMediaInfo(dotNetMediaInfo: any): any {
             return buildJsBarChartMediaInfo(dotNetMediaInfo);
         case "column-chart":
             return buildJsColumnChartMediaInfo(dotNetMediaInfo);
-        case "image":
+        case "image-media":
             return buildJsImageMediaInfo(dotNetMediaInfo);
         case "line-chart":
             return buildJsLineChartMediaInfo(dotNetMediaInfo);

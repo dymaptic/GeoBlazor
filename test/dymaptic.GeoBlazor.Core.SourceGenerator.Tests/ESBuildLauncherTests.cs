@@ -20,7 +20,8 @@ public class ESBuildLauncherTests
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         
-        var generator = new ESBuildLauncher();
+        ESBuildLauncher generator = new ESBuildLauncher();
+        ProcessHelper.Notification += generator.PassNotification;
         bool resultsReceived = false;
         generator.Notification += (_, message) =>
         {
@@ -48,15 +49,17 @@ public class ESBuildLauncherTests
             .Create([generator.AsSourceGenerator()], additionalTexts, cSharpParseOptions, analyzerConfigOptions);
         
         // To run generators, we can use an empty compilation.
-        var compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
+        CSharpCompilation compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
         // Run generators. Don't forget to use the new compilation rather than the previous one.
         driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
-            out ImmutableArray<Diagnostic> _);
+            out ImmutableArray<Diagnostic> diagnostics);
         
+        Assert.IsTrue(diagnostics.Any(d => d.Id == "GBSourceGen"), "Expected a GBSourceGen diagnostic from the generator.");
         Assert.IsTrue(resultsReceived);
         Assert.IsNotEmpty(newCompilation.SyntaxTrees);
         Assert.Contains("ESBuildRecord", newCompilation.SyntaxTrees.First().ToString());
         Assert.Contains("private const string Configuration = \"Debug\";", newCompilation.SyntaxTrees.First().ToString());
+        ProcessHelper.Notification -= generator.PassNotification;
     }
     
     [TestMethod]
@@ -65,8 +68,9 @@ public class ESBuildLauncherTests
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         
-        var generator = new ESBuildLauncher();
+        ESBuildLauncher generator = new ESBuildLauncher();
         bool resultsReceived = false;
+        ProcessHelper.Notification += generator.PassNotification;
         generator.Notification += (_, message) =>
         {
             Console.WriteLine(message);
@@ -93,7 +97,7 @@ public class ESBuildLauncherTests
             .Create([generator.AsSourceGenerator()], additionalTexts, cSharpParseOptions, analyzerConfigOptions);
         
         // To run generators, we can use an empty compilation.
-        var compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
+        CSharpCompilation compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
         // Run generators. Don't forget to use the new compilation rather than the previous one.
         driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
             out ImmutableArray<Diagnostic> _);
@@ -102,6 +106,7 @@ public class ESBuildLauncherTests
         Assert.IsNotEmpty(newCompilation.SyntaxTrees);
         Assert.Contains("ESBuildRecord", newCompilation.SyntaxTrees.First().ToString());
         Assert.Contains("private const string Configuration = \"Release\";", newCompilation.SyntaxTrees.First().ToString());
+        ProcessHelper.Notification -= generator.PassNotification;
     }
 
     [TestMethod]
@@ -110,7 +115,8 @@ public class ESBuildLauncherTests
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         
-        var generator = new ESBuildLauncher();
+        ESBuildLauncher generator = new ESBuildLauncher();
+        ProcessHelper.Notification += generator.PassNotification;
         bool resultsReceived = false;
         generator.Notification += (_, message) =>
         {
@@ -138,12 +144,13 @@ public class ESBuildLauncherTests
             .Create([generator.AsSourceGenerator()], additionalTexts, cSharpParseOptions, analyzerConfigOptions);
         
         // To run generators, we can use an empty compilation.
-        var compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
+        CSharpCompilation compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
         // Run generators. Don't forget to use the new compilation rather than the previous one.
         driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
             out ImmutableArray<Diagnostic> _);
         Assert.IsEmpty(newCompilation.SyntaxTrees);
         Assert.IsTrue(resultsReceived);
+        ProcessHelper.Notification -= generator.PassNotification;
     }
 }
 

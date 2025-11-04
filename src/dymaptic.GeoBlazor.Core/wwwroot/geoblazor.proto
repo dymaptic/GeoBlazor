@@ -184,7 +184,7 @@ message MapComponent {
       MeshVertexAttributes MeshVertexAttributes = 2500;
       MeshVertexSpace MeshVertexSpace = 2600;
       MeshTexture MeshTexture = 2700;
-      ViewHitSerializationRecord ViewHitSerializationRecord = 2800;
+      ViewHit ViewHit = 2800;
    }
 }
 message MapComponentCollection {
@@ -216,7 +216,7 @@ message MapComponentCollection {
       MeshVertexAttributesCollection MeshVertexAttributesCollection = 2500;
       MeshVertexSpaceCollection MeshVertexSpaceCollection = 2600;
       MeshTextureCollection MeshTextureCollection = 2700;
-      ViewHitCollectionSerializationRecord ViewHitCollectionSerializationRecord = 2800;
+      ViewHitCollection ViewHitCollection = 2800;
    }
 }
 message MapFontCollection {
@@ -416,14 +416,14 @@ message Symbol {
 message SymbolCollection {
    repeated MapComponent Items = 1;
 }
-message ViewHitCollectionSerializationRecord {
-   repeated MapComponent Items = 1;
-}
-message ViewHitSerializationRecord {
+message ViewHit {
    string Type = 1;
    MapComponent MapPoint = 2;
    MapComponent Graphic = 3;
    string LayerId = 4;
+}
+message ViewHitCollection {
+   repeated MapComponent Items = 1;
 }
 service ProtoService {
    rpc GenerateMapComponentCollection (.google.protobuf.Empty) returns (MapComponentCollection);

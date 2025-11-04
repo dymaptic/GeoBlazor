@@ -1,0 +1,161 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Immutable;
+using System.Text;
+
+
+namespace dymaptic.GeoBlazor.Core.SourceGenerator;
+
+/// <summary>
+///     Generates Protobuf definitions by invoking the ProtoGen project.
+/// </summary>
+[Generator]
+public class ProtobufDefinitionsGenerator: IIncrementalGenerator
+{
+    // Notifications are only used for the unit tests, source generators are not intended to have logging/output typically.
+    public event EventHandler<string>? Notification;
+
+    public void PassNotification(object? _, string message)
+    {
+        Notification?.Invoke(this, message);
+    }
+    
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
+        ProcessHelper.Notification += PassNotification;
+        
+        IncrementalValueProvider<Compilation> compilationProvider = context.CompilationProvider;
+        
+        IncrementalValueProvider<ImmutableArray<BaseTypeDeclarationSyntax>> syntaxProvider = 
+            context.SyntaxProvider.ForAttributeWithMetadataName(
+                fullyQualifiedMetadataName: "ProtoBuf.ProtoContractAttribute",
+                predicate: static (syntaxNode, _) => syntaxNode is ClassDeclarationSyntax or StructDeclarationSyntax,
+                transform: static (context, _) => (BaseTypeDeclarationSyntax)context.TargetNode).Collect();
+        
+        // Reads the MSBuild properties to get the project directory and configuration.
+        IncrementalValueProvider<(string?, string?)> optionsProvider =
+            context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
+            {
+                configProvider.GlobalOptions.TryGetValue("build_property.MSBuildProjectDirectory",
+                    out string? projectDirectory);
+
+                configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
+                    out string? pipelineBuild);
+
+                return (projectDirectory, pipelineBuild);
+            });
+        
+        IncrementalValueProvider<((Compilation Left, ImmutableArray<BaseTypeDeclarationSyntax> Right) Left, (string?, string?) Right)> combined = 
+            compilationProvider.Combine(syntaxProvider).Combine(optionsProvider);
+
+        context.RegisterSourceOutput(combined, FilesChanged);
+    }
+
+    private void FilesChanged(SourceProductionContext context, 
+        ((Compilation compilation, 
+            ImmutableArray<BaseTypeDeclarationSyntax> syntaxProvider) Left, 
+            (string? projectDirectory, string? pipeline) OptionsConfig) pipeline)
+    {
+        Generate(context, pipeline.OptionsConfig);
+    }
+
+    private void Generate(SourceProductionContext context,
+        (string? projectDirectory, string? pipelineBuild) optionsConfig)
+    {
+        if (optionsConfig.pipelineBuild == "true")
+        {
+            // If the pipeline build is enabled, we skip the ProtoGen process.
+            // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
+            ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+                "Skipping ProtoGen process as PipelineBuild is set to true.", 
+                DiagnosticSeverity.Info,
+                context);
+            return;
+        }
+
+        if (!SetProjectDirectoryAndConfiguration(optionsConfig, context))
+        {
+            return;
+        }
+        
+        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+            "ESBuildLauncher triggered.", 
+            DiagnosticSeverity.Info,
+            context);
+        GenerateProtobufDefinitions(context);
+    }
+    
+    private bool SetProjectDirectoryAndConfiguration((string? projectDirectory, string? _) options,
+        SourceProductionContext context)
+    {
+        if (options.projectDirectory is { } projectDirectory)
+        {
+            _corePath = Path.GetFullPath(projectDirectory);
+            _protogenProjectPath = Path.GetFullPath(Path.Combine(_corePath, "..", "dymaptic.GeoBlazor.Core.ProtoGen"));
+
+            return true;
+        }
+        
+        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+            "Invalid project directory.",
+            DiagnosticSeverity.Error,
+            context);
+
+        return false;
+    }
+    
+    private void GenerateProtobufDefinitions(SourceProductionContext context)
+    {
+        try
+        {
+            ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+                "Generating Protobuf schema...", 
+                DiagnosticSeverity.Info,
+                context);
+            StringBuilder logBuilder = new();
+
+            Task processTask = ProcessHelper.RunCommand("ProtoGen",
+                _protogenProjectPath!,
+                "dotnet run",
+                logBuilder, CancellationToken.None);
+            
+            Task.WaitAll(processTask);
+            
+            string source = $$"""
+                              // <auto-generated/>
+
+                              namespace dymaptic.GeoBlazor.Core;
+
+                              /// <summary>
+                              ///     This class is generated by a source generator and contains metadata about the build.
+                              /// </summary>
+                              internal class ProtobufBuildRecord
+                              {
+                                  private const long Timestamp = {{DateTime.UtcNow.Ticks}};
+                              }
+                              """;
+
+            context.AddSource("ProtobufBuildRecord.g.cs", source);
+            logBuilder.AppendLine();
+            logBuilder.AppendLine(source);
+            ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+                logBuilder.ToString(), 
+                DiagnosticSeverity.Info,
+                context);
+            ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+                "Protobuf schema updated", 
+                DiagnosticSeverity.Info,
+                context);
+        }
+        catch (Exception ex)
+        {
+            ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+                $"Error generating Protobuf definitions: {ex.Message}",
+                DiagnosticSeverity.Error,
+                context);
+        }
+    }
+    
+    private static string? _corePath;
+    private static string? _protogenProjectPath;
+}
