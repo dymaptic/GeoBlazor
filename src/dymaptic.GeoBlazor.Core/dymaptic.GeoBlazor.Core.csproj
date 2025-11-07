@@ -46,7 +46,6 @@
     <ItemGroup>
         <SupportedPlatform Include="browser" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.CodeGen" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.ProtoGen" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Unit" />
@@ -105,7 +104,7 @@
 
     <ItemGroup>
         <Folder Include="Documentation/" />
-        <Folder Include="wwwroot" Watch="false" />
+        <Folder Include="wwwroot/js" Watch="false" />
         <Content Remove="esBuild*" Watch="false" Pack="false" />
         <Content Include="esBuild*" Watch="false" Pack="false" />
     </ItemGroup>
@@ -123,8 +122,8 @@
         <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />
     </Target>
     
-    <Target AfterTargets="Build" Name="Copy Protobuf Definitions">
-        <Message Importance="high" Text="Copying updated protobuf definitions" />
-        <Exec Command="pwsh $(ProjectDir)/copyProtobuf.ps1 -c $(Configuration) -tfm $(TargetFramework)" ContinueOnError="false" />
-    </Target>
+<!--    <Target BeforeTargets="ResolveProjectStaticWebAssets" Name="Copy Protobuf Definitions">-->
+<!--        <Message Importance="high" Text="Copying updated protobuf definitions" />-->
+<!--        <Exec Command="pwsh $(ProjectDir)/copyProtobuf.ps1 -c $(Configuration) -tfm $(TargetFramework)" ContinueOnError="false" />-->
+<!--    </Target>-->
 </Project>
