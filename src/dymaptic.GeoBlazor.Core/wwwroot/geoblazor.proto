@@ -1,0 +1,423 @@
+syntax = "proto3";
+package dymaptic.GeoBlazor.Core.Serialization;
+import "google/protobuf/empty.proto";
+
+message ActionBase {
+   string type = 1;
+   string title = 2;
+   string className = 3;
+   bool active = 4;
+   bool disabled = 5;
+   bool visible = 6;
+   string id = 7;
+   string image = 8;
+   bool value = 9;
+   string actionId = 10;
+   string test = 11;
+}
+message ActionBaseCollection {
+   repeated MapComponent items = 1;
+}
+message Attribute {
+   string key = 1;
+   string value = 2;
+   string valueType = 3;
+}
+message AttributeCollection {
+   repeated MapComponent items = 1;
+}
+message ChartMediaInfoValue {
+   repeated string fields = 1;
+   string normalizeField = 2;
+   string tooltipField = 3;
+   repeated MapComponent series = 4;
+   string linkURL = 5;
+   string sourceURL = 6;
+   string id = 7;
+}
+message ChartMediaInfoValueCollection {
+   repeated MapComponent items = 1;
+}
+message ChartMediaInfoValueSeries {
+   string fieldName = 1;
+   string tooltip = 2;
+   double value = 3;
+   string id = 4;
+}
+message ChartMediaInfoValueSeriesCollection {
+   repeated MapComponent items = 1;
+}
+message ElementExpressionInfo {
+   string expression = 1;
+   string title = 2;
+}
+message ElementExpressionInfoCollection {
+   repeated MapComponent items = 1;
+}
+message FieldInfo {
+   string fieldName = 1;
+   string label = 2;
+   string tooltip = 3;
+   string stringFieldOption = 4;
+   MapComponent format = 5;
+   bool isEditable = 6;
+   bool visible = 7;
+   string id = 8;
+}
+message FieldInfoCollection {
+   repeated MapComponent items = 1;
+}
+message FieldInfoFormat {
+   int32 places = 1;
+   bool digitSeparator = 2;
+   string dateFormat = 3;
+   string id = 4;
+}
+message FieldInfoFormatCollection {
+   repeated MapComponent items = 1;
+}
+message Geometry {
+   string type = 1;
+   MapComponent extent = 2;
+   MapComponent spatialReference = 3;
+   double longitude = 4;
+   double latitude = 5;
+   double x = 6;
+   double y = 7;
+   double z = 8;
+   repeated MapComponent paths = 9;
+   repeated MapComponent rings = 10;
+   double xmax = 11;
+   double xmin = 12;
+   double ymax = 13;
+   double ymin = 14;
+   double zmax = 15;
+   double zmin = 16;
+   double mmax = 17;
+   double mmin = 18;
+   bool hasM = 19;
+   bool hasZ = 20;
+   double m = 21;
+   MapComponent centroid = 22;
+   bool isSelfIntersecting = 23;
+   MapComponent center = 24;
+   bool geodesic = 25;
+   int32 numberOfPoints = 26;
+   double radius = 27;
+   string radiusUnit = 28;
+   string id = 29;
+   repeated MapComponent points = 30;
+   bool isSimple = 31;
+   repeated MapComponent components = 32;
+   MapComponent transform = 33;
+   MapComponent vertexAttributes = 34;
+   MapComponent vertexSpace = 35;
+}
+message GeometryCollection {
+   repeated MapComponent items = 1;
+}
+message Graphic {
+   string id = 1;
+   MapComponent geometry = 2;
+   MapComponent symbol = 3;
+   MapComponent popupTemplate = 4;
+   repeated MapComponent attributes = 5;
+   bool visible = 6;
+   string aggregateGeometries = 7;
+   MapComponent origin = 8;
+   string layerId = 9;
+   string viewId = 10;
+   repeated MapComponent stackedAttributes = 11;
+}
+message GraphicCollection {
+   repeated MapComponent items = 1;
+}
+message GraphicOrigin {
+   string layerId = 1;
+   string arcGISLayerId = 2;
+   int32 layerIndex = 3;
+}
+message GraphicOriginCollection {
+   repeated MapComponent items = 1;
+}
+message ImageData {
+}
+message MapColor {
+   repeated double rgbaValues = 1 [ packed = false];
+   string hexOrNameValue = 2;
+}
+message MapFont {
+   double size = 1;
+   string family = 2;
+   string fontStyle = 3;
+   string weight = 4;
+   string decoration = 5;
+   string id = 6;
+}
+message MapFontCollection {
+   repeated MapComponent items = 1;
+}
+message MapPath {
+   repeated MapComponent points = 1;
+}
+message MapPathCollection {
+   repeated MapComponent items = 1;
+}
+message MapPoint {
+   repeated double coordinates = 1 [ packed = false];
+}
+message MapPointCollection {
+   repeated MapComponent items = 1;
+}
+message MediaInfo {
+   string type = 1;
+   string altText = 2;
+   string caption = 3;
+   string title = 4;
+   MapComponent value = 5;
+   double refreshInterval = 6;
+   string id = 7;
+}
+message MediaInfoCollection {
+   repeated MapComponent items = 1;
+}
+message MeshComponent {
+   bytes faces = 1;
+   MapComponent material = 2;
+   string name = 3;
+   string shading = 4;
+}
+message MeshComponentCollection {
+   repeated MapComponent items = 1;
+}
+message MeshComponentMaterial {
+   double alphaCutoff = 1;
+   string alphaMode = 2;
+   MapColor color = 3;
+   MapComponent colorTexture = 4;
+   MapComponent colorTextureTransform = 5;
+   bool doubleSided = 6;
+   MapComponent normalTexture = 7;
+   MapComponent normalTextureTransform = 8;
+   MapColor emissiveColor = 9;
+   MapComponent emissiveTexture = 10;
+   MapComponent emissiveTextureTransform = 11;
+   double metallic = 12;
+   MapComponent metallicRoughnessTexture = 13;
+   MapComponent occlusionTexture = 14;
+   MapComponent occlusionTextureTransform = 15;
+   double roughness = 16;
+}
+message MeshComponentMaterialCollection {
+   repeated MapComponent items = 1;
+}
+message MeshTexture {
+   ImageData imageData = 1;
+   repeated string wrap = 2;
+   bool transparent = 3;
+   string url = 4;
+}
+message MeshTextureCollection {
+   repeated MapComponent items = 1;
+}
+message MeshTextureTransform {
+   repeated double offset = 1 [ packed = false];
+   double rotation = 2;
+   repeated double scale = 3 [ packed = false];
+}
+message MeshTextureTransformCollection {
+   repeated MapComponent items = 1;
+}
+message MeshTransform {
+   double rotationAngle = 1;
+   repeated double rotationAxis = 2 [ packed = false];
+   repeated double scale = 3 [ packed = false];
+   repeated double translation = 4 [ packed = false];
+}
+message MeshTransformCollection {
+   repeated MapComponent items = 1;
+}
+message MeshVertexAttributes {
+   bytes color = 1;
+   repeated double normal = 2 [ packed = false];
+   repeated double position = 3 [ packed = false];
+   repeated double tangent = 4 [ packed = false];
+   repeated double uv = 5 [ packed = false];
+}
+message MeshVertexAttributesCollection {
+   repeated MapComponent items = 1;
+}
+message MeshVertexSpace {
+   string type = 1;
+   repeated double origin = 2 [ packed = false];
+}
+message MeshVertexSpaceCollection {
+   repeated MapComponent items = 1;
+}
+message PopupContent {
+   string type = 1;
+   string description = 2;
+   string displayType = 3;
+   string title = 4;
+   MapComponent expressionInfo = 5;
+   repeated MapComponent fieldInfos = 6;
+   int32 activeMediaInfoIndex = 7;
+   repeated MapComponent mediaInfos = 8;
+   int32 displayCount = 9;
+   repeated MapComponent orderByFields = 10;
+   int64 relationshipId = 11;
+   string text = 12;
+   string id = 13;
+   repeated string outFields = 14;
+}
+message PopupContentCollection {
+   repeated MapComponent items = 1;
+}
+message PopupExpressionInfo {
+   string expression = 1;
+   string name = 2;
+   string title = 3;
+   string returnType = 4;
+   string id = 5;
+}
+message PopupExpressionInfoCollection {
+   repeated MapComponent items = 1;
+}
+message PopupTemplate {
+   string title = 1;
+   string stringContent = 2;
+   repeated string outFields = 3;
+   repeated MapComponent fieldInfos = 4;
+   repeated MapComponent content = 5;
+   repeated MapComponent expressionInfos = 6;
+   bool overwriteActions = 7;
+   bool returnGeometry = 8;
+   repeated MapComponent actions = 9;
+   string id = 10;
+}
+message PopupTemplateCollection {
+   repeated MapComponent items = 1;
+}
+message RelatedRecordsInfoFieldOrder {
+}
+message RelatedRecordsInfoFieldOrderCollection {
+   repeated MapComponent items = 1;
+}
+message SpatialReference {
+   int32 wkid = 1;
+   string wkt = 2;
+}
+message SpatialReferenceCollection {
+   repeated MapComponent items = 1;
+}
+message Symbol {
+   string type = 1;
+   MapColor color = 2;
+   MapComponent outline = 3;
+   double size = 4;
+   string style = 5;
+   double angle = 6;
+   double xoffset = 7;
+   double yoffset = 8;
+   double width = 9;
+   string lineStyle = 10;
+   string text = 11;
+   MapColor haloColor = 12;
+   double haloSize = 13;
+   MapComponent font = 14;
+   double height = 15;
+   string url = 16;
+   MapColor backgroundColor = 17;
+   double borderLineSize = 18;
+   MapColor borderLineColor = 19;
+   string horizontalAlignment = 20;
+   bool kerning = 21;
+   double lineHeight = 22;
+   double lineWidth = 23;
+   bool rotated = 24;
+   string verticalAlignment = 25;
+   double xScale = 26;
+   double yScale = 27;
+   string id = 28;
+   string name = 29;
+   string portalUrl = 30;
+   string styleName = 31;
+   string styleUrl = 32;
+}
+message SymbolCollection {
+   repeated MapComponent items = 1;
+}
+message ViewHit {
+   string type = 1;
+   MapComponent mapPoint = 2;
+   MapComponent graphic = 3;
+   string layerId = 4;
+}
+message ViewHitCollection {
+   repeated MapComponent items = 1;
+}
+message MapComponent {
+   oneof subtype {
+      Geometry Geometry = 100;
+      PopupContent PopupContent = 200;
+      PopupExpressionInfo PopupExpressionInfo = 300;
+      PopupTemplate PopupTemplate = 400;
+      Symbol Symbol = 500;
+      ActionBase ActionBase = 600;
+      ChartMediaInfoValue ChartMediaInfoValue = 700;
+      ChartMediaInfoValueSeries ChartMediaInfoValueSeries = 800;
+      ElementExpressionInfo ElementExpressionInfo = 900;
+      FieldInfo FieldInfo = 1000;
+      FieldInfoFormat FieldInfoFormat = 1100;
+      Graphic Graphic = 1200;
+      MapFont MapFont = 1300;
+      MediaInfo MediaInfo = 1400;
+      RelatedRecordsInfoFieldOrder RelatedRecordsInfoFieldOrder = 1500;
+      SpatialReference SpatialReference = 1600;
+      Attribute Attribute = 1700;
+      GraphicOrigin GraphicOrigin = 1800;
+      MapPath MapPath = 1900;
+      MapPoint MapPoint = 2000;
+      MeshComponent MeshComponent = 2100;
+      MeshComponentMaterial MeshComponentMaterial = 2200;
+      MeshTransform MeshTransform = 2300;
+      MeshTextureTransform MeshTextureTransform = 2400;
+      MeshVertexAttributes MeshVertexAttributes = 2500;
+      MeshVertexSpace MeshVertexSpace = 2600;
+      MeshTexture MeshTexture = 2700;
+      ViewHit ViewHit = 2800;
+   }
+}
+message MapComponentCollection {
+   oneof subtype {
+      GeometryCollection GeometryCollection = 100;
+      PopupContentCollection PopupContentCollection = 200;
+      PopupExpressionInfoCollection PopupExpressionInfoCollection = 300;
+      PopupTemplateCollection PopupTemplateCollection = 400;
+      SymbolCollection SymbolCollection = 500;
+      ActionBaseCollection ActionBaseCollection = 600;
+      ChartMediaInfoValueCollection ChartMediaInfoValueCollection = 700;
+      ChartMediaInfoValueSeriesCollection ChartMediaInfoValueSeriesCollection = 800;
+      ElementExpressionInfoCollection ElementExpressionInfoCollection = 900;
+      FieldInfoCollection FieldInfoCollection = 1000;
+      FieldInfoFormatCollection FieldInfoFormatCollection = 1100;
+      GraphicCollection GraphicCollection = 1200;
+      MapFontCollection MapFontCollection = 1300;
+      MediaInfoCollection MediaInfoCollection = 1400;
+      RelatedRecordsInfoFieldOrderCollection RelatedRecordsInfoFieldOrderCollection = 1500;
+      SpatialReferenceCollection SpatialReferenceCollection = 1600;
+      AttributeCollection AttributeCollection = 1700;
+      GraphicOriginCollection GraphicOriginCollection = 1800;
+      MapPathCollection MapPathCollection = 1900;
+      MapPointCollection MapPointCollection = 2000;
+      MeshComponentCollection MeshComponentCollection = 2100;
+      MeshComponentMaterialCollection MeshComponentMaterialCollection = 2200;
+      MeshTransformCollection MeshTransformCollection = 2300;
+      MeshTextureTransformCollection MeshTextureTransformCollection = 2400;
+      MeshVertexAttributesCollection MeshVertexAttributesCollection = 2500;
+      MeshVertexSpaceCollection MeshVertexSpaceCollection = 2600;
+      MeshTextureCollection MeshTextureCollection = 2700;
+      ViewHitCollection ViewHitCollection = 2800;
+   }
+}
+

@@ -2084,7 +2084,7 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
         arrays: false,
         objects: false
     });
-    return array.graphics;
+    return array.items.map();
 }
 
 export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: FeatureLayer | GeoJSONLayer | null): any {

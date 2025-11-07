@@ -443,7 +443,7 @@ internal record PopupContentCollectionSerializationRecord: MapComponentCollectio
     public sealed override PopupContentSerializationRecord[]? Items { get; set; } = [];
 }
 
-[ProtoContract(Name = "ExpressionInfo")]
+[ProtoContract(Name = "PopupExpressionInfo")]
 public record PopupExpressionInfoSerializationRecord : MapComponentSerializationRecord
 {
     public PopupExpressionInfoSerializationRecord()
@@ -805,7 +805,7 @@ internal record SymbolCollectionSerializationRecord: MapComponentCollectionSeria
     public sealed override SymbolSerializationRecord[]? Items { get; set; } = [];
 }
 
-[ProtoContract(Name = "Action")]
+[ProtoContract(Name = "ActionBase")]
 public record ActionBaseSerializationRecord : MapComponentSerializationRecord
 {
     public ActionBaseSerializationRecord()
@@ -895,7 +895,7 @@ public record ActionBaseSerializationRecord : MapComponentSerializationRecord
     }
 }
 
-[ProtoContract(Name = "ActionCollection")]
+[ProtoContract(Name = "ActionBaseCollection")]
 internal record ActionBaseCollectionSerializationRecord: MapComponentCollectionSerializationRecord<ActionBaseSerializationRecord>
 {
     public ActionBaseCollectionSerializationRecord()
@@ -1401,7 +1401,7 @@ internal record GraphicCollectionSerializationRecord: MapComponentCollectionSeri
     public sealed override GraphicSerializationRecord[]? Items { get; set; } = [];
 }
 
-[ProtoContract]
+[ProtoContract(Name="MapFont")]
 public record MapFontSerializationRecord: MapComponentSerializationRecord
 {
     public MapFontSerializationRecord()

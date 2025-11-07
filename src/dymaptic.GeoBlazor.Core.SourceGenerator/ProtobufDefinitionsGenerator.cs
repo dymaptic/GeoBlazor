@@ -17,100 +17,34 @@ public class ProtobufDefinitionsGenerator: IIncrementalGenerator
         IncrementalValueProvider<ImmutableArray<BaseTypeDeclarationSyntax>> syntaxProvider = 
             context.SyntaxProvider.ForAttributeWithMetadataName(
                 fullyQualifiedMetadataName: "ProtoBuf.ProtoContractAttribute",
-                predicate: static (syntaxNode, _) => syntaxNode is ClassDeclarationSyntax or StructDeclarationSyntax,
+                predicate: static (syntaxNode, _) => 
+                    syntaxNode is ClassDeclarationSyntax or StructDeclarationSyntax or RecordDeclarationSyntax,
                 transform: static (context, _) => (BaseTypeDeclarationSyntax)context.TargetNode).Collect();
-        
-        // Reads the MSBuild properties to get the project directory and configuration.
-        IncrementalValueProvider<(string?, string?)> optionsProvider =
-            context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
-            {
-                configProvider.GlobalOptions.TryGetValue("build_property.MSBuildProjectDirectory",
-                    out string? projectDirectory);
 
-                configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
-                    out string? pipelineBuild);
-
-                return (projectDirectory, pipelineBuild);
-            });
-        
-        IncrementalValueProvider<(ImmutableArray<BaseTypeDeclarationSyntax> Left, (string?, string?) Right)> combined = 
-            syntaxProvider.Combine(optionsProvider);
-
-        context.RegisterSourceOutput(combined, FilesChanged);
-    }
-
-    private void FilesChanged(SourceProductionContext context, 
-        (ImmutableArray<BaseTypeDeclarationSyntax> syntaxProvider, 
-            (string? projectDirectory, string? pipeline) OptionsConfig) pipeline)
-    {
-        Generate(context, pipeline.OptionsConfig);
-    }
-
-    private void Generate(SourceProductionContext context,
-        (string? projectDirectory, string? pipelineBuild) optionsConfig)
-    {
-        if (optionsConfig.pipelineBuild == "true")
-        {
-            // If the pipeline build is enabled, we skip the ProtoGen process.
-            // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
-            ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-                "Skipping ProtoGen process as PipelineBuild is set to true.", 
-                DiagnosticSeverity.Info,
-                context);
-            return;
-        }
-
-        if (!SetProjectDirectoryAndConfiguration(optionsConfig, context))
-        {
-            return;
-        }
-        
-        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-            "ESBuildLauncher triggered.", 
-            DiagnosticSeverity.Info,
-            context);
-        GenerateProtobufDefinitions(context);
+        context.RegisterSourceOutput(syntaxProvider, GenerateProtobufDefinitions);
     }
     
-    private bool SetProjectDirectoryAndConfiguration((string? projectDirectory, string? _) options,
-        SourceProductionContext context)
-    {
-        if (options.projectDirectory is { } projectDirectory)
-        {
-            string corePath = Path.GetFullPath(projectDirectory);
-            _protogenPath = Path.GetFullPath(
-                Path.Combine(corePath, "../",
-                    "dymaptic.GeoBlazor.Core.ProtoGen"));
-            
-            return true;
-        }
-        
-        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-            "Invalid project directory.",
-            DiagnosticSeverity.Error,
-            context);
-
-        return false;
-    }
-    
-    private void GenerateProtobufDefinitions(SourceProductionContext context)
+    private void GenerateProtobufDefinitions(SourceProductionContext context,
+        ImmutableArray<BaseTypeDeclarationSyntax> syntaxNodes)
     {
         try
         {
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-                "Generating Protobuf schema...", 
+                $"Generating Protobuf schema with {syntaxNodes.Count()} syntax nodes",
                 DiagnosticSeverity.Info,
                 context);
 
-            StringBuilder logBuilder = new();
+            // Extract protobuf definitions from syntax nodes
+            var protoDefinitions = ExtractProtobufDefinitions(syntaxNodes, context);
             
-            Task saveTask = ProcessHelper.Execute("Save geoblazor.proto",
-                _protogenPath!, "dotnet",
-                $"run --project {_protogenPath}/dymaptic.GeoBlazor.Core.ProtoGen.csproj",
-                logBuilder, CancellationToken.None);
-            
-            saveTask.Wait();
-            
+            ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+                $"Extracted {protoDefinitions.Count} Protobuf message definitions.",
+                DiagnosticSeverity.Info,
+                context);
+
+            // Generate new proto file content
+            string newProtoContent = GenerateProtoFileContent(protoDefinitions);
+
             string recordSource = $$"""
                               // <auto-generated/>
 
@@ -119,16 +53,20 @@ public class ProtobufDefinitionsGenerator: IIncrementalGenerator
                               /// <summary>
                               ///     This class is generated by a source generator and contains metadata about the build.
                               /// </summary>
-                              internal class ProtobufBuildRecord
+                              internal class GeoBlazorProto
                               {
                                   private const long Timestamp = {{DateTime.UtcNow.Ticks}};
+                                  
+                                  private const string ProtoContent = @"
+                              {{newProtoContent.Replace("\"", "\"\"")}}
+                                      ";
                               }
                               """;
 
-            context.AddSource("ProtobufBuildRecord.g.cs", recordSource);
-            
+            context.AddSource("GeoBlazorProto.g.cs", recordSource);
+
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-                "Protobuf schema updated", 
+                "Protobuf schema generation complete",
                 DiagnosticSeverity.Info,
                 context);
         }
@@ -140,6 +78,278 @@ public class ProtobufDefinitionsGenerator: IIncrementalGenerator
                 context);
         }
     }
-    
-    private static string? _protogenPath;
+
+    private Dictionary<string, ProtoMessageDefinition> ExtractProtobufDefinitions(
+        ImmutableArray<BaseTypeDeclarationSyntax> syntaxNodes, SourceProductionContext context)
+    {
+        var definitions = new Dictionary<string, ProtoMessageDefinition>();
+
+        foreach (var syntaxNode in syntaxNodes)
+        {
+            try
+            {
+                var messageDef = ExtractMessageDefinition(syntaxNode);
+                if (messageDef != null)
+                {
+                    definitions[messageDef.Name] = messageDef;
+                }
+            }
+            catch (Exception ex)
+            {
+                ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+                    $"Error processing syntax node {syntaxNode.Identifier.Text}: {ex.Message}",
+                    DiagnosticSeverity.Warning,
+                    context);
+            }
+        }
+
+        return definitions;
+    }
+
+    private ProtoMessageDefinition? ExtractMessageDefinition(BaseTypeDeclarationSyntax syntaxNode)
+    {
+        // Get ProtoContract attribute to find the message name
+        var protoContractAttr = syntaxNode.AttributeLists
+            .SelectMany(al => al.Attributes)
+            .FirstOrDefault(a => a.Name.ToString().Contains("ProtoContract"));
+
+        if (protoContractAttr == null)
+        {
+            return null;
+        }
+
+        // Extract the Name parameter from ProtoContract attribute
+        string messageName = syntaxNode.Identifier.Text;
+        var nameArg = protoContractAttr.ArgumentList?.Arguments
+            .FirstOrDefault(arg => arg.NameEquals?.Name.Identifier.Text == "Name");
+
+        if (nameArg is { Expression: LiteralExpressionSyntax literal })
+        {
+            messageName = literal.Token.ValueText;
+        }
+
+        var fields = new List<ProtoFieldDefinition>();
+        var protoIncludeFields = new List<ProtoIncludeDefinition>();
+
+        // Extract ProtoInclude attributes for oneof fields
+        var protoIncludeAttrs = syntaxNode.AttributeLists
+            .SelectMany(al => al.Attributes)
+            .Where(a => a.Name.ToString().Contains("ProtoInclude"));
+
+        foreach (var includeAttr in protoIncludeAttrs)
+        {
+            if (includeAttr.ArgumentList?.Arguments.Count >= 2)
+            {
+                var tagArg = includeAttr.ArgumentList.Arguments[0].Expression;
+                var typeArg = includeAttr.ArgumentList.Arguments[1].Expression;
+
+                if (tagArg is LiteralExpressionSyntax tagLiteral &&
+                    int.TryParse(tagLiteral.Token.ValueText, out int tag))
+                {
+                    string typeName = ExtractTypeFromExpression(typeArg);
+                    protoIncludeFields.Add(new ProtoIncludeDefinition
+                    {
+                        Tag = tag,
+                        TypeName = typeName
+                    });
+                }
+            }
+        }
+
+        // Extract fields with ProtoMember attributes
+        foreach (var member in syntaxNode.ChildNodes())
+        {
+            if (member is PropertyDeclarationSyntax property)
+            {
+                var protoMemberAttr = property.AttributeLists
+                    .SelectMany(al => al.Attributes)
+                    .FirstOrDefault(a => a.Name.ToString().Contains("ProtoMember"));
+
+                if (protoMemberAttr is { ArgumentList.Arguments.Count: > 0 })
+                {
+                    var fieldNumber = protoMemberAttr.ArgumentList.Arguments[0].Expression;
+                    if (fieldNumber is LiteralExpressionSyntax fieldNumLiteral &&
+                        int.TryParse(fieldNumLiteral.Token.ValueText, out int num))
+                    {
+                        var fieldType = ConvertCSharpTypeToProtoType(property.Type.ToString());
+                        fields.Add(new ProtoFieldDefinition
+                        {
+                            Type = fieldType,
+                            Name = ToLowerFirstChar(property.Identifier.Text),
+                            Number = num
+                        });
+                    }
+                }
+            }
+        }
+
+        return new ProtoMessageDefinition
+        {
+            Name = messageName,
+            Fields = fields.OrderBy(f => f.Number).ToList(),
+            ProtoIncludes = protoIncludeFields.OrderBy(p => p.Tag).ToList()
+        };
+    }
+
+    private string ExtractTypeFromExpression(ExpressionSyntax expression)
+    {
+        // Handle typeof(TypeName) expression
+        if (expression is TypeOfExpressionSyntax typeOfExpr)
+        {
+            return typeOfExpr.Type.ToString();
+        }
+
+        return expression.ToString();
+    }
+
+    private string ConvertCSharpTypeToProtoType(string csharpType)
+    {
+        // Check if it's an array type (need repeated keyword)
+        bool isRepeated = (csharpType.Contains("[]") && csharpType != "byte[]" && csharpType != "byte[]?")
+            || csharpType.Contains("IEnumerable")
+            || csharpType.Contains("List<");
+        
+        // Remove nullable markers and array indicators
+        string cleanType = csharpType.Replace("?", "").Trim();
+
+        if (isRepeated)
+        {
+            cleanType = cleanType.Replace("[]", "")
+                .Replace("IEnumerable<", "")
+                .Replace("IList<", "")
+                .Replace("List<", "")
+                .Replace(">", "")
+                .Trim();
+        }
+
+        // Map C# types to proto types
+        string protoType = cleanType switch
+        {
+            "string" => "string",
+            "int" => "int32",
+            "long" => "int64",
+            "double" => "double",
+            "float" => "float",
+            "bool" => "bool",
+            "byte[]" => "bytes",
+            _ when cleanType.Contains("SerializationRecord") || cleanType.Contains("MapComponent") => "MapComponent",
+            _ => cleanType
+        };
+
+        return isRepeated ? $"repeated {protoType}" : protoType;
+    }
+
+    private string GenerateProtoFileContent(Dictionary<string, ProtoMessageDefinition> definitions)
+    {
+        var sb = new StringBuilder();
+
+        // Header
+        sb.AppendLine("syntax = \"proto3\";");
+        sb.AppendLine("package dymaptic.GeoBlazor.Core.Serialization;");
+        sb.AppendLine("import \"google/protobuf/empty.proto\";");
+        sb.AppendLine();
+
+        // First, generate regular message definitions (those without ProtoIncludes or with both fields and includes)
+        foreach (var def in definitions.Values.OrderBy(d => d.Name))
+        {
+            if (def.Name == "MapComponent" || def.Name == "MapComponentCollection")
+            {
+                continue; // Handle these special cases separately
+            }
+
+            sb.AppendLine($"message {def.Name} {{");
+
+            // Generate regular fields
+            foreach (var field in def.Fields)
+            {
+                switch (field.Type)
+                {
+                    case "repeated double":
+                        sb.AppendLine($"   {field.Type} {field.Name} = {field.Number} [ packed = false];");
+                        continue;
+                    default:
+                        sb.AppendLine($"   {field.Type} {field.Name} = {field.Number};");
+
+                        break;
+                }
+            }
+
+            sb.AppendLine("}");
+        }
+
+        // Generate MapComponent with oneof for all the serialization records
+        if (definitions.TryGetValue("MapComponent", out var mapComponentDef) && mapComponentDef.ProtoIncludes.Any())
+        {
+            sb.AppendLine("message MapComponent {");
+            sb.AppendLine("   oneof subtype {");
+
+            foreach (var include in mapComponentDef.ProtoIncludes)
+            {
+                string typeName = include.TypeName.Replace("SerializationRecord", "");
+                sb.AppendLine($"      {typeName} {typeName} = {include.Tag};");
+            }
+
+            sb.AppendLine("   }");
+            sb.AppendLine("}");
+        }
+
+        // Generate MapComponentCollection with oneof for all the collection types
+        if (definitions.TryGetValue("MapComponentCollection", out var collectionDef) && collectionDef.ProtoIncludes.Any())
+        {
+            sb.AppendLine("message MapComponentCollection {");
+            sb.AppendLine("   oneof subtype {");
+
+            foreach (var include in collectionDef.ProtoIncludes)
+            {
+                string typeName = include.TypeName.Replace("SerializationRecord", "");
+                sb.AppendLine($"      {typeName} {typeName} = {include.Tag};");
+            }
+
+            sb.AppendLine("   }");
+            sb.AppendLine("}");
+            // marker for extracting later
+            sb.AppendLine("---");
+        }
+
+        // Generate collection messages - simple repeated Items pattern
+        foreach (var def in definitions.Values.Where(d => d.Name.EndsWith("Collection") && d.Name != "MapComponentCollection"))
+        {
+            // Collections are already generated above, but we need to ensure they have the Items field
+            // The Items field was already generated in the first loop
+        }
+
+        // Add the service definition at the end
+        sb.AppendLine("service ProtoService {");
+        sb.AppendLine("   rpc GenerateMapComponentCollection (.google.protobuf.Empty) returns (MapComponentCollection);");
+        sb.AppendLine("   rpc GenerateProtobufClasses (.google.protobuf.Empty) returns (MapComponent);");
+        sb.AppendLine("}");
+        sb.AppendLine();
+
+        return sb.ToString();
+    }
+
+    private static string ToLowerFirstChar(string val)
+    {
+        return char.ToLowerInvariant(val[0]) + val.Substring(1);
+    }
+
+    private class ProtoMessageDefinition
+    {
+        public string Name { get; set; } = string.Empty;
+        public List<ProtoFieldDefinition> Fields { get; set; } = new();
+        public List<ProtoIncludeDefinition> ProtoIncludes { get; set; } = new();
+    }
+
+    private class ProtoFieldDefinition
+    {
+        public string Type { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public int Number { get; set; }
+    }
+
+    private class ProtoIncludeDefinition
+    {
+        public int Tag { get; set; }
+        public string TypeName { get; set; } = string.Empty;
+    }
 }

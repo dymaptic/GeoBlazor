@@ -25,6 +25,7 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoWarn>GeoBlazor_Untested</NoWarn>
         <LangVersion>preview</LangVersion>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -120,5 +121,10 @@
     <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
         <Message Importance="high" Text="Clearing locks on esBuild files..." />
         <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />
+    </Target>
+    
+    <Target AfterTargets="Build" Name="Copy Protobuf Definitions">
+        <Message Importance="high" Text="Copying updated protobuf definitions" />
+        <Exec Command="pwsh $(ProjectDir)/copyProtobuf.ps1 -c $(Configuration) -tfm $(TargetFramework)" ContinueOnError="false" />
     </Target>
 </Project>
