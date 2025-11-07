@@ -72,14 +72,14 @@ public partial class MediaPopupContent : PopupContent
     }
 
 
-    internal override PopupContentSerializationRecord ToSerializationRecord()
+    public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             ActiveMediaInfoIndex = ActiveMediaInfoIndex,
             Description = Description,
             Title = Title,
-            MediaInfos = MediaInfos?.Select(x => x.ToSerializationRecord()).ToArray()
+            MediaInfos = MediaInfos?.Select(x => x.ToProtobuf()).ToArray()
         };
     }
 }

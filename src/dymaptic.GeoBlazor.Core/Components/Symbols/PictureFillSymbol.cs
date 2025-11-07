@@ -52,7 +52,7 @@ public partial class PictureFillSymbol : FillSymbol
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dimension? Yoffset { get; set; }
 
-    internal override SymbolSerializationRecord ToSerializationRecord()
+    public override SymbolSerializationRecord ToProtobuf()
     {
         return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), null)
         {
@@ -63,7 +63,7 @@ public partial class PictureFillSymbol : FillSymbol
             Yoffset = Yoffset?.Points,
             XScale = XScale,
             YScale = YScale,
-            Outline = Outline?.ToSerializationRecord()
+            Outline = Outline?.ToProtobuf()
         };
     }
 }

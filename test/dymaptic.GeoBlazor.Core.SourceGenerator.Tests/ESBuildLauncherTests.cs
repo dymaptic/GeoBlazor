@@ -20,8 +20,7 @@ public class ESBuildLauncherTests
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         
-        ESBuildLauncher generator = new ESBuildLauncher();
-        ProcessHelper.Notification += generator.PassNotification;
+        var generator = new ESBuildLauncher();
         bool resultsReceived = false;
         generator.Notification += (_, message) =>
         {
@@ -59,7 +58,6 @@ public class ESBuildLauncherTests
         Assert.IsNotEmpty(newCompilation.SyntaxTrees);
         Assert.Contains("ESBuildRecord", newCompilation.SyntaxTrees.First().ToString());
         Assert.Contains("private const string Configuration = \"Debug\";", newCompilation.SyntaxTrees.First().ToString());
-        ProcessHelper.Notification -= generator.PassNotification;
     }
     
     [TestMethod]
@@ -70,7 +68,6 @@ public class ESBuildLauncherTests
         
         ESBuildLauncher generator = new ESBuildLauncher();
         bool resultsReceived = false;
-        ProcessHelper.Notification += generator.PassNotification;
         generator.Notification += (_, message) =>
         {
             Console.WriteLine(message);
@@ -106,7 +103,6 @@ public class ESBuildLauncherTests
         Assert.IsNotEmpty(newCompilation.SyntaxTrees);
         Assert.Contains("ESBuildRecord", newCompilation.SyntaxTrees.First().ToString());
         Assert.Contains("private const string Configuration = \"Release\";", newCompilation.SyntaxTrees.First().ToString());
-        ProcessHelper.Notification -= generator.PassNotification;
     }
 
     [TestMethod]
@@ -116,7 +112,6 @@ public class ESBuildLauncherTests
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         
         ESBuildLauncher generator = new ESBuildLauncher();
-        ProcessHelper.Notification += generator.PassNotification;
         bool resultsReceived = false;
         generator.Notification += (_, message) =>
         {
@@ -150,7 +145,6 @@ public class ESBuildLauncherTests
             out ImmutableArray<Diagnostic> _);
         Assert.IsEmpty(newCompilation.SyntaxTrees);
         Assert.IsTrue(resultsReceived);
-        ProcessHelper.Notification -= generator.PassNotification;
     }
 }
 

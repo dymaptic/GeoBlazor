@@ -7,16 +7,11 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     Origin of the vertex space. This will be interpreted as coordinates in the SpatialReference of the Mesh using the vertex space.
 /// </param>
 [CodeGenerationIgnore]
-public record MeshLocalVertexSpace(double[]? Origin) : IMeshVertexSpace, IProtobufSerializable
+public record MeshLocalVertexSpace(double[]? Origin) : IMeshVertexSpace
 {
     public string Type => "local";
     
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
-    }
-
-    internal MeshVertexSpaceSerializationRecord ToSerializationRecord()
+    public MeshVertexSpaceSerializationRecord ToProtobuf()
     {
         return new MeshVertexSpaceSerializationRecord(Type, Origin);
     }

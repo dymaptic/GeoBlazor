@@ -502,7 +502,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
         return GetEnumerator();
     }
 
-    internal AttributeSerializationRecord[] ToSerializationRecord()
+    public AttributeSerializationRecord[] ToProtobufArray()
     {
         return _backingDictionary
             .Select(kvp =>
@@ -527,9 +527,9 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
             .ToArray();
     }
     
-    public MapComponentSerializationRecord[] ToProtobufArray()
+    public AttributeCollectionSerializationRecord ToProtobuf()
     {
-        return ToSerializationRecord().Cast<MapComponentSerializationRecord>().ToArray();
+        return new AttributeCollectionSerializationRecord(ToProtobufArray());
     }
 
     private readonly Dictionary<string, object?> _backingDictionary;

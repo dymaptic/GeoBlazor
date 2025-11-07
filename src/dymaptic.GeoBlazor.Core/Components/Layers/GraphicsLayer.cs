@@ -251,7 +251,7 @@ public partial class GraphicsLayer : Layer
                 }
 
                 GraphicCollectionSerializationRecord collection =
-                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
+                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToProtobuf()).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -284,7 +284,7 @@ public partial class GraphicsLayer : Layer
                 }
                 
                 GraphicCollectionSerializationRecord collection = new(newGraphics.Skip(skip).Take(chunkSize)
-                    .Select(g => g.ToSerializationRecord(true)).ToArray());
+                    .Select(g => g.ToProtobuf()).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -320,7 +320,7 @@ public partial class GraphicsLayer : Layer
                     }
                     
                     GraphicCollectionSerializationRecord collection = new(newGraphics.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord(true)).ToArray());
+                        .Select(g => g.ToProtobuf()).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
 
@@ -608,7 +608,7 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
 
         foreach (Graphic graphic in value)
         {
-            JsonSerializer.Serialize(writer, graphic.ToSerializationRecord(true), options);
+            JsonSerializer.Serialize(writer, graphic.ToProtobuf(), options);
         }
 
         writer.WriteEndArray();

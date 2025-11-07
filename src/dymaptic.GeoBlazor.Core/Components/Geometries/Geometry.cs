@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 [JsonConverter(typeof(GeometryConverter))]
-public abstract partial class Geometry : MapComponent, IProtobufSerializable
+public abstract partial class Geometry : MapComponent, IProtobufSerializable<GeometrySerializationRecord>
 {
     /// <summary>
     ///     The <see cref = "Extent"/> of the geometry.
@@ -128,11 +128,6 @@ public abstract partial class Geometry : MapComponent, IProtobufSerializable
 #pragma warning restore BL0005
         return Extent;
     }
-
-    internal abstract GeometrySerializationRecord ToSerializationRecord();
     
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
-    }
+    public abstract GeometrySerializationRecord ToProtobuf();
 }

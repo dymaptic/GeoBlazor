@@ -56,11 +56,11 @@ public partial class FieldsPopupContent : PopupContent
     }
 
 
-    internal override PopupContentSerializationRecord ToSerializationRecord()
+    public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
-            FieldInfos = FieldInfos?.Select(i => i.ToSerializationRecord()).ToArray(), 
+            FieldInfos = FieldInfos?.Select(i => i.ToProtobuf()).ToArray(), 
             Description = Description, Title = Title
         };
     }

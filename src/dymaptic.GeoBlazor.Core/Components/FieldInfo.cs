@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Formatters;
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class FieldInfo : MapComponent, IProtobufSerializable
+public partial class FieldInfo : MapComponent, IProtobufSerializable<FieldInfoSerializationRecord>
 {
 
 
@@ -41,16 +41,10 @@ public partial class FieldInfo : MapComponent, IProtobufSerializable
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public StringFieldOption? StringFieldOption { get; set; }
-
-
-    internal FieldInfoSerializationRecord ToSerializationRecord()
+    
+    public FieldInfoSerializationRecord ToProtobuf()
     {
         return new FieldInfoSerializationRecord(Id.ToString(), FieldName, Label, Tooltip, 
-            StringFieldOption?.ToString().ToKebabCase(), Format?.ToSerializationRecord(), IsEditable, Visible);
-    }
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
+            StringFieldOption?.ToString().ToKebabCase(), Format?.ToProtobuf(), IsEditable, Visible);
     }
 }

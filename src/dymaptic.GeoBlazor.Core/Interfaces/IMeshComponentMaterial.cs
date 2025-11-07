@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 [JsonConverter(typeof(MultiTypeConverter<IMeshComponentMaterial>))]
-public partial interface IMeshComponentMaterial: IProtobufSerializable
+public partial interface IMeshComponentMaterial: IProtobufSerializable<MeshComponentMaterialSerializationRecord>
 {
    // Add custom code to this file to override generated code
 }

@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class MeshVertexAttributes: IProtobufSerializable
+public partial class MeshVertexAttributes: IProtobufSerializable<MeshVertexAttributesSerializationRecord>
 {
    // Add custom code to this file to override generated code
    
@@ -47,12 +47,7 @@ public partial class MeshVertexAttributes: IProtobufSerializable
        return Color;
    }
 
-   public MapComponentSerializationRecord ToProtobuf()
-   {
-       return ToSerializationRecord();
-   }
-
-   internal MeshVertexAttributesSerializationRecord ToSerializationRecord()
+   public MeshVertexAttributesSerializationRecord ToProtobuf()
    {
        return new MeshVertexAttributesSerializationRecord(Color,
            Normal,

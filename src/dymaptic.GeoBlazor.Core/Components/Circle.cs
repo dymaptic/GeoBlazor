@@ -116,18 +116,18 @@ public partial class Circle
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [CodeGenerationIgnore]
     public int? NumberOfPoints { get; set; }
-    
-    internal override GeometrySerializationRecord ToSerializationRecord()
+
+    public override GeometrySerializationRecord ToProtobuf()
     {
         return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), 
-            Extent?.ToSerializationRecord(),
-            SpatialReference?.ToSerializationRecord())
+            Extent?.ToProtobuf(),
+            SpatialReference?.ToProtobuf())
         {
-            Rings = Rings.Select(p => p.ToSerializationRecord()).ToArray(),
+            Rings = Rings.Select(p => p.ToProtobuf()).ToArray(),
             HasM = HasM,
             HasZ = HasZ,
-            Centroid = Centroid?.ToSerializationRecord(),
-            Center = Center?.ToSerializationRecord(),
+            Centroid = Centroid?.ToProtobuf(),
+            Center = Center?.ToProtobuf(),
             Geodesic = Geodesic,
             NumberOfPoints = NumberOfPoints,
             Radius = Radius,

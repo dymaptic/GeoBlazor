@@ -19,15 +19,11 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public record GraphicOrigin(
     Guid? LayerId = null,
     string? ArcGISLayerId = null,
-    int? LayerIndex = null) : VectorTileOrigin(LayerId, ArcGISLayerId, LayerIndex), IProtobufSerializable
+    int? LayerIndex = null) : VectorTileOrigin(LayerId, ArcGISLayerId, LayerIndex), 
+    IProtobufSerializable<GraphicOriginSerializationRecord>
 {
-    internal GraphicOriginSerializationRecord ToSerializationRecord()
+    public GraphicOriginSerializationRecord ToProtobuf()
     {
         return new GraphicOriginSerializationRecord(LayerId?.ToString(), ArcGISLayerId, LayerIndex);
-    }
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
     }
 }

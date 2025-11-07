@@ -1,19 +1,14 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [JsonConverter(typeof(MediaInfoConverter))]
-public abstract partial class MediaInfo : MapComponent, IProtobufSerializable
+public abstract partial class MediaInfo : MapComponent, IProtobufSerializable<MediaInfoSerializationRecord>
 {
     /// <summary>
     ///     Indicates the type of media
     /// </summary>
     public abstract string Type { get; }
 
-    internal abstract MediaInfoSerializationRecord ToSerializationRecord();
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
-    }
+    public abstract MediaInfoSerializationRecord ToProtobuf();
 }
 
 internal class MediaInfoConverter : JsonConverter<MediaInfo>

@@ -1,9 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class ChartMediaInfoValue : MapComponent, IProtobufSerializable
+public partial class ChartMediaInfoValue : MapComponent, IProtobufSerializable<ChartMediaInfoValueSerializationRecord>
 {
-
-
     /// <summary>
     ///     A string containing the name of a field. The values of all fields in the chart will be normalized (divided) by the value of this field.
     /// </summary>
@@ -17,16 +15,10 @@ public partial class ChartMediaInfoValue : MapComponent, IProtobufSerializable
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? TooltipField { get; set; }
-
-
-    internal ChartMediaInfoValueSerializationRecord ToSerializationRecord()
+    
+    public ChartMediaInfoValueSerializationRecord ToProtobuf()
     {
         return new ChartMediaInfoValueSerializationRecord(Id.ToString(), Fields, NormalizeField, TooltipField, 
-            Series?.Select(s => s.ToSerializationRecord()));
-    }
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
+            Series?.Select(s => s.ToProtobuf()));
     }
 }

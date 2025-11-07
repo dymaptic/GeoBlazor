@@ -5,7 +5,7 @@
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MapPathConverter))]
-public class MapPath : List<MapPoint>, IEquatable<MapPath>
+public class MapPath : List<MapPoint>, IEquatable<MapPath>, IProtobufSerializable<MapPathSerializationRecord>
 {
     /// <summary>
     ///     Implicitly converts a <see cref="MapPath" /> to a <see cref="MapPoint" />.
@@ -79,15 +79,9 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
 
         return newPath;
     }
-
-    internal MapPathSerializationRecord ToSerializationRecord()
+    public MapPathSerializationRecord ToProtobuf()
     {
-        return new MapPathSerializationRecord(this.Select(p => p.ToSerializationRecord()).ToArray());
-    }
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
+        return new MapPathSerializationRecord(this.Select(p => p.ToProtobuf()).ToArray());
     }
 }
 
@@ -95,7 +89,7 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
 ///     This is another representation of <see cref="Point" /> that should be used to create <see cref="MapPath" />s.
 /// </summary>
 [JsonConverter(typeof(MapPointConverter))]
-public class MapPoint : List<double>, IEquatable<MapPoint>
+public class MapPoint : List<double>, IEquatable<MapPoint>, IProtobufSerializable<MapPointSerializationRecord>
 {
     /// <summary>
     ///     Implicitly converts a <see cref="MapPoint" /> to a <see cref="MapPath" />.
@@ -150,7 +144,7 @@ public class MapPoint : List<double>, IEquatable<MapPoint>
         return new MapPoint(this);
     }
 
-    internal MapPointSerializationRecord ToSerializationRecord()
+    public MapPointSerializationRecord ToProtobuf()
     {
         return new MapPointSerializationRecord(ToArray());
     }

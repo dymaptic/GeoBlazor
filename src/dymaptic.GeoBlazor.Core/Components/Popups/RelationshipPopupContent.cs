@@ -49,14 +49,14 @@ public partial class RelationshipPopupContent : PopupContent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
-    internal override PopupContentSerializationRecord ToSerializationRecord()
+    public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             Description = Description,
             DisplayCount = DisplayCount,
             DisplayType = DisplayType,
-            OrderByFields = OrderByFields?.Select(r => r.ToSerializationRecord()).ToArray(),
+            OrderByFields = OrderByFields?.Select(r => r.ToProtobuf()).ToArray(),
             RelationshipId = RelationshipId,
             Title = Title
         };

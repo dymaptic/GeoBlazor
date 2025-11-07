@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-public partial class PopupTemplate : MapComponent, IProtobufSerializable
+public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTemplateSerializationRecord>
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -237,17 +237,12 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable
 
     }
 
-    internal PopupTemplateSerializationRecord ToSerializationRecord()
+    public PopupTemplateSerializationRecord ToProtobuf()
     {
         return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,
-            FieldInfos?.Select(f => f.ToSerializationRecord()),
-            Content?.Select(c => c.ToSerializationRecord()),
-            ExpressionInfos?.Select(e => e.ToSerializationRecord()), OverwriteActions,
-            ReturnGeometry, Actions?.Select(a => a.ToSerializationRecord()), Id.ToString());
-    }
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
+            FieldInfos?.Select(f => f.ToProtobuf()),
+            Content?.Select(c => c.ToProtobuf()),
+            ExpressionInfos?.Select(e => e.ToProtobuf()), OverwriteActions,
+            ReturnGeometry, Actions?.Select(a => a.ToProtobuf()), Id.ToString());
     }
 }

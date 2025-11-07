@@ -14,11 +14,11 @@ public partial class ExpressionPopupContent : PopupContent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElementExpressionInfo? ExpressionInfo { get; set; }
 
-    internal override PopupContentSerializationRecord ToSerializationRecord()
+    public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
-            ExpressionInfo = ExpressionInfo?.ToSerializationRecord()
+            ExpressionInfo = ExpressionInfo?.ToProtobuf()
         };
     }
 }

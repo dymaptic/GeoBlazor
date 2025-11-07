@@ -1,14 +1,9 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class MeshTransform: IProtobufSerializable
+public partial class MeshTransform: IProtobufSerializable<MeshTransformSerializationRecord>
 {
    // Add custom code to this file to override generated code
-   public MapComponentSerializationRecord ToProtobuf()
-   {
-       return ToSerializationRecord();
-   }
-   
-   internal MeshTransformSerializationRecord ToSerializationRecord()
+   public MeshTransformSerializationRecord ToProtobuf()
    {
        return new MeshTransformSerializationRecord(
            RotationAngle,

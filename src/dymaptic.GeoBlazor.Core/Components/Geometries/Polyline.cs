@@ -32,13 +32,13 @@ public partial class Polyline : Geometry
             HasM, HasZ);
     }
     
-    internal override GeometrySerializationRecord ToSerializationRecord()
+    public override GeometrySerializationRecord ToProtobuf()
     {
         return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), 
-            Extent?.ToSerializationRecord(),
-            SpatialReference?.ToSerializationRecord())
+            Extent?.ToProtobuf(),
+            SpatialReference?.ToProtobuf())
         {
-            Paths = Paths.Select(p => p.ToSerializationRecord()).ToArray(),
+            Paths = Paths.Select(p => p.ToProtobuf()).ToArray(),
             HasM = HasM,
             HasZ = HasZ
         };

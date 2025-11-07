@@ -1,14 +1,9 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-public partial class PopupExpressionInfo : MapComponent, IProtobufSerializable
+public partial class PopupExpressionInfo : MapComponent, IProtobufSerializable<PopupExpressionInfoSerializationRecord>
 {
-    internal PopupExpressionInfoSerializationRecord ToSerializationRecord()
+    public PopupExpressionInfoSerializationRecord ToProtobuf()
     {
         return new PopupExpressionInfoSerializationRecord(Id.ToString(), Expression, Name, Title, ReturnType);
-    }
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
     }
 }

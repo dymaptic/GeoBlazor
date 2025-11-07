@@ -4,28 +4,23 @@ public partial class MeshMaterialMetallicRoughness
 {
    // Add custom code to this file to override generated code
    
-   public override MapComponentSerializationRecord ToProtobuf()
-   {
-       return ToSerializationRecord();
-   }
-    
-   internal override MeshComponentMaterialSerializationRecord ToSerializationRecord()
+   public override MeshComponentMaterialSerializationRecord ToProtobuf()
    {
        return new MeshComponentMaterialSerializationRecord(AlphaCutoff,
            AlphaMode?.ToString().ToKebabCase(),
            Color,
-           ColorTexture?.ToSerializationRecord(),
-           ColorTextureTransform?.ToSerializationRecord(),
+           ColorTexture?.ToProtobuf(),
+           ColorTextureTransform?.ToProtobuf(),
            DoubleSided,
-           NormalTexture?.ToSerializationRecord(),
-           NormalTextureTransform?.ToSerializationRecord(),
+           NormalTexture?.ToProtobuf(),
+           NormalTextureTransform?.ToProtobuf(),
            EmissiveColor,
-           EmissiveTexture?.ToSerializationRecord(),
-           EmissiveTextureTransform?.ToSerializationRecord(),
+           EmissiveTexture?.ToProtobuf(),
+           EmissiveTextureTransform?.ToProtobuf(),
            Metallic,
-           MetallicRoughnessTexture?.ToSerializationRecord(),
-           OcclusionTexture?.ToSerializationRecord(),
-           OcclusionTextureTransform?.ToSerializationRecord(),
+           MetallicRoughnessTexture?.ToProtobuf(),
+           OcclusionTexture?.ToProtobuf(),
+           OcclusionTextureTransform?.ToProtobuf(),
            Roughness);
    }
 }

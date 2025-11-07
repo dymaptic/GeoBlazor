@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class ImageMediaInfoValue : MapComponent, IProtobufSerializable
+public partial class ImageMediaInfoValue : MapComponent, IProtobufSerializable<ChartMediaInfoValueSerializationRecord>
 {
 
 
@@ -17,14 +17,9 @@ public partial class ImageMediaInfoValue : MapComponent, IProtobufSerializable
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SourceURL { get; set; }
-
-    internal ChartMediaInfoValueSerializationRecord ToSerializationRecord()
+    
+    public ChartMediaInfoValueSerializationRecord ToProtobuf()
     {
         return new ChartMediaInfoValueSerializationRecord(Id.ToString(), LinkURL: LinkURL, SourceURL: SourceURL);
-    }
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
     }
 }

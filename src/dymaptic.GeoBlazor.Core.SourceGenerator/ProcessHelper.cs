@@ -12,29 +12,6 @@ public static class ProcessHelper
 {
     public static event EventHandler<string>? Notification;
     
-    /// <summary>
-    ///		Executes a shell command and returns when it is complete.
-    /// </summary>
-    public static async Task RunCommand(string processName, string workingDirectory, string arguments,
-        StringBuilder logBuilder, CancellationToken token, string? fileName = null, 
-        Dictionary<string, string?>? environmentVariables = null)
-    {
-        // Determine the shell and arguments format based on the operating system
-        fileName ??= RuntimeInformation.IsOSPlatform(OSPlatform.Windows) 
-            ? "pwsh" 
-            : "/bin/bash";
-        
-        string shellArguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) 
-            ? $"-Command {{ {arguments} }}" 
-            : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
-                ? $"-c \"{workingDirectory.TrimEnd('/')}{
-                    (string.IsNullOrEmpty(workingDirectory) ? "" : "/")}{arguments}\""
-                : $"-c \"{arguments}\"";
-
-        await Execute(processName, shellArguments, workingDirectory, 
-            logBuilder, token, fileName, environmentVariables);
-    }
-    
     public static async Task RunPowerShellScript(string processName, string workingDirectory, 
         string powershellScriptName, string arguments, StringBuilder logBuilder, CancellationToken token, 
         Dictionary<string, string?>? environmentVariables = null)
@@ -42,12 +19,12 @@ public static class ProcessHelper
         string shellArguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{
             Path.Combine(workingDirectory, powershellScriptName)}\" {arguments}";
         
-        await Execute(processName, shellArguments, workingDirectory, logBuilder, token, "pwsh", 
+        await Execute(processName, workingDirectory, "pwsh", shellArguments,  logBuilder, token, 
             environmentVariables);
     }
 
-    private static async Task Execute(string processName, string shellArguments, string workingDirectory, 
-        StringBuilder logBuilder, CancellationToken token, string? fileName = null, 
+    public static async Task Execute(string processName, string workingDirectory, string? fileName,
+        string shellArguments, StringBuilder logBuilder, CancellationToken token,  
         Dictionary<string, string?>? environmentVariables = null)
     {
         fileName ??= shellCommand;

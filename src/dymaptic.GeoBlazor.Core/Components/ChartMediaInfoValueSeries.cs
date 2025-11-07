@@ -1,6 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class ChartMediaInfoValueSeries : MapComponent, IProtobufSerializable
+public partial class ChartMediaInfoValueSeries : MapComponent, 
+    IProtobufSerializable<ChartMediaInfoValueSeriesSerializationRecord>
 {
     /// <summary>
     ///     String value indicating the field's name for a series.
@@ -22,14 +23,9 @@ public partial class ChartMediaInfoValueSeries : MapComponent, IProtobufSerializ
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Value { get; set; }
-
-    internal ChartMediaInfoValueSeriesSerializationRecord ToSerializationRecord()
+    
+    public ChartMediaInfoValueSeriesSerializationRecord ToProtobuf()
     {
         return new ChartMediaInfoValueSeriesSerializationRecord(Id.ToString(), FieldName, Tooltip, Value);
-    }
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
     }
 }

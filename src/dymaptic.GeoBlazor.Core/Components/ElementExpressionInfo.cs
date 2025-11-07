@@ -1,16 +1,11 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class ElementExpressionInfo: IProtobufSerializable
+public partial class ElementExpressionInfo: IProtobufSerializable<ElementExpressionInfoSerializationRecord>
 {
    // Add custom code to this file to override generated code
    
-      internal ElementExpressionInfoSerializationRecord ToSerializationRecord()
+      public ElementExpressionInfoSerializationRecord ToProtobuf()
       {
-         return new ElementExpressionInfoSerializationRecord(Expression, Title);
-      }
-      
-      public MapComponentSerializationRecord ToProtobuf()
-      {
-          return ToSerializationRecord();
+          return new ElementExpressionInfoSerializationRecord(Expression, Title);
       }
 }

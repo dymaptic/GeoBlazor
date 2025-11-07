@@ -1,5 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Model;
@@ -98,7 +97,7 @@ public class SerializationUnitTests
         byte[] data = ms.ToArray();
         GraphicCollectionSerializationRecord deserializedCollection =
             Serializer.Deserialize<GraphicCollectionSerializationRecord>((ReadOnlyMemory<byte>)data);
-        Graphic deserialized = deserializedCollection.Graphics[0].FromSerializationRecord();
+        Graphic deserialized = deserializedCollection.Items![0].FromSerializationRecord();
         Assert.AreEqual(((Point)graphic.Geometry!).Latitude, ((Point)deserialized.Geometry!).Latitude);
         Assert.AreEqual(((Point)graphic.Geometry!).Longitude, ((Point)deserialized.Geometry!).Longitude);
         Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Color);

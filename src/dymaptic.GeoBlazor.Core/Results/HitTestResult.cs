@@ -30,16 +30,11 @@ public record HitTestResult(ScreenPoint ScreenPoint)
 ///     The point geometry in the spatial reference of the view corresponding with the input screen coordinates.
 /// </param>
 [JsonConverter(typeof(ViewHitConverter))]
-public record ViewHit(string Type, Point MapPoint) : IProtobufSerializable
+public record ViewHit(string Type, Point MapPoint) : IProtobufSerializable<ViewHitSerializationRecord>
 {
-    public virtual MapComponentSerializationRecord ToProtobuf()
+    public virtual ViewHitSerializationRecord ToProtobuf()
     {
-        return ToSerializationRecord();
-    }
-    
-    internal virtual ViewHitSerializationRecord ToSerializationRecord()
-    {
-        return new ViewHitSerializationRecord(Type, MapPoint.ToSerializationRecord(), null, null);
+        return new ViewHitSerializationRecord(Type, MapPoint.ToProtobuf(), null, null);
     }
 }
 

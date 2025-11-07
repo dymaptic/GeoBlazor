@@ -1,19 +1,14 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class MeshComponent: IProtobufSerializable, IMeshComponent
+public partial class MeshComponent: IProtobufSerializable<MeshComponentSerializationRecord>, IMeshComponent
 {
    // Add custom code to this file to override generated code
-   public MapComponentSerializationRecord ToProtobuf()
-   {
-       return ToSerializationRecord();
-   }
-
-   internal MeshComponentSerializationRecord ToSerializationRecord()
+   public MeshComponentSerializationRecord ToProtobuf()
    {
        MeshComponentMaterialSerializationRecord? materialRecord = Material switch
        {
-           MeshMaterialMetallicRoughness metallicRoughness => metallicRoughness.ToSerializationRecord(),
-           MeshMaterial material => material.ToSerializationRecord(),
+           MeshMaterialMetallicRoughness metallicRoughness => metallicRoughness.ToProtobuf(),
+           MeshMaterial material => material.ToProtobuf(),
            _ => null
        };
        return new MeshComponentSerializationRecord(Faces,

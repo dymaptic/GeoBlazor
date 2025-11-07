@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class MapFont : MapComponent, IProtobufSerializable
+public partial class MapFont : MapComponent, IProtobufSerializable<MapFontSerializationRecord>
 {
 
 
@@ -46,14 +46,9 @@ public partial class MapFont : MapComponent, IProtobufSerializable
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FontWeight? Weight { get; set; }
 
-    internal MapFontSerializationRecord ToSerializationRecord()
+    public MapFontSerializationRecord ToProtobuf()
     {
         return new MapFontSerializationRecord(Id.ToString(), Size?.Points, Family, Style?.ToString().ToKebabCase(), 
             Weight?.ToString().ToKebabCase(), Decoration?.ToString().ToKebabCase());
-    }
-    
-    public MapComponentSerializationRecord ToProtobuf()
-    {
-        return ToSerializationRecord();
     }
 }

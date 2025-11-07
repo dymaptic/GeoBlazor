@@ -1,9 +1,11 @@
 using dymaptic.GeoBlazor.Core.Serialization;
+using System;
+using System.Linq;
 using ProtoBuf;
 using ProtoBuf.Grpc.Configuration;
 
 
-namespace dymaptic.GeoBlazor.Core.ProtoGen;
+namespace dymaptic.GeoBlazor.Core.Serialization;
 
 [Service]
 public interface IProtoService

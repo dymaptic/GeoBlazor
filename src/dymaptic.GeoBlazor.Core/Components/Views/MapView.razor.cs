@@ -1323,7 +1323,7 @@ public partial class MapView : MapComponent
                 }
 
                 GraphicCollectionSerializationRecord collection =
-                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
+                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToProtobuf()).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1356,7 +1356,7 @@ public partial class MapView : MapComponent
                 }
                 
                 GraphicCollectionSerializationRecord collection = new(newGraphics.Skip(skip).Take(chunkSize)
-                    .Select(g => g.ToSerializationRecord(true)).ToArray());
+                    .Select(g => g.ToProtobuf()).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1392,7 +1392,7 @@ public partial class MapView : MapComponent
                     }
                     
                     GraphicCollectionSerializationRecord collection = new(newGraphics.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord(true)).ToArray());
+                        .Select(g => g.ToProtobuf()).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
 
@@ -1434,7 +1434,7 @@ public partial class MapView : MapComponent
 
             if (CoreJsModule is null) return;
 
-            GraphicCollectionSerializationRecord collection = new([graphic.ToSerializationRecord(true)]);
+            GraphicCollectionSerializationRecord collection = new([graphic.ToProtobuf()]);
             MemoryStream ms = new();
             Serializer.Serialize(ms, collection);
             ms.Seek(0, SeekOrigin.Begin);

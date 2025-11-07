@@ -56,11 +56,11 @@ public partial class SimpleFillSymbol : FillSymbol
         Outline?.ValidateRequiredChildren();
     }
 
-    internal override SymbolSerializationRecord ToSerializationRecord()
+    public override SymbolSerializationRecord ToProtobuf()
     {
         return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
         {
-            Outline = Outline?.ToSerializationRecord(), 
+            Outline = Outline?.ToProtobuf(), 
             Style = Style?.ToString().ToKebabCase()
         };
     }

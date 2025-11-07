@@ -868,6 +868,9 @@ public record ActionBaseSerializationRecord : MapComponentSerializationRecord
     
     [ProtoMember(10)]
     public string? ActionId { get; init; }
+    
+    [ProtoMember(11)]
+    public string? Test { get; init; }
 
     public ActionBase FromSerializationRecord()
     {

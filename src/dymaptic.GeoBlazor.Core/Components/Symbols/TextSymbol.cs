@@ -153,15 +153,14 @@ public partial class TextSymbol : Symbol
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dimension? Yoffset { get; set; }
 
-
-    internal override SymbolSerializationRecord ToSerializationRecord()
+    public override SymbolSerializationRecord ToProtobuf()
     {
         return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
         {
             Text = Text, 
             HaloColor = HaloColor, 
             HaloSize = HaloSize?.Points,
-            Font = Font?.ToSerializationRecord(),
+            Font = Font?.ToProtobuf(),
             Angle = Angle,
             BackgroundColor = BackgroundColor,
             BorderLineSize = BorderLineSize,

@@ -2,7 +2,7 @@ using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class Graphic: MapComponent, IEquatable<Graphic>, IProtobufSerializable
+public partial class Graphic: MapComponent, IEquatable<Graphic>, IProtobufSerializable<GraphicSerializationRecord>
 {
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
@@ -320,7 +320,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>, IProtobufSerial
         if (CoreJsModule is not null)
         {
             await CoreJsModule.InvokeVoidAsync("setGraphicGeometry", Id, LayerId, View?.Id,
-                Geometry.ToSerializationRecord());
+                Geometry.ToProtobuf());
         }
         else
         {
@@ -343,7 +343,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>, IProtobufSerial
         Symbol = symbol;
         if (CoreJsModule is not null)
         {
-            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol", Id, Symbol.ToSerializationRecord(),
+            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol", Id, Symbol.ToProtobuf(),
                 LayerId, View?.Id);
         }
         else
@@ -378,7 +378,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>, IProtobufSerial
         if (CoreJsModule is not null)
         {
             await CoreJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id, 
-                PopupTemplate.ToSerializationRecord(), PopupTemplate.DotNetComponentReference, LayerId, View?.Id);
+                PopupTemplate.ToProtobuf(), PopupTemplate.DotNetComponentReference, LayerId, View?.Id);
         }
         else
         {
@@ -676,19 +676,21 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>, IProtobufSerial
     {
         if (_serializationRecord is null || refresh)
         {
-            _serializationRecord = new GraphicSerializationRecord(Id.ToString(), Geometry?.ToSerializationRecord(), 
-                Symbol?.ToSerializationRecord(), PopupTemplate?.ToSerializationRecord(), 
-                Attributes.ToSerializationRecord(), Visible, 
-                AggregateGeometries is null ? null : JsonSerializer.Serialize(AggregateGeometries), 
-                Origin?.ToSerializationRecord(), LayerId?.ToString(), ViewId?.ToString());
+            return ToProtobuf();
         }
-
+        
         return _serializationRecord;
     }
 
-    public MapComponentSerializationRecord ToProtobuf()
+    public virtual GraphicSerializationRecord ToProtobuf()
     {
-        return ToSerializationRecord(true);
+        _serializationRecord = new GraphicSerializationRecord(Id.ToString(), Geometry?.ToProtobuf(), 
+            Symbol?.ToProtobuf(), PopupTemplate?.ToProtobuf(), 
+            Attributes.ToProtobufArray(), Visible, 
+            AggregateGeometries is null ? null : JsonSerializer.Serialize(AggregateGeometries), 
+            Origin?.ToProtobuf(), LayerId?.ToString(), ViewId?.ToString());
+        
+        return _serializationRecord;
     }
 
     /// <inheritdoc/>

@@ -15,15 +15,14 @@ public partial class ImageMediaInfo : MediaInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? RefreshInterval { get; set; }
 
-
-    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    public override MediaInfoSerializationRecord ToProtobuf()
     {
         return new MediaInfoSerializationRecord(Id.ToString(), "image-media")
         {
             AltText = AltText,
             Caption = Caption,
             Title = Title,
-            Value = Value?.ToSerializationRecord(),
+            Value = Value?.ToProtobuf(),
             RefreshInterval = RefreshInterval
         };
     }

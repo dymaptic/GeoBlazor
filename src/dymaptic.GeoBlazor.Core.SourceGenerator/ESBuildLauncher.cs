@@ -14,16 +14,9 @@ public class ESBuildLauncher : IIncrementalGenerator
 {
     // Notifications are only used for the unit tests, source generators are not intended to have logging/output typically.
     public event EventHandler<string>? Notification;
-
-    public void PassNotification(object? _, string message)
-    {
-        Notification?.Invoke(this, message);
-    }
     
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        ProcessHelper.Notification += PassNotification;
-        
         // Tracks all TypeScript source files in the Scripts directories of Core and Pro.
         // This will trigger the build any time a TypeScript file is added, removed, or changed.
         IncrementalValueProvider<ImmutableArray<AdditionalText>> jsFilesProvider = context.AdditionalTextsProvider
@@ -31,7 +24,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             .Collect();
 
         // Reads the MSBuild properties to get the project directory and configuration.
-        IncrementalValueProvider<(string?, string?, string?)> optionsProvider =
+        IncrementalValueProvider<(string?, string?, string?, string?)> optionsProvider =
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
                 configProvider.GlobalOptions.TryGetValue("build_property.MSBuildProjectDirectory",
@@ -42,43 +35,38 @@ public class ESBuildLauncher : IIncrementalGenerator
 
                 configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
                     out string? pipelineBuild);
+                
+                configProvider.GlobalOptions.TryGetValue("build_property.LogESBuildOutput",
+                    out string? logESBuildOutput);
 
-                return (projectDirectory, configuration, pipelineBuild);
+                return (projectDirectory, configuration, pipelineBuild, logESBuildOutput);
             });
 
         context.RegisterSourceOutput(optionsProvider.Combine(jsFilesProvider), FilesChanged);
-        ProcessHelper.Notification -= PassNotification;
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((string? projectDirectory, string? configuration, string? pipelineBuild) OptionsConfig, 
+        ((string? projectDirectory, string? configuration, string? pipelineBuild, string? logESBuildOutput) OptionsConfig, 
             ImmutableArray<AdditionalText> _) pipeline)
     {
+        _logESBuildOutput = pipeline.OptionsConfig.logESBuildOutput == "true";
+        
         if (pipeline.OptionsConfig.pipelineBuild == "true")
         {
             // If the pipeline build is enabled, we skip the ESBuild process.
             // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
-            ProcessHelper.Log(nameof(ESBuildLauncher), 
-                "Skipping ESBuild process as PipelineBuild is set to true.", 
-                DiagnosticSeverity.Info,
-                context);
+            Notification?.Invoke(this, "Skipping ESBuild process as PipelineBuild is set to true.");
+            Log("Skipping ESBuild process as PipelineBuild is set to true.");
             return;
         }
-
-        if (!SetProjectDirectoryAndConfiguration(pipeline.OptionsConfig, context))
-        {
-            return;
-        }
-
-        ProcessHelper.Log(nameof(ESBuildLauncher),
-            "ESBuildLauncher triggered.", 
-            DiagnosticSeverity.Info,
-            context);
+        
+        SetProjectDirectoryAndConfiguration(pipeline.OptionsConfig);
+        Log("ESBuildLauncher triggered.");
         LaunchESBuild(context);
     }
 
-    private bool SetProjectDirectoryAndConfiguration((string? projectDirectory, string? configuration, string? _) options,
-        SourceProductionContext context)
+    private void SetProjectDirectoryAndConfiguration((string? projectDirectory, string? configuration, 
+        string? _, string? __) options)
     {
         if (options.projectDirectory is { } projectDirectory)
         {
@@ -101,37 +89,25 @@ public class ESBuildLauncher : IIncrementalGenerator
         }
         else
         {
-            ProcessHelper.Log(nameof(ESBuildLauncher),
-                "Invalid project directory.",
-                DiagnosticSeverity.Error,
-                context);
-
-            return false;
+            throw new Exception("Invalid project directory");
         }
 
         if (options.configuration is { } configuration)
         {
             _configuration = configuration;
-
-            return true;
         }
-
-        ProcessHelper.Log(nameof(ESBuildLauncher),
-            "Could not parse configuration setting, invalid configuration.",
-            DiagnosticSeverity.Error,
-            context);
-
-        return false;
+        else
+        {
+            Log("Could not parse configuration setting", true);
+            throw new Exception("Invalid configuration");
+        }
     }
 
     private void LaunchESBuild(SourceProductionContext context)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
         
-        ProcessHelper.Log(nameof(ESBuildLauncher), 
-            "Starting Core ESBuild process...", 
-            DiagnosticSeverity.Info,
-            context);
+        Notification?.Invoke(this, "Starting Core ESBuild process...");
 
         StringBuilder logBuilder = new StringBuilder(DateTime.Now.ToLongTimeString());
         logBuilder.AppendLine("Starting Core ESBuild process...");
@@ -144,24 +120,17 @@ public class ESBuildLauncher : IIncrementalGenerator
 
             // gets the esBuild.ps1 script from the Core path
             tasks.Add(Task.Run(async () =>
-            {
-                await ProcessHelper.RunPowerShellScript("Core",
-                    _corePath!, "esBuild.ps1",
-                    $"-c {_configuration}", logBuilder, context.CancellationToken);
-                buildSuccess = true;
-            }));
+                buildSuccess = await RunPowerShellScript("Core", "esBuild.ps1", _corePath!, 
+                    $"-c {_configuration}", logBuilder, context.CancellationToken)));
 
             if (_proPath is not null)
             {
+                Notification?.Invoke(this, "Starting Pro ESBuild process...");
                 logBuilder.AppendLine("Starting Pro ESBuild process...");
 
                 tasks.Add(Task.Run(async () =>
-                {
-                    await ProcessHelper.RunPowerShellScript("Pro",
-                        _proPath, "esProBuild.ps1",
-                        $"-c {_configuration}", logBuilder, context.CancellationToken);
-                    proBuildSuccess = true;
-                }));
+                    proBuildSuccess = await RunPowerShellScript("Pro", "esProBuild.ps1", _proPath, 
+                        $"-c {_configuration}", logBuilder, context.CancellationToken)));
             }
 
             string gitBranch = string.Empty;
@@ -184,13 +153,13 @@ public class ESBuildLauncher : IIncrementalGenerator
 
             if (!buildSuccess)
             {
-                ProcessHelper.Log(nameof(ESBuildLauncher),
-                    $"Core ESBuild process failed\r\n{logBuilder}",
-                    DiagnosticSeverity.Error,
-                    context);
-                return;
+                Notification?.Invoke(this, "Core ESBuild process failed");
+
+                throw new Exception($"Core ESBuild process failed.\r\n{logBuilder}");
             }
-            
+
+            Notification?.Invoke(this, "Core ESBuild process completed successfully.");
+            Notification?.Invoke(this, "");
             logBuilder.AppendLine("Core ESBuild process completed successfully.");
             logBuilder.AppendLine();
 
@@ -198,23 +167,29 @@ public class ESBuildLauncher : IIncrementalGenerator
             {
                 if (!proBuildSuccess)
                 {
-                    ProcessHelper.Log(nameof(ESBuildLauncher),
-                        $"Pro ESBuild process failed\r\n{logBuilder}",
-                        DiagnosticSeverity.Error,
-                        context);
-                    return;
+                    Notification?.Invoke(this, "Pro ESBuild process failed");
+
+                    throw new Exception($"Pro ESBuild process failed.\r\n{logBuilder}");
                 }
-                
+
+                Notification?.Invoke(this, "Pro ESBuild process completed successfully.");
+                Notification?.Invoke(this, "");
                 logBuilder.AppendLine("Pro ESBuild process completed successfully.");
                 logBuilder.AppendLine();
             }
 
             if (string.IsNullOrEmpty(gitBranch))
             {
+                Notification?.Invoke(this, "Could not determine the current Git branch. " +
+                    "This may affect the generated ESBuildRecord class.");
+
                 logBuilder.AppendLine("Could not determine the current Git branch. " +
                     "This may affect the generated ESBuildRecord class.");
                 gitBranch = "unknown";
             }
+
+            Notification?.Invoke(this,
+                $"ESBuild completed successfully for branch '{gitBranch}' with configuration '{_configuration}'.");
 
             logBuilder.AppendLine($"ESBuild completed successfully for branch '{gitBranch}' with configuration '{
                 _configuration}'.");
@@ -239,24 +214,124 @@ public class ESBuildLauncher : IIncrementalGenerator
             context.AddSource("ESBuildRecord.g.cs", source);
             logBuilder.AppendLine();
             logBuilder.AppendLine(source);
-            ProcessHelper.Log(nameof(ESBuildLauncher),
-                logBuilder.ToString(),
-                DiagnosticSeverity.Info,
-                context);
+            Log(logBuilder.ToString());
 
             Notification?.Invoke(this, "");
             Notification?.Invoke(this, source);
         }
         catch (Exception ex)
         {
-            ProcessHelper.Log(nameof(ESBuildLauncher),
-                $"An error occurred while running ESBuild: {ex.Message}\r\n{ex.StackTrace}", 
-                DiagnosticSeverity.Error,
-                context);
+            Notification?.Invoke(this, $"An error occurred while running ESBuild: {ex.Message}");
+            Notification?.Invoke(this, ex.StackTrace);
+
+            Log($"{ex.Message}\r\n{ex.StackTrace}", true);
+
+            throw new Exception(
+                $"An error occurred while running ESBuild: {ex.Message}\n\n{logBuilder}\n\n{ex.StackTrace}", ex);
+        }
+    }
+
+    private void Log(string content, bool isError = false)
+    {
+        if (!_logESBuildOutput && !isError)
+        {
+            return;
+        }
+        StringBuilder loggerOutput = new StringBuilder();
+        string[] contentLines = content.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
+
+        bool isFinalError = isError;
+        isError = false;
+
+        for (var i = 0; i < contentLines.Length; i++)
+        {
+            string line = contentLines[i];
+
+            if (i == contentLines.Length - 1)
+            {
+                isError = isFinalError;
+            }
+
+            if (!RunPowerShellScript("Logger", "esBuildLogger.ps1", _corePath!,
+                    $"-c \"{line}\" -e {isError.ToString().ToLower()}", loggerOutput,
+                    CancellationToken.None)
+                .GetAwaiter()
+                .GetResult())
+            {
+                throw new Exception($"Failed to run the ESBuild logger script. {loggerOutput}");
+            }
+        }
+    }
+
+    private async Task<bool> RunPowerShellScript(string processName, string powershellScriptName, string workingFolder, 
+        string arguments, StringBuilder logBuilder, CancellationToken cancellationToken)
+    {
+        ProcessStartInfo processStartInfo = new()
+        {
+            WorkingDirectory = workingFolder,
+            FileName = "pwsh",
+            Arguments =
+                $"-NoProfile -ExecutionPolicy ByPass -File \"{Path.Combine(workingFolder, powershellScriptName)}\" {arguments}",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        
+        using var process = Process.Start(processStartInfo);
+
+        if (process == null)
+        {
+            Notification?.Invoke(this, $"Failed to start ESBuild process for {processName}.");
+            logBuilder.AppendLine($"Failed to start ESBuild process for {processName}.");
+            return false;
+        }
+        
+        // Read both streams concurrently to avoid deadlocks
+        Task outputTask = ReadStreamAsync(process.StandardOutput, $"{processName} ESBuild Output", logBuilder, cancellationToken);
+        Task errorTask = ReadStreamAsync(process.StandardError, $"{processName} ESBuild Error", logBuilder, cancellationToken);
+        
+        try
+        {
+            // Use Task.Run to make the blocking WaitForExit async-friendly
+            await Task.Run(() => process.WaitForExit(), cancellationToken);
+            await Task.WhenAll(outputTask, errorTask);
+        
+            return process.ExitCode == 0;
+        }
+        catch (OperationCanceledException)
+        {
+            process.Kill();
+            return false;
+        }
+    }
+    
+    private async Task ReadStreamAsync(StreamReader reader, string prefix, StringBuilder logBuilder, CancellationToken cancellationToken)
+    {
+        try
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                string? line = await reader.ReadLineAsync();
+                if (line == null) break;
+            
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    Notification?.Invoke(this, $"{prefix}: {line}");
+                    logBuilder.AppendLine($"{prefix}: {line}");
+                }
+            }
+        }
+        catch when (cancellationToken.IsCancellationRequested)
+        {
+            // Expected when cancellation occurs
+            Notification?.Invoke(this, $"{prefix}: Process was cancelled.");
+            logBuilder.AppendLine($"{prefix}: Process was cancelled.");
         }
     }
 
     private static string? _corePath;
     private static string? _proPath;
     private static string? _configuration;
+    private static bool _logESBuildOutput;
 }

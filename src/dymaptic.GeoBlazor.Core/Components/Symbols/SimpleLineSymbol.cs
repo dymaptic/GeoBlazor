@@ -53,7 +53,7 @@ public partial class SimpleLineSymbol : LineSymbol
     [Parameter]
     public SimpleLineSymbolStyle? Style { get; set; }
 
-    internal override SymbolSerializationRecord ToSerializationRecord()
+    public override SymbolSerializationRecord ToProtobuf()
     {
         return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
         {

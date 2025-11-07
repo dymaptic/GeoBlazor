@@ -8,14 +8,14 @@ public partial class PieChartMediaInfo : MediaInfo
     public override string Type => "pie-chart";
 
 
-    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    public override MediaInfoSerializationRecord ToProtobuf()
     {
         return new MediaInfoSerializationRecord(Id.ToString(), "pie-chart")
         {
             AltText = AltText,
             Caption = Caption,
             Title = Title,
-            Value = Value?.ToSerializationRecord()
+            Value = Value?.ToProtobuf()
         };
     }
 }

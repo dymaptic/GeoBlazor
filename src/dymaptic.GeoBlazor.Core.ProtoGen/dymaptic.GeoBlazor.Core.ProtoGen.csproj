@@ -2,17 +2,23 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
     
     <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.14.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.14.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.14.0" />
         <PackageReference Include="protobuf-net.Grpc.Reflection" Version="1.2.2" />
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
+      <Compile Remove="IProtoService.cs" />
+      <Content Include="IProtoService.cs" />
     </ItemGroup>
 
 </Project>

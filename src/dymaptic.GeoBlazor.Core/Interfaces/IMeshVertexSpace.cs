@@ -4,6 +4,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     Interface for VertexSpace in a Mesh.
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IMeshVertexSpace>))]
-public interface IMeshVertexSpace
+public interface IMeshVertexSpace: IProtobufSerializable<MeshVertexSpaceSerializationRecord>
 {
-}
+}

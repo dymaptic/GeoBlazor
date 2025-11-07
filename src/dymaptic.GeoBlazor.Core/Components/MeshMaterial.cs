@@ -1,24 +1,19 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class MeshMaterial: MapComponent, IProtobufSerializable
+public partial class MeshMaterial: MapComponent
 {
    // Add custom code to this file to override generated code
    
-   public virtual MapComponentSerializationRecord ToProtobuf()
-   {
-       return ToSerializationRecord();
-   }
-    
-   internal virtual MeshComponentMaterialSerializationRecord ToSerializationRecord()
+   public virtual MeshComponentMaterialSerializationRecord ToProtobuf()
    {
        return new MeshComponentMaterialSerializationRecord(AlphaCutoff,
            AlphaMode?.ToString().ToKebabCase(),
            Color,
-           ColorTexture?.ToSerializationRecord(),
-           ColorTextureTransform?.ToSerializationRecord(),
+           ColorTexture?.ToProtobuf(),
+           ColorTextureTransform?.ToProtobuf(),
            DoubleSided,
-           NormalTexture?.ToSerializationRecord(),
-           NormalTextureTransform?.ToSerializationRecord(),
+           NormalTexture?.ToProtobuf(),
+           NormalTextureTransform?.ToProtobuf(),
            null, null, null, 
            null, null, null, 
            null, null);

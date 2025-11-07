@@ -1,7 +1,16 @@
+using ProtoBuf.Meta;
+
+
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
 public static class JsSyncManager
 {
+    static JsSyncManager()
+    {
+        LoadProtoTypes();
+        RuntimeTypeModel.Default.CompileInPlace();
+    }
+    
     /// <summary>
     ///     Wrapper method to invoke a void JS function.
     /// </summary>
@@ -77,9 +86,6 @@ public static class JsSyncManager
     /// <param name="isServer">
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </param>
-    /// <param name="nested">
-    ///     True if the parameter is nested within a collection, false if it is a top-level parameter.
-    /// </param>
     private static object?[] ProcessParameter(object? parameter, bool isServer)
     {
         if (parameter is null)
@@ -88,10 +94,10 @@ public static class JsSyncManager
         }
         
         Type paramType = parameter.GetType();
-
+        
         if (simpleTypes.Contains(paramType) || paramType.IsPrimitive)
         {
-            return [paramType.Name, parameter];
+            return [GetKey(paramType), parameter];
         }
 
         if (paramType.IsEnum)
@@ -114,36 +120,42 @@ public static class JsSyncManager
             Type genericType = paramType.IsArray 
                 ? paramType.GetElementType()! 
                 : paramType.GenericTypeArguments[0];
-            string key = $"Array_{genericType.Name}";
-            if (list.Count > 0 && genericType.IsAssignableTo(typeof(IProtobufSerializable)))
+            string key = $"Array_{GetKey(genericType)}";
+            
+            if (list.Count > 0 && _protoContractTypes!.ContainsKey(genericType))
             {
-                object protobufParameter = GenerateProtobufCollectionParameter(list, isServer);
+                object protobufParameter = GenerateProtobufCollectionParameter(list, genericType, isServer);
                 return [key, protobufParameter];
             }
                 
             return [key, GenerateJsonParameter(parameter, isServer)];
         }
         
-        if (parameter is IProtobufSerializable protobufSerializable)
+        if (_protoContractTypes.ContainsKey(paramType))
         {
-            MapComponentSerializationRecord protoRecord = protobufSerializable.ToProtobuf();
+            MethodInfo toProtobufMethodInfo = paramType.GetMethod(
+                nameof(IProtobufSerializable<>.ToProtobuf), 
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy)!;
+            object protoRecord = toProtobufMethodInfo.Invoke(parameter, null)!;
             object protobufParameter = GenerateProtobufParameter(protoRecord, isServer);
-            return [paramType.Name, protobufParameter];
+            return [GetKey(paramType), protobufParameter];
         }
+        
         if (parameter is AttributesDictionary attributesDictionary)
         {
-            AttributeSerializationRecord[] serializedItems = attributesDictionary.ToSerializationRecord();
+            AttributeSerializationRecord[] serializedItems = attributesDictionary.ToProtobufArray();
             object protobufParameter =
                 GenerateTypedProtobufCollectionParameter<AttributeSerializationRecord, 
                     AttributeCollectionSerializationRecord>(serializedItems, isServer);
             return [nameof(AttributesDictionary), protobufParameter];
         }
 
-        return [paramType.Name, GenerateJsonParameter(parameter, isServer)];
+        return [GetKey(paramType), GenerateJsonParameter(parameter, isServer)];
     }
     
     private static object GenerateProtobufParameter(object obj, bool isServer)
     {
+        // this creates and invokes the generic method GenerateTypedProtobufParameter<T> below
         Type protoType = obj.GetType();
         MethodInfo genericMethodInfo = typeProtobufMethodInfo.MakeGenericMethod(protoType);
         return genericMethodInfo.Invoke(null, [obj, isServer])!;
@@ -152,7 +164,7 @@ public static class JsSyncManager
     private static object GenerateTypedProtobufParameter<T>(T obj, bool isServer)
     {
         MemoryStream memoryStream = new();
-        Serializer.Serialize(memoryStream, obj);
+        Serializer.Serialize<T>(memoryStream, obj);
         memoryStream.Seek(0, SeekOrigin.Begin);
         
         if (isServer)
@@ -166,26 +178,29 @@ public static class JsSyncManager
         return data;
     }
     
-    private static object GenerateProtobufCollectionParameter(IList items, 
-        bool isServer)
+    private static object GenerateProtobufCollectionParameter(IList items, Type serializableType, bool isServer)
     {
-        object item1 = items[0]!;
-        MapComponentSerializationRecord protoItem1 = ((IProtobufSerializable)item1).ToProtobuf();
-        Type itemType = protoItem1.GetType();
-        Type collectionType = protoItem1.CollectionType;
-        var typedArray = Array.CreateInstance(itemType, items.Count);
-        typedArray.SetValue(protoItem1, 0);
-        for (int i = 1; i < items.Count; i++)
+        Type protoType = _protoContractTypes[serializableType];
+        MethodInfo toProtobufMethodInfo = serializableType.GetMethod(
+            nameof(IProtobufSerializable<>.ToProtobuf), 
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy)!;
+        var typedArray = Array.CreateInstance(protoType, items.Count);
+        Type? collectionType = null;
+        for (int i = 0; i < items.Count; i++)
         {
             object item = items[i]!;
-            MapComponentSerializationRecord protoItem = ((IProtobufSerializable)item).ToProtobuf();
+            MapComponentSerializationRecord protoItem = 
+                (MapComponentSerializationRecord)toProtobufMethodInfo.Invoke(item, null)!;
+            collectionType ??= protoItem.CollectionType;
             typedArray.SetValue(protoItem, i);
         }
         
+        // this creates and invokes the generic method GenerateTypedProtobufCollectionParameter<TItem, TCollection> below
+        // which wraps the typedArray in the appropriate collection type and serializes it
         MethodInfo genericMethodInfo = typeof(JsSyncManager).GetMethod(
             nameof(GenerateTypedProtobufCollectionParameter),
             BindingFlags.NonPublic | BindingFlags.Static)!
-            .MakeGenericMethod(itemType, collectionType);
+            .MakeGenericMethod(protoType, collectionType!);
         return genericMethodInfo.Invoke(null, [typedArray, isServer])!;
     }
     
@@ -223,6 +238,41 @@ public static class JsSyncManager
         return JsonSerializer.Serialize(obj, GeoBlazorSerialization.JsonSerializerOptions);
     }
 
+    private static string GetKey(Type type)
+    {
+        Type? matchedType = _protoContractTypes.Keys.FirstOrDefault(t => t == type);
+
+        if (matchedType is not null)
+        {
+            return _protoContractTypes[type].GetCustomAttribute<ProtoContractAttribute>()!.Name;
+        }
+
+        return type.Name;
+    }
+
+    private static void LoadProtoTypes()
+    {
+        Type[] allTypes = Assembly.Load("dymaptic.GeoBlazor.Core").GetTypes();
+
+        try
+        {
+            allTypes = allTypes
+                .Concat(Assembly.Load("dymaptic.GeoBlazor.Pro").GetTypes())
+                .ToArray();
+        }
+        catch (Exception)
+        {
+            // ignored, Pro is not available
+        }
+            
+        string interfaceName = $"{nameof(IProtobufSerializable<>)}`1";
+
+        _protoContractTypes = allTypes
+            .Where(t => t.GetInterface(interfaceName) is not null)
+            .ToDictionary(t => t,
+                t => t.GetInterface(interfaceName)!.GenericTypeArguments[0]);
+    }
+
     private static readonly Type[] simpleTypes =
     [
         typeof(string), typeof(char), typeof(bool), typeof(byte), typeof(sbyte), typeof(short),
@@ -235,4 +285,5 @@ public static class JsSyncManager
     private static readonly MethodInfo typeProtobufMethodInfo = syncManagerType.GetMethod(
         nameof(GenerateTypedProtobufParameter),
         BindingFlags.NonPublic | BindingFlags.Static)!;
+    private static Dictionary<Type, Type> _protoContractTypes = [];
 }
