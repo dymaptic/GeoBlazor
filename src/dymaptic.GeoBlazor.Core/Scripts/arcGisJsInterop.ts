@@ -2052,7 +2052,18 @@ export async function loadProtobuf(): Promise<void> {
         return;
     }
 
-    protobufRoot = await load("_content/dymaptic.GeoBlazor.Core/geoblazor.proto");
+    try {
+        protobufRoot = await load("/_content/dymaptic.GeoBlazor.Core/geoblazor.proto");
+    } catch (e) {
+        // if there is a 404 on the file, give the user a clear error message
+        if (e instanceof Error && e.message.includes('404')) {
+            throw new Error('Could not find required GeoBlazor .proto file. If using app.UseStaticAssets(), ' +
+                'you may need to add a FileExtensionContentTypeProvider with a mapping for ["proto"] = "text/plain". ' +
+                'See https://docs.geoblazor.com/pages/gettingStarted.html#project-setup');
+        } else {
+            throw e;
+        }
+    }
     if (!hasValue(protobufRoot)) {
         throw new Error('Could not load graphic protobuf definition');
     }
@@ -2386,7 +2397,7 @@ export function buildJsStreamReference(dnObject: any) {
 export function buildEncodedJson(object: any) {
     let json = generateSerializableJson(object);
     if (!hasValue(json)) {
-        return null;
+        json = 'null';
     }
     let encoder = new TextEncoder();
     return encoder.encode(json!);

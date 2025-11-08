@@ -122,8 +122,8 @@
         <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />
     </Target>
     
-<!--    <Target BeforeTargets="ResolveProjectStaticWebAssets" Name="Copy Protobuf Definitions">-->
-<!--        <Message Importance="high" Text="Copying updated protobuf definitions" />-->
-<!--        <Exec Command="pwsh $(ProjectDir)/copyProtobuf.ps1 -c $(Configuration) -tfm $(TargetFramework)" ContinueOnError="false" />-->
-<!--    </Target>-->
+    <Target BeforeTargets="ResolveProjectStaticWebAssets" Name="Copy Protobuf Definitions">
+        <Message Importance="high" Text="Copying updated protobuf definitions" />
+        <Exec Command="pwsh $(ProjectDir)/copyProtobuf.ps1 -c $(Configuration) -tfm $(TargetFramework)" ContinueOnError="false" />
+    </Target>
 </Project>

@@ -8,6 +8,10 @@ public static class JsSyncManager
     static JsSyncManager()
     {
         LoadProtoTypes();
+        foreach (Type protoType in _protoContractTypes.Values)
+        {
+            RuntimeTypeModel.Default.Add(protoType, true);
+        }
         RuntimeTypeModel.Default.CompileInPlace();
     }
     
@@ -63,8 +67,13 @@ public static class JsSyncManager
 
         if (isServer)
         {
-            IJSStreamReference streamRef = await js.InvokeAsync<IJSStreamReference>(
+            IJSStreamReference? streamRef = await js.InvokeAsync<IJSStreamReference?>(
                 "invokeSerializedMethod", cancellationToken, [method, true, ..parameterList]);
+
+            if (streamRef is null)
+            {
+                return default!;
+            }
             return (await streamRef.ReadJsStreamReference<T>())!;
         }
 
@@ -164,7 +173,7 @@ public static class JsSyncManager
     private static object GenerateTypedProtobufParameter<T>(T obj, bool isServer)
     {
         MemoryStream memoryStream = new();
-        Serializer.Serialize<T>(memoryStream, obj);
+        Serializer.Serialize(memoryStream, obj);
         memoryStream.Seek(0, SeekOrigin.Begin);
         
         if (isServer)

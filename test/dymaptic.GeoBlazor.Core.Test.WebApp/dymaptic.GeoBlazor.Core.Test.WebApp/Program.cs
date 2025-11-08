@@ -38,7 +38,11 @@ try
 #else
     FileExtensionContentTypeProvider provider = new()
     {
-        Mappings = { [".wsv"] = "application/octet-stream" }
+        Mappings = 
+        {
+            [".wsv"] = "application/octet-stream",
+            [".proto"] = "text/plain"
+        }
     };
 
     app.UseStaticFiles(new StaticFileOptions
