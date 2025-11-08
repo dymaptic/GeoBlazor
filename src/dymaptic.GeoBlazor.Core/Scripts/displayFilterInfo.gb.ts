@@ -2,7 +2,7 @@
 import DisplayFilterInfo from '@arcgis/core/layers/support/DisplayFilterInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 
-export async function buildJsDisplayFilterInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsDisplayFilterInfoGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -27,7 +27,7 @@ export async function buildJsDisplayFilterInfoGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetDisplayFilterInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetDisplayFilterInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Text;
@@ -15,7 +16,7 @@ public class ESBuildLauncher : IIncrementalGenerator
     // Notifications are only used for the unit tests, source generators are not intended to have logging/output typically.
     public event EventHandler<string>? Notification;
 
-    public void PassNotification(object? _, string message)
+    private void PassNotification(object? _, string message)
     {
         Notification?.Invoke(this, message);
     }
@@ -29,6 +30,14 @@ public class ESBuildLauncher : IIncrementalGenerator
         IncrementalValueProvider<ImmutableArray<AdditionalText>> jsFilesProvider = context.AdditionalTextsProvider
             .Where(static text => text.Path.Contains("Scripts") && text.Path.EndsWith(".ts"))
             .Collect();
+        
+        // Protobuf type definitions
+        IncrementalValueProvider<ImmutableArray<BaseTypeDeclarationSyntax>> protoTypeProvider = 
+            context.SyntaxProvider.ForAttributeWithMetadataName(
+                fullyQualifiedMetadataName: "ProtoBuf.ProtoContractAttribute",
+                predicate: static (syntaxNode, _) => 
+                    syntaxNode is ClassDeclarationSyntax or StructDeclarationSyntax or RecordDeclarationSyntax,
+                transform: static (context, _) => (BaseTypeDeclarationSyntax)context.TargetNode).Collect();
 
         // Reads the MSBuild properties to get the project directory and configuration.
         IncrementalValueProvider<(string?, string?, string?)> optionsProvider =
@@ -46,15 +55,20 @@ public class ESBuildLauncher : IIncrementalGenerator
                 return (projectDirectory, configuration, pipelineBuild);
             });
 
-        context.RegisterSourceOutput(optionsProvider.Combine(jsFilesProvider), FilesChanged);
+        IncrementalValueProvider<((ImmutableArray<AdditionalText> JsFiles, 
+            ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes) Files, 
+            (string? projectDirectory, string? configuration, string? pipelineBuild) Options)> combined = 
+            jsFilesProvider.Combine(protoTypeProvider).Combine(optionsProvider);
+
+        context.RegisterSourceOutput(combined, FilesChanged);
         ProcessHelper.Notification -= PassNotification;
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((string? projectDirectory, string? configuration, string? pipelineBuild) OptionsConfig, 
-            ImmutableArray<AdditionalText> _) pipeline)
+        ((ImmutableArray<AdditionalText> JsFiles, ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes) Files, 
+            (string? projectDirectory, string? configuration, string? pipelineBuild) Options) pipeline)
     {
-        if (pipeline.OptionsConfig.pipelineBuild == "true")
+        if (pipeline.Options.pipelineBuild == "true")
         {
             // If the pipeline build is enabled, we skip the ESBuild process.
             // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
@@ -65,7 +79,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             return;
         }
 
-        if (!SetProjectDirectoryAndConfiguration(pipeline.OptionsConfig, context))
+        if (!SetProjectDirectoryAndConfiguration(pipeline.Options, context))
         {
             return;
         }
@@ -74,6 +88,11 @@ public class ESBuildLauncher : IIncrementalGenerator
             "ESBuildLauncher triggered.", 
             DiagnosticSeverity.Info,
             context);
+
+        UpdateProtobufDefinitions(context, pipeline.Files.ProtoTypes);
+        
+        context.CancellationToken.ThrowIfCancellationRequested();
+        
         LaunchESBuild(context);
     }
 
@@ -122,6 +141,45 @@ public class ESBuildLauncher : IIncrementalGenerator
             context);
 
         return false;
+    }
+    
+    private void UpdateProtobufDefinitions(SourceProductionContext context, 
+        ImmutableArray<BaseTypeDeclarationSyntax> protoTypes)
+    {
+        ProcessHelper.Log(nameof(ESBuildLauncher), 
+            "Updating Protobuf definitions...", 
+            DiagnosticSeverity.Info,
+            context);
+        
+        // fetch protobuf definitions
+        string protoTypeContent = ProtobufDefinitionsGenerator.Generate(context, protoTypes);
+
+        string typescriptContent = $"""
+                                    export let protoTypeDefinitions: string = `
+                                    {protoTypeContent}
+                                    `;
+                                    """;
+        string encoded = typescriptContent
+            .Replace("\"", "\\\"")
+            .Replace("\r\n", "\\r\\n")
+            .Replace("\n", "\\n");
+        StringBuilder logBuilder = new();
+        
+        // write protobuf definitions to geoblazorProto.ts
+        ProcessHelper.RunPowerShellScript("Copy Protobuf Definitions",
+            _corePath!, "copyProtobuf.ps1",
+            $"-Content \"{encoded}\"",
+            logBuilder, context.CancellationToken).GetAwaiter().GetResult();
+        
+        ProcessHelper.Log(nameof(ESBuildLauncher),
+            logBuilder.ToString(), 
+            DiagnosticSeverity.Info,
+            context);
+        
+        ProcessHelper.Log(nameof(ESBuildLauncher), 
+            $"Protobuf definitions updated successfully.", 
+            DiagnosticSeverity.Info,
+            context);
     }
 
     private void LaunchESBuild(SourceProductionContext context)

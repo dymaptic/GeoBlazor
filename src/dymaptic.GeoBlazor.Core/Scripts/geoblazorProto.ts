@@ -1,3 +1,4 @@
+export let protoTypeDefinitions: string = `
 syntax = "proto3";
 package dymaptic.GeoBlazor.Core.Serialization;
 import "google/protobuf/empty.proto";
@@ -306,6 +307,7 @@ message RelatedRecordsInfoFieldOrderCollection {
 message SpatialReference {
    int32 wkid = 1;
    string wkt = 2;
+   string wkt2 = 3;
 }
 message SpatialReferenceCollection {
    repeated SpatialReference items = 1;
@@ -357,3 +359,4 @@ message ViewHitCollection {
    repeated ViewHit items = 1;
 }
 
+`;

@@ -5,7 +5,7 @@ import {buildEncodedJson, hasValue, loadProtobuf, protobufRoot, ProtoTypes} from
 export default class BaseComponent {
 
     async invokeSerializedMethod(methodName: string, useStreams: boolean, ...parameters: any[]): Promise<any> {
-        await loadProtobuf();
+        loadProtobuf();
         let methodParams: any[] = [];
         for (let i = 0; i < parameters.length; i += 2) {
             let paramType = parameters[i];
@@ -29,7 +29,7 @@ export default class BaseComponent {
     }
 
     async invokeVoidSerializedMethod(methodName: string, useStreams: boolean, ...parameters: any[]): Promise<void> {
-        await loadProtobuf();
+        loadProtobuf();
         let methodParams: any[] = [];
         for (let i = 0; i < parameters.length; i += 2) {
             let paramType = parameters[i];

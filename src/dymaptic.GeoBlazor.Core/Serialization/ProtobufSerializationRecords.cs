@@ -13,6 +13,7 @@ public abstract record MapComponentSerializationRecord
     ///     The Type of the Protobuf collection for this class.
     /// </summary>
     [ProtoIgnore]
+    [JsonIgnore]
     public abstract Type CollectionType { get; }
 }
 
@@ -41,6 +42,8 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord
         this.SpatialReference = SpatialReference;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(GeometryCollectionSerializationRecord);
 
     [ProtoMember(1)]
@@ -276,6 +279,8 @@ public record PopupContentSerializationRecord : MapComponentSerializationRecord
         this.Id = Id;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(PopupContentCollectionSerializationRecord);
 
     [ProtoMember(1)]
@@ -404,6 +409,8 @@ public record PopupExpressionInfoSerializationRecord : MapComponentSerialization
         this.ReturnType = ReturnType.ToString();
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(PopupExpressionInfoCollectionSerializationRecord);
 
     public PopupExpressionInfo FromSerializationRecord()
@@ -486,6 +493,8 @@ public record PopupTemplateSerializationRecord : MapComponentSerializationRecord
         this.Id = Id;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(PopupTemplateCollectionSerializationRecord);
 
     public PopupTemplate FromSerializationRecord()
@@ -571,6 +580,8 @@ public record SymbolSerializationRecord : MapComponentSerializationRecord
         this.Color = Color;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(SymbolCollectionSerializationRecord);
 
     [ProtoMember(1)]
@@ -775,6 +786,8 @@ public record ActionBaseSerializationRecord : MapComponentSerializationRecord
         this.ActionId = ActionId;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(ActionBaseCollectionSerializationRecord);
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -876,6 +889,8 @@ public record ChartMediaInfoValueSerializationRecord : MapComponentSerialization
         this.SourceURL = SourceURL;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(ChartMediaInfoValueCollectionSerializationRecord);
 
     public object FromSerializationRecord()
@@ -956,6 +971,8 @@ public record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSeriali
         this.Value = Value;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(ChartMediaInfoValueSeriesCollectionSerializationRecord);
 
     public ChartMediaInfoValueSeries FromSerializationRecord()
@@ -1013,6 +1030,8 @@ public record ElementExpressionInfoSerializationRecord: MapComponentSerializatio
         Title = title;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(ElementExpressionInfoCollectionSerializationRecord);
     
     [ProtoMember(1)]
@@ -1064,6 +1083,8 @@ public record FieldInfoSerializationRecord : MapComponentSerializationRecord
         this.Visible = Visible;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(FieldInfoCollectionSerializationRecord);
 
     public FieldInfo FromSerializationRecord()
@@ -1152,6 +1173,8 @@ public record FieldInfoFormatSerializationRecord : MapComponentSerializationReco
         this.DateFormat = DateFormat;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(FieldInfoFormatCollectionSerializationRecord);
 
     public FieldInfoFormat FromSerializationRecord()
@@ -1250,6 +1273,8 @@ public record GraphicSerializationRecord : MapComponentSerializationRecord
         this.ViewId = ViewId;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(GraphicCollectionSerializationRecord);
 
     public Graphic FromSerializationRecord()
@@ -1363,6 +1388,8 @@ public record MapFontSerializationRecord: MapComponentSerializationRecord
         this.Decoration = Decoration;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MapFontCollectionSerializationRecord);
 
     [ProtoMember(1)]
@@ -1425,6 +1452,8 @@ public record MediaInfoSerializationRecord : MapComponentSerializationRecord
         this.Type = Type;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MediaInfoCollectionSerializationRecord);
 
     [ProtoMember(1)]
@@ -1499,6 +1528,8 @@ public record RelatedRecordsInfoFieldOrderSerializationRecord(
     {
     }
 
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(RelatedRecordsInfoFieldOrderCollectionSerializationRecord);
 
     public RelatedRecordsInfoFieldOrder FromSerializationRecord()
@@ -1538,17 +1569,20 @@ public record SpatialReferenceSerializationRecord : MapComponentSerializationRec
     {
     }
 
-    public SpatialReferenceSerializationRecord(int? Wkid, string? Wkt = null)
+    public SpatialReferenceSerializationRecord(int? Wkid, string? Wkt = null, string? Wkt2 = null)
     {
         this.Wkid = Wkid;
         this.Wkt = Wkt;
+        this.Wkt2 = Wkt2;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(SpatialReferenceCollectionSerializationRecord);
 
     public SpatialReference FromSerializationRecord()
     {
-        return new SpatialReference(Wkid ?? 4326);
+        return new SpatialReference(Wkid ?? 4326, wkt: Wkt, wkt2: Wkt2);
     }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -1558,6 +1592,10 @@ public record SpatialReferenceSerializationRecord : MapComponentSerializationRec
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? Wkt { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public string? Wkt2 { get; init; }
 }
 
 [ProtoContract(Name = "SpatialReferenceCollection")]
@@ -1592,6 +1630,8 @@ public record AttributeSerializationRecord : MapComponentSerializationRecord
         this.ValueType = ValueType;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(AttributeCollectionSerializationRecord);
 
     [ProtoMember(1)]
@@ -1632,6 +1672,8 @@ public record GraphicOriginSerializationRecord : MapComponentSerializationRecord
         this.LayerIndex = LayerIndex;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(GraphicOriginCollectionSerializationRecord);
 
     public GraphicOrigin FromSerializationRecord()
@@ -1681,6 +1723,8 @@ public record MapPathSerializationRecord: MapComponentSerializationRecord
         this.Points = Points;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MapPathCollectionSerializationRecord);
 
     public MapPath FromSerializationRecord()
@@ -1720,6 +1764,8 @@ public record MapPointSerializationRecord: MapComponentSerializationRecord
         this.Coordinates = Coordinates;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MapPointCollectionSerializationRecord);
 
     public MapPoint FromSerializationRecord()
@@ -1765,6 +1811,8 @@ public record MeshComponentSerializationRecord: MapComponentSerializationRecord
         Shading = shading;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MeshComponentCollectionSerializationRecord);
 
     [ProtoMember(1)]
@@ -1839,6 +1887,8 @@ public record MeshComponentMaterialSerializationRecord : MapComponentSerializati
         Roughness = roughness;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MeshComponentMaterialCollectionSerializationRecord);
 
     [ProtoMember(1)]
@@ -1955,6 +2005,8 @@ public record MeshTextureSerializationRecord : MapComponentSerializationRecord
         Url = url;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MeshTextureCollectionSerializationRecord);
 
     [ProtoMember(1)]
@@ -2021,6 +2073,8 @@ public record MeshTextureTransformSerializationRecord : MapComponentSerializatio
         Scale = scale;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MeshTextureTransformCollectionSerializationRecord);
     
     [ProtoMember(1)]
@@ -2068,6 +2122,8 @@ public record MeshTransformSerializationRecord : MapComponentSerializationRecord
         Translation = translation;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MeshTransformCollectionSerializationRecord);
     
     [ProtoMember(1)]
@@ -2120,6 +2176,8 @@ public record MeshVertexAttributesSerializationRecord : MapComponentSerializatio
         Uv = uv;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MeshVertexAttributesCollectionSerializationRecord);
     
     [ProtoMember(1)]
@@ -2169,6 +2227,8 @@ public record MeshVertexSpaceSerializationRecord : MapComponentSerializationReco
         Origin = origin;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(MeshVertexSpaceCollectionSerializationRecord);
     
     [ProtoMember(1)]
@@ -2234,6 +2294,8 @@ public record ViewHitSerializationRecord: MapComponentSerializationRecord
         this.LayerId = LayerId;
     }
     
+    [ProtoIgnore]
+    [JsonIgnore]
     public override Type CollectionType => typeof(ViewHitCollectionSerializationRecord);
     
     [ProtoMember(1)]

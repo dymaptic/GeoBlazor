@@ -6,8 +6,9 @@ public partial class LocationService : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    public LocationService(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager) 
-        : base(appValidator, jsRuntime, jsModuleManager)
+    public LocationService(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
+        AuthenticationManager authenticationManager) : base(appValidator, jsRuntime, jsModuleManager,
+        authenticationManager)
     {
     }
 
@@ -2173,11 +2174,9 @@ public partial class LocationService : LogicComponent
         List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
         RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null)
     {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address,
             categories, countryCode, forStorage, location, locationType, magicKey,
             maxLocations, outFields, outSpatialReference, searchExtent, requestOptions, addressSearchStringParameterName);
-
-        return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
     }
 
     /// <summary>
@@ -2212,11 +2211,9 @@ public partial class LocationService : LogicComponent
         SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null,
         string? addressSearchStringParameterName = null)
     {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url,
+        return await InvokeAsync<List<AddressCandidate>>("addressesToLocations", url,
             addresses, countryCode, categories, locationType,
             outSpatialReference, requestOptions, addressSearchStringParameterName);
-
-        return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
     }
 
     private const string ESRIGeoLocationUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";

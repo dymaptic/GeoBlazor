@@ -109,7 +109,7 @@ public partial class SpatialReference : MapComponent, IEquatable<SpatialReferenc
 
     public SpatialReferenceSerializationRecord ToProtobuf()
     {
-        return new SpatialReferenceSerializationRecord(Wkid, Wkt);
+        return new SpatialReferenceSerializationRecord(Wkid, Wkt, Wkt2);
     }
 
     /// <summary>

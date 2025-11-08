@@ -44,7 +44,7 @@ export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any): Promise
 }
 
 
-export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -1,29 +1,14 @@
-param ([string][Alias("c")]$Configuration = "Debug",
-[string][Alias("tfm")]$TargetFramework = "net8.0")
+param ([string]$Content)
 
-# Find the GeoBlazorProto.g.cs file in the intermediate output path
-$sourcePath = Join-Path $PSScriptRoot "obj" $Configuration `
-    $TargetFramework "generated" `
-    "dymaptic.GeoBlazor.Core.SourceGenerator" `
-    "dymaptic.GeoBlazor.Core.SourceGenerator.ProtobufDefinitionsGenerator" `
-    "GeoBlazorProto.g.cs"
-
-# Define the destination path
-$destinationPath = Join-Path $PSScriptRoot "wwwroot" "geoblazor.proto"
-
-# Extract the content of the @"..." block
-$allContent = Get-Content $sourcePath -Raw
-
-$contentPattern = '@"\s*(.*)\s*---'
-
-$contentMatch = [regex]::Match($allContent, $contentPattern, [System.Text.RegularExpressions.RegexOptions]::Singleline)
-if (-not $contentMatch.Success) {
-    throw "Could not find the protobuf content block in the source file."
+if ($null -eq $Content -or $Content -eq "") {
+    Write-Error "Content parameter is required."
+    exit 1
 }
 
-# Write the content to the destination file
-$protobufContent = $contentMatch.Groups[1].Value
+# Define the destination path
+$destinationPath = Join-Path $PSScriptRoot "Scripts" "geoblazorProto.ts"
 
-# replace escaped quotes
-$protobufContent = $protobufContent -replace '""', '"'
-Set-Content -Path $destinationPath -Value $protobufContent -Encoding UTF8
+# Unescape any escaped characters in the content
+$Content = $Content -replace '\\"', '"' -replace '\\r\\n', "`r`n" -replace '\\n', "`n"
+
+Set-Content -Path $destinationPath -Value $Content -Encoding UTF8

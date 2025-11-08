@@ -23,7 +23,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.displayFilterInfo)) {
             let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
-            this.layer.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo, this.layerId, this.viewId) as any;
+            this.layer.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo) as any;
         }
         if (hasValue(dotNetObject.effect)) {
             let { buildJsEffect } = await import('./effect');
@@ -334,12 +334,12 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetDisplayFilterInfo } = await import('./displayFilterInfo');
-        return await buildDotNetDisplayFilterInfo(this.layer.displayFilterInfo, this.viewId);
+        return await buildDotNetDisplayFilterInfo(this.layer.displayFilterInfo);
     }
     
     async setDisplayFilterInfo(value: any): Promise<void> {
         let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
-        this.layer.displayFilterInfo = await  buildJsDisplayFilterInfo(value, this.layerId, this.viewId);
+        this.layer.displayFilterInfo = await  buildJsDisplayFilterInfo(value);
     }
     
     async getEffect(): Promise<any> {
@@ -603,7 +603,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-        return await buildDotNetWFSCapabilities(this.layer.wfsCapabilities, this.viewId);
+        return await buildDotNetWFSCapabilities(this.layer.wfsCapabilities);
     }
     
     getProperty(prop: string): any {
@@ -624,7 +624,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     let properties: any = {};
     if (hasValue(dotNetObject.displayFilterInfo)) {
         let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
-        properties.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo, layerId, viewId) as any;
+        properties.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo) as any;
     }
     if (hasValue(dotNetObject.effect)) {
         let { buildJsEffect } = await import('./effect');
@@ -844,7 +844,7 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.displayFilterInfo)) {
         let { buildDotNetDisplayFilterInfo } = await import('./displayFilterInfo');
-        dotNetWFSLayer.displayFilterInfo = await buildDotNetDisplayFilterInfo(jsObject.displayFilterInfo, viewId);
+        dotNetWFSLayer.displayFilterInfo = await buildDotNetDisplayFilterInfo(jsObject.displayFilterInfo);
     }
     
     if (hasValue(jsObject.effect)) {

@@ -153,10 +153,9 @@ public class AuthenticationManager
                 _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl, 
                 TrustedServers, FontsUrl);
         }
-
-        // since we have to remove the ApiKey for some public WebMaps, this re-adds it for each new map view.
-        if (ApiKey is not null)
+        else if (ApiKey is not null)
         {
+            // since we have to remove the ApiKey for some public WebMaps, this re-adds it for each new map view.
             string? apiKey = ExcludeApiKey ? null : ApiKey;
             await _module.InvokeVoidAsync("setApiKey", _cancellationTokenSource.Token, apiKey);
         }

@@ -24,7 +24,7 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any): Promis
 }
 
 
-export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -33,7 +33,7 @@ export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.featureTypes)) {
         let { buildDotNetWFSFeatureType } = await import('./wFSFeatureType');
-        dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i, viewId)));
+        dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i)));
     }
     
     if (hasValue(jsObject.operations)) {

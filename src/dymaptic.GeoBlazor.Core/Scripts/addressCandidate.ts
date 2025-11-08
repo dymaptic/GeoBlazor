@@ -2,7 +2,7 @@ import {buildDotNetExtent} from "./extent";
 import {buildDotNetPoint} from "./point";
 import {hasValue} from "./arcGisJsInterop";
 
-export function buildDotNetAddressCandidate(addressCandidate: any, viewId: string | null): any {
+export function buildDotNetAddressCandidate(addressCandidate: any): any {
     if (!hasValue(addressCandidate)) {
         return null;
     }
@@ -10,8 +10,8 @@ export function buildDotNetAddressCandidate(addressCandidate: any, viewId: strin
     return {
         address: addressCandidate.address,
         attributes: addressCandidate.attributes,
-        extent: buildDotNetExtent(addressCandidate.extent, viewId),
-        location: buildDotNetPoint(addressCandidate.location, viewId),
+        extent: buildDotNetExtent(addressCandidate.extent),
+        location: buildDotNetPoint(addressCandidate.location),
         score: addressCandidate.score
     }
 }

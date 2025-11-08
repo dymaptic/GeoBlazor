@@ -22,6 +22,16 @@ public static class ProcessHelper
         await Execute(processName, workingDirectory, "pwsh", shellArguments,  logBuilder, token, 
             environmentVariables);
     }
+    
+    public static async Task RunPowerShellCommand(string processName, string workingDirectory, 
+        string arguments, StringBuilder logBuilder, CancellationToken token, 
+        Dictionary<string, string?>? environmentVariables = null)
+    {
+        string shellArguments = $"-NoProfile -ExecutionPolicy ByPass -Command {{ {arguments} }}";
+        
+        await Execute(processName, workingDirectory, "pwsh", shellArguments,  logBuilder, token, 
+            environmentVariables);
+    }
 
     public static async Task Execute(string processName, string workingDirectory, string? fileName,
         string shellArguments, StringBuilder logBuilder, CancellationToken token,  
@@ -99,31 +109,6 @@ public static class ProcessHelper
             "Logging",
             severity,
             isEnabledByDefault: true), Location.None));
-    }
-    
-    public static async Task ReadStreamAsync(StreamReader reader, string prefix, StringBuilder logBuilder, 
-        CancellationToken cancellationToken)
-    {
-        try
-        {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                string? line = await reader.ReadLineAsync();
-                if (line == null) break;
-            
-                if (!string.IsNullOrWhiteSpace(line))
-                {
-                    Notification?.Invoke(null, $"{prefix}: {line}");
-                    logBuilder.AppendLine($"{prefix}: {line}");
-                }
-            }
-        }
-        catch when (cancellationToken.IsCancellationRequested)
-        {
-            // Expected when cancellation occurs
-            Notification?.Invoke(null, $"{prefix}: Process was cancelled.");
-            logBuilder.AppendLine($"{prefix}: Process was cancelled.");
-        }
     }
     
     private const string LinuxShell = "/bin/bash";

@@ -26,7 +26,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.displayFilterInfo)) {
             let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
-            this.layer.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo, this.layerId, this.viewId) as any;
+            this.layer.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo) as any;
         }
         if (hasValue(dotNetObject.dynamicDataSource)) {
             let { buildJsDynamicLayer } = await import('./dynamicLayer');
@@ -409,12 +409,12 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetDisplayFilterInfo } = await import('./displayFilterInfo');
-        return await buildDotNetDisplayFilterInfo(this.layer.displayFilterInfo, this.viewId);
+        return await buildDotNetDisplayFilterInfo(this.layer.displayFilterInfo);
     }
     
     async setDisplayFilterInfo(value: any): Promise<void> {
         let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
-        this.layer.displayFilterInfo = await  buildJsDisplayFilterInfo(value, this.layerId, this.viewId);
+        this.layer.displayFilterInfo = await  buildJsDisplayFilterInfo(value);
     }
     
     async getDynamicDataSource(): Promise<any> {
@@ -857,7 +857,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.displayFilterInfo)) {
         let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
-        properties.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo, layerId, viewId) as any;
+        properties.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo) as any;
     }
     if (hasValue(dotNetObject.dynamicDataSource)) {
         let { buildJsDynamicLayer } = await import('./dynamicLayer');
@@ -1140,7 +1140,7 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.displayFilterInfo)) {
         let { buildDotNetDisplayFilterInfo } = await import('./displayFilterInfo');
-        dotNetFeatureLayer.displayFilterInfo = await buildDotNetDisplayFilterInfo(jsObject.displayFilterInfo, viewId);
+        dotNetFeatureLayer.displayFilterInfo = await buildDotNetDisplayFilterInfo(jsObject.displayFilterInfo);
     }
     
     if (hasValue(jsObject.dynamicDataSource)) {

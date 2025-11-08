@@ -26,7 +26,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.displayFilterInfo)) {
             let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
-            this.layer.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo, this.layerId, this.viewId) as any;
+            this.layer.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo) as any;
         }
         if (hasValue(dotNetObject.effect)) {
             let { buildJsEffect } = await import('./effect');
@@ -345,12 +345,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetDisplayFilterInfo } = await import('./displayFilterInfo');
-        return await buildDotNetDisplayFilterInfo(this.layer.displayFilterInfo, this.viewId);
+        return await buildDotNetDisplayFilterInfo(this.layer.displayFilterInfo);
     }
     
     async setDisplayFilterInfo(value: any): Promise<void> {
         let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
-        this.layer.displayFilterInfo = await  buildJsDisplayFilterInfo(value, this.layerId, this.viewId);
+        this.layer.displayFilterInfo = await  buildJsDisplayFilterInfo(value);
     }
     
     async getEffect(): Promise<any> {
@@ -647,7 +647,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.displayFilterInfo)) {
         let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
-        properties.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo, layerId, viewId) as any;
+        properties.displayFilterInfo = await buildJsDisplayFilterInfo(dotNetObject.displayFilterInfo) as any;
     }
     if (hasValue(dotNetObject.effect)) {
         let { buildJsEffect } = await import('./effect');
@@ -884,7 +884,7 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.displayFilterInfo)) {
         let { buildDotNetDisplayFilterInfo } = await import('./displayFilterInfo');
-        dotNetGeoJSONLayer.displayFilterInfo = await buildDotNetDisplayFilterInfo(jsObject.displayFilterInfo, viewId);
+        dotNetGeoJSONLayer.displayFilterInfo = await buildDotNetDisplayFilterInfo(jsObject.displayFilterInfo);
     }
     
     if (hasValue(jsObject.effect)) {

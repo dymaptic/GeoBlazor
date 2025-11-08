@@ -2,7 +2,7 @@
 import TopFeaturesQuery from '@arcgis/core/rest/support/TopFeaturesQuery';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 
-export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -78,7 +78,7 @@ export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetTopFeaturesQueryGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetTopFeaturesQueryGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

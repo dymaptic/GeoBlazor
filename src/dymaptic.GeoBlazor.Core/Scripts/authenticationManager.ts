@@ -17,7 +17,8 @@ export default class AuthenticationManager {
                 this.info.portalUrl = portalUrl;
             }
             IdentityManager.registerOAuthInfos([this.info]);
-        } else if (apiKey !== null) {
+        }
+        if (apiKey !== null) {
             esriConfig.apiKey = apiKey;
         }
         if (portalUrl !== undefined && portalUrl !== null) {

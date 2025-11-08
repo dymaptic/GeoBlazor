@@ -10,8 +10,9 @@ public class ProjectionEngine : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    public ProjectionEngine(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager) 
-        : base(appValidator, jsRuntime, jsModuleManager)
+    public ProjectionEngine(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
+        AuthenticationManager authenticationManager) : base(appValidator, jsRuntime, jsModuleManager,
+        authenticationManager)
     {
     }
 

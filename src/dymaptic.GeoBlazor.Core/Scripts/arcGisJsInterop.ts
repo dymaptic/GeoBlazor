@@ -48,7 +48,7 @@ import Popup from "@arcgis/core/widgets/Popup";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Portal from "@arcgis/core/portal/Portal";
 import * as promiseUtils from "@arcgis/core/core/promiseUtils";
-import ProjectionWrapper from "./projection";
+import ProjectionWrapper from "./projectionEngine";
 import Query from "@arcgis/core/rest/support/Query";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
@@ -60,7 +60,8 @@ import TileLayer from "@arcgis/core/layers/TileLayer";
 import View from "@arcgis/core/views/View";
 import WebMap from "@arcgis/core/WebMap";
 import Widget from "@arcgis/core/widgets/Widget";
-import {load} from "protobufjs";
+import { parse } from "protobufjs";
+import { protoTypeDefinitions } from "./geoblazorProto";
 import {buildDotNetExtent, buildJsExtent} from './extent';
 import {buildJsGraphic} from './graphic';
 import {buildDotNetLayer, buildJsLayer, buildJsLayerWrapper} from './layer';
@@ -109,7 +110,7 @@ export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 
 export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper();
-export let projectionEngine: ProjectionWrapper = new ProjectionWrapper(false);
+export let projectionEngine: ProjectionWrapper = new ProjectionWrapper();
 
 // region module variables
 let notifyExtentChanged: boolean = true;
@@ -311,7 +312,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         const dotNetRef = dotNetReference;
 
         if (GraphicCollectionSerializationRecord === undefined) {
-            await loadProtobuf();
+            loadProtobuf();
         }
         
         await projectionEngine.load();
@@ -2047,23 +2048,14 @@ export let ProtoViewHitCollection;
 export let ProtoTypes: {[key: string]: any} = {};
 export let protobufRoot: any = null;
 
-export async function loadProtobuf(): Promise<void> {
+export function loadProtobuf(): void {
     if (GraphicCollectionSerializationRecord !== undefined && ProtoViewHitCollection !== undefined) {
         return;
     }
 
-    try {
-        protobufRoot = await load("/_content/dymaptic.GeoBlazor.Core/geoblazor.proto");
-    } catch (e) {
-        // if there is a 404 on the file, give the user a clear error message
-        if (e instanceof Error && e.message.includes('404')) {
-            throw new Error('Could not find required GeoBlazor .proto file. If using app.UseStaticAssets(), ' +
-                'you may need to add a FileExtensionContentTypeProvider with a mapping for ["proto"] = "text/plain". ' +
-                'See https://docs.geoblazor.com/pages/gettingStarted.html#project-setup');
-        } else {
-            throw e;
-        }
-    }
+    let parseResults = parse(protoTypeDefinitions);
+    protobufRoot = parseResults.root;
+    
     if (!hasValue(protobufRoot)) {
         throw new Error('Could not load graphic protobuf definition');
     }
@@ -2095,7 +2087,7 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
         arrays: false,
         objects: false
     });
-    return array.items.map();
+    return array.items;
 }
 
 export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: FeatureLayer | GeoJSONLayer | null): any {
@@ -2103,7 +2095,7 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: Featu
         updateGraphicForProtobuf(graphics[i], layer);
     }
     const obj = {
-        graphics: graphics
+        items: graphics
     };
     const collection = GraphicCollectionSerializationRecord.fromObject(obj);
     const encoded = GraphicCollectionSerializationRecord.encode(collection).finish();
@@ -2121,7 +2113,7 @@ function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
     }
 
     const obj = {
-        viewHits: viewHits
+        items: viewHits
     };
     const collection = ProtoViewHitCollection.fromObject(obj);
     const encoded = ProtoViewHitCollection.encode(collection).finish();

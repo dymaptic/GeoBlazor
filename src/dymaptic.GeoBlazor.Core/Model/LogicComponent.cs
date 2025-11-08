@@ -1,14 +1,10 @@
-﻿using ProtoBuf.Meta;
-using System.Reflection.Emit;
-
-
-namespace dymaptic.GeoBlazor.Core.Model;
+﻿namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.
 /// </summary>
 public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRuntime, 
-    JsModuleManager jsModuleManager)
+    JsModuleManager jsModuleManager, AuthenticationManager authenticationManager)
 {
     /// <summary>
     ///     The name of the logic component.
@@ -61,6 +57,8 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
             await appValidator.ValidateLicense();
             _validated = true;
         }
+
+        await authenticationManager.Initialize();
 
         Component ??= await jsModuleManager.GetLogicComponent(jsRuntime, ComponentName, cancellationToken);
     }
