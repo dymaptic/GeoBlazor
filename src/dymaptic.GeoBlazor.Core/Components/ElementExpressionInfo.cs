@@ -4,7 +4,8 @@ public partial class ElementExpressionInfo: IProtobufSerializable<ElementExpress
 {
    // Add custom code to this file to override generated code
    
-      public ElementExpressionInfoSerializationRecord ToProtobuf()
+      /// <inheritdoc />
+    public ElementExpressionInfoSerializationRecord ToProtobuf()
       {
           return new ElementExpressionInfoSerializationRecord(Expression, Title);
       }

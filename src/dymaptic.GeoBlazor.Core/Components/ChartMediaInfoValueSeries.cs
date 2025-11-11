@@ -24,6 +24,7 @@ public partial class ChartMediaInfoValueSeries : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Value { get; set; }
     
+    /// <inheritdoc />
     public ChartMediaInfoValueSeriesSerializationRecord ToProtobuf()
     {
         return new ChartMediaInfoValueSeriesSerializationRecord(Id.ToString(), FieldName, Tooltip, Value);

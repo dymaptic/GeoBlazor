@@ -117,6 +117,7 @@ public partial class Circle
     [CodeGenerationIgnore]
     public int? NumberOfPoints { get; set; }
 
+    /// <inheritdoc />
     public override GeometrySerializationRecord ToProtobuf()
     {
         return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), 

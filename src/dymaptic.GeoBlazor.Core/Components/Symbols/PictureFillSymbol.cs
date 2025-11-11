@@ -52,6 +52,7 @@ public partial class PictureFillSymbol : FillSymbol
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dimension? Yoffset { get; set; }
 
+    /// <inheritdoc />
     public override SymbolSerializationRecord ToProtobuf()
     {
         return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), null)

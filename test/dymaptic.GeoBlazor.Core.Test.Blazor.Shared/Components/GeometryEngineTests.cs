@@ -1457,5 +1457,26 @@ public class GeometryEngineTests : TestRunnerBase
         Assert.IsFalse(within);
     }
 
+    [TestMethod]
+    public async Task TestToAndFromArcGisJson()
+    {
+        var polygon1 =
+            new Polygon([
+                [
+                    new MapPoint(0, 0),
+                    new MapPoint(0, 10),
+                    new MapPoint(10, 10),
+                    new MapPoint(10, 0),
+                    new MapPoint(0, 0)
+                ]
+            ], new SpatialReference(102100));
+        
+        string json = await GeometryEngine.ToArcGisJson(polygon1);
+        Geometry fromJson = await GeometryEngine.FromArcGisJson<Polygon>(json);
+        Assert.IsNotNull(fromJson);
+        Assert.AreEqual(polygon1.Type, fromJson.Type);
+        Assert.AreEqual(polygon1.Rings, ((Polygon)fromJson).Rings);
+    }
+
     private readonly Random _random = new();
 }

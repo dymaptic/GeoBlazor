@@ -32,6 +32,7 @@ public partial class AttachmentsPopupContent : PopupContent
     public string? Title { get; set; }
 
 
+    /// <inheritdoc />
     public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())

@@ -107,6 +107,7 @@ public partial class SpatialReference : MapComponent, IEquatable<SpatialReferenc
         return Wkid.HasValue ? new SpatialReference(Wkid!.Value) : new SpatialReference();
     }
 
+    /// <inheritdoc />
     public SpatialReferenceSerializationRecord ToProtobuf()
     {
         return new SpatialReferenceSerializationRecord(Wkid, Wkt, Wkt2);

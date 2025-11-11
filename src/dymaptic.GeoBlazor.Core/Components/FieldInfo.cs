@@ -42,6 +42,7 @@ public partial class FieldInfo : MapComponent, IProtobufSerializable<FieldInfoSe
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public StringFieldOption? StringFieldOption { get; set; }
     
+    /// <inheritdoc />
     public FieldInfoSerializationRecord ToProtobuf()
     {
         return new FieldInfoSerializationRecord(Id.ToString(), FieldName, Label, Tooltip, 

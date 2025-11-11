@@ -11,6 +11,7 @@ public record MeshLocalVertexSpace(double[]? Origin) : IMeshVertexSpace
 {
     public string Type => "local";
     
+    /// <inheritdoc />
     public MeshVertexSpaceSerializationRecord ToProtobuf()
     {
         return new MeshVertexSpaceSerializationRecord(Type, Origin);

@@ -129,5 +129,6 @@ public abstract partial class Geometry : MapComponent, IProtobufSerializable<Geo
         return Extent;
     }
     
+    /// <inheritdoc />
     public abstract GeometrySerializationRecord ToProtobuf();
 }

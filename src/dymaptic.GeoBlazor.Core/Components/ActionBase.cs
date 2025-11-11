@@ -65,6 +65,7 @@ public abstract partial class ActionBase : MapComponent, IProtobufSerializable<A
     /// </summary>
     public abstract string Type { get; }
     
+    /// <inheritdoc />
     public abstract ActionBaseSerializationRecord ToProtobuf();
 }
 

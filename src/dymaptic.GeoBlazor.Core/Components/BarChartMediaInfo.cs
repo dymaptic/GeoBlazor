@@ -7,6 +7,7 @@ public partial class BarChartMediaInfo : MediaInfo
     /// <inheritdoc/>
     public override string Type => "bar-chart";
 
+    /// <inheritdoc />
     public override MediaInfoSerializationRecord ToProtobuf()
     {
         return new MediaInfoSerializationRecord(Id.ToString(), "bar-chart")

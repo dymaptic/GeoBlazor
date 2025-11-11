@@ -1,7 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Text;
 
 
@@ -11,23 +10,13 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 ///     Triggers the ESBuild build process for the GeoBlazor project, so that your JavaScript code is up to date.
 /// </summary>
 [Generator]
-public class ESBuildLauncher : IIncrementalGenerator
+public class CoreSourceGenerator : IIncrementalGenerator
 {
-    // Notifications are only used for the unit tests, source generators are not intended to have logging/output typically.
-    public event EventHandler<string>? Notification;
-
-    private void PassNotification(object? _, string message)
-    {
-        Notification?.Invoke(this, message);
-    }
-    
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        ProcessHelper.Notification += PassNotification;
-        
         // Tracks all TypeScript source files in the Scripts directories of Core and Pro.
         // This will trigger the build any time a TypeScript file is added, removed, or changed.
-        IncrementalValueProvider<ImmutableArray<AdditionalText>> jsFilesProvider = context.AdditionalTextsProvider
+        IncrementalValueProvider<ImmutableArray<AdditionalText>> tsFilesProvider = context.AdditionalTextsProvider
             .Where(static text => text.Path.Contains("Scripts") && text.Path.EndsWith(".ts"))
             .Collect();
         
@@ -38,6 +27,32 @@ public class ESBuildLauncher : IIncrementalGenerator
                 predicate: static (syntaxNode, _) => 
                     syntaxNode is ClassDeclarationSyntax or StructDeclarationSyntax or RecordDeclarationSyntax,
                 transform: static (context, _) => (BaseTypeDeclarationSyntax)context.TargetNode).Collect();
+        
+        // Find all methods with the [SerializedMethod] attribute
+        IncrementalValueProvider<ImmutableArray<SerializableMethodRecord>> serializableMethodsProvider = 
+            context.SyntaxProvider.ForAttributeWithMetadataName(
+                fullyQualifiedMetadataName: "dymaptic.GeoBlazor.Core.Attributes.SerializedMethodAttribute",
+                predicate: static (syntaxNode, _) => syntaxNode is MethodDeclarationSyntax,
+                transform: static (context, _) =>
+                {
+                    MethodDeclarationSyntax method = (MethodDeclarationSyntax)context.TargetNode;
+                    string typeName = context.TargetSymbol.ContainingType.ToDisplayString().Split('.').Last();
+                    string returnType = method.ReturnType.ToString();
+
+                    if (returnType.StartsWith("Task") || returnType.StartsWith("ValueTask"))
+                    {
+                        int bracketIndex = returnType.IndexOf('<');
+                        returnType = returnType.Substring(bracketIndex + 1, returnType.Length - bracketIndex - 2);
+                    }
+                    SerializableMethodRecord record = new(typeName, 
+                        method.Identifier.Text,
+                        method.ParameterList.Parameters.ToDictionary(
+                            p => p.Identifier.Text,
+                            p => p.Type!.ToString()),
+                        returnType);
+
+                    return record;
+                }).Collect();
 
         // Reads the MSBuild properties to get the project directory and configuration.
         IncrementalValueProvider<(string?, string?, string?)> optionsProvider =
@@ -48,50 +63,57 @@ public class ESBuildLauncher : IIncrementalGenerator
 
                 configProvider.GlobalOptions.TryGetValue("build_property.Configuration",
                     out string? configuration);
-
+                
                 configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
                     out string? pipelineBuild);
 
                 return (projectDirectory, configuration, pipelineBuild);
             });
 
-        IncrementalValueProvider<((ImmutableArray<AdditionalText> JsFiles, 
-            ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes) Files, 
-            (string? projectDirectory, string? configuration, string? pipelineBuild) Options)> combined = 
-            jsFilesProvider.Combine(protoTypeProvider).Combine(optionsProvider);
+        IncrementalValueProvider<(((ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes, 
+            ImmutableArray<SerializableMethodRecord> SerializableMethods) Types, 
+            ImmutableArray<AdditionalText> TsFiles) Files, 
+            (string?, string?, string?) Options)> combined = 
+            protoTypeProvider.Combine(serializableMethodsProvider).Combine(tsFilesProvider).Combine(optionsProvider);
 
         context.RegisterSourceOutput(combined, FilesChanged);
-        ProcessHelper.Notification -= PassNotification;
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((ImmutableArray<AdditionalText> JsFiles, ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes) Files, 
-            (string? projectDirectory, string? configuration, string? pipelineBuild) Options) pipeline)
+        (((ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes, 
+            ImmutableArray<SerializableMethodRecord> SerializableMethods) Types, 
+            ImmutableArray<AdditionalText> TsFiles) Files, 
+        (string? ProjectDirectory, string? Configuration, string? PipelineBuild) Options) pipeline)
     {
-        if (pipeline.Options.pipelineBuild == "true")
-        {
-            // If the pipeline build is enabled, we skip the ESBuild process.
-            // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
-            ProcessHelper.Log(nameof(ESBuildLauncher), 
-                "Skipping ESBuild process as PipelineBuild is set to true.", 
-                DiagnosticSeverity.Info,
-                context);
-            return;
-        }
-
         if (!SetProjectDirectoryAndConfiguration(pipeline.Options, context))
         {
             return;
         }
 
-        ProcessHelper.Log(nameof(ESBuildLauncher),
-            "ESBuildLauncher triggered.", 
+        ProcessHelper.Log(nameof(CoreSourceGenerator),
+            "Source Generation triggered.", 
             DiagnosticSeverity.Info,
             context);
 
-        UpdateProtobufDefinitions(context, pipeline.Files.ProtoTypes);
+        ProtobufDefinitionsGenerator.UpdateProtobufDefinitions(context, pipeline.Files.Types.ProtoTypes, _corePath!);
         
         context.CancellationToken.ThrowIfCancellationRequested();
+
+        SerializationGenerator.GenerateSerializationDataClass(context,
+            pipeline.Files.Types.SerializableMethods, ProtobufDefinitionsGenerator.ProtoDefinitions!, false);
+        
+        context.CancellationToken.ThrowIfCancellationRequested();
+        
+        if (pipeline.Options.PipelineBuild == "true")
+        {
+            // If the pipeline build is enabled, we skip the ESBuild process.
+            // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
+            ProcessHelper.Log(nameof(CoreSourceGenerator), 
+                "Skipping ESBuild process as PipelineBuild is set to true.", 
+                DiagnosticSeverity.Info,
+                context);
+            return;
+        }
         
         LaunchESBuild(context);
     }
@@ -102,6 +124,11 @@ public class ESBuildLauncher : IIncrementalGenerator
         if (options.projectDirectory is { } projectDirectory)
         {
             _corePath = Path.GetFullPath(projectDirectory);
+            ProcessHelper.Log(
+                nameof(CoreSourceGenerator),
+                $"Project directory set to {_corePath}",
+                DiagnosticSeverity.Info, 
+                context);
 
             if (_corePath.Contains("GeoBlazor.Pro"))
             {
@@ -120,7 +147,7 @@ public class ESBuildLauncher : IIncrementalGenerator
         }
         else
         {
-            ProcessHelper.Log(nameof(ESBuildLauncher),
+            ProcessHelper.Log(nameof(CoreSourceGenerator),
                 "Invalid project directory.",
                 DiagnosticSeverity.Error,
                 context);
@@ -135,58 +162,19 @@ public class ESBuildLauncher : IIncrementalGenerator
             return true;
         }
 
-        ProcessHelper.Log(nameof(ESBuildLauncher),
+        ProcessHelper.Log(nameof(CoreSourceGenerator),
             "Could not parse configuration setting, invalid configuration.",
             DiagnosticSeverity.Error,
             context);
 
         return false;
     }
-    
-    private void UpdateProtobufDefinitions(SourceProductionContext context, 
-        ImmutableArray<BaseTypeDeclarationSyntax> protoTypes)
-    {
-        ProcessHelper.Log(nameof(ESBuildLauncher), 
-            "Updating Protobuf definitions...", 
-            DiagnosticSeverity.Info,
-            context);
-        
-        // fetch protobuf definitions
-        string protoTypeContent = ProtobufDefinitionsGenerator.Generate(context, protoTypes);
-
-        string typescriptContent = $"""
-                                    export let protoTypeDefinitions: string = `
-                                    {protoTypeContent}
-                                    `;
-                                    """;
-        string encoded = typescriptContent
-            .Replace("\"", "\\\"")
-            .Replace("\r\n", "\\r\\n")
-            .Replace("\n", "\\n");
-        StringBuilder logBuilder = new();
-        
-        // write protobuf definitions to geoblazorProto.ts
-        ProcessHelper.RunPowerShellScript("Copy Protobuf Definitions",
-            _corePath!, "copyProtobuf.ps1",
-            $"-Content \"{encoded}\"",
-            logBuilder, context.CancellationToken).GetAwaiter().GetResult();
-        
-        ProcessHelper.Log(nameof(ESBuildLauncher),
-            logBuilder.ToString(), 
-            DiagnosticSeverity.Info,
-            context);
-        
-        ProcessHelper.Log(nameof(ESBuildLauncher), 
-            $"Protobuf definitions updated successfully.", 
-            DiagnosticSeverity.Info,
-            context);
-    }
 
     private void LaunchESBuild(SourceProductionContext context)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
         
-        ProcessHelper.Log(nameof(ESBuildLauncher), 
+        ProcessHelper.Log(nameof(CoreSourceGenerator), 
             "Starting Core ESBuild process...", 
             DiagnosticSeverity.Info,
             context);
@@ -222,27 +210,11 @@ public class ESBuildLauncher : IIncrementalGenerator
                 }));
             }
 
-            string gitBranch = string.Empty;
-
-            Process gitBranchProc = Process.Start(new ProcessStartInfo
-            {
-                WorkingDirectory = _corePath!,
-                FileName = "git",
-                Arguments = "rev-parse --abbrev-ref HEAD",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            })!;
-
-            tasks.Add(Task.Run(async () =>
-                gitBranch = (await gitBranchProc.StandardOutput.ReadLineAsync())?.Trim() ?? string.Empty));
-
             Task.WhenAll(tasks).GetAwaiter().GetResult();
 
             if (!buildSuccess)
             {
-                ProcessHelper.Log(nameof(ESBuildLauncher),
+                ProcessHelper.Log(nameof(CoreSourceGenerator),
                     $"Core ESBuild process failed\r\n{logBuilder}",
                     DiagnosticSeverity.Error,
                     context);
@@ -256,7 +228,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             {
                 if (!proBuildSuccess)
                 {
-                    ProcessHelper.Log(nameof(ESBuildLauncher),
+                    ProcessHelper.Log(nameof(CoreSourceGenerator),
                         $"Pro ESBuild process failed\r\n{logBuilder}",
                         DiagnosticSeverity.Error,
                         context);
@@ -266,48 +238,15 @@ public class ESBuildLauncher : IIncrementalGenerator
                 logBuilder.AppendLine("Pro ESBuild process completed successfully.");
                 logBuilder.AppendLine();
             }
-
-            if (string.IsNullOrEmpty(gitBranch))
-            {
-                logBuilder.AppendLine("Could not determine the current Git branch. " +
-                    "This may affect the generated ESBuildRecord class.");
-                gitBranch = "unknown";
-            }
-
-            logBuilder.AppendLine($"ESBuild completed successfully for branch '{gitBranch}' with configuration '{
-                _configuration}'.");
-
-            string source = $$"""
-                              // <auto-generated/>
-
-                              namespace dymaptic.GeoBlazor.Core;
-
-                              /// <summary>
-                              ///     This class is generated by a source generator and contains metadata about the build.
-                              /// </summary>
-                              internal class ESBuildRecord
-                              {
-                                  private const long Timestamp = {{DateTime.UtcNow.Ticks}};
-                                  private const string GitBranch = "{{gitBranch}}";
-                                  private const string Configuration = "{{_configuration}}";
-                                  private const bool IncludeProBuild = {{(_proPath is not null).ToString().ToLower()}};
-                              }
-                              """;
-
-            context.AddSource("ESBuildRecord.g.cs", source);
-            logBuilder.AppendLine();
-            logBuilder.AppendLine(source);
-            ProcessHelper.Log(nameof(ESBuildLauncher),
+            
+            ProcessHelper.Log(nameof(CoreSourceGenerator),
                 logBuilder.ToString(),
                 DiagnosticSeverity.Info,
                 context);
-
-            Notification?.Invoke(this, "");
-            Notification?.Invoke(this, source);
         }
         catch (Exception ex)
         {
-            ProcessHelper.Log(nameof(ESBuildLauncher),
+            ProcessHelper.Log(nameof(CoreSourceGenerator),
                 $"An error occurred while running ESBuild: {ex.Message}\r\n{ex.StackTrace}", 
                 DiagnosticSeverity.Error,
                 context);

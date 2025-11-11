@@ -16,5 +16,6 @@ public abstract partial class Symbol : MapComponent, IProtobufSerializable<Symbo
     /// </summary>
     public abstract SymbolType Type { get; }
 
+    /// <inheritdoc />
     public abstract SymbolSerializationRecord ToProtobuf();
 }

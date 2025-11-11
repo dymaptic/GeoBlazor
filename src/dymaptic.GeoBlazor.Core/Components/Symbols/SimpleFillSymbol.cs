@@ -56,9 +56,10 @@ public partial class SimpleFillSymbol : FillSymbol
         Outline?.ValidateRequiredChildren();
     }
 
+    /// <inheritdoc />
     public override SymbolSerializationRecord ToProtobuf()
     {
-        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
+        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color?.ToProtobuf())
         {
             Outline = Outline?.ToProtobuf(), 
             Style = Style?.ToString().ToKebabCase()

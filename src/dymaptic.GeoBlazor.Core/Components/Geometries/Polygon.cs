@@ -116,6 +116,7 @@ public partial class Polygon : Geometry
             Centroid, HasM, HasZ);
     }
     
+    /// <inheritdoc />
     public override GeometrySerializationRecord ToProtobuf()
     {
         return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), 

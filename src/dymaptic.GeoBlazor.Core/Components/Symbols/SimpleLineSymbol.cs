@@ -53,9 +53,10 @@ public partial class SimpleLineSymbol : LineSymbol
     [Parameter]
     public SimpleLineSymbolStyle? Style { get; set; }
 
+    /// <inheritdoc />
     public override SymbolSerializationRecord ToProtobuf()
     {
-        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
+        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color?.ToProtobuf())
         {
             Width = Width?.Points, 
             Style = Style?.ToString().ToKebabCase()

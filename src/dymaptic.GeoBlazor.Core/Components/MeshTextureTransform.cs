@@ -4,7 +4,8 @@ public partial class MeshTextureTransform: IProtobufSerializable<MeshTextureTran
 {
    // Add custom code to this file to override generated code
    
-   public MeshTextureTransformSerializationRecord ToProtobuf()
+   /// <inheritdoc />
+    public MeshTextureTransformSerializationRecord ToProtobuf()
    {
        return new MeshTextureTransformSerializationRecord(Offset?.ToArray(), Rotation, 
            Scale?.ToArray());

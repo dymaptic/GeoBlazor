@@ -8,6 +8,7 @@ public abstract partial class PopupContent : MapComponent, IProtobufSerializable
     /// </summary>
     public abstract PopupContentType Type { get; }
 
+    /// <inheritdoc />
     public abstract PopupContentSerializationRecord ToProtobuf();
 }
 

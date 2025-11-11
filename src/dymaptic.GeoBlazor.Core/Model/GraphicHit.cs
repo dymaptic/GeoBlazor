@@ -18,6 +18,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public record GraphicHit(Graphic Graphic, Guid? LayerId, Point MapPoint) : ViewHit("graphic", MapPoint)
 {
+    /// <inheritdoc />
     public override ViewHitSerializationRecord ToProtobuf()
     {
         return new ViewHitSerializationRecord(Type, MapPoint.ToProtobuf(), 

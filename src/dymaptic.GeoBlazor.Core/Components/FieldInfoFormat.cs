@@ -25,6 +25,7 @@ public partial class FieldInfoFormat : MapComponent, IProtobufSerializable<Field
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DateFormat? DateFormat { get; set; }
 
+    /// <inheritdoc />
     public FieldInfoFormatSerializationRecord ToProtobuf()
     {
         string? dateFormat = DateFormat switch

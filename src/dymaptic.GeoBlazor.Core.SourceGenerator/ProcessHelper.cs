@@ -10,8 +10,6 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 
 public static class ProcessHelper
 {
-    public static event EventHandler<string>? Notification;
-    
     public static async Task RunPowerShellScript(string processName, string workingDirectory, 
         string powershellScriptName, string arguments, StringBuilder logBuilder, CancellationToken token, 
         Dictionary<string, string?>? environmentVariables = null)
@@ -101,7 +99,6 @@ public static class ProcessHelper
     public static void Log(string title, string message, DiagnosticSeverity severity,
         SourceProductionContext context)
     {
-        Notification?.Invoke(null, $"{title}: {message}");
         context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor(
             "GBSourceGen",
             title,

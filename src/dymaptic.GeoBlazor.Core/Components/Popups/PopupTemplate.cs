@@ -237,6 +237,7 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
 
     }
 
+    /// <inheritdoc />
     public PopupTemplateSerializationRecord ToProtobuf()
     {
         return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,

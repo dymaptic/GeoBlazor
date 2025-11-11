@@ -47,7 +47,8 @@ public partial class MeshVertexAttributes: IProtobufSerializable<MeshVertexAttri
        return Color;
    }
 
-   public MeshVertexAttributesSerializationRecord ToProtobuf()
+   /// <inheritdoc />
+    public MeshVertexAttributesSerializationRecord ToProtobuf()
    {
        return new MeshVertexAttributesSerializationRecord(Color,
            Normal,

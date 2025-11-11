@@ -56,6 +56,7 @@ public partial class FieldsPopupContent : PopupContent
     }
 
 
+    /// <inheritdoc />
     public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())

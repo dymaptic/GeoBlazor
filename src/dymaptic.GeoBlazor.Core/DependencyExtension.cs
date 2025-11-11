@@ -21,6 +21,7 @@ public static class DependencyExtension
             .AddScoped<ProjectionEngine>()
             .AddScoped<AbortManager>()
             .AddScoped<AuthenticationManager>()
-            .AddScoped<IAppValidator, RegistrationValidator>();
+            .AddScoped<IAppValidator, RegistrationValidator>()
+            .AddSingleton<JsSyncManager>();
     }
 }

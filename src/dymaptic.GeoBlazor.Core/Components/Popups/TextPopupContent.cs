@@ -17,6 +17,7 @@ public partial class TextPopupContent : PopupContent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Text { get; set; }
 
+    /// <inheritdoc />
     public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())

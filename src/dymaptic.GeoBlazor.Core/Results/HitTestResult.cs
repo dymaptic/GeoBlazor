@@ -32,6 +32,7 @@ public record HitTestResult(ScreenPoint ScreenPoint)
 [JsonConverter(typeof(ViewHitConverter))]
 public record ViewHit(string Type, Point MapPoint) : IProtobufSerializable<ViewHitSerializationRecord>
 {
+    /// <inheritdoc />
     public virtual ViewHitSerializationRecord ToProtobuf()
     {
         return new ViewHitSerializationRecord(Type, MapPoint.ToProtobuf(), null, null);

@@ -8,6 +8,8 @@ public interface IProtobufSerializable<out T> where T : MapComponentSerializatio
     /// <summary>
     ///     Converts the class to its Protobuf serialization record.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>
+    ///     Returns the serializable instance
+    /// </returns>
     T ToProtobuf();
 }

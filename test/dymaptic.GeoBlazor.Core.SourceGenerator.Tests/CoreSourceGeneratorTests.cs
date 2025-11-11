@@ -11,7 +11,7 @@ using System.Reflection;
 namespace dymaptic.GeoBlazor.Core.SourceGenerator.Tests;
 
 [TestClass]
-public class ESBuildLauncherTests
+public class CoreSourceGeneratorTests
 {
     
     [TestMethod]
@@ -20,13 +20,7 @@ public class ESBuildLauncherTests
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         
-        var generator = new ESBuildLauncher();
-        bool resultsReceived = false;
-        generator.Notification += (_, message) =>
-        {
-            Console.WriteLine(message);
-            resultsReceived = true;
-        };
+        var generator = new CoreSourceGenerator();
         
         // get actual Scripts files
         string scriptsPath = Path.Combine(corePath, "Scripts");
@@ -48,13 +42,12 @@ public class ESBuildLauncherTests
             .Create([generator.AsSourceGenerator()], additionalTexts, cSharpParseOptions, analyzerConfigOptions);
         
         // To run generators, we can use an empty compilation.
-        CSharpCompilation compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
+        CSharpCompilation compilation = CSharpCompilation.Create(nameof(CoreSourceGeneratorTests));
         // Run generators. Don't forget to use the new compilation rather than the previous one.
         driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
             out ImmutableArray<Diagnostic> diagnostics);
         
         Assert.IsTrue(diagnostics.Any(d => d.Id == "GBSourceGen"), "Expected a GBSourceGen diagnostic from the generator.");
-        Assert.IsTrue(resultsReceived);
         Assert.IsNotEmpty(newCompilation.SyntaxTrees);
         Assert.Contains("ESBuildRecord", newCompilation.SyntaxTrees.First().ToString());
         Assert.Contains("private const string Configuration = \"Debug\";", newCompilation.SyntaxTrees.First().ToString());
@@ -66,13 +59,7 @@ public class ESBuildLauncherTests
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         
-        ESBuildLauncher generator = new ESBuildLauncher();
-        bool resultsReceived = false;
-        generator.Notification += (_, message) =>
-        {
-            Console.WriteLine(message);
-            resultsReceived = true;
-        };
+        CoreSourceGenerator generator = new CoreSourceGenerator();
         
         // get actual Scripts files
         string scriptsPath = Path.Combine(corePath, "Scripts");
@@ -94,13 +81,13 @@ public class ESBuildLauncherTests
             .Create([generator.AsSourceGenerator()], additionalTexts, cSharpParseOptions, analyzerConfigOptions);
         
         // To run generators, we can use an empty compilation.
-        CSharpCompilation compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
+        CSharpCompilation compilation = CSharpCompilation.Create(nameof(CoreSourceGeneratorTests));
         // Run generators. Don't forget to use the new compilation rather than the previous one.
         driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
-            out ImmutableArray<Diagnostic> _);
+            out ImmutableArray<Diagnostic> diagnostics);
         
-        Assert.IsTrue(resultsReceived);
         Assert.IsNotEmpty(newCompilation.SyntaxTrees);
+        Assert.IsTrue(diagnostics.Any(d => d.Id == "GBSourceGen"), "Expected a GBSourceGen diagnostic from the generator.");
         Assert.Contains("ESBuildRecord", newCompilation.SyntaxTrees.First().ToString());
         Assert.Contains("private const string Configuration = \"Release\";", newCompilation.SyntaxTrees.First().ToString());
     }
@@ -111,13 +98,7 @@ public class ESBuildLauncherTests
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         
-        ESBuildLauncher generator = new ESBuildLauncher();
-        bool resultsReceived = false;
-        generator.Notification += (_, message) =>
-        {
-            Console.WriteLine(message);
-            resultsReceived = true;
-        };
+        CoreSourceGenerator generator = new CoreSourceGenerator();
         
         // get actual Scripts files
         string scriptsPath = Path.Combine(corePath, "Scripts");
@@ -139,12 +120,12 @@ public class ESBuildLauncherTests
             .Create([generator.AsSourceGenerator()], additionalTexts, cSharpParseOptions, analyzerConfigOptions);
         
         // To run generators, we can use an empty compilation.
-        CSharpCompilation compilation = CSharpCompilation.Create(nameof(ESBuildLauncherTests));
+        CSharpCompilation compilation = CSharpCompilation.Create(nameof(CoreSourceGeneratorTests));
         // Run generators. Don't forget to use the new compilation rather than the previous one.
         driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation newCompilation, 
-            out ImmutableArray<Diagnostic> _);
+            out ImmutableArray<Diagnostic> diagnostics);
         Assert.IsEmpty(newCompilation.SyntaxTrees);
-        Assert.IsTrue(resultsReceived);
+        Assert.IsTrue(diagnostics.Any(d => d.Id == "GBSourceGen"), "Expected a GBSourceGen diagnostic from the generator.");
     }
 }
 

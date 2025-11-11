@@ -21,9 +21,10 @@ public partial class SimpleMarkerSymbol : MarkerSymbol
     [Parameter]
     public SimpleMarkerSymbolStyle? Style { get; set; }
 
+    /// <inheritdoc />
     public override SymbolSerializationRecord ToProtobuf()
     {
-        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
+        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color?.ToProtobuf())
         {
             Outline = Outline?.ToProtobuf(),
             Size = Size?.Points,

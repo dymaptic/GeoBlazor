@@ -8,6 +8,7 @@ public abstract partial class MediaInfo : MapComponent, IProtobufSerializable<Me
     /// </summary>
     public abstract string Type { get; }
 
+    /// <inheritdoc />
     public abstract MediaInfoSerializationRecord ToProtobuf();
 }
 

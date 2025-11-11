@@ -5,15 +5,11 @@ import {
     DotNetExtent,
     DotNetGeometry,
     DotNetGraphic,
-    DotNetGraphicHit,
-    DotNetHitTestOptions,
-    DotNetHitTestResult,
     DotNetPoint,
     DotNetPolygon,
     DotNetPolyline,
     DotNetPopupTemplate,
     DotNetSpatialReference,
-    DotNetViewHit,
     MapCollection
 } from './definitions';
 import * as MapComponents from '@arcgis/map-components';
@@ -71,15 +67,13 @@ import {buildDotNetSpatialReference} from './spatialReference';
 import {buildDotNetGeometry, buildJsGeometry} from './geometry';
 import {buildDotNetSymbol, buildJsSymbol} from './symbol';
 import {buildDotNetPopupTemplate} from './popupTemplate';
-import {buildDotNetHitTestResult, buildViewExtentUpdate} from './mapView';
+import MapViewWrapper, {buildViewExtentUpdate} from './mapView';
 import {buildJsAttributes} from './attributes';
 import {buildJsWidget} from "./widget";
 import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
 import {buildJsColor} from './mapColor';
 import {buildJsBasemap} from "./basemap";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
-import HitTestResult = __esri.HitTestResult;
-import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
 
 // region exports
@@ -299,7 +293,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                                    isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, 
                                    theme?: string | null, zIndex?: number, tilt?: number)
-    : Promise<void> {
+    : Promise<MapViewWrapper | null> {
     try {
         
         // Order of operations in this function is very important
@@ -320,7 +314,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         checkConnectivity(id);
 
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
         
         dotNetRefs[id] = dotNetRef;
@@ -342,7 +336,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         }
 
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
         
         // 3. Create the basemap
@@ -400,7 +394,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         arcGisObjectRefs[mapObject.id] = map;
 
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
         
         // 5. set the web component's map object
@@ -412,7 +406,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         arcGisObjectRefs[id] = view;
 
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
         
         // 7. Set view properties
@@ -420,7 +414,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, popupEnabled, theme);
         
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
         
         // 8. Register popup widget first before adding layers to not overwrite the popupTemplates
@@ -430,7 +424,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         }
 
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
 
         // 9. Add layers to the map
@@ -440,7 +434,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                 const layerObject = mapObject.layers[i];
                 await addLayer(layerObject, mapObject.id, id);
                 if (abortSignal.aborted) {
-                    return;
+                    return null;
                 }
             }
         }
@@ -458,11 +452,11 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
 
         if (!hasValue(view.container) || abortSignal.aborted) {
             // someone navigated away or rerendered the page, the view is no longer valid
-            return;
+            return null;
         }
 
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
 
         // 11. Add graphics directly to the view
@@ -472,7 +466,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         }
 
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
 
         // 12. Group widgets by position to ensure consistent stacking order
@@ -506,12 +500,14 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         await Promise.all(positionPromises);
 
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
+        
+        return new MapViewWrapper(view);
     }
     catch (e) {
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
         throw e;
     } finally {
@@ -921,29 +917,6 @@ export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
     arcGisObjectRefs[geoBlazorId] = typeof jsObjectRef.unwrap === 'function'
         ? jsObjectRef.unwrap()
         : jsObjectRef;
-}
-
-export async function hitTest(screenPoint: any, viewId: string, options: DotNetHitTestOptions | null, hitTestId: string)
-    : Promise<DotNetHitTestResult | void> {
-    const view = arcGisObjectRefs[viewId] as MapView;
-    let result: HitTestResult;
-
-    if (options !== null) {
-        const hitOptions = buildHitTestOptions(options, view);
-        result = await view.hitTest(screenPoint, hitOptions);
-    } else {
-        result = await view.hitTest(screenPoint);
-    }
-
-    const dotNetResult = await buildDotNetHitTestResult(result, viewId);
-    if (dotNetResult.results.length > 0) {
-        const streamRef = getProtobufViewHitStream(dotNetResult.results);
-        dotNetResult.results = [];
-        const dotNetRef = dotNetRefs[viewId];
-        await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);
-    }
-
-    return dotNetResult;
 }
 
 export function toMap(screenPoint: any, viewId: string): DotNetPoint | null {
@@ -1996,52 +1969,6 @@ export function setVisibility(componentId: string, visible: boolean): void {
     }
 }
 
-function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapViewHitTestOptions {
-    const hitOptions: MapViewHitTestOptions = {};
-    let hitIncludeOptions: Array<any> = [];
-    let hitExcludeOptions: Array<any> = [];
-    const layers = (view.map!.layers as MapCollection).items as Array<Layer>;
-    const graphicsLayers = layers.filter(l => l.type === "graphics") as Array<GraphicsLayer>;
-
-    if (options.includeByGeoBlazorId !== null) {
-        const gbInclude = options.includeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
-        hitIncludeOptions = hitIncludeOptions.concat(gbInclude);
-    }
-    if (options.excludeByGeoBlazorId !== null) {
-        const gbExclude = options.excludeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
-        hitExcludeOptions = hitExcludeOptions.concat(gbExclude);
-    }
-    if (options.includeLayersByArcGISId !== null) {
-        const layerInclude = layers.filter(l => options.includeLayersByArcGISId!.includes(l.id));
-        hitIncludeOptions = hitIncludeOptions.concat(layerInclude);
-    }
-    if (options.excludeLayersByArcGISId !== null) {
-        const layerExclude = layers.filter(l => options.excludeLayersByArcGISId!.includes(l.id));
-        hitExcludeOptions = hitExcludeOptions.concat(layerExclude);
-    }
-    if (options.includeGraphicsByArcGISId !== null) {
-        const graphicInclude = options.includeGraphicsByArcGISId.map(i =>
-            view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
-            graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
-        hitIncludeOptions = hitIncludeOptions.concat(graphicInclude);
-    }
-    if (options.excludeGraphicsByArcGISId !== null) {
-        const graphicExclude = options.excludeGraphicsByArcGISId.map(i =>
-            view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
-            graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
-        hitExcludeOptions = hitExcludeOptions.concat(graphicExclude);
-    }
-
-    if (hitIncludeOptions.length > 0) {
-        hitOptions.include = hitIncludeOptions;
-    }
-    if (hitExcludeOptions.length > 0) {
-        hitOptions.exclude = hitExcludeOptions;
-    }
-
-    return hitOptions;
-}
-
 export let GraphicCollectionSerializationRecord;
 export let ProtoViewHitCollection;
 
@@ -2102,25 +2029,7 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: Featu
         return DotNet.createJSStreamReference(encoded);
 }
 
-function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
-    for (let i = 0; i < viewHits.length; i++) {
-        const viewHit = viewHits[i];
-        if (viewHit.type === "graphic") {
-            const graphic = (viewHit as DotNetGraphicHit).graphic;
-            const layer = arcGisObjectRefs[(viewHit as DotNetGraphicHit).layerId] as FeatureLayer;
-            updateGraphicForProtobuf(graphic, layer);
-        }
-    }
-
-    const obj = {
-        items: viewHits
-    };
-    const collection = ProtoViewHitCollection.fromObject(obj);
-    const encoded = ProtoViewHitCollection.encode(collection).finish();
-        return DotNet.createJSStreamReference(encoded);
-}
-
-function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
+export function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
     if (hasValue(graphic.attributes)) {
         const fields = layer?.fields;
         graphic.attributes = Object.keys(graphic.attributes).map(attr => {
@@ -2386,7 +2295,7 @@ export function buildJsStreamReference(dnObject: any) {
     return DotNet.createJSStreamReference(encodedArray!);
 }
 
-export function buildEncodedJson(object: any) {
+export function buildEncodedJson(object: any): Uint8Array {
     let json = generateSerializableJson(object);
     if (!hasValue(json)) {
         json = 'null';

@@ -13,6 +13,7 @@ public partial class ActionButton : ActionBase
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Image { get; set; }
 
+    /// <inheritdoc />
     public override ActionBaseSerializationRecord ToProtobuf()
     {
         return new ActionBaseSerializationRecord(Id.ToString(), Type, Title, ClassName, Active, Disabled, Visible, ActionId)

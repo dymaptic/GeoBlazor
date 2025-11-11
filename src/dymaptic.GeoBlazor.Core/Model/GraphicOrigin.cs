@@ -22,6 +22,7 @@ public record GraphicOrigin(
     int? LayerIndex = null) : VectorTileOrigin(LayerId, ArcGISLayerId, LayerIndex), 
     IProtobufSerializable<GraphicOriginSerializationRecord>
 {
+    /// <inheritdoc />
     public GraphicOriginSerializationRecord ToProtobuf()
     {
         return new GraphicOriginSerializationRecord(LayerId?.ToString(), ArcGISLayerId, LayerIndex);

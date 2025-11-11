@@ -7,6 +7,7 @@
         <IsPackable>false</IsPackable>
 
         <RootNamespace>dymaptic.GeoBlazor.Core.SourceGenerator.Tests</RootNamespace>
+        <CoreOverridePath>$(MSBuildProjectDirectory)\..\..\src\dymaptic.GeoBlazor.Core</CoreOverridePath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,8 +25,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" />
+        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj"
+                          OutputItemType="Analyzer"
+                          ReferenceOutputAssembly="true" />
     </ItemGroup>
-
-
+    
+    <ItemGroup>
+        <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
+        <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
+        <CompilerVisibleProperty Include="LogSourceGenOutput" Value="$(LogSourceGenOutput)" />
+    </ItemGroup>
 </Project>

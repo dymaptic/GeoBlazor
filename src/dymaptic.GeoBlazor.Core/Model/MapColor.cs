@@ -7,9 +7,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Creates a new color object by passing either a hex, rgb(a), hsl(a) or named color value. Hex, hsl(a) and named color values can be passed as a string: <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MapColorConverter))]
-[ProtoContract]
 [CodeGenerationIgnore]
-public class MapColor : IEquatable<MapColor>
+public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSerializationRecord>
 {
     private double[]? _rgbaValues = [];
     private string? _hexOrNameValue;
@@ -63,7 +62,6 @@ public class MapColor : IEquatable<MapColor>
     /// <summary>
     ///     The numeric values for calculating a color (rgb/rgba).
     /// </summary>
-    [ProtoMember(1)]
     public double[]? RgbaValues
     {
         get => _rgbaValues;
@@ -81,7 +79,6 @@ public class MapColor : IEquatable<MapColor>
     /// <summary>
     ///     The name or hex value of the color.
     /// </summary>
-    [ProtoMember(2)]
     public string? HexOrNameValue
     {
         get => _hexOrNameValue;
@@ -111,6 +108,11 @@ public class MapColor : IEquatable<MapColor>
         }
 
         return RgbaValues.SequenceEqual(other.RgbaValues) && (HexOrNameValue == other.HexOrNameValue);
+    }
+
+    public MapColorSerializationRecord ToProtobuf()
+    {
+        return new MapColorSerializationRecord(RgbaValues, HexOrNameValue);
     }
 
     /// <inheritdoc />

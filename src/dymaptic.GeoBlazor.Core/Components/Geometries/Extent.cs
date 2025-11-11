@@ -131,6 +131,7 @@ public partial class Extent : Geometry
         return new Extent(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin, SpatialReference?.Clone());
     }
 
+    /// <inheritdoc />
     public override GeometrySerializationRecord ToProtobuf()
     {
         return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), null, 

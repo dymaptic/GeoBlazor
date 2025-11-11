@@ -32,6 +32,12 @@ public partial class MapView : MapComponent
     /// </summary>
     [Inject]
     private IAppValidator AppValidator { get; set; } = null!;
+
+    /// <summary>
+    ///     Manages custom serialization/synchronization of JS and .NET objects
+    /// </summary>
+    [Inject]
+    private JsSyncManager JsSyncManager { get; set; } = null!;
 #endregion
     
 
@@ -2486,7 +2492,8 @@ public partial class MapView : MapComponent
             IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
             CancellationTokenSource.CancelAfter(MapRenderTimeoutInMilliseconds); // timeout for the map view to be built
 
-            await CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, abortSignal, Id,
+            JsComponentReference = await CoreJsModule!.InvokeAsync<IJSObjectReference>("buildMapView", 
+                CancellationTokenSource.Token, abortSignal, Id,
                 DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
@@ -2678,41 +2685,9 @@ public partial class MapView : MapComponent
     
     private async Task<HitTestResult> HitTestImplementation(ScreenPoint screenPoint, HitTestOptions? options)
     {
-        Guid hitTestId = Guid.NewGuid();
-        HitTestResult result = await CoreJsModule!.InvokeAsync<HitTestResult>("hitTest",
-            CancellationTokenSource.Token, screenPoint, Id, options, hitTestId);
-
-        if (_activeHitTests.TryGetValue(hitTestId, out ViewHit[]? viewHits))
-        {
-            result.Results = viewHits;
-        }
-
-        return result;
-    }
-    
-    /// <summary>
-    ///     Internal use callback from JavaScript
-    /// </summary>
-    [JSInvokable]
-    public async Task OnHitTestStreamCallback(IJSStreamReference streamReference, Guid hitTestId)
-    {
-        if (IsDisposed) return;
-        try
-        {
-            await using Stream stream = await streamReference
-                .OpenReadStreamAsync(QueryResultsMaxSizeLimit);
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            ViewHitCollectionSerializationRecord collection = Serializer.Deserialize<ViewHitCollectionSerializationRecord>(ms);
-            ViewHit[] viewHits = collection.Items!.Select(g => g.FromSerializationRecord()).ToArray();
-
-            _activeHitTests[hitTestId] = viewHits;
-        }
-        catch (Exception ex)
-        {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);
-        }
+        return await JsSyncManager.InvokeJsMethod<HitTestResult>(JsComponentReference!, IsServer, 
+            className: nameof(MapView), cancellationToken: CancellationTokenSource.Token, 
+            parameters: [screenPoint, Id, options]);
     }
 
     private bool IsPro()
@@ -2848,7 +2823,6 @@ public partial class MapView : MapComponent
     private bool? _isPro;
     private bool? _hasCustomAssetPath;
     private string? _customAssetsPath;
-    private readonly Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _waitingForRender;
     private ArcGISTheme? _lastTheme;
 

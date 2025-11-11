@@ -527,6 +527,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
             .ToArray();
     }
     
+    /// <inheritdoc />
     public AttributeCollectionSerializationRecord ToProtobuf()
     {
         return new AttributeCollectionSerializationRecord(ToProtobufArray());

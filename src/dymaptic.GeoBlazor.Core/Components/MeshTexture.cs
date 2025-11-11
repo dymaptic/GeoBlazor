@@ -501,9 +501,10 @@ public class MeshTexture : MapComponent, IProtobufSerializable<MeshTextureSerial
     
 #endregion
 
+    /// <inheritdoc />
     public MeshTextureSerializationRecord ToProtobuf()
     {
-        return new MeshTextureSerializationRecord(ImageData,
+        return new MeshTextureSerializationRecord(ImageData?.ToProtobuf(),
             Wrap is null
                 ? null
                 : [

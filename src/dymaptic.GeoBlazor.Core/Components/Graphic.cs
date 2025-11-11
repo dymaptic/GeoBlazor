@@ -682,6 +682,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>, IProtobufSerial
         return _serializationRecord;
     }
 
+    /// <inheritdoc />
     public virtual GraphicSerializationRecord ToProtobuf()
     {
         _serializationRecord = new GraphicSerializationRecord(Id.ToString(), Geometry?.ToProtobuf(), 

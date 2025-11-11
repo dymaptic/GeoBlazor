@@ -4,17 +4,18 @@ public partial class MeshMaterialMetallicRoughness
 {
    // Add custom code to this file to override generated code
    
-   public override MeshComponentMaterialSerializationRecord ToProtobuf()
+   /// <inheritdoc />
+    public override MeshComponentMaterialSerializationRecord ToProtobuf()
    {
        return new MeshComponentMaterialSerializationRecord(AlphaCutoff,
            AlphaMode?.ToString().ToKebabCase(),
-           Color,
+           Color?.ToProtobuf(),
            ColorTexture?.ToProtobuf(),
            ColorTextureTransform?.ToProtobuf(),
            DoubleSided,
            NormalTexture?.ToProtobuf(),
            NormalTextureTransform?.ToProtobuf(),
-           EmissiveColor,
+           EmissiveColor?.ToProtobuf(),
            EmissiveTexture?.ToProtobuf(),
            EmissiveTextureTransform?.ToProtobuf(),
            Metallic,

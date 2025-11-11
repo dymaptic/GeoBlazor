@@ -15,6 +15,7 @@ public partial class ImageMediaInfo : MediaInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? RefreshInterval { get; set; }
 
+    /// <inheritdoc />
     public override MediaInfoSerializationRecord ToProtobuf()
     {
         return new MediaInfoSerializationRecord(Id.ToString(), "image-media")

@@ -11,7 +11,50 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 /// </summary>
 public static class ProtobufDefinitionsGenerator
 {
-    public static string Generate(SourceProductionContext context,
+    public static Dictionary<string, ProtoMessageDefinition>? ProtoDefinitions;
+    
+    public static void UpdateProtobufDefinitions(SourceProductionContext context, 
+        ImmutableArray<BaseTypeDeclarationSyntax> protoTypes, string corePath)
+    {
+        ProcessHelper.Log(nameof(CoreSourceGenerator), 
+            "Updating Protobuf definitions...", 
+            DiagnosticSeverity.Info,
+            context);
+        
+        // fetch protobuf definitions
+        string protoTypeContent = Generate(context, protoTypes);
+
+        string typescriptContent = $"""
+                                    export let protoTypeDefinitions: string = `
+                                    {protoTypeContent}
+                                    `;
+                                    """;
+        string encoded = typescriptContent
+            .Replace("\"", "\\\"")
+            .Replace("\r\n", "\\r\\n")
+            .Replace("\n", "\\n");
+        StringBuilder logBuilder = new();
+        
+        string scriptPath = Path.Combine(corePath, "copyProtobuf.ps1");
+        
+        // write protobuf definitions to geoblazorProto.ts
+        ProcessHelper.RunPowerShellScript("Copy Protobuf Definitions",
+            corePath, scriptPath,
+            $"-Content \"{encoded}\"",
+            logBuilder, context.CancellationToken).GetAwaiter().GetResult();
+        
+        ProcessHelper.Log(nameof(CoreSourceGenerator),
+            logBuilder.ToString(), 
+            DiagnosticSeverity.Info,
+            context);
+        
+        ProcessHelper.Log(nameof(CoreSourceGenerator), 
+            $"Protobuf definitions updated successfully.", 
+            DiagnosticSeverity.Info,
+            context);
+    }
+    
+    private static string Generate(SourceProductionContext context,
         ImmutableArray<BaseTypeDeclarationSyntax> syntaxNodes)
     {
         try
@@ -22,15 +65,15 @@ public static class ProtobufDefinitionsGenerator
                 context);
 
             // Extract protobuf definitions from syntax nodes
-            var protoDefinitions = ExtractProtobufDefinitions(syntaxNodes, context);
+            ProtoDefinitions ??= ExtractProtobufDefinitions(syntaxNodes, context);
             
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-                $"Extracted {protoDefinitions.Count} Protobuf message definitions.",
+                $"Extracted {ProtoDefinitions.Count} Protobuf message definitions.",
                 DiagnosticSeverity.Info,
                 context);
 
             // Generate new proto file content
-            string newProtoContent = GenerateProtoFileContent(protoDefinitions);
+            string newProtoContent = GenerateProtoFileContent(ProtoDefinitions);
 
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
                 "Protobuf schema generation complete",
@@ -49,7 +92,7 @@ public static class ProtobufDefinitionsGenerator
         }
     }
 
-    private static Dictionary<string, ProtoMessageDefinition> ExtractProtobufDefinitions(
+    public static Dictionary<string, ProtoMessageDefinition> ExtractProtobufDefinitions(
         ImmutableArray<BaseTypeDeclarationSyntax> syntaxNodes, SourceProductionContext context)
     {
         var definitions = new Dictionary<string, ProtoMessageDefinition>();
@@ -105,6 +148,21 @@ public static class ProtobufDefinitionsGenerator
         var protoIncludeAttrs = syntaxNode.AttributeLists
             .SelectMany(al => al.Attributes)
             .Where(a => a.Name.ToString().Contains("ProtoInclude"));
+        
+        BaseTypeSyntax? baseType = syntaxNode.BaseList?.Types.FirstOrDefault();
+        bool geoBlazorTypeIsInterface = false;
+
+        if (!messageName.EndsWith("Collection") && baseType is not null)
+        {
+            string baseTypeName = baseType.Type.ToString();
+            int innerTypeIndex = baseTypeName.IndexOf("<", StringComparison.OrdinalIgnoreCase) + 1;
+            string geoBlazorTypeName = baseTypeName.Substring(innerTypeIndex, baseTypeName.Length - innerTypeIndex - 1);
+
+            if (geoBlazorTypeName[0] == 'I' && char.IsUpper(geoBlazorTypeName[1]))
+            {
+                geoBlazorTypeIsInterface = true;
+            }
+        }
 
         foreach (var includeAttr in protoIncludeAttrs)
         {
@@ -157,7 +215,8 @@ public static class ProtobufDefinitionsGenerator
         {
             Name = messageName,
             Fields = fields.OrderBy(f => f.Number).ToList(),
-            ProtoIncludes = protoIncludeFields.OrderBy(p => p.Tag).ToList()
+            ProtoIncludes = protoIncludeFields.OrderBy(p => p.Tag).ToList(),
+            GeoBlazorTypeIsInterface = geoBlazorTypeIsInterface
         };
     }
 
@@ -282,28 +341,30 @@ public static class ProtobufDefinitionsGenerator
         return sb.ToString();
     }
 
-    private static string ToLowerFirstChar(string val)
+    public static string ToLowerFirstChar(string val)
     {
         return char.ToLowerInvariant(val[0]) + val.Substring(1);
     }
+}
 
-    private class ProtoMessageDefinition
-    {
-        public string Name { get; set; } = string.Empty;
-        public List<ProtoFieldDefinition> Fields { get; set; } = new();
-        public List<ProtoIncludeDefinition> ProtoIncludes { get; set; } = new();
-    }
+public class ProtoMessageDefinition
+{
+    public string Name { get; set; } = string.Empty;
+    public List<ProtoFieldDefinition> Fields { get; set; } = new();
+    public List<ProtoIncludeDefinition> ProtoIncludes { get; set; } = new();
+    
+    public bool GeoBlazorTypeIsInterface { get; set; }
+}
 
-    private class ProtoFieldDefinition
-    {
-        public string Type { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public int Number { get; set; }
-    }
+public class ProtoFieldDefinition
+{
+    public string Type { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public int Number { get; set; }
+}
 
-    private class ProtoIncludeDefinition
-    {
-        public int Tag { get; set; }
-        public string TypeName { get; set; } = string.Empty;
-    }
+public class ProtoIncludeDefinition
+{
+    public int Tag { get; set; }
+    public string TypeName { get; set; } = string.Empty;
 }

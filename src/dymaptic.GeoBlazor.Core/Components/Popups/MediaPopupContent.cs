@@ -72,6 +72,7 @@ public partial class MediaPopupContent : PopupContent
     }
 
 
+    /// <inheritdoc />
     public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())

@@ -14,6 +14,7 @@ public partial class ExpressionPopupContent : PopupContent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElementExpressionInfo? ExpressionInfo { get; set; }
 
+    /// <inheritdoc />
     public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())

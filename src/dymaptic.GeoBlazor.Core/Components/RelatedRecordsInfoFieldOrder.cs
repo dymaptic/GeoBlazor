@@ -45,6 +45,7 @@ public class RelatedRecordsInfoFieldOrder : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public OrderBy? Order { get; set; }
 
+    /// <inheritdoc />
     public RelatedRecordsInfoFieldOrderSerializationRecord ToProtobuf()
     {
         return new RelatedRecordsInfoFieldOrderSerializationRecord(Field, Order?.ToString().ToKebabCase(), 

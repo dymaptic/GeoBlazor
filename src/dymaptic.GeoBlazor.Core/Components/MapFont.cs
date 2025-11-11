@@ -46,6 +46,7 @@ public partial class MapFont : MapComponent, IProtobufSerializable<MapFontSerial
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FontWeight? Weight { get; set; }
 
+    /// <inheritdoc />
     public MapFontSerializationRecord ToProtobuf()
     {
         return new MapFontSerializationRecord(Id.ToString(), Size?.Points, Family, Style?.ToString().ToKebabCase(), 

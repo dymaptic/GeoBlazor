@@ -10,7 +10,12 @@ namespace dymaptic.GeoBlazor.Core.Components;
 [CodeGenerationIgnore]
 public record MeshGeoreferencedVertexSpace(double[]? Origin) : IMeshVertexSpace
 {
+    /// <summary>
+    ///     The type of Vertex Space
+    /// </summary>
     public string Type => "georeferenced";
+    
+    /// <inheritdoc />
     public MeshVertexSpaceSerializationRecord ToProtobuf()
     {
         return new MeshVertexSpaceSerializationRecord(Type, Origin);

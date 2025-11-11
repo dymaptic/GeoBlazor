@@ -15,45 +15,41 @@ message ActionBase {
    bool value = 9;
    string actionId = 10;
    string test = 11;
+   bool isNull = 1000;
 }
 message ActionBaseCollection {
    repeated ActionBase items = 1;
+   bool isNull = 1000;
 }
 message Attribute {
    string key = 1;
    string value = 2;
    string valueType = 3;
+   bool isNull = 1000;
 }
 message AttributeCollection {
    repeated Attribute items = 1;
-}
-message ChartMediaInfoValue {
-   repeated string fields = 1;
-   string normalizeField = 2;
-   string tooltipField = 3;
-   repeated ChartMediaInfoValueSeries series = 4;
-   string linkURL = 5;
-   string sourceURL = 6;
-   string id = 7;
-}
-message ChartMediaInfoValueCollection {
-   repeated ChartMediaInfoValue items = 1;
+   bool isNull = 1000;
 }
 message ChartMediaInfoValueSeries {
    string fieldName = 1;
    string tooltip = 2;
    double value = 3;
    string id = 4;
+   bool isNull = 1000;
 }
 message ChartMediaInfoValueSeriesCollection {
    repeated ChartMediaInfoValueSeries items = 1;
+   bool isNull = 1000;
 }
 message ElementExpressionInfo {
    string expression = 1;
    string title = 2;
+   bool isNull = 1000;
 }
 message ElementExpressionInfoCollection {
    repeated ElementExpressionInfo items = 1;
+   bool isNull = 1000;
 }
 message FieldInfo {
    string fieldName = 1;
@@ -64,18 +60,22 @@ message FieldInfo {
    bool isEditable = 6;
    bool visible = 7;
    string id = 8;
+   bool isNull = 1000;
 }
 message FieldInfoCollection {
    repeated FieldInfo items = 1;
+   bool isNull = 1000;
 }
 message FieldInfoFormat {
    int32 places = 1;
    bool digitSeparator = 2;
    string dateFormat = 3;
    string id = 4;
+   bool isNull = 1000;
 }
 message FieldInfoFormatCollection {
    repeated FieldInfoFormat items = 1;
+   bool isNull = 1000;
 }
 message Geometry {
    string type = 1;
@@ -113,9 +113,11 @@ message Geometry {
    MeshTransform transform = 33;
    MeshVertexAttributes vertexAttributes = 34;
    MeshVertexSpace vertexSpace = 35;
+   bool isNull = 1000;
 }
 message GeometryCollection {
    repeated Geometry items = 1;
+   bool isNull = 1000;
 }
 message Graphic {
    string id = 1;
@@ -129,23 +131,39 @@ message Graphic {
    string layerId = 9;
    string viewId = 10;
    repeated Attribute stackedAttributes = 11;
+   bool isNull = 1000;
 }
 message GraphicCollection {
    repeated Graphic items = 1;
+   bool isNull = 1000;
 }
 message GraphicOrigin {
    string layerId = 1;
    string arcGISLayerId = 2;
    int32 layerIndex = 3;
+   bool isNull = 1000;
 }
 message GraphicOriginCollection {
    repeated GraphicOrigin items = 1;
+   bool isNull = 1000;
 }
 message ImageData {
+   bytes data = 1;
+   string colorSpace = 2;
+   int64 height = 3;
+   int64 width = 4;
+   bool isNull = 1000;
+}
+message ImageDataCollection {
+   bool isNull = 1000;
 }
 message MapColor {
    repeated double rgbaValues = 1 [ packed = false];
    string hexOrNameValue = 2;
+   bool isNull = 1000;
+}
+message MapColorCollection {
+   bool isNull = 1000;
 }
 message MapFont {
    double size = 1;
@@ -154,42 +172,66 @@ message MapFont {
    string weight = 4;
    string decoration = 5;
    string id = 6;
+   bool isNull = 1000;
 }
 message MapFontCollection {
    repeated MapFont items = 1;
+   bool isNull = 1000;
 }
 message MapPath {
    repeated MapPoint points = 1;
+   bool isNull = 1000;
 }
 message MapPathCollection {
    repeated MapPath items = 1;
+   bool isNull = 1000;
 }
 message MapPoint {
    repeated double coordinates = 1 [ packed = false];
+   bool isNull = 1000;
 }
 message MapPointCollection {
    repeated MapPoint items = 1;
+   bool isNull = 1000;
 }
 message MediaInfo {
    string type = 1;
    string altText = 2;
    string caption = 3;
    string title = 4;
-   ChartMediaInfoValue value = 5;
+   MediaInfoValue value = 5;
    double refreshInterval = 6;
    string id = 7;
+   bool isNull = 1000;
 }
 message MediaInfoCollection {
    repeated MediaInfo items = 1;
+   bool isNull = 1000;
+}
+message MediaInfoValue {
+   repeated string fields = 1;
+   string normalizeField = 2;
+   string tooltipField = 3;
+   repeated ChartMediaInfoValueSeries series = 4;
+   string linkURL = 5;
+   string sourceURL = 6;
+   string id = 7;
+   bool isNull = 1000;
+}
+message MediaInfoValueCollection {
+   repeated MediaInfoValue items = 1;
+   bool isNull = 1000;
 }
 message MeshComponent {
    bytes faces = 1;
    MeshComponentMaterial material = 2;
    string name = 3;
    string shading = 4;
+   bool isNull = 1000;
 }
 message MeshComponentCollection {
    repeated MeshComponent items = 1;
+   bool isNull = 1000;
 }
 message MeshComponentMaterial {
    double alphaCutoff = 1;
@@ -208,35 +250,43 @@ message MeshComponentMaterial {
    MeshTexture occlusionTexture = 14;
    MeshTextureTransform occlusionTextureTransform = 15;
    double roughness = 16;
+   bool isNull = 1000;
 }
 message MeshComponentMaterialCollection {
    repeated MeshComponentMaterial items = 1;
+   bool isNull = 1000;
 }
 message MeshTexture {
    ImageData imageData = 1;
    repeated string wrap = 2;
    bool transparent = 3;
    string url = 4;
+   bool isNull = 1000;
 }
 message MeshTextureCollection {
    repeated MeshTexture items = 1;
+   bool isNull = 1000;
 }
 message MeshTextureTransform {
    repeated double offset = 1 [ packed = false];
    double rotation = 2;
    repeated double scale = 3 [ packed = false];
+   bool isNull = 1000;
 }
 message MeshTextureTransformCollection {
    repeated MeshTextureTransform items = 1;
+   bool isNull = 1000;
 }
 message MeshTransform {
    double rotationAngle = 1;
    repeated double rotationAxis = 2 [ packed = false];
    repeated double scale = 3 [ packed = false];
    repeated double translation = 4 [ packed = false];
+   bool isNull = 1000;
 }
 message MeshTransformCollection {
    repeated MeshTransform items = 1;
+   bool isNull = 1000;
 }
 message MeshVertexAttributes {
    bytes color = 1;
@@ -244,16 +294,20 @@ message MeshVertexAttributes {
    repeated double position = 3 [ packed = false];
    repeated double tangent = 4 [ packed = false];
    repeated double uv = 5 [ packed = false];
+   bool isNull = 1000;
 }
 message MeshVertexAttributesCollection {
    repeated MeshVertexAttributes items = 1;
+   bool isNull = 1000;
 }
 message MeshVertexSpace {
    string type = 1;
    repeated double origin = 2 [ packed = false];
+   bool isNull = 1000;
 }
 message MeshVertexSpaceCollection {
    repeated MeshVertexSpace items = 1;
+   bool isNull = 1000;
 }
 message PopupContent {
    string type = 1;
@@ -270,9 +324,11 @@ message PopupContent {
    string text = 12;
    string id = 13;
    repeated string outFields = 14;
+   bool isNull = 1000;
 }
 message PopupContentCollection {
    repeated PopupContent items = 1;
+   bool isNull = 1000;
 }
 message PopupExpressionInfo {
    string expression = 1;
@@ -280,9 +336,11 @@ message PopupExpressionInfo {
    string title = 3;
    string returnType = 4;
    string id = 5;
+   bool isNull = 1000;
 }
 message PopupExpressionInfoCollection {
    repeated PopupExpressionInfo items = 1;
+   bool isNull = 1000;
 }
 message PopupTemplate {
    string title = 1;
@@ -295,22 +353,28 @@ message PopupTemplate {
    bool returnGeometry = 8;
    repeated ActionBase actions = 9;
    string id = 10;
+   bool isNull = 1000;
 }
 message PopupTemplateCollection {
    repeated PopupTemplate items = 1;
+   bool isNull = 1000;
 }
 message RelatedRecordsInfoFieldOrder {
+   bool isNull = 1000;
 }
 message RelatedRecordsInfoFieldOrderCollection {
    repeated RelatedRecordsInfoFieldOrder items = 1;
+   bool isNull = 1000;
 }
 message SpatialReference {
    int32 wkid = 1;
    string wkt = 2;
    string wkt2 = 3;
+   bool isNull = 1000;
 }
 message SpatialReferenceCollection {
    repeated SpatialReference items = 1;
+   bool isNull = 1000;
 }
 message Symbol {
    string type = 1;
@@ -345,18 +409,22 @@ message Symbol {
    string portalUrl = 30;
    string styleName = 31;
    string styleUrl = 32;
+   bool isNull = 1000;
 }
 message SymbolCollection {
    repeated Symbol items = 1;
+   bool isNull = 1000;
 }
 message ViewHit {
    string type = 1;
    Geometry mapPoint = 2;
    Graphic graphic = 3;
    string layerId = 4;
+   bool isNull = 1000;
 }
 message ViewHitCollection {
    repeated ViewHit items = 1;
+   bool isNull = 1000;
 }
 
 `;

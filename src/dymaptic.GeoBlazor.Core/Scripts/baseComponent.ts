@@ -4,7 +4,8 @@ import {buildEncodedJson, hasValue, loadProtobuf, protobufRoot, ProtoTypes} from
 // base class for components that need to invoke methods with serialized parameters
 export default class BaseComponent {
 
-    async invokeSerializedMethod(methodName: string, useStreams: boolean, ...parameters: any[]): Promise<any> {
+    async invokeSerializedMethod(methodName: string, useStreams: boolean, returnAsProtobuf: boolean, 
+                                 protoReturnType: string, ...parameters: any[]): Promise<any> {
         loadProtobuf();
         let methodParams: any[] = [];
         for (let i = 0; i < parameters.length; i += 2) {
@@ -19,6 +20,10 @@ export default class BaseComponent {
         }
         if (result instanceof Promise) {
             result = await result;
+        }
+        
+        if (returnAsProtobuf) {
+            return this.serializeProtobufReturnValue(result, protoReturnType);
         }
 
         if (useStreams) {
@@ -56,9 +61,9 @@ export default class BaseComponent {
         }
 
         let isArrayType = false;
-        if (paramType.startsWith('Array_')) {
+        if (paramType.endsWith('Collection')) {
             isArrayType = true;
-            paramType = paramType.replace("Array_", "");
+            paramType = paramType.replace("Collection", "");
         }
 
         // server is sending a stream, could be a protobuf or json stream
@@ -164,6 +169,46 @@ export default class BaseComponent {
             console.error(e);
             return null;
         }
+    }
+    
+    serializeProtobufReturnValue(returnValue: any, protoReturnType: string): Uint8Array {
+        if (!hasValue(returnValue)) {
+            protoReturnType = 'Null';
+        }
+        let isArrayType = false;
+        if (protoReturnType.endsWith('Collection')) {
+            isArrayType = true;
+            protoReturnType = protoReturnType.replace("Collection", "");
+        }
+
+        if (Object.hasOwn(ProtoTypes, protoReturnType)) {
+            try {
+                const protoType = ProtoTypes[protoReturnType];
+
+                if (isArrayType) {
+                    let collectionType = `${protoReturnType}Collection`;
+                    let ProtoCollectionType: any = ProtoTypes[collectionType];
+                    if (!ProtoCollectionType) {
+                        // create missing protobuf type for array of this type
+                        ProtoCollectionType = new Type(collectionType)
+                            .add(new Field('items', 1, protoType.name, 'repeated'));
+                        ProtoTypes[collectionType] = ProtoCollectionType;
+                        protobufRoot.nested.dymaptic.GeoBlazor.Core.add(ProtoCollectionType)
+                    }
+
+                    return ProtoCollectionType.encode({
+                        items: returnValue
+                    }).finish();
+                }
+
+                return protoType.encode(returnValue).finish();
+            } catch (e) {
+                console.error(e);
+                throw e;
+            }
+        }
+        
+        return buildEncodedJson(returnValue);
     }
 
     simpleDotNetTypes = ['int32', 'int64', 'long', 'decimal', 'double', 'single', 'float', 'int', 'bool',

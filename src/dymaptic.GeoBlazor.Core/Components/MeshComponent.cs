@@ -1,9 +1,10 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class MeshComponent: IProtobufSerializable<MeshComponentSerializationRecord>, IMeshComponent
+public partial class MeshComponent: IProtobufSerializable<MeshComponentSerializationRecord>
 {
    // Add custom code to this file to override generated code
-   public MeshComponentSerializationRecord ToProtobuf()
+   /// <inheritdoc />
+    public MeshComponentSerializationRecord ToProtobuf()
    {
        MeshComponentMaterialSerializationRecord? materialRecord = Material switch
        {

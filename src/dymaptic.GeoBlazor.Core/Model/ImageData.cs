@@ -17,15 +17,15 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The width of the image.
 /// </param>
 [ProtoContract]
-public record ImageData(
-    [property: ProtoMember(1)]
-    byte[] Data, 
-    [property: ProtoMember(2)]
-    string ColorSpace, 
-    [property: ProtoMember(3)]
-    long Height, 
-    [property: ProtoMember(4)]
-    long Width);
+public record ImageData(byte[] Data, string ColorSpace, long Height, long Width) 
+    : IProtobufSerializable<ImageDataSerializationRecord>
+{
+    /// <inheritdoc />
+    public ImageDataSerializationRecord ToProtobuf()
+    {
+        return new ImageDataSerializationRecord(Data, ColorSpace, Height, Width);
+    }
+}
 
 /// <summary>
 ///     Internal representation of a screenshot, for passing from JavaScript.
@@ -53,6 +53,7 @@ public record ScreenshotOptions
     ///     The quality (0 to 100) of the encoded image when encoding as jpg.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+ 
     public int? Quality { get; init; }
     
     /// <summary>

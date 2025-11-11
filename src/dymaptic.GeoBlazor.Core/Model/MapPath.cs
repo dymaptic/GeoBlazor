@@ -79,6 +79,7 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>, IProtobufSerializabl
 
         return newPath;
     }
+    /// <inheritdoc />
     public MapPathSerializationRecord ToProtobuf()
     {
         return new MapPathSerializationRecord(this.Select(p => p.ToProtobuf()).ToArray());
@@ -144,6 +145,7 @@ public class MapPoint : List<double>, IEquatable<MapPoint>, IProtobufSerializabl
         return new MapPoint(this);
     }
 
+    /// <inheritdoc />
     public MapPointSerializationRecord ToProtobuf()
     {
         return new MapPointSerializationRecord(ToArray());

@@ -22,6 +22,7 @@ public partial class PictureMarkerSymbol : MarkerSymbol
     public override SymbolType Type => SymbolType.PictureMarker;
 
 
+    /// <inheritdoc />
     public override SymbolSerializationRecord ToProtobuf()
     {
         return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), null)

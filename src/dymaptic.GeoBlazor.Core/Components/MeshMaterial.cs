@@ -4,11 +4,12 @@ public partial class MeshMaterial: MapComponent
 {
    // Add custom code to this file to override generated code
    
-   public virtual MeshComponentMaterialSerializationRecord ToProtobuf()
+   /// <inheritdoc />
+    public virtual MeshComponentMaterialSerializationRecord ToProtobuf()
    {
        return new MeshComponentMaterialSerializationRecord(AlphaCutoff,
            AlphaMode?.ToString().ToKebabCase(),
-           Color,
+           Color?.ToProtobuf(),
            ColorTexture?.ToProtobuf(),
            ColorTextureTransform?.ToProtobuf(),
            DoubleSided,

@@ -1,10 +1,13 @@
-﻿namespace dymaptic.GeoBlazor.Core.Model;
+﻿using System.Runtime.CompilerServices;
+
+
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.
 /// </summary>
 public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRuntime, 
-    JsModuleManager jsModuleManager, AuthenticationManager authenticationManager)
+    JsModuleManager jsModuleManager, AuthenticationManager authenticationManager, JsSyncManager jsSyncManager)
 {
     /// <summary>
     ///     The name of the logic component.
@@ -66,17 +69,21 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     /// <summary>
     ///     Convenience method to invoke a JS function from the .NET logic component class.
     /// </summary>
+    /// <param name="className">
+    ///     The name of the calling class.
+    /// </param>
     /// <param name="method">
     ///     The name of the JS function to call.
     /// </param>
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    internal virtual async Task InvokeVoidAsync(string method, params object?[] parameters)
+    internal virtual async Task InvokeVoidAsync(string className, [CallerMemberName] string method = "",
+        params object?[] parameters)
     {
         await Initialize();
-        
-        await Component!.InvokeVoidJsMethod(IsServer, method, CancellationToken.None, parameters);
+
+        await jsSyncManager.InvokeVoidJsMethod(Component!, IsServer, method, className, CancellationToken.None, parameters);
     }
 
     /// <summary>
@@ -85,19 +92,8 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     /// <param name="method">
     ///     The name of the JS function to call.
     /// </param>
-    /// <param name="parameters">
-    ///     The collection of parameters to pass to the JS call.
-    /// </param>
-    internal virtual Task<T> InvokeAsync<T>(string method, params object?[] parameters)
-    {
-        return InvokeAsync<T>(method, CancellationToken.None, parameters);
-    }
-    
-    /// <summary>
-    ///     Convenience method to invoke a JS function from the .NET logic component class.
-    /// </summary>
-    /// <param name="method">
-    ///     The name of the JS function to call.
+    /// <param name="className">
+    ///     The name of the calling class.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -105,11 +101,12 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    internal virtual async Task<T> InvokeAsync<T>(string method, CancellationToken cancellationToken, params object?[] parameters)
+    internal virtual async Task<T> InvokeAsync<T>(string className, [CallerMemberName]string method = "",
+        CancellationToken cancellationToken = default, params object?[] parameters)
     {
         await Initialize(cancellationToken);
         
-        return await Component!.InvokeJsMethod<T>(IsServer, method, cancellationToken, parameters);
+        return await jsSyncManager.InvokeJsMethod<T>(Component!, IsServer, method, className, cancellationToken, parameters);
     }
     
     private bool _validated;

@@ -15,19 +15,31 @@ public abstract record MapComponentSerializationRecord
     [ProtoIgnore]
     [JsonIgnore]
     public abstract Type CollectionType { get; }
+
+    [ProtoMember(1000)]
+    public abstract bool IsNull { get; init; }
+}
+
+public abstract record MapComponentSerializationRecord<T> : MapComponentSerializationRecord
+{
+    public abstract T? FromSerializationRecord();
 }
 
 [ProtoContract(Name = "MapComponentCollection")]
-public record MapComponentBaseCollectionSerializationRecord;
+public abstract record MapComponentBaseCollectionSerializationRecord
+{
+    [ProtoMember(1000)]
+    public abstract bool IsNull { get; init; }
+}
 
-public abstract record MapComponentCollectionSerializationRecord<TItem>: MapComponentBaseCollectionSerializationRecord
+public abstract record MapComponentCollectionSerializationRecord<TItem> : MapComponentBaseCollectionSerializationRecord
     where TItem : MapComponentSerializationRecord
 {
     public abstract TItem[]? Items { get; set; }
 }
 
 [ProtoContract(Name = "Geometry")]
-public record GeometrySerializationRecord : MapComponentSerializationRecord
+public record GeometrySerializationRecord : MapComponentSerializationRecord<Geometry>
 {
     public GeometrySerializationRecord()
     {
@@ -41,7 +53,7 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord
         this.Extent = Extent;
         this.SpatialReference = SpatialReference;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(GeometryCollectionSerializationRecord);
@@ -143,21 +155,29 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord
 
     [ProtoMember(31)]
     public bool? IsSimple { get; set; }
-    
+
     [ProtoMember(32)]
     public MeshComponentSerializationRecord[]? Components { get; set; }
-    
+
     [ProtoMember(33)]
     public MeshTransformSerializationRecord? Transform { get; set; }
-    
+
     [ProtoMember(34)]
     public MeshVertexAttributesSerializationRecord? VertexAttributes { get; set; }
-    
+
     [ProtoMember(35)]
     public MeshVertexSpaceSerializationRecord? VertexSpace { get; set; }
 
-    public Geometry FromSerializationRecord()
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override Geometry? FromSerializationRecord()
     {
+        if (IsNull)
+        {
+            return null;
+        }
+
         var extent = Extent?.FromSerializationRecord() as Extent;
         var id = Guid.NewGuid();
 
@@ -172,19 +192,36 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord
                 return new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(), HasM, HasZ,
                     M) { Extent = extent, Id = id };
             case "polyline":
-                return new Polyline(Paths!.Select(x => x.FromSerializationRecord()).ToArray(),
+                var paths = Paths?.Any(p => !p.IsNull) == true
+                    ? Paths.Select(x => x.FromSerializationRecord()!).ToArray()
+                    : null;
+
+                if (paths is null)
+                {
+                    return null;
+                }
+
+                return new Polyline(paths,
                     SpatialReference?.FromSerializationRecord(), HasM, HasZ)
                 {
                     Extent = extent, Id = id, IsSimple = IsSimple
                 };
             case "polygon":
-                return Center is not null && Radius is not null
-                    ? new Circle((Point)Center.FromSerializationRecord(), Radius.Value,
+                var rings = Rings?.Any(p => !p.IsNull) == true
+                    ? Rings.Select(x => x.FromSerializationRecord()!).ToArray()
+                    : null;
+
+                if (rings is null)
+                {
+                    return null;
+                }
+
+                return Center is not null && Radius is not null && !Center.IsNull
+                    ? new Circle((Point)Center.FromSerializationRecord()!, Radius.Value,
                         Centroid?.FromSerializationRecord() as Point, Geodesic, HasM, HasZ, NumberOfPoints,
-                        RadiusUnit is null ? null : Enum.Parse<RadiusUnit>(RadiusUnit),
-                        Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
+                        RadiusUnit is null ? null : Enum.Parse<RadiusUnit>(RadiusUnit), rings,
                         SpatialReference?.FromSerializationRecord()) { Extent = extent, Id = id, IsSimple = IsSimple }
-                    : new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
+                    : new Polygon(rings,
                         SpatialReference?.FromSerializationRecord(), Centroid?.FromSerializationRecord() as Point, HasM,
                         HasZ) { Extent = extent, Id = id, IsSimple = IsSimple };
             case "extent":
@@ -197,13 +234,15 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord
 
                 if (multipointType is not null && multipointType.IsSubclassOf(typeof(Geometry)))
                 {
-                    var points = Points?.Select(p =>
-                        {
-                            var mp = p.FromSerializationRecord();
+                    var points = Points?.Any(p => !p.IsNull) == true
+                        ? Points?.Select(p =>
+                            {
+                                var mp = p.FromSerializationRecord()!;
 
-                            return new Point(x: mp[0], y: mp[1]);
-                        })
-                        .ToArray();
+                                return new Point(x: mp[0], y: mp[1]);
+                            })
+                            .ToArray()
+                        : null;
 
                     if (Activator.CreateInstance(multipointType, HasM, HasZ, points,
                             SpatialReference?.FromSerializationRecord())
@@ -224,16 +263,16 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord
                 var meshType = System.Type.GetType("dymaptic.GeoBlazor.Pro.Components.Geometries.Mesh, " +
                     "dymaptic.GeoBlazor.Pro");
 
-                if (meshType is not null 
-                    && meshType.IsSubclassOf(typeof(Geometry)) 
+                if (meshType is not null
+                    && meshType.IsSubclassOf(typeof(Geometry))
                     && Activator.CreateInstance(meshType,
-                        Components?.Select(c => c.FromSerializationRecord()).ToArray(),
-                        HasM, HasZ,
-                        SpatialReference?.FromSerializationRecord(),
-                        Transform?.FromSerializationRecord(),
-                        VertexAttributes?.FromSerializationRecord(),
-                        VertexSpace?.FromSerializationRecord())
-                    is Geometry mesh)
+                            Components?.Select(c => c.FromSerializationRecord()).ToArray(),
+                            HasM, HasZ,
+                            SpatialReference?.FromSerializationRecord(),
+                            Transform?.FromSerializationRecord(),
+                            VertexAttributes?.FromSerializationRecord(),
+                            VertexSpace?.FromSerializationRecord())
+                        is Geometry mesh)
                 {
                     mesh.Extent = extent;
                     mesh.Id = id;
@@ -241,7 +280,7 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord
 
                     return mesh;
                 }
-                
+
                 throw new InvalidOperationException(
                     "Mesh could not be created. Ensure the type is correct and the assembly is loaded.");
             default:
@@ -251,7 +290,8 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord
 }
 
 [ProtoContract(Name = "GeometryCollection")]
-internal record GeometryCollectionSerializationRecord: MapComponentCollectionSerializationRecord<GeometrySerializationRecord>
+internal record
+    GeometryCollectionSerializationRecord : MapComponentCollectionSerializationRecord<GeometrySerializationRecord>
 {
     public GeometryCollectionSerializationRecord()
     {
@@ -264,28 +304,31 @@ internal record GeometryCollectionSerializationRecord: MapComponentCollectionSer
 
     [ProtoMember(1)]
     public sealed override GeometrySerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "PopupContent")]
-public record PopupContentSerializationRecord : MapComponentSerializationRecord
+public record PopupContentSerializationRecord : MapComponentSerializationRecord<PopupContent>
 {
     public PopupContentSerializationRecord()
     {
     }
-    
+
     public PopupContentSerializationRecord(string Id, string Type)
     {
         this.Type = Type;
         this.Id = Id;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(PopupContentCollectionSerializationRecord);
 
     [ProtoMember(1)]
     public string Type { get; init; } = string.Empty;
-    
+
     [ProtoMember(2)]
     public string? Description { get; init; }
 
@@ -318,18 +361,26 @@ public record PopupContentSerializationRecord : MapComponentSerializationRecord
 
     [ProtoMember(12)]
     public string? Text { get; init; }
-    
+
     [ProtoMember(13)]
     public string? Id { get; set; }
-    
+
     [ProtoMember(14)]
     public string[]? OutFields { get; init; }
 
-    public PopupContent FromSerializationRecord()
-    {
-        Guid id = Guid.NewGuid();
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 
-        if (Guid.TryParse(Id, out Guid guidId))
+    public override PopupContent? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guidId))
         {
             id = guidId;
         }
@@ -337,39 +388,44 @@ public record PopupContentSerializationRecord : MapComponentSerializationRecord
         if (Type == "custom")
         {
             // CustomPopupContent is in GeoBlazor Pro assembly, so we need to use reflection to get the type
-            Type? customType = System.Type.GetType("dymaptic.GeoBlazor.Pro.Components.Popups.CustomPopupContent, dymaptic.GeoBlazor.Pro");
+            var customType =
+                System.Type.GetType(
+                    "dymaptic.GeoBlazor.Pro.Components.Popups.CustomPopupContent, dymaptic.GeoBlazor.Pro");
 
             if (customType is not null && customType.IsSubclassOf(typeof(PopupContent)))
             {
-                PopupContent? customContent = Activator.CreateInstance(customType, args: [null, OutFields]) as PopupContent;
+                var customContent = Activator.CreateInstance(customType, [null, OutFields]) as PopupContent;
 
                 if (customContent is null)
                 {
-                    throw new InvalidOperationException("CustomPopupContent could not be created. Ensure the type is correct and the assembly is loaded.");
+                    throw new InvalidOperationException(
+                        "CustomPopupContent could not be created. Ensure the type is correct and the assembly is loaded.");
                 }
+
                 customContent.Id = id;
 
                 return customContent;
             }
         }
-        
+
         return Type switch
         {
-            "fields" => new FieldsPopupContent(FieldInfos?.Select(i => 
-                    i.FromSerializationRecord()).ToArray() ?? [],
+            "fields" => new FieldsPopupContent(FieldInfos?.Any(i => !i.IsNull) == true
+                    ? FieldInfos.Select(i => i.FromSerializationRecord()!).ToArray()
+                    : [],
                 Description, Title) { Id = id },
-            "text" => new TextPopupContent(Text){ Id = id },
-            "attachments" => new AttachmentsPopupContent(Title, Description, 
-                DisplayType is null ? null : Enum.Parse<AttachmentsPopupContentDisplayType>(DisplayType))
-            {
-                Id = id
-            },
+            "text" => new TextPopupContent(Text) { Id = id },
+            "attachments" => new AttachmentsPopupContent(Title, Description,
+                DisplayType is null ? null : Enum.Parse<AttachmentsPopupContentDisplayType>(DisplayType)) { Id = id },
             "expression" => new ExpressionPopupContent(ExpressionInfo?.FromSerializationRecord()) { Id = id },
-            "media" => new MediaPopupContent(Title, Description,
-                MediaInfos?.Select(i => i.FromSerializationRecord()).ToArray(),
+            "media" => new MediaPopupContent(Title, Description, MediaInfos?.Any(i => !i.IsNull) == true
+                    ? MediaInfos.Select(i => i.FromSerializationRecord()!).ToArray()
+                    : null,
                 ActiveMediaInfoIndex) { Id = id },
             "relationship" => new RelationshipPopupContent(Title, Description, DisplayCount,
-                DisplayType, OrderByFields?.Select(x => x.FromSerializationRecord()).ToList(),
+                DisplayType, OrderByFields?.Any(f => !f.IsNull) == true
+                    ? OrderByFields.Select(x => x.FromSerializationRecord()!).ToList()
+                    : null,
                 RelationshipId) { Id = id },
             _ => throw new NotSupportedException($"PopupContent type {Type} is not supported")
         };
@@ -377,7 +433,9 @@ public record PopupContentSerializationRecord : MapComponentSerializationRecord
 }
 
 [ProtoContract(Name = "PopupContentCollection")]
-internal record PopupContentCollectionSerializationRecord: MapComponentCollectionSerializationRecord<PopupContentSerializationRecord>
+internal record
+    PopupContentCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    PopupContentSerializationRecord>
 {
     public PopupContentCollectionSerializationRecord()
     {
@@ -390,16 +448,19 @@ internal record PopupContentCollectionSerializationRecord: MapComponentCollectio
 
     [ProtoMember(1)]
     public sealed override PopupContentSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "PopupExpressionInfo")]
-public record PopupExpressionInfoSerializationRecord : MapComponentSerializationRecord
+public record PopupExpressionInfoSerializationRecord : MapComponentSerializationRecord<PopupExpressionInfo>
 {
     public PopupExpressionInfoSerializationRecord()
     {
     }
 
-    public PopupExpressionInfoSerializationRecord(string Id, string? Expression, string? Name, string? Title, 
+    public PopupExpressionInfoSerializationRecord(string Id, string? Expression, string? Name, string? Title,
         PopupExpressionInfoReturnType? ReturnType)
     {
         this.Id = Id;
@@ -408,24 +469,10 @@ public record PopupExpressionInfoSerializationRecord : MapComponentSerialization
         this.Title = Title;
         this.ReturnType = ReturnType.ToString();
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(PopupExpressionInfoCollectionSerializationRecord);
-
-    public PopupExpressionInfo FromSerializationRecord()
-    {
-        Guid id = Guid.NewGuid();
-
-        if (Guid.TryParse(Id, out Guid guid))
-        {
-            id = guid;
-        }
-        
-        return new PopupExpressionInfo(Expression, Name, 
-            ReturnType is null ? null : Enum.Parse<PopupExpressionInfoReturnType>(ReturnType),
-            Title) { Id = id };
-    }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
@@ -442,13 +489,37 @@ public record PopupExpressionInfoSerializationRecord : MapComponentSerialization
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
     public string? ReturnType { get; init; }
-    
+
     [ProtoMember(5)]
     public string? Id { get; init; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override PopupExpressionInfo? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guid))
+        {
+            id = guid;
+        }
+
+        return new PopupExpressionInfo(Expression, Name,
+            ReturnType is null ? null : Enum.Parse<PopupExpressionInfoReturnType>(ReturnType),
+            Title) { Id = id };
+    }
 }
 
 [ProtoContract(Name = "PopupExpressionInfoCollection")]
-internal record PopupExpressionInfoCollectionSerializationRecord: MapComponentCollectionSerializationRecord<PopupExpressionInfoSerializationRecord>
+internal record
+    PopupExpressionInfoCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    PopupExpressionInfoSerializationRecord>
 {
     public PopupExpressionInfoCollectionSerializationRecord()
     {
@@ -461,15 +532,18 @@ internal record PopupExpressionInfoCollectionSerializationRecord: MapComponentCo
 
     [ProtoMember(1)]
     public sealed override PopupExpressionInfoSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "PopupTemplate")]
-public record PopupTemplateSerializationRecord : MapComponentSerializationRecord
+public record PopupTemplateSerializationRecord : MapComponentSerializationRecord<PopupTemplate>
 {
     public PopupTemplateSerializationRecord()
     {
     }
-    
+
     public PopupTemplateSerializationRecord(string? Title,
         string? StringContent = null,
         IEnumerable<string>? OutFields = null,
@@ -492,64 +566,82 @@ public record PopupTemplateSerializationRecord : MapComponentSerializationRecord
         this.Actions = Actions;
         this.Id = Id;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(PopupTemplateCollectionSerializationRecord);
 
-    public PopupTemplate FromSerializationRecord()
-    {
-        return new PopupTemplate(Title, StringContent, OutFields?.ToList(),
-            FieldInfos?.Select(f => f.FromSerializationRecord()).ToList(),
-            Content?.Select(c => c.FromSerializationRecord()).ToList(),
-            ExpressionInfos?.Select(e => e.FromSerializationRecord()).ToList(), 
-            OverwriteActions, ReturnGeometry, 
-            Actions?.Select(a => a.FromSerializationRecord()).ToList());
-    }
-
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public string? Title { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? StringContent { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public IEnumerable<string>? OutFields { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
     public IEnumerable<FieldInfoSerializationRecord>? FieldInfos { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(5)]
     public IEnumerable<PopupContentSerializationRecord>? Content { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public IEnumerable<PopupExpressionInfoSerializationRecord>? ExpressionInfos { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(7)]
     public bool? OverwriteActions { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(8)]
     public bool? ReturnGeometry { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(9)]
     public IEnumerable<ActionBaseSerializationRecord>? Actions { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(10)]
     public string? Id { get; init; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override PopupTemplate? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        return new PopupTemplate(Title, StringContent, OutFields?.ToList(),
+            FieldInfos?.Any(i => !i.IsNull) == true
+                ? FieldInfos.Select(f => f.FromSerializationRecord()!).ToList()
+                : null,
+            Content?.Any(c => !c.IsNull) == true
+                ? Content.Select(c => c.FromSerializationRecord()!).ToList()
+                : null,
+            ExpressionInfos?.Any(i => i.IsNull) == true
+                ? ExpressionInfos.Select(e => e.FromSerializationRecord()!).ToList()
+                : null,
+            OverwriteActions, ReturnGeometry,
+            Actions?.Any(a => !a.IsNull) == true
+                ? Actions?.Select(a => a.FromSerializationRecord()!).ToList()
+                : null);
+    }
 }
 
 [ProtoContract(Name = "PopupTemplateCollection")]
-internal record PopupTemplateCollectionSerializationRecord: MapComponentCollectionSerializationRecord<PopupTemplateSerializationRecord>
+internal record
+    PopupTemplateCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    PopupTemplateSerializationRecord>
 {
     public PopupTemplateCollectionSerializationRecord()
     {
@@ -562,35 +654,38 @@ internal record PopupTemplateCollectionSerializationRecord: MapComponentCollecti
 
     [ProtoMember(1)]
     public sealed override PopupTemplateSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "Symbol")]
-public record SymbolSerializationRecord : MapComponentSerializationRecord
+public record SymbolSerializationRecord : MapComponentSerializationRecord<Symbol>
 {
     public SymbolSerializationRecord()
     {
     }
-    
+
     public SymbolSerializationRecord(string Id,
         string Type,
-        MapColor? Color)
+        MapColorSerializationRecord? Color)
     {
         this.Id = Id;
         this.Type = Type;
         this.Color = Color;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(SymbolCollectionSerializationRecord);
 
     [ProtoMember(1)]
     public string Type { get; init; } = string.Empty;
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
-    public MapColor? Color { get; init; }
-    
+    public MapColorSerializationRecord? Color { get; init; }
+
     [ProtoMember(3)]
     public SymbolSerializationRecord? Outline { get; init; }
 
@@ -619,7 +714,7 @@ public record SymbolSerializationRecord : MapComponentSerializationRecord
     public string? Text { get; init; }
 
     [ProtoMember(12)]
-    public MapColor? HaloColor { get; init; }
+    public MapColorSerializationRecord? HaloColor { get; init; }
 
     [ProtoMember(13)]
     public double? HaloSize { get; init; }
@@ -632,59 +727,73 @@ public record SymbolSerializationRecord : MapComponentSerializationRecord
 
     [ProtoMember(16)]
     public string? Url { get; init; }
-    
+
     [ProtoMember(17)]
-    public MapColor? BackgroundColor { get; init; }
-    
+    public MapColorSerializationRecord? BackgroundColor { get; init; }
+
     [ProtoMember(18)]
     public double? BorderLineSize { get; init; }
-    
+
     [ProtoMember(19)]
-    public MapColor? BorderLineColor { get; init; }
-    
+    public MapColorSerializationRecord? BorderLineColor { get; init; }
+
     [ProtoMember(20)]
     public string? HorizontalAlignment { get; init; }
-    
+
     [ProtoMember(21)]
     public bool? Kerning { get; init; }
-    
+
     [ProtoMember(22)]
     public double? LineHeight { get; init; }
-    
+
     [ProtoMember(23)]
     public double? LineWidth { get; init; }
-    
+
     [ProtoMember(24)]
     public bool? Rotated { get; init; }
-    
+
     [ProtoMember(25)]
     public string? VerticalAlignment { get; init; }
-    
+
     [ProtoMember(26)]
     public double? XScale { get; init; }
-    
+
     [ProtoMember(27)]
     public double? YScale { get; init; }
-    
+
     [ProtoMember(28)]
     public string? Id { get; init; }
-    
+
     [ProtoMember(29)]
     public string? Name { get; init; }
-    
+
     [ProtoMember(30)]
     public string? PortalUrl { get; init; }
-    
+
     [ProtoMember(31)]
     public string? StyleName { get; init; }
-    
+
     [ProtoMember(32)]
     public string? StyleUrl { get; init; }
 
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override Symbol? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        return FromSerializationRecord();
+    }
+
     public Symbol FromSerializationRecord(bool isOutline = false)
     {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guidId))
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guidId))
         {
             id = guidId;
         }
@@ -692,51 +801,48 @@ public record SymbolSerializationRecord : MapComponentSerializationRecord
         if (Type == "web-style")
         {
             // WebStyleSymbol is in GeoBlazor Pro assembly, so we need to use reflection to get the type
-            Type? webStyleSymbolType = System.Type
+            var webStyleSymbolType = System.Type
                 .GetType("dymaptic.GeoBlazor.Pro.Components.Symbols.WebStyleSymbol, dymaptic.GeoBlazor.Pro");
 
             if (webStyleSymbolType is not null)
             {
-                Portal? portal = PortalUrl is null ? null : new Portal(url: PortalUrl);
-                Symbol webStyleSymbol = Activator.CreateInstance(webStyleSymbolType, Color, Name, portal, StyleName, StyleUrl) as Symbol
+                var portal = PortalUrl is null ? null : new Portal(url: PortalUrl);
+
+                var webStyleSymbol = Activator.CreateInstance(webStyleSymbolType, Color?.FromSerializationRecord(),
+                        Name, portal, StyleName, StyleUrl) as Symbol
                     ?? throw new InvalidOperationException("Failed to create WebStyleSymbol instance.");
                 webStyleSymbol.Id = id;
+
                 return webStyleSymbol;
             }
         }
-        
+
         return Type switch
         {
-            "outline" => new Outline(Color, Width, 
-                LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
-            {
-                Id = id
-            },
-            "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, Size, 
-                Style is null ? null : Enum.Parse<SimpleMarkerSymbolStyle>(Style!, true), Angle, Xoffset, Yoffset)
-            {
-                Id = id
-            },
-            "simple-line" => isOutline 
-                ? new Outline(Color, Width, 
-                    LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
-                {
-                    Id = id
-                }
-                : new SimpleLineSymbol(Color, Width, 
-                    LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
-                {
-                    Id = id
-                },
-            "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, 
+            "outline" => new Outline(Color?.FromSerializationRecord(), Width,
+                LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)) { Id = id },
+            "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord(true) as Outline,
+                Color?.FromSerializationRecord(), Size,
+                Style is null ? null : Enum.Parse<SimpleMarkerSymbolStyle>(Style!, true),
+                Angle, Xoffset, Yoffset) { Id = id },
+            "simple-line" => isOutline
+                ? new Outline(Color?.FromSerializationRecord(), Width,
+                    LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)) { Id = id }
+                : new SimpleLineSymbol(Color?.FromSerializationRecord(), Width,
+                    LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)) { Id = id },
+            "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord(true) as Outline,
+                Color?.FromSerializationRecord(),
                 Style is null ? null : Enum.Parse<SimpleFillSymbolStyle>(Style!, true)) { Id = id },
             "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, Xoffset, Yoffset) { Id = id },
-            "picture-fill" => new PictureFillSymbol(Url!, Width, Height, Xoffset, Yoffset, XScale, YScale, 
+            "picture-fill" => new PictureFillSymbol(Url!, Width, Height, Xoffset, Yoffset, XScale, YScale,
                 Outline?.FromSerializationRecord(true) as Outline) { Id = id },
-            "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
-                Font?.FromSerializationRecord(), Angle, BackgroundColor, BorderLineColor,
-                BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!, true),
-                Kerning, LineHeight, LineWidth, Rotated, 
+            "text" => new TextSymbol(Text ?? string.Empty, Color?.FromSerializationRecord(),
+                HaloColor?.FromSerializationRecord(), HaloSize,
+                Font?.FromSerializationRecord(), Angle, BackgroundColor?.FromSerializationRecord(),
+                BorderLineColor?.FromSerializationRecord(),
+                BorderLineSize,
+                HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!, true),
+                Kerning, LineHeight, LineWidth, Rotated,
                 VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!, true),
                 Xoffset, Yoffset) { Id = id },
             _ => throw new ArgumentException($"Unknown symbol type: {Type}")
@@ -745,7 +851,8 @@ public record SymbolSerializationRecord : MapComponentSerializationRecord
 }
 
 [ProtoContract(Name = "SymbolCollection")]
-internal record SymbolCollectionSerializationRecord: MapComponentCollectionSerializationRecord<SymbolSerializationRecord>
+internal record
+    SymbolCollectionSerializationRecord : MapComponentCollectionSerializationRecord<SymbolSerializationRecord>
 {
     public SymbolCollectionSerializationRecord()
     {
@@ -758,15 +865,77 @@ internal record SymbolCollectionSerializationRecord: MapComponentCollectionSeria
 
     [ProtoMember(1)]
     public sealed override SymbolSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+}
+
+[ProtoContract(Name = "MapColor")]
+public record MapColorSerializationRecord : MapComponentSerializationRecord<MapColor>
+{
+    public MapColorSerializationRecord()
+    {
+    }
+
+    public MapColorSerializationRecord(double[]? rgbaValues, string? hexOrNameValue)
+    {
+        RgbaValues = rgbaValues;
+        HexOrNameValue = hexOrNameValue;
+    }
+
+    [ProtoMember(1)]
+    public double[]? RgbaValues { get; init; }
+
+    [ProtoMember(2)]
+    public string? HexOrNameValue { get; init; }
+    public override Type CollectionType => typeof(MapColorCollectionSerializationRecord);
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MapColor? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        if (HexOrNameValue is not null)
+        {
+            return new MapColor(HexOrNameValue);
+        }
+
+        if (RgbaValues is not null)
+        {
+            return new MapColor(RgbaValues);
+        }
+
+        return new MapColor();
+    }
+}
+
+[ProtoContract(Name = "MapColorCollection")]
+public record MapColorCollectionSerializationRecord
+    : MapComponentCollectionSerializationRecord<MapColorSerializationRecord>
+{
+    public MapColorCollectionSerializationRecord(MapColorSerializationRecord[] items)
+    {
+        Items = items;
+    }
+    
+    public sealed override MapColorSerializationRecord[]? Items { get; set; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "ActionBase")]
-public record ActionBaseSerializationRecord : MapComponentSerializationRecord
+public record ActionBaseSerializationRecord : MapComponentSerializationRecord<ActionBase>
 {
     public ActionBaseSerializationRecord()
     {
     }
-    
+
     public ActionBaseSerializationRecord(string Id,
         string Type,
         string? Title,
@@ -785,7 +954,7 @@ public record ActionBaseSerializationRecord : MapComponentSerializationRecord
         this.Visible = Visible;
         this.ActionId = ActionId;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(ActionBaseCollectionSerializationRecord);
@@ -793,67 +962,74 @@ public record ActionBaseSerializationRecord : MapComponentSerializationRecord
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public string Type { get; init; } = string.Empty;
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? Title { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public string? ClassName { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
     public bool? Active { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(5)]
     public bool? Disabled { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public bool? Visible { get; init; }
-    
+
     [ProtoMember(7)]
     public string? Id { get; init; }
-    
+
     [ProtoMember(8)]
     public string? Image { get; init; }
 
     [ProtoMember(9)]
     public bool? Value { get; init; }
-    
+
     [ProtoMember(10)]
     public string? ActionId { get; init; }
-    
+
     [ProtoMember(11)]
     public string? Test { get; init; }
 
-    public ActionBase FromSerializationRecord()
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override ActionBase? FromSerializationRecord()
     {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guidId))
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guidId))
         {
             id = guidId;
         }
-        
+
         return Type switch
         {
             "button" => new ActionButton(Title, Image, ActionId, null, ClassName, Active, Disabled, Visible)
             {
                 Id = id
             },
-            "toggle" => new ActionToggle(Title, ActionId, null, Value, Active, Disabled, Visible)
-            {
-                Id = id
-            },
+            "toggle" => new ActionToggle(Title, ActionId, null, Value, Active, Disabled, Visible) { Id = id },
             _ => throw new NotSupportedException()
         };
     }
 }
 
 [ProtoContract(Name = "ActionBaseCollection")]
-internal record ActionBaseCollectionSerializationRecord: MapComponentCollectionSerializationRecord<ActionBaseSerializationRecord>
+internal record
+    ActionBaseCollectionSerializationRecord : MapComponentCollectionSerializationRecord<ActionBaseSerializationRecord>
 {
     public ActionBaseCollectionSerializationRecord()
     {
@@ -866,18 +1042,21 @@ internal record ActionBaseCollectionSerializationRecord: MapComponentCollectionS
 
     [ProtoMember(1)]
     public sealed override ActionBaseSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
-[ProtoContract(Name = "ChartMediaInfoValue")]
-public record ChartMediaInfoValueSerializationRecord : MapComponentSerializationRecord
+[ProtoContract(Name = "MediaInfoValue")]
+public record MediaInfoValueSerializationRecord : MapComponentSerializationRecord<IMediaInfoValue>
 {
-    public ChartMediaInfoValueSerializationRecord()
+    public MediaInfoValueSerializationRecord()
     {
     }
 
-    public ChartMediaInfoValueSerializationRecord(string Id, IEnumerable<string>? Fields = null, 
-        string? NormalizeField = null, string? TooltipField = null, 
-        IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series = null, string? LinkURL = null, 
+    public MediaInfoValueSerializationRecord(string Id, IEnumerable<string>? Fields = null,
+        string? NormalizeField = null, string? TooltipField = null,
+        IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series = null, string? LinkURL = null,
         string? SourceURL = null)
     {
         this.Id = Id;
@@ -888,30 +1067,10 @@ public record ChartMediaInfoValueSerializationRecord : MapComponentSerialization
         this.LinkURL = LinkURL;
         this.SourceURL = SourceURL;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
-    public override Type CollectionType => typeof(ChartMediaInfoValueCollectionSerializationRecord);
-
-    public object FromSerializationRecord()
-    {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guid))
-        {
-            id = guid;
-        }
-        
-        if (LinkURL is not null || SourceURL is not null)
-        {
-            return new ImageMediaInfoValue(LinkURL, SourceURL) { Id = id };
-        }
-
-        return new ChartMediaInfoValue(Fields?.ToArray(), NormalizeField, TooltipField, 
-            Series?.Select(s => s.FromSerializationRecord()).ToArray())
-        {
-            Id = id
-        };
-    }
+    public override Type CollectionType => typeof(MediaInfoValueCollectionSerializationRecord);
 
     [ProtoMember(1)]
     public IEnumerable<string>? Fields { get; init; }
@@ -935,29 +1094,62 @@ public record ChartMediaInfoValueSerializationRecord : MapComponentSerialization
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public string? SourceURL { get; init; }
-    
+
     [ProtoMember(7)]
     public string? Id { get; init; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override IMediaInfoValue? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guid))
+        {
+            id = guid;
+        }
+
+        if (LinkURL is not null || SourceURL is not null)
+        {
+            return new ImageMediaInfoValue(LinkURL, SourceURL) { Id = id };
+        }
+
+        return new ChartMediaInfoValue(Fields?.ToArray(), NormalizeField, TooltipField,
+            Series?.Any(s => !s.IsNull) == true
+                ? Series.Select(s => s.FromSerializationRecord()!).ToArray()
+                : null) { Id = id };
+    }
 }
 
-[ProtoContract(Name = "ChartMediaInfoValueCollection")]
-internal record ChartMediaInfoValueCollectionSerializationRecord: MapComponentCollectionSerializationRecord<ChartMediaInfoValueSerializationRecord>
+[ProtoContract(Name = "MediaInfoValueCollection")]
+internal record
+    MediaInfoValueCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    MediaInfoValueSerializationRecord>
 {
-    public ChartMediaInfoValueCollectionSerializationRecord()
+    public MediaInfoValueCollectionSerializationRecord()
     {
     }
 
-    public ChartMediaInfoValueCollectionSerializationRecord(ChartMediaInfoValueSerializationRecord[] items)
+    public MediaInfoValueCollectionSerializationRecord(MediaInfoValueSerializationRecord[] items)
     {
         Items = items;
     }
 
     [ProtoMember(1)]
-    public sealed override ChartMediaInfoValueSerializationRecord[]? Items { get; set; } = [];
+    public sealed override MediaInfoValueSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "ChartMediaInfoValueSeries")]
-public record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSerializationRecord
+public record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSerializationRecord<ChartMediaInfoValueSeries>
 {
     public ChartMediaInfoValueSeriesSerializationRecord()
     {
@@ -970,20 +1162,10 @@ public record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSeriali
         this.Tooltip = Tooltip;
         this.Value = Value;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(ChartMediaInfoValueSeriesCollectionSerializationRecord);
-
-    public ChartMediaInfoValueSeries FromSerializationRecord()
-    {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guid))
-        {
-            id = guid;
-        }
-        return new ChartMediaInfoValueSeries(FieldName, Tooltip, Value) { Id = id };
-    }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
@@ -996,13 +1178,34 @@ public record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSeriali
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public double? Value { get; init; }
-    
+
     [ProtoMember(4)]
     public string? Id { get; init; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override ChartMediaInfoValueSeries? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guid))
+        {
+            id = guid;
+        }
+
+        return new ChartMediaInfoValueSeries(FieldName, Tooltip, Value) { Id = id };
+    }
 }
 
 [ProtoContract(Name = "ChartMediaInfoValueSeriesCollection")]
-internal record ChartMediaInfoValueSeriesCollectionSerializationRecord: MapComponentCollectionSerializationRecord<ChartMediaInfoValueSeriesSerializationRecord>
+internal record ChartMediaInfoValueSeriesCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    ChartMediaInfoValueSeriesSerializationRecord>
 {
     public ChartMediaInfoValueSeriesCollectionSerializationRecord()
     {
@@ -1015,39 +1218,52 @@ internal record ChartMediaInfoValueSeriesCollectionSerializationRecord: MapCompo
 
     [ProtoMember(1)]
     public sealed override ChartMediaInfoValueSeriesSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "ElementExpressionInfo")]
-public record ElementExpressionInfoSerializationRecord: MapComponentSerializationRecord
+public record ElementExpressionInfoSerializationRecord : MapComponentSerializationRecord<ElementExpressionInfo>
 {
     public ElementExpressionInfoSerializationRecord()
     {
     }
-    
+
     public ElementExpressionInfoSerializationRecord(string? expression, string? title)
     {
         Expression = expression;
         Title = title;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(ElementExpressionInfoCollectionSerializationRecord);
-    
+
     [ProtoMember(1)]
     public string? Expression { get; init; }
-    
+
     [ProtoMember(2)]
     public string? Title { get; init; }
-    
-    public ElementExpressionInfo FromSerializationRecord()
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override ElementExpressionInfo? FromSerializationRecord()
     {
+        if (IsNull)
+        {
+            return null;
+        }
+
         return new ElementExpressionInfo(Expression, Title);
     }
 }
 
 [ProtoContract(Name = "ElementExpressionInfoCollection")]
-internal record ElementExpressionInfoCollectionSerializationRecord: MapComponentCollectionSerializationRecord<ElementExpressionInfoSerializationRecord>
+internal record
+    ElementExpressionInfoCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    ElementExpressionInfoSerializationRecord>
 {
     public ElementExpressionInfoCollectionSerializationRecord()
     {
@@ -1060,17 +1276,20 @@ internal record ElementExpressionInfoCollectionSerializationRecord: MapComponent
 
     [ProtoMember(1)]
     public sealed override ElementExpressionInfoSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "FieldInfo")]
-public record FieldInfoSerializationRecord : MapComponentSerializationRecord
+public record FieldInfoSerializationRecord : MapComponentSerializationRecord<FieldInfo>
 {
     public FieldInfoSerializationRecord()
     {
     }
 
-    public FieldInfoSerializationRecord(string Id, string? FieldName = null, string? Label = null, 
-        string? Tooltip = null, string? StringFieldOption = null, FieldInfoFormatSerializationRecord? Format = null, 
+    public FieldInfoSerializationRecord(string Id, string? FieldName = null, string? Label = null,
+        string? Tooltip = null, string? StringFieldOption = null, FieldInfoFormatSerializationRecord? Format = null,
         bool? IsEditable = null, bool? Visible = null)
     {
         this.Id = Id;
@@ -1082,30 +1301,10 @@ public record FieldInfoSerializationRecord : MapComponentSerializationRecord
         this.IsEditable = IsEditable;
         this.Visible = Visible;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(FieldInfoCollectionSerializationRecord);
-
-    public FieldInfo FromSerializationRecord()
-    {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guid))
-        {
-            id = guid;
-        }
-        StringFieldOption? sfo = StringFieldOption switch
-        {
-            "rich-text" => Enums.StringFieldOption.RichText,
-            "text-area" => Enums.StringFieldOption.TextArea,
-            "text-box" => Enums.StringFieldOption.TextBox,
-            _ => null
-        };
-        return new FieldInfo(FieldName, Label, Tooltip, sfo, Format?.FromSerializationRecord(), IsEditable, Visible)
-        {
-            Id = id
-        };
-    }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
@@ -1137,10 +1336,42 @@ public record FieldInfoSerializationRecord : MapComponentSerializationRecord
 
     [ProtoMember(8)]
     public string? Id { get; init; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override FieldInfo? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guid))
+        {
+            id = guid;
+        }
+
+        StringFieldOption? sfo = StringFieldOption switch
+        {
+            "rich-text" => Enums.StringFieldOption.RichText,
+            "text-area" => Enums.StringFieldOption.TextArea,
+            "text-box" => Enums.StringFieldOption.TextBox,
+            _ => null
+        };
+
+        return new FieldInfo(FieldName, Label, Tooltip, sfo, Format?.FromSerializationRecord(), IsEditable, Visible)
+        {
+            Id = id
+        };
+    }
 }
 
 [ProtoContract(Name = "FieldInfoCollection")]
-internal record FieldInfoCollectionSerializationRecord: MapComponentCollectionSerializationRecord<FieldInfoSerializationRecord>
+internal record
+    FieldInfoCollectionSerializationRecord : MapComponentCollectionSerializationRecord<FieldInfoSerializationRecord>
 {
     public FieldInfoCollectionSerializationRecord()
     {
@@ -1153,15 +1384,18 @@ internal record FieldInfoCollectionSerializationRecord: MapComponentCollectionSe
 
     [ProtoMember(1)]
     public sealed override FieldInfoSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "FieldInfoFormat")]
-public record FieldInfoFormatSerializationRecord : MapComponentSerializationRecord
+public record FieldInfoFormatSerializationRecord : MapComponentSerializationRecord<FieldInfoFormat>
 {
     public FieldInfoFormatSerializationRecord()
     {
     }
-    
+
     public FieldInfoFormatSerializationRecord(string Id,
         int? Places,
         bool? DigitSeparator,
@@ -1172,18 +1406,41 @@ public record FieldInfoFormatSerializationRecord : MapComponentSerializationReco
         this.DigitSeparator = DigitSeparator;
         this.DateFormat = DateFormat;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(FieldInfoFormatCollectionSerializationRecord);
 
-    public FieldInfoFormat FromSerializationRecord()
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
+    public int? Places { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public bool? DigitSeparator { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public string? DateFormat { get; init; }
+
+    [ProtoMember(4)]
+    public string? Id { get; init; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override FieldInfoFormat? FromSerializationRecord()
     {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guidId))
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guidId))
         {
             id = guidId;
         }
+
         DateFormat? df = DateFormat switch
         {
             "short-date" => Enums.DateFormat.ShortDate,
@@ -1216,25 +1473,15 @@ public record FieldInfoFormatSerializationRecord : MapComponentSerializationReco
             "year" => Enums.DateFormat.Year,
             _ => null
         };
+
         return new FieldInfoFormat(Places, DigitSeparator, df) { Id = id };
     }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(1)]
-    public int? Places { get; init; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(2)]
-    public bool? DigitSeparator { get; init; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(3)]
-    public string? DateFormat { get; init; }
-    
-    [ProtoMember(4)]
-    public string? Id { get; init; }
 }
 
 [ProtoContract(Name = "FieldInfoFormatCollection")]
-internal record FieldInfoFormatCollectionSerializationRecord: MapComponentCollectionSerializationRecord<FieldInfoFormatSerializationRecord>
+internal record
+    FieldInfoFormatCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    FieldInfoFormatSerializationRecord>
 {
     public FieldInfoFormatCollectionSerializationRecord()
     {
@@ -1247,17 +1494,20 @@ internal record FieldInfoFormatCollectionSerializationRecord: MapComponentCollec
 
     [ProtoMember(1)]
     public sealed override FieldInfoFormatSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "Graphic")]
-public record GraphicSerializationRecord : MapComponentSerializationRecord
+public record GraphicSerializationRecord : MapComponentSerializationRecord<Graphic>
 {
     public GraphicSerializationRecord()
     {
     }
 
-    public GraphicSerializationRecord(string Id, GeometrySerializationRecord? Geometry, 
-        SymbolSerializationRecord? Symbol, PopupTemplateSerializationRecord? PopupTemplate, 
+    public GraphicSerializationRecord(string Id, GeometrySerializationRecord? Geometry,
+        SymbolSerializationRecord? Symbol, PopupTemplateSerializationRecord? PopupTemplate,
         AttributeSerializationRecord[]? Attributes, bool? Visible, string? AggregateGeometries,
         GraphicOriginSerializationRecord? Origin, string? LayerId, string? ViewId)
     {
@@ -1272,43 +1522,10 @@ public record GraphicSerializationRecord : MapComponentSerializationRecord
         this.LayerId = LayerId;
         this.ViewId = ViewId;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(GraphicCollectionSerializationRecord);
-
-    public Graphic FromSerializationRecord()
-    {
-        if (!Guid.TryParse(Id, out Guid graphicId))
-        {
-            graphicId = Guid.NewGuid();
-        }
-
-        Guid? layerId = null;
-
-        if (Guid.TryParse(LayerId, out Guid existingLayerId))
-        {
-            layerId = existingLayerId;
-        }
-
-        Guid? viewId = null;
-        
-        if (Guid.TryParse(ViewId, out Guid existingViewId))
-        {
-            viewId = existingViewId;
-        }
-
-        return new Graphic(Geometry?.FromSerializationRecord(), Symbol?.FromSerializationRecord(), 
-            PopupTemplate?.FromSerializationRecord(), new AttributesDictionary(Attributes),
-            Visible, null, AggregateGeometries, Origin?.FromSerializationRecord())
-        {
-            Id = graphicId,
-#pragma warning disable BL0005
-            LayerId = layerId,
-#pragma warning restore BL0005
-            ViewId = viewId
-        };
-    }
 
     [ProtoMember(1)]
     public string? Id { get; set; } = string.Empty;
@@ -1328,34 +1545,76 @@ public record GraphicSerializationRecord : MapComponentSerializationRecord
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(5)]
     public AttributeSerializationRecord[]? Attributes { get; set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public bool? Visible { get; set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(7)]
     public string? AggregateGeometries { get; set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(8)]
     public GraphicOriginSerializationRecord? Origin { get; set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(9)]
     public string? LayerId { get; set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(10)]
     public string? ViewId { get; set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(11)]
     public AttributeSerializationRecord[]? StackedAttributes { get; set; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override Graphic? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        if (!Guid.TryParse(Id, out var graphicId))
+        {
+            graphicId = Guid.NewGuid();
+        }
+
+        Guid? layerId = null;
+
+        if (Guid.TryParse(LayerId, out var existingLayerId))
+        {
+            layerId = existingLayerId;
+        }
+
+        Guid? viewId = null;
+
+        if (Guid.TryParse(ViewId, out var existingViewId))
+        {
+            viewId = existingViewId;
+        }
+
+        return new Graphic(Geometry?.FromSerializationRecord(), Symbol?.FromSerializationRecord(),
+            PopupTemplate?.FromSerializationRecord(), new AttributesDictionary(Attributes),
+            Visible, null, AggregateGeometries, Origin?.FromSerializationRecord())
+        {
+            Id = graphicId,
+#pragma warning disable BL0005
+            LayerId = layerId,
+#pragma warning restore BL0005
+            ViewId = viewId
+        };
+    }
 }
 
 [ProtoContract(Name = "GraphicCollection")]
-internal record GraphicCollectionSerializationRecord: MapComponentCollectionSerializationRecord<GraphicSerializationRecord>
+internal record
+    GraphicCollectionSerializationRecord : MapComponentCollectionSerializationRecord<GraphicSerializationRecord>
 {
     public GraphicCollectionSerializationRecord()
     {
@@ -1365,19 +1624,22 @@ internal record GraphicCollectionSerializationRecord: MapComponentCollectionSeri
     {
         Items = items;
     }
-    
+
     [ProtoMember(1)]
     public sealed override GraphicSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
-[ProtoContract(Name="MapFont")]
-public record MapFontSerializationRecord: MapComponentSerializationRecord
+[ProtoContract(Name = "MapFont")]
+public record MapFontSerializationRecord : MapComponentSerializationRecord<MapFont>
 {
     public MapFontSerializationRecord()
     {
     }
 
-    public MapFontSerializationRecord(string Id, double? Size, string? Family, string? FontStyle, string? Weight, 
+    public MapFontSerializationRecord(string Id, double? Size, string? Family, string? FontStyle, string? Weight,
         string? Decoration)
     {
         this.Id = Id;
@@ -1387,7 +1649,7 @@ public record MapFontSerializationRecord: MapComponentSerializationRecord
         this.Weight = Weight;
         this.Decoration = Decoration;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MapFontCollectionSerializationRecord);
@@ -1406,25 +1668,36 @@ public record MapFontSerializationRecord: MapComponentSerializationRecord
 
     [ProtoMember(5)]
     public string? Decoration { get; init; }
-    
+
     [ProtoMember(6)]
     public string? Id { get; init; }
 
-    public MapFont FromSerializationRecord()
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MapFont? FromSerializationRecord()
     {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guid))
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guid))
         {
             id = guid;
         }
-        return new MapFont(Size, Family, FontStyle is null ? null : Enum.Parse<MapFontStyle>(FontStyle), 
-            Weight is null ? null : Enum.Parse<FontWeight>(Weight), 
+
+        return new MapFont(Size, Family, FontStyle is null ? null : Enum.Parse<MapFontStyle>(FontStyle),
+            Weight is null ? null : Enum.Parse<FontWeight>(Weight),
             Decoration is null ? null : Enum.Parse<TextDecoration>(Decoration)) { Id = id };
     }
 }
 
 [ProtoContract(Name = "MapFontCollection")]
-internal record MapFontCollectionSerializationRecord: MapComponentCollectionSerializationRecord<MapFontSerializationRecord>
+internal record
+    MapFontCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MapFontSerializationRecord>
 {
     public MapFontCollectionSerializationRecord()
     {
@@ -1437,28 +1710,31 @@ internal record MapFontCollectionSerializationRecord: MapComponentCollectionSeri
 
     [ProtoMember(1)]
     public sealed override MapFontSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MediaInfo")]
-public record MediaInfoSerializationRecord : MapComponentSerializationRecord
+public record MediaInfoSerializationRecord : MapComponentSerializationRecord<MediaInfo>
 {
     public MediaInfoSerializationRecord()
     {
     }
-    
+
     public MediaInfoSerializationRecord(string Id, string Type)
     {
         this.Id = Id;
         this.Type = Type;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MediaInfoCollectionSerializationRecord);
 
     [ProtoMember(1)]
     public string Type { get; init; } = string.Empty;
-    
+
     [ProtoMember(2)]
     public string? AltText { get; init; }
 
@@ -1469,21 +1745,31 @@ public record MediaInfoSerializationRecord : MapComponentSerializationRecord
     public string? Title { get; init; }
 
     [ProtoMember(5)]
-    public ChartMediaInfoValueSerializationRecord? Value { get; init; }
+    public MediaInfoValueSerializationRecord? Value { get; init; }
 
     [ProtoMember(6)]
     public double? RefreshInterval { get; init; }
-    
+
     [ProtoMember(7)]
     public string? Id { get; init; }
 
-    public MediaInfo FromSerializationRecord()
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MediaInfo? FromSerializationRecord()
     {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guid))
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guid))
         {
             id = guid;
         }
+
         return Type switch
         {
             "bar-chart" => new BarChartMediaInfo(Title, Caption, AltText,
@@ -1503,7 +1789,8 @@ public record MediaInfoSerializationRecord : MapComponentSerializationRecord
 }
 
 [ProtoContract(Name = "MediaInfoCollection")]
-internal record MediaInfoCollectionSerializationRecord: MapComponentCollectionSerializationRecord<MediaInfoSerializationRecord>
+internal record
+    MediaInfoCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MediaInfoSerializationRecord>
 {
     public MediaInfoCollectionSerializationRecord()
     {
@@ -1516,13 +1803,16 @@ internal record MediaInfoCollectionSerializationRecord: MapComponentCollectionSe
 
     [ProtoMember(1)]
     public sealed override MediaInfoSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "RelatedRecordsInfoFieldOrder")]
 public record RelatedRecordsInfoFieldOrderSerializationRecord(
     [property: ProtoMember(1)] string? Field,
     [property: ProtoMember(2)] string? Order,
-    [property: ProtoMember(3)] string Id) : MapComponentSerializationRecord
+    [property: ProtoMember(3)] string Id) : MapComponentSerializationRecord<RelatedRecordsInfoFieldOrder>
 {
     public RelatedRecordsInfoFieldOrderSerializationRecord() : this(null, null, Guid.NewGuid().ToString())
     {
@@ -1532,38 +1822,52 @@ public record RelatedRecordsInfoFieldOrderSerializationRecord(
     [JsonIgnore]
     public override Type CollectionType => typeof(RelatedRecordsInfoFieldOrderCollectionSerializationRecord);
 
-    public RelatedRecordsInfoFieldOrder FromSerializationRecord()
-    {
-        Guid id = Guid.NewGuid();
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 
-        if (Guid.TryParse(Id, out Guid guid))
+    public override RelatedRecordsInfoFieldOrder? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        var id = Guid.NewGuid();
+
+        if (Guid.TryParse(Id, out var guid))
         {
             id = guid;
         }
-        
+
         OrderBy? orderBy = Order is null ? null : Enum.Parse<OrderBy>(Order!, true);
+
         return new RelatedRecordsInfoFieldOrder(Field, orderBy) { Id = id };
     }
 }
 
 [ProtoContract(Name = "RelatedRecordsInfoFieldOrderCollection")]
-internal record RelatedRecordsInfoFieldOrderCollectionSerializationRecord: MapComponentCollectionSerializationRecord<RelatedRecordsInfoFieldOrderSerializationRecord>
+internal record RelatedRecordsInfoFieldOrderCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    RelatedRecordsInfoFieldOrderSerializationRecord>
 {
     public RelatedRecordsInfoFieldOrderCollectionSerializationRecord()
     {
     }
 
-    public RelatedRecordsInfoFieldOrderCollectionSerializationRecord(RelatedRecordsInfoFieldOrderSerializationRecord[] items)
+    public RelatedRecordsInfoFieldOrderCollectionSerializationRecord(
+        RelatedRecordsInfoFieldOrderSerializationRecord[] items)
     {
         Items = items;
     }
 
     [ProtoMember(1)]
     public sealed override RelatedRecordsInfoFieldOrderSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "SpatialReference")]
-public record SpatialReferenceSerializationRecord : MapComponentSerializationRecord
+public record SpatialReferenceSerializationRecord : MapComponentSerializationRecord<SpatialReference>
 {
     public SpatialReferenceSerializationRecord()
     {
@@ -1575,15 +1879,10 @@ public record SpatialReferenceSerializationRecord : MapComponentSerializationRec
         this.Wkt = Wkt;
         this.Wkt2 = Wkt2;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(SpatialReferenceCollectionSerializationRecord);
-
-    public SpatialReference FromSerializationRecord()
-    {
-        return new SpatialReference(Wkid ?? 4326, wkt: Wkt, wkt2: Wkt2);
-    }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
@@ -1592,14 +1891,29 @@ public record SpatialReferenceSerializationRecord : MapComponentSerializationRec
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? Wkt { get; init; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public string? Wkt2 { get; init; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override SpatialReference? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        return new SpatialReference(Wkid ?? 4326, wkt: Wkt, wkt2: Wkt2);
+    }
 }
 
 [ProtoContract(Name = "SpatialReferenceCollection")]
-internal record SpatialReferenceCollectionSerializationRecord: MapComponentCollectionSerializationRecord<SpatialReferenceSerializationRecord>
+internal record
+    SpatialReferenceCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    SpatialReferenceSerializationRecord>
 {
     public SpatialReferenceCollectionSerializationRecord()
     {
@@ -1612,6 +1926,9 @@ internal record SpatialReferenceCollectionSerializationRecord: MapComponentColle
 
     [ProtoMember(1)]
     public sealed override SpatialReferenceSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "Attribute")]
@@ -1620,7 +1937,7 @@ public record AttributeSerializationRecord : MapComponentSerializationRecord
     public AttributeSerializationRecord()
     {
     }
-    
+
     public AttributeSerializationRecord(string Key,
         string? Value,
         string ValueType)
@@ -1629,7 +1946,7 @@ public record AttributeSerializationRecord : MapComponentSerializationRecord
         this.Value = Value;
         this.ValueType = ValueType;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(AttributeCollectionSerializationRecord);
@@ -1640,10 +1957,113 @@ public record AttributeSerializationRecord : MapComponentSerializationRecord
     public string? Value { get; init; }
     [ProtoMember(3)]
     public string ValueType { get; init; } = string.Empty;
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public (string Key, object? Value) FromSerializationRecord()
+    {
+        if (Value is null)
+        {
+            return (Key, Value);
+        }
+
+        if (string.Equals("OBJECTID", Key, StringComparison.OrdinalIgnoreCase))
+        {
+            if (long.TryParse(Value, NumberStyles.None, CultureInfo.InvariantCulture, out var numVal))
+            {
+                return (Key, new ObjectId(numVal));
+            }
+
+            return (Key, new ObjectId(Value));
+        }
+
+        switch (ValueType)
+        {
+            case "System.Int32":
+            case "integer":
+                return (Key, int.Parse(Value!, CultureInfo.InvariantCulture));
+
+            case "System.Int16":
+            case "small-integer":
+                return (Key, short.Parse(Value!, CultureInfo.InvariantCulture));
+
+            case "System.Int64":
+            case "big-integer":
+                return (Key, long.Parse(Value!, CultureInfo.InvariantCulture));
+
+            case "System.Single":
+            case "single":
+                return (Key, float.Parse(Value!, CultureInfo.InvariantCulture));
+
+            case "System.Double":
+            case "double":
+                return (Key, double.Parse(Value!, CultureInfo.InvariantCulture));
+
+            case "[object Number]":
+                if (int.TryParse(Value, NumberStyles.None, CultureInfo.InvariantCulture, out var intVal))
+                {
+                    return (Key, intVal);
+                }
+
+                if (long.TryParse(Value, NumberStyles.None, CultureInfo.InvariantCulture, out var longVal))
+                {
+                    return (Key, longVal);
+                }
+
+                if (double.TryParse(Value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
+                    out var doubleVal))
+                {
+                    return (Key, doubleVal);
+                }
+
+                return (Key, Value);
+            case "System.Boolean":
+            case "[object Boolean]":
+                return (Key, bool.Parse(Value!));
+
+            case "guid":
+                return (Key, Guid.Parse(Value!));
+
+            case "System.DateTime":
+            case "date":
+            case "timestamp-offset":
+            case "[object Date]":
+                // Date is serialized in ArcGIS as a long unix timestamp, so we check for this first.
+                if (long.TryParse(Value, out var unixTimestamp))
+                {
+                    return (Key, DateTimeOffset.FromUnixTimeMilliseconds(unixTimestamp).DateTime);
+                }
+
+                return (Key, DateTime.Parse(Value!, CultureInfo.InvariantCulture));
+
+            case "System.DateOnly":
+            case "date-only":
+                return (Key, DateOnly.Parse(Value!, CultureInfo.InvariantCulture));
+
+            case "System.TimeOnly":
+            case "time-only":
+                return (Key, TimeOnly.Parse(Value!, CultureInfo.InvariantCulture));
+
+            default:
+                if (Guid.TryParse(Value, out var guidValue))
+                {
+                    return (Key, guidValue);
+                }
+
+                if (DateTime.TryParse(Value, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateValue))
+                {
+                    return (Key, dateValue);
+                }
+
+                return (Key, Value);
+        }
+    }
 }
 
 [ProtoContract(Name = "AttributeCollection")]
-public record AttributeCollectionSerializationRecord: MapComponentCollectionSerializationRecord<AttributeSerializationRecord>
+public record
+    AttributeCollectionSerializationRecord : MapComponentCollectionSerializationRecord<AttributeSerializationRecord>
 {
     public AttributeCollectionSerializationRecord()
     {
@@ -1656,10 +2076,13 @@ public record AttributeCollectionSerializationRecord: MapComponentCollectionSeri
 
     [ProtoMember(1)]
     public sealed override AttributeSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "GraphicOrigin")]
-public record GraphicOriginSerializationRecord : MapComponentSerializationRecord
+public record GraphicOriginSerializationRecord : MapComponentSerializationRecord<GraphicOrigin>
 {
     public GraphicOriginSerializationRecord()
     {
@@ -1671,16 +2094,10 @@ public record GraphicOriginSerializationRecord : MapComponentSerializationRecord
         this.ArcGISLayerId = ArcGISLayerId;
         this.LayerIndex = LayerIndex;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(GraphicOriginCollectionSerializationRecord);
-
-    public GraphicOrigin FromSerializationRecord()
-    {
-        return new GraphicOrigin(LayerId is null ? null : Guid.Parse(LayerId),
-            ArcGISLayerId, LayerIndex);
-    }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
@@ -1693,10 +2110,26 @@ public record GraphicOriginSerializationRecord : MapComponentSerializationRecord
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public int? LayerIndex { get; init; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override GraphicOrigin? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        return new GraphicOrigin(LayerId is null ? null : Guid.Parse(LayerId),
+            ArcGISLayerId, LayerIndex);
+    }
 }
 
 [ProtoContract(Name = "GraphicOriginCollection")]
-internal record GraphicOriginCollectionSerializationRecord: MapComponentCollectionSerializationRecord<GraphicOriginSerializationRecord>
+internal record
+    GraphicOriginCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    GraphicOriginSerializationRecord>
 {
     public GraphicOriginCollectionSerializationRecord()
     {
@@ -1709,35 +2142,47 @@ internal record GraphicOriginCollectionSerializationRecord: MapComponentCollecti
 
     [ProtoMember(1)]
     public sealed override GraphicOriginSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MapPath")]
-public record MapPathSerializationRecord: MapComponentSerializationRecord
+public record MapPathSerializationRecord : MapComponentSerializationRecord<MapPath>
 {
     public MapPathSerializationRecord()
     {
     }
-    
+
     public MapPathSerializationRecord(MapPointSerializationRecord[] Points)
     {
         this.Points = Points;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MapPathCollectionSerializationRecord);
 
-    public MapPath FromSerializationRecord()
-    {
-        return new MapPath(Points.Select(p => p.FromSerializationRecord()));
-    }
-
     [ProtoMember(1)]
-    public MapPointSerializationRecord[] Points { get; init; } = []; 
+    public MapPointSerializationRecord[] Points { get; init; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MapPath? FromSerializationRecord()
+    {
+        if (IsNull || (Points.Length == 0) || Points.Any(p => p.IsNull))
+        {
+            return null;
+        }
+
+        return new MapPath(Points.Select(p => p.FromSerializationRecord()!));
+    }
 }
 
 [ProtoContract(Name = "MapPathCollection")]
-internal record MapPathCollectionSerializationRecord: MapComponentCollectionSerializationRecord<MapPathSerializationRecord>
+internal record
+    MapPathCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MapPathSerializationRecord>
 {
     public MapPathCollectionSerializationRecord()
     {
@@ -1750,35 +2195,47 @@ internal record MapPathCollectionSerializationRecord: MapComponentCollectionSeri
 
     [ProtoMember(1)]
     public sealed override MapPathSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MapPoint")]
-public record MapPointSerializationRecord: MapComponentSerializationRecord
+public record MapPointSerializationRecord : MapComponentSerializationRecord<MapPoint>
 {
     public MapPointSerializationRecord()
     {
     }
-    
+
     public MapPointSerializationRecord(double[] Coordinates)
     {
         this.Coordinates = Coordinates;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MapPointCollectionSerializationRecord);
 
-    public MapPoint FromSerializationRecord()
-    {
-        return new MapPoint(Coordinates);
-    }
-
     [ProtoMember(1)]
     public double[] Coordinates { get; init; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MapPoint? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        return new MapPoint(Coordinates);
+    }
 }
 
 [ProtoContract(Name = "MapPointCollection")]
-internal record MapPointCollectionSerializationRecord: MapComponentCollectionSerializationRecord<MapPointSerializationRecord>
+internal record
+    MapPointCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MapPointSerializationRecord>
 {
     public MapPointCollectionSerializationRecord()
     {
@@ -1791,10 +2248,13 @@ internal record MapPointCollectionSerializationRecord: MapComponentCollectionSer
 
     [ProtoMember(1)]
     public sealed override MapPointSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MeshComponent")]
-public record MeshComponentSerializationRecord: MapComponentSerializationRecord
+public record MeshComponentSerializationRecord : MapComponentSerializationRecord<MeshComponent>
 {
     public MeshComponentSerializationRecord()
     {
@@ -1810,25 +2270,33 @@ public record MeshComponentSerializationRecord: MapComponentSerializationRecord
         Name = name;
         Shading = shading;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MeshComponentCollectionSerializationRecord);
 
     [ProtoMember(1)]
     public byte[]? Faces { get; init; }
-    
+
     [ProtoMember(2)]
     public MeshComponentMaterialSerializationRecord? Material { get; init; }
-    
+
     [ProtoMember(3)]
     public string? Name { get; init; }
-    
+
     [ProtoMember(4)]
     public string? Shading { get; init; }
-    
-    public IMeshComponent FromSerializationRecord()
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MeshComponent? FromSerializationRecord()
     {
+        if (IsNull)
+        {
+            return null;
+        }
+
         return new MeshComponent(Faces,
             Material?.FromSerializationRecord(),
             Name,
@@ -1841,12 +2309,20 @@ internal record
     MeshComponentCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
     MeshComponentSerializationRecord>
 {
+    public MeshComponentCollectionSerializationRecord(MeshComponentSerializationRecord[] items)
+    {
+        Items = items;
+    }
+    
     [ProtoMember(1)]
     public sealed override MeshComponentSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MeshComponentMaterial")]
-public record MeshComponentMaterialSerializationRecord : MapComponentSerializationRecord
+public record MeshComponentMaterialSerializationRecord : MapComponentSerializationRecord<IMeshComponentMaterial>
 {
     public MeshComponentMaterialSerializationRecord()
     {
@@ -1854,13 +2330,13 @@ public record MeshComponentMaterialSerializationRecord : MapComponentSerializati
 
     public MeshComponentMaterialSerializationRecord(double? alphaCutoff,
         string? alphaMode,
-        MapColor? color,
+        MapColorSerializationRecord? color,
         MeshTextureSerializationRecord? colorTexture,
         MeshTextureTransformSerializationRecord? colorTextureTransform,
         bool? doubleSided,
         MeshTextureSerializationRecord? normalTexture,
         MeshTextureTransformSerializationRecord? normalTextureTransform,
-        MapColor? emissiveColor,
+        MapColorSerializationRecord? emissiveColor,
         MeshTextureSerializationRecord? emissiveTexture,
         MeshTextureTransformSerializationRecord? emissiveTextureTransform,
         double? metallic,
@@ -1868,7 +2344,7 @@ public record MeshComponentMaterialSerializationRecord : MapComponentSerializati
         MeshTextureSerializationRecord? occlusionTexture,
         MeshTextureTransformSerializationRecord? occlusionTextureTransform,
         double? roughness)
-    {        
+    {
         AlphaCutoff = alphaCutoff;
         AlphaMode = alphaMode;
         Color = color;
@@ -1886,73 +2362,81 @@ public record MeshComponentMaterialSerializationRecord : MapComponentSerializati
         OcclusionTextureTransform = occlusionTextureTransform;
         Roughness = roughness;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MeshComponentMaterialCollectionSerializationRecord);
 
     [ProtoMember(1)]
     public double? AlphaCutoff { get; init; }
-    
+
     [ProtoMember(2)]
     public string? AlphaMode { get; init; }
-    
+
     [ProtoMember(3)]
-    public MapColor? Color { get; init; }
-    
+    public MapColorSerializationRecord? Color { get; init; }
+
     [ProtoMember(4)]
     public MeshTextureSerializationRecord? ColorTexture { get; init; }
-    
+
     [ProtoMember(5)]
     public MeshTextureTransformSerializationRecord? ColorTextureTransform { get; init; }
-    
+
     [ProtoMember(6)]
     public bool? DoubleSided { get; init; }
-    
+
     [ProtoMember(7)]
     public MeshTextureSerializationRecord? NormalTexture { get; init; }
-    
+
     [ProtoMember(8)]
     public MeshTextureTransformSerializationRecord? NormalTextureTransform { get; init; }
 
     [ProtoMember(9)]
-    public MapColor? EmissiveColor { get; init; }
-    
+    public MapColorSerializationRecord? EmissiveColor { get; init; }
+
     [ProtoMember(10)]
     public MeshTextureSerializationRecord? EmissiveTexture { get; init; }
-    
+
     [ProtoMember(11)]
     public MeshTextureTransformSerializationRecord? EmissiveTextureTransform { get; init; }
-    
+
     [ProtoMember(12)]
     public double? Metallic { get; init; }
-    
+
     [ProtoMember(13)]
     public MeshTextureSerializationRecord? MetallicRoughnessTexture { get; init; }
 
     [ProtoMember(14)]
     public MeshTextureSerializationRecord? OcclusionTexture { get; init; }
-    
+
     [ProtoMember(15)]
     public MeshTextureTransformSerializationRecord? OcclusionTextureTransform { get; init; }
-    
+
     [ProtoMember(16)]
     public double? Roughness { get; init; }
 
-    public IMeshComponentMaterial FromSerializationRecord()
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override IMeshComponentMaterial? FromSerializationRecord()
     {
-        if (EmissiveColor != null || EmissiveTexture != null
-            || EmissiveTextureTransform != null || Metallic != null
-            || MetallicRoughnessTexture != null || OcclusionTexture != null
-            || OcclusionTextureTransform != null || Roughness != null)
+        if (IsNull)
+        {
+            return null;
+        }
+
+        if ((EmissiveColor != null) || (EmissiveTexture != null)
+            || (EmissiveTextureTransform != null) || (Metallic != null)
+            || (MetallicRoughnessTexture != null) || (OcclusionTexture != null)
+            || (OcclusionTextureTransform != null) || (Roughness != null))
         {
             return new MeshMaterialMetallicRoughness(AlphaCutoff,
                 AlphaMode is null ? null : Enum.Parse<AlphaMode>(AlphaMode),
-                Color,
+                Color?.FromSerializationRecord(),
                 ColorTexture?.FromSerializationRecord(),
                 ColorTextureTransform?.FromSerializationRecord(),
                 DoubleSided,
-                EmissiveColor,
+                EmissiveColor?.FromSerializationRecord(),
                 EmissiveTexture?.FromSerializationRecord(),
                 EmissiveTextureTransform?.FromSerializationRecord(),
                 Metallic,
@@ -1963,10 +2447,10 @@ public record MeshComponentMaterialSerializationRecord : MapComponentSerializati
                 OcclusionTextureTransform?.FromSerializationRecord(),
                 Roughness);
         }
-        
-        return new MeshMaterial(AlphaCutoff, 
-            AlphaMode is null ? null : Enum.Parse<AlphaMode>(AlphaMode), 
-            Color,
+
+        return new MeshMaterial(AlphaCutoff,
+            AlphaMode is null ? null : Enum.Parse<AlphaMode>(AlphaMode),
+            Color?.FromSerializationRecord(),
             ColorTexture?.FromSerializationRecord(),
             ColorTextureTransform?.FromSerializationRecord(),
             DoubleSided,
@@ -1976,25 +2460,30 @@ public record MeshComponentMaterialSerializationRecord : MapComponentSerializati
 }
 
 [ProtoContract(Name = "MeshComponentMaterialCollection")]
-internal record MeshComponentMaterialCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MeshComponentMaterialSerializationRecord>
+internal record
+    MeshComponentMaterialCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    MeshComponentMaterialSerializationRecord>
 {
-    public MeshComponentMaterialCollectionSerializationRecord (MeshComponentMaterialSerializationRecord[] items)
+    public MeshComponentMaterialCollectionSerializationRecord(MeshComponentMaterialSerializationRecord[] items)
     {
         Items = items;
     }
 
     [ProtoMember(1)]
     public sealed override MeshComponentMaterialSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MeshTexture")]
-public record MeshTextureSerializationRecord : MapComponentSerializationRecord
+public record MeshTextureSerializationRecord : MapComponentSerializationRecord<MeshTexture>
 {
     public MeshTextureSerializationRecord()
     {
     }
 
-    public MeshTextureSerializationRecord(ImageData? imageData,
+    public MeshTextureSerializationRecord(ImageDataSerializationRecord? imageData,
         string?[]? wrap,
         bool? transparent,
         string? url)
@@ -2004,61 +2493,136 @@ public record MeshTextureSerializationRecord : MapComponentSerializationRecord
         Transparent = transparent;
         Url = url;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MeshTextureCollectionSerializationRecord);
 
     [ProtoMember(1)]
-    public ImageData? ImageData { get; init; }
-    
+    public ImageDataSerializationRecord? ImageData { get; init; }
+
     [ProtoMember(2)]
     public string?[]? Wrap { get; init; }
-    
+
     [ProtoMember(3)]
     public bool? Transparent { get; init; }
-    
+
     [ProtoMember(4)]
     public string? Url { get; init; }
-    
-    public MeshTexture FromSerializationRecord()
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MeshTexture? FromSerializationRecord()
     {
+        if (IsNull)
+        {
+            return null;
+        }
+
         SeparableWrapModes? wrapModes = null;
+
         if (Wrap != null)
         {
             if (Wrap.Length == 2)
             {
-                string? first = Wrap[0];
-                string? second = Wrap[1];
-                wrapModes = new SeparableWrapModes(
-                    first is null ? null : Enum.Parse<WrapMode>(first),
+                var first = Wrap[0];
+                var second = Wrap[1];
+
+                wrapModes = new SeparableWrapModes(first is null ? null : Enum.Parse<WrapMode>(first),
                     second is null ? null : Enum.Parse<WrapMode>(second));
             }
             else if (Wrap.Length == 1)
             {
-                string? value = Wrap[0];
+                var value = Wrap[0];
                 WrapMode? wrapVal = value is null ? null : Enum.Parse<WrapMode>(value);
                 wrapModes = new SeparableWrapModes(wrapVal, wrapVal);
             }
         }
-        return new MeshTexture(null, ImageData, wrapModes, Transparent, Url);
+
+        return new MeshTexture(null, ImageData?.FromSerializationRecord(), wrapModes, Transparent, Url);
     }
 }
 
 [ProtoContract(Name = "MeshTextureCollection")]
-internal record MeshTextureCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MeshTextureSerializationRecord>
+internal record
+    MeshTextureCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MeshTextureSerializationRecord>
 {
-    public MeshTextureCollectionSerializationRecord (MeshTextureSerializationRecord[] items)
+    public MeshTextureCollectionSerializationRecord(MeshTextureSerializationRecord[] items)
     {
         Items = items;
     }
 
     [ProtoMember(1)]
     public sealed override MeshTextureSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+}
+
+[ProtoContract(Name = "ImageData")]
+public record ImageDataSerializationRecord : MapComponentSerializationRecord<ImageData>
+{
+    public ImageDataSerializationRecord()
+    {
+    }
+
+    public ImageDataSerializationRecord(byte[] data,
+        string colorSpace,
+        long height,
+        long width)
+    {
+        Data = data;
+        ColorSpace = colorSpace;
+        Height = height;
+        Width = width;
+    }
+
+    [ProtoMember(1)]
+    public byte[]? Data { get; init; }
+
+    [ProtoMember(2)]
+    public string? ColorSpace { get; init; }
+
+    [ProtoMember(3)]
+    public long Height { get; init; }
+
+    [ProtoMember(4)]
+    public long Width { get; init; }
+
+    public override Type CollectionType => typeof(ImageDataCollectionSerializationRecord);
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override ImageData? FromSerializationRecord()
+    {
+        if (IsNull)
+        {
+            return null;
+        }
+
+        return new ImageData(Data ?? [], ColorSpace ?? string.Empty, Height, Width);
+    }
+}
+
+[ProtoContract(Name = "ImageDataCollection")]
+public record ImageDataCollectionSerializationRecord 
+    : MapComponentCollectionSerializationRecord<ImageDataSerializationRecord>
+{
+    public ImageDataCollectionSerializationRecord(ImageDataSerializationRecord[] items)
+    {
+        Items = items;
+    }
+    
+    public sealed override ImageDataSerializationRecord[]? Items { get; set; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MeshTextureTransform")]
-public record MeshTextureTransformSerializationRecord : MapComponentSerializationRecord
+public record MeshTextureTransformSerializationRecord : MapComponentSerializationRecord<MeshTextureTransform>
 {
     public MeshTextureTransformSerializationRecord()
     {
@@ -2072,45 +2636,58 @@ public record MeshTextureTransformSerializationRecord : MapComponentSerializatio
         Rotation = rotation;
         Scale = scale;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MeshTextureTransformCollectionSerializationRecord);
-    
+
     [ProtoMember(1)]
     public double[]? Offset { get; init; }
-    
+
     [ProtoMember(2)]
     public double? Rotation { get; init; }
-    
+
     [ProtoMember(3)]
     public double[]? Scale { get; init; }
-    
-    public MeshTextureTransform FromSerializationRecord()
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MeshTextureTransform? FromSerializationRecord()
     {
+        if (IsNull)
+        {
+            return null;
+        }
+
         return new MeshTextureTransform(Offset, Rotation, Scale);
     }
 }
 
 [ProtoContract(Name = "MeshTextureTransformCollection")]
-internal record MeshTextureTransformCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MeshTextureTransformSerializationRecord>
+internal record
+    MeshTextureTransformCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    MeshTextureTransformSerializationRecord>
 {
-    public MeshTextureTransformCollectionSerializationRecord (MeshTextureTransformSerializationRecord[] items)
+    public MeshTextureTransformCollectionSerializationRecord(MeshTextureTransformSerializationRecord[] items)
     {
         Items = items;
     }
 
     [ProtoMember(1)]
     public sealed override MeshTextureTransformSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MeshTransform")]
-public record MeshTransformSerializationRecord : MapComponentSerializationRecord
+public record MeshTransformSerializationRecord : MapComponentSerializationRecord<MeshTransform>
 {
     public MeshTransformSerializationRecord()
     {
     }
-    
+
     public MeshTransformSerializationRecord(double? rotationAngle,
         double[]? rotationAxis,
         double[]? scale,
@@ -2121,48 +2698,61 @@ public record MeshTransformSerializationRecord : MapComponentSerializationRecord
         Scale = scale;
         Translation = translation;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MeshTransformCollectionSerializationRecord);
-    
+
     [ProtoMember(1)]
     public double? RotationAngle { get; init; }
 
     [ProtoMember(2)]
     public double[]? RotationAxis { get; init; }
-    
+
     [ProtoMember(3)]
     public double[]? Scale { get; init; }
-    
+
     [ProtoMember(4)]
     public double[]? Translation { get; init; }
 
-    public MeshTransform FromSerializationRecord()
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MeshTransform? FromSerializationRecord()
     {
+        if (IsNull)
+        {
+            return null;
+        }
+
         return new MeshTransform(RotationAngle, RotationAxis, Scale, Translation);
     }
 }
 
 [ProtoContract(Name = "MeshTransformCollection")]
-internal record MeshTransformCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MeshTransformSerializationRecord>
+internal record
+    MeshTransformCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    MeshTransformSerializationRecord>
 {
-    public MeshTransformCollectionSerializationRecord (MeshTransformSerializationRecord[] items)
+    public MeshTransformCollectionSerializationRecord(MeshTransformSerializationRecord[] items)
     {
         Items = items;
     }
 
     [ProtoMember(1)]
     public sealed override MeshTransformSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MeshVertexAttributes")]
-public record MeshVertexAttributesSerializationRecord : MapComponentSerializationRecord
+public record MeshVertexAttributesSerializationRecord : MapComponentSerializationRecord<MeshVertexAttributes>
 {
     public MeshVertexAttributesSerializationRecord()
     {
     }
-    
+
     public MeshVertexAttributesSerializationRecord(byte[]? color,
         double[]? normal,
         double[]? position,
@@ -2175,71 +2765,92 @@ public record MeshVertexAttributesSerializationRecord : MapComponentSerializatio
         Tangent = tangent;
         Uv = uv;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MeshVertexAttributesCollectionSerializationRecord);
-    
+
     [ProtoMember(1)]
     public byte[]? Color { get; init; }
-    
+
     [ProtoMember(2)]
     public double[]? Normal { get; init; }
-    
+
     [ProtoMember(3)]
     public double[]? Position { get; init; }
-    
+
     [ProtoMember(4)]
     public double[]? Tangent { get; init; }
-    
+
     [ProtoMember(5)]
     public double[]? Uv { get; init; }
-    
-    public MeshVertexAttributes FromSerializationRecord()
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override MeshVertexAttributes? FromSerializationRecord()
     {
+        if (IsNull)
+        {
+            return null;
+        }
+
         return new MeshVertexAttributes(Color, Normal, Position, Tangent, Uv);
     }
 }
 
 [ProtoContract(Name = "MeshVertexAttributesCollection")]
-internal record MeshVertexAttributesCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MeshVertexAttributesSerializationRecord>
+internal record
+    MeshVertexAttributesCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    MeshVertexAttributesSerializationRecord>
 {
-    public MeshVertexAttributesCollectionSerializationRecord (MeshVertexAttributesSerializationRecord[] items)
+    public MeshVertexAttributesCollectionSerializationRecord(MeshVertexAttributesSerializationRecord[] items)
     {
         Items = items;
     }
 
     [ProtoMember(1)]
     public sealed override MeshVertexAttributesSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "MeshVertexSpace")]
-public record MeshVertexSpaceSerializationRecord : MapComponentSerializationRecord
+public record MeshVertexSpaceSerializationRecord : MapComponentSerializationRecord<IMeshVertexSpace>
 {
     public MeshVertexSpaceSerializationRecord()
     {
     }
-    
+
     public MeshVertexSpaceSerializationRecord(string? type,
         double[]? origin)
     {
         Type = type;
         Origin = origin;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(MeshVertexSpaceCollectionSerializationRecord);
-    
+
     [ProtoMember(1)]
     public string? Type { get; set; }
-    
+
     [ProtoMember(2)]
     public double[]? Origin { get; set; }
 
-    public IMeshVertexSpace FromSerializationRecord()
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override IMeshVertexSpace? FromSerializationRecord()
     {
-        return Type switch 
+        if (IsNull)
+        {
+            return null;
+        }
+
+        return Type switch
         {
             "local" => new MeshLocalVertexSpace(Origin),
             "georeferenced" => new MeshGeoreferencedVertexSpace(Origin),
@@ -2249,19 +2860,25 @@ public record MeshVertexSpaceSerializationRecord : MapComponentSerializationReco
 }
 
 [ProtoContract(Name = "MeshVertexSpaceCollection")]
-internal record MeshVertexSpaceCollectionSerializationRecord : MapComponentCollectionSerializationRecord<MeshVertexSpaceSerializationRecord>
+internal record
+    MeshVertexSpaceCollectionSerializationRecord : MapComponentCollectionSerializationRecord<
+    MeshVertexSpaceSerializationRecord>
 {
-    public MeshVertexSpaceCollectionSerializationRecord (MeshVertexSpaceSerializationRecord[] items)
+    public MeshVertexSpaceCollectionSerializationRecord(MeshVertexSpaceSerializationRecord[] items)
     {
         Items = items;
     }
 
     [ProtoMember(1)]
     public sealed override MeshVertexSpaceSerializationRecord[]? Items { get; set; } = [];
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "ViewHitCollection")]
-internal record ViewHitCollectionSerializationRecord: MapComponentCollectionSerializationRecord<ViewHitSerializationRecord>
+internal record
+    ViewHitCollectionSerializationRecord : MapComponentCollectionSerializationRecord<ViewHitSerializationRecord>
 {
     public ViewHitCollectionSerializationRecord()
     {
@@ -2271,18 +2888,21 @@ internal record ViewHitCollectionSerializationRecord: MapComponentCollectionSeri
     {
         Items = items;
     }
-    
+
     [ProtoMember(1)]
     public sealed override ViewHitSerializationRecord[]? Items { get; set; }
+
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
 }
 
 [ProtoContract(Name = "ViewHit")]
-public record ViewHitSerializationRecord: MapComponentSerializationRecord
+public record ViewHitSerializationRecord : MapComponentSerializationRecord<ViewHit>
 {
     public ViewHitSerializationRecord()
     {
     }
-    
+
     public ViewHitSerializationRecord(string? Type,
         GeometrySerializationRecord? MapPoint,
         GraphicSerializationRecord? Graphic,
@@ -2293,35 +2913,51 @@ public record ViewHitSerializationRecord: MapComponentSerializationRecord
         this.Graphic = Graphic;
         this.LayerId = LayerId;
     }
-    
+
     [ProtoIgnore]
     [JsonIgnore]
     public override Type CollectionType => typeof(ViewHitCollectionSerializationRecord);
-    
+
     [ProtoMember(1)]
     public string? Type { get; set; }
-    
+
     [ProtoMember(2)]
     public GeometrySerializationRecord? MapPoint { get; set; }
-    
+
     [ProtoMember(3)]
     public GraphicSerializationRecord? Graphic { get; set; }
-    
+
     [ProtoMember(4)]
     public string? LayerId { get; set; }
 
-    public ViewHit FromSerializationRecord()
+    [ProtoMember(1000)]
+    public override bool IsNull { get; init; }
+
+    public override ViewHit? FromSerializationRecord()
     {
+        if (IsNull || MapPoint is null || MapPoint.IsNull)
+        {
+            return null;
+        }
+
         if (Type == "graphic")
         {
+            if (Graphic is null || Graphic.IsNull)
+            {
+                return null;
+            }
+
             Guid? layerId = null;
-            if (Guid.TryParse(LayerId, out Guid layerGuid))
+
+            if (Guid.TryParse(LayerId, out var layerGuid))
             {
                 layerId = layerGuid;
             }
-            return new GraphicHit(Graphic!.FromSerializationRecord(), layerId, 
-                (Point)MapPoint!.FromSerializationRecord());
+
+            return new GraphicHit(Graphic!.FromSerializationRecord()!, layerId,
+                (Point)MapPoint!.FromSerializationRecord()!);
         }
-        return new ViewHit(Type!, (Point)MapPoint!.FromSerializationRecord());
+
+        return new ViewHit(Type!, (Point)MapPoint!.FromSerializationRecord()!);
     }
 }
