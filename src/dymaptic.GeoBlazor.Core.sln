@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Analyzers", "dymaptic.GeoBlazor.Analyzers\dymaptic.GeoBlazor.Analyzers.csproj", "{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.SourceGenerator.Shared", "dymaptic.GeoBlazor.Core.SourceGenerator.Shared\dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj", "{8FDFC824-2365-4467-9326-DFDFF6D6B775}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -258,6 +260,18 @@ Global
 		{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}.Release|x64.Build.0 = Release|Any CPU
 		{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}.Release|x86.ActiveCfg = Release|Any CPU
 		{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}.Release|x86.Build.0 = Release|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Debug|x64.Build.0 = Debug|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Debug|x86.Build.0 = Debug|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Release|x64.ActiveCfg = Release|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Release|x64.Build.0 = Release|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Release|x86.ActiveCfg = Release|Any CPU
+		{8FDFC824-2365-4467-9326-DFDFF6D6B775}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
