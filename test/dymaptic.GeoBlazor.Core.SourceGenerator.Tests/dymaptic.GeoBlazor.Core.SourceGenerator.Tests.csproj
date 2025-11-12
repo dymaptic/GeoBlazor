@@ -8,6 +8,7 @@
 
         <RootNamespace>dymaptic.GeoBlazor.Core.SourceGenerator.Tests</RootNamespace>
         <CoreOverridePath>$(MSBuildProjectDirectory)\..\..\src\dymaptic.GeoBlazor.Core</CoreOverridePath>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <ItemGroup>
@@ -34,5 +35,6 @@
         <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
         <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
         <CompilerVisibleProperty Include="LogSourceGenOutput" Value="$(LogSourceGenOutput)" />
+        <CompilerVisibleProperty Include="CoreOverridePath" Value="$(CoreOverridePath)" />
     </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using System.Text;
 
 
-namespace dymaptic.GeoBlazor.Core.SourceGenerator;
+namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 
 /// <summary>
 ///     Generates serialization data for methods and classes marked with the appropriate attributes.
@@ -12,11 +12,11 @@ public static class SerializationGenerator
 {
     public static void GenerateSerializationDataClass(SourceProductionContext context,
         ImmutableArray<SerializableMethodRecord> serializedMethodsCollection,
-        Dictionary<string, ProtoMessageDefinition> protoDefinitions, bool isPro)
+        Dictionary<string, ProtoMessageDefinition> protoDefinitions, bool isPro, bool isTest)
     {
         try
         {
-            ProcessHelper.Log(nameof(CoreSourceGenerator),
+            ProcessHelper.Log(nameof(SerializationGenerator),
                 "Generating serialized data class...",
                 DiagnosticSeverity.Info,
                 context);
@@ -28,6 +28,7 @@ public static class SerializationGenerator
 
                                                #nullable enable
                                                
+                                               {{(isPro ? "using dymaptic.GeoBlazor.Core.Serialization;" : "")}}
                                                using System.Collections;
                                                using FieldInfo = dymaptic.GeoBlazor.Core.Components.FieldInfo;
 
@@ -60,17 +61,27 @@ public static class SerializationGenerator
                 GenerateSerializableMethodRecords(serializedMethodsCollection, protoDefinitions, isPro));
 
             classBuilder.AppendLine("}");
-
-            context.AddSource($"{className}.g.cs", classBuilder.ToString());
-
-            ProcessHelper.Log(nameof(CoreSourceGenerator),
+            
+            ProcessHelper.Log(nameof(SerializationGenerator),
                 $"Generated serialized data class: {className}.g.cs",
                 DiagnosticSeverity.Info,
                 context);
+
+            if (isTest)
+            {
+                ProcessHelper.Log(nameof(SerializationGenerator),
+                    $"Skipping generating file for test.",
+                    DiagnosticSeverity.Info,
+                    context);
+            }
+            else
+            {
+                context.AddSource($"{className}.g.cs", classBuilder.ToString());
+            }
         }
         catch (Exception ex)
         {
-            ProcessHelper.Log(nameof(CoreSourceGenerator),
+            ProcessHelper.Log(nameof(SerializationGenerator),
                 $"Error generating serialized data class: {ex}",
                 DiagnosticSeverity.Error,
                 context);

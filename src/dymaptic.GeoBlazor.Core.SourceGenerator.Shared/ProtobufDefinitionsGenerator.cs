@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Text;
 
 
-namespace dymaptic.GeoBlazor.Core.SourceGenerator;
+namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 
 /// <summary>
 ///     Generates Protobuf definitions by invoking the ProtoGen project.
@@ -16,7 +16,7 @@ public static class ProtobufDefinitionsGenerator
     public static void UpdateProtobufDefinitions(SourceProductionContext context, 
         ImmutableArray<BaseTypeDeclarationSyntax> protoTypes, string corePath)
     {
-        ProcessHelper.Log(nameof(CoreSourceGenerator), 
+        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator), 
             "Updating Protobuf definitions...", 
             DiagnosticSeverity.Info,
             context);
@@ -43,12 +43,12 @@ public static class ProtobufDefinitionsGenerator
             $"-Content \"{encoded}\"",
             logBuilder, context.CancellationToken).GetAwaiter().GetResult();
         
-        ProcessHelper.Log(nameof(CoreSourceGenerator),
+        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
             logBuilder.ToString(), 
             DiagnosticSeverity.Info,
             context);
         
-        ProcessHelper.Log(nameof(CoreSourceGenerator), 
+        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator), 
             $"Protobuf definitions updated successfully.", 
             DiagnosticSeverity.Info,
             context);

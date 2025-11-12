@@ -1,3 +1,4 @@
+using dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
@@ -70,22 +71,38 @@ public class CoreSourceGenerator : IIncrementalGenerator
                 return (projectDirectory, configuration, pipelineBuild);
             });
 
-        IncrementalValueProvider<(((ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes, 
-            ImmutableArray<SerializableMethodRecord> SerializableMethods) Types, 
-            ImmutableArray<AdditionalText> TsFiles) Files, 
-            (string?, string?, string?) Options)> combined = 
-            protoTypeProvider.Combine(serializableMethodsProvider).Combine(tsFilesProvider).Combine(optionsProvider);
+        IncrementalValueProvider<((((ImmutableArray<BaseTypeDeclarationSyntax> Left, 
+            ImmutableArray<SerializableMethodRecord> Right) Left, 
+            ImmutableArray<AdditionalText> Right) Left, 
+            (string?, string?, string?) Right) Left, 
+            Compilation Right)> combined = 
+            protoTypeProvider.Combine(serializableMethodsProvider).Combine(tsFilesProvider).Combine(optionsProvider)
+                .Combine(context.CompilationProvider);
 
         context.RegisterSourceOutput(combined, FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        (((ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes, 
+        ((((ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes, 
             ImmutableArray<SerializableMethodRecord> SerializableMethods) Types, 
             ImmutableArray<AdditionalText> TsFiles) Files, 
-        (string? ProjectDirectory, string? Configuration, string? PipelineBuild) Options) pipeline)
+        (string? ProjectDirectory, string? Configuration, string? PipelineBuild) Options) Data, 
+            Compilation Compilation) pipeline)
     {
-        if (!SetProjectDirectoryAndConfiguration(pipeline.Options, context))
+        if (pipeline.Compilation.AssemblyName != "dymaptic.GeoBlazor.Core")
+        {
+            ProcessHelper.Log(nameof(CoreSourceGenerator),
+                "Run from a test project.",
+                DiagnosticSeverity.Info,
+                context);
+
+            _isTest = true;
+            
+            string testPath = Path.GetDirectoryName(pipeline.Compilation.Assembly.Locations[0].SourceTree!.FilePath)!;
+            pipeline.Data.Options.ProjectDirectory ??= Path.GetFullPath(Path.Combine(testPath, "..", "..", "src", "dymaptic.GeoBlazor.Core"));
+        }
+        
+        if (!SetProjectDirectoryAndConfiguration(pipeline.Data.Options, context))
         {
             return;
         }
@@ -95,16 +112,17 @@ public class CoreSourceGenerator : IIncrementalGenerator
             DiagnosticSeverity.Info,
             context);
 
-        ProtobufDefinitionsGenerator.UpdateProtobufDefinitions(context, pipeline.Files.Types.ProtoTypes, _corePath!);
+        ProtobufDefinitionsGenerator.UpdateProtobufDefinitions(context, pipeline.Data.Files.Types.ProtoTypes, _corePath!);
         
         context.CancellationToken.ThrowIfCancellationRequested();
 
         SerializationGenerator.GenerateSerializationDataClass(context,
-            pipeline.Files.Types.SerializableMethods, ProtobufDefinitionsGenerator.ProtoDefinitions!, false);
+            pipeline.Data.Files.Types.SerializableMethods, ProtobufDefinitionsGenerator.ProtoDefinitions!, false, 
+            _isTest);
         
         context.CancellationToken.ThrowIfCancellationRequested();
         
-        if (pipeline.Options.PipelineBuild == "true")
+        if (pipeline.Data.Options.PipelineBuild == "true")
         {
             // If the pipeline build is enabled, we skip the ESBuild process.
             // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
@@ -118,10 +136,13 @@ public class CoreSourceGenerator : IIncrementalGenerator
         LaunchESBuild(context);
     }
 
-    private bool SetProjectDirectoryAndConfiguration((string? projectDirectory, string? configuration, string? _) options,
+    private bool SetProjectDirectoryAndConfiguration(
+        (string? ProjectDirectory, string? Configuration, string? _) options,
         SourceProductionContext context)
     {
-        if (options.projectDirectory is { } projectDirectory)
+        string? projectDirectory = options.ProjectDirectory;
+        
+        if (projectDirectory is not null)
         {
             _corePath = Path.GetFullPath(projectDirectory);
             ProcessHelper.Log(
@@ -155,7 +176,7 @@ public class CoreSourceGenerator : IIncrementalGenerator
             return false;
         }
 
-        if (options.configuration is { } configuration)
+        if (options.Configuration is { } configuration)
         {
             _configuration = configuration;
 
@@ -256,4 +277,5 @@ public class CoreSourceGenerator : IIncrementalGenerator
     private static string? _corePath;
     private static string? _proPath;
     private static string? _configuration;
+    private static bool _isTest;
 }

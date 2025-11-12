@@ -3,10 +3,9 @@ using CliWrap.EventStream;
 using Microsoft.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
 
 
-namespace dymaptic.GeoBlazor.Core.SourceGenerator;
+namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 
 public static class ProcessHelper
 {
