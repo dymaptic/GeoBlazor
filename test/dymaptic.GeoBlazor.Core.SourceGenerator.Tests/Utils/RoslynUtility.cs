@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-
+[assembly: DoNotParallelize]
 namespace dymaptic.GeoBlazor.Core.SourceGenerator.Tests.Utils;
 
 public static class RoslynUtility

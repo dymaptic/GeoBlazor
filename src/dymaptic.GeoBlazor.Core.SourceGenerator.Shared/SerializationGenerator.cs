@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
 using System.Text;
 
@@ -11,8 +12,9 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 public static class SerializationGenerator
 {
     public static void GenerateSerializationDataClass(SourceProductionContext context,
-        ImmutableArray<SerializableMethodRecord> serializedMethodsCollection,
-        Dictionary<string, ProtoMessageDefinition> protoDefinitions, bool isPro, bool isTest)
+        ImmutableArray<BaseTypeDeclarationSyntax> types, 
+        Dictionary<string, ProtoMessageDefinition> protoMessageDefinitions, 
+        bool isPro, bool isTest)
     {
         try
         {
@@ -20,6 +22,46 @@ public static class SerializationGenerator
                 "Generating serialized data class...",
                 DiagnosticSeverity.Info,
                 context);
+            
+            ImmutableArray<SerializableMethodRecord> serializedMethodsCollection = 
+            [
+                ..types
+                    .SelectMany(t => t.ToSerializableMethodRecords())
+            ];
+            
+            Dictionary<string, ProtoMessageDefinition> protoSerializableTypes =
+                types.Where(t => t.BaseList?.Types.Any(bt => bt.ToString()
+                        .Contains("IProtobufSerializable")) == true)
+                    .Select(t =>
+                    {
+                        string typeName = t.Identifier.Text;
+                        string keyName = $"{typeName}SerializationRecord";
+
+                        if (protoMessageDefinitions.TryGetValue(keyName, out ProtoMessageDefinition? messageDefinition))
+                        {
+                            return new KeyValuePair<string, ProtoMessageDefinition>(typeName, messageDefinition);
+                        }
+
+                        string? baseProtoType = t.BaseList!.Types
+                            .FirstOrDefault(bt => protoMessageDefinitions.ContainsKey($"{bt}SerializationRecord"))?
+                            .ToString();
+
+                        if (baseProtoType is null)
+                        {
+                            ProcessHelper.Log(nameof(SerializationGenerator),
+                                $"Type {typeName} does not have a valid ProtoMessageDefinition base type. Existing BaseTypes: {t.BaseList.ToString()}",
+                                DiagnosticSeverity.Error,
+                                context);
+
+                            return default(KeyValuePair<string, ProtoMessageDefinition>?);
+                        }
+                        keyName = $"{baseProtoType}SerializationRecord";
+                        messageDefinition = protoMessageDefinitions[keyName];
+                        return new KeyValuePair<string, ProtoMessageDefinition>(typeName, messageDefinition);
+                    })
+                    .Where(kvp => kvp is not null)
+                    .Select(kvp => (KeyValuePair<string, ProtoMessageDefinition>)kvp!)
+                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
             string className = isPro ? "ProSerializationData" : "CoreSerializationData";
 
@@ -55,10 +97,10 @@ public static class SerializationGenerator
                                         """);
             }
             
-            classBuilder.AppendLine(GenerateExtensionMethods(protoDefinitions, isPro));
+            classBuilder.AppendLine(GenerateExtensionMethods(protoSerializableTypes, isPro));
 
             classBuilder.AppendLine(
-                GenerateSerializableMethodRecords(serializedMethodsCollection, protoDefinitions, isPro));
+                GenerateSerializableMethodRecords(serializedMethodsCollection, protoSerializableTypes, isPro));
 
             classBuilder.AppendLine("}");
             
@@ -229,7 +271,7 @@ public static class SerializationGenerator
                     ? $"I{definition.Name}"
                     : definition.Name;
                 
-                string variableName = ProtobufDefinitionsGenerator.ToLowerFirstChar(definition.Name);
+                string variableName = definition.Name.ToLowerFirstChar();
 
                 extensionMethods.AppendLine(
                     $$"""
@@ -282,7 +324,7 @@ public static class SerializationGenerator
                     ? $"I{singleDefinition.Name}"
                     : singleDefinition.Name;
                 
-                string variableName = ProtobufDefinitionsGenerator.ToLowerFirstChar(definition.Name);
+                string variableName = definition.Name.ToLowerFirstChar();
 
                 extensionMethods.AppendLine(
                     $$"""
@@ -490,6 +532,42 @@ public static class SerializationGenerator
 
         return outputBuilder.ToString();
     }
+
+    private static List<SerializableMethodRecord> ToSerializableMethodRecords(this BaseTypeDeclarationSyntax typeSyntax)
+    {
+        List<MethodDeclarationSyntax> methods = typeSyntax
+            .ChildNodes()
+            .OfType<MethodDeclarationSyntax>()
+            .Where(m => m.AttributeLists
+                .SelectMany(a => a.Attributes)
+                .Any(attr => attr.Name.ToString() == SerializedMethodAttributeName))
+            .ToList();
+        
+        List<SerializableMethodRecord> methodRecords = [];
+        
+        foreach (MethodDeclarationSyntax method in methods)
+        {
+            string returnType = method.ReturnType.ToString();
+    
+            if (returnType.StartsWith("Task") || returnType.StartsWith("ValueTask"))
+            {
+                int bracketIndex = returnType.IndexOf('<');
+                returnType = returnType.Substring(bracketIndex + 1, returnType.Length - bracketIndex - 2);
+            }
+            SerializableMethodRecord record = new(typeSyntax.Identifier.Text, 
+                method.Identifier.Text,
+                method.ParameterList.Parameters.ToDictionary(
+                    p => p.Identifier.Text,
+                    p => p.Type!.ToString()),
+                returnType);
+    
+            methodRecords.Add(record);
+        }
+        
+        return methodRecords;
+    }
+
+    private const string SerializedMethodAttributeName = "SerializedMethod";
 }
 
 public record SerializableMethodRecord(string ClassName, string MethodName, Dictionary<string, string> Parameters,

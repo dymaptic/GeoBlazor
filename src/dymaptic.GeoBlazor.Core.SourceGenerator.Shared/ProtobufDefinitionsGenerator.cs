@@ -13,8 +13,8 @@ public static class ProtobufDefinitionsGenerator
 {
     public static Dictionary<string, ProtoMessageDefinition>? ProtoDefinitions;
     
-    public static void UpdateProtobufDefinitions(SourceProductionContext context, 
-        ImmutableArray<BaseTypeDeclarationSyntax> protoTypes, string corePath)
+    public static Dictionary<string, ProtoMessageDefinition> UpdateProtobufDefinitions(SourceProductionContext context, 
+        ImmutableArray<BaseTypeDeclarationSyntax> types, string corePath)
     {
         ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator), 
             "Updating Protobuf definitions...", 
@@ -22,7 +22,7 @@ public static class ProtobufDefinitionsGenerator
             context);
         
         // fetch protobuf definitions
-        string protoTypeContent = Generate(context, protoTypes);
+        string protoTypeContent = Generate(context, types);
 
         string typescriptContent = $"""
                                     export let protoTypeDefinitions: string = `
@@ -52,20 +52,22 @@ public static class ProtobufDefinitionsGenerator
             $"Protobuf definitions updated successfully.", 
             DiagnosticSeverity.Info,
             context);
+        
+        return ProtoDefinitions!;
     }
     
     private static string Generate(SourceProductionContext context,
-        ImmutableArray<BaseTypeDeclarationSyntax> syntaxNodes)
+        ImmutableArray<BaseTypeDeclarationSyntax> types)
     {
         try
         {
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-                $"Generating Protobuf schema with {syntaxNodes.Count()} syntax nodes",
+                $"Generating Protobuf schema",
                 DiagnosticSeverity.Info,
                 context);
 
             // Extract protobuf definitions from syntax nodes
-            ProtoDefinitions ??= ExtractProtobufDefinitions(syntaxNodes, context);
+            ProtoDefinitions ??= ExtractProtobufDefinitions(types, context);
             
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
                 $"Extracted {ProtoDefinitions.Count} Protobuf message definitions.",
@@ -93,15 +95,31 @@ public static class ProtobufDefinitionsGenerator
     }
 
     public static Dictionary<string, ProtoMessageDefinition> ExtractProtobufDefinitions(
-        ImmutableArray<BaseTypeDeclarationSyntax> syntaxNodes, SourceProductionContext context)
+        ImmutableArray<BaseTypeDeclarationSyntax> types, SourceProductionContext context)
     {
         var definitions = new Dictionary<string, ProtoMessageDefinition>();
+        const string protoContractAttribute = "ProtoContract";
 
-        foreach (var syntaxNode in syntaxNodes)
+        foreach (BaseTypeDeclarationSyntax type in types)
         {
+            if (type.AttributeLists.SelectMany(a => a.Attributes)
+                .All(a => a.Name.ToString() != protoContractAttribute))
+            {
+                if (type.Identifier.Text.EndsWith("SerializationRecord"))
+                {
+                    ProcessHelper.Log(
+                        nameof(ProtobufDefinitionsGenerator),
+                        $"Processing syntax node: {type.Identifier.Text}, which is a SerializationRecord without ProtoContract attribute. Attributes: {string.Join(", ", type.AttributeLists.SelectMany(al => al.Attributes.SelectMany(a => a.ToString())))}",
+                        DiagnosticSeverity.Warning,
+                        context);
+                }
+                continue;
+            }
+
             try
             {
-                var messageDef = ExtractMessageDefinition(syntaxNode);
+                var messageDef = ExtractMessageDefinition(type);
+
                 if (messageDef != null)
                 {
                     definitions[messageDef.Name] = messageDef;
@@ -110,7 +128,7 @@ public static class ProtobufDefinitionsGenerator
             catch (Exception ex)
             {
                 ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-                    $"Error processing syntax node {syntaxNode.Identifier.Text}: {ex.Message}",
+                    $"Error processing syntax node {type.Identifier.Text}: {ex.Message}",
                     DiagnosticSeverity.Warning,
                     context);
             }
@@ -203,7 +221,7 @@ public static class ProtobufDefinitionsGenerator
                         fields.Add(new ProtoFieldDefinition
                         {
                             Type = fieldType,
-                            Name = ToLowerFirstChar(property.Identifier.Text),
+                            Name = property.Identifier.Text.ToLowerFirstChar(),
                             Number = num
                         });
                     }
@@ -339,11 +357,6 @@ public static class ProtobufDefinitionsGenerator
         }
 
         return sb.ToString();
-    }
-
-    public static string ToLowerFirstChar(string val)
-    {
-        return char.ToLowerInvariant(val[0]) + val.Substring(1);
     }
 }
 

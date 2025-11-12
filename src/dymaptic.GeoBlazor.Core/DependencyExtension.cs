@@ -22,6 +22,7 @@ public static class DependencyExtension
             .AddScoped<AbortManager>()
             .AddScoped<AuthenticationManager>()
             .AddScoped<IAppValidator, RegistrationValidator>()
-            .AddSingleton<JsSyncManager>();
+            .AddSingleton<JsSyncManager>()
+            .AddSingleton<ISerializationData, CoreSerializationData>();
     }
 }

@@ -20,40 +20,12 @@ public class CoreSourceGenerator : IIncrementalGenerator
         IncrementalValueProvider<ImmutableArray<AdditionalText>> tsFilesProvider = context.AdditionalTextsProvider
             .Where(static text => text.Path.Contains("Scripts") && text.Path.EndsWith(".ts"))
             .Collect();
-        
-        // Protobuf type definitions
-        IncrementalValueProvider<ImmutableArray<BaseTypeDeclarationSyntax>> protoTypeProvider = 
-            context.SyntaxProvider.ForAttributeWithMetadataName(
-                fullyQualifiedMetadataName: "ProtoBuf.ProtoContractAttribute",
-                predicate: static (syntaxNode, _) => 
-                    syntaxNode is ClassDeclarationSyntax or StructDeclarationSyntax or RecordDeclarationSyntax,
-                transform: static (context, _) => (BaseTypeDeclarationSyntax)context.TargetNode).Collect();
-        
-        // Find all methods with the [SerializedMethod] attribute
-        IncrementalValueProvider<ImmutableArray<SerializableMethodRecord>> serializableMethodsProvider = 
-            context.SyntaxProvider.ForAttributeWithMetadataName(
-                fullyQualifiedMetadataName: "dymaptic.GeoBlazor.Core.Attributes.SerializedMethodAttribute",
-                predicate: static (syntaxNode, _) => syntaxNode is MethodDeclarationSyntax,
-                transform: static (context, _) =>
-                {
-                    MethodDeclarationSyntax method = (MethodDeclarationSyntax)context.TargetNode;
-                    string typeName = context.TargetSymbol.ContainingType.ToDisplayString().Split('.').Last();
-                    string returnType = method.ReturnType.ToString();
 
-                    if (returnType.StartsWith("Task") || returnType.StartsWith("ValueTask"))
-                    {
-                        int bracketIndex = returnType.IndexOf('<');
-                        returnType = returnType.Substring(bracketIndex + 1, returnType.Length - bracketIndex - 2);
-                    }
-                    SerializableMethodRecord record = new(typeName, 
-                        method.Identifier.Text,
-                        method.ParameterList.Parameters.ToDictionary(
-                            p => p.Identifier.Text,
-                            p => p.Type!.ToString()),
-                        returnType);
-
-                    return record;
-                }).Collect();
+        // Finds all class, struct, and record declarations in the source code.
+        var typeProvider =
+            context.SyntaxProvider.CreateSyntaxProvider(predicate: static (syntaxNode, _) =>
+                        syntaxNode is ClassDeclarationSyntax or StructDeclarationSyntax or RecordDeclarationSyntax,
+                    transform: static (context, _) => (BaseTypeDeclarationSyntax)context.Node).Collect();
 
         // Reads the MSBuild properties to get the project directory and configuration.
         IncrementalValueProvider<(string?, string?, string?)> optionsProvider =
@@ -71,20 +43,18 @@ public class CoreSourceGenerator : IIncrementalGenerator
                 return (projectDirectory, configuration, pipelineBuild);
             });
 
-        IncrementalValueProvider<((((ImmutableArray<BaseTypeDeclarationSyntax> Left, 
-            ImmutableArray<SerializableMethodRecord> Right) Left, 
+        IncrementalValueProvider<(((ImmutableArray<BaseTypeDeclarationSyntax> Left, 
             ImmutableArray<AdditionalText> Right) Left, 
             (string?, string?, string?) Right) Left, 
             Compilation Right)> combined = 
-            protoTypeProvider.Combine(serializableMethodsProvider).Combine(tsFilesProvider).Combine(optionsProvider)
+            typeProvider.Combine(tsFilesProvider).Combine(optionsProvider)
                 .Combine(context.CompilationProvider);
 
         context.RegisterSourceOutput(combined, FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((((ImmutableArray<BaseTypeDeclarationSyntax> ProtoTypes, 
-            ImmutableArray<SerializableMethodRecord> SerializableMethods) Types, 
+        (((ImmutableArray<BaseTypeDeclarationSyntax> Types, 
             ImmutableArray<AdditionalText> TsFiles) Files, 
         (string? ProjectDirectory, string? Configuration, string? PipelineBuild) Options) Data, 
             Compilation Compilation) pipeline)
@@ -99,7 +69,8 @@ public class CoreSourceGenerator : IIncrementalGenerator
             _isTest = true;
             
             string testPath = Path.GetDirectoryName(pipeline.Compilation.Assembly.Locations[0].SourceTree!.FilePath)!;
-            pipeline.Data.Options.ProjectDirectory ??= Path.GetFullPath(Path.Combine(testPath, "..", "..", "src", "dymaptic.GeoBlazor.Core"));
+            pipeline.Data.Options.ProjectDirectory ??= 
+                Path.GetFullPath(Path.Combine(testPath, "..", "..", "..", "src", "dymaptic.GeoBlazor.Core"));
         }
         
         if (!SetProjectDirectoryAndConfiguration(pipeline.Data.Options, context))
@@ -112,12 +83,13 @@ public class CoreSourceGenerator : IIncrementalGenerator
             DiagnosticSeverity.Info,
             context);
 
-        ProtobufDefinitionsGenerator.UpdateProtobufDefinitions(context, pipeline.Data.Files.Types.ProtoTypes, _corePath!);
+        Dictionary<string, ProtoMessageDefinition> protoDefinitions = ProtobufDefinitionsGenerator
+            .UpdateProtobufDefinitions(context, pipeline.Data.Files.Types, _corePath!);
         
         context.CancellationToken.ThrowIfCancellationRequested();
 
         SerializationGenerator.GenerateSerializationDataClass(context,
-            pipeline.Data.Files.Types.SerializableMethods, ProtobufDefinitionsGenerator.ProtoDefinitions!, false, 
+            pipeline.Data.Files.Types, protoDefinitions, false, 
             _isTest);
         
         context.CancellationToken.ThrowIfCancellationRequested();
