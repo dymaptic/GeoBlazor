@@ -211,12 +211,6 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.layer.load(options);
-        
-        return generateSerializableJson(result);
-    }
-
     async queryAttributeBins(binsQuery: any,
         options: any): Promise<any> {
         return await this.layer.queryAttributeBins(binsQuery,

@@ -1,7 +1,7 @@
 // override generated code in this file
 import MapImageLayerGenerated from './mapImageLayer.gb';
 import MapImageLayer from '@arcgis/core/layers/MapImageLayer';
-import {hasValue} from './geoBlazorCore';
+import {buildEncodedJson, hasValue} from './geoBlazorCore';
 
 export default class MapImageLayerWrapper extends MapImageLayerGenerated {
 
@@ -45,6 +45,11 @@ export default class MapImageLayerWrapper extends MapImageLayerGenerated {
         return image.outerHTML;
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetMapImageLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
 }
 
 export async function buildJsMapImageLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

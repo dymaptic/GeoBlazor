@@ -1,7 +1,7 @@
 // override generated code in this file
 import WMTSLayerGenerated from './wMTSLayer.gb';
 import WMTSLayer from '@arcgis/core/layers/WMTSLayer';
-import {hasValue} from './geoBlazorCore';
+import {buildEncodedJson, hasValue} from "./geoBlazorCore";
 
 export default class WMTSLayerWrapper extends WMTSLayerGenerated {
 
@@ -9,6 +9,12 @@ export default class WMTSLayerWrapper extends WMTSLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetWMTSLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
+    
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.activeLayer) && dotNetObject.activeLayer.wMTSSublayerId !== this.layer.activeLayer.id) {
             let { buildJsWMTSSublayer } = await import('./wMTSSublayer');

@@ -102,12 +102,6 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.layer.load(options);
-        
-        return generateSerializableJson(result);
-    }
-
     async when(callback: any,
         errback: any): Promise<any> {
         let result = await this.layer.when(callback,
@@ -183,7 +177,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.layer.sublayers.removeAll();
+            this.layer.sublayers!.removeAll();
         }
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
         this.layer.sublayers = await Promise.all(value.map(async i => await buildJsKMLSublayer(i, this.viewId))) as any;

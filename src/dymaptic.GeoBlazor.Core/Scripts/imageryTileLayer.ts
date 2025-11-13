@@ -1,6 +1,6 @@
 import ImageryTileLayerGenerated from './imageryTileLayer.gb';
 import ImageryTileLayer from '@arcgis/core/layers/ImageryTileLayer';
-import {hasValue} from './geoBlazorCore';
+import {buildEncodedJson, hasValue} from './geoBlazorCore';
 import {buildDotNetSpatialReference} from './spatialReference';
 import {buildDotNetExtent} from './extent';
 
@@ -10,10 +10,16 @@ export default class ImageryTileLayerWrapper extends ImageryTileLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetImageryTileLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
+
     async getServiceRasterInfo() {
         let jsInfo = this.layer.serviceRasterInfo;
 
-        if (!hasValue(jsInfo)) {
+        if (!hasValue(jsInfo) || !jsInfo) {
             return null;
         }
         let {buildDotNetFeatureSet} = await import('./featureSet');
@@ -66,7 +72,7 @@ export async function buildDotNetImageryTileLayer(jsObject: any, viewId: string 
     
     if (hasValue(jsObject.renderer)) {
         let {buildDotNetImageryRenderer} = await import('./imageryRenderer');
-        dnObject.renderer = await buildDotNetImageryRenderer(jsObject.renderer);
+        dnObject.renderer = await buildDotNetImageryRenderer(jsObject.renderer, viewId);
     }
     
     return dnObject;

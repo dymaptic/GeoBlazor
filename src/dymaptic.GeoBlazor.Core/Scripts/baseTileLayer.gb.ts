@@ -121,12 +121,6 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.layer.load(options);
-        
-        return generateSerializableJson(result);
-    }
-
     async refresh(): Promise<void> {
         this.layer.refresh();
     }

@@ -7,7 +7,7 @@
 
 import OpenStreetMapLayerGenerated from './openStreetMapLayer.gb';
 import OpenStreetMapLayer from '@arcgis/core/layers/OpenStreetMapLayer';
-import { copyValuesIfExists, hasValue } from './geoBlazorCore';
+import {buildEncodedJson, copyValuesIfExists, hasValue} from "./geoBlazorCore";
 
 
 export default class OpenStreetMapLayerWrapper extends OpenStreetMapLayerGenerated {
@@ -16,6 +16,11 @@ export default class OpenStreetMapLayerWrapper extends OpenStreetMapLayerGenerat
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetOpenStreetMapLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
 }
 
 

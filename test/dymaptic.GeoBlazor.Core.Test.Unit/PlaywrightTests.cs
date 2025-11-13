@@ -1,4 +1,3 @@
-using Codeuctivity.ImageSharpCompare;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
 using System.Diagnostics;

@@ -1,7 +1,7 @@
 // override generated code in this file
 import ImageryLayerGenerated from './imageryLayer.gb';
 import ImageryLayer from '@arcgis/core/layers/ImageryLayer';
-import {hasValue} from './geoBlazorCore';
+import {buildEncodedJson, hasValue} from "./geoBlazorCore";
 
 export default class ImageryLayerWrapper extends ImageryLayerGenerated {
 
@@ -9,6 +9,11 @@ export default class ImageryLayerWrapper extends ImageryLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetImageryLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
 }
 
 export async function buildJsImageryLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
@@ -29,7 +34,7 @@ export async function buildDotNetImageryLayer(jsObject: any, viewId: string | nu
     
     if (hasValue(jsObject.renderer)) {
         let {buildDotNetImageryRenderer} = await import('./imageryRenderer');
-        dnObject.renderer = await buildDotNetImageryRenderer(jsObject.renderer);
+        dnObject.renderer = await buildDotNetImageryRenderer(jsObject.renderer, viewId);
     }
     
     return dnObject;

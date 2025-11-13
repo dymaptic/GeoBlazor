@@ -2,13 +2,19 @@
 import Query from "@arcgis/core/rest/support/Query";
 import GeoJSONLayerGenerated from './geoJSONLayer.gb';
 import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer';
-import {getProtobufGraphicStream, hasValue} from './geoBlazorCore';
+import {buildEncodedJson, getProtobufGraphicStream, hasValue} from './geoBlazorCore';
 import {DotNetFeatureSet, DotNetQuery} from "./definitions";
 
 export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
 
     constructor(layer: GeoJSONLayer) {
         super(layer);
+    }
+
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetGeoJSONLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 
     async getFeatureReduction(): Promise<any> {

@@ -7,12 +7,14 @@
 @code {
 
     [TestMethod]
-    public async Task TestCanSetFeatureLayerVisibility(Action renderHandler)
+    public async Task TestCanSetFeatureLayerVisibility(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         MapView? mapView = null;
         
         AddMapRenderFragment(
-		    @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+            @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler" 
+                      OnLayerViewCreate="layerViewCreateHandler">
 		        <Map>
 		            <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
@@ -24,7 +26,7 @@
         await mapView!.AddLayer(
             new FeatureLayer("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0",
                 title: "Test"));
-        await Task.Delay(100);
+        await WaitForLayerToRender<FeatureLayer>();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
         FeatureLayer? featureLayer = mapView!.Map!.Layers.OfType<FeatureLayer>().SingleOrDefault();
@@ -61,7 +63,7 @@
             Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
             Graphic graphic = new(point, attributes: new AttributesDictionary(new Dictionary<string, object?>()
                                 {
-                { "OBJECT_ID", i }
+                { "OBJECTID", i }
                                 }));
             graphics.Add(graphic);
         }
@@ -73,7 +75,7 @@
 		            </Basemap>
 		            <FeatureLayer @ref="layer" Source="graphics"
                                   GeometryType="FeatureGeometryType.Point"
-		                          ObjectIdField="OBJECT_ID">
+		                          ObjectIdField="OBJECTID">
 		            </FeatureLayer>
 		        </Map>
 		    </MapView>);
@@ -84,19 +86,13 @@
     }
 
     [TestMethod]
-    public async Task TestCanRunFeatureLayerMethods(Action renderHandler)
+    public async Task TestCanRunFeatureLayerMethods(Action renderHandler, 
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         FeatureLayer? layer = null;
-        var callbackCalled = false;
-
-        Task OnLayerViewCreate(LayerViewCreateEvent layerViewCreateEvent)
-        {
-            callbackCalled = true;
-            return Task.CompletedTask;
-        }
 
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
                 <Map>
                     <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
@@ -109,12 +105,7 @@
 
         await WaitForMapToRender();
 
-        var tries = 100;
-        while (!callbackCalled && (tries > 0))
-        {
-            await Task.Delay(100);
-            tries--;
-        }
+        await WaitForLayerToRender<FeatureLayer>();
         await AssertJavaScript("assertLayerExists", args: "feature");
         Query query = await layer!.CreateQuery();
         Assert.IsNotNull(query);
@@ -139,24 +130,26 @@
     }
 
     [TestMethod]
-    public async Task TestCanAddFeatureWithApplyEdits(Action renderHandler)
+    public async Task TestCanAddFeatureWithApplyEdits(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-		    @<MapView class="map-view" OnViewRendered="renderHandler">
+		    @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
 		        <Map>
 		            <Basemap>
 		                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
 		            </Basemap>
 		            <FeatureLayer @ref="layer" Source="@([])"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID"
+                                  ObjectIdField="OBJECTID"
                                   SpatialReference="SpatialReference.Wgs84"
                                   OutFields="@(["*"])">
 		            </FeatureLayer>
 		        </Map>
 		    </MapView>);
         await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
         await AssertJavaScript("assertLayerExists", args: "feature");
         FeatureEdits edits = new()
                 {
@@ -171,11 +164,12 @@
     }
 
     [TestMethod]
-    public async Task TestCanAddFeaturesWithAddMethodAfterRender(Action renderHandler)
+    public async Task TestCanAddFeaturesWithAddMethodAfterRender(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
                 <Map>
                     <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
@@ -184,11 +178,12 @@
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID">
+                                  ObjectIdField="OBJECTID">
                     </FeatureLayer>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
         await layer!.Add(new Graphic(new Point(0, 0),
@@ -197,11 +192,12 @@
     }
 
     [TestMethod]
-    public async Task TestCanAddManyFeaturesWithApplyEdits(Action renderHandler)
+    public async Task TestCanAddManyFeaturesWithApplyEdits(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
                 <Map>
                     <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
@@ -210,11 +206,12 @@
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID">
+                                  ObjectIdField="OBJECTID">
                     </FeatureLayer>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
         List<Graphic> graphics = [];
@@ -236,11 +233,12 @@
     }
 
     [TestMethod]
-    public async Task TestCanUpdateManyFeaturesWithApplyEdits(Action renderHandler)
+    public async Task TestCanUpdateManyFeaturesWithApplyEdits(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
                 <Map>
                     <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
@@ -249,11 +247,12 @@
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID">
+                                  ObjectIdField="OBJECTID">
                     </FeatureLayer>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
         List<Graphic> graphics = [];
@@ -289,11 +288,12 @@
     }
 
     [TestMethod]
-    public async Task TestCanDeleteManyFeaturesWithApplyEdits(Action renderHandler)
+    public async Task TestCanDeleteManyFeaturesWithApplyEdits(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
                 <Map>
                     <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
@@ -302,12 +302,13 @@
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
                                   OutFields="@( ["*"])"
-                                  ObjectIdField="OBJECT_ID">
-                        <Field Name="OBJECT_ID" Type="FieldType.Integer" />
+                                  ObjectIdField="OBJECTID">
+                        <Field Name="OBJECTID" Type="FieldType.Integer" />
                     </FeatureLayer>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
         List<Graphic> graphics = [];
@@ -315,7 +316,7 @@
         for (var i = 1; i <= 2000; i++)
         {
             AttributesDictionary attributes = new();
-            await attributes.AddOrUpdate("OBJECT_ID", i);
+            await attributes.AddOrUpdate("OBJECTID", i);
             Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
             Graphic graphic = new(point, attributes: attributes);
             graphics.Add(graphic);
@@ -333,22 +334,23 @@
             DeleteFeatures = graphics
         };
         result = await layer!.ApplyEdits(edits);
-        await Assert.ThrowsAsync<JSException>(async () =>
-            await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]));
+
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 0]);
         Assert.AreEqual(2000, result.DeleteFeatureResults.Length);
     }
 
     [TestMethod]
-    public async Task TestCanQueryFeatures(Action renderHandler)
+    public async Task TestCanQueryFeatures(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+    @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
         <Map>
             <Basemap>
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
-            <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })">
+            <FeatureLayer @ref="layer" OutFields="@([ "*" ])">
                 <PortalItem PortalItemId="234d2e3f6f554e0e84757662469c26d3" />
             </FeatureLayer>
         </Map>
@@ -360,6 +362,7 @@
         </Extent>
     </MapView>);
         await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
         Point point = new(x: -13627933.093831237, y: 4547153.388126561, spatialReference: new(102100));
         var query = new Query
                 {
@@ -377,21 +380,24 @@
     }
 
     [TestMethod]
-    public async Task TestCanQueryRelatedFeatures(Action renderHandler)
+    public async Task TestCanQueryRelatedFeatures(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler" Longitude="-98.5795" Latitude="39.8282">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler" 
+                      Longitude="-98.5795" Latitude="39.8282">
                 <Map>
                     <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
                     </Basemap>
-                    <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })">
+                    <FeatureLayer @ref="layer" OutFields="@([ "*" ])">
                         <PortalItem PortalItemId="7a301e848a7c4bfcaefdac4fe98a7f99" />
                     </FeatureLayer>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
         Point point = new(x: -10469946.852199763, y: 4738582.470785314, spatialReference: new(102100));
         var query = new Query
                 {
@@ -414,21 +420,24 @@
     }
 
     [TestMethod]
-    public async Task TestCanQueryTopFeatures(Action renderHandler)
+    public async Task TestCanQueryTopFeatures(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler" Longitude="-97.75188" Latitude="37.23308">
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler" 
+                      Longitude="-97.75188" Latitude="37.23308">
                 <Map>
                     <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
                     </Basemap>
-                    <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })"
+                    <FeatureLayer @ref="layer" OutFields="@([ "*" ])"
                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">
                     </FeatureLayer>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
         string[] orderByField = ["TOTAL DESC"];
         TopFeaturesQuery query = new()
         {
@@ -469,5 +478,397 @@
         
         await AssertJavaScript("assertLayerExists", args: "tile");
         await AssertJavaScript("assertLayerExists", args: "feature");
+    }
+
+    [TestMethod]
+    public async Task FeatureLayer_BasicPropertyRoundtrip_And_JS_Asserts(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Source="@([])"
+                                  OutFields="@(["*"])"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  ObjectIdField="OBJECTID" />
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+
+        await layer!.SetLegendEnabled(false);
+        Assert.AreEqual(false, await layer.GetLegendEnabled());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "legendEnabled", false]);
+
+        await layer!.SetPopupEnabled(true);
+        Assert.AreEqual(true, await layer.GetPopupEnabled());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "popupEnabled", true]);
+
+        await layer!.SetLabelsVisible(false);
+        Assert.AreEqual(false, await layer.GetLabelsVisible());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "labelsVisible", false]);
+
+        await layer!.SetReturnM(true);
+        Assert.AreEqual(true, await layer.GetReturnM());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "returnM", true]);
+
+        await layer!.SetReturnZ(true);
+        Assert.AreEqual(true, await layer.GetReturnZ());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "returnZ", true]);
+
+        await layer!.SetDisplayFilterEnabled(false);
+        Assert.AreEqual(false, await layer.GetDisplayFilterEnabled());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "displayFilterEnabled", false]);
+
+        await layer!.SetEditingEnabled(false);
+        Assert.AreEqual(false, await layer.GetEditingEnabled());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "editingEnabled", false]);
+
+        await layer!.SetUseViewTime(false);
+        Assert.AreEqual(false, await layer.GetUseViewTime());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "useViewTime", false]);
+
+        await layer!.SetScreenSizePerspectiveEnabled(false);
+        Assert.AreEqual(false, await layer.GetScreenSizePerspectiveEnabled());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "screenSizePerspectiveEnabled", false]);
+
+        await layer!.SetMinScale(5000);
+        Assert.AreEqual(5000, await layer.GetMinScale());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "minScale", 5000]);
+
+        await layer!.SetMaxScale(0);
+        Assert.AreEqual(0, await layer.GetMaxScale());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "maxScale", 0]);
+
+        await layer!.SetRefreshInterval(0.1);
+        Assert.AreEqual(0.1, await layer.GetRefreshInterval());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "refreshInterval", 0.1]);
+
+        await layer!.SetDefinitionExpression("1=1");
+        Assert.AreEqual("1=1", await layer.GetDefinitionExpression());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "definitionExpression", "1=1"]);
+
+        await layer!.SetDateFieldsTimeZone("UTC");
+        Assert.AreEqual("UTC", await layer.GetDateFieldsTimeZone());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "dateFieldsTimeZone", "UTC"]);
+
+        await layer!.SetDisplayField("OBJECTID");
+        Assert.AreEqual("OBJECTID", await layer.GetDisplayField());
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "displayField", "OBJECTID"]);
+    }
+
+    [TestMethod]
+    public async Task FeatureLayer_Collections_AddRemove_Roundtrip(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        string[] initialOutFields = ["Field1", "OBJECTID"];
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
+
+                    <FeatureLayer @ref="layer"
+                                  Source="@([])"
+                                  OutFields="@(initialOutFields)"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  ObjectIdField="OBJECTID">
+                        <Field Name="Field1"   Type="FieldType.Long"    />
+                        <Field Name="Field2"   Type="FieldType.Date"    />
+                        <Field Name="Field3"   Type="FieldType.String"  />
+                        <Field Name="OBJECTID" Type="FieldType.Integer" />
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+
+        await layer!.SetOutFields(["Field1", "OBJECTID", "Field2"]);
+
+        IReadOnlyList<string>? outFields = await layer.GetOutFields();
+        CollectionAssert.AreEquivalent(new[] { "Field1", "OBJECTID", "Field2" }, outFields?.ToArray());
+
+        await AssertJavaScript(
+            "assertObjectHasPropertyWithValue",
+            args: [layer.Id, "outFields", new[] { "Field1", "Field2", "OBJECTID" }]);
+
+        await layer.AddToOutFields("Field3");
+        outFields = await layer.GetOutFields();
+        CollectionAssert.AreEquivalent(new[] { "Field1", "OBJECTID", "Field2", "Field3" }, outFields?.ToArray());
+
+        await layer.RemoveFromOutFields("Field3");
+        outFields = await layer.GetOutFields();
+        CollectionAssert.AreEquivalent(new[] { "Field1", "OBJECTID", "Field2" }, outFields?.ToArray());
+
+        await layer.SetOrderBy([new OrderByInfo(field: "OBJECTID", order: SortOrder.Ascending)]);
+        IReadOnlyList<OrderByInfo>? orderBy = await layer.GetOrderBy();
+        Assert.IsTrue(orderBy != null &&
+                      orderBy.Any(o => o is { Field: "OBJECTID", Order: SortOrder.Ascending }));
+    }
+
+    [TestMethod]
+    public async Task FeatureLayer_ComplexProps_Roundtrip_Minimal(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
+                <Map>
+                    <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Source="@([])"
+                                  OutFields="@(["*"])"
+                                  SpatialReference="SpatialReference.Wgs84"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  ObjectIdField="OBJECTID" />
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+
+        var renderer = new SimpleRenderer(new SimpleMarkerSymbol(color: new MapColor("red")));
+        await layer!.SetRenderer(renderer);
+        Renderer? gotRenderer = await layer!.GetRenderer();
+        Assert.IsNotNull(gotRenderer);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "renderer.type", "simple"]);
+
+        var pt = new PopupTemplate("Test title");
+        await layer!.SetPopupTemplate(pt);
+        PopupTemplate? gotPt = await layer!.GetPopupTemplate();
+        Assert.IsNotNull(gotPt);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "popupTemplate.title", "Test title"]);
+
+        var effect = new Effect("drop-shadow(2px,2px,2px)");
+        await layer!.SetEffect(effect);
+        Effect? gotEffect = await layer!.GetEffect();
+        Assert.IsNotNull(gotEffect);
+    }
+
+    [TestMethod]
+    public async Task FeatureLayer_RemainingQueries_And_Clone_And_Refresh_And_Events(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler" 
+                      Longitude="-97.75188" Latitude="37.23308">
+                <Map>
+                    <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
+                    <FeatureLayer @ref="layer"
+                                  OutFields="@([ "*" ])"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0"
+                                  ObjectIdField="OBJECTID"/>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+        Query q = await layer!.CreateQuery();
+        q.ReturnGeometry = true;
+        q.OutFields = ["*"];
+
+        int count = await layer.QueryFeatureCount(q);
+        Assert.IsTrue(count >= 0);
+
+        ExtentQueryResult extent = await layer.QueryExtent(q);
+        Assert.IsNotNull(extent);
+
+        Query topQ = await layer.CreateQuery();
+        topQ.ReturnGeometry = true;
+        topQ.OutFields = ["State", "TOTAL", "F2018", "F2019", "F2020", "Park"];
+        topQ.OrderByFields = ["TOTAL DESC"];
+        topQ.Num = 3;
+
+        FeatureSet? topResult = await layer.QueryFeatures(topQ);
+        Assert.IsNotNull(topResult);
+        Assert.IsTrue(topResult.Features?.Count > 0);
+
+        FeatureLayer clone = await layer.Clone();
+        Assert.IsNotNull(clone);
+        ClearLayerViewEvents();
+
+        FeatureLayer? relLayer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
+                <Map>
+                    <FeatureLayer @ref="relLayer" OutFields="@([ "*" ])">
+                        <PortalItem PortalItemId="234d2e3f6f554e0e84757662469c26d3" />
+                    </FeatureLayer>
+                </Map>
+                <Extent Xmax="-13620669.8431" Xmin="-13640432.281" Ymax="4556710.618000001" Ymin="4536523.6511999965">
+                    <SpatialReference Wkid="102100" />
+                </Extent>
+            </MapView>);
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+
+        var relQuery = new RelationshipQuery
+        {
+            RelationshipId = 0,
+            ObjectIds      = [new ObjectId(1)]
+        };
+
+        RelatedFeaturesCountQueryResult? relCounts = await relLayer!.QueryRelatedFeaturesCount(relQuery);
+        Assert.IsNotNull(relCounts);
+        Assert.IsTrue(relCounts.Values.All(c => c >= 0));
+
+        var refreshTcs = new TaskCompletionSource<RefreshEvent>();
+        ClearLayerViewEvents();
+
+        FeatureLayer? eventLayer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
+                <Map>
+                    <FeatureLayer @ref="eventLayer"
+                                  Source="@([])"
+                                  ObjectIdField="OBJECTID"
+                                  GeometryType="FeatureGeometryType.Point"
+                                  OnRefresh="@(EventCallback.Factory.Create<RefreshEvent>(this, e => refreshTcs.TrySetResult(e)))" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+        await eventLayer!.Add(new Graphic(new Point(-117, 34, 0), new SimpleMarkerSymbol(color: new MapColor("black"))));
+
+        await eventLayer.Refresh();
+        Task refreshEvent = await Task.WhenAny(refreshTcs.Task, Task.Delay(5000));
+        Assert.AreSame(refreshTcs.Task, refreshEvent);
+    }
+
+
+    [TestMethod]
+    public async Task HostedFeatureLayer_Can_Call_Getters_On_All_Properties(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreateHandler">
+                <Map>
+                    <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
+                    <FeatureLayer @ref="layer" OutFields="@([ "*" ])">
+                        <PortalItem PortalItemId="234d2e3f6f554e0e84757662469c26d3" />
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+
+        _ = await layer!.GetApiKey();
+        _ = await layer!.GetAttributeTableTemplate();
+        _ = await layer!.GetBlendMode();
+        _ = await layer!.GetCapabilities();
+        _ = await layer!.GetCharts();
+        _ = await layer!.GetCopyright();
+        _ = await layer!.GetDateFieldsTimeZone();
+        _ = await layer!.GetDatesInUnknownTimezone();
+        _ = await layer!.GetDefinitionExpression();
+        _ = await layer!.GetDisplayField();
+        _ = await layer!.GetDisplayFilterEnabled();
+        _ = await layer!.GetDisplayFilterInfo();
+        _ = await layer!.GetDynamicDataSource();
+        _ = await layer!.GetEditFieldsInfo();
+        _ = await layer!.GetEditingEnabled();
+        _ = await layer!.GetEditingInfo();
+        _ = await layer!.GetEffect();
+        _ = await layer!.GetEffectiveCapabilities();
+        _ = await layer!.GetEffectiveEditingEnabled();
+        _ = await layer!.GetElevationInfo();
+        _ = await layer!.GetFeatureEffect();
+        _ = await layer!.GetFeatureReduction();
+        var g = new Graphic(new Point(-117, 34, 0));
+        _ = await layer!.GetFeatureType(g);
+        _ = await layer!.GetField("OBJECTID");
+        _ = await layer!.GetFieldDomain("OBJECTID");
+        _ = await layer!.GetFields();
+        _ = await layer!.GetFieldsIndex();
+        _ = await layer!.GetFloorInfo();
+        _ = await layer!.GetFormTemplate();
+        _ = await layer!.GetGdbVersion();
+        _ = await layer!.GetGeometryFieldsInfo();
+        _ = await layer!.GetGeometryType();
+        _ = await layer!.GetGlobalIdField();
+        _ = await layer!.GetHasM();
+        _ = await layer!.GetHasZ();
+        _ = await layer!.GetHistoricMoment();
+        _ = await layer!.GetIsTable();
+        _ = await layer!.GetLabelingInfo();
+        _ = await layer!.GetLabelsVisible();
+        _ = await layer!.GetLayerIndex();
+        _ = await layer!.GetLegendEnabled();
+        _ = await layer!.GetMaxScale();
+        _ = await layer!.GetMinScale();
+        _ = await layer!.GetObjectIdField();
+        _ = await layer!.GetOrderBy();
+        _ = await layer!.GetOutFields();
+        _ = await layer!.GetPopupEnabled();
+        _ = await layer!.GetPopupTemplate();
+        _ = await layer!.GetPortalItem();
+        _ = await layer!.GetPreferredTimeZone();
+        _ = await layer!.GetPublishingInfo();
+        _ = await layer!.GetRefreshInterval();
+        _ = await layer!.GetRelationships();
+        _ = await layer!.GetRenderer();
+        _ = await layer!.GetReturnM();
+        _ = await layer!.GetReturnZ();
+        _ = await layer!.GetScreenSizePerspectiveEnabled();
+        _ = await layer!.GetServiceDefinitionExpression();
+        _ = await layer!.GetServiceItemId();
+        _ = await layer!.GetSpatialReference();
+        _ = await layer!.GetSubtypeField();
+        _ = await layer!.GetTemplates();
+        _ = await layer!.GetTimeExtent();
+        _ = await layer!.GetTimeInfo();
+        _ = await layer!.GetTimeOffset();
+        _ = await layer!.GetTrackInfo();
+        _ = await layer!.GetTypeIdField();
+        _ = await layer!.GetTypes();
+        _ = await layer!.GetUniqueIdFields();
+        _ = await layer!.GetUrl();
+        _ = await layer!.GetUseViewTime();
+        _ = await layer!.GetVersion();
+    }
+
+    [TestMethod]
+    public async Task TestCanQueryFeatureLayerLoadedWithoutMap()
+    {
+        FeatureLayer layer = new(portalItem: new PortalItem("234d2e3f6f554e0e84757662469c26d3"), outFields: ["*"]);
+        await layer.Load(JsRuntime, JsModuleManager, CancellationToken.None);
+        Point point = new(x: -13627933.093831237, y: 4547153.388126561, spatialReference: new(102100));
+        var query = new Query
+        {
+            Geometry = point,
+            Distance = 0.5,
+            Units = QueryUnits.Miles,
+            SpatialRelationship = SpatialRelationship.Intersects,
+            ReturnGeometry = false,
+            ReturnQueryGeometry = true,
+            OutFields = new HashSet<string> { "*" }
+        };
+        FeatureSet? result = await layer.QueryFeatures(query);
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.Features!.Count > 0);
+        Assert.IsNotNull(layer.Fields);
+        Assert.IsTrue(layer.Fields.Count > 0);
     }
 }

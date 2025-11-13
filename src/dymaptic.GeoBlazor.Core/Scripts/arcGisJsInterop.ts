@@ -1868,6 +1868,10 @@ function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapV
 }
 
 export async function loadProtobuf() {
+    if (ProtoGraphicCollection && ProtoViewHitCollection) {
+        // already loaded
+        return;
+    }
     load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
         if (err) {
             throw err;

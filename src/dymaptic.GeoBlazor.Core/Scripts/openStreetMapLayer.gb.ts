@@ -114,13 +114,7 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
     async isResolved(): Promise<any> {
         return this.layer.isResolved();
     }
-
-    async load(options: any): Promise<any> {
-        let result = await this.layer.load(options);
-        
-        return generateSerializableJson(result);
-    }
-
+    
     async refresh(): Promise<void> {
         this.layer.refresh();
     }
