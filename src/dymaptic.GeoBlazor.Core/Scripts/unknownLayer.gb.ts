@@ -75,12 +75,6 @@ export default class UnknownLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.layer.load(options);
-        
-        return generateSerializableJson(result);
-    }
-
     async when(callback: any,
         errback: any): Promise<any> {
         let result = await this.layer.when(callback,

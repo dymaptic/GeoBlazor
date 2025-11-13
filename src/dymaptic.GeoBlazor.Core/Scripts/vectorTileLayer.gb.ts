@@ -140,12 +140,6 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.layer.load(options);
-        
-        return generateSerializableJson(result);
-    }
-
     async loadStyle(style: any,
         options: any): Promise<any> {
         let result = await this.layer.loadStyle(style,
