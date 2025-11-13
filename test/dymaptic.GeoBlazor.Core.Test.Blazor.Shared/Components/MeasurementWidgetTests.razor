@@ -1,0 +1,39 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanTwoWayBindViewModel(Action renderHandler)
+    {
+        MapView? mapView = null;
+        DistanceMeasurement2DWidget? distanceWidget = null;
+        AreaMeasurement2DWidget? areaWidget = null;
+        DistanceMeasurement2DViewModel? distanceMeasurement2DViewModel = null;
+        AreaMeasurement2DViewModel? areaMeasurement2DViewModel = null;
+        AddMapRenderFragment(
+            @<MapView Class="map-view" @ref="mapView" OnViewRendered="renderHandler">
+                <WebMap>
+                    <PortalItem ExcludeApiKey="true" PortalItemId="990d0191f2574db495c4304a01c3e65b" />
+                </WebMap>
+                <DistanceMeasurement2DWidget @ref="distanceWidget" 
+                                             Position="OverlayPosition.BottomLeft"
+                                             @bind-ViewModel="distanceMeasurement2DViewModel" />
+                <AreaMeasurement2DWidget @ref="areaWidget" 
+                                         Visible="false" 
+                                         Position="OverlayPosition.BottomRight"
+                                         @bind-ViewModel="areaMeasurement2DViewModel" />
+            </MapView>);
+
+        await WaitForMapToRender();
+        
+        Assert.IsNotNull(mapView);
+        Assert.IsNotNull(distanceWidget);
+        Assert.IsNotNull(areaWidget);
+        Assert.IsNotNull(distanceMeasurement2DViewModel);
+        Assert.IsNotNull(areaMeasurement2DViewModel);
+    }
+}

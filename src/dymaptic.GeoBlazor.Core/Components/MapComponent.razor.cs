@@ -236,9 +236,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         try
         {
-            Props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic |
+            _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic |
                 BindingFlags.Instance);
-            PropertyInfo? prop = Props.FirstOrDefault(p => p.Name == propertyName);
+            PropertyInfo? prop = _props.FirstOrDefault(p => p.Name == propertyName);
 
             if (prop is null)
             {
@@ -292,8 +292,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             return methodTask.GetType().GetProperty("Result")!.GetValue(methodTask) is T result ? result : default;
         }
 
-        Props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        PropertyInfo prop = Props.First(p => p.Name == propertyName);
+        _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        PropertyInfo prop = _props.First(p => p.Name == propertyName);
         T? currentValue = (T?)prop.GetValue(this);
 
         if (CoreJsModule is null)
@@ -695,9 +695,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
     internal void CopyProperties(MapComponent deserializedComponent)
     {
-        Props ??= MapComponentType
+        _props ??= MapComponentType
             .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-        foreach (PropertyInfo prop in Props.Where(p => p.SetMethod is not null))
+        foreach (PropertyInfo prop in _props.Where(p => p.SetMethod is not null))
         {
             if (IsDisposed)
             {
@@ -760,7 +760,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         if (prop.GetCustomAttribute<ParameterAttribute>() is { })
         {
             // find matching callback parameter
-            PropertyInfo? callbackProp = Props!.FirstOrDefault(cp =>
+            PropertyInfo? callbackProp = _props!.FirstOrDefault(cp =>
                 cp.Name == $"{prop.Name}Changed" &&
                 (cp.PropertyType.IsAssignableTo(typeof(EventCallback))
                     || (cp.PropertyType.IsGenericType &&
@@ -771,7 +771,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                 // invoke the callback to notify of the changed value
                 if (callbackProp.GetValue(this) is EventCallback eventCallback)
                 {
-                    _ = eventCallback.InvokeAsync(newValue);
+                    try
+                    {
+                        _ = eventCallback.InvokeAsync(newValue);
+                    }
+                    catch  (Exception ex)
+                    {
+                        Console.Error.WriteLine($"Error invoking parameter changed callback for parameter {prop.Name} on type {MapComponentType.Name}: {ex}");
+                    }
                 }
                 else
                 {
@@ -787,9 +794,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                         {
                             _ = invokeAsync.Invoke(callbackValue, [newValue]);
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            // ignore invocation errors (matching existing pattern)
+                            Console.Error.WriteLine($"Error invoking parameter changed callback for parameter {prop.Name} on type {MapComponentType.Name}: {ex}");
                         }
                     }
                 }
@@ -808,11 +815,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </exception>
     public virtual void ValidateRequiredChildren()
     {
-        if (IsValidated) return;
+        if (_isValidated) return;
 
-        Props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-        IEnumerable<PropertyInfo> requiredParameters = Props.Where(p =>
+        IEnumerable<PropertyInfo> requiredParameters = _props.Where(p =>
             Attribute.IsDefined(p, typeof(RequiredPropertyAttribute)));
 
         List<ComponentOption> options = [];
@@ -872,12 +879,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             }
         }
         
-        IEnumerable<PropertyInfo> conditionallyRequiredProps = Props.Where(p =>
+        IEnumerable<PropertyInfo> conditionallyRequiredProps = _props.Where(p =>
             Attribute.IsDefined(p, typeof(ConditionallyRequiredPropertyAttribute)));
 
         foreach (PropertyInfo condRequiredProp in conditionallyRequiredProps)
         {
-            PropertyInfo dependentProp = Props.First(p =>
+            PropertyInfo dependentProp = _props.First(p =>
                 p.Name == ((ConditionallyRequiredPropertyAttribute)condRequiredProp
                     .GetCustomAttributes(typeof(ConditionallyRequiredPropertyAttribute), true)[0]).DependentOn);
             object? dependentValue = dependentProp.GetValue(this);
@@ -893,7 +900,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             }
         }
 
-        IsValidated = true;
+        _isValidated = true;
     }
 
     /// <summary>
@@ -911,12 +918,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Reflection-based properties of the component.
     /// </summary>
-    protected PropertyInfo[]? Props;
+    private PropertyInfo[]? _props;
 
     /// <summary>
     ///     Identifies whether this component has been checked for valid and required properties/children.
     /// </summary>
-    protected bool IsValidated;
+    private bool _isValidated;
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -975,9 +982,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             return;
         }
 
-        Props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-        foreach (PropertyInfo propInfo in Props)
+        foreach (PropertyInfo propInfo in _props)
         {
             if (propInfo.PropertyType.IsAssignableTo(typeof(IInteractiveRecord))
                 && propInfo.GetValue(this) is IInteractiveRecord record)
@@ -1030,7 +1037,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.
     /// </summary>
-    protected internal Dictionary<string, object?> ModifiedParameters = new();
+    protected readonly internal Dictionary<string, object?> ModifiedParameters = new();
 
     /// <summary>
     ///     Creates a cancellation token to control external calls

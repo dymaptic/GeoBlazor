@@ -1,6 +1,6 @@
 ﻿namespace dymaptic.GeoBlazor.Core.Extensions;
 
-internal static partial class StringExtensions
+internal static class StringExtensions
 {
     public static string ToLowerFirstChar(this string val)
     {
@@ -26,12 +26,10 @@ internal static partial class StringExtensions
 
             if (char.IsUpper(c) || char.IsDigit(c))
             {
-                if (!previousWasDigit) // only add a dash if the previous character was not a digit
+                if (!previousWasDigit && i > 0)
                 {
-                    if (i > 0)
-                    {
-                        sb.Append('-');
-                    }
+                    // only add a dash if the previous character was not a digit
+                    sb.Append('-');
                 }
 
                 sb.Append(char.ToLower(c));

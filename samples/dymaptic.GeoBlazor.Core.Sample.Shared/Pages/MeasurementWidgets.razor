@@ -23,19 +23,16 @@
     <WebMap>
         <PortalItem ExcludeApiKey="true" PortalItemId="990d0191f2574db495c4304a01c3e65b" />
     </WebMap>
-    @if (_placeWidgetsOnMapView)
-    {
-        <DistanceMeasurement2DWidget @ref="_distanceWidget" 
-                                     Visible="false" 
-                                     Position="OverlayPosition.BottomRight"
-                                     @bind-ViewModel="_distanceWidgetViewModel"
-                                     @bind-ViewModel:after="StateHasChanged" />
-        <AreaMeasurement2DWidget @ref="_areaWidget" 
+    <DistanceMeasurement2DWidget @ref="_distanceWidget" 
                                  Visible="false" 
-                                 Position="OverlayPosition.BottomRight"
-                                 @bind-ViewModel="_areaWidgetViewModel"
+                                 ContainerId="distance-widget-holder"
+                                 @bind-ViewModel="_distanceWidgetViewModel"
                                  @bind-ViewModel:after="StateHasChanged" />
-    }
+    <AreaMeasurement2DWidget @ref="_areaWidget" 
+                             Visible="false" 
+                             ContainerId="area-widget-holder"
+                             @bind-ViewModel="_areaWidgetViewModel"
+                             @bind-ViewModel:after="StateHasChanged" />
     <CustomOverlay @ref="_toolOverlay" Position="OverlayPosition.TopRight">
         <div id="topbar">
             <label>Measure Tools</label>
@@ -54,39 +51,18 @@
         </div>
     </CustomOverlay>
     <CustomOverlay Position="OverlayPosition.BottomLeft">
-        <button class="btn btn-primary" @onclick="ToggleWidgets">@(_placeWidgetsOnMapView ? "Hide" : "Show") Details</button>
+        <button class="btn btn-primary" @onclick="ToggleWidgets">
+            @(_showDetails ? "Hide" : "Show") Details
+        </button>
     </CustomOverlay>
 </MapView>
 
-@if (!_placeWidgetsOnMapView && _mapView is not null)
-{
-    <DistanceMeasurement2DWidget @ref="_distanceWidget" 
-                                 Visible="false" 
-                                 MapView="_mapView" 
-                                 ContainerId="widget-holder"
-                                 @bind-ViewModel="_distanceWidgetViewModel"
-                                 @bind-ViewModel:after="StateHasChanged" />
-    <AreaMeasurement2DWidget @ref="_areaWidget" 
-                             Visible="false" 
-                             MapView="_mapView" 
-                             ContainerId="widget-holder"
-                             @bind-ViewModel="_areaWidgetViewModel"
-                             @bind-ViewModel:after="StateHasChanged" />
-}
-
-<div id="widget-holder" style="display: none"></div>
+<div id="distance-widget-holder" style="display: none"></div>
+<div id="area-widget-holder" style="display: none"></div>
 
 
 @code {
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (_mapView is not null && _distanceWidget is null)
-        {
-            // second render to load mapView and pass to widgets
-            StateHasChanged();
-        }
-    }
-
+    
     private async Task OnDistanceButtonClicked()
     {
         await SetActiveWidget("distance");
@@ -130,10 +106,21 @@
 
     private async Task ToggleWidgets()
     {
-        _placeWidgetsOnMapView = !_placeWidgetsOnMapView;
-        await SetActiveWidget(null);
+        _showDetails = !_showDetails;
+
+        if (_showDetails)
+        {
+            await _distanceWidget!.SetPosition(OverlayPosition.BottomRight);
+            await _areaWidget!.SetPosition(OverlayPosition.BottomRight);
+        }
+        else
+        {
+            await _distanceWidget!.SetContainerId("distance-widget-holder");
+            await _areaWidget!.SetContainerId("area-widget-holder");
+        }
+
         await SetActiveButton(null);
-        await _mapView!.Refresh();
+        await SetActiveWidget(null);
     }
 
     private DistanceMeasurement2DWidget? _distanceWidget;
@@ -144,5 +131,5 @@
     private CustomOverlay? _toolOverlay;
     private bool _areaBtnActive;
     private bool _distanceBtnActive;
-    private bool _placeWidgetsOnMapView;
+    private bool _showDetails;
 }
