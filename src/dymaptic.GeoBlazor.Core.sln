@@ -40,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client", "..\samples\dymaptic.GeoBlazor.Core.Sample.TokenRefresh\dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client\dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.csproj", "{6CB414BD-0536-A361-CEFF-C84EE3906931}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Analyzers", "dymaptic.GeoBlazor.Analyzers\dymaptic.GeoBlazor.Analyzers.csproj", "{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Analyzers", "dymaptic.GeoBlazor.Core.Analyzers\dymaptic.GeoBlazor.Core.Analyzers.csproj", "{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
