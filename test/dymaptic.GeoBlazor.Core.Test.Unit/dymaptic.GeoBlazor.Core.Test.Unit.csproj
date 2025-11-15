@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Codeuctivity.ImageSharpCompare" Version="4.1.342" />
+        <PackageReference Include="Codeuctivity.ImageSharpCompare" Version="4.1.379" />
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -14,11 +14,11 @@
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.6" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-        <PackageReference Include="Microsoft.Playwright" Version="1.52.0" />
-        <PackageReference Include="Microsoft.Playwright.MSTest" Version="1.52.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="4.0.1" />
-        <PackageReference Include="MSTest.TestFramework" Version="4.0.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+        <PackageReference Include="Microsoft.Playwright" Version="1.56.0" />
+        <PackageReference Include="Microsoft.Playwright.MSTest" Version="1.56.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
+        <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
         <PackageReference Include="coverlet.collector" Version="6.0.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

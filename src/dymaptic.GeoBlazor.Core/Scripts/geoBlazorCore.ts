@@ -113,6 +113,7 @@ async function overrideEsriLoginModal(element: HTMLElement, viewId: string, erro
 }
 
 export function logUncaughtError(level: string, module: string, viewId: string, ...args: any[]): boolean {
+    console.debug(viewId && viewId !== 'global' ? `Logging for mapView ${viewId}` : "Logging for authenticationManager");
     if (level !== 'error') {
         return false;
     }
@@ -129,19 +130,25 @@ export function logUncaughtError(level: string, module: string, viewId: string, 
     } else {
         error.message = args.join(', ');
     }
-    
-    if (args[1].toLowerCase().includes('failed to load basemap')) {
-        let errorMessage = `${module} error: ${error.message}. Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
-        showError(viewId);
-        console.error(errorMessage);
-    } else {
-        console.error(module, ...args);
-    }
 
-    let _ = resetMapComponent(viewId);
-    let dotNetRef = dotNetRefs[viewId] as any;
-    dotNetRef.invokeMethodAsync('OnJavascriptError', error);
-    let __ = setCursor('unset', viewId);
+    let _ = new Promise(async () =>
+    {
+        if (args[1].toLowerCase().includes('failed to load basemap')) {
+            let errorMessage = `${module} error: ${error.message}. Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
+            if (viewId && viewId !== 'global') {
+                await resetMapComponent(viewId);
+                showError(viewId);
+            }
+            console.error(errorMessage);
+        } else {
+            console.error(module, ...args);
+        }
+
+        let dotNetRef = dotNetRefs[viewId] as any;
+        await dotNetRef.invokeMethodAsync('OnJavascriptError', error);
+        await setCursor('unset', viewId);
+    });
+    
     return true;
 }
 

@@ -15,7 +15,7 @@
         <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.6" />
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.6" />
-        <PackageReference Include="MSTest.TestFramework" Version="4.0.1" />
+        <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
     </ItemGroup>
     
     <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'DEBUG' OR $(UseProjectReference) == 'true'">

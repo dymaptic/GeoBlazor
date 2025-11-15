@@ -53,11 +53,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="DefaultDocumentation" Version="1.2.0" PrivateAssets="all" />
-        <PackageReference Include="protobuf-net" Version="3.2.52" />
+        <PackageReference Include="DefaultDocumentation" Version="1.2.2" PrivateAssets="all" />
+        <PackageReference Include="protobuf-net" Version="3.2.56" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.17" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.22" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
@@ -104,10 +104,6 @@
         <Folder Include="Documentation/" />
         <Folder Include="wwwroot/js/" />
         <Content Remove="esBuild*" Pack="false" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <Watch Remove="wwwroot/**/*;Scripts/**/*;esbuild*;node_modules/**/*" />
     </ItemGroup>
 
     <ItemGroup>

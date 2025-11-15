@@ -99,6 +99,7 @@ import {
 // endregion
 
 // region exports
+globalThis.esriConfig = esriConfig;
 
 // re-export imported types
 export {
