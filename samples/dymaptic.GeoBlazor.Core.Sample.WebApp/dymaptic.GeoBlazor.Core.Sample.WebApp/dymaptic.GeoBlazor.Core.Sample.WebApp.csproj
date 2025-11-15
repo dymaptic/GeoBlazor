@@ -11,4 +11,20 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.6" />
     </ItemGroup>
 
+    <Target Name="PreResolveProjectStaticWebAssets" 
+            BeforeTargets="ResolveProjectStaticWebAssets" 
+            Condition="'$(Configuration)' == 'Debug'">
+        <ItemGroup>
+            <StashedContent Include="@(Content)" />
+            <Content Remove="@(Content)" />
+        </ItemGroup>
+    </Target>
+    <Target Name="PostResolveProjectStaticWebAssets" 
+            AfterTargets="ResolveProjectStaticWebAssets"
+            Condition="'$(Configuration)' == 'Debug'">
+        <ItemGroup>
+            <Content Include="@(StashedContent)" />
+        </ItemGroup>
+    </Target>
+
 </Project>

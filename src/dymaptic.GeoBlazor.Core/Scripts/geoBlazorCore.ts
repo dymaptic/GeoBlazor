@@ -2,10 +2,12 @@ import {
     addArcGisLayer,
     graphicsRefs,
     buildArcGisMapView,
-    loadProtobuf, 
+    loadProtobuf,
     ProtoGraphicCollection,
     popupTemplateRefs,
-    actionHandlers
+    actionHandlers, 
+    esriConfig,
+    resetMapComponent
 } from './arcGisJsInterop';
 import AuthenticationManager from "./authenticationManager";
 import ProjectionWrapper from "./projection";
@@ -20,6 +22,7 @@ export const jsObjectRefs: Record<string, any> = {};
 export const dotNetRefs: Record<string, any> = {};
 
 const observers: Record<string, any> = {};
+
 export let Pro: any;
 export async function setPro(pro: any): Promise<void> {
     Pro = pro;
@@ -36,31 +39,32 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    tilt?: number) : Promise<any> {
     try {
         await setCursor('wait');
+
+        clearError();
         
         if (allowDefaultEsriLogin !== true && !hasValue(apiKey) && !hasValue(appId)) {
             let errorMessage = `Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
-            let errorMessageHtml = `<p>Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See <a style="color: red; text-decoration: underline" target="_blank" href="https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication">ArcGIS Authentication</a> for more information.</p>`;
             globalThis.overflowStyle ??= document.documentElement.style.overflow;
             // listen for the esri-identity-modal popup and hide it
             const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
+                mutations.forEach(async (mutation) => {
                     if (mutation.type === 'childList') {
                         mutation.addedNodes.forEach((node) => {
                             if (node instanceof HTMLElement) {
                                 // Check the node itself
                                 if (node.classList.contains('esri-identity-modal')) {
-                                    overrideEsriLoginModal(node, id, errorMessage, errorMessageHtml);
+                                    let _ = overrideEsriLoginModal(node, id, errorMessage);
                                 }
                                 // Check descendants
-                                node.querySelectorAll?.('.esri-identity-modal').forEach((modal) => {
-                                    overrideEsriLoginModal(modal as HTMLElement, id, errorMessage, errorMessageHtml);
+                                node.querySelectorAll?.('.esri-identity-modal').forEach(async (modal) => {
+                                    let _ = overrideEsriLoginModal(modal as HTMLElement, id, errorMessage);
                                 });
                             }
                         });
                     } else if (mutation.type === 'attributes') {
                         const target = mutation.target as HTMLElement;
                         if (target.classList.contains('esri-identity-modal')) {
-                            overrideEsriLoginModal(target, id, errorMessage, errorMessageHtml)
+                            await overrideEsriLoginModal(target, id, errorMessage)
                         } else if (target.tagName === 'html' && target.style.overflow === 'hidden') {
                             // reset overflow style
                             document.documentElement!.style.overflow = globalThis.overflowStyle ?? 'unset';
@@ -79,6 +83,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             observers[id] = observer;
         }
         
+        addHeadLink('_content/dymaptic.GeoBlazor.Core/css/geoblazor.css');
 
         await buildArcGisMapView(abortSignal, id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, mapType,
             widgets, graphics, spatialReference, constraints, extent, backgroundColor, eventRateLimitInMilliseconds,
@@ -88,6 +93,8 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         if (abortSignal.aborted) {
             return;
         }
+        await resetMapComponent(id);
+        showError(id);
         throw e;
     } finally {
         await setCursor('unset');
@@ -95,35 +102,90 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
 }
 
 // hides the ArcGIS popup modal login screen, and shows the warning to add an ArcGIS API key instead.
-function overrideEsriLoginModal(element: HTMLElement, viewId: string, errorMessageString: string, 
-                                errorMessageHtml: string): void {
+async function overrideEsriLoginModal(element: HTMLElement, viewId: string, errorMessageString: string): Promise<void> {
     element.parentElement?.removeChild(element);
     // reset overflow style
     document.documentElement!.style.overflow = globalThis.overflowStyle ?? 'unset';
-    showError(viewId, errorMessageHtml);
+    await resetMapComponent(viewId);
+    showError(viewId);
     console.error(errorMessageString);
+    let _ = setCursor('unset', viewId);
 }
 
-function showError(viewId: string, errorMessage: string) {
-    let mapViewContainer = document.querySelector(`#map-container-${viewId}`);
-    let errorDiv: HTMLDivElement | null = mapViewContainer?.querySelector('.validation-message') as HTMLDivElement;
+export function logUncaughtError(level: string, module: string, viewId: string, ...args: any[]): boolean {
+    if (level !== 'error') {
+        return false;
+    }
+    
+    let error: any = {};
+    
+    if (args.length === 3) {
+        let innerError = args[2];
+        error = {
+            message: `${innerError.message}: ${args[1]}`,
+            stack: `${module} ${args[0]}`,
+            name: innerError.name,
+        };
+    } else {
+        error.message = args.join(', ');
+    }
+    
+    if (args[1].toLowerCase().includes('failed to load basemap')) {
+        let errorMessage = `${module} error: ${error.message}. Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
+        showError(viewId);
+        console.error(errorMessage);
+    } else {
+        console.error(module, ...args);
+    }
+
+    let _ = resetMapComponent(viewId);
+    let dotNetRef = dotNetRefs[viewId] as any;
+    dotNetRef.invokeMethodAsync('OnJavascriptError', error);
+    let __ = setCursor('unset', viewId);
+    return true;
+}
+
+export function showError(viewId: string) {
+    let errorDiv: HTMLDivElement | null;
+    let errorContainer: HTMLDivElement | null;
+    let parentElement: HTMLElement | null;
+    if (viewId === 'global') {
+        return;
+    } else {
+        parentElement = document.querySelector(`#map-container-${viewId}`);
+        if (!parentElement) {
+            return;
+        }
+    }
+    errorContainer = parentElement!.querySelector('.geoblazor-message-overlay') as HTMLDivElement;
+    if (!errorContainer) {
+        errorContainer = document.createElement('div');
+        errorContainer.classList.add('geoblazor-message-overlay');
+        parentElement!.appendChild(errorContainer);
+    } else {
+        errorContainer.parentElement?.removeChild(errorContainer);
+        parentElement!.appendChild(errorContainer);
+    }
+    errorContainer.style.visibility = 'visible';
+    errorDiv = errorContainer?.querySelector('.geoblazor-validation-message') as HTMLDivElement;
+    
     if (!errorDiv) {
         errorDiv = document.createElement('div');
-        errorDiv.style.cssText = `
-        position: absolute; 
-        top: 15px; 
-        left: 15px; 
-        z-index: 1000; 
-        max-width: calc(100% - 30px);
-        padding: 1rem;
-        background-color: white;
-        border-radius: 1rem;
-        color: red;`;
-        errorDiv.className = 'validation-message';
-        errorDiv.innerHTML = errorMessage;
-        mapViewContainer?.appendChild(errorDiv);
-    } else {
-        errorDiv.innerHTML = errorMessage;
+        errorContainer?.appendChild(errorDiv);
+    }
+
+    if (!errorDiv.classList.contains('geoblazor-validation-message')) {
+        errorDiv.classList.add('geoblazor-validation-message');
+    }
+    
+    errorDiv.innerHTML = '<p>An error occurred while loading the map.</p>';
+}
+
+export function clearError() {
+    let errorContainer: HTMLDivElement | null = document?.querySelector('.geoblazor-message-overlay') as HTMLDivElement;
+    if (errorContainer) {
+        let parent = errorContainer.parentElement as HTMLElement;
+        parent?.removeChild(errorContainer);
     }
 }
 
@@ -133,6 +195,13 @@ export async function disposeMapComponent(componentId: string, viewId: string): 
         if (observers.hasOwnProperty(componentId)) {
             observers[componentId].disconnect();
             delete observers[componentId];
+        }
+
+        let existingInterceptor = esriConfig.log.interceptors
+            .find(i => i.name === `mapViewInterceptor_${componentId.replace(/-/g, '_')}`);
+        let index = esriConfig.log.interceptors.indexOf(existingInterceptor!);
+        if (index >= 0) {
+            esriConfig.log.interceptors.splice(index, 1);
         }
         
         const component = arcGisObjectRefs[componentId];

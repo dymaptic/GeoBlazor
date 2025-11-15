@@ -271,7 +271,7 @@ public partial class MapView : MapComponent
     ///     Wraps the JS Error and throws a .NET Exception.
     /// </exception>
     [JSInvokable]
-    public void OnJavascriptError(JavascriptError error)
+    public async Task OnJavascriptError(JavascriptError error)
     {
         if (IsDisposed) return;
 #if DEBUG
@@ -279,12 +279,21 @@ public partial class MapView : MapComponent
         StateHasChanged();
 #endif
         var exception = new JavascriptException(error);
+        
+        bool handled = false;
 
         if (OnJavascriptErrorHandler is not null)
         {
-            OnJavascriptErrorHandler?.Invoke(exception);
+            await OnJavascriptErrorHandler(exception);
+            handled = true;
         }
-        else
+
+        if (OnExceptionHandler is not null)
+        {
+            handled = await OnExceptionHandler(exception);
+        }
+        
+        if (!handled)
         {
             throw exception;
         }
@@ -304,6 +313,12 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
+    
+    /// <summary>
+    ///     Handles any runtime exceptions instead of throwing. Return a boolean to indicate if the exception was handled (true) or should still throw (false).
+    /// </summary>
+    [Parameter]
+    public Func<Exception, Task<bool>>? OnExceptionHandler { get; set; }
 
     /// <summary>
     ///     JS-Invokable method to return view clicks.
@@ -2389,6 +2404,8 @@ public partial class MapView : MapComponent
         if (!AuthenticationInitialized || Rendering || Map is null || CoreJsModule is null) return;
 
         Rendering = true;
+        await CancellationTokenSource.CancelAsync();
+        CancellationTokenSource = new CancellationTokenSource();
         Map.Layers.RemoveAll(l => l.Imported);
 
         if (Map.Basemap is not null)
@@ -2472,13 +2489,28 @@ public partial class MapView : MapComponent
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+#if DEBUG
+            ErrorMessage = ex.Message.Replace("\n", "<br>");
+#endif
+            await Console.Error.WriteLineAsync(
+                $"Error building map view: {ex.Message}{System.Environment.NewLine}{ex.StackTrace}");
 
-            throw;
-        }
-        finally
-        {
-            CancellationTokenSource = new CancellationTokenSource();    
+            bool handled = false;
+            if (OnJavascriptErrorHandler is not null)
+            {
+                await OnJavascriptErrorHandler(
+                    new JavascriptException(new JavascriptError(ex.Message, nameof(BuildMapView), ex.StackTrace)));
+                handled = true;
+            }
+            if (OnExceptionHandler is not null)
+            {
+                handled = await OnExceptionHandler(ex);
+            }
+            
+            if (!handled)
+            {
+                throw;
+            }
         }
     }
     
@@ -2512,9 +2544,9 @@ public partial class MapView : MapComponent
             && Map.ArcGISDefaultBasemap is null
 #pragma warning restore CS0618 // Type or member is obsolete
             && !(Map.Basemap?.BaseLayers?.Count > 0)
-            && !(Map.Layers.Count(l => 
+            && Map.Layers.All(l => 
                 // these are "image/tile" layers that would fill the map like a basemap, even if not placed in the basemap
-                l is ITileLayer or ImageryLayer or WMSLayer or WMTSLayer) > 0))
+                l is not ITileLayer or ImageryLayer or WMSLayer or WMTSLayer))
         {
             // add a default OSM basemap if there are no ArcGIS rendered layers so the map can render
             Map.Basemap ??= new Basemap();

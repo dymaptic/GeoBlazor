@@ -1,4 +1,3 @@
-import LocationServiceGenerated from './locationService.gb';
 import * as locator from "@arcgis/core/rest/locator";
 import {DotNetAddressCandidate, DotNetExtent, DotNetPoint, DotNetSpatialReference} from "./definitions";
 import {hasValue} from './geoBlazorCore';

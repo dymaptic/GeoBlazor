@@ -1,4 +1,5 @@
 ﻿@page "/basemaps"
+@using Environment = System.Environment
 
 <PageTitle>Basemaps</PageTitle>
 <h1>Basemaps</h1>
@@ -74,16 +75,18 @@
         <a class="btn btn-accent" target="_blank" href="https://www.arcgis.com/home/item.html?id=6976148c11bd497d8624206f9ee03e30">Forest and Parks Canvas Tile Layer</a>
     </div>
 </div>
+
 @switch (_basemapType)
 {
     case 0:
-        <MapView Class="map-view" Zoom="14" Latitude="52.5" Longitude="13.5">
+        <MapView @key="0" Class="map-view" Zoom="14" Latitude="52.5" Longitude="13.5">
             <Map></Map>
         </MapView>
 
         break;
     case 1:
-        <MapView @ref="_mapView1" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
+        <MapView @key="1" @ref="_mapView1" Class="map-view" Zoom="11" 
+                 Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
                     <BasemapStyle Name="_basemapStyleName" />
@@ -92,7 +95,8 @@
         </MapView>
         break;
     case 2:
-        <MapView @ref="_mapView2" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
+        <MapView @key="2" @ref="_mapView2" Class="map-view" Zoom="11" 
+                 Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
                     <PortalItem PortalItemId="@_basemapId" />
@@ -101,7 +105,8 @@
         </MapView>
         break;
     case 3:
-        <MapView Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
+        <MapView @key="3" Class="map-view" Zoom="11" 
+                 Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
                     <VectorTileLayer Opacity="0.75">
@@ -118,9 +123,20 @@
 
 @code {
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_errorState)
+        {
+            _errorState = false;
+            await Task.Delay(100);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
     private void SetBasemap(int val)
     {
         _basemapType = val;
+
     }
     
     private async Task SelectStyleMapChanged(ChangeEventArgs obj)
@@ -142,5 +158,5 @@
     private readonly double _longitude = -118.805;
     private string _basemapId = "55ebf90799fa4a3fa57562700a68c405";
     private BasemapStyleName _basemapStyleName = BasemapStyleName.ArcgisNova;
-
+    private bool _errorState;
 }

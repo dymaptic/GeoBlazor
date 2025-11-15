@@ -87,12 +87,14 @@ import {
     generateSerializableJson,
     sanitize,
     setCursor,
-    base64ToArrayBuffer, 
-    setProperty, 
-    addHeadLink, 
-    checkHeadLink, 
+    base64ToArrayBuffer,
+    setProperty,
+    addHeadLink,
+    checkHeadLink,
     removeHeadLink,
-    lookupGeoBlazorId
+    lookupGeoBlazorId,
+    logUncaughtError,
+    disposeMapComponent
 } from "./geoBlazorCore";
 // endregion
 
@@ -194,13 +196,15 @@ function setViewTheme(theme, viewId: string): void {
     }
 }
 
+
 export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, dotNetReference: any, 
                                    long: number | null, lat: number | null, rotation: number | null, mapObject: any, 
                                    zoom: number | null, scale: number, mapType: string, widgets: any[], graphics: any,
                                    spatialReference: any, constraints: any, extent: any, backgroundColor: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                                    isServer: boolean, highlightOptions?: any | null, 
-                                   popupEnabled?: boolean | null, theme?: string | null, zIndex?: number, tilt?: number)
+                                   popupEnabled?: boolean | null, theme?: string | null, zIndex?: number, tilt?: number,
+                                   retry: boolean = false)
     : Promise<void> {
     // Order of operations in this function is very important
     // do not change without significant testing.
@@ -209,6 +213,20 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     userChangedViewExtent = false;
     blazorServer = isServer;
     const dotNetRef = dotNetReference;
+    
+    let interceptorName = `mapViewInterceptor_${id.replace(/-/g, '_')}`;
+    let existingInterceptor = esriConfig.log.interceptors
+        .find(i => i.name === interceptorName);
+    let index = esriConfig.log.interceptors.indexOf(existingInterceptor!);
+    if (index >= 0) {
+        esriConfig.log.interceptors.splice(index, 1);
+    }
+
+    let newInterceptor = new Function('logUncaughtError',
+        `return function ${interceptorName}(level, module, ...args) {
+            return logUncaughtError(level, module, '${id}', ...args);
+        }`);
+    esriConfig.log.interceptors.unshift((newInterceptor(logUncaughtError) as __esri.LogInterceptor));
 
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
@@ -351,8 +369,15 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
 
     if (!view.ui.view) {
         // this state happens after an internal ArcGIS error, we need to reload everything
-        mapComponent.destroy();
-        throw new Error(`Map component view is in an invalid state. This often occurs after an error on navigation. We suggest catching this exception and re-rendering the MapView.`);
+        await resetMapComponent(id);
+        if (retry) {
+            throw new Error(`Map component view is in an invalid state. This often occurs after an error on navigation. We suggest catching this exception and re-rendering the MapView.`);
+        } else {
+            await buildArcGisMapView(abortSignal, id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, 
+                mapType, widgets, graphics, spatialReference, constraints, extent, backgroundColor, 
+                eventRateLimitInMilliseconds, activeEventHandlers, isServer, highlightOptions, popupEnabled, theme, 
+                zIndex, tilt, true);
+        }
     }
 
     if (!hasValue(view.container) || abortSignal.aborted) {
@@ -407,6 +432,27 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     if (abortSignal.aborted) {
         return;
     }
+}
+
+export async function resetMapComponent(id: string): Promise<void> {
+    let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${id}`) as ArcgisMap | ArcgisScene;
+    if (!hasValue(mapComponent)) {
+        return;
+    }
+    let parentContainer = mapComponent.parentElement;
+    let newComponent = document.createElement(mapComponent.tagName);
+    newComponent.className = 'map-container';
+    newComponent.id = `map-container-${id}`;
+    let knownAttributes = ['id', 'class', 'style', 'hydrated'];
+    let blazorAttr = mapComponent.getAttributeNames()
+        .find(a => !knownAttributes.includes(a));
+    
+    if (blazorAttr) {
+        newComponent.setAttribute(blazorAttr, '');
+    }
+    
+    parentContainer!.replaceChild(newComponent, mapComponent);
+    mapComponent.destroy();
 }
 
 async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id: string, dotNetRef: any, 
@@ -725,16 +771,14 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
         }
     });
 
-    if (activeEventHandlers.includes('OnLayerViewCreateError')) {
-        view.on('layerview-create-error', (evt) => {
-            requestAnimationFrame(async () => {
-                const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
-                let { buildDotNetViewLayerviewCreateErrorEvent } = await import('./viewLayerviewCreateErrorEvent');
-                const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt, layerGeoBlazorId, viewId);
-                await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateError', dnEvent);
-            });
+    view.on('layerview-create-error', (evt) => {
+        requestAnimationFrame(async () => {
+            const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
+            let { buildDotNetViewLayerviewCreateErrorEvent } = await import('./viewLayerviewCreateErrorEvent');
+            const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt, layerGeoBlazorId, viewId);
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateError', dnEvent);
         });
-    }
+    });
 
     if (activeEventHandlers.includes('OnLayerViewDestroy')) {
         view.on('layerview-destroy', (evt) => {

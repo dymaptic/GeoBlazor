@@ -239,7 +239,8 @@ public class ESBuildLauncher : IIncrementalGenerator
             return;
         }
         StringBuilder loggerOutput = new StringBuilder();
-        content = Regex.Replace(content, @"\r?\n\s*?\r?\n", "\n");
+        // Replace multiple consecutive newlines (with optional whitespace) with a single newline
+        content = Regex.Replace(content, @"\r?\n(?:\s*\r?\n)+", "\n");
         
         if (!RunPowerShellScript("Logger", "esBuildLogger.ps1", _corePath!,
                 $"-c \"{content}\" -e {isError.ToString().ToLower()}", loggerOutput,
