@@ -1,4 +1,4 @@
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 
 export async function buildJsBookmarkSelectEvent(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject?.bookmark)) {

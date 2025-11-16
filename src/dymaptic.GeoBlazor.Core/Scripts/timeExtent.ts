@@ -1,6 +1,6 @@
 // override generated code in this file
 import TimeExtent from '@arcgis/core/time/TimeExtent';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {IPropertyWrapper} from "./definitions"
 
 export default class TimeExtentWrapper implements IPropertyWrapper {

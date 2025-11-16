@@ -1,7 +1,7 @@
 // override generated code in this file
 import WFSLayerGenerated from './wFSLayer.gb';
 import WFSLayer from '@arcgis/core/layers/WFSLayer';
-import {buildEncodedJson} from "./geoBlazorCore";
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class WFSLayerWrapper extends WFSLayerGenerated {
 

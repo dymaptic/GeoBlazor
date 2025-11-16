@@ -4,7 +4,7 @@ import {buildDotNetPolyline, buildJsPolyline} from "./polyline";
 import {buildDotNetExtent, buildJsExtent} from "./extent";
 import {buildDotNetMultipoint, buildJsMultipoint} from "./multipoint";
 import {buildDotNetMesh, buildJsMesh} from "./mesh";
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 
 export function buildDotNetGeometry(geometry: any): any {
     if (!hasValue(geometry)) {

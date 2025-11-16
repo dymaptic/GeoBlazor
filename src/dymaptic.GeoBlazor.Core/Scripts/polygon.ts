@@ -1,7 +1,7 @@
 import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Polygon from "@arcgis/core/geometry/Polygon";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import Circle from "@arcgis/core/geometry/Circle";
 import {buildDotNetPoint, buildJsPoint} from "./point";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';

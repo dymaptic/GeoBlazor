@@ -11,7 +11,7 @@ const isRelease = args.includes('--release');
 const OUTPUT_DIR = path.resolve('./wwwroot/js');
 
 let options = {
-    entryPoints: ['./Scripts/geoBlazorCore.ts'],
+    entryPoints: ['./Scripts/arcGisJsInterop.ts'],
     chunkNames: 'core_[name]_[hash]',
     bundle: true,
     sourcemap: true,

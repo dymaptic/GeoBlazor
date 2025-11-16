@@ -1,4 +1,4 @@
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export async function buildJsLegendLayerInfos(dotNetObject: any): Promise<any> {
     let jsLegendLayerInfos: any = {};

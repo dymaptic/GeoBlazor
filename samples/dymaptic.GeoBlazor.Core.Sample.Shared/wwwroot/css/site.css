@@ -1007,12 +1007,12 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 
 .map-wrapper {
     margin: 2rem 0 0 0;
+    padding: 2rem 0.5rem 0.5rem 0.5rem;
     border-radius: 0.5rem;
 }
 
 .dymaptic-branding {
     margin: 0.5rem;
-    top: -2rem!important;
 }
 
 .instructions {

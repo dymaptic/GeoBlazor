@@ -1,4 +1,4 @@
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 
 export async function buildJsIEditorWidgetActiveWorkflow(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {

@@ -17,7 +17,7 @@ public interface IMapComponent
     MapComponent? Parent { get; internal set; }
     
     /// <summary>
-    ///     The reference to the entry point geoBlazorCore.js from .NET
+    ///     The reference to the entry point arcGisJsInterop.js from .NET
     /// </summary>
     IJSObjectReference? CoreJsModule { get; internal set; }
     

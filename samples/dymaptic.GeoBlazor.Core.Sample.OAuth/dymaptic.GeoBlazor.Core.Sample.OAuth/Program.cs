@@ -1,6 +1,8 @@
 using dymaptic.GeoBlazor.Core.Sample.OAuth.Client.Pages;
 using dymaptic.GeoBlazor.Core.Sample.OAuth.Components;
 using dymaptic.GeoBlazor.Core;
+using Microsoft.AspNetCore.StaticFiles;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,16 +27,21 @@ else
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 
-#if ENABLE_COMPRESSION
-app.MapStaticAssets();
-#else
+FileExtensionContentTypeProvider provider = new()
+{
+    Mappings = { [".wsv"] = "application/octet-stream" }
+};
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = provider
+});
 app.UseStaticFiles();
-#endif
+app.MapStaticAssets();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()

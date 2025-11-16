@@ -193,9 +193,7 @@ public class SceneView : MapView
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
-                PopupEnabled, Theme?.ToString().ToLowerInvariant(), AllowDefaultEsriLogin, 
-                AuthenticationManager.ExcludeApiKey ? null : AuthenticationManager.ApiKey, AuthenticationManager.AppId, 
-                ZIndex, Tilt);
+                PopupEnabled, Theme?.ToString().ToLowerInvariant(), ZIndex, Tilt);
             await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
         }
         catch (Exception ex)

@@ -1,6 +1,6 @@
 // override generated code in this file
 import LineSymbolMarker from '@arcgis/core/symbols/LineSymbolMarker';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 export function buildJsLineSymbolMarker(dotNetObject: any): any {

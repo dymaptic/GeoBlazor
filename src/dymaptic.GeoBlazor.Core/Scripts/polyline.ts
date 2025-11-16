@@ -1,7 +1,7 @@
 import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Polyline from "@arcgis/core/geometry/Polyline";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
 
 export function buildDotNetPolyline(polyline: any): any {

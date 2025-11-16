@@ -7,7 +7,7 @@
 
 import OpenStreetMapLayerGenerated from './openStreetMapLayer.gb';
 import OpenStreetMapLayer from '@arcgis/core/layers/OpenStreetMapLayer';
-import {buildEncodedJson, copyValuesIfExists, hasValue} from "./geoBlazorCore";
+import {buildEncodedJson, copyValuesIfExists, hasValue} from "./arcGisJsInterop";
 
 
 export default class OpenStreetMapLayerWrapper extends OpenStreetMapLayerGenerated {

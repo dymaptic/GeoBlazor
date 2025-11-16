@@ -1,6 +1,6 @@
 import {DotNetExtent, IPropertyWrapper} from "./definitions";
 import Extent from "@arcgis/core/geometry/Extent";
-import {arcGisObjectRefs, buildJsStreamReference, copyValuesIfExists, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, buildJsStreamReference, copyValuesIfExists, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {buildJsPoint} from "./point";
 import {buildJsGeometry} from "./geometry";

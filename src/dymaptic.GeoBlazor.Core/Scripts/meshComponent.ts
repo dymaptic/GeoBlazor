@@ -1,6 +1,6 @@
 // override generated code in this file
 import MeshComponent from "@arcgis/core/geometry/support/MeshComponent";
-import { hasValue } from './geoBlazorCore';
+import { hasValue } from "./arcGisJsInterop";
 
 export function buildJsMeshComponent(dotNetObject: any): any {
     let properties : any = {};

@@ -2,7 +2,7 @@
 
 
 import RelationshipContent from "@arcgis/core/popup/content/RelationshipContent";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {
     buildDotNetRelatedRecordsInfoFieldOrder,
     buildJsRelatedRecordsInfoFieldOrder

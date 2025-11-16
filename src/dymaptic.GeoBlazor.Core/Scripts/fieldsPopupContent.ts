@@ -1,7 +1,7 @@
 // override generated code in this file
 
 import FieldsContent from "@arcgis/core/popup/content/FieldsContent";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetFieldInfo, buildJsFieldInfo} from "./fieldInfo";
 
 export function buildJsFieldsPopupContent(dotNetObject: any): any {

@@ -1,6 +1,6 @@
 import LocateViewModel from '@arcgis/core/widgets/Locate/LocateViewModel';
 import LocateViewModelGenerated from './locateViewModel.gb';
-import {hasValue, lookupGeoBlazorId} from './geoBlazorCore';
+import {hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
 
 export default class LocateViewModelWrapper extends LocateViewModelGenerated {
 

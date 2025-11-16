@@ -1,5 +1,5 @@
 import ListItemGenerated from './listItem.gb';
-import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs, lookupGeoBlazorId} from './geoBlazorCore';
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import {DotNetListItem} from "./definitions";
 import Layer from "@arcgis/core/layers/Layer";

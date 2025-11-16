@@ -1,7 +1,7 @@
 // override generated code in this file
 
 import ColumnChartMediaInfo from "@arcgis/core/popup/content/ColumnChartMediaInfo";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from "./chartMediaInfoValue";
 
 export function buildJsColumnChartMediaInfo(dotNetObject: any): any {

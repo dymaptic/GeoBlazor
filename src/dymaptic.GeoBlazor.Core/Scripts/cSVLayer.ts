@@ -1,7 +1,7 @@
 // override generated code in this file
 import CSVLayerGenerated from './cSVLayer.gb';
 import CSVLayer from '@arcgis/core/layers/CSVLayer';
-import {buildEncodedJson} from "./geoBlazorCore";
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class CSVLayerWrapper extends CSVLayerGenerated {
 

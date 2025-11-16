@@ -87,6 +87,10 @@ public partial class OpenStreetMapLayer
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="fullExtent">
+    ///     The full extent of the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="isBasemapReferenceLayer">
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
@@ -122,6 +126,7 @@ public partial class OpenStreetMapLayer
         ListMode? listMode = null,
         string? arcGISLayerId = null,
         Effect? effect = null,
+        Extent? fullExtent = null,
         bool? isBasemapReferenceLayer = null,
         bool? persistenceEnabled = null,
         string? urlTemplate = null,
@@ -144,6 +149,7 @@ public partial class OpenStreetMapLayer
         ListMode = listMode;
         ArcGISLayerId = arcGISLayerId;
         Effect = effect;
+        FullExtent = fullExtent;
         IsBasemapReferenceLayer = isBasemapReferenceLayer;
         PersistenceEnabled = persistenceEnabled;
         UrlTemplate = urlTemplate;

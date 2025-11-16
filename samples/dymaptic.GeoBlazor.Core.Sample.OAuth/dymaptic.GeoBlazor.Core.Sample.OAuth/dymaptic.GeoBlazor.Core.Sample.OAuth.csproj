@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-dymaptic.GeoBlazor.Core.Sample.OAuth-881b5a42-0b71-4c8c-9901-8d12693bd109</UserSecretsId>
@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.OAuth.Client\dymaptic.GeoBlazor.Core.Sample.OAuth.Client.csproj" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

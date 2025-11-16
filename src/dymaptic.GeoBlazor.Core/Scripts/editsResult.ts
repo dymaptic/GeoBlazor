@@ -1,4 +1,4 @@
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 import {buildDotNetGraphic} from "./graphic";
 import {buildDotNetSpatialReference} from "./spatialReference";
 

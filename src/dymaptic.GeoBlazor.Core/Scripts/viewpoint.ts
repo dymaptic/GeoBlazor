@@ -1,5 +1,5 @@
 import {DotNetViewpoint} from "./definitions";
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
 import Viewpoint from "@arcgis/core/Viewpoint";
 import Geometry from "@arcgis/core/geometry/Geometry";

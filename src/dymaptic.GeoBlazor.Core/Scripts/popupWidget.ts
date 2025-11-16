@@ -1,6 +1,6 @@
 import Popup from '@arcgis/core/widgets/Popup';
 import PopupWidgetGenerated from './popupWidget.gb';
-import {buildEncodedJson, hasValue} from './geoBlazorCore';
+import {buildEncodedJson, hasValue} from "./arcGisJsInterop";
 import {buildJsSymbol} from "./symbol";
 import {buildJsWidget} from "./widget";
 import Widget from "@arcgis/core/widgets/Widget";

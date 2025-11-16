@@ -2,7 +2,7 @@
 import LayerListWidgetGenerated from './layerListWidget.gb';
 import LayerList from '@arcgis/core/widgets/LayerList';
 import {DotNetListItem} from "./definitions";
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 
 export default class LayerListWidgetWrapper extends LayerListWidgetGenerated {
 

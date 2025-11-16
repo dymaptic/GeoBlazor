@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class ImageryTileLayer : Layer, IPopupTemplateLayer, ITileLayer
+public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
 {
     /// <inheritdoc />
     public override LayerType Type => LayerType.ImageryTile;

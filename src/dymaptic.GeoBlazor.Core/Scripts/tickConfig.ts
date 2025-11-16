@@ -1,4 +1,4 @@
-import {copyValuesIfExists, hasValue} from './geoBlazorCore';
+import {copyValuesIfExists, hasValue} from "./arcGisJsInterop";
 
 export function buildJsTickConfig(dotNetObject: any): any {
     let tickConfig: any = {

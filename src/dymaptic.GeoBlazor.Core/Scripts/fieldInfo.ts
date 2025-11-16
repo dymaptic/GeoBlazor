@@ -1,6 +1,6 @@
 // override generated code in this file
 import FieldInfo from '@arcgis/core/popup/FieldInfo';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetFieldInfoFormat, buildJsFieldInfoFormat} from './fieldInfoFormat';
 
 export function buildJsFieldInfo(dotNetObject: any): any {

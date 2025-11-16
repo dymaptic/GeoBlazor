@@ -1,12 +1,7 @@
-﻿@attribute [TestClass]
+﻿@using Environment = System.Environment
+@attribute [TestClass]
 <div class="result-section" id="@ClassName">
     <h2>@Extensions.CamelCaseToSpaces(ClassName)</h2>
-    @if (_type?.GetCustomAttribute<IsolatedTestAttribute>() != null)
-    {
-        <h3>
-            Isolated Test (iFrame) <button class="btn btn-secondary" @onclick="@(() => NavigationManager.NavigateTo($"/test-frame?class={ClassName}", true))">Reload</button>
-        </h3>
-    }
     <div @onclick="@(() => _collapsed = !_collapsed)"
          style="cursor: pointer; display: inline; font-weight: bold; color: white; padding: 5px; border-radius: 5px; margin-bottom: 5px;">@(_collapsed ? "\u25b6" : "\u25bc")</div>
     <button @onclick="() => RunTests()">Run Class Tests</button>
@@ -74,81 +69,58 @@
 
     [Inject]
     public JsModuleManager JsModuleManager { get; set; } = null!;
-    
-    [Inject]
-    public NavigationManager NavigationManager { get; set; } = null!;
 
     [Parameter]
     public EventCallback<TestResult> OnTestResults { get; set; }
-    
-    [Parameter]
-    public TestResult? Results { get; set; }
 
-    public async Task RunTests(bool onlyFailedTests = false, int skip = 0, 
-        CancellationToken cancellationToken = default)
+    public async Task RunTests(bool onlyFailedTests = false, bool parallelTesting = false)
     {
         _running = true;
+        _parallelTesting = parallelTesting;
+        _resultBuilder = new StringBuilder();
+        _passed.Clear();
 
-        try
+        foreach (string key in _testResults.Keys)
         {
-            _resultBuilder = new StringBuilder();
-            _passed.Clear();
-
-            List<MethodInfo> methodsToRun = [];
-
-            foreach (MethodInfo method in _methodInfos!.Skip(skip))
+            if (onlyFailedTests && !_failed.ContainsKey(key))
             {
-                if (onlyFailedTests && !_failed.ContainsKey(method.Name))
-                {
-                    continue;
-                }
-                
-                _testResults[method.Name] = string.Empty;
-                methodsToRun.Add(method);
+                continue;
             }
 
-            _failed.Clear();
+            _testResults[key] = string.Empty;
+        }
 
-            foreach (MethodInfo method in methodsToRun)
+        _failed.Clear();
+
+        foreach (MethodInfo method in _methodInfos!)
+        {
+            await RunTest(method);
+        }
+
+        if (_parallelRetryTests.Any())
+        {
+            await Task.Delay(1000);
+
+            foreach (MethodInfo retryMethod in _parallelRetryTests)
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-                
-                await RunTest(method);
-            }
-
-            if (_retryTests.Any() && !cancellationToken.IsCancellationRequested)
-            {
-                await Task.Delay(1000, cancellationToken);
-
-                foreach (MethodInfo retryMethod in _retryTests)
-                {
-                    _failed.Remove(retryMethod.Name);
-                    await RunTest(retryMethod);
-                }
+                _failed.Remove(retryMethod.Name);
+                await RunTest(retryMethod);
             }
         }
-        finally
-        {
-            _retryTests.Clear();
-            _running = false;
-            await OnTestResults.InvokeAsync(new TestResult(ClassName, _methodInfos!.Length, _passed, _failed, _running));
-            StateHasChanged();
-        }
+
+        _parallelRetryTests.Clear();
+
+        _running = false;
     }
 
     public void Toggle(bool open)
     {
         _collapsed = !open;
-        StateHasChanged();
     }
 
     protected override void OnInitialized()
     {
-        _type = GetType();
-        _methodInfos = _type
+        _methodInfos = GetType()
             .GetMethods()
             .Where(m => m.GetCustomAttribute(typeof(TestMethodAttribute), false) != null)
             .ToArray();
@@ -163,28 +135,12 @@
 
         if (_jsObjectReference is null)
         {
-            IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, default);
-            IJSObjectReference coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, default);
+            IJSObjectReference? proJs = await JsModuleManager.GetArcGisJsPro(JsRuntime, default);
+            IJSObjectReference coreJs = await JsModuleManager.GetArcGisJsCore(JsRuntime, proJs, default);
 
             _jsObjectReference = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
                 "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
             await _jsObjectReference.InvokeVoidAsync("initialize", coreJs);
-        }
-
-        if (firstRender && Results is not null)
-        {
-            _passed = Results.Passed;
-            _failed = Results.Failed;
-            foreach (string passedTest in _passed.Keys)
-            {
-                _testResults[passedTest] = "<p style=\"color: green; font-weight: bold\">Passed</p>";
-            }
-            foreach (string failedTest in _failed.Keys)
-            {
-                _testResults[failedTest] = "<p style=\"color: red; font-weight: bold\">Failed</p>";
-            }
-            
-            StateHasChanged();
         }
     }
 
@@ -214,10 +170,10 @@
 
         if (!methodsWithRenderedMaps.Contains(methodName))
         {
-            if (_running && _retryTests.All(mi => mi.Name != methodName))
+            if (_parallelTesting && _parallelRetryTests.All(mi => mi.Name != methodName))
             {
-                // Sometimes running multiple tests causes timeouts, give this another chance.
-                _retryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
+                // Sometimes running multiple tests in parallel causes timeouts, give this another chance.
+                _parallelRetryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
             }
 
             throw new TimeoutException("Map did not render in allotted time.");
@@ -393,21 +349,14 @@
                     return (Action)(() => RenderHandler(methodInfo.Name));
                 })
                 .ToArray();
-
-            try
+            
+            if (methodInfo.ReturnType == typeof(Task))
             {
-                if (methodInfo.ReturnType == typeof(Task))
-                {
-                    await (Task)methodInfo.Invoke(this, actions)!;
-                }
-                else
-                {
-                    methodInfo.Invoke(this, actions);
-                }
+                await (Task)methodInfo.Invoke(this, actions)!;
             }
-            catch (TargetInvocationException tie) when (tie.InnerException is not null)
+            else
             {
-                throw tie.InnerException;
+                methodInfo.Invoke(this, actions);
             }
 
             _passed[methodInfo.Name] = _resultBuilder.ToString();
@@ -420,29 +369,14 @@
                 return;
             }
 
-            if (!_retryTests.Contains(methodInfo))
-            {
-                _failed[methodInfo.Name] = $"{_resultBuilder}{Environment.NewLine}{ex.StackTrace}";
-                _resultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
-            }
-            
-            if (ex.Message.Contains("Map component view is in an invalid state"))
-            {
-                await Task.Delay(1000);
-                // force a full reload to recover from this error
-                NavigationManager.NavigateTo("/", true);
-            }
+            _failed[methodInfo.Name] = $"{_resultBuilder}{Environment.NewLine}{ex.StackTrace}";
+            _resultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
         }
 
         if (!_interactionToggles[methodInfo.Name])
         {
             await CleanupTest(methodInfo.Name);
         }
-    }
-    
-    protected void Log(string message)
-    {
-        _resultBuilder.AppendLine($"<p>{message}</p>");
     }
 
     [TestCleanup]
@@ -456,7 +390,7 @@
         await InvokeAsync(async () =>
         {
             StateHasChanged();
-            await OnTestResults.InvokeAsync(new TestResult(ClassName, _methodInfos!.Length, _passed, _failed, _running));
+            await OnTestResults.InvokeAsync(new TestResult(ClassName, _methodInfos!.Length, _passed, _failed));
         });
         _interactionToggles[testName] = false;
         _currentTest = null;
@@ -498,7 +432,6 @@
     private int Remaining => _methodInfos is null ? 0 : _methodInfos.Length - (_passed.Count + _failed.Count);
     private IJSObjectReference? _jsObjectReference;
     private StringBuilder _resultBuilder = new();
-    private Type? _type;
     private MethodInfo[]? _methodInfos;
     private Dictionary<string, string> _testResults = new();
     private bool _collapsed = true;
@@ -508,9 +441,10 @@
     private static readonly Dictionary<string, List<LayerViewCreateEvent>> layerViewCreatedEvents = new();
     private static readonly Dictionary<string, List<ListItem>> listItems = new();
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
-    private Dictionary<string, string?> _passed = new();
-    private Dictionary<string, string?> _failed = new();
+    private readonly Dictionary<string, string?> _passed = new();
+    private readonly Dictionary<string, string?> _failed = new();
     private Dictionary<string, bool> _interactionToggles = [];
     private string? _currentTest;
-    private readonly List<MethodInfo> _retryTests = [];
+    private readonly List<MethodInfo> _parallelRetryTests = [];
+    private bool _parallelTesting;
 }

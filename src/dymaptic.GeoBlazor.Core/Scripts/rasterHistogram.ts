@@ -1,4 +1,4 @@
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 
 export function buildJsRasterHistogram(dotNetObject: any): any {
     if (!hasValue(dotNetObject)) {

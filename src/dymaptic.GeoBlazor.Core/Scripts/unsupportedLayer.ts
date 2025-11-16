@@ -1,7 +1,7 @@
 // override generated code in this file
 import UnsupportedLayerGenerated from './unsupportedLayer.gb';
 import UnsupportedLayer from '@arcgis/core/layers/UnsupportedLayer';
-import {buildEncodedJson} from "./geoBlazorCore";
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class UnsupportedLayerWrapper extends UnsupportedLayerGenerated {
 

@@ -70,7 +70,7 @@ public abstract class LogicComponent : IDisposable
         if (Component is null)
         {
             await AuthenticationManager.Initialize();
-            IJSObjectReference module = await AuthenticationManager.GetCoreJsModule();
+            IJSObjectReference module = await AuthenticationManager.GetArcGisJsInterop();
 
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
                 CancellationTokenSource.Token, DotNetComponentReference);

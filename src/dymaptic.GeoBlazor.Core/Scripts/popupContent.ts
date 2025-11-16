@@ -6,7 +6,7 @@ import {buildDotNetMediaPopupContent, buildJsMediaPopupContent} from "./mediaPop
 import {buildJsRelationshipPopupContent} from "./relationshipPopupContent";
 import {buildDotNetTextPopupContent, buildJsTextPopupContent} from "./textPopupContent";
 import {buildJsCustomPopupContent, buildDotNetCustomPopupContent} from "./customPopupContent";
-import {sanitize} from './geoBlazorCore';
+import {sanitize} from "./arcGisJsInterop";
 
 
 export function buildJsPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): any {

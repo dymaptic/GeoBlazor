@@ -1,4 +1,4 @@
-import {hasValue, lookupGeoBlazorId} from './geoBlazorCore';
+import {hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
 import {buildDotNetPoint} from "./point";
 import Graphic from "@arcgis/core/Graphic";
 import {buildDotNetGraphic} from "./graphic";

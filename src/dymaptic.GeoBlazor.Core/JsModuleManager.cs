@@ -8,7 +8,7 @@ public class JsModuleManager
     /// <summary>
     ///     Retrieves the main entry point for the GeoBlazor Core JavaScript module.
     /// </summary>
-    public async ValueTask<IJSObjectReference> GetCoreJsModule(IJSRuntime jsRuntime, IJSObjectReference? proModule, CancellationToken cancellationToken)
+    public async ValueTask<IJSObjectReference> GetArcGisJsCore(IJSRuntime jsRuntime, IJSObjectReference? proModule, CancellationToken cancellationToken)
     {
         if (_coreModule is null)
         {
@@ -16,7 +16,7 @@ public class JsModuleManager
             {
                 _coreModule = await jsRuntime
                     .InvokeAsync<IJSObjectReference>("import", cancellationToken, 
-                        $"./_content/dymaptic.GeoBlazor.Core/js/geoBlazorCore.js?v={_version}");
+                        $"./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js?v={_version}");
             }
             else
             {
@@ -30,7 +30,7 @@ public class JsModuleManager
     /// <summary>
     ///     Retrieves the main entry point for the optional GeoBlazor Pro JavaScript module.
     /// </summary>
-    public async ValueTask<IJSObjectReference?> GetProJsModule(IJSRuntime jsRuntime, CancellationToken cancellationToken)
+    public async ValueTask<IJSObjectReference?> GetArcGisJsPro(IJSRuntime jsRuntime, CancellationToken cancellationToken)
     {
         if (_proModule is null && !_proChecked)
         {
@@ -41,7 +41,7 @@ public class JsModuleManager
                 case >= 100:
                 
                     _proModule = await jsRuntime.InvokeAsync<IJSObjectReference>("import", cancellationToken,
-                        $"./_content/dymaptic.GeoBlazor.Pro/js/geoBlazorPro.js?v={_version}");
+                        $"./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js?v={_version}");
                     break;
                 default:
                     _proChecked = true;

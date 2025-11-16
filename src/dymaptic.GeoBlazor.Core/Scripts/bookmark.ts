@@ -1,6 +1,6 @@
 import Bookmark from "@arcgis/core/webmap/Bookmark";
 import Viewpoint from "@arcgis/core/Viewpoint";
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 
 export async function buildDotNetBookmark(bookmark: any): Promise<any> {
     let {buildDotNetTimeExtent} = await import('./timeExtent');

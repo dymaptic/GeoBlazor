@@ -27,8 +27,17 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
 
+FileExtensionContentTypeProvider provider = new()
+{
+    Mappings = { [".wsv"] = "application/octet-stream" }
+};
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = provider
+});
 app.UseStaticFiles();
 app.MapStaticAssets();
 

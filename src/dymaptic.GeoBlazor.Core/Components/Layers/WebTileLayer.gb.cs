@@ -45,6 +45,10 @@ public partial class WebTileLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="fullExtent">
+    ///     The full extent of the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="isBasemapReferenceLayer">
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
@@ -116,6 +120,7 @@ public partial class WebTileLayer : IBlendLayer,
         BlendMode? blendMode = null,
         string? copyright = null,
         Effect? effect = null,
+        Extent? fullExtent = null,
         bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? maxScale = null,
@@ -138,6 +143,7 @@ public partial class WebTileLayer : IBlendLayer,
         BlendMode = blendMode;
         Copyright = copyright;
         Effect = effect;
+        FullExtent = fullExtent;
         IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         MaxScale = maxScale;

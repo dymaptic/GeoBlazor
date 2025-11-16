@@ -1,7 +1,7 @@
 // override generated code in this file
 import ExpandWidgetGenerated from './expandWidget.gb';
 import Expand from '@arcgis/core/widgets/Expand';
-import {arcGisObjectRefs, hasValue} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue} from "./arcGisJsInterop";
 import {buildJsWidget} from "./widget";
 
 export default class ExpandWidgetWrapper extends ExpandWidgetGenerated {

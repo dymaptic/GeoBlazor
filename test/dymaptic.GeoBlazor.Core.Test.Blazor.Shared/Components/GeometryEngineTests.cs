@@ -5,7 +5,6 @@ using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Results;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
@@ -367,7 +366,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         Geometry[] cut = await GeometryEngine.Cut(polygon, cutter);
 
-        Assert.HasCount(0, cut);
+        Assert.IsEmpty(cut);
     }
 
     [TestMethod]
@@ -679,8 +678,8 @@ public class GeometryEngineTests : TestRunnerBase
                 GeometryEngineLinearUnit.Feet) as Polygon;
         Assert.IsNotNull(generalizedPolygon);
         Assert.AreNotEqual(complexPolygon, generalizedPolygon);
-        Assert.IsGreaterThan(generalizedPolygon.Rings.Select(r => r.Count).Sum(),
-            complexPolygon.Rings.Select(r => r.Count).Sum());
+
+        Assert.IsGreaterThan(generalizedPolygon.Rings.Select(r => r.Count).Sum(), complexPolygon.Rings.Select(r => r.Count).Sum());
     }
 
     [TestMethod]

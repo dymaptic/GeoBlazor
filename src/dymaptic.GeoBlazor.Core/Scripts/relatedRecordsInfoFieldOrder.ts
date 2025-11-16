@@ -1,6 +1,6 @@
 // override generated code in this file
 import RelatedRecordsInfoFieldOrder from '@arcgis/core/popup/support/RelatedRecordsInfoFieldOrder';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any): any {
     let properties: any = {};

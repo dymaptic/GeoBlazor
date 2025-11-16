@@ -2,7 +2,7 @@
 import BasemapLayerListWidgetGenerated from './basemapLayerListWidget.gb';
 import BasemapLayerList from '@arcgis/core/widgets/BasemapLayerList';
 import {DotNetListItem} from "./definitions";
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 
 export default class BasemapLayerListWidgetWrapper extends BasemapLayerListWidgetGenerated {
 

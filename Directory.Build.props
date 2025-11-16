@@ -4,10 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <CoreVersion>4.3.0.5</CoreVersion>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <CompressionEnabled Condition="$(Configuration) != 'RELEASE' OR $(EnableCompression) != 'true'">false</CompressionEnabled>
-        <DefineConstants Condition="$(EnableCompression) == 'true'">$(DefineConstants);ENABLE_COMPRESSION</DefineConstants>
         <CoreProjectPath>$(MSBuildThisFileDirectory)src\dymaptic.GeoBlazor.Core</CoreProjectPath>
-        <EnableCompression>true</EnableCompression>
         <StaticWebAssetEndpointExclusionPattern>
             $(StaticWebAssetEndpointExclusionPattern);js/**
         </StaticWebAssetEndpointExclusionPattern>

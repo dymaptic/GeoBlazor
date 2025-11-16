@@ -1,4 +1,4 @@
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 
 export async function buildJsDynamicDataSource(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {

@@ -1,4 +1,4 @@
-import {hasValue, Pro} from './geoBlazorCore';
+import {hasValue, Pro} from "./arcGisJsInterop";
 
 export async function buildJsICreationInfoTemplate(dotNetObject: any): Promise<any> {
     if (!Pro) return null;

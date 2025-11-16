@@ -1,5 +1,5 @@
 // override generated code in this file
-import { hasValue } from './geoBlazorCore';
+import { hasValue } from "./arcGisJsInterop";
 import { buildJsWidget } from "./widget";
 
 export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

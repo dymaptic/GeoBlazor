@@ -2,7 +2,7 @@ import Geometry from "@arcgis/core/geometry/Geometry";
 import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
 import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
 import {buildJsSpatialReference} from "./spatialReference";
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 import {buildJsExtent} from "./extent";
 
 export default class ProjectionWrapper {

@@ -1,7 +1,7 @@
 // override generated code in this file
 import MapImageLayerGenerated from './mapImageLayer.gb';
 import MapImageLayer from '@arcgis/core/layers/MapImageLayer';
-import {buildEncodedJson, hasValue} from './geoBlazorCore';
+import {buildEncodedJson, hasValue} from './arcGisJsInterop';
 
 export default class MapImageLayerWrapper extends MapImageLayerGenerated {
 

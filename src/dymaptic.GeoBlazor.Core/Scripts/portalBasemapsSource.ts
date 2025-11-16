@@ -1,6 +1,6 @@
 import PortalBasemapsSource from '@arcgis/core/widgets/BasemapGallery/support/PortalBasemapsSource';
 import PortalBasemapsSourceGenerated from './portalBasemapsSource.gb';
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 
 export default class PortalBasemapsSourceWrapper extends PortalBasemapsSourceGenerated {
 

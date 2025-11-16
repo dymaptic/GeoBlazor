@@ -5,7 +5,7 @@ import {
     hasValue,
     jsObjectRefs, lookupGeoBlazorId,
     removeCircularReferences
-} from './geoBlazorCore';
+} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 import {buildDotNetPortal, buildJsPortal} from "./portal";
 

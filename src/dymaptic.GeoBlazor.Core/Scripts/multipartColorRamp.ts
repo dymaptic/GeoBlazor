@@ -1,6 +1,6 @@
 // override generated code in this file
 import MultipartColorRamp from '@arcgis/core/rest/support/MultipartColorRamp';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetAlgorithmicColorRamp, buildJsAlgorithmicColorRamp} from './algorithmicColorRamp';
 
 

@@ -6,7 +6,7 @@ import {
     hasValue,
     jsObjectRefs, lookupGeoBlazorGraphicId, lookupGeoBlazorId,
     lookupJsGraphicById
-} from './geoBlazorCore';
+} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import {buildDotNetGeometry, buildJsGeometry} from './geometry';

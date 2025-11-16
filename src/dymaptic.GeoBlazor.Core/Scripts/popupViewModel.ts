@@ -1,6 +1,6 @@
 import PopupViewModel from '@arcgis/core/widgets/Popup/PopupViewModel';
 import PopupViewModelGenerated from './popupViewModel.gb';
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 import {buildJsWidget} from "./widget";
 import Widget from "@arcgis/core/widgets/Widget";
 

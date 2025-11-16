@@ -3,7 +3,7 @@
 import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
 import {buildDotNetGraphic, buildJsGraphic} from "./graphic";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
-import {hasValue} from './geoBlazorCore';
+import {hasValue} from "./arcGisJsInterop";
 import {buildDotNetField, buildJsField} from "./field";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 

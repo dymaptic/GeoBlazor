@@ -21,7 +21,7 @@ public class MapComponentTests
         var component = new TestMapComponent();
         var child = new TestChildInCollection();
         await component.RegisterChildComponent(child);
-        Assert.AreEqual(1, component.TestChildrenInCollection!.Count);
+        Assert.HasCount(1, component.TestChildrenInCollection!);
     }
     
     [TestMethod]
@@ -33,7 +33,7 @@ public class MapComponentTests
             TestChildComponent = child
         };
         await component.UnregisterChildComponent(child);
-        Assert.AreEqual(null, component.TestChildComponent);
+        Assert.IsNull(component.TestChildComponent);
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class MapComponentTests
             TestChildrenInCollection = (List<TestChildInCollection>) [child]
         };
         await component.UnregisterChildComponent(child);
-        Assert.AreEqual(0, component.TestChildrenInCollection!.Count);
+        Assert.IsEmpty(component.TestChildrenInCollection);
     }
     
     [TestMethod]
@@ -53,7 +53,7 @@ public class MapComponentTests
     {
         var component = new TestMapComponent();
         var notAChildComponent = new NotAChildComponent();
-        await Assert.ThrowsExceptionAsync<InvalidChildElementException>(() => 
+        await Assert.ThrowsAsync<InvalidChildElementException>(() => 
             component.RegisterChildComponent(notAChildComponent));
     }
 
@@ -81,14 +81,14 @@ public class MapComponentTests
         Assert.IsTrue(child.WasValidated);
     }
 
-    public class TestMapComponent : MapComponent
+    private class TestMapComponent : MapComponent
     {
         public TestChildComponent? TestChildComponent { get; set; }
 
         public IReadOnlyList<TestChildInCollection>? TestChildrenInCollection
         {
             get => _testChildrenInCollection;
-            set
+            init
             {
                 if (value is not null)
                 {
@@ -97,7 +97,7 @@ public class MapComponentTests
             }
         }
 
-        private List<TestChildInCollection> _testChildrenInCollection = [];
+        private readonly List<TestChildInCollection> _testChildrenInCollection = [];
 
         public override async Task RegisterChildComponent(MapComponent child)
         {
@@ -147,7 +147,7 @@ public class MapComponentTests
         }
     }
 
-    public class TestChildComponent : MapComponent
+    private class TestChildComponent : MapComponent
     {
         public override void ValidateRequiredChildren()
         {
@@ -158,7 +158,7 @@ public class MapComponentTests
         public bool WasValidated { get; private set; }
     }
 
-    public class TestChildInCollection : MapComponent
+    private class TestChildInCollection : MapComponent
     {
         public override void ValidateRequiredChildren()
         {
@@ -168,5 +168,6 @@ public class MapComponentTests
         
         public bool WasValidated { get; private set; }
     }
-    public class NotAChildComponent : MapComponent;
+
+    private class NotAChildComponent : MapComponent;
 }

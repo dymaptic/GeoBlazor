@@ -1,7 +1,7 @@
 // override generated code in this file
 import UnknownLayerGenerated from './unknownLayer.gb';
 import UnknownLayer from '@arcgis/core/layers/UnknownLayer';
-import {buildEncodedJson} from "./geoBlazorCore";
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class UnknownLayerWrapper extends UnknownLayerGenerated {
 

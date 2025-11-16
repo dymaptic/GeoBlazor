@@ -1,7 +1,7 @@
 // override generated code in this file
 import TileLayerGenerated from './tileLayer.gb';
 import TileLayer from '@arcgis/core/layers/TileLayer';
-import {buildEncodedJson, hasValue} from "./geoBlazorCore";
+import {buildEncodedJson, hasValue} from "./arcGisJsInterop";
 
 export default class TileLayerWrapper extends TileLayerGenerated {
 

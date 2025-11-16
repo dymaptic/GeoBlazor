@@ -1,7 +1,7 @@
 // override generated code in this file
 
 import LayerSearchSource from '@arcgis/core/widgets/Search/LayerSearchSource';
-import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 
 export async function buildJsLayerSearchSource(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {

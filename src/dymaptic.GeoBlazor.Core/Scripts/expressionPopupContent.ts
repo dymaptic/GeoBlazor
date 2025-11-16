@@ -1,7 +1,7 @@
 // override generated code in this file
 
 import ExpressionContent from '@arcgis/core/popup/content/ExpressionContent';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {buildDotNetElementExpressionInfo, buildJsElementExpressionInfo} from './elementExpressionInfo';
 
 export function buildJsExpressionPopupContent(dotNetObject: any): any {

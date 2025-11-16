@@ -1,6 +1,6 @@
 // override generated code in this file
 import AlgorithmicColorRamp from '@arcgis/core/rest/support/AlgorithmicColorRamp';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 export function buildJsAlgorithmicColorRamp(dotNetObject: any): any {

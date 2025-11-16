@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class BaseTileLayer : Layer, ITileLayer
+public partial class BaseTileLayer : Layer
 {
 
     

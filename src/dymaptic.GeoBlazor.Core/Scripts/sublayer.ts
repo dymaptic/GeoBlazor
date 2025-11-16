@@ -1,7 +1,7 @@
 // override generated code in this file
 import SublayerGenerated from './sublayer.gb';
 import Sublayer from '@arcgis/core/layers/support/Sublayer';
-import { hasValue } from './geoBlazorCore';
+import { hasValue } from './arcGisJsInterop';
 
 export default class SublayerWrapper extends SublayerGenerated {
 

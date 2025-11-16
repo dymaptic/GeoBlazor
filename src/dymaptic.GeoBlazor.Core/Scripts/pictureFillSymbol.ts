@@ -1,7 +1,7 @@
 // override generated code in this file
 
 import PictureFillSymbol from '@arcgis/core/symbols/PictureFillSymbol';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 

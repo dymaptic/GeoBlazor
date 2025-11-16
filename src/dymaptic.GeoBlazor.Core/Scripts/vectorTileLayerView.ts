@@ -1,7 +1,7 @@
 // override generated code in this file
 // @ts-ignore This exists in ArcGIS SDK definition
 import VectorTileLayerView = __esri.VectorTileLayerView;
-import {generateSerializableJson, hasValue} from './geoBlazorCore';
+import {generateSerializableJson, hasValue} from "./arcGisJsInterop";
 import {IPropertyWrapper} from "./definitions";
 
 export default class VectorTileLayerViewWrapper implements IPropertyWrapper {

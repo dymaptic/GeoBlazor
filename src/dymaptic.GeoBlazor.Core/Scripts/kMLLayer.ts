@@ -1,7 +1,7 @@
 // override generated code in this file
 import KMLLayerGenerated from './kMLLayer.gb';
 import KMLLayer from '@arcgis/core/layers/KMLLayer';
-import {buildEncodedJson} from "./geoBlazorCore";
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class KMLLayerWrapper extends KMLLayerGenerated {
 

@@ -1,6 +1,7 @@
 using dymaptic.GeoBlazor.Core.Model;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -53,7 +54,7 @@ namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
      *
      * -------------------------------------------------------------------------
      */
-[IsolatedTest]
+
 [TestClass]
 public class AuthenticationManagerTests: TestRunnerBase
 {
@@ -73,42 +74,65 @@ public class AuthenticationManagerTests: TestRunnerBase
     public async Task TestRegisterOAuthWithArcGISPortal()
     {
         AuthenticationManager.ExcludeApiKey = true;
-        AuthenticationManager.AppId = Configuration["TestPortalAppId"];
-        AuthenticationManager.PortalUrl = Configuration["TestPortalUrl"];
+        try
+        {
+            AuthenticationManager.AppId = Configuration["TestPortalAppId"];
+            AuthenticationManager.PortalUrl = Configuration["TestPortalUrl"];
 
-        TokenResponse tokenResponse = await RequestTokenAsync(Configuration["TestPortalClientSecret"]!);
-        Assert.IsTrue(tokenResponse.Success, tokenResponse.ErrorMessage);
+            TokenResponse tokenResponse = await RequestTokenAsync(Configuration["TestPortalClientSecret"]!);
+            Assert.IsTrue(tokenResponse.Success, tokenResponse.ErrorMessage);
 
-        await AuthenticationManager.RegisterToken(tokenResponse.AccessToken!, tokenResponse.Expires!.Value);
+            await AuthenticationManager.RegisterToken(tokenResponse.AccessToken!, tokenResponse.Expires!.Value);
 
-        string? retrievedToken = await AuthenticationManager.GetCurrentToken();
-        Assert.AreEqual(tokenResponse.AccessToken, retrievedToken);
+            string? retrievedToken = await AuthenticationManager.GetCurrentToken();
+            Assert.AreEqual(tokenResponse.AccessToken, retrievedToken);
 
-        AuthenticationManager.TokenExpirationDateTime = null;
-        DateTime? expired = await AuthenticationManager.GetTokenExpirationDateTime();
-        Assert.IsNotNull(expired);
-        Assert.AreEqual(tokenResponse.Expires, expired);
+            AuthenticationManager.TokenExpirationDateTime = null;
+            DateTime? expired = await AuthenticationManager.GetTokenExpirationDateTime();
+            Assert.IsNotNull(expired);
+            Assert.AreEqual(tokenResponse.Expires, expired);
+        }
+        finally
+        {
+            // reset all mutated state
+            AuthenticationManager.ExcludeApiKey = false;
+            AuthenticationManager.TokenExpirationDateTime = null;
+            AuthenticationManager.AppId = null;
+            AuthenticationManager.PortalUrl = null;
+        }
     }
 
     [TestMethod]
     public async Task TestRegisterOAuthWithArcGISOnline()
     {
         AuthenticationManager.ExcludeApiKey = true;
-        AuthenticationManager.AppId = Configuration["TestAGOAppId"];
-        AuthenticationManager.PortalUrl = Configuration["TestAGOUrl"];
 
-        TokenResponse tokenResponse = await RequestTokenAsync(Configuration["TestAGOClientSecret"]!);
-        Assert.IsTrue(tokenResponse.Success, tokenResponse.ErrorMessage);
+        try
+        {
+            AuthenticationManager.AppId = Configuration["TestAGOAppId"];
+            AuthenticationManager.PortalUrl = Configuration["TestAGOUrl"];
 
-        await AuthenticationManager.RegisterToken(tokenResponse.AccessToken!, tokenResponse.Expires!.Value);
+            TokenResponse tokenResponse = await RequestTokenAsync(Configuration["TestAGOClientSecret"]!);
+            Assert.IsTrue(tokenResponse.Success, tokenResponse.ErrorMessage);
 
-        string? retrievedToken = await AuthenticationManager.GetCurrentToken();
-        Assert.AreEqual(tokenResponse.AccessToken, retrievedToken);
+            await AuthenticationManager.RegisterToken(tokenResponse.AccessToken!, tokenResponse.Expires!.Value);
 
-        AuthenticationManager.TokenExpirationDateTime = null;
-        DateTime? expired = await AuthenticationManager.GetTokenExpirationDateTime();
-        Assert.IsNotNull(expired);
-        Assert.AreEqual(tokenResponse.Expires, expired);
+            string? retrievedToken = await AuthenticationManager.GetCurrentToken();
+            Assert.AreEqual(tokenResponse.AccessToken, retrievedToken);
+
+            AuthenticationManager.TokenExpirationDateTime = null;
+            DateTime? expired = await AuthenticationManager.GetTokenExpirationDateTime();
+            Assert.IsNotNull(expired);
+            Assert.AreEqual(tokenResponse.Expires, expired);
+        }
+        finally
+        {
+            // reset all mutated state
+            AuthenticationManager.ExcludeApiKey = false;
+            AuthenticationManager.TokenExpirationDateTime = null;
+            AuthenticationManager.AppId = null;
+            AuthenticationManager.PortalUrl = null;
+        }
     }
 
     /// <summary>
@@ -133,8 +157,10 @@ public class AuthenticationManagerTests: TestRunnerBase
             Content = new FormUrlEncodedContent(parameters)
         };
 
-        using HttpClient httpClient = new();
-        httpClient.BaseAddress = new Uri(NavigationManager.BaseUri);
+        using HttpClient httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(Configuration["TestApplicationBaseUrl"] ?? "https://localhost:7143")
+        };
 
         HttpResponseMessage response = await httpClient.SendAsync(request);
 

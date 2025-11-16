@@ -1,6 +1,6 @@
 // override generated code in this file
 import PieChartMediaInfo from '@arcgis/core/popup/content/PieChartMediaInfo';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from './chartMediaInfoValue';
 
 export function buildJsPieChartMediaInfo(dotNetObject: any): any {

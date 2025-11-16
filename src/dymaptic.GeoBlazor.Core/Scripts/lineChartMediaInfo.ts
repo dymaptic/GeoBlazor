@@ -1,6 +1,6 @@
 // override generated code in this file
 import LineChartMediaInfo from '@arcgis/core/popup/content/LineChartMediaInfo';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from './chartMediaInfoValue';
 
 

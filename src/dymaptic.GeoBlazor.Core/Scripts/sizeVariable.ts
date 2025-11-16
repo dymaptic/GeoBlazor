@@ -1,7 +1,7 @@
 // override generated code in this file
 import SizeVariableGenerated from './sizeVariable.gb';
 import SizeVariable from '@arcgis/core/renderers/visualVariables/SizeVariable';
-import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from './geoBlazorCore';
+import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
 
 export default class SizeVariableWrapper extends SizeVariableGenerated {
 
