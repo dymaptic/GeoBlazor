@@ -1,7 +1,6 @@
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -12,7 +11,6 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 ///     Triggers the ESBuild build process for the GeoBlazor project, so that your JavaScript code is up to date.
 /// </summary>
 [Generator]
-[SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
 public class ESBuildLauncher : IIncrementalGenerator
 {
     // Notifications are only used for the unit tests, source generators are not intended to have logging/output typically.

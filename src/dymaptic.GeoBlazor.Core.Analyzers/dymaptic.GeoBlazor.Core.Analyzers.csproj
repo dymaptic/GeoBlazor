@@ -23,8 +23,6 @@
     <ItemGroup>
         <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
         <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
-        <Content Remove="AnalyzerReleases.Shipped.md" />
-        <Content Remove="AnalyzerReleases.Unshipped.md" />
     </ItemGroup>
 
 </Project>

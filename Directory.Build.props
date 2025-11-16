@@ -6,13 +6,5 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <CompressionEnabled Condition="$(Configuration) != 'RELEASE' OR $(EnableCompression) != 'true'">false</CompressionEnabled>
         <DefineConstants Condition="$(EnableCompression) == 'true'">$(DefineConstants);ENABLE_COMPRESSION</DefineConstants>
-        <CoreProjectPath>$(MSBuildThisFileDirectory)src\dymaptic.GeoBlazor.Core</CoreProjectPath>
-        <EnableCompression>true</EnableCompression>
-        <StaticWebAssetEndpointExclusionPattern>
-            $(StaticWebAssetEndpointExclusionPattern);js/**
-        </StaticWebAssetEndpointExclusionPattern>
     </PropertyGroup>
-    <ItemGroup>
-        <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*"/>
-    </ItemGroup>
 </Project>
