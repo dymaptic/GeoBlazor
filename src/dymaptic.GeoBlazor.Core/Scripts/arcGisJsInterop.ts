@@ -93,13 +93,11 @@ import {
     checkHeadLink,
     removeHeadLink,
     lookupGeoBlazorId,
-    logUncaughtError,
-    disposeMapComponent
+    logUncaughtError
 } from "./geoBlazorCore";
 // endregion
 
 // region exports
-globalThis.esriConfig = esriConfig;
 
 // re-export imported types
 export {
@@ -435,6 +433,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     }
 }
 
+// rebuilds the <arcgis-map> or <arcgis-scene> web component from scratch to clear any errors
 export function resetMapComponent(id: string): void {
     let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${id}`) as ArcgisMap | ArcgisScene;
     if (!hasValue(mapComponent)) {

@@ -9,7 +9,7 @@
                     <arcgis-scene class="map-container" id="@($"map-container-{Id}")">
                         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                         {
-                            <div cass="geoblazor-message-overlay">
+                            <div class="geoblazor-message-overlay">
                                 <div class="geoblazor-validation-message">@((MarkupString)ErrorMessage)</div>
                             </div>
                         }
@@ -21,7 +21,7 @@
                     <arcgis-map class="map-container" id="@($"map-container-{Id}")">
                         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                         {
-                            <div cass="geoblazor-message-overlay">
+                            <div class="geoblazor-message-overlay">
                                 <div class="geoblazor-validation-message">@((MarkupString)ErrorMessage)</div>
                             </div>
                         }
