@@ -24,7 +24,7 @@ export const dotNetRefs: Record<string, any> = {};
 const observers: Record<string, any> = {};
 
 export let Pro: any;
-export async function setPro(pro: any): Promise<void> {
+export function setPro(pro: any): void {
     Pro = pro;
 }
 
@@ -38,7 +38,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    appId?: string | null, zIndex?: number, 
                                    tilt?: number) : Promise<any> {
     try {
-        await setCursor('wait');
+        setCursor('wait');
 
         clearError();
         
@@ -47,24 +47,24 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
             globalThis.overflowStyle ??= document.documentElement.style.overflow;
             // listen for the esri-identity-modal popup and hide it
             const observer = new MutationObserver((mutations) => {
-                mutations.forEach(async (mutation) => {
+                mutations.forEach((mutation) => {
                     if (mutation.type === 'childList') {
                         mutation.addedNodes.forEach((node) => {
                             if (node instanceof HTMLElement) {
                                 // Check the node itself
                                 if (node.classList.contains('esri-identity-modal')) {
-                                    let _ = overrideEsriLoginModal(node, id, errorMessage);
+                                    overrideEsriLoginModal(node, id, errorMessage);
                                 }
                                 // Check descendants
-                                node.querySelectorAll?.('.esri-identity-modal').forEach(async (modal) => {
-                                    let _ = overrideEsriLoginModal(modal as HTMLElement, id, errorMessage);
+                                node.querySelectorAll?.('.esri-identity-modal').forEach((modal) => {
+                                    overrideEsriLoginModal(modal as HTMLElement, id, errorMessage);
                                 });
                             }
                         });
                     } else if (mutation.type === 'attributes') {
                         const target = mutation.target as HTMLElement;
                         if (target.classList.contains('esri-identity-modal')) {
-                            await overrideEsriLoginModal(target, id, errorMessage)
+                            overrideEsriLoginModal(target, id, errorMessage)
                         } else if (target.tagName === 'html' && target.style.overflow === 'hidden') {
                             // reset overflow style
                             document.documentElement!.style.overflow = globalThis.overflowStyle ?? 'unset';
@@ -93,23 +93,23 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         if (abortSignal.aborted) {
             return;
         }
-        await resetMapComponent(id);
+        resetMapComponent(id);
         showError(id);
         throw e;
     } finally {
-        await setCursor('unset');
+        setCursor('unset');
     }
 }
 
 // hides the ArcGIS popup modal login screen, and shows the warning to add an ArcGIS API key instead.
-async function overrideEsriLoginModal(element: HTMLElement, viewId: string, errorMessageString: string): Promise<void> {
+function overrideEsriLoginModal(element: HTMLElement, viewId: string, errorMessageString: string): void {
     element.parentElement?.removeChild(element);
     // reset overflow style
     document.documentElement!.style.overflow = globalThis.overflowStyle ?? 'unset';
-    await resetMapComponent(viewId);
+    resetMapComponent(viewId);
     showError(viewId);
     console.error(errorMessageString);
-    let _ = setCursor('unset', viewId);
+    setCursor('unset', viewId);
 }
 
 export function logUncaughtError(level: string, module: string, viewId: string, ...args: any[]): boolean {
@@ -131,23 +131,20 @@ export function logUncaughtError(level: string, module: string, viewId: string, 
         error.message = args.join(', ');
     }
 
-    let _ = new Promise(async () =>
-    {
-        if (args[1].toLowerCase().includes('failed to load basemap')) {
-            let errorMessage = `${module} error: ${error.message}. Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
-            if (viewId && viewId !== 'global') {
-                await resetMapComponent(viewId);
-                showError(viewId);
-            }
-            console.error(errorMessage);
-        } else {
-            console.error(module, ...args);
+    if (args[1].toLowerCase().includes('failed to load basemap')) {
+        let errorMessage = `${module} error: ${error.message}. Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
+        if (viewId && viewId !== 'global') {
+            resetMapComponent(viewId);
+            showError(viewId);
         }
+        console.error(errorMessage);
+    } else {
+        console.error(module, ...args);
+    }
 
-        let dotNetRef = dotNetRefs[viewId] as any;
-        await dotNetRef.invokeMethodAsync('OnJavascriptError', error);
-        await setCursor('unset', viewId);
-    });
+    let dotNetRef = dotNetRefs[viewId] as any;
+    let _ = dotNetRef.invokeMethodAsync('OnJavascriptError', error);
+    setCursor('unset', viewId);
     
     return true;
 }
@@ -196,7 +193,7 @@ export function clearError() {
     }
 }
 
-export async function disposeMapComponent(componentId: string, viewId: string): Promise<void> {
+export function disposeMapComponent(componentId: string, viewId: string): void {
     try {
         // dispose observer when disposing the map view
         if (observers.hasOwnProperty(componentId)) {
@@ -219,7 +216,7 @@ export async function disposeMapComponent(componentId: string, viewId: string): 
 
         switch (component?.declaredClass) {
             case 'esri.Graphic':
-                await disposeGraphic(componentId);
+                disposeGraphic(componentId);
                 return;
         }
 
@@ -249,7 +246,7 @@ export async function disposeMapComponent(componentId: string, viewId: string): 
     }
 }
 
-export async function disposeGraphic(graphicId: string) {
+export function disposeGraphic(graphicId: string) {
     for (const groupId in graphicsRefs) {
         const graphics = graphicsRefs[groupId];
         // @ts-ignore hasOwn error
@@ -468,7 +465,7 @@ export function getCursor(viewId: string): string {
     return view.parentElement!.style.cursor;
 }
 
-export async function setCursor(cursorType: string, viewId: string | null = null) {
+export function setCursor(cursorType: string, viewId: string | null = null) {
     requestAnimationFrame(() => {
         const view = document.getElementById(`map-container-${viewId}`) as HTMLDivElement;
         if (hasValue(view)) {

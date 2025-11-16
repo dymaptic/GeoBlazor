@@ -435,7 +435,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     }
 }
 
-export async function resetMapComponent(id: string): Promise<void> {
+export function resetMapComponent(id: string): void {
     let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${id}`) as ArcgisMap | ArcgisScene;
     if (!hasValue(mapComponent)) {
         return;
@@ -545,11 +545,11 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
     if (activeEventHandlers.includes('OnClick')) {
         view.on('click', async (evt) => {
             try {
-                    await setCursor('wait', viewId);
+                    setCursor('wait', viewId);
                     evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
                     await dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
                 } finally {
-                    await setCursor('unset', viewId);
+                    setCursor('unset', viewId);
                 }
             });
     }
@@ -558,7 +558,7 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
     view.on('double-click', async (evt) => {
         if (activeEventHandlers.includes('OnDoubleClick')) {
             // only set the cursor if there is user code to run
-            await setCursor('wait', viewId);
+            setCursor('wait', viewId);
         }
         // but always hook up listener for internal events in GeoBlazor
         try {
@@ -566,7 +566,7 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
             evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
             await dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
         } finally {
-            await setCursor('unset', viewId);
+            setCursor('unset', viewId);
         }
     });
 
@@ -579,24 +579,24 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
 
     if (activeEventHandlers.includes('ImmediateClick')) {
         view.on('immediate-click', async (evt) => {
-            await setCursor('wait', viewId);
+            setCursor('wait', viewId);
             try {
                 evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
                 await dotNetRef.invokeMethodAsync('OnJavascriptImmediateClick', evt);
             } finally {
-                await setCursor('unset', viewId);
+                setCursor('unset', viewId);
             }
         });
     }
 
     if (activeEventHandlers.includes('ImmediateDoubleClick')) {
         view.on('immediate-double-click', async (evt) => {
-            await setCursor('wait', viewId);
+            setCursor('wait', viewId);
             try {
                 evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
                 await dotNetRef.invokeMethodAsync('OnJavascriptImmediateDoubleClick', evt);
             } finally {
-                await setCursor('unset', viewId);
+                setCursor('unset', viewId);
             }
         });
     }
@@ -796,11 +796,11 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
     view.on('mouse-wheel', async (evt) => {
         clearTimeout(mouseWheelTimeoutId);
         userChangedViewExtent = true;
-        await setCursor('wait', viewId);
+        setCursor('wait', viewId);
         mouseWheelTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
-                await setCursor('unset', viewId);
+                setCursor('unset', viewId);
             });
         }, eventRateLimit ?? 0);
     });
@@ -809,11 +809,11 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
     view.on('resize', async (evt) => {
         clearTimeout(resizeTimeoutId);
         userChangedViewExtent = true;
-        await setCursor('wait', viewId);
+        setCursor('wait', viewId);
         resizeTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
-                await setCursor('unset', viewId);
+                setCursor('unset', viewId);
             });
         }, eventRateLimit ?? 0);
     });
@@ -1532,7 +1532,7 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
 export async function addWidget(widget: any, viewId: string, setInContainerByDefault: boolean = false)
     : Promise<void> {
     try {
-        await setCursor('wait', viewId);
+        setCursor('wait', viewId);
         let mapComponent: ArcgisMap | ArcgisScene = document.querySelector(`#map-container-${viewId}`) as ArcgisMap | ArcgisScene;
         const view = arcGisObjectRefs[viewId] as MapView | SceneView;
         if (!hasValue(view)) {
@@ -1570,7 +1570,7 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
             }
         }
     } finally {
-        await setCursor('unset', viewId);
+        setCursor('unset', viewId);
     }
 }
 
@@ -1594,7 +1594,7 @@ export function setWidgetPosition(viewId: string, widgetId: string, position: st
 export async function addArcGisLayer(layerObject: any, mapId: string | null, viewId: string, isBasemapLayer?: boolean, isReferenceLayer?: boolean,
                                      isQueryLayer?: boolean, callback?: Function): Promise<void> {
     try {
-        await setCursor('wait', viewId);
+        setCursor('wait', viewId);
         const view = arcGisObjectRefs[viewId] as View;
         const map = hasValue(mapId) ? arcGisObjectRefs[mapId!] as Map : view?.map as Map;
         if (!hasValue(map)) {
@@ -1622,7 +1622,7 @@ export async function addArcGisLayer(layerObject: any, mapId: string | null, vie
             map?.add(newLayer);
         }
     } finally {
-        await setCursor('unset', viewId);
+        setCursor('unset', viewId);
     }
 }
 
