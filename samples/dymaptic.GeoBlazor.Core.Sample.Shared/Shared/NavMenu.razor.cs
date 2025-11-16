@@ -132,6 +132,7 @@ public partial class NavMenu: IDisposable
         new("query-top-features", "Query Top Features", "oi-arrow-thick-top"),
         new("place-selector", "Place Selector", "oi-arrow-bottom"),
         new("service-areas", "Service Areas", "oi-comment-square"),
+        new("measurement-widgets", "Measurement Widgets", null, "ruler.svg"),
         new("calculate-geometries", "Calculate Geometries", "oi-clipboard"),
         new("projection", "Display Projection", "oi-sun"),
         new("projection-tool", "Projection Tool", "oi-cog"),
