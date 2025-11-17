@@ -182,6 +182,30 @@ export function assertObjectHasPropertyWithValue(methodName, objectId, propertyN
         obj = candidate;
     }
     
+    if (Array.isArray(obj) && Array.isArray(expectedValue)) {
+        if (obj.length !== expectedValue.length) {
+            throw new Error(`Expected ${propertyName} to be array of length ${expectedValue.length} but found length ${obj.length}`);
+        }
+        for (let j = 0; j < obj.length; j++) {
+            if (obj[j] !== expectedValue[j]) {
+                throw new Error(`Expected ${propertyName}[${j}] to be ${expectedValue[j]} but found ${obj[j]}`);
+            }
+        }
+        return;
+    }
+    
+    // if the item is an object, compare properties
+    if (typeof obj === 'object' && typeof expectedValue === 'object') {
+        let expectedProps = Object.getOwnPropertyNames(expectedValue);
+        for (let k = 0; k < expectedProps.length; k++) {
+            let expectedProp = expectedProps[k];
+            if (obj[expectedProp] !== expectedValue[expectedProp]) {
+                throw new Error(`Expected ${propertyName}.${expectedProp} to be ${expectedValue[expectedProp]} but found ${obj[expectedProp]}`);
+            }
+        }
+        return;
+    }
+    
     if (obj !== expectedValue) {
         throw new Error(`Expected ${propertyName} to be ${expectedValue} but found ${obj}`);
     }
@@ -250,15 +274,22 @@ export async function triggerSearchHandlers() {
     searchInput.dispatchEvent(new Event('input'));
 }
 
-export function assertWidgetPropertyEqual(methodName, widgetClass, propName, expectedValue) {
+export function assertWidgetPosition(methodName, widgetId, position) {
     let view = getView(methodName);
-    let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass).widget;
-    let actualValue = widget[propName];
-    if (actualValue !== expectedValue) {
-        throw new Error(`Expected ${propName} to be ${expectedValue} but found ${actualValue}`);
+    let widget = arcGisObjectRefs[widgetId];
+    
+    let viewComponents = view.ui.getComponents();
+    if (!viewComponents.includes(widget)) {
+        throw new Error(`Expected widget ${widgetId} to be in view container, but was not found.`);
+    }
+    
+    let parentDiv = widget.container.parentElement;
+    
+    if (!parentDiv.className.includes(position)) {
+        throw new Error(`Expected widget ${widgetId} to be in position ${position}, but parent div className was ${parentDiv.className}.`);
     }
 }
-
+ 
 export function scrollToTestClass(id) {
     const element = document.getElementById(id);
     if (element instanceof HTMLElement) {

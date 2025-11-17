@@ -157,12 +157,6 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.layer.load(options);
-        
-        return generateSerializableJson(result);
-    }
-
     async loadAll(): Promise<any> {
         let result = await this.layer.loadAll();
         let { buildDotNetTileLayer } = await import('./tileLayer');
@@ -315,7 +309,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     
     async setSubtables(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.layer.subtables.removeAll();
+            this.layer.subtables?.removeAll();
         }
         let { buildJsSublayer } = await import('./sublayer');
         this.layer.subtables = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;

@@ -1,6 +1,7 @@
 // override generated code in this file
 import VectorTileLayerGenerated from './vectorTileLayer.gb';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
+import {buildEncodedJson} from "./arcGisJsInterop";
 
 export default class VectorTileLayerWrapper extends VectorTileLayerGenerated {
 
@@ -8,9 +9,10 @@ export default class VectorTileLayerWrapper extends VectorTileLayerGenerated {
         super(layer);
     }
 
-    async setSpatialReference(spatialReference: any): Promise<void> {
-        let {buildJsSpatialReference} = await import('./spatialReference');
-        this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetVectorTileLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 }
 
