@@ -40,6 +40,7 @@ public enum LayerType
     OrientedImagery,
     PointCloud,
     ProGeoJSON,
+    ProDataLayer,
     Route,
     Scene,
     Stream,
