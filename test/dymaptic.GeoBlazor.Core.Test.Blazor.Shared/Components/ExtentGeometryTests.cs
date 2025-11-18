@@ -1,7 +1,6 @@
 using dymaptic.GeoBlazor.Core.Components;
 using dymaptic.GeoBlazor.Core.Components.Geometries;
 using Microsoft.AspNetCore.Components;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;

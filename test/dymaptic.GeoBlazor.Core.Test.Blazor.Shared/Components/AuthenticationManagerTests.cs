@@ -1,7 +1,6 @@
 using dymaptic.GeoBlazor.Core.Model;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;

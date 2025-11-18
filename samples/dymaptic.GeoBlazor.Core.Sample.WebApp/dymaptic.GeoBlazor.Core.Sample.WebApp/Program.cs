@@ -2,7 +2,6 @@ using dymaptic.GeoBlazor.Core;
 using dymaptic.GeoBlazor.Core.Sample.Shared.Shared;
 using dymaptic.GeoBlazor.Core.Sample.WebApp.Client;
 using dymaptic.GeoBlazor.Core.Sample.WebApp.Components;
-using Microsoft.AspNetCore.StaticFiles;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -30,14 +29,6 @@ if (!app.Environment.IsDevelopment())
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
 
-FileExtensionContentTypeProvider provider = new()
-{
-    Mappings = { [".wsv"] = "application/octet-stream" }
-};
-app.UseStaticFiles(new StaticFileOptions
-{
-    ContentTypeProvider = provider
-});
 app.UseStaticFiles();
 app.MapStaticAssets();
 

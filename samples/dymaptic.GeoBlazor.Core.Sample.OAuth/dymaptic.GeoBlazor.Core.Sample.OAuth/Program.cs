@@ -1,8 +1,5 @@
-using dymaptic.GeoBlazor.Core.Sample.OAuth.Client.Pages;
 using dymaptic.GeoBlazor.Core.Sample.OAuth.Components;
 using dymaptic.GeoBlazor.Core;
-using Microsoft.AspNetCore.StaticFiles;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,14 +29,6 @@ app.UseHttpsRedirection();
 
 app.UseAntiforgery();
 
-FileExtensionContentTypeProvider provider = new()
-{
-    Mappings = { [".wsv"] = "application/octet-stream" }
-};
-app.UseStaticFiles(new StaticFileOptions
-{
-    ContentTypeProvider = provider
-});
 app.UseStaticFiles();
 app.MapStaticAssets();
 

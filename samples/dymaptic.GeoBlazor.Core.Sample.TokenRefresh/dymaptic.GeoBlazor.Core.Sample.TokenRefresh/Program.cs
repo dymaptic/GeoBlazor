@@ -2,7 +2,6 @@ using dymaptic.GeoBlazor.Core;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Apis;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Services;
-using Microsoft.AspNetCore.StaticFiles;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -31,14 +30,6 @@ app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages:
 app.UseHttpsRedirection();
 app.UseAntiforgery();
 
-FileExtensionContentTypeProvider provider = new()
-{
-    Mappings = { [".wsv"] = "application/octet-stream" }
-};
-app.UseStaticFiles(new StaticFileOptions
-{
-    ContentTypeProvider = provider
-});
 app.UseStaticFiles();
 app.MapStaticAssets();
 
