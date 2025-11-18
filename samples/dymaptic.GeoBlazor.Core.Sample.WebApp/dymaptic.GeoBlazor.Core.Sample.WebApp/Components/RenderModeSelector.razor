@@ -33,7 +33,7 @@
     public required IConfiguration Configuration { get; set; }
 
     [Inject]
-    public required IJSRuntime JSRuntime { get; set; }
+    public required IJSRuntime JsRuntime { get; set; }
     
     protected override void OnInitialized()
     {
@@ -50,7 +50,7 @@
     private async Task SaveModeAndReload(ChangeEventArgs args)
     {
         Configuration["RenderMode"] = args.Value!.ToString();
-        await JSRuntime.InvokeVoidAsync("location.reload");
+        await JsRuntime.InvokeVoidAsync("location.reload");
     }
     
     private IComponentRenderMode? _configuredRenderMode;

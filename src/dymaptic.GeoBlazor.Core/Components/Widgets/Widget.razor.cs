@@ -279,8 +279,8 @@ public abstract partial class Widget : MapComponent
 
         if (JsComponentReference is null) return;
 
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
-            "containerId", containerId);
+        await CoreJsModule.InvokeVoidAsync("setWidgetContainer", CancellationTokenSource.Token, 
+            JsComponentReference, Type, containerId, ViewId);
     }
 
     /// <summary>
@@ -363,8 +363,8 @@ public abstract partial class Widget : MapComponent
 
         if (JsComponentReference is null) return;
 
-        await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token, View.Id, Id,
-            position);
+        await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token, 
+            JsComponentReference, position, ViewId);
     }
 
     /// <summary>

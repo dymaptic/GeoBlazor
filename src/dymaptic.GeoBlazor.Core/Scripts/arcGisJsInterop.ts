@@ -1738,15 +1738,7 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
         }
 
         if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
-            const container = document.getElementById(widget.containerId);
-            const innerContainer = document.createElement('div');
-            innerContainer.className = `widget-${widget.type}`;
-            const existingWidget = container?.getElementsByClassName(`widget-${widget.type}`);
-            if (hasValue(existingWidget) && existingWidget!.length > 0) {
-                container?.removeChild((existingWidget as HTMLCollectionOf<Element>)[0]);
-            }
-            container?.appendChild(innerContainer);
-            newWidget.container = innerContainer;
+            setWidgetContainer(newWidget, widget.type, widget.containerId, viewId);
         } else {
             // check if widget is defined inside mapview
             const inMapWidget = mapComponent?.querySelector(`#widget-container-${widget.id}`);
@@ -1775,10 +1767,50 @@ export function removeWidget(widgetId: string, viewId: string): void {
     delete arcGisObjectRefs.widgetId;
 }
 
-export function setWidgetPosition(viewId: string, widgetId: string, position: string) {
+export function setWidgetPosition(widget: any, position: string, viewId: string) {
+    if (typeof widget.unwrap === 'function') {
+        widget = widget.unwrap();
+    }
+    
     const view = arcGisObjectRefs[viewId] as MapView;
-    const widget = arcGisObjectRefs[widgetId] as Widget;
-    view.ui.move(widget, position);
+    let viewComponents = view.ui.getComponents();
+    if (viewComponents.includes(widget)) {
+        view.ui.move(widget, position);
+    } else {
+        view.ui.add(widget, position);
+    }
+}
+
+export function setWidgetContainer(widget: any, widgetType: string, containerId: string, viewId: string): void {
+    if (typeof widget.unwrap === 'function') {
+        widget = widget.unwrap();
+    }
+    
+    // remove from UI components inside view
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let viewComponents = view.ui.getComponents();
+    if (viewComponents.includes(widget)) {
+        view.ui.remove(widget);
+    }
+    
+    // find container
+    const container = document.getElementById(containerId);
+    
+    // check and remove if the widget was already added
+    const existingWidget = container?.getElementsByClassName(`widget-${widgetType}`);
+    if (hasValue(existingWidget) && existingWidget!.length > 0) {
+        container?.removeChild((existingWidget as HTMLCollectionOf<Element>)[0]);
+    }
+
+    if (!hasValue(widget.container)) {
+        // create inner container
+        let innerContainer = document.createElement('div');
+        innerContainer.className = `widget-${widgetType}`;
+        widget.container = innerContainer;
+    }
+
+    // add to container
+    container?.appendChild(widget.container);
 }
 
 export async function addLayer(layerObject: any, mapId: string | null, viewId: string, isBasemapLayer?: boolean, isReferenceLayer?: boolean,
