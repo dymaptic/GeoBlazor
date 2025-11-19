@@ -5552,43 +5552,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the SourceJSON property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSourceJSON(string? value)
-    {
-#pragma warning disable BL0005
-        SourceJSON = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SourceJSON)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sourceJSON", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
     /// <param name="value">
@@ -6246,10 +6209,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         await SetTypes(Types.Except(values).ToArray());
     }
     
-#endregion
-
-#region Public Methods
-
 #endregion
 
 #region Event Handlers
