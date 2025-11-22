@@ -332,6 +332,8 @@ $logFile = Join-Path $PSScriptRoot "esbuild.log"
 
 $logContent = Get-Content -Path $logFile -ErrorAction SilentlyContinue
 $newLogContent = $logContent
+$startIndex = 0
+$twoDaysAgo = (Get-Date).AddDays(-2);
 if ($logContent) 
 {
     for ($i = 0; $i -lt $logContent.Count; $i++)
@@ -342,9 +344,9 @@ if ($logContent)
         {
             $timestamp = [datetime]$matches[1]
             # if the timestamp is older than 2 days, remove the line
-            if ($timestamp -lt (Get-Date).AddDays(-2)) 
+            if ($timestamp -lt $twoDaysAgo) 
             {
-                $newLogContent = $logContent[($i + 1)..$logContent.Count - 1]
+                $startIndex = $i + 1;
             }
             else
             {
@@ -352,13 +354,15 @@ if ($logContent)
             }
         }
     }
-    
-    Set-Content -Path $logFile -Value $newLogContent -Force
+
+    $newLogContent = $logContent[$startIndex..$logContent.Count - 1]
 }
 
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-$logEntry = "[$timestamp] $Content"
-Add-Content -Path $logFile -Value $logEntry
+$logEntry = "`n[$timestamp] $Content"
+$newLogContent += $logEntry
+
+Set-Content -Path $logFile -Value $newLogContent -Force
 
 # if there is content in the $logFile older than 2 days, delete it
 

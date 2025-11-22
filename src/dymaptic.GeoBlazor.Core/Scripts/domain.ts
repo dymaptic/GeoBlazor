@@ -1,6 +1,6 @@
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
-import {hasValue, sanitize} from "./arcGisJsInterop";
+import {hasValue, sanitize} from './geoBlazorCore';
 
 export function buildJsDomain(dotNetDomain: any): any {
     if (!hasValue(dotNetDomain)) {

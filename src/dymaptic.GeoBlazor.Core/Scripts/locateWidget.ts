@@ -1,7 +1,7 @@
 // override generated code in this file
 import LocateWidgetGenerated from './locateWidget.gb';
 import Locate from '@arcgis/core/widgets/Locate';
-import {hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
+import {hasValue, lookupGeoBlazorId} from './geoBlazorCore';
 
 export default class LocateWidgetWrapper extends LocateWidgetGenerated {
 

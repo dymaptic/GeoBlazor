@@ -2,7 +2,7 @@
 
 
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 
 export function buildJsPictureMarkerSymbol(dotNetObject: any): any {

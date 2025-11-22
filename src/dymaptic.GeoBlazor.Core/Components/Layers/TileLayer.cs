@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class TileLayer : Layer, ISublayersLayer
+public partial class TileLayer : Layer, ISublayersLayer, ITileLayer
 {
     /// <inheritdoc />
     public override LayerType Type => LayerType.Tile;

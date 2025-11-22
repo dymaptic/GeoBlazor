@@ -1,7 +1,7 @@
 // override generated code in this file
 import WebTileLayerGenerated from './webTileLayer.gb';
 import WebTileLayer from '@arcgis/core/layers/WebTileLayer';
-import {buildEncodedJson} from "./arcGisJsInterop";
+import {buildEncodedJson} from "./geoBlazorCore";
 
 export default class WebTileLayerWrapper extends WebTileLayerGenerated {
 

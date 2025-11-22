@@ -1,6 +1,6 @@
 import BingMapsLayer from '@arcgis/core/layers/BingMapsLayer';
 import BingMapsLayerGenerated from './bingMapsLayer.gb';
-import {buildEncodedJson} from "./arcGisJsInterop";
+import {buildEncodedJson} from "./geoBlazorCore";
 
 export default class BingMapsLayerWrapper extends BingMapsLayerGenerated {
 

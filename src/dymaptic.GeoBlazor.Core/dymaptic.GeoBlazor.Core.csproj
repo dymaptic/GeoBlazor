@@ -97,13 +97,17 @@
       <AdditionalFiles Include="Scripts\*.ts" />
       <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
       <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
+      <CompilerVisibleProperty Include="LogESBuildOutput" Value="$(LogESBuildOutput)" />
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="Documentation/" />
-        <Folder Include="wwwroot/js/" Watch="false" />
+        <Folder Include="wwwroot/js/" />
         <Content Remove="esBuild*" Watch="false" Pack="false" />
-        <Content Include="esBuild*" Watch="false" Pack="false" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(DotNetWatchBuild)'=='true'">
+        <Content Update="Scripts\**;wwwroot\**;node_modules\**;esBuild*" Watch="false" />
     </ItemGroup>
 
     <ItemGroup>

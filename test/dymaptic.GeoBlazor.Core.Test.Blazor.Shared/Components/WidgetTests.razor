@@ -109,7 +109,7 @@
 
             </MapView>);
 
-        await Assert.ThrowsExceptionAsync<AggregateException>(async () =>
+        await Assert.ThrowsAsync<AggregateException>(async () =>
             await WaitForMapToRender());
     }
 
@@ -526,7 +526,7 @@
         <HomeWidget />
     </div>);
 
-        await Assert.ThrowsExceptionAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
+        await Assert.ThrowsAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
     }
 
     [TestMethod]

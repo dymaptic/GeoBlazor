@@ -1,6 +1,6 @@
 // override generated code in this file
 import ImageMediaInfo from '@arcgis/core/popup/content/ImageMediaInfo';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import {buildDotNetImageMediaInfoValue, buildJsImageMediaInfoValue} from './imageMediaInfoValue';
 
 export function buildJsImageMediaInfo(dotNetObject: any): any {

@@ -1,4 +1,4 @@
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import PortalBasemapsSource from "@arcgis/core/widgets/BasemapGallery/support/PortalBasemapsSource";
 
 export async function buildJsIBasemapGalleryWidgetSource(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
