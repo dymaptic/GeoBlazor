@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class ImageMediaInfoValue : MapComponent, IMediaInfoValue
 {
-
-
     /// <summary>
     ///     A string containing a URL to be launched in a browser when a user clicks the image.
     /// </summary>

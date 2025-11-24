@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[ProtobufSerializable]
 public partial class SimpleFillSymbol : FillSymbol
 {
-
-
     /// <summary>
     ///     The fill style.
     /// </summary>

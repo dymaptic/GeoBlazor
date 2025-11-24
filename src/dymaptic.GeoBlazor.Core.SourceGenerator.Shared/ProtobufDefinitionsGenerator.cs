@@ -62,7 +62,7 @@ public static class ProtobufDefinitionsGenerator
         try
         {
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-                $"Generating Protobuf schema",
+                "Generating Protobuf schema",
                 DiagnosticSeverity.Info,
                 context);
 
@@ -105,7 +105,9 @@ public static class ProtobufDefinitionsGenerator
             if (type.AttributeLists.SelectMany(a => a.Attributes)
                 .All(a => a.Name.ToString() != protoContractAttribute))
             {
-                if (type.Identifier.Text.EndsWith("SerializationRecord"))
+                if (type.Identifier.Text.EndsWith("SerializationRecord")
+                    && type.Identifier.Text != "MapComponentSerializationRecord"
+                    && type.Identifier.Text != "MapComponentCollectionSerializationRecord")
                 {
                     ProcessHelper.Log(
                         nameof(ProtobufDefinitionsGenerator),
@@ -309,16 +311,7 @@ public static class ProtobufDefinitionsGenerator
             // Generate regular fields
             foreach (var field in def.Fields)
             {
-                switch (field.Type)
-                {
-                    case "repeated double":
-                        sb.AppendLine($"   {field.Type} {field.Name} = {field.Number} [ packed = false];");
-                        continue;
-                    default:
-                        sb.AppendLine($"   {field.Type} {field.Name} = {field.Number};");
-
-                        break;
-                }
+                sb.AppendLine($"   {field.Type} {field.Name} = {field.Number};");
             }
 
             sb.AppendLine("}");

@@ -48,7 +48,8 @@ public class JsSyncManager
         SerializableMethodRecord methodRecord = GetMethodRecord<object?>(method, className, true, parameters);
         List<object?> parameterList = GenerateSerializedParameters(methodRecord, parameters, isServer);
 
-        await js.InvokeVoidAsync("invokeVoidSerializedMethod", cancellationToken, [method, isServer, ..parameterList]);
+        await js.InvokeVoidAsync("invokeVoidSerializedMethod", cancellationToken, 
+            [methodRecord.MethodName, isServer, ..parameterList]);
     }
 
     /// <summary>
@@ -81,14 +82,14 @@ public class JsSyncManager
 
         List<object?> parameterList = GenerateSerializedParameters(methodRecord, parameters, isServer);
 
-        Type? protoReturnType = methodRecord.ReturnValue?.ProtoReturnType;
+        Type? protoReturnType = methodRecord.ReturnValue?.Type;
         bool returnTypeIsProtobuf = protoReturnType is not null;
 
         if (isServer || returnTypeIsProtobuf)
         {
             IJSStreamReference? streamRef = await js.InvokeAsync<IJSStreamReference?>(
                 "invokeSerializedMethod", cancellationToken, 
-                [method, true, returnTypeIsProtobuf, protoReturnType?.Name, ..parameterList]);
+                [methodRecord.MethodName, true, returnTypeIsProtobuf, protoReturnType?.Name, ..parameterList]);
 
             if (streamRef is null)
             {
@@ -97,6 +98,11 @@ public class JsSyncManager
 
             if (returnTypeIsProtobuf)
             {
+                if (methodRecord.ReturnValue?.SingleType is not null)
+                {
+                    return await _serializationData.ReadJsProtobufCollectionStreamReference<T>(streamRef,
+                        protoReturnType!) ?? default!;
+                }
                 return await _serializationData.ReadJsProtobufStreamReference<T>(streamRef, protoReturnType!) ?? default!;
             }
             
@@ -108,7 +114,7 @@ public class JsSyncManager
     }
 
     private SerializableMethodRecord GetMethodRecord<T>(string method, string className, bool returnsVoid, 
-        object?[] parameters)
+        object?[] providedParameters)
     {
         if (!_serializableMethods.TryGetValue(className, out List<SerializableMethodRecord>? classMethods))
         {
@@ -120,19 +126,17 @@ public class JsSyncManager
                 // same method name
                 string.Equals(m.MethodName, method, StringComparison.OrdinalIgnoreCase)
                 // same number of parameters
-                && m.Parameters.Length == parameters.Length
+                && m.Parameters.Length == providedParameters.Length
                 // either both void or both non-void
                 && ((m.ReturnValue is null && returnsVoid)
-                     || (m.ReturnValue is not null && !returnsVoid
-                         // don't load generic return typed methods from the dictionary
-                         && !m.ReturnValue.IsGenericType))).ToList() 
+                     || (m.ReturnValue is not null && !returnsVoid))).ToList() 
             is not { } matchedMethods)
         {
             // use reflection since we don't have a stored method record
             var classType = GeoBlazorMetaData.GeoblazorTypes.First(t => t.Name == className);
             var methodInfos = classType.GetMethods(BindingFlags.Instance | BindingFlags.Public)
                 .Where(m => string.Equals(m.Name, method, StringComparison.OrdinalIgnoreCase)
-                    && m.GetParameters().Length == parameters.Length)
+                    && m.GetParameters().Length == providedParameters.Length)
                 .ToArray();
 
             matchedMethods = [];
@@ -157,7 +161,7 @@ public class JsSyncManager
                     methodParams.Add(new SerializableParameterRecord(paramType, isNullable, collectionType));
                 }
                 
-                SerializableReturnRecord? returnRecord = null;
+                SerializableParameterRecord? returnRecord = null;
 
                 if (!returnsVoid && methodInfo.ReturnType != typeof(void))
                 {
@@ -171,45 +175,54 @@ public class JsSyncManager
                             : typeof(void);
                     }
 
+                    bool isNullable = false;
+
                     if (returnType.IsGenericType &&
                         methodInfo.ReturnType.GetGenericTypeDefinition() == typeof(Nullable<>))
                     {
+                        isNullable = true;
                         returnType = Nullable.GetUnderlyingType(returnType)!;
                     }
 
                     bool returnIsCollection = returnType.IsArray ||
                         returnType is { IsGenericType: true, GenericTypeArguments.Length: 1 };
+
+                    Type? singleType = null;
+
+                    if (returnIsCollection)
+                    {
+                        singleType = returnType.IsArray
+                            ? returnType.GetElementType()
+                            : returnType.GenericTypeArguments[0];
+                    }
                     
                     bool isGenericParameter = returnType.IsGenericParameter;
 
                     if (isGenericParameter)
                     {
-                        returnType = typeof(T);
-                    }
-                    
-                    Type? protoReturnType;
-
-                    if (returnIsCollection)
-                    {
-                        _serializationData.ProtoCollectionTypes.TryGetValue(returnType, out protoReturnType);
-                    }
-                    else
-                    {
-                        _serializationData.ProtoContractTypes.TryGetValue(returnType, out protoReturnType);
+                        returnType = returnType.GenericTypeArguments[0];
                     }
 
-                    returnRecord = new SerializableReturnRecord(isGenericParameter, protoReturnType);
+                    returnRecord = new SerializableParameterRecord(returnType, isNullable, singleType);
                 }
 
                 SerializableMethodRecord methodRecord = new(method, methodParams.ToArray(), returnRecord);
                 matchedMethods.Add(methodRecord);
 
-                if (methodRecord.ReturnValue?.IsGenericType != true)
+                if (methodRecord.ReturnValue?.Type.IsGenericType != true)
                 {
                     // only add non-generic return typed methods to the dictionary
                     classMethods.Add(methodRecord);
                 }
             }
+        }
+
+        if (matchedMethods.Count == 0)
+        {
+            // no matching methods, build the record manually
+            return new SerializableMethodRecord(method.ToLowerFirstChar(),
+                providedParameters.Select(GetSerializableParameterRecord).ToArray(),
+                GetSerializableReturnRecord<T>(returnsVoid));
         }
 
         if (matchedMethods.Count == 1)
@@ -222,24 +235,24 @@ public class JsSyncManager
         {
             for (int i = 0; i < m.Parameters.Length; i++)
             {
-                Type? paramType = parameters[i]?.GetType();
-                if (paramType is not null &&
-                    paramType.IsGenericType &&
-                    paramType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                Type? providedParameterType = providedParameters[i]?.GetType();
+                if (providedParameterType is not null &&
+                    providedParameterType.IsGenericType &&
+                    providedParameterType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
-                    paramType = Nullable.GetUnderlyingType(paramType)!;
+                    providedParameterType = Nullable.GetUnderlyingType(providedParameterType)!;
                 }
                 
                 SerializableParameterRecord methodParam = m.Parameters[i];
 
-                if (paramType is null)
+                if (providedParameterType is null)
                 {
                     if (!methodParam.IsNullable)
                     {
                         return false;
                     }
                 }
-                else if (methodParam.Type != paramType)
+                else if (!providedParameterType.IsAssignableTo(methodParam.Type))
                 {
                     return false;
                 }
@@ -306,7 +319,7 @@ public class JsSyncManager
 
         if (parameterValue is IList list)
         {
-            Type genericType = parameterRecord.CollectionType ?? (paramType.IsArray
+            Type genericType = parameterRecord.SingleType ?? (paramType.IsArray
                 ? paramType.GetElementType()!
                 : paramType.GenericTypeArguments[0]);
             string key = $"{GetKey(genericType)}Collection";
@@ -371,6 +384,49 @@ public class JsSyncManager
 
         return type.Name;
     }
+
+    private SerializableParameterRecord GetSerializableParameterRecord(object? parameter)
+    {
+        if (parameter is null)
+        {
+            return new SerializableParameterRecord(typeof(object), true, null);
+        }
+        
+        Type paramType = parameter.GetType();
+
+        if (simpleTypes.Contains(paramType))
+        {
+            return new SerializableParameterRecord(paramType, true, null);
+        }
+        bool isCollection = paramType.IsAssignableTo(typeof(IEnumerable));
+        Type? collectionType = isCollection 
+            ? paramType.IsArray 
+                ? paramType.GetElementType() 
+                : paramType.GetGenericArguments()[0] 
+            : null;
+        return new SerializableParameterRecord(paramType, true, collectionType);
+    }
+
+    private SerializableParameterRecord GetSerializableReturnRecord<T>(bool returnsVoid)
+    {
+        if (returnsVoid)
+        {
+            return new SerializableParameterRecord(typeof(void), false, null);
+        }
+        Type returnType = typeof(T);
+        
+        if (simpleTypes.Contains(returnType))
+        {
+            return new SerializableParameterRecord(returnType, true, null);
+        }
+        bool isCollection = returnType.IsAssignableTo(typeof(IEnumerable));
+        Type? collectionType = isCollection 
+            ? returnType.IsArray 
+                ? returnType.GetElementType() 
+                : returnType.GetGenericArguments()[0] 
+            : null;
+        return new SerializableParameterRecord(returnType, true, collectionType);
+    }
     
     private readonly ISerializationData _serializationData;
     private readonly Dictionary<string, List<SerializableMethodRecord>> _serializableMethods;
@@ -385,7 +441,6 @@ public class JsSyncManager
     ];
 }
 
-public record SerializableMethodRecord(string MethodName, SerializableParameterRecord[] Parameters, SerializableReturnRecord? ReturnValue);
-public record SerializableParameterRecord(Type Type, bool IsNullable, Type? CollectionType);
-
-public record SerializableReturnRecord(bool IsGenericType, Type? ProtoReturnType);
+public record SerializableMethodRecord(string MethodName, SerializableParameterRecord[] Parameters, 
+    SerializableParameterRecord? ReturnValue);
+public record SerializableParameterRecord(Type Type, bool IsNullable, Type? SingleType);

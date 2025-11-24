@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-RelatedRecordsInfoFieldOrder.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [CodeGenerationIgnore]
+[ProtobufSerializable]
 public class RelatedRecordsInfoFieldOrder : MapComponent, 
     IProtobufSerializable<RelatedRecordsInfoFieldOrderSerializationRecord>
 {

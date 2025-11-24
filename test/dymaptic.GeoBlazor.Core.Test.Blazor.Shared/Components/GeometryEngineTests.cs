@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 
+[TestClass]
 public class GeometryEngineTests : TestRunnerBase
 {
     [Inject]
@@ -179,7 +180,7 @@ public class GeometryEngineTests : TestRunnerBase
         Polygon buffer = await GeometryEngine.Buffer(polyline, 20, GeometryEngineLinearUnit.Yards);
         Assert.IsNotNull(buffer);
     }
-
+    
     [TestMethod]
     public async Task TestClip()
     {
@@ -219,7 +220,7 @@ public class GeometryEngineTests : TestRunnerBase
         var clippedPolygon = await GeometryEngine.Clip(boundaryPolygon, envelope) as Polygon;
         Assert.IsNull(clippedPolygon);
     }
-
+    
     [TestMethod]
     public async Task TestContainsTrue()
     {
@@ -1477,6 +1478,144 @@ public class GeometryEngineTests : TestRunnerBase
         Assert.AreEqual(polygon1.Type, fromJson.Type);
         Assert.AreEqual(polygon1.Rings, ((Polygon)fromJson).Rings);
     }
+        
+    [TestMethod]
+    public async Task TestClone_ToFromJson()
+    {
+        var polygon = new Polygon([new MapPath(new MapPoint(0, 0), new MapPoint(0, 1), new MapPoint(1, 1), new MapPoint(1, 0), new MapPoint(0, 0))
+        ], new SpatialReference(102100));
 
+        // Clone
+        var clone = await GeometryEngine.Clone(polygon);
+        Assert.IsNotNull(clone);
+        Assert.AreEqual(polygon.Type, clone.Type);
+
+        // To/From ArcGIS JSON
+        string json = await GeometryEngine.ToArcGisJson(polygon);
+        Assert.IsFalse(string.IsNullOrWhiteSpace(json));
+
+        var from = await GeometryEngine.FromArcGisJson<Polygon>(json);
+        Assert.IsNotNull(from);
+        Assert.AreEqual(polygon.Type, from.Type);
+    }
+
+    [TestMethod]
+    public async Task TestExtentHelpers_And_NormalizePoint()
+    {
+        var extent = new Extent(10, 0, 10, 0); // xmax, xmin, ymax, ymin (constructor used in codebase)
+        var center = new Point(2, 3);
+
+        var centered = await GeometryEngine.CenterExtentAt(extent, center);
+        Assert.IsNotNull(centered);
+
+        var expanded = await GeometryEngine.Expand(extent, 2.0);
+        Assert.IsNotNull(expanded);
+
+        var normalizedExtents = await GeometryEngine.NormalizeExtent(new Extent(200, -200, 10, 0));
+        Assert.IsNotNull(normalizedExtents);
+        Assert.IsTrue(normalizedExtents.Length >= 1);
+
+        var offsetExtent = await GeometryEngine.OffsetExtent(extent, 1, 2, 3);
+        Assert.IsNotNull(offsetExtent);
+
+        var p = new Point(190, 10);
+        var normalizedPoint = await GeometryEngine.NormalizePoint(p);
+        Assert.IsNotNull(normalizedPoint);
+        Assert.IsTrue(normalizedPoint.X is <= 180 and >= -180);
+
+        // get extent properties
+        var maybeCenter = await GeometryEngine.GetExtentCenter(extent);
+        var maybeHeight = await GeometryEngine.GetExtentHeight(extent);
+        var maybeWidth = await GeometryEngine.GetExtentWidth(extent);
+
+        Assert.IsNotNull(maybeCenter);
+        Assert.IsNotNull(maybeHeight);
+        Assert.IsNotNull(maybeWidth);
+    }
+
+    [TestMethod]
+    public async Task TestPolyline_PathAndPoint_Mutations()
+    {
+        var polyline = new Polyline([new MapPath(new MapPoint(0, 0))], new SpatialReference(102100));
+
+        // AddPath using Point[] overload
+        var added = await GeometryEngine.AddPath(polyline, [new Point(2, 2), new Point(3, 3)]);
+        Assert.IsNotNull(added);
+        Assert.IsTrue(added.Paths.Count >= 2);
+
+        // GetPoint for newly added path
+        var pt = await GeometryEngine.GetPoint(added, 1, 0);
+        Assert.AreEqual(2, pt.X);
+        Assert.AreEqual(2, pt.Y);
+
+        // InsertPoint
+        var inserted = await GeometryEngine.InsertPoint(added, 1, 1, new Point(2.5, 2.5));
+        var got = await GeometryEngine.GetPoint(inserted, 1, 1);
+        Assert.AreEqual(2.5, got.X);
+
+        // SetPoint
+        var set = await GeometryEngine.SetPoint(inserted, 1, 1, new Point(5, 5));
+        var gotSet = await GeometryEngine.GetPoint(set, 1, 1);
+        Assert.AreEqual(5, gotSet.X);
+
+        // RemovePoint
+        var removeResult = await GeometryEngine.RemovePoint(set, 1, 1);
+        Assert.IsNotNull(removeResult);
+        Assert.IsInstanceOfType(removeResult.Point, typeof(Point));
+
+        // RemovePath
+        var removePathResult = await GeometryEngine.RemovePath(removeResult.Polyline, 1);
+        Assert.IsNotNull(removePathResult);
+        Assert.IsTrue(removePathResult.Path.Length >= 1);
+    }
+
+    [TestMethod]
+    public async Task TestPolygon_RingAndPoint_Mutations()
+    {
+        var polygon = new Polygon([new MapPath(new MapPoint(0, 0), new MapPoint(0, 5), new MapPoint(5, 5), new MapPoint(5, 0), new MapPoint(0, 0))
+        ], new SpatialReference(102100));
+        int beforeRings = polygon.Rings.Count;
+
+        // AddRing with Point[]
+        var withRing = await GeometryEngine.AddRing(polygon, [new Point(10, 10), new Point(10, 20), new Point(20, 20), new Point(10, 10)
+        ]);
+        Assert.IsNotNull(withRing);
+        Assert.AreEqual(beforeRings + 1, withRing.Rings.Count);
+
+        // GetPoint from newly added ring
+        var ringPoint = await GeometryEngine.GetPoint(withRing, beforeRings, 0);
+        Assert.AreEqual(10, ringPoint.X);
+
+        // InsertPoint
+        var inserted = await GeometryEngine.InsertPoint(withRing, beforeRings, 1, new Point(11, 11));
+        var got = await GeometryEngine.GetPoint(inserted, beforeRings, 1);
+        Assert.AreEqual(11, got.X);
+
+        // SetPoint
+        var set = await GeometryEngine.SetPoint(inserted, beforeRings, 1, new Point(12, 12));
+        var gotSet = await GeometryEngine.GetPoint(set, beforeRings, 1);
+        Assert.AreEqual(12, gotSet.X);
+
+        // RemovePoint
+        var removed = await GeometryEngine.RemovePoint(set, beforeRings, 1);
+        Assert.IsNotNull(removed);
+        Assert.IsInstanceOfType(removed.Point, typeof(Point));
+
+        // RemoveRing
+        var removedRing = await GeometryEngine.RemoveRing(removed.Polygon, beforeRings);
+        Assert.IsNotNull(removedRing);
+        Assert.AreEqual(beforeRings, removedRing.Polygon.Rings.Count);
+    }
+
+    [TestMethod]
+    public async Task TestIsClockwise()
+    {
+        var ring = new MapPath(new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0), new MapPoint(0, 0));
+        var polygon = new Polygon([ring], new SpatialReference(102100));
+
+        bool result = await GeometryEngine.IsClockwise(polygon, ring);
+        Assert.IsInstanceOfType(result, typeof(bool));
+    }
+    
     private readonly Random _random = new();
 }

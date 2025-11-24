@@ -158,7 +158,7 @@ message ImageDataCollection {
    bool isNull = 1000;
 }
 message MapColor {
-   repeated double rgbaValues = 1 [ packed = false];
+   repeated double rgbaValues = 1;
    string hexOrNameValue = 2;
    bool isNull = 1000;
 }
@@ -187,7 +187,7 @@ message MapPathCollection {
    bool isNull = 1000;
 }
 message MapPoint {
-   repeated double coordinates = 1 [ packed = false];
+   repeated double coordinates = 1;
    bool isNull = 1000;
 }
 message MapPointCollection {
@@ -268,9 +268,9 @@ message MeshTextureCollection {
    bool isNull = 1000;
 }
 message MeshTextureTransform {
-   repeated double offset = 1 [ packed = false];
+   repeated double offset = 1;
    double rotation = 2;
-   repeated double scale = 3 [ packed = false];
+   repeated double scale = 3;
    bool isNull = 1000;
 }
 message MeshTextureTransformCollection {
@@ -279,9 +279,9 @@ message MeshTextureTransformCollection {
 }
 message MeshTransform {
    double rotationAngle = 1;
-   repeated double rotationAxis = 2 [ packed = false];
-   repeated double scale = 3 [ packed = false];
-   repeated double translation = 4 [ packed = false];
+   repeated double rotationAxis = 2;
+   repeated double scale = 3;
+   repeated double translation = 4;
    bool isNull = 1000;
 }
 message MeshTransformCollection {
@@ -290,10 +290,10 @@ message MeshTransformCollection {
 }
 message MeshVertexAttributes {
    bytes color = 1;
-   repeated double normal = 2 [ packed = false];
-   repeated double position = 3 [ packed = false];
-   repeated double tangent = 4 [ packed = false];
-   repeated double uv = 5 [ packed = false];
+   repeated double normal = 2;
+   repeated double position = 3;
+   repeated double tangent = 4;
+   repeated double uv = 5;
    bool isNull = 1000;
 }
 message MeshVertexAttributesCollection {
@@ -302,7 +302,7 @@ message MeshVertexAttributesCollection {
 }
 message MeshVertexSpace {
    string type = 1;
-   repeated double origin = 2 [ packed = false];
+   repeated double origin = 2;
    bool isNull = 1000;
 }
 message MeshVertexSpaceCollection {

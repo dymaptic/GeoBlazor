@@ -97,9 +97,6 @@
       <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
       <AdditionalFiles Include="package.json" />
       <AdditionalFiles Include="Scripts\*.ts" />
-      <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
-      <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
-      <CompilerVisibleProperty Include="LogSourceGenOutput" Value="$(LogSourceGenOutput)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -116,9 +113,4 @@
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="false" />
     </ItemGroup>
-
-    <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
-        <Message Importance="high" Text="Clearing locks on esBuild files..." />
-        <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />
-    </Target>
 </Project>

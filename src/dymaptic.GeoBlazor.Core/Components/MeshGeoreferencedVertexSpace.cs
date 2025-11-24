@@ -8,6 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     Origin of the vertex space. This will be interpreted as coordinates in the SpatialReference of the Mesh using the vertex space. If this is null, the coordinates are expected to be absolute. If not, then the coordinates are expected to be deltas relative to the origin.
 /// </param>
 [CodeGenerationIgnore]
+[ProtobufSerializable]
 public record MeshGeoreferencedVertexSpace(double[]? Origin) : IMeshVertexSpace
 {
     /// <summary>

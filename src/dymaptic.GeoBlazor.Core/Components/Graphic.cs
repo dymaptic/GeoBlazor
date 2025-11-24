@@ -2,6 +2,7 @@ using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class Graphic: MapComponent, IEquatable<Graphic>, IProtobufSerializable<GraphicSerializationRecord>
 {
     /// <summary>

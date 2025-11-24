@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
+[ProtobufSerializable]
 public partial class Polygon : Geometry
 {
     /// <summary>

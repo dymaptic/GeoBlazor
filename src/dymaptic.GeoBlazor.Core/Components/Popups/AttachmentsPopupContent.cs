@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+[ProtobufSerializable]
 public partial class AttachmentsPopupContent : PopupContent
 {
-
-    
     /// <inheritdoc />
     public override PopupContentType Type => PopupContentType.Attachments;
 

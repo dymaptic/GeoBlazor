@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class FieldInfoFormat : MapComponent, IProtobufSerializable<FieldInfoFormatSerializationRecord>
 {
-
-
     /// <summary>
     ///     Used only with Number fields to specify the number of supported decimal places that should appear in popups.
     /// </summary>

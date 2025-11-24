@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
+[ProtobufSerializable]
 public partial class Point : Geometry
 {
-
-
     /// <summary>
     ///     The latitude of the point.
     /// </summary>

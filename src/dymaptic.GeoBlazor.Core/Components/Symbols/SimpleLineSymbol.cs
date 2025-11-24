@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[ProtobufSerializable]
 public partial class SimpleLineSymbol : LineSymbol
 {
-
-    
     /// <inheritdoc />
     public override SymbolType Type => SymbolType.SimpleLine;
 

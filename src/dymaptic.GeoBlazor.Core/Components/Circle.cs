@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class Circle
 {
    // Add custom code to this file to override generated code

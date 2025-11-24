@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[ProtobufSerializable]
 public partial class TextSymbol : Symbol
 {
-
-
     /// <inheritdoc />
     public override SymbolType Type => SymbolType.Text;
     

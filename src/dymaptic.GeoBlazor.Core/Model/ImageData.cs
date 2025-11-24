@@ -17,6 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The width of the image.
 /// </param>
 [ProtoContract]
+[ProtobufSerializable]
 public record ImageData(byte[] Data, string ColorSpace, long Height, long Width) 
     : IProtobufSerializable<ImageDataSerializationRecord>
 {

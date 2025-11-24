@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[ProtobufSerializable]
 public abstract partial class LineSymbol : Symbol
 {
     /// <summary>

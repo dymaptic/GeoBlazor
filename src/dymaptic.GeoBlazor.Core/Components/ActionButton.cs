@@ -1,6 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [CodeGenerationIgnore]
+[ProtobufSerializable]
 public partial class ActionButton : ActionBase
 {
     /// <inheritdoc />

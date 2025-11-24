@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[ProtobufSerializable]
 public partial class PictureFillSymbol : FillSymbol
 {
-
-    
     /// <summary>
     ///     The height of the image in points.
     /// </summary>

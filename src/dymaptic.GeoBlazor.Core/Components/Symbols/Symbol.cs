@@ -1,6 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 [JsonConverter(typeof(SymbolJsonConverter))]
+[ProtobufSerializable]
 public abstract partial class Symbol : MapComponent, IProtobufSerializable<SymbolSerializationRecord>
 {
     /// <summary>

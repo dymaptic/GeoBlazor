@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class ChartMediaInfoValue : MapComponent, IMediaInfoValue
 {
     /// <summary>

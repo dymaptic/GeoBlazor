@@ -2084,40 +2084,13 @@ export function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureL
     if (hasValue(graphic.geometry)) {
         updateGeometryForProtobuf(graphic.geometry);
     }
-    const symbol: any = graphic.symbol;
-    if (hasValue(symbol)) {
-        if (hasValue(symbol.color)) {
-            symbol.color = {
-                hexOrNameValue: symbol.color
-            }
-        }
-        if (hasValue(symbol.haloColor)) {
-            symbol.haloColor = {
-                hexOrNameValue: symbol.haloColor
-            }
-        }
-        if (hasValue(symbol.backgroundColor)) {
-            symbol.backgroundColor = {
-                hexOrNameValue: symbol.backgroundColor
-            }
-        }
-        if (hasValue(symbol.borderLineColor)) {
-            symbol.borderLineColor = {
-                hexOrNameValue: symbol.borderLineColor
-            }
-        }
-        if (hasValue(symbol.outline?.color)) {
-            symbol.outline.color = {
-                hexOrNameValue: symbol.outline.color
-            }
-        }
-        if (hasValue(symbol.portal)) {
-            symbol.portalUrl = symbol.portal.url;
-        }
+
+    if (hasValue(graphic.symbol)) {
+        updateSymbolForProtobuf(graphic.symbol);
     }
 }
 
-function updateGeometryForProtobuf(geometry) {
+export function updateGeometryForProtobuf(geometry) {
     if (hasValue(geometry.paths)) {
         geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
             return {
@@ -2152,6 +2125,37 @@ function updateGeometryForProtobuf(geometry) {
         });
     } else {
         geometry.points = [];
+    }
+}
+
+export function updateSymbolForProtobuf(symbol) {
+    if (hasValue(symbol.color)) {
+        symbol.color = {
+            hexOrNameValue: symbol.color
+        }
+    }
+    if (hasValue(symbol.haloColor)) {
+        symbol.haloColor = {
+            hexOrNameValue: symbol.haloColor
+        }
+    }
+    if (hasValue(symbol.backgroundColor)) {
+        symbol.backgroundColor = {
+            hexOrNameValue: symbol.backgroundColor
+        }
+    }
+    if (hasValue(symbol.borderLineColor)) {
+        symbol.borderLineColor = {
+            hexOrNameValue: symbol.borderLineColor
+        }
+    }
+    if (hasValue(symbol.outline?.color)) {
+        symbol.outline.color = {
+            hexOrNameValue: symbol.outline.color
+        }
+    }
+    if (hasValue(symbol.portal)) {
+        symbol.portalUrl = symbol.portal.url;
     }
 }
 

@@ -5,6 +5,7 @@
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MapPathConverter))]
+[ProtobufSerializable]
 public class MapPath : List<MapPoint>, IEquatable<MapPath>, IProtobufSerializable<MapPathSerializationRecord>
 {
     /// <summary>
@@ -90,6 +91,7 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>, IProtobufSerializabl
 ///     This is another representation of <see cref="Point" /> that should be used to create <see cref="MapPath" />s.
 /// </summary>
 [JsonConverter(typeof(MapPointConverter))]
+[ProtobufSerializable]
 public class MapPoint : List<double>, IEquatable<MapPoint>, IProtobufSerializable<MapPointSerializationRecord>
 {
     /// <summary>

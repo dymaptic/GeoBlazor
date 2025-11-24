@@ -8,6 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </summary>
 [JsonConverter(typeof(MapColorConverter))]
 [CodeGenerationIgnore]
+[ProtobufSerializable]
 public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSerializationRecord>
 {
     private double[]? _rgbaValues = [];

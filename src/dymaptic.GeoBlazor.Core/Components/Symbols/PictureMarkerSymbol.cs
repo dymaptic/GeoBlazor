@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[ProtobufSerializable]
 public partial class PictureMarkerSymbol : MarkerSymbol
 {
-
-    
     /// <summary>
     ///     The height of the image in points.
     /// </summary>

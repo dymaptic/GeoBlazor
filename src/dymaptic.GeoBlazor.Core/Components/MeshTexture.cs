@@ -6,6 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTexture.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [CodeGenerationIgnore]
+[ProtobufSerializable]
 public class MeshTexture : MapComponent, IProtobufSerializable<MeshTextureSerializationRecord>
 {
 

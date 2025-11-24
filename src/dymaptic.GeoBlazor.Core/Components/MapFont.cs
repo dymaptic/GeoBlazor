@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class MapFont : MapComponent, IProtobufSerializable<MapFontSerializationRecord>
 {
-
-
     /// <summary>
     ///     The text decoration.
     ///     default none

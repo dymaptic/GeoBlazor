@@ -7,7 +7,6 @@
         <IsPackable>false</IsPackable>
 
         <RootNamespace>dymaptic.GeoBlazor.Core.SourceGenerator.Tests</RootNamespace>
-        <CoreOverridePath>$(MSBuildProjectDirectory)\..\..\src\dymaptic.GeoBlazor.Core</CoreOverridePath>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
@@ -25,6 +24,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="protobuf-net.Core" Version="3.2.52" />
     </ItemGroup>
 
     <ItemGroup>
@@ -32,12 +32,5 @@
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="true" />
         <Reference Include="..\..\src\dymaptic.GeoBlazor.Core\bin\Debug\net8.0\dymaptic.GeoBlazor.Core.dll" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
-        <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
-        <CompilerVisibleProperty Include="LogSourceGenOutput" Value="$(LogSourceGenOutput)" />
-        <CompilerVisibleProperty Include="CoreOverridePath" Value="$(CoreOverridePath)" />
     </ItemGroup>
 </Project>

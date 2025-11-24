@@ -1,5 +1,6 @@
 import {Field, Type } from "protobufjs";
-import {buildEncodedJson, hasValue, loadProtobuf, protobufRoot, ProtoTypes} from "./arcGisJsInterop";
+import {buildEncodedJson, hasValue, loadProtobuf, protobufRoot, ProtoTypes, 
+    updateGeometryForProtobuf, updateGraphicForProtobuf, updateSymbolForProtobuf} from "./arcGisJsInterop";
 
 // base class for components that need to invoke methods with serialized parameters
 export default class BaseComponent {
@@ -173,7 +174,9 @@ export default class BaseComponent {
     
     serializeProtobufReturnValue(returnValue: any, protoReturnType: string): Uint8Array {
         if (!hasValue(returnValue)) {
-            protoReturnType = 'Null';
+            returnValue = {
+                isNull: true
+            }
         }
         let isArrayType = false;
         if (protoReturnType.endsWith('Collection')) {
@@ -186,6 +189,18 @@ export default class BaseComponent {
                 const protoType = ProtoTypes[protoReturnType];
 
                 if (isArrayType) {
+                    switch (protoReturnType) {
+                        case 'Geometry':
+                            returnValue.forEach(v => updateGeometryForProtobuf(v));
+                            break;
+                        case 'Graphic':
+                            returnValue.foreEach(v => updateGraphicForProtobuf(v, null));
+                            break;
+                        case 'Symbol':
+                            returnValue.forEach(v => updateSymbolForProtobuf(v));
+                            break;
+                    }
+
                     let collectionType = `${protoReturnType}Collection`;
                     let ProtoCollectionType: any = ProtoTypes[collectionType];
                     if (!ProtoCollectionType) {
@@ -199,6 +214,18 @@ export default class BaseComponent {
                     return ProtoCollectionType.encode({
                         items: returnValue
                     }).finish();
+                }
+
+                switch (protoReturnType) {
+                    case 'Geometry':
+                        updateGeometryForProtobuf(returnValue);
+                        break;
+                    case 'Graphic':
+                        updateGraphicForProtobuf(returnValue, null);
+                        break;
+                    case 'Symbol':
+                        updateSymbolForProtobuf(returnValue);
+                        break;
                 }
 
                 return protoType.encode(returnValue).finish();

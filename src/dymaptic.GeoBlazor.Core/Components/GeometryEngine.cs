@@ -1549,9 +1549,13 @@ public class GeometryEngine : LogicComponent
     ///     Returns an object with the modified polyline and the removed point.
     /// </returns>
     [SerializedMethod]
-    public async Task<(Polyline PolyLine, Point Point)> RemovePoint(Polyline polyline, int pathIndex, int pointIndex)
+    public async Task<(Polyline Polyline, Point Point)> RemovePoint(Polyline polyline, int pathIndex, int pointIndex)
     {
-        return await InvokeAsync<(Polyline PolyLine, Point Point)>(nameof(GeometryEngine), parameters: [polyline, pathIndex, pointIndex]);
+        GeometryRemovePointResult result =
+            await InvokeAsync<GeometryRemovePointResult>(nameof(GeometryEngine), 
+                parameters: [polyline, pathIndex, pointIndex]);
+
+        return ((Polyline)result.Geometry, result.Point);
     }
 
     /// <summary>
@@ -1740,7 +1744,11 @@ public class GeometryEngine : LogicComponent
     [SerializedMethod]
     public async Task<(Polygon Polygon, Point Point)> RemovePoint(Polygon polygon, int ringIndex, int pointIndex)
     {
-        return await InvokeAsync<(Polygon Polygon, Point Point)>(nameof(GeometryEngine), parameters: [polygon, ringIndex, pointIndex]);
+        GeometryRemovePointResult result =
+            await InvokeAsync<GeometryRemovePointResult>(nameof(GeometryEngine), 
+                parameters: [polygon, ringIndex, pointIndex]);
+
+        return ((Polygon)result.Geometry, result.Point);
     }
 
     /// <summary>
@@ -1812,3 +1820,5 @@ public class GeometryEngine : LogicComponent
         return await InvokeAsync<double?>(nameof(GeometryEngine), parameters: [extent]);
     }
 }
+
+internal record GeometryRemovePointResult(Geometry Geometry, Point Point);

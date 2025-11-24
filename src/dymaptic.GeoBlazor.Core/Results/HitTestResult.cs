@@ -30,6 +30,7 @@ public record HitTestResult(ScreenPoint ScreenPoint)
 ///     The point geometry in the spatial reference of the view corresponding with the input screen coordinates.
 /// </param>
 [JsonConverter(typeof(ViewHitConverter))]
+[ProtobufSerializable]
 public record ViewHit(string Type, Point MapPoint) : IProtobufSerializable<ViewHitSerializationRecord>
 {
     /// <inheritdoc />

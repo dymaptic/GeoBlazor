@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class ColumnChartMediaInfo : MediaInfo
 {
-
-
     /// <inheritdoc/>
     public override string Type => "column-chart";
 

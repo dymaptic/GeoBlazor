@@ -1,10 +1,9 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [CodeGenerationIgnore]
+[ProtobufSerializable]
 public partial class ActionToggle : ActionBase
 {
-
-
     /// <inheritdoc />
     public override string Type => "toggle";
 

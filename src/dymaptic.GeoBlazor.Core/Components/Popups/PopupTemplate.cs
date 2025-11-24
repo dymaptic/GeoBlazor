@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+[ProtobufSerializable]
 public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTemplateSerializationRecord>
 {
     /// <summary>

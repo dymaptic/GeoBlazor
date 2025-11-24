@@ -149,7 +149,7 @@ export default class GeometryEngineWrapper extends BaseComponent {
         return distanceOperator.execute(jsGeometry1, jsGeometry2, options);
     }
 
-    async equals(geometry1: DotNetGeometry, geometry2: DotNetGeometry): Promise<boolean | null> {
+    async areEqual(geometry1: DotNetGeometry, geometry2: DotNetGeometry): Promise<boolean | null> {
         let equalsOperator = await import('@arcgis/core/geometry/operators/equalsOperator');
         return equalsOperator.execute(buildJsGeometry(geometry1) as GeometryUnion, buildJsGeometry(geometry2) as GeometryUnion);
     }
@@ -488,7 +488,7 @@ export default class GeometryEngineWrapper extends BaseComponent {
             buildJsGeometry(outerGeometry) as GeometryUnion);
     }
 
-    async fromJSON(json: string, typeName: string): Promise<any> {
+    async fromArcGisJson(json: string, typeName: string): Promise<any> {
         let jsGeometry: Geometry;
         let jsonObject = JSON.parse(json);
         switch (typeName) {
@@ -517,7 +517,7 @@ export default class GeometryEngineWrapper extends BaseComponent {
 
     }
 
-    async toJSON(geometry: any): Promise<string | null> {
+    async toArcGisJson(geometry: any): Promise<string | null> {
         let jsGeometry = buildJsGeometry(geometry) as Geometry;
         return JSON.stringify(jsGeometry.toJSON());
     }
@@ -565,22 +565,21 @@ export default class GeometryEngineWrapper extends BaseComponent {
         return buildDotNetPolyline(newPolyline);
     }
 
-    async getPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number)
-        : Promise<DotNetPoint | null> {
-        let jsPolyline = buildJsPolyline(polyline) as Polyline;
-        let jsPoint = jsPolyline.getPoint(pathIndex, pointIndex);
+    getPoint(geometry: DotNetGeometry, firstIndex: number, secondIndex: number) : DotNetPoint | null {
+        let jsGeometry = buildJsGeometry(geometry) as Geometry;
+        let jsPoint = (jsGeometry as any).getPoint(firstIndex, secondIndex);
         return buildDotNetPoint(jsPoint);
     }
 
-    async insertPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number, point: DotNetPoint)
-        : Promise<DotNetPolyline | null> {
-        let jsPolyline = buildJsPolyline(polyline) as Polyline;
+    insertPoint(geometry: DotNetGeometry, firstIndex: number, secondIndex: number, point: DotNetPoint)
+        : DotNetPolyline | null {
+        let jsGeometry = buildJsGeometry(geometry) as Geometry;
         let jsPoint = buildJsPoint(point) as Point;
-        let newPolyline = jsPolyline.insertPoint(pathIndex, pointIndex, jsPoint);
-        return buildDotNetPolyline(newPolyline);
+        let newPolyline = (jsGeometry as any).insertPoint(firstIndex, secondIndex, jsPoint);
+        return buildDotNetGeometry(newPolyline);
     }
 
-    async removePath(polyline: DotNetPolyline, pathIndex: number): Promise<any | null> {
+    removePath(polyline: DotNetPolyline, pathIndex: number): any | null {
         let jsPolyline = buildJsPolyline(polyline) as Polyline;
         let path = jsPolyline.removePath(pathIndex);
         let newLine = buildDotNetPolyline(jsPolyline) as DotNetPolyline;
@@ -590,21 +589,21 @@ export default class GeometryEngineWrapper extends BaseComponent {
         }
     }
 
-    async removePointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number): Promise<any | null> {
-        let jsPolyline = buildJsPolyline(polyline) as Polyline;
-        let point = jsPolyline.removePoint(pathIndex, pointIndex);
+    removePoint(geometry: DotNetGeometry, firstIndex: number, secondIndex: number): any | null {
+        let jsGeometry = buildJsPolyline(geometry) as Geometry;
+        let point = (jsGeometry as any).removePoint(firstIndex, secondIndex);
         return {
-            polyLine: buildDotNetPolyline(jsPolyline) as DotNetPolyline,
+            geometry: buildDotNetGeometry(jsGeometry) as DotNetGeometry,
             point: buildDotNetPoint(point) as DotNetPoint
         };
     }
 
-    async setPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number, point: DotNetPoint)
-        : Promise<DotNetPolyline | null> {
-        let jsPolyline = buildJsPolyline(polyline) as Polyline;
+    setPoint(geometry: DotNetGeometry, firstIndex: number, secondIndex: number, point: DotNetPoint)
+        : DotNetPolyline | null {
+        let jsGeometry = buildJsGeometry(geometry) as Geometry;
         let jsPoint = buildJsPoint(point) as Point;
-        let newPolyline = jsPolyline.setPoint(pathIndex, pointIndex, jsPoint);
-        return buildDotNetPolyline(newPolyline);
+        let newPolyline = (jsGeometry as any).setPoint(firstIndex, secondIndex, jsPoint);
+        return buildDotNetGeometry(newPolyline);
     }
 
     async addRing(polygon: DotNetPolygon, ring: any): Promise<DotNetPolygon | null> {
@@ -613,39 +612,16 @@ export default class GeometryEngineWrapper extends BaseComponent {
         return buildDotNetPolygon(newPolygon);
     }
 
-    async fromExtent(extent: DotNetExtent): Promise<DotNetPolygon | null> {
+    async polygonFromExtent(extent: DotNetExtent): Promise<DotNetPolygon | null> {
         let jsExtent = buildJsExtent(extent, null) as Extent;
         let jsPolygon = Polygon.fromExtent(jsExtent);
         return buildDotNetPolygon(jsPolygon);
-    }
-
-    async getPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number): Promise<DotNetPoint | null> {
-        let jsPolygon = buildJsPolygon(polygon) as Polygon;
-        let jsPoint = jsPolygon.getPoint(ringIndex, pointIndex);
-        return buildDotNetPoint(jsPoint);
-    }
-
-    async insertPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number, point: DotNetPoint)
-        : Promise<DotNetPolygon | null> {
-        let jsPolygon = buildJsPolygon(polygon) as Polygon;
-        let jsPoint = buildJsPoint(point) as Point;
-        let newPolygon = jsPolygon.insertPoint(ringIndex, pointIndex, jsPoint);
-        return buildDotNetPolygon(newPolygon);
     }
 
 
     async isClockwise(polygon: DotNetPolygon, ring: any): Promise<boolean | null> {
         let jsPolygon = buildJsPolygon(polygon) as Polygon;
         return jsPolygon.isClockwise(ring);
-    }
-
-    async removePointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number): Promise<any | null> {
-        let jsPolygon = buildJsPolygon(polygon) as Polygon;
-        let point = jsPolygon.removePoint(ringIndex, pointIndex);
-        return {
-            polygon: buildDotNetPolygon(jsPolygon) as DotNetPolygon,
-            point: buildDotNetPoint(point) as DotNetPoint
-        };
     }
 
     async removeRing(polygon: DotNetPolygon, index: number): Promise<any | null> {
@@ -655,14 +631,6 @@ export default class GeometryEngineWrapper extends BaseComponent {
             polygon: buildDotNetPolygon(jsPolygon) as DotNetPolygon,
             ring: ring?.map(p => buildDotNetPoint(p) as DotNetPoint)
         };
-    }
-
-    async setPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number, point: DotNetPoint)
-        : Promise<DotNetPolygon | null> {
-        let jsPolygon = buildJsPolygon(polygon) as Polygon;
-        let jsPoint = buildJsPoint(point) as Point;
-        let newPolygon = jsPolygon.setPoint(ringIndex, pointIndex, jsPoint);
-        return buildDotNetPolygon(newPolygon);
     }
 
     getExtentCenter(extent: DotNetExtent): DotNetPoint {

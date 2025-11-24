@@ -1,0 +1,6 @@
+<Project>
+    <Target Name="WaitForEsbuild" BeforeTargets="ResolveProjectStaticWebAssets">
+        <Exec Command="pwsh $(MSBuildThisFileDirectory)esBuildWaitForCompletion.ps1 -c $(Configuration)"
+              ContinueOnError="false" />
+    </Target>
+</Project>

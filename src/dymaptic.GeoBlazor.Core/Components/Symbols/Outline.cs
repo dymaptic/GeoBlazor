@@ -3,6 +3,7 @@
 /// <summary>
 ///     A convenience subclass of <see cref="SimpleLineSymbol" /> for defining outlines of other symbols.
 /// </summary>
+[ProtobufSerializable]
 public class Outline : SimpleLineSymbol
 {
     /// <summary>

@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+[ProtobufSerializable]
 public partial class FieldsPopupContent : PopupContent
 {
-
-
     /// <summary>
     ///     Describes the field's content in detail.
     /// </summary>

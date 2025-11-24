@@ -26,6 +26,11 @@ public static class IJSStreamReferenceHelper
 
         string json = await reader.ReadToEndAsync();
 
+        if (returnType == typeof(string))
+        {
+            return json.Trim('"');
+        }
+
         return JsonSerializer.Deserialize(json, returnType, GeoBlazorSerialization.JsonSerializerOptions);
     }
 }

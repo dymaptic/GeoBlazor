@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class BarChartMediaInfo : MediaInfo
 {
-
-
     /// <inheritdoc/>
     public override string Type => "bar-chart";
 

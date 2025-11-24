@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class MeshComponent: IProtobufSerializable<MeshComponentSerializationRecord>
 {
    // Add custom code to this file to override generated code

@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class LineChartMediaInfo : MediaInfo
 {
-
-
     /// <inheritdoc/>
     public override string Type => "line-chart";
 

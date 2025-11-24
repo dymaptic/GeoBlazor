@@ -1,12 +1,8 @@
-using System.Runtime.Serialization.Formatters;
-
-
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class FieldInfo : MapComponent, IProtobufSerializable<FieldInfoSerializationRecord>
 {
-
-
     /// <summary>
     ///     The field name as defined by the service or the name of an Arcade expression.
     /// </summary>

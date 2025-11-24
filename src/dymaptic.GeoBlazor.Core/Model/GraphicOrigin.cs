@@ -16,6 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#VectorTileOrigin">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 [CodeGenerationIgnore]
+[ProtobufSerializable]
 public record GraphicOrigin(
     Guid? LayerId = null,
     string? ArcGISLayerId = null,

@@ -1,6 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 [JsonConverter(typeof(GeometryConverter))]
+[ProtobufSerializable]
 public abstract partial class Geometry : MapComponent, IProtobufSerializable<GeometrySerializationRecord>
 {
     /// <summary>

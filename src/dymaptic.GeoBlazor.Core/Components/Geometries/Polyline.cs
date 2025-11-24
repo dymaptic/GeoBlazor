@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
+[ProtobufSerializable]
 public partial class Polyline : Geometry
 {
-
-
     /// <summary>
     ///     An array of <see cref="MapPath" /> paths, or line segments, that make up the polyline.
     /// </summary>
