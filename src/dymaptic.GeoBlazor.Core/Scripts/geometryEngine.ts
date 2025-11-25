@@ -15,7 +15,7 @@ import {buildDotNetExtent, buildJsExtent} from "./extent";
 import {buildDotNetPolygon, buildJsPolygon} from "./polygon";
 import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
 import {buildDotNetPoint, buildJsPoint} from "./point";
-import {buildDotNetPolyline, buildJsPolyline} from "./polyline";
+import {buildDotNetPolyline, buildJsPathsOrRings, buildJsPolyline} from "./polyline";
 import LinearUnits = __esri.LinearUnits;
 import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
 import AreaUnits = __esri.AreaUnits;
@@ -488,7 +488,7 @@ export default class GeometryEngineWrapper extends BaseComponent {
             buildJsGeometry(outerGeometry) as GeometryUnion);
     }
 
-    async fromArcGisJson(json: string, typeName: string): Promise<any> {
+    fromArcGisJson(json: string, typeName: string): any {
         let jsGeometry: Geometry;
         let jsonObject = JSON.parse(json);
         switch (typeName) {
@@ -517,51 +517,52 @@ export default class GeometryEngineWrapper extends BaseComponent {
 
     }
 
-    async toArcGisJson(geometry: any): Promise<string | null> {
+    toArcGisJson(geometry: any): string {
         let jsGeometry = buildJsGeometry(geometry) as Geometry;
         return JSON.stringify(jsGeometry.toJSON());
     }
 
-    async clone(geometry: DotNetGeometry): Promise<any> {
+    clone(geometry: DotNetGeometry): any {
         let jsGeometry = buildJsGeometry(geometry) as Geometry;
         let clonedGeometry = jsGeometry.clone();
         return buildDotNetGeometry(clonedGeometry);
 
     }
 
-    async centerExtentAt(extent: DotNetExtent, center: DotNetPoint): Promise<any> {
+    centerExtentAt(extent: DotNetExtent, center: DotNetPoint): any {
         let jsExtent = buildJsExtent(extent, null) as Extent;
         let newExtent = jsExtent.centerAt(buildJsPoint(center) as Point);
         return buildDotNetExtent(newExtent);
     }
 
-    async expand(extent: DotNetExtent, factor: number): Promise<any> {
+    expand(extent: DotNetExtent, factor: number): any {
         let jsExtent = buildJsExtent(extent, null) as Extent;
         let newExtent = jsExtent.expand(factor);
         return buildDotNetExtent(newExtent);
     }
 
-    async normalizeExtent(extent: DotNetExtent): Promise<DotNetExtent[] | null> {
+    normalizeExtent(extent: DotNetExtent): DotNetExtent[] {
         let jsExtent = buildJsExtent(extent, null) as Extent;
         let newExtents = jsExtent.normalize();
         return newExtents.map(e => buildDotNetExtent(e) as DotNetExtent);
     }
 
-    async offsetExtent(extent: DotNetExtent, dx: number, dy: number, dz: number): Promise<DotNetExtent | null> {
+    offsetExtent(extent: DotNetExtent, dx: number, dy: number, dz: number): DotNetExtent {
         let jsExtent = buildJsExtent(extent, null) as Extent;
         let newExtent = jsExtent.offset(dx, dy, dz);
         return buildDotNetExtent(newExtent);
     }
 
-    async normalizePoint(point: DotNetPoint): Promise<DotNetPoint | null> {
+    normalizePoint(point: DotNetPoint): DotNetPoint {
         let jsPoint = buildJsPoint(point) as Point;
         let newPoint = jsPoint.normalize();
         return buildDotNetPoint(newPoint);
     }
 
-    async addPath(polyline: DotNetPolyline, path: any): Promise<DotNetPolyline | null> {
+    addPath(polyline: DotNetPolyline, path: any): DotNetPolyline {
         let jsPolyline = buildJsPolyline(polyline) as Polyline;
-        let newPolyline = jsPolyline.addPath(path);
+        let jsPaths = buildJsPathsOrRings([path]);
+        let newPolyline = jsPolyline.addPath(jsPaths[0]);
         return buildDotNetPolyline(newPolyline);
     }
 
@@ -584,13 +585,13 @@ export default class GeometryEngineWrapper extends BaseComponent {
         let path = jsPolyline.removePath(pathIndex);
         let newLine = buildDotNetPolyline(jsPolyline) as DotNetPolyline;
         return {
-            polyLine: newLine,
+            geometry: newLine,
             path: path?.map(p => buildDotNetPoint(p) as DotNetPoint)
         }
     }
 
     removePoint(geometry: DotNetGeometry, firstIndex: number, secondIndex: number): any | null {
-        let jsGeometry = buildJsPolyline(geometry) as Geometry;
+        let jsGeometry = buildJsGeometry(geometry) as Geometry;
         let point = (jsGeometry as any).removePoint(firstIndex, secondIndex);
         return {
             geometry: buildDotNetGeometry(jsGeometry) as DotNetGeometry,
@@ -606,30 +607,32 @@ export default class GeometryEngineWrapper extends BaseComponent {
         return buildDotNetGeometry(newPolyline);
     }
 
-    async addRing(polygon: DotNetPolygon, ring: any): Promise<DotNetPolygon | null> {
+    addRing(polygon: DotNetPolygon, ring: any): DotNetPolygon {
         let jsPolygon = buildJsPolygon(polygon) as Polygon;
-        let newPolygon = jsPolygon.addRing(ring);
+        let jsRings = buildJsPathsOrRings([ring]);
+        let newPolygon = jsPolygon.addRing(jsRings[0]);
         return buildDotNetPolygon(newPolygon);
     }
 
-    async polygonFromExtent(extent: DotNetExtent): Promise<DotNetPolygon | null> {
+    polygonFromExtent(extent: DotNetExtent): DotNetPolygon {
         let jsExtent = buildJsExtent(extent, null) as Extent;
         let jsPolygon = Polygon.fromExtent(jsExtent);
         return buildDotNetPolygon(jsPolygon);
     }
 
 
-    async isClockwise(polygon: DotNetPolygon, ring: any): Promise<boolean | null> {
+    isClockwise(polygon: DotNetPolygon, ring: any): boolean {
         let jsPolygon = buildJsPolygon(polygon) as Polygon;
-        return jsPolygon.isClockwise(ring);
+        let jsRings = buildJsPathsOrRings([ring]);
+        return jsPolygon.isClockwise(jsRings[0]);
     }
 
-    async removeRing(polygon: DotNetPolygon, index: number): Promise<any | null> {
+    removeRing(polygon: DotNetPolygon, index: number): any {
         let jsPolygon = buildJsPolygon(polygon) as Polygon;
         let ring = jsPolygon.removeRing(index);
         return {
-            polygon: buildDotNetPolygon(jsPolygon) as DotNetPolygon,
-            ring: ring?.map(p => buildDotNetPoint(p) as DotNetPoint)
+            geometry: buildDotNetPolygon(jsPolygon) as DotNetPolygon,
+            path: ring?.map(p => buildDotNetPoint(p) as DotNetPoint)
         };
     }
 

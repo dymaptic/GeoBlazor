@@ -199,6 +199,8 @@ public partial class MapImageLayer : Layer, ISublayersLayer
         sublayer.Layer = this;
         Sublayers ??= [];
         Sublayers = [..Sublayers, sublayer];
+        sublayer.CoreJsModule = CoreJsModule;
+        sublayer.ProJsModule = ProJsModule;
 
         if (sublayer.Sublayers is null)
         {

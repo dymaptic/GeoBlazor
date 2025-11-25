@@ -82,14 +82,31 @@ public class JsSyncManager
 
         List<object?> parameterList = GenerateSerializedParameters(methodRecord, parameters, isServer);
 
-        Type? protoReturnType = methodRecord.ReturnValue?.Type;
-        bool returnTypeIsProtobuf = protoReturnType is not null;
+        Type? returnType = methodRecord.ReturnValue?.Type;
+        bool returnTypeIsProtobuf = returnType is not null && _serializationData.ProtoContractTypes.ContainsKey(returnType);
 
         if (isServer || returnTypeIsProtobuf)
         {
+            string? protoReturnTypeName = null;
+            if (returnTypeIsProtobuf)
+            {
+                Type? protoReturnType;
+                if (methodRecord.ReturnValue!.SingleType is not null)
+                {
+                    _serializationData.ProtoCollectionTypes.TryGetValue(methodRecord.ReturnValue.SingleType,
+                        out protoReturnType);
+                }
+                else
+                {
+                    _serializationData.ProtoContractTypes.TryGetValue(returnType!, out protoReturnType);
+                }
+                
+                protoReturnTypeName = protoReturnType?.Name.Replace("SerializationRecord", "");
+            }
+            
             IJSStreamReference? streamRef = await js.InvokeAsync<IJSStreamReference?>(
                 "invokeSerializedMethod", cancellationToken, 
-                [methodRecord.MethodName, true, returnTypeIsProtobuf, protoReturnType?.Name, ..parameterList]);
+                [methodRecord.MethodName, true, returnTypeIsProtobuf, protoReturnTypeName, ..parameterList]);
 
             if (streamRef is null)
             {
@@ -101,9 +118,9 @@ public class JsSyncManager
                 if (methodRecord.ReturnValue?.SingleType is not null)
                 {
                     return await _serializationData.ReadJsProtobufCollectionStreamReference<T>(streamRef,
-                        protoReturnType!) ?? default!;
+                        methodRecord.ReturnValue.SingleType) ?? default!;
                 }
-                return await _serializationData.ReadJsProtobufStreamReference<T>(streamRef, protoReturnType!) ?? default!;
+                return await _serializationData.ReadJsProtobufStreamReference<T>(streamRef, returnType!) ?? default!;
             }
             
             return (await streamRef.ReadJsStreamReference<T>())!;
@@ -140,6 +157,7 @@ public class JsSyncManager
                 .ToArray();
 
             matchedMethods = [];
+            
             foreach (MethodInfo methodInfo in methodInfos)
             {
                 List<SerializableParameterRecord> methodParams = [];
@@ -229,6 +247,8 @@ public class JsSyncManager
         {
             return matchedMethods[0];
         }
+
+        Type requestedReturnType = typeof(T);
         
         // find record with potentially matching parameter types including nulls
         return matchedMethods.First(m =>
@@ -256,6 +276,11 @@ public class JsSyncManager
                 {
                     return false;
                 }
+            }
+
+            if (!returnsVoid && requestedReturnType != m.ReturnValue?.Type)
+            {
+                return false;
             }
 
             return true;
@@ -317,7 +342,7 @@ public class JsSyncManager
             return ProcessParameter(underlyingValue, parameterRecord with { Type = underlyingType, IsNullable = true }, isServer);
         }
 
-        if (parameterValue is IList list)
+        if (parameterValue is IList list && paramType != typeof(MapPath) && paramType != typeof(MapPoint))
         {
             Type genericType = parameterRecord.SingleType ?? (paramType.IsArray
                 ? paramType.GetElementType()!

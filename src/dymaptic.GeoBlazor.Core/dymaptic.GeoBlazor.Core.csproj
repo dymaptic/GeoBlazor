@@ -26,6 +26,8 @@
         <NoWarn>GeoBlazor_Untested</NoWarn>
         <LangVersion>preview</LangVersion>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -112,5 +114,10 @@
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Analyzers\dymaptic.GeoBlazor.Core.Analyzers.csproj"
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Condition="$(Configuration) == 'SourceGen Highlighting'" 
+                 Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated\**\*.g.cs" />
     </ItemGroup>
 </Project>

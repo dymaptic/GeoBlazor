@@ -49,7 +49,12 @@ export function buildDotNetPolygon(polygon: any): any {
         dnPolygon.geodesic = polygon.geodesic;
     }
 
-    dnPolygon.isSimple = simplifyOperator.isSimple(polygon);
+    try {
+        dnPolygon.isSimple = simplifyOperator.isSimple(polygon);
+    } catch (e) {
+        // invalid token
+        console.error(e);
+    }
     
     if (hasValue(polygon.isSelfIntersecting)) {
         dnPolygon.isSelfIntersecting = polygon.isSelfIntersecting;

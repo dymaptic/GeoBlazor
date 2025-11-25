@@ -97,8 +97,8 @@ public class SerializationUnitTests
         byte[] data = ms.ToArray();
         GraphicCollectionSerializationRecord deserializedCollection =
             Serializer.Deserialize<GraphicCollectionSerializationRecord>((ReadOnlyMemory<byte>)data);
-        Graphic deserialized = deserializedCollection.Items![0].FromSerializationRecord();
-        Assert.AreEqual(((Point)graphic.Geometry!).Latitude, ((Point)deserialized.Geometry!).Latitude);
+        Graphic deserialized = deserializedCollection.Items![0].FromSerializationRecord()!;
+        Assert.AreEqual(((Point)graphic.Geometry!).Latitude, ((Point)deserialized!.Geometry!).Latitude);
         Assert.AreEqual(((Point)graphic.Geometry!).Longitude, ((Point)deserialized.Geometry!).Longitude);
         Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Color);
         Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Outline!.Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Outline!.Color);

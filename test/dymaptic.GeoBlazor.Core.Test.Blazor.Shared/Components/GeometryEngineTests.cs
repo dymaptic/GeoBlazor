@@ -19,7 +19,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestBufferWithProjectedPoint()
     {
-        var point = new Point(0, 0, spatialReference: new SpatialReference(103002));
+        Point point = new Point(0, 0, spatialReference: new SpatialReference(103002));
         Polygon buffer = await GeometryEngine.Buffer(point, 10.0, GeometryEngineLinearUnit.Feet);
         Assert.IsNotNull(buffer);
     }
@@ -27,7 +27,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestBufferWithWgs84PointThrowsJavaScriptError()
     {
-        var point = new Point(0, 0, spatialReference: new SpatialReference(4326));
+        Point point = new Point(0, 0, spatialReference: new SpatialReference(4326));
 
         await Assert.ThrowsExceptionAsync<JSException>(() =>
             GeometryEngine.Buffer(point, 10.0, GeometryEngineLinearUnit.Feet));
@@ -36,8 +36,8 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestBufferWithMultipleProjectedPoints()
     {
-        var point1 = new Point(0, 0, spatialReference: new SpatialReference(103002));
-        var point2 = new Point(10, 10, spatialReference: new SpatialReference(103002));
+        Point point1 = new Point(0, 0, spatialReference: new SpatialReference(103002));
+        Point point2 = new Point(10, 10, spatialReference: new SpatialReference(103002));
 
         Polygon[] buffers =
             await GeometryEngine.Buffer([point1, point2], [10.0, 20.0], GeometryEngineLinearUnit.Feet);
@@ -48,8 +48,8 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestBufferWithMultipleProjectedPointsUnioned()
     {
-        var point1 = new Point(0, 0, spatialReference: new SpatialReference(103002));
-        var point2 = new Point(10, 10, spatialReference: new SpatialReference(103002));
+        Point point1 = new Point(0, 0, spatialReference: new SpatialReference(103002));
+        Point point2 = new Point(10, 10, spatialReference: new SpatialReference(103002));
 
         Polygon[] buffers =
             await GeometryEngine.Buffer([point1, point2], [10.0, 20.0], GeometryEngineLinearUnit.Feet, true);
@@ -60,7 +60,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestBufferCallAfterDensified()
     {
-        var mapPaths = new MapPath[]
+        MapPath[] mapPaths = new MapPath[]
         {
             [
                 new MapPoint(-10424520.3945, 5095465.361299999),
@@ -176,7 +176,7 @@ public class GeometryEngineTests : TestRunnerBase
                 new MapPoint(-10423442.8218, 5091028.472199999)
             ]
         };
-        var polyline = new Polyline(mapPaths, new SpatialReference(102100));
+        Polyline polyline = new Polyline(mapPaths, new SpatialReference(102100));
         Polygon buffer = await GeometryEngine.Buffer(polyline, 20, GeometryEngineLinearUnit.Yards);
         Assert.IsNotNull(buffer);
     }
@@ -184,7 +184,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestClip()
     {
-        var boundaryPolygon =
+        Polygon boundaryPolygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -195,16 +195,16 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var envelope = new Extent(-5, 5, -15, 15, spatialReference: new SpatialReference(103002));
+        Extent envelope = new Extent(-5, 5, -15, 15, spatialReference: new SpatialReference(103002));
 
-        var clippedPolygon = (Polygon)(await GeometryEngine.Clip(boundaryPolygon, envelope))!;
+        Polygon clippedPolygon = (Polygon)(await GeometryEngine.Clip(boundaryPolygon, envelope))!;
         Assert.IsNotNull(clippedPolygon);
     }
 
     [TestMethod]
     public async Task TestClipNoOverlapReturnsNull()
     {
-        var boundaryPolygon =
+        Polygon boundaryPolygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -215,16 +215,16 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var envelope = new Extent(5, 5, 15, 15, spatialReference: new SpatialReference(103002));
+        Extent envelope = new Extent(5, 5, 15, 15, spatialReference: new SpatialReference(103002));
 
-        var clippedPolygon = await GeometryEngine.Clip(boundaryPolygon, envelope) as Polygon;
+        Polygon? clippedPolygon = await GeometryEngine.Clip(boundaryPolygon, envelope) as Polygon;
         Assert.IsNull(clippedPolygon);
     }
     
     [TestMethod]
     public async Task TestContainsTrue()
     {
-        var boundaryPolygon =
+        Polygon boundaryPolygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -234,7 +234,7 @@ public class GeometryEngineTests : TestRunnerBase
                     new MapPoint(0, 0)
                 ]
             ], new SpatialReference(103002));
-        var point = new Point(5, 5, spatialReference: new SpatialReference(103002));
+        Point point = new Point(5, 5, spatialReference: new SpatialReference(103002));
 
         bool contains = await GeometryEngine.Contains(boundaryPolygon, point);
         Assert.IsTrue(contains);
@@ -243,7 +243,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestContainsFalse()
     {
-        var boundaryPolygon =
+        Polygon boundaryPolygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -253,7 +253,7 @@ public class GeometryEngineTests : TestRunnerBase
                     new MapPoint(0, 0)
                 ]
             ], new SpatialReference(103002));
-        var point = new Point(15, 15, spatialReference: new SpatialReference(103002));
+        Point point = new Point(15, 15, spatialReference: new SpatialReference(103002));
 
         bool contains = await GeometryEngine.Contains(boundaryPolygon, point);
         Assert.IsFalse(contains);
@@ -262,7 +262,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestConvexHull()
     {
-        var point = new Point(0, 0, spatialReference: new SpatialReference(103002));
+        Point point = new Point(0, 0, spatialReference: new SpatialReference(103002));
 
         Geometry convexHull = await GeometryEngine.ConvexHull(point);
         Assert.IsInstanceOfType<Point>(convexHull);
@@ -273,7 +273,7 @@ public class GeometryEngineTests : TestRunnerBase
     {
         List<Point> points = [];
 
-        for (var i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             points.Add(new Point(i, i, spatialReference: new SpatialReference(103002)));
         }
@@ -288,7 +288,7 @@ public class GeometryEngineTests : TestRunnerBase
     {
         List<Point> points = [];
 
-        for (var i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             points.Add(new Point(i, i, spatialReference: new SpatialReference(103002)));
         }
@@ -301,10 +301,10 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestCrossesTrue()
     {
-        var polyline1 = new Polyline([[new MapPoint(0, 0), new MapPoint(10, 10)]],
+        Polyline polyline1 = new Polyline([[new MapPoint(0, 0), new MapPoint(10, 10)]],
             new SpatialReference(103002));
 
-        var polyline2 = new Polyline([[new MapPoint(0, 10), new MapPoint(10, 0)]],
+        Polyline polyline2 = new Polyline([[new MapPoint(0, 10), new MapPoint(10, 0)]],
             new SpatialReference(103002));
 
         bool crosses = await GeometryEngine.Crosses(polyline1, polyline2);
@@ -315,10 +315,10 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestCrossesFalse()
     {
-        var polyline1 = new Polyline([[new MapPoint(0, 0), new MapPoint(10, 10)]],
+        Polyline polyline1 = new Polyline([[new MapPoint(0, 0), new MapPoint(10, 10)]],
             new SpatialReference(103002));
 
-        var polyline2 = new Polyline([[new MapPoint(10, 0), new MapPoint(20, 0)]],
+        Polyline polyline2 = new Polyline([[new MapPoint(10, 0), new MapPoint(20, 0)]],
             new SpatialReference(103002));
 
         bool crosses = await GeometryEngine.Crosses(polyline1, polyline2);
@@ -329,7 +329,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestCut()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -340,7 +340,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var cutter = new Polyline([[new MapPoint(5, -5), new MapPoint(5, 15)]],
+        Polyline cutter = new Polyline([[new MapPoint(5, -5), new MapPoint(5, 15)]],
             new SpatialReference(103002));
 
         Geometry[] cut = await GeometryEngine.Cut(polygon, cutter);
@@ -351,7 +351,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestCutNotIntersectedReturnsEmpty()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -362,7 +362,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var cutter = new Polyline([[new MapPoint(-5, -5), new MapPoint(-5, -15)]],
+        Polyline cutter = new Polyline([[new MapPoint(-5, -5), new MapPoint(-5, -15)]],
             new SpatialReference(103002));
 
         Geometry[] cut = await GeometryEngine.Cut(polygon, cutter);
@@ -373,7 +373,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestDensify()
     {
-        var boundaryPolygon =
+        Polygon boundaryPolygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -392,7 +392,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestDifference()
     {
-        var boundaryPolygon =
+        Polygon boundaryPolygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -403,7 +403,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var subtractor =
+        Polygon subtractor =
             new Polygon([
                 [
                     new MapPoint(5, 5),
@@ -421,7 +421,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestDifferenceMultipleInputs()
     {
-        var boundaryPolygon1 =
+        Polygon boundaryPolygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -432,7 +432,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var boundaryPolygon2 =
+        Polygon boundaryPolygon2 =
             new Polygon([
                 [
                     new MapPoint(2, 2),
@@ -443,7 +443,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var subtractor =
+        Polygon subtractor =
             new Polygon([
                 [
                     new MapPoint(5, 5),
@@ -462,7 +462,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestDisjointTrue()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -473,7 +473,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(20, 20),
@@ -492,7 +492,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestDisjointFalse()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -503,7 +503,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(5, 5),
@@ -522,8 +522,8 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestDistance()
     {
-        var point1 = new Point(0, 0, spatialReference: new SpatialReference(103002));
-        var point2 = new Point(10, 10, spatialReference: new SpatialReference(103002));
+        Point point1 = new Point(0, 0, spatialReference: new SpatialReference(103002));
+        Point point2 = new Point(10, 10, spatialReference: new SpatialReference(103002));
 
         double distance = await GeometryEngine.Distance(point1, point2, GeometryEngineLinearUnit.Feet);
 
@@ -533,7 +533,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestAreEqualTrue()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -544,7 +544,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -563,7 +563,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestAreEqualFalse()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -574,7 +574,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(5, 0),
@@ -593,7 +593,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestExtendedSpatialReferenceInfo()
     {
-        var spatialReference = new SpatialReference(103002);
+        SpatialReference spatialReference = new SpatialReference(103002);
 
         SpatialReferenceInfo spatialReferenceInfo = await GeometryEngine.ExtendedSpatialReferenceInfo(spatialReference);
 
@@ -603,7 +603,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestFlipHorizontal()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -613,8 +613,8 @@ public class GeometryEngineTests : TestRunnerBase
                     new MapPoint(0, 0)
                 ]
             ], new SpatialReference(103002));
-        var flipPoint = new Point(5, 5, spatialReference: new SpatialReference(103002));
-        var flippedPolygon = await GeometryEngine.FlipHorizontal(polygon, flipPoint) as Polygon;
+        Point flipPoint = new Point(5, 5, spatialReference: new SpatialReference(103002));
+        Polygon? flippedPolygon = await GeometryEngine.FlipHorizontal(polygon, flipPoint) as Polygon;
         Assert.IsNotNull(flippedPolygon);
         Assert.AreNotEqual(polygon, flippedPolygon);
     }
@@ -622,7 +622,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestFlipVertical()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -632,8 +632,8 @@ public class GeometryEngineTests : TestRunnerBase
                     new MapPoint(0, 0)
                 ]
             ], new SpatialReference(103002));
-        var flipPoint = new Point(5, 5, spatialReference: new SpatialReference(103002));
-        var flippedPolygon = await GeometryEngine.FlipVertical(polygon, flipPoint) as Polygon;
+        Point flipPoint = new Point(5, 5, spatialReference: new SpatialReference(103002));
+        Polygon? flippedPolygon = await GeometryEngine.FlipVertical(polygon, flipPoint) as Polygon;
         Assert.IsNotNull(flippedPolygon);
         Assert.AreNotEqual(polygon, flippedPolygon);
     }
@@ -641,7 +641,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestGeneralize()
     {
-        var complexPolygon = new Polygon([
+        Polygon complexPolygon = new Polygon([
             [
                 new MapPoint(0, 0),
                 new MapPoint(_random.NextDouble(), _random.NextDouble()),
@@ -674,7 +674,7 @@ public class GeometryEngineTests : TestRunnerBase
             ]
         ], new SpatialReference(103002));
 
-        var generalizedPolygon =
+        Polygon? generalizedPolygon =
             await GeometryEngine.Generalize(complexPolygon, 1, true,
                 GeometryEngineLinearUnit.Feet) as Polygon;
         Assert.IsNotNull(generalizedPolygon);
@@ -687,7 +687,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestGeodesicArealUnit()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [
                 new MapPoint(0, 0),
                 new MapPoint(0, 10),
@@ -705,7 +705,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestGeodesicAreaUnit()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [
                 new MapPoint(0, 0),
                 new MapPoint(0, 10),
@@ -723,7 +723,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestGeodesicBuffer()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [
                 new MapPoint(0, 0),
                 new MapPoint(0, 10),
@@ -743,7 +743,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestGeodesicBufferMultiplePolygons()
     {
-        var polygon1 = new Polygon([
+        Polygon polygon1 = new Polygon([
             [
                 new MapPoint(0, 0),
                 new MapPoint(0, 10),
@@ -753,7 +753,7 @@ public class GeometryEngineTests : TestRunnerBase
             ]
         ]);
 
-        var polygon2 = new Polygon([
+        Polygon polygon2 = new Polygon([
             [
                 new MapPoint(5, 0),
                 new MapPoint(5, 10),
@@ -775,12 +775,12 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestGeodesicDensify()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
             ], new SpatialReference(102100));
 
-        var densifiedPolygon =
+        Polygon? densifiedPolygon =
             await GeometryEngine.GeodesicDensify(polygon, 100, GeometryEngineLinearUnit.Feet) as Polygon;
 
         Assert.IsNotNull(densifiedPolygon);
@@ -790,7 +790,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestGeodesicLength()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [
                 new MapPoint(0, 0),
                 new MapPoint(0, 10),
@@ -808,15 +808,15 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestIntersectTrue()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
-        var intersectingPolygon = new Polygon([
+        Polygon intersectingPolygon = new Polygon([
             [new MapPoint(5, 5), new MapPoint(5, 15), new MapPoint(15, 15), new MapPoint(15, 5)]
         ]);
 
-        var intersect = await GeometryEngine.Intersect(polygon, intersectingPolygon) as Polygon;
+        Polygon? intersect = await GeometryEngine.Intersect(polygon, intersectingPolygon) as Polygon;
 
         Assert.IsNotNull(intersect);
     }
@@ -824,15 +824,15 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestIntersectFalse()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
-        var intersectingPolygon = new Polygon([
+        Polygon intersectingPolygon = new Polygon([
             [new MapPoint(15, 15), new MapPoint(15, 25), new MapPoint(25, 25), new MapPoint(25, 15)]
         ]);
 
-        var intersect = await GeometryEngine.Intersect(polygon, intersectingPolygon) as Polygon;
+        Polygon? intersect = await GeometryEngine.Intersect(polygon, intersectingPolygon) as Polygon;
 
         Assert.IsNull(intersect);
     }
@@ -840,15 +840,15 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestIntersectMultipleGeometries()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
-        var polyline = new Polyline([
+        Polyline polyline = new Polyline([
             [new MapPoint(5, 5), new MapPoint(5, 15), new MapPoint(15, 15), new MapPoint(15, 5)]
         ]);
 
-        var intersectingPolygon = new Polygon([
+        Polygon intersectingPolygon = new Polygon([
             [new MapPoint(5, 5), new MapPoint(5, 15), new MapPoint(15, 15), new MapPoint(15, 5)]
         ]);
 
@@ -864,11 +864,11 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestIntersectsTrue()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
-        var intersectingPolygon = new Polygon([
+        Polygon intersectingPolygon = new Polygon([
             [new MapPoint(5, 5), new MapPoint(5, 15), new MapPoint(15, 15), new MapPoint(15, 5)]
         ]);
 
@@ -880,11 +880,11 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestIntersectsFalse()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
-        var intersectingPolygon = new Polygon([
+        Polygon intersectingPolygon = new Polygon([
             [new MapPoint(15, 15), new MapPoint(15, 25), new MapPoint(25, 25), new MapPoint(25, 15)]
         ]);
 
@@ -896,7 +896,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestIsSimpleTrue()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
@@ -908,7 +908,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestIsSimpleFalse()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [
                 new MapPoint(0, 0),
                 new MapPoint(-10, 10),
@@ -927,11 +927,11 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestNearestCoordinate()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
-        var point = new Point(15, 15);
+        Point point = new Point(15, 15);
 
         NearestPointResult result = await GeometryEngine.NearestCoordinate(polygon, point);
 
@@ -943,11 +943,11 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestNearestVertex()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
-        var point = new Point(15, 5);
+        Point point = new Point(15, 5);
 
         NearestPointResult result = await GeometryEngine.NearestVertex(polygon, point);
 
@@ -959,7 +959,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestNearestVertices()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [
                 new MapPoint(0, 0),
                 new MapPoint(-10, 10),
@@ -970,7 +970,7 @@ public class GeometryEngineTests : TestRunnerBase
             ]
         ]);
 
-        var point = new Point(15, 5);
+        Point point = new Point(15, 5);
 
         NearestPointResult[] result = await GeometryEngine.NearestVertices(polygon, point, 200, 100);
 
@@ -980,7 +980,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestOffset()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1000,7 +1000,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestOffsetMultipleGeometries()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1012,7 +1012,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1040,11 +1040,11 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestOverlapsTrue()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
-        var overlappingPolygon = new Polygon([
+        Polygon overlappingPolygon = new Polygon([
             [new MapPoint(5, 5), new MapPoint(5, 15), new MapPoint(15, 15), new MapPoint(15, 5)]
         ]);
 
@@ -1056,11 +1056,11 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestOverlapsFalse()
     {
-        var polygon = new Polygon([
+        Polygon polygon = new Polygon([
             [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
         ]);
 
-        var overlappingPolygon = new Polygon([
+        Polygon overlappingPolygon = new Polygon([
             [new MapPoint(15, 15), new MapPoint(15, 25), new MapPoint(25, 25), new MapPoint(25, 15)]
         ]);
 
@@ -1072,7 +1072,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestPlanarAreal()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1091,7 +1091,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestPlanarAreaUnit()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1110,7 +1110,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestPlanarLength()
     {
-        var polyline =
+        Polyline polyline =
             new Polyline([
                 [new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0)]
             ], new SpatialReference(102100));
@@ -1123,7 +1123,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestRelateTrue()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1135,7 +1135,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1155,7 +1155,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestRelateFalse()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1167,7 +1167,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(100, 100),
@@ -1185,7 +1185,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestRotate()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1197,9 +1197,9 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var origin = new Point(0, 0, spatialReference: new SpatialReference(102100));
+        Point origin = new Point(0, 0, spatialReference: new SpatialReference(102100));
 
-        var rotatedPolygon = await GeometryEngine.Rotate(polygon, 45, origin) as Polygon;
+        Polygon? rotatedPolygon = await GeometryEngine.Rotate(polygon, 45, origin) as Polygon;
 
         Assert.IsNotNull(rotatedPolygon);
         Assert.AreNotEqual(polygon, rotatedPolygon);
@@ -1208,7 +1208,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestSimplify()
     {
-        var polygon =
+        Polygon polygon =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1229,7 +1229,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestSymmetricDifference()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1241,7 +1241,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(100, 100),
@@ -1261,7 +1261,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestSymmetricDifferences()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1273,7 +1273,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(100, 100),
@@ -1283,7 +1283,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon3 =
+        Polygon polygon3 =
             new Polygon([
                 [
                     new MapPoint(100, 100),
@@ -1309,7 +1309,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestTouchesTrue()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1320,7 +1320,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(10, 0),
@@ -1339,7 +1339,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestTouchesFalse()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1350,7 +1350,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(20, 20),
@@ -1369,7 +1369,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestUnion()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1380,7 +1380,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(10, 0),
@@ -1401,7 +1401,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestWithinTrue()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1412,7 +1412,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(1, 1),
@@ -1431,7 +1431,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestWithinFalse()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1442,7 +1442,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        var polygon2 =
+        Polygon polygon2 =
             new Polygon([
                 [
                     new MapPoint(1, 1),
@@ -1461,7 +1461,7 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestToAndFromArcGisJson()
     {
-        var polygon1 =
+        Polygon polygon1 =
             new Polygon([
                 [
                     new MapPoint(0, 0),
@@ -1476,17 +1476,17 @@ public class GeometryEngineTests : TestRunnerBase
         Geometry fromJson = await GeometryEngine.FromArcGisJson<Polygon>(json);
         Assert.IsNotNull(fromJson);
         Assert.AreEqual(polygon1.Type, fromJson.Type);
-        Assert.AreEqual(polygon1.Rings, ((Polygon)fromJson).Rings);
+        Assert.AreEqual(polygon1.Rings[0], ((Polygon)fromJson).Rings[0]);
     }
         
     [TestMethod]
     public async Task TestClone_ToFromJson()
     {
-        var polygon = new Polygon([new MapPath(new MapPoint(0, 0), new MapPoint(0, 1), new MapPoint(1, 1), new MapPoint(1, 0), new MapPoint(0, 0))
+        Polygon polygon = new Polygon([new MapPath(new MapPoint(0, 0), new MapPoint(0, 1), new MapPoint(1, 1), new MapPoint(1, 0), new MapPoint(0, 0))
         ], new SpatialReference(102100));
 
         // Clone
-        var clone = await GeometryEngine.Clone(polygon);
+        Polygon clone = await GeometryEngine.Clone(polygon);
         Assert.IsNotNull(clone);
         Assert.AreEqual(polygon.Type, clone.Type);
 
@@ -1494,7 +1494,7 @@ public class GeometryEngineTests : TestRunnerBase
         string json = await GeometryEngine.ToArcGisJson(polygon);
         Assert.IsFalse(string.IsNullOrWhiteSpace(json));
 
-        var from = await GeometryEngine.FromArcGisJson<Polygon>(json);
+        Polygon from = await GeometryEngine.FromArcGisJson<Polygon>(json);
         Assert.IsNotNull(from);
         Assert.AreEqual(polygon.Type, from.Type);
     }
@@ -1502,31 +1502,31 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestExtentHelpers_And_NormalizePoint()
     {
-        var extent = new Extent(10, 0, 10, 0); // xmax, xmin, ymax, ymin (constructor used in codebase)
-        var center = new Point(2, 3);
+        Extent extent = new Extent(10, 0, 10, 0); // xmax, xmin, ymax, ymin (constructor used in codebase)
+        Point center = new Point(2, 3);
 
-        var centered = await GeometryEngine.CenterExtentAt(extent, center);
+        Extent centered = await GeometryEngine.CenterExtentAt(extent, center);
         Assert.IsNotNull(centered);
 
-        var expanded = await GeometryEngine.Expand(extent, 2.0);
+        Extent expanded = await GeometryEngine.Expand(extent, 2.0);
         Assert.IsNotNull(expanded);
 
-        var normalizedExtents = await GeometryEngine.NormalizeExtent(new Extent(200, -200, 10, 0));
+        Extent[] normalizedExtents = await GeometryEngine.NormalizeExtent(new Extent(200, -200, 10, 0));
         Assert.IsNotNull(normalizedExtents);
         Assert.IsTrue(normalizedExtents.Length >= 1);
 
-        var offsetExtent = await GeometryEngine.OffsetExtent(extent, 1, 2, 3);
+        Extent offsetExtent = await GeometryEngine.OffsetExtent(extent, 1, 2, 3);
         Assert.IsNotNull(offsetExtent);
 
-        var p = new Point(190, 10);
-        var normalizedPoint = await GeometryEngine.NormalizePoint(p);
+        Point p = new Point(190, 10);
+        Point normalizedPoint = await GeometryEngine.NormalizePoint(p);
         Assert.IsNotNull(normalizedPoint);
         Assert.IsTrue(normalizedPoint.X is <= 180 and >= -180);
 
         // get extent properties
-        var maybeCenter = await GeometryEngine.GetExtentCenter(extent);
-        var maybeHeight = await GeometryEngine.GetExtentHeight(extent);
-        var maybeWidth = await GeometryEngine.GetExtentWidth(extent);
+        Point? maybeCenter = await GeometryEngine.GetExtentCenter(extent);
+        double? maybeHeight = await GeometryEngine.GetExtentHeight(extent);
+        double? maybeWidth = await GeometryEngine.GetExtentWidth(extent);
 
         Assert.IsNotNull(maybeCenter);
         Assert.IsNotNull(maybeHeight);
@@ -1536,35 +1536,35 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestPolyline_PathAndPoint_Mutations()
     {
-        var polyline = new Polyline([new MapPath(new MapPoint(0, 0))], new SpatialReference(102100));
+        Polyline polyline = new Polyline([[[0,0],[1,1]]], new SpatialReference(102100));
 
         // AddPath using Point[] overload
-        var added = await GeometryEngine.AddPath(polyline, [new Point(2, 2), new Point(3, 3)]);
+        Polyline added = await GeometryEngine.AddPath(polyline, [new Point(1, 2), new Point(3, 3)]);
         Assert.IsNotNull(added);
         Assert.IsTrue(added.Paths.Count >= 2);
 
         // GetPoint for newly added path
-        var pt = await GeometryEngine.GetPoint(added, 1, 0);
-        Assert.AreEqual(2, pt.X);
+        Point pt = await GeometryEngine.GetPoint(added, 1, 0);
+        Assert.AreEqual(1, pt.X);
         Assert.AreEqual(2, pt.Y);
 
         // InsertPoint
-        var inserted = await GeometryEngine.InsertPoint(added, 1, 1, new Point(2.5, 2.5));
-        var got = await GeometryEngine.GetPoint(inserted, 1, 1);
+        Polyline inserted = await GeometryEngine.InsertPoint(added, 1, 1, new Point(2.5, 2.5));
+        Point got = await GeometryEngine.GetPoint(inserted, 1, 1);
         Assert.AreEqual(2.5, got.X);
 
         // SetPoint
-        var set = await GeometryEngine.SetPoint(inserted, 1, 1, new Point(5, 5));
-        var gotSet = await GeometryEngine.GetPoint(set, 1, 1);
+        Polyline set = await GeometryEngine.SetPoint(inserted, 1, 1, new Point(5, 5));
+        Point gotSet = await GeometryEngine.GetPoint(set, 1, 1);
         Assert.AreEqual(5, gotSet.X);
 
         // RemovePoint
-        var removeResult = await GeometryEngine.RemovePoint(set, 1, 1);
+        (Polyline Polyline, Point Point) removeResult = await GeometryEngine.RemovePoint(set, 1, 1);
         Assert.IsNotNull(removeResult);
         Assert.IsInstanceOfType(removeResult.Point, typeof(Point));
 
         // RemovePath
-        var removePathResult = await GeometryEngine.RemovePath(removeResult.Polyline, 1);
+        (Polyline PolyLine, Point[] Path) removePathResult = await GeometryEngine.RemovePath(removeResult.Polyline, 1);
         Assert.IsNotNull(removePathResult);
         Assert.IsTrue(removePathResult.Path.Length >= 1);
     }
@@ -1572,37 +1572,37 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestPolygon_RingAndPoint_Mutations()
     {
-        var polygon = new Polygon([new MapPath(new MapPoint(0, 0), new MapPoint(0, 5), new MapPoint(5, 5), new MapPoint(5, 0), new MapPoint(0, 0))
+        Polygon polygon = new Polygon([new MapPath(new MapPoint(0, 0), new MapPoint(0, 5), new MapPoint(5, 5), new MapPoint(5, 0), new MapPoint(0, 0))
         ], new SpatialReference(102100));
         int beforeRings = polygon.Rings.Count;
 
         // AddRing with Point[]
-        var withRing = await GeometryEngine.AddRing(polygon, [new Point(10, 10), new Point(10, 20), new Point(20, 20), new Point(10, 10)
+        Polygon withRing = await GeometryEngine.AddRing(polygon, [new Point(10, 10), new Point(10, 20), new Point(20, 20), new Point(10, 10)
         ]);
         Assert.IsNotNull(withRing);
         Assert.AreEqual(beforeRings + 1, withRing.Rings.Count);
 
         // GetPoint from newly added ring
-        var ringPoint = await GeometryEngine.GetPoint(withRing, beforeRings, 0);
+        Point ringPoint = await GeometryEngine.GetPoint(withRing, beforeRings, 0);
         Assert.AreEqual(10, ringPoint.X);
 
         // InsertPoint
-        var inserted = await GeometryEngine.InsertPoint(withRing, beforeRings, 1, new Point(11, 11));
-        var got = await GeometryEngine.GetPoint(inserted, beforeRings, 1);
+        Polygon inserted = await GeometryEngine.InsertPoint(withRing, beforeRings, 1, new Point(11, 11));
+        Point got = await GeometryEngine.GetPoint(inserted, beforeRings, 1);
         Assert.AreEqual(11, got.X);
 
         // SetPoint
-        var set = await GeometryEngine.SetPoint(inserted, beforeRings, 1, new Point(12, 12));
-        var gotSet = await GeometryEngine.GetPoint(set, beforeRings, 1);
+        Polygon set = await GeometryEngine.SetPoint(inserted, beforeRings, 1, new Point(12, 12));
+        Point gotSet = await GeometryEngine.GetPoint(set, beforeRings, 1);
         Assert.AreEqual(12, gotSet.X);
 
         // RemovePoint
-        var removed = await GeometryEngine.RemovePoint(set, beforeRings, 1);
+        (Polygon Polygon, Point Point) removed = await GeometryEngine.RemovePoint(set, beforeRings, 1);
         Assert.IsNotNull(removed);
         Assert.IsInstanceOfType(removed.Point, typeof(Point));
 
         // RemoveRing
-        var removedRing = await GeometryEngine.RemoveRing(removed.Polygon, beforeRings);
+        (Polygon Polygon, Point[] Ring) removedRing = await GeometryEngine.RemoveRing(removed.Polygon, beforeRings);
         Assert.IsNotNull(removedRing);
         Assert.AreEqual(beforeRings, removedRing.Polygon.Rings.Count);
     }
@@ -1610,8 +1610,8 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestIsClockwise()
     {
-        var ring = new MapPath(new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0), new MapPoint(0, 0));
-        var polygon = new Polygon([ring], new SpatialReference(102100));
+        MapPath ring = new MapPath(new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0), new MapPoint(0, 0));
+        Polygon polygon = new Polygon([ring], new SpatialReference(102100));
 
         bool result = await GeometryEngine.IsClockwise(polygon, ring);
         Assert.IsInstanceOfType(result, typeof(bool));

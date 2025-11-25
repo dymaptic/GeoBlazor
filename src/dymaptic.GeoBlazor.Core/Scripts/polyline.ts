@@ -5,15 +5,23 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
 
 export function buildDotNetPolyline(polyline: any): any {
-    return {
+    let dnPolyline: any = {
         type: 'polyline',
         paths: polyline.paths,
         hasM: polyline.hasM,
         hasZ: polyline.hasZ,
         extent: buildDotNetExtent(polyline.extent),
-        spatialReference: buildDotNetSpatialReference(polyline.spatialReference),
-        isSimple: simplifyOperator.isSimple(polyline)
+        spatialReference: buildDotNetSpatialReference(polyline.spatialReference)
     };
+    
+    try {
+        dnPolyline.isSimple = simplifyOperator.isSimple(polyline);
+    } catch (e) {
+        // invalid token
+        console.error(e);
+    }
+    
+    return dnPolyline;
 }
 
 export function buildJsPolyline(dnPolyline: any): any {
@@ -39,7 +47,7 @@ export function buildJsPolyline(dnPolyline: any): any {
     return polyline;
 }
 
-function buildJsPathsOrRings(pathsOrRings: any) {
+export function buildJsPathsOrRings(pathsOrRings: any) {
     if (!hasValue(pathsOrRings)) return null;
     if (pathsOrRings[0].hasOwnProperty("points")) {
         let array: [][][] = [];
@@ -54,4 +62,24 @@ function buildJsPathsOrRings(pathsOrRings: any) {
         return array;
     }
     return pathsOrRings;
+}
+
+export function buildProtobufPathsOrRings(pathsOrRings: any) {
+    if (!hasValue(pathsOrRings)) return null;
+    let array: any = [];
+    for (let i = 0; i < pathsOrRings.length; i++) {
+        let points = pathsOrRings[i];
+        let ring : any = {
+            points: []
+        }
+        
+        for (let j = 0; j < points.length; j++) {
+            ring.points.push({
+                coordinates: points[j]
+            })
+        }
+        array.push(ring);
+    }
+    
+    return array;
 }

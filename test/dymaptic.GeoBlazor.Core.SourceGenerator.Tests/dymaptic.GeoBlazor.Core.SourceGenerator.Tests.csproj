@@ -8,6 +8,8 @@
 
         <RootNamespace>dymaptic.GeoBlazor.Core.SourceGenerator.Tests</RootNamespace>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <ItemGroup>

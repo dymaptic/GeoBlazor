@@ -11,6 +11,8 @@
 
         <RootNamespace>dymaptic.GeoBlazor.Core.SourceGenerator</RootNamespace>
         <PackageId>dymaptic.GeoBlazor.Core.SourceGenerator</PackageId>
+        <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <ItemGroup>

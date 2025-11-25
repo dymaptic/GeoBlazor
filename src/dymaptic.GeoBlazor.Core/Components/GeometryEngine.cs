@@ -1464,7 +1464,7 @@ public class GeometryEngine : LogicComponent
         var mapPoints = new List<MapPoint>();
         foreach (Point p in points)
         {
-            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+            mapPoints.Add(new MapPoint(p.X ?? p.Longitude!.Value, p.Y ?? p.Latitude!.Value));
         }
 
         return await AddPath(polyline, new MapPath(mapPoints));
@@ -1527,10 +1527,14 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polyline and the removed path.
     /// </returns>
-    [SerializedMethod]
     public async Task<(Polyline PolyLine, Point[] Path)> RemovePath(Polyline polyline, int index)
     {
-        return await InvokeAsync<(Polyline PolyLine, Point[] Path)>(nameof(GeometryEngine), parameters: [polyline, index]);
+        // DON'T ADD [SerializedMethod], doesn't work here
+        // TODO: Refactor API for V5
+        GeometryRemovePathResult result = 
+            await InvokeAsync<GeometryRemovePathResult>(nameof(GeometryEngine), parameters: [polyline, index]);
+        
+        return ((Polyline)result.Geometry, result.Path);
     }
 
     /// <summary>
@@ -1548,9 +1552,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polyline and the removed point.
     /// </returns>
-    [SerializedMethod]
     public async Task<(Polyline Polyline, Point Point)> RemovePoint(Polyline polyline, int pathIndex, int pointIndex)
     {
+        // DON'T ADD [SerializedMethod], doesn't work here
+        // TODO: Refactor API for V5
         GeometryRemovePointResult result =
             await InvokeAsync<GeometryRemovePointResult>(nameof(GeometryEngine), 
                 parameters: [polyline, pathIndex, pointIndex]);
@@ -1618,7 +1623,7 @@ public class GeometryEngine : LogicComponent
         var mapPoints = new List<MapPoint>();
         foreach (Point p in points)
         {
-            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+            mapPoints.Add(new MapPoint(p.X ?? p.Longitude!.Value, p.Y ?? p.Latitude!.Value));
         }
 
         return await AddRing(polygon, new MapPath(mapPoints));
@@ -1741,9 +1746,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polygon and the removed point.
     /// </returns>
-    [SerializedMethod]
     public async Task<(Polygon Polygon, Point Point)> RemovePoint(Polygon polygon, int ringIndex, int pointIndex)
     {
+        // DON'T ADD [SerializedMethod], doesn't work here
+        // TODO: Refactor API for V5
         GeometryRemovePointResult result =
             await InvokeAsync<GeometryRemovePointResult>(nameof(GeometryEngine), 
                 parameters: [polygon, ringIndex, pointIndex]);
@@ -1763,10 +1769,14 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polygon and the removed ring.
     /// </returns>
-    [SerializedMethod]
     public async Task<(Polygon Polygon, Point[] Ring)> RemoveRing(Polygon polygon, int index)
     {
-        return await InvokeAsync<(Polygon Polygon, Point[] Ring)>(nameof(GeometryEngine), parameters: [polygon, index]);
+        // DON'T ADD [SerializedMethod], doesn't work here
+        // TODO: Refactor API for V5
+        GeometryRemovePathResult result =
+            await InvokeAsync<GeometryRemovePathResult>(nameof(GeometryEngine), parameters: [polygon, index]);
+        
+        return ((Polygon)result.Geometry, result.Path);
     }
 
     /// <summary>
@@ -1822,3 +1832,4 @@ public class GeometryEngine : LogicComponent
 }
 
 internal record GeometryRemovePointResult(Geometry Geometry, Point Point);
+internal record GeometryRemovePathResult(Geometry Geometry, Point[] Path);

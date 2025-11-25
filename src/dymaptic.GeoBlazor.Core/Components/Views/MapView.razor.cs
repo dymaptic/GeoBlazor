@@ -1988,7 +1988,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options)
     {
-        return await HitTestImplementation(new ScreenPoint(clickEvent.X, clickEvent.Y), options);
+        return await HitTest(new ScreenPoint(clickEvent.X, clickEvent.Y), options);
     }
 
     /// <summary>
@@ -2013,7 +2013,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options)
     {
-        return await HitTestImplementation(new ScreenPoint(pointerEvent.X, pointerEvent.Y), options);
+        return await HitTest(new ScreenPoint(pointerEvent.X, pointerEvent.Y), options);
     }
 
     /// <summary>
@@ -2036,9 +2036,12 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
+    [SerializedMethod]
     public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options)
     {
-        return await HitTestImplementation(screenPoint, options);
+        return await JsSyncManager.InvokeJsMethod<HitTestResult>(JsComponentReference!, IsServer, 
+            className: nameof(MapView), cancellationToken: CancellationTokenSource.Token, 
+            parameters: [screenPoint, Id, options]);
     }
 
     /// <summary>
@@ -2064,7 +2067,7 @@ public partial class MapView : MapComponent
     public async Task<HitTestResult> HitTest(Point mapPoint, HitTestOptions? options)
     {
         ScreenPoint screenPoint = await ToScreen(mapPoint);
-        return await HitTestImplementation(screenPoint, options);
+        return await HitTest(screenPoint, options);
     }
 
     /// <summary>
@@ -2681,13 +2684,6 @@ public partial class MapView : MapComponent
         {
             widget.ValidateRequiredChildren();
         }
-    }
-    
-    private async Task<HitTestResult> HitTestImplementation(ScreenPoint screenPoint, HitTestOptions? options)
-    {
-        return await JsSyncManager.InvokeJsMethod<HitTestResult>(JsComponentReference!, IsServer, 
-            className: nameof(MapView), cancellationToken: CancellationTokenSource.Token, 
-            parameters: [screenPoint, Id, options]);
     }
 
     private bool IsPro()

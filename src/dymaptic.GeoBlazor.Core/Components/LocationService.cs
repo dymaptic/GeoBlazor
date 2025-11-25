@@ -268,8 +268,8 @@ public partial class LocationService : LogicComponent
         string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
         SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
     {
-        return await AddressesToLocations(url, addresses, countryCode, categories, locationType,
-            outSpatialReference, requestOptions, null);
+        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService), parameters: [url, addresses, countryCode, categories, 
+            locationType, outSpatialReference, requestOptions, null]);
     }
 
 #endregion
@@ -596,8 +596,8 @@ public partial class LocationService : LogicComponent
         SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null,
         string? addressSearchStringParameterName = null)
     {
-        return await AddressesToLocations(url, addresses as object, countryCode, categories, locationType,
-            outSpatialReference, requestOptions, addressSearchStringParameterName);
+        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService), parameters: [url, addresses, countryCode, categories, 
+            locationType, outSpatialReference, requestOptions, addressSearchStringParameterName]);
     }
 
 #endregion
@@ -2224,43 +2224,6 @@ public partial class LocationService : LogicComponent
         return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService), parameters: [url, address, categories, countryCode, 
             forStorage, location, locationType, magicKey, maxLocations, outFields, outSpatialReference, 
             searchExtent, requestOptions, addressSearchStringParameterName]);
-    }
-
-    /// <summary>
-    ///     Converts a list of addresses to locations.
-    /// </summary>
-    /// <param name="url">
-    ///     URL to the ArcGIS Server REST resource that represents a locator service.
-    /// </param>
-    /// <param name="addresses">
-    ///     A list of addresses to be converted to locations. The addresses can be specified as a JSON object or an array of JSON objects.
-    /// </param>
-    /// <param name="countryCode">
-    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
-    /// </param>
-    /// <param name="categories">
-    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
-    /// </param>
-    /// <param name="locationType">
-    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
-    /// </param>
-    /// <param name="outSpatialReference">
-    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the default spatial reference returned by the service if finding locations by address.
-    /// </param>
-    /// <param name="requestOptions">
-    ///     Additional options to be used for the data request
-    /// </param>
-    /// <param name="addressSearchStringParameterName">
-    ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
-    /// </param>
-    [SerializedMethod]
-    public async Task<List<AddressCandidate>> AddressesToLocations(string url, object addresses,
-        string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
-        SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null,
-        string? addressSearchStringParameterName = null)
-    {
-        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService), parameters: [url, addresses, countryCode, categories, 
-            locationType, outSpatialReference, requestOptions, addressSearchStringParameterName]);
     }
 
     private const string ESRIGeoLocationUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
