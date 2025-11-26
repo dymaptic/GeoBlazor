@@ -4,7 +4,7 @@ import {
     DotNetViewHit,
     MapCollection,
 } from "./definitions";
-import {arcGisObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue} from "./arcGisJsInterop";
 import View from "@arcgis/core/views/View";
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
@@ -48,30 +48,30 @@ export default class MapViewWrapper extends BaseComponent {
         const layers = (view.map!.layers as MapCollection).items as Array<Layer>;
         const graphicsLayers = layers.filter(l => l.type === "graphics") as Array<GraphicsLayer>;
 
-        if (options.includeByGeoBlazorId !== null) {
-            const gbInclude = options.includeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
+        if (hasValue(options.includeByGeoBlazorId)) {
+            const gbInclude = options.includeByGeoBlazorId!.map(i => arcGisObjectRefs[i]);
             hitIncludeOptions = hitIncludeOptions.concat(gbInclude);
         }
-        if (options.excludeByGeoBlazorId !== null) {
-            const gbExclude = options.excludeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
+        if (hasValue(options.excludeByGeoBlazorId)) {
+            const gbExclude = options.excludeByGeoBlazorId!.map(i => arcGisObjectRefs[i]);
             hitExcludeOptions = hitExcludeOptions.concat(gbExclude);
         }
-        if (options.includeLayersByArcGISId !== null) {
+        if (hasValue(options.includeLayersByArcGISId)) {
             const layerInclude = layers.filter(l => options.includeLayersByArcGISId!.includes(l.id));
             hitIncludeOptions = hitIncludeOptions.concat(layerInclude);
         }
-        if (options.excludeLayersByArcGISId !== null) {
+        if (hasValue(options.excludeLayersByArcGISId)) {
             const layerExclude = layers.filter(l => options.excludeLayersByArcGISId!.includes(l.id));
             hitExcludeOptions = hitExcludeOptions.concat(layerExclude);
         }
-        if (options.includeGraphicsByArcGISId !== null) {
-            const graphicInclude = options.includeGraphicsByArcGISId.map(i =>
+        if (hasValue(options.includeGraphicsByArcGISId)) {
+            const graphicInclude = options.includeGraphicsByArcGISId!.map(i =>
                 view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
                 graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
             hitIncludeOptions = hitIncludeOptions.concat(graphicInclude);
         }
-        if (options.excludeGraphicsByArcGISId !== null) {
-            const graphicExclude = options.excludeGraphicsByArcGISId.map(i =>
+        if (hasValue(options.excludeGraphicsByArcGISId)) {
+            const graphicExclude = options.excludeGraphicsByArcGISId!.map(i =>
                 view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
                 graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
             hitExcludeOptions = hitExcludeOptions.concat(graphicExclude);

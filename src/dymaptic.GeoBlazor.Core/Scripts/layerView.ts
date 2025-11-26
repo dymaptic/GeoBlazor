@@ -1,5 +1,5 @@
 import Layer from "@arcgis/core/layers/Layer";
-import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId, sanitize} from "./arcGisJsInterop";
+import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId, Pro} from "./arcGisJsInterop";
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 
@@ -69,119 +69,135 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
             dnLayerView = await buildDotNetWFSLayerView(jsObject, viewId);
             break;
         // case 'building-scene':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro only
-        //         let {buildDotNetBuildingSceneLayerView} = await import('./buildingSceneLayerView');
-        //         dnLayerView = await buildDotNetBuildingSceneLayerView(jsObject);
-        //     } catch (e) {
-        //         throw new Error('Feature only available in GeoBlazor Pro');
+        //     if (Pro) {
+        //         try {
+        //             // @ts-ignore GeoBlazor Pro only
+        //             let {buildDotNetBuildingSceneLayerView} = await import('./buildingSceneLayerView');
+        //             dnLayerView = await buildDotNetBuildingSceneLayerView(jsObject);
+        //         } catch (e) {
+        //             throw new Error('Feature only available in GeoBlazor Pro');
+        //         }
         //     }
         //     break;
         case 'ogc-feature':
-            try {
-                // @ts-ignore GeoBlazor Pro Only
-                let {buildDotNetOGCFeatureLayerView} = await import('./oGCFeatureLayerView');
-                dnLayerView = await buildDotNetOGCFeatureLayerView(jsObject, viewId);
-            } catch (e) {
-                throw e;
+            if (Pro) {
+                try {
+                    // @ts-ignore GeoBlazor Pro Only
+                    let {buildDotNetOGCFeatureLayerView} = await import('./oGCFeatureLayerView');
+                    dnLayerView = await buildDotNetOGCFeatureLayerView(jsObject, viewId);
+                } catch (e) {
+                    throw e;
+                }
             }
             break;
         case 'catalog':
-            try {
-                // @ts-ignore GeoBlazor Pro Only
-                let {buildDotNetCatalogLayerView} = await import('./catalogLayerView');
-                dnLayerView = await buildDotNetCatalogLayerView(jsObject, viewId);
-            } catch (e) {
-                throw e;
+            if (Pro) {
+                try {
+                    // @ts-ignore GeoBlazor Pro Only
+                    let {buildDotNetCatalogLayerView} = await import('./catalogLayerView');
+                    dnLayerView = await buildDotNetCatalogLayerView(jsObject, viewId);
+                } catch (e) {
+                    throw e;
+                }
             }
             break;
         case 'catalog-footprint':
-            try {
-                // @ts-ignore GeoBlazor Pro Only
-                let {buildDotNetCatalogFootprintLayerView} = await import('./catalogFootprintLayerView');
-                dnLayerView = await buildDotNetCatalogFootprintLayerView(jsObject, viewId);
-            } catch (e) {
-                throw e;
+            if (Pro) {
+                try {
+                    // @ts-ignore GeoBlazor Pro Only
+                    let {buildDotNetCatalogFootprintLayerView} = await import('./catalogFootprintLayerView');
+                    dnLayerView = await buildDotNetCatalogFootprintLayerView(jsObject, viewId);
+                } catch (e) {
+                    throw e;
+                }
             }
             break;
         case 'catalog-dynamic-group':
-            try {
-                // @ts-ignore GeoBlazor Pro Only
-                let {buildDotNetCatalogDynamicGroupLayerView} = await import('./catalogDynamicGroupLayerView');
-                dnLayerView = await buildDotNetCatalogDynamicGroupLayerView(jsObject, viewId);
-            } catch (e) {
-                throw e;
+            if (Pro) {
+                try {
+                    // @ts-ignore GeoBlazor Pro Only
+                    let {buildDotNetCatalogDynamicGroupLayerView} = await import('./catalogDynamicGroupLayerView');
+                    dnLayerView = await buildDotNetCatalogDynamicGroupLayerView(jsObject, viewId);
+                } catch (e) {
+                    throw e;
+                }
             }
             break;
         // case 'point-cloud':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         let {buildDotNetPointCloudLayerView} = await import('./pointCloudLayerView');
-        //         dnLayerView = await buildDotNetPointCloudLayerView(jsObject, viewId);
-        //     } catch (e) {
-        //         throw e;
+        //     if (Pro) {
+        //         try {
+        //             // @ts-ignore GeoBlazor Pro Only
+        //             let {buildDotNetPointCloudLayerView} = await import('./pointCloudLayerView');
+        //             dnLayerView = await buildDotNetPointCloudLayerView(jsObject, viewId);
+        //         } catch (e) {
+        //             throw e;
+        //         }
         //     }
         //     break;
         // case 'scene':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         let {buildDotNetSceneLayerView} = await import('./sceneLayerView');
-        //         dnLayerView = await buildDotNetSceneLayerView(jsObject, viewId);
-        //     } catch (e) {
-        //         throw e;
+        //     if (Pro) {
+        //         try {
+        //             // @ts-ignore GeoBlazor Pro Only
+        //             let {buildDotNetSceneLayerView} = await import('./sceneLayerView');
+        //             dnLayerView = await buildDotNetSceneLayerView(jsObject, viewId);
+        //         } catch (e) {
+        //             throw e;
+        //         }
         //     }
         //     break;
         // case 'stream':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         let {buildDotNetStreamLayerView} = await import('./streamLayerView');
-        //         dnLayerView = await buildDotNetStreamLayerView(jsObject, viewId);
-        //     } catch (e) {
-        //         throw e;
+        //     if (Pro) {
+        //         try {
+        //             // @ts-ignore GeoBlazor Pro Only
+        //             let {buildDotNetStreamLayerView} = await import('./streamLayerView');
+        //             dnLayerView = await buildDotNetStreamLayerView(jsObject, viewId);
+        //         } catch (e) {
+        //             throw e;
+        //         }
         //     }
         //     break;
         // case 'media':
-        //     try {
-        //         // @ts-ignore GeoBlazor Pro Only
-        //         let {buildDotNetMediaLayerView} = await import('./mediaLayerView');
-        //         dnLayerView = await buildDotNetMediaLayerView(jsObject, viewId);
-        //     } catch (e) {
-        //         throw e;
+        //     if (Pro) {
+        //         try {
+        //             // @ts-ignore GeoBlazor Pro Only
+        //             let {buildDotNetMediaLayerView} = await import('./mediaLayerView');
+        //             dnLayerView = await buildDotNetMediaLayerView(jsObject, viewId);
+        //         } catch (e) {
+        //             throw e;
+        //         }
         //     }
         //     break;
         case 'vector-tile':
-            try {
-                let {buildDotNetVectorTileLayerView} = await import('./vectorTileLayerView');
-                dnLayerView = await buildDotNetVectorTileLayerView(jsObject, viewId);
-            } catch (e) {
-                throw e;
-            }
+            let {buildDotNetVectorTileLayerView} = await import('./vectorTileLayerView');
+            dnLayerView = await buildDotNetVectorTileLayerView(jsObject, viewId);
             break;
-        default:
-            dnLayerView = {};
-            if (hasValue(jsObject.spatialReferenceSupported)) {
-                dnLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-            }
-            if (hasValue(jsObject.suspended)) {
-                dnLayerView.suspended = jsObject.suspended;
-            }
-            if (hasValue(jsObject.updating)) {
-                dnLayerView.updating = jsObject.updating;
-            }
-            if (hasValue(jsObject.visibleAtCurrentScale)) {
-                dnLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-            }
-            if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-                dnLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-            }
+    }
+    
+    if (!hasValue(dnLayerView)) {
+        dnLayerView = {};
+        if (hasValue(jsObject.spatialReferenceSupported)) {
+            dnLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+        }
+        if (hasValue(jsObject.suspended)) {
+            dnLayerView.suspended = jsObject.suspended;
+        }
+        if (hasValue(jsObject.updating)) {
+            dnLayerView.updating = jsObject.updating;
+        }
+        if (hasValue(jsObject.visibleAtCurrentScale)) {
+            dnLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+        }
+        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+            dnLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+        }
 
-            let layerId = lookupGeoBlazorId(jsObject.layer);
-            if (!hasValue(layerId) && hasValue(viewId)) {
-                let dotNetRef = dotNetRefs[viewId!];
-                layerId = await dotNetRef.invokeMethodAsync('GetId');
-            }
+        let layerId = lookupGeoBlazorId(jsObject.layer);
+        if (!hasValue(layerId) && hasValue(viewId)) {
+            let dotNetRef = dotNetRefs[viewId!];
+            layerId = await dotNetRef.invokeMethodAsync('GetId');
+        }
 
-            dnLayerView.layerId = layerId;
+        dnLayerView.layerId = layerId;
     }
 
     dnLayerView.type = jsObject.layer.type;
@@ -238,6 +254,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
             return new WFSLayerViewWrapper(jsLayerView);
         }
         case 'ogc-feature': {
+            if (!Pro) return jsLayerView;
             try {
                 // @ts-ignore GeoBlazor Pro Only
                 let {default: OGCFeatureLayerViewWrapper} = await import('./oGCFeatureLayerView');
@@ -247,6 +264,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
             }
         }
         case 'catalog': {
+            if (!Pro) return jsLayerView;
             try {
                 // @ts-ignore GeoBlazor Pro Only
                 let {default: CatalogLayerViewWrapper} = await import('./catalogLayerView');
@@ -256,6 +274,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
             }
         }
         case 'catalog-footprint': {
+            if (!Pro) return jsLayerView;
             try {
                 // @ts-ignore GeoBlazor Pro Only
                 let {default: CatalogFootprintLayerViewWrapper} = await import('./catalogFootprintLayerView');
@@ -265,6 +284,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
             }
         }
         case 'catalog-dynamic-group': {
+            if (!Pro) return jsLayerView;
             try {
                 // @ts-ignore GeoBlazor Pro Only
                 let {default: CatalogDynamicGroupLayerViewWrapper} = await import('./catalogDynamicGroupLayerView');
@@ -274,6 +294,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
             }
         }
         case 'group': {
+            if (!Pro) return jsLayerView;
             try {
                 // @ts-ignore GeoBlazor Pro Only
                 let {default: GroupLayerViewWrapper} = await import('./groupLayerView');
@@ -283,6 +304,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
             }
         }
         // case 'point-cloud': {
+        //     if (!Pro) return jsLayerView;
         //     try {
         //         // @ts-ignore GeoBlazor Pro Only
         //         let {default: PointCloudLayerViewWrapper} = await import('./pointCloudLayerView');
@@ -292,6 +314,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
         //     }
         // }
         // case 'scene': {
+        //     if (!Pro) return jsLayerView;
         //     try {
         //         // @ts-ignore GeoBlazor Pro Only
         //         let {default: SceneLayerViewWrapper} = await import('./sceneLayerView');
@@ -301,6 +324,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
         //     }
         // }
         // case 'stream': {
+        //     if (!Pro) return jsLayerView;
         //     try {
         //         // @ts-ignore GeoBlazor Pro Only
         //         let {default: StreamLayerViewWrapper} = await import('./streamLayerView');
@@ -310,6 +334,7 @@ export async function buildJsLayerViewWrapper(jsLayerView: any): Promise<any> {
         //     }
         // }
         // case 'media': {
+        //     if (!Pro) return jsLayerView;
         //     try {
         //         // @ts-ignore GeoBlazor Pro Only
         //         let {default: MediaLayerViewWrapper} = await import('./mediaLayerView');
