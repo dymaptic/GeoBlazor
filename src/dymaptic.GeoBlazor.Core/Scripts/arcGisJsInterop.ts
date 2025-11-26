@@ -230,7 +230,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     checkConnectivity(id);
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     dotNetRefs[id] = dotNetRef;
@@ -252,7 +252,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     }
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 3. Create the basemap
@@ -310,7 +310,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     arcGisObjectRefs[mapObject.id] = map;
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 5. set the web component's map object
@@ -322,7 +322,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     arcGisObjectRefs[id] = view;
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 7. Set view properties
@@ -330,7 +330,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
         backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, popupEnabled, theme);
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 8. Register popup widget first before adding layers to not overwrite the popupTemplates
@@ -340,7 +340,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     }
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 9. Add layers to the map
@@ -350,7 +350,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
             const layerObject = mapObject.layers[i];
             await addArcGisLayer(layerObject, mapObject.id, id);
             if (abortSignal.aborted) {
-                return;
+                return null;
             }
         }
     }
@@ -375,11 +375,11 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
 
     if (!hasValue(view.container) || abortSignal.aborted) {
         // someone navigated away or rerendered the page, the view is no longer valid
-        return;
+        return null;
     }
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 11. Add graphics directly to the view
@@ -389,7 +389,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     }
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 12. Group widgets by position to ensure consistent stacking order
@@ -408,7 +408,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     const positionPromises = Array.from(widgetsByPosition.entries()).map(async ([position, positionWidgets]) => {
         for (const widget of positionWidgets) {
             if (abortSignal.aborted) {
-                return;
+                return null;
             }
             try {
                 // Process widgets in the same position sequentially to maintain stacking order
@@ -422,9 +422,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     // Wait for all position groups to complete
     await Promise.all(positionPromises);
 
-    if (abortSignal.aborted) {
-        return;
-    }
+    return new MapViewWrapper(view);
 }
 
 // rebuilds the <arcgis-map> or <arcgis-scene> web component from scratch to clear any errors
@@ -1983,32 +1981,6 @@ export function updateSymbolForProtobuf(symbol) {
     }
 }
 
-let _authenticationManager: AuthenticationManager | null = null;
-
-export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null,
-                                         portalUrl: string | null, trustedServers: string[] | null, fontsUrl: string | null): AuthenticationManager {
-    if (_authenticationManager === null) {
-        _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl, trustedServers, fontsUrl);
-    }
-    return _authenticationManager;
-}
-
-export function getCursor(viewId: string): string {
-    const view = arcGisObjectRefs[viewId] as MapView;
-    return view.container!.style.cursor;
-}
-
-export async function setCursor(cursorType: string, viewId: string | null = null) {
-    requestAnimationFrame(() => {
-        const view = hasValue(viewId) ? arcGisObjectRefs[viewId!] : undefined;
-        if (hasValue(view)) {
-            view.container.style.cursor = cursorType;
-        } else {
-            document.body.style.cursor = cursorType;
-        }
-    });
-}
-
 export async function getWebMapBookmarks(viewId: string) {
     const view = arcGisObjectRefs[viewId] as MapView;
     if (view != null) {
@@ -2054,50 +2026,6 @@ export async function takeScreenshot(viewId, options): Promise<any> {
 
 export function hasValue(prop: any): boolean {
     return prop !== undefined && prop !== null;
-}
-
-export function removeCircularReferences(jsObject: any) {
-    if (typeof jsObject !== 'object') {
-        return jsObject;
-    }
-    let json = generateSerializableJson(jsObject);
-    if (!hasValue(json)) {
-        return null;
-    }
-    return JSON.parse(json!);
-}
-
-export function buildJsStreamReference(dnObject: any) {
-    let encodedArray = buildEncodedJson(dnObject);
-    if (!hasValue(encodedArray)) {
-        return null;
-    }
-    return DotNet.createJSStreamReference(encodedArray!);
-}
-
-export function buildEncodedJson(object: any): Uint8Array {
-    let json = generateSerializableJson(object);
-    if (!hasValue(json)) {
-        json = 'null';
-    }
-    let encoder = new TextEncoder();
-    return encoder.encode(json!);
-}
-
-export function getDefaultClassInstanceFromModule(module: any) {
-    if (module === null || module === undefined) {
-        return null;
-    }
-    if (module.default !== undefined) {
-        return new module.default();
-    }
-    // find the first class in the module
-    for (const key in module) {
-        if (typeof module[key] === 'function') {
-            return new module[key]();
-        }
-    }
-    return null;
 }
 
 // endregion

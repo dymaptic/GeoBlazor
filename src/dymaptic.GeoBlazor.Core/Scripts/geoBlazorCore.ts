@@ -36,7 +36,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, 
                                    theme?: string | null, allowDefaultEsriLogin?: boolean | null, apiKey?: string | null,
                                    appId?: string | null, zIndex?: number, 
-                                   tilt?: number) : Promise<any> {
+                                   tilt?: number) : Promise<MapViewWrapper | null> {
     try {
         setCursor('wait');
 
@@ -85,7 +85,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         
         addHeadLink('_content/dymaptic.GeoBlazor.Core/css/geoblazor.css');
 
-        await buildArcGisMapView(abortSignal, id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, mapType,
+        return await buildArcGisMapView(abortSignal, id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, mapType,
             widgets, graphics, spatialReference, constraints, extent, backgroundColor, eventRateLimitInMilliseconds,
             activeEventHandlers, isServer, highlightOptions, popupEnabled, theme, zIndex, tilt);
 
@@ -540,23 +540,36 @@ export function removeCircularReferences(jsObject: any) {
 }
 
 export function buildJsStreamReference(dnObject: any) {
-    let json = generateSerializableJson(dnObject);
-    if (!hasValue(json)) {
+    let encodedArray = buildEncodedJson(dnObject);
+    if (!hasValue(encodedArray)) {
         return null;
     }
-    let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json!);
-    return DotNet.createJSStreamReference(encodedArray);
+    return DotNet.createJSStreamReference(encodedArray!);
 }
 
-export function buildEncodedJson(object: any) {
+export function buildEncodedJson(object: any): Uint8Array {
     let json = generateSerializableJson(object);
     if (!hasValue(json)) {
-        return null;
+        json = 'null';
     }
     let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json!);
-    return encodedArray;
+    return encoder.encode(json!);
+}
+
+export function getDefaultClassInstanceFromModule(module: any) {
+    if (module === null || module === undefined) {
+        return null;
+    }
+    if (module.default !== undefined) {
+        return new module.default();
+    }
+    // find the first class in the module
+    for (const key in module) {
+        if (typeof module[key] === 'function') {
+            return new module[key]();
+        }
+    }
+    return null;
 }
 
 // Converts a base64 string to an ArrayBuffer
