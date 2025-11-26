@@ -1,7 +1,7 @@
 // override generated code in this file
 import GraphicsLayerGenerated from './graphicsLayer.gb';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
-import {buildEncodedJson, graphicsRefs, hasValue, lookupJsGraphicById} from "./arcGisJsInterop";
+import {buildEncodedJson, graphicsRefs, hasValue, lookupJsGraphicById} from "./geoBlazorCore";
 
 export default class GraphicsLayerWrapper extends GraphicsLayerGenerated {
 

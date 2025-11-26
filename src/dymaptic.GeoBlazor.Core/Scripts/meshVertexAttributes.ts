@@ -1,6 +1,6 @@
 // override generated code in this file
 
-import { hasValue } from './arcGisJsInterop';
+import { hasValue } from './geoBlazorCore';
 
 export function buildJsMeshVertexAttributes(dotNetObject: any): any {
     let jsMeshVertexAttributes: any = {}

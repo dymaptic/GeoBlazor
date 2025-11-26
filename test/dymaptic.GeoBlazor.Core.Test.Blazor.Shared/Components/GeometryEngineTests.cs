@@ -29,7 +29,7 @@ public class GeometryEngineTests : TestRunnerBase
     {
         Point point = new Point(0, 0, spatialReference: new SpatialReference(4326));
 
-        await Assert.ThrowsExceptionAsync<JSException>(() =>
+        await Assert.ThrowsAsync<JSException>(() =>
             GeometryEngine.Buffer(point, 10.0, GeometryEngineLinearUnit.Feet));
     }
 
@@ -42,7 +42,7 @@ public class GeometryEngineTests : TestRunnerBase
         Polygon[] buffers =
             await GeometryEngine.Buffer([point1, point2], [10.0, 20.0], GeometryEngineLinearUnit.Feet);
         Assert.IsNotNull(buffers);
-        Assert.AreEqual(2, buffers.Length);
+        Assert.HasCount(2, buffers);
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class GeometryEngineTests : TestRunnerBase
         Polygon[] buffers =
             await GeometryEngine.Buffer([point1, point2], [10.0, 20.0], GeometryEngineLinearUnit.Feet, true);
         Assert.IsNotNull(buffers);
-        Assert.AreEqual(1, buffers.Length);
+        Assert.HasCount(1, buffers);
     }
 
     [TestMethod]
@@ -280,7 +280,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         Geometry[] convexHull = await GeometryEngine.ConvexHull(points);
         Assert.IsInstanceOfType<Point>(convexHull[0]);
-        Assert.AreEqual(10, convexHull.Length);
+        Assert.HasCount(10, convexHull);
     }
 
     [TestMethod]
@@ -295,7 +295,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         Geometry[] convexHull = await GeometryEngine.ConvexHull(points, true);
         Assert.IsInstanceOfType<Polygon>(convexHull[0]);
-        Assert.AreEqual(1, convexHull.Length);
+        Assert.HasCount(1, convexHull);
     }
 
     [TestMethod]
@@ -345,7 +345,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         Geometry[] cut = await GeometryEngine.Cut(polygon, cutter);
 
-        Assert.AreEqual(2, cut.Length);
+        Assert.HasCount(2, cut);
     }
 
     [TestMethod]
@@ -367,7 +367,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         Geometry[] cut = await GeometryEngine.Cut(polygon, cutter);
 
-        Assert.AreEqual(0, cut.Length);
+        Assert.HasCount(0, cut);
     }
 
     [TestMethod]
@@ -456,7 +456,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         Geometry[] differences =
             await GeometryEngine.Difference([boundaryPolygon1, boundaryPolygon2], subtractor);
-        Assert.AreEqual(2, differences.Length);
+        Assert.HasCount(2, differences);
     }
 
     [TestMethod]
@@ -679,9 +679,8 @@ public class GeometryEngineTests : TestRunnerBase
                 GeometryEngineLinearUnit.Feet) as Polygon;
         Assert.IsNotNull(generalizedPolygon);
         Assert.AreNotEqual(complexPolygon, generalizedPolygon);
-
-        Assert.IsTrue(complexPolygon.Rings.Select(r => r.Count).Sum() >
-            generalizedPolygon.Rings.Select(r => r.Count).Sum());
+        Assert.IsGreaterThan(generalizedPolygon.Rings.Select(r => r.Count).Sum(),
+            complexPolygon.Rings.Select(r => r.Count).Sum());
     }
 
     [TestMethod]
@@ -768,7 +767,7 @@ public class GeometryEngineTests : TestRunnerBase
                 GeometryEngineLinearUnit.Feet);
 
         Assert.IsNotNull(bufferedGeometries);
-        Assert.AreEqual(2, bufferedGeometries.Length);
+        Assert.HasCount(2, bufferedGeometries);
         Assert.AreNotEqual(bufferedGeometries[0], bufferedGeometries[1]);
     }
 
@@ -802,7 +801,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         double length = await GeometryEngine.GeodesicLength(polygon, GeometryEngineLinearUnit.Feet);
 
-        Assert.IsTrue(length > 0);
+        Assert.IsGreaterThan(0, length);
     }
 
     [TestMethod]
@@ -856,7 +855,7 @@ public class GeometryEngineTests : TestRunnerBase
             await GeometryEngine.Intersect([polygon, polyline], intersectingPolygon);
 
         Assert.IsNotNull(intersect);
-        Assert.AreEqual(2, intersect.Length);
+        Assert.HasCount(2, intersect);
         Assert.IsInstanceOfType<Polygon>(intersect[0]);
         Assert.IsInstanceOfType<Polyline>(intersect[1]);
     }
@@ -974,7 +973,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         NearestPointResult[] result = await GeometryEngine.NearestVertices(polygon, point, 200, 100);
 
-        Assert.AreEqual(6, result.Length);
+        Assert.HasCount(6, result);
     }
 
     [TestMethod]
@@ -1085,7 +1084,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         double area = await GeometryEngine.PlanarArea(polygon, GeometryEngineAreaUnit.SquareKilometers);
 
-        Assert.IsTrue(area > 0);
+        Assert.IsGreaterThan(0, area);
     }
 
     [TestMethod]
@@ -1104,7 +1103,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         double area = await GeometryEngine.PlanarArea(polygon, GeometryEngineAreaUnit.SquareKilometers);
 
-        Assert.IsTrue(area > 0);
+        Assert.IsGreaterThan(0, area);
     }
 
     [TestMethod]
@@ -1117,7 +1116,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         double length = await GeometryEngine.PlanarLength(polyline, GeometryEngineLinearUnit.Kilometers);
 
-        Assert.IsTrue(length > 0);
+        Assert.IsGreaterThan(0, length);
     }
 
     [TestMethod]

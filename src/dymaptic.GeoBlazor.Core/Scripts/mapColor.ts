@@ -1,4 +1,4 @@
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 
 export function buildJsColor(color: any): any {
     return buildJsMapColor(color);

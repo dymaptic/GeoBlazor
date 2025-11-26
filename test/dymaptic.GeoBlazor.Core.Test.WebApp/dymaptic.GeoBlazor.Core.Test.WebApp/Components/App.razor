@@ -35,7 +35,11 @@
 #if DEBUG
         // This should always be set to Server mode so that it can toggle on the server.
     }
-        <RenderModeSelector @rendermode="@InteractiveServer" />
+        @if (NavigationManager.Uri.EndsWith(NavigationManager.BaseUri, StringComparison.OrdinalIgnoreCase))
+        {
+            // only show on the root page
+            <RenderModeSelector @rendermode="@InteractiveServer" />
+        }
     @{
 #endif
     }
@@ -48,6 +52,9 @@
     
     [Inject]
     public required IConfiguration Configuration { get; set; }
+    
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
     
 #if DEBUG
     protected override void OnParametersSet()

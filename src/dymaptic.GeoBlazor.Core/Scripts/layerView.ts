@@ -1,5 +1,5 @@
 import Layer from "@arcgis/core/layers/Layer";
-import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId, Pro} from "./arcGisJsInterop";
+import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId, Pro} from './geoBlazorCore';
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 

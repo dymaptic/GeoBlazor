@@ -12,7 +12,7 @@ const OUTPUT_DIR = path.resolve('./wwwroot/js');
 
 let options = {
     entryPoints: [
-        './Scripts/arcGisJsInterop.ts', // main entry point
+        './Scripts/geoBlazorCore.ts', // main entry point
         './Scripts/geometryEngine.ts', // logic components
         './Scripts/locationService.ts',
         './Scripts/projectionEngine.ts'

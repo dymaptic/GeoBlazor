@@ -1,4 +1,4 @@
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 
 export async function buildJsPopupDockOptions(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {

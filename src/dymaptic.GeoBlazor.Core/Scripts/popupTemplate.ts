@@ -7,7 +7,7 @@ import {
     hasValue,
     jsObjectRefs,
     popupTemplateRefs
-} from "./arcGisJsInterop";
+} from './geoBlazorCore';
 import {buildJsPopupContent} from './popupContent';
 import {buildDotNetGraphic} from './graphic';
 import {buildJsFieldInfo} from './fieldInfo';

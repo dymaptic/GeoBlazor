@@ -1,4 +1,4 @@
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import Multipoint from "@arcgis/core/geometry/Multipoint";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {buildDotNetExtent} from "./extent";

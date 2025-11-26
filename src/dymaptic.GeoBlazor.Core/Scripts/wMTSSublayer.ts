@@ -1,6 +1,6 @@
 // override generated code in this file
 
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 
 export async function buildJsWMTSSublayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     // custom implementation, don't instantiate the sublayer class directly, it breaks the layer constructor

@@ -1,7 +1,7 @@
 // override generated code in this file
 import CSVLayerViewGenerated from './cSVLayerView.gb';
 import CSVLayerView from '@arcgis/core/views/layers/CSVLayerView';
-import {hasValue, lookupJsGraphicById, graphicsRefs} from "./arcGisJsInterop";
+import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
 
 export default class CSVLayerViewWrapper extends CSVLayerViewGenerated {
 

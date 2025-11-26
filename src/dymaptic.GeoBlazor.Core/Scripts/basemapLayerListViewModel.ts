@@ -1,7 +1,7 @@
 // override generated code in this file
 import BasemapLayerListViewModelGenerated from './basemapLayerListViewModel.gb';
 import BasemapLayerListViewModel from '@arcgis/core/widgets/BasemapLayerList/BasemapLayerListViewModel';
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import {DotNetListItem} from "./definitions";
 
 export default class BasemapLayerListViewModelWrapper extends BasemapLayerListViewModelGenerated {

@@ -1,7 +1,6 @@
-import LocationServiceGenerated from './locationService.gb';
 import * as locator from "@arcgis/core/rest/locator";
 import {DotNetAddressCandidate, DotNetExtent, DotNetPoint, DotNetSpatialReference} from "./definitions";
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import AddressCandidate from "@arcgis/core/rest/support/AddressCandidate";
 import Point from "@arcgis/core/geometry/Point";
 import {buildJsExtent} from "./extent";
@@ -180,11 +179,9 @@ export default class LocatorWrapper extends BaseComponent {
 }
 
 export async function buildJsLocationService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsLocationServiceGenerated} = await import('./locationService.gb');
-    return await buildJsLocationServiceGenerated(dotNetObject, layerId, viewId);
+    // not used
 }
 
 export async function buildDotNetLocationService(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildDotNetLocationServiceGenerated} = await import('./locationService.gb');
-    return await buildDotNetLocationServiceGenerated(jsObject, layerId, viewId);
+    // not used
 }

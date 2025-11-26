@@ -1,7 +1,7 @@
 // override generated code in this file
 import FeaturesViewModelGenerated from './featuresViewModel.gb';
 import FeaturesViewModel from '@arcgis/core/widgets/Features/FeaturesViewModel';
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import {buildJsWidget} from "./widget";
 import Widget from "@arcgis/core/widgets/Widget";
 

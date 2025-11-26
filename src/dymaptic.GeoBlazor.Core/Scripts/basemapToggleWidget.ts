@@ -1,6 +1,6 @@
 import BasemapToggle from '@arcgis/core/widgets/BasemapToggle';
 import BasemapToggleWidgetGenerated from './basemapToggleWidget.gb';
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
 import Basemap from "@arcgis/core/Basemap";
 

@@ -1,4 +1,4 @@
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 
 export function buildDotNetEffect(jsEffect: any): any {
     if (!hasValue(jsEffect)) {

@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Model;
+﻿using Environment = System.Environment;
+
+
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Manager for all authentication-related tasks, tokens, and keys
@@ -146,10 +149,10 @@ public class AuthenticationManager
     public async Task<bool> Initialize()
     {
         if (_module is null)
-        {
-            IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
+        { 
+            IJSObjectReference coreJsModule = await GetCoreJsModule();
 
-            _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
+            _module = await coreJsModule.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
                 _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl, 
                 TrustedServers, FontsUrl);
         }
@@ -234,14 +237,14 @@ public class AuthenticationManager
     }
 
     /// <summary>
-    ///     Retrieves the correct copy of the ArcGisJsInterop based on the nuget package
+    ///     Retrieves the correct copy of the geoBlazorCore.ts module
     /// </summary>
-    public async Task<IJSObjectReference> GetArcGisJsInterop()
+    public async Task<IJSObjectReference> GetCoreJsModule()
     {
-        IJSObjectReference? arcGisPro = await _jsModuleManager.GetArcGisJsPro(_jsRuntime, CancellationToken.None);
-        IJSObjectReference arcGisJsInterop = await _jsModuleManager.GetArcGisJsCore(_jsRuntime, arcGisPro, CancellationToken.None);
+        IJSObjectReference? proModule = await _jsModuleManager.GetProJsModule(_jsRuntime, CancellationToken.None);
+        IJSObjectReference coreModule = await _jsModuleManager.GetCoreJsModule(_jsRuntime, proModule, CancellationToken.None);
         
-        return arcGisJsInterop;
+        return coreModule;
     }
 
     /// <summary>
@@ -285,6 +288,38 @@ public class AuthenticationManager
     ///     Part of the workaround for https://my.esri.com/#/support/bugs/bugs?bugNumber=BUG-000174423 
     /// </summary>
     public bool ExcludeApiKey { get; set; }
+    
+    /// <summary>
+    ///     Handles any runtime exceptions instead of throwing. Return a boolean to indicate if the exception was handled (true) or should still throw (false).
+    /// </summary>
+    [Parameter]
+    public Func<Exception, Task<bool>>? OnExceptionHandler { get; set; }
+    
+    /// <summary>
+    ///     Surfaces JavaScript errors to the .NET Code for debugging.
+    /// </summary>
+    /// <param name="error">
+    ///     The original Javascript error.
+    /// </param>
+    /// <exception cref="JavascriptException">
+    ///     Wraps the JS Error and throws a .NET Exception.
+    /// </exception>
+    [JSInvokable]
+    public async Task OnJavascriptError(JavascriptError error)
+    {
+        var exception = new JavascriptException(error);
+
+        bool handled = false;
+        if (OnExceptionHandler is not null)
+        {
+            handled = await OnExceptionHandler(exception);
+        }
+        
+        if (!handled)
+        {
+            throw exception;
+        }
+    }
 
     private readonly IJSRuntime _jsRuntime;
     private readonly JsModuleManager _jsModuleManager;

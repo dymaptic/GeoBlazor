@@ -1,6 +1,6 @@
 import {buildDotNetExtent} from "./extent";
 import {buildDotNetPoint} from "./point";
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 
 export function buildDotNetAddressCandidate(addressCandidate: any): any {
     if (!hasValue(addressCandidate)) {
@@ -16,7 +16,7 @@ export function buildDotNetAddressCandidate(addressCandidate: any): any {
     }
 }
 
-export async function buildJsAddressCandidate(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsAddressCandidate(dotNetObject: any): Promise<any> {
     let {buildJsAddressCandidateGenerated} = await import('./addressCandidate.gb');
-    return await buildJsAddressCandidateGenerated(dotNetObject, viewId);
+    return await buildJsAddressCandidateGenerated(dotNetObject);
 }

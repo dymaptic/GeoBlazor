@@ -1,4 +1,4 @@
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import LocalBasemapsSource from "@arcgis/core/widgets/BasemapGallery/support/LocalBasemapsSource";
 
 export async function buildJsLocalBasemapsSource(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

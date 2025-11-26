@@ -1,7 +1,7 @@
 // override generated code in this file
 import WMTSLayerGenerated from './wMTSLayer.gb';
 import WMTSLayer from '@arcgis/core/layers/WMTSLayer';
-import {buildEncodedJson, hasValue} from "./arcGisJsInterop";
+import {buildEncodedJson, hasValue} from "./geoBlazorCore";
 
 export default class WMTSLayerWrapper extends WMTSLayerGenerated {
 

@@ -1,11 +1,13 @@
 ﻿import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
 import IdentityManager from "@arcgis/core/identity/IdentityManager";
 import esriConfig from "@arcgis/core/config";
+import {logUncaughtError} from "./geoBlazorCore";
 export default class AuthenticationManager {
     private appId: string | undefined;
     private info: OAuthInfo | undefined;
     private dotNetRef: any;
-    constructor(dotNetReference, apiKey, appId, portalUrl, trustedServers, fontsUrl) {
+    constructor(dotNetReference: any, apiKey: string | null, appId: string | null, portalUrl: string | null, 
+                trustedServers: string[] | null, fontsUrl: string | null) {
         if (appId !== null) {
             this.appId = appId;
             this.info = new OAuthInfo({
@@ -31,6 +33,18 @@ export default class AuthenticationManager {
             esriConfig.fontsUrl = fontsUrl;
         }
         this.dotNetRef = dotNetReference;
+        
+        let interceptorName = 'authenticationManagerInterceptor';
+        let currentInterceptor = esriConfig.log.interceptors
+            .find(i => i.name === interceptorName);
+        
+        if (!currentInterceptor) {
+            let newInterceptor = new Function('logUncaughtError',
+                `return function ${interceptorName}(level, module, ...args) {
+                    return logUncaughtError(level, module, 'global', ...args);
+                }`);
+            esriConfig.log.interceptors.push((newInterceptor(logUncaughtError) as __esri.LogInterceptor));
+        }
     }
 
     setApiKey(apiKey: string | null): void {
