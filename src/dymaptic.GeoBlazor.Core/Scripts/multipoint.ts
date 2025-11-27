@@ -3,6 +3,7 @@ import Multipoint from "@arcgis/core/geometry/Multipoint";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {buildDotNetExtent} from "./extent";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
+import {buildJsPoint} from "./point";
 
 export function buildJsMultipoint(dotNetObject: any): any {
     let properties: any = {};
@@ -14,7 +15,13 @@ export function buildJsMultipoint(dotNetObject: any): any {
         properties.hasZ = dotNetObject.hasZ;
     }
     if (hasValue(dotNetObject.points) && dotNetObject.points.length > 0) {
-        properties.points = dotNetObject.points;
+        if (hasValue(dotNetObject.points[0].coordinates)) {
+            properties.points = dotNetObject.points
+                .map(point => point.coordinates);
+        } else {
+            properties.points = dotNetObject.points
+                .map(p => [p.x ?? p.longitude, p.y ?? p.latitude]);   
+        }
     }
     if (hasValue(dotNetObject.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference);

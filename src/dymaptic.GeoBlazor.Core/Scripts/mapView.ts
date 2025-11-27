@@ -4,7 +4,7 @@ import {
     DotNetViewHit,
     MapCollection,
 } from "./definitions";
-import {arcGisObjectRefs, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue} from "./geoBlazorCore";
 import View from "@arcgis/core/views/View";
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";

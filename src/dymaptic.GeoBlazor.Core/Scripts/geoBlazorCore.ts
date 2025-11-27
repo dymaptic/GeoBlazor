@@ -2,17 +2,13 @@ import {
     addArcGisLayer,
     graphicsRefs,
     buildArcGisMapView,
-    loadProtobuf,
-    ProtoGraphicCollection,
     popupTemplateRefs,
     actionHandlers, 
     esriConfig,
     resetMapComponent
 } from './arcGisJsInterop';
 import AuthenticationManager from "./authenticationManager";
-import ProjectionWrapper from "./projection";
-import GeometryEngineWrapper from "./geometryEngine";
-import LocatorWrapper from "./locationService";
+import MapViewWrapper from "./mapView";
 
 // backwards-compatibility re-export, since everything used to be in this module
 export * from './arcGisJsInterop';
@@ -91,7 +87,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
 
     } catch (e) {
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
         resetMapComponent(id);
         showError(id);
@@ -593,28 +589,6 @@ export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, 
         _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl, trustedServers, fontsUrl);
     }
     return _authenticationManager;
-}
-
-export async function getProjectionEngineWrapper(): Promise<ProjectionWrapper> {
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
-    }
-    return new ProjectionWrapper();
-}
-
-export async function getGeometryEngineWrapper(): Promise<GeometryEngineWrapper> {
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
-    }
-    return new GeometryEngineWrapper();
-}
-
-export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
-    }
-
-    return new LocatorWrapper();
 }
 
 // endregion

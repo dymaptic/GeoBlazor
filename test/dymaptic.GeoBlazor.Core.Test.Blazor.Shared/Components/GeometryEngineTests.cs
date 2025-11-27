@@ -5,7 +5,6 @@ using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Results;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
@@ -1512,7 +1511,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         Extent[] normalizedExtents = await GeometryEngine.NormalizeExtent(new Extent(200, -200, 10, 0));
         Assert.IsNotNull(normalizedExtents);
-        Assert.IsTrue(normalizedExtents.Length >= 1);
+        Assert.IsGreaterThanOrEqualTo(1, normalizedExtents.Length);
 
         Extent offsetExtent = await GeometryEngine.OffsetExtent(extent, 1, 2, 3);
         Assert.IsNotNull(offsetExtent);
@@ -1540,7 +1539,7 @@ public class GeometryEngineTests : TestRunnerBase
         // AddPath using Point[] overload
         Polyline added = await GeometryEngine.AddPath(polyline, [new Point(1, 2), new Point(3, 3)]);
         Assert.IsNotNull(added);
-        Assert.IsTrue(added.Paths.Count >= 2);
+        Assert.IsGreaterThanOrEqualTo(2, added.Paths.Count);
 
         // GetPoint for newly added path
         Point pt = await GeometryEngine.GetPoint(added, 1, 0);
@@ -1559,13 +1558,14 @@ public class GeometryEngineTests : TestRunnerBase
 
         // RemovePoint
         (Polyline Polyline, Point Point) removeResult = await GeometryEngine.RemovePoint(set, 1, 1);
+#pragma warning disable MSTEST0032
         Assert.IsNotNull(removeResult);
         Assert.IsInstanceOfType(removeResult.Point, typeof(Point));
 
         // RemovePath
         (Polyline PolyLine, Point[] Path) removePathResult = await GeometryEngine.RemovePath(removeResult.Polyline, 1);
         Assert.IsNotNull(removePathResult);
-        Assert.IsTrue(removePathResult.Path.Length >= 1);
+        Assert.IsGreaterThanOrEqualTo(1, removePathResult.Path.Length);
     }
 
     [TestMethod]
@@ -1579,7 +1579,7 @@ public class GeometryEngineTests : TestRunnerBase
         Polygon withRing = await GeometryEngine.AddRing(polygon, [new Point(10, 10), new Point(10, 20), new Point(20, 20), new Point(10, 10)
         ]);
         Assert.IsNotNull(withRing);
-        Assert.AreEqual(beforeRings + 1, withRing.Rings.Count);
+        Assert.HasCount(beforeRings + 1, withRing.Rings);
 
         // GetPoint from newly added ring
         Point ringPoint = await GeometryEngine.GetPoint(withRing, beforeRings, 0);
@@ -1603,7 +1603,8 @@ public class GeometryEngineTests : TestRunnerBase
         // RemoveRing
         (Polygon Polygon, Point[] Ring) removedRing = await GeometryEngine.RemoveRing(removed.Polygon, beforeRings);
         Assert.IsNotNull(removedRing);
-        Assert.AreEqual(beforeRings, removedRing.Polygon.Rings.Count);
+#pragma warning restore MSTEST0032
+        Assert.HasCount(beforeRings, removedRing.Polygon.Rings);
     }
 
     [TestMethod]

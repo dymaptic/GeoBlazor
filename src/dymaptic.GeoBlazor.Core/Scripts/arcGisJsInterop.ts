@@ -58,7 +58,7 @@ import Widget from "@arcgis/core/widgets/Widget";
 import { parse } from "protobufjs";
 import { protoTypeDefinitions } from "./geoblazorProto";
 import {buildDotNetExtent, buildJsExtent} from './extent';
-import {buildDotNetGraphic, buildJsGraphic} from './graphic';
+import {buildJsGraphic} from './graphic';
 import {buildDotNetLayer, buildJsLayer, buildJsLayerWrapper} from './layer';
 import {buildDotNetPoint, buildJsPoint} from './point';
 import {buildDotNetLayerView, buildJsLayerViewWrapper} from './layerView';
@@ -221,8 +221,8 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
         }`);
     esriConfig.log.interceptors.unshift((newInterceptor(logUncaughtError) as __esri.LogInterceptor));
 
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
+    if (GraphicCollectionSerializationRecord === undefined) {
+        loadProtobuf();
     }
 
     await projectionEngine.load();

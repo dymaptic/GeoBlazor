@@ -4,6 +4,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <CoreVersion>4.3.0.8</CoreVersion>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
+        <Platforms>AnyCPU</Platforms>
         <CoreProjectPath>$(MSBuildThisFileDirectory)src\dymaptic.GeoBlazor.Core</CoreProjectPath>
         <StaticWebAssetEndpointExclusionPattern>
             $(StaticWebAssetEndpointExclusionPattern);js/**

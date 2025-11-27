@@ -3,7 +3,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 /// <summary>
 ///     The output image type of the MapImageLayer.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<MapImageFormat>))]
+[JsonConverter(typeof(ImageFormatConverter<MapImageFormat>))]
 public enum MapImageFormat
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

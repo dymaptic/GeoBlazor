@@ -3,8 +3,6 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <UserSecretsId>13440119-7b63-4d76-a4dc-15f1df7f04ef</UserSecretsId>
-        <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
-        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     
     <ItemGroup>

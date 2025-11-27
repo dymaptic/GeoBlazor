@@ -1,6 +1,7 @@
 import {Field, Type } from "protobufjs";
-import {buildEncodedJson, hasValue, loadProtobuf, protobufRoot, ProtoTypes, 
+import {hasValue, loadProtobuf, protobufRoot, ProtoTypes, 
     updateGeometryForProtobuf, updateGraphicForProtobuf, updateSymbolForProtobuf} from "./arcGisJsInterop";
+import {buildEncodedJson} from "./geoBlazorCore";
 
 // base class for components that need to invoke methods with serialized parameters
 export default class BaseComponent {
@@ -117,7 +118,7 @@ export default class BaseComponent {
                         defaults: false,
                         enums: String,
                         longs: String,
-                        arrays: false,
+                        arrays: true,
                         objects: false
                     });
 

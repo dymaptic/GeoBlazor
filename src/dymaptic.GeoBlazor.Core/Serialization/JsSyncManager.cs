@@ -349,7 +349,7 @@ public class JsSyncManager
                 : paramType.GenericTypeArguments[0]);
             string key = $"{GetKey(genericType)}Collection";
             
-            if (list.Count > 0 && _serializationData.ProtoContractTypes.ContainsKey(genericType))
+            if (_serializationData.ProtoContractTypes.ContainsKey(genericType))
             {
                 object protobufParameter = _serializationData.GenerateProtobufCollectionParameter(list, genericType, isServer);
                 return [key, protobufParameter];

@@ -5,24 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    @{
-#if ENABLE_COMPRESSION
-    }
     <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
     <link rel="stylesheet" href="@Assets["app.css"]" />
     <link rel="stylesheet" href="@Assets["dymaptic.GeoBlazor.Core.Sample.OAuth.styles.css"]" />
     <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]"/>
     <ImportMap />
-    @{
-#else
-    }
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="app.css" />
-    <link rel="stylesheet" href="dymaptic.GeoBlazor.Core.Sample.OAuth.styles.css" />
-    <link href="_content/dymaptic.GeoBlazor.Core"/>
-    @{
-#endif
-    }
     
     <link rel="icon" type="image/ico" href="favicon.ico" />
     <HeadOutlet @rendermode="InteractiveAuto" />

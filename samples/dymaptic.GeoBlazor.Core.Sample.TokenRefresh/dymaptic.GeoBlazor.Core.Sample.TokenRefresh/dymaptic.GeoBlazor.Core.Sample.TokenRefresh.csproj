@@ -2,11 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>09852c49-58ad-4029-956b-1e18661fd6b3</UserSecretsId>
-    <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
-    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
 

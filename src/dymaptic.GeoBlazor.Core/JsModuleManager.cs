@@ -57,12 +57,12 @@ public class JsModuleManager
     {
         if (!_proChecked)
         {
-            await GetArcGisJsPro(jsRuntime, cancellationToken);
+            await GetProJsModule(jsRuntime, cancellationToken);
         }
 
         if (_coreModule is null)
         {
-            await GetArcGisJsCore(jsRuntime, _proModule, cancellationToken);
+            await GetCoreJsModule(jsRuntime, _proModule, cancellationToken);
         }
 
         string modulePath = $"./_content/dymaptic.GeoBlazor.{(_proModule is null ? "Core" : "Pro")}/js/{moduleName}.js?v={_version}";

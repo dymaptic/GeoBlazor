@@ -3,7 +3,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 /// <summary>
 ///     Image format of the cached tiles.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<TileInfoFormat>))]
+[JsonConverter(typeof(ImageFormatConverter<TileInfoFormat>))]
 public enum TileInfoFormat
 {
 #pragma warning disable CS1591
@@ -24,7 +24,6 @@ public enum TileInfoFormat
     Lerc,
     Lerc2d,
     Pbf,
-    Raw,
-    IndexedVector
+    Raw
 #pragma warning restore CS1591
 }

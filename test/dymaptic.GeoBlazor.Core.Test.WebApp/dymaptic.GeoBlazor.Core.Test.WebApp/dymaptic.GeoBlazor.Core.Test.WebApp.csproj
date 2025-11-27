@@ -3,8 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <UserSecretsId>aspnet-dymaptic.GeoBlazor.Core.Test.WebApp-881b5a42-0b71-4c8c-9901-8d12693bd109</UserSecretsId>
-    <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
-    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
 

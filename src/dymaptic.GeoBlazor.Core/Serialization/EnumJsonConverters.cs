@@ -237,3 +237,17 @@ internal class TimeUnitConverter : EnumToKebabCaseStringConverter<TemporalTime>
         return value is not null ? (TemporalTime)Enum.Parse(typeof(TemporalTime), value, true) : default;
     }
 }
+
+/// <summary>
+///     Converter with no hyphens
+/// </summary>
+internal class ImageFormatConverter<T> : EnumToKebabCaseStringConverter<T> where T: notnull
+{
+    /// <inheritdoc />
+    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        string? stringVal = Enum.GetName(typeof(T), value);
+        string resultString = stringVal!.ToLowerInvariant();
+        writer.WriteStringValue(resultString);
+    }
+}

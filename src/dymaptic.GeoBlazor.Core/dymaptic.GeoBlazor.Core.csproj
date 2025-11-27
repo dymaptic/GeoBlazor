@@ -26,8 +26,6 @@
         <NoWarn>GeoBlazor_Untested</NoWarn>
         <LangVersion>preview</LangVersion>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-        <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
-        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.

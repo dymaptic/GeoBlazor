@@ -75,6 +75,7 @@ public class AuthenticationManagerTests: TestRunnerBase
         AuthenticationManager.ExcludeApiKey = true;
         AuthenticationManager.AppId = Configuration["TestPortalAppId"];
         AuthenticationManager.PortalUrl = Configuration["TestPortalUrl"];
+        Log($"Testing Portal Url {AuthenticationManager.PortalUrl} with AppId {AuthenticationManager.AppId}");
 
         TokenResponse tokenResponse = await RequestTokenAsync(Configuration["TestPortalClientSecret"]!);
         Assert.IsTrue(tokenResponse.Success, tokenResponse.ErrorMessage);
