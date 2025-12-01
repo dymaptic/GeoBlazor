@@ -288,8 +288,8 @@ public partial class FeatureLayerView : LayerView
             await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        ExtentQueryResult? result = await JsComponentReference.InvokeAsync<ExtentQueryResult?>("queryExtent",
-            cancellationToken, query, new { signal = abortSignal });
+        ExtentQueryResult? result = await JsComponentReference.InvokeJsMethod<ExtentQueryResult?>(IsServer,
+            nameof(QueryExtent), nameof(FeatureLayerView), cancellationToken, query, abortSignal);
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
@@ -321,8 +321,8 @@ public partial class FeatureLayerView : LayerView
             await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        int? result = await JsComponentReference.InvokeAsync<int?>("queryFeatureCount", cancellationToken, query,
-            new { signal = abortSignal });
+        int? result = await JsComponentReference.InvokeJsMethod<int?>(IsServer, nameof(QueryFeatureCount),
+            nameof(FeatureLayerView), cancellationToken, query, abortSignal);
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
@@ -353,16 +353,9 @@ public partial class FeatureLayerView : LayerView
         JsComponentReference ??=
             await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Guid queryId = Guid.NewGuid();
 
-        FeatureSet result = await JsComponentReference.InvokeAsync<FeatureSet>("queryFeatures",
-            cancellationToken, query, new { signal = abortSignal }, DotNetComponentReference, queryId);
-
-        if (_activeQueries.ContainsKey(queryId))
-        {
-            result = result with { Features = _activeQueries[queryId] };
-            _activeQueries.Remove(queryId);
-        }
+        FeatureSet result = await JsComponentReference.InvokeJsMethod<FeatureSet>(IsServer, nameof(QueryFeatures),
+            nameof(FeatureLayerView), cancellationToken, query, abortSignal);
 
         foreach (Graphic graphic in result.Features!)
         {
@@ -374,31 +367,6 @@ public partial class FeatureLayerView : LayerView
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
-    }
-
-    /// <summary>
-    ///     Internal use callback from JavaScript
-    /// </summary>
-    [JSInvokable]
-    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference jsStreamRef, Guid queryId)
-    {
-        try
-        {
-            await using Stream stream = await jsStreamRef.OpenReadStreamAsync(
-                Layer?.View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            GraphicCollectionSerializationRecord collection = Serializer.Deserialize<GraphicCollectionSerializationRecord>(ms);
-          
-            Graphic[] graphics = collection?.Items?.Select(g => g.FromSerializationRecord()).ToArray()!;
-
-            _activeQueries[queryId] = graphics;
-        }
-        catch (Exception ex)
-        {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);
-        }
     }
 
     /// <summary>
@@ -417,12 +385,10 @@ public partial class FeatureLayerView : LayerView
             await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        ObjectId[]? queryResult = await JsComponentReference.InvokeAsync<ObjectId[]?>("queryObjectIds",
-            cancellationToken, query, new { signal = abortSignal });
+        ObjectId[]? queryResult = await JsComponentReference.InvokeJsMethod<ObjectId[]?>(IsServer,
+            nameof(QueryObjectIds), nameof(FeatureLayerView), cancellationToken, query, abortSignal);
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return queryResult;
     }
-
-    private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();
 }

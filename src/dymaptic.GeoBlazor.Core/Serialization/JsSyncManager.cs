@@ -46,7 +46,7 @@ public static class JsSyncManager
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    public static async Task InvokeVoidJsMethod(IJSObjectReference js, bool isServer, 
+    public static async Task InvokeVoidJsMethod(this IJSObjectReference js, bool isServer, 
         [CallerMemberName]string method = "", string className = "",
         CancellationToken cancellationToken = default, params object?[] parameters)
     {
@@ -78,7 +78,7 @@ public static class JsSyncManager
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    public static async Task<T> InvokeJsMethod<T>(IJSObjectReference js, bool isServer, 
+    public static async Task<T> InvokeJsMethod<T>(this IJSObjectReference js, bool isServer, 
         [CallerMemberName]string method = "", string className = "",
         CancellationToken cancellationToken = default, 
         params object?[] parameters)

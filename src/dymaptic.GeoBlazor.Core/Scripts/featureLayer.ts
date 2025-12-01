@@ -17,7 +17,6 @@ import {
     buildEncodedJson,
     decodeProtobufGraphics,
     getGraphicsFromProtobufStream,
-    getProtobufGraphicStream,
     hasValue,
     lookupJsGraphicById
 } from './geoBlazorCore';
@@ -53,14 +52,14 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return buildEncodedJson(dotNetLayer);
     }
 
-    async queryExtent(query: DotNetQuery, options: any): Promise<any> {
+    async queryExtent(query: DotNetQuery, signal: AbortSignal): Promise<any> {
         let jsQuery: Query | null = null;
         if (hasValue(query)) {
             let { buildJsQuery} = await import('./query');
             jsQuery = buildJsQuery(query) as Query;
         }
         let {buildDotNetExtent} = await import('./extent');
-        let result = await this.layer.queryExtent(jsQuery, options);
+        let result = await this.layer.queryExtent(jsQuery, {signal: signal});
         return {
             count: result.count,
             extent: buildDotNetExtent(result.extent)
@@ -81,22 +80,22 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return await buildDotNetFeatureSet(featureSet, this.geoBlazorId, this.viewId);
     }
 
-    async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
+    async queryFeatureCount(query: DotNetQuery, signal: AbortSignal): Promise<number> {
         let jsQuery: Query | null = null;
         if (hasValue(query)) {
             let { buildJsQuery} = await import('./query');
             jsQuery = buildJsQuery(query) as Query;
         }
-        return await this.layer.queryFeatureCount(jsQuery, options);
+        return await this.layer.queryFeatureCount(jsQuery, {signal: signal});
     }
 
-    async queryObjectIds(query: DotNetQuery, options: any): Promise<number[]> {
+    async queryObjectIds(query: DotNetQuery, signal: AbortSignal): Promise<number[]> {
         let jsQuery: Query | null = null;
         if (hasValue(query)) {
             let { buildJsQuery} = await import('./query');
             jsQuery = buildJsQuery(query) as Query;
         }
-        let result = await this.layer.queryObjectIds(jsQuery, options);
+        let result = await this.layer.queryObjectIds(jsQuery, {signal: signal});
         return result as number[];
     }
 
@@ -115,10 +114,10 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return graphicsDictionary;
     }
 
-    async queryRelatedFeaturesCount(query: DotNetRelationshipQuery, options: any): Promise<number> {
+    async queryRelatedFeaturesCount(query: DotNetRelationshipQuery, signal: AbortSignal): Promise<number> {
         let { buildJsRelationshipQuery} = await import('./relationshipQuery');
         let jsQuery = await buildJsRelationshipQuery(query);
-        return await this.layer.queryRelatedFeaturesCount(jsQuery, options);
+        return await this.layer.queryRelatedFeaturesCount(jsQuery, {signal: signal});
     }
 
 
@@ -130,22 +129,22 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return await buildDotNetFeatureSet(featureSet, this.geoBlazorId, this.viewId);
     }
 
-    async queryTopFeatureCount(query: DotNetTopFeaturesQuery, options: any): Promise<number> {
+    async queryTopFeatureCount(query: DotNetTopFeaturesQuery, signal: AbortSignal): Promise<number> {
         let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
         let jsQuery = await buildJsTopFeaturesQuery(query);
-        return await this.layer.queryTopFeatureCount(jsQuery, options);
+        return await this.layer.queryTopFeatureCount(jsQuery, { signal: signal });
     }
 
-    async queryTopObjectIds(query: DotNetTopFeaturesQuery, options: any): Promise<number[]> {
+    async queryTopObjectIds(query: DotNetTopFeaturesQuery, signal: AbortSignal): Promise<number[]> {
         let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
         let jsQuery = await buildJsTopFeaturesQuery(query);
-        return await this.layer.queryTopObjectIds(jsQuery, options);
+        return await this.layer.queryTopObjectIds(jsQuery, { signal: signal });
     }
 
-    async queryTopFeaturesExtent(query: DotNetTopFeaturesQuery, options: any): Promise<any> {
+    async queryTopFeaturesExtent(query: DotNetTopFeaturesQuery, signal: AbortSignal): Promise<any> {
         let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
         let jsQuery = await buildJsTopFeaturesQuery(query);
-        let result = await this.layer.queryTopFeaturesExtent(jsQuery, options);
+        let result = await this.layer.queryTopFeaturesExtent(jsQuery, { signal: signal });
         let {buildDotNetExtent} = await import('./extent');
         return {
             count: result.count,

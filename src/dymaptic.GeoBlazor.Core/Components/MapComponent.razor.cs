@@ -135,17 +135,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
-    protected bool IsServer => JsRuntime!.GetType().Name.Contains("Remote");
+    protected internal bool IsServer => JsRuntime!.GetType().Name.Contains("Remote");
 
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
     /// </summary>
-    protected bool IsWebAssembly => OperatingSystem.IsBrowser();
+    protected internal bool IsWebAssembly => OperatingSystem.IsBrowser();
 
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
     /// </summary>
-    protected bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
+    protected internal bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.

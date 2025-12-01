@@ -86,31 +86,6 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         await JsComponentReference.InvokeVoidAsync("setFeatureReduction", 
             CancellationTokenSource.Token, value);
     }
-    
-    /// <summary>
-    ///     Internal use callback from JavaScript
-    /// </summary>
-    [JSInvokable]
-    [CodeGenerationIgnore]
-    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId)
-    {
-        try
-        {
-            await using Stream stream = await streamReference
-                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            GraphicCollectionSerializationRecord collection = Serializer.Deserialize<GraphicCollectionSerializationRecord>(ms);
-            Graphic[] graphics = collection?.Items?.Select(g => g.FromSerializationRecord()).ToArray()!;
-
-            ActiveQueries[queryId] = graphics;
-        }
-        catch (Exception ex)
-        {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);   
-        }
-    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -159,9 +134,4 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         base.ValidateRequiredChildren();
         FeatureReduction?.ValidateRequiredChildren();
     }
-
-    /// <summary>
-    ///     For internal use only, tracks returning queries from ArcGIS
-    /// </summary>
-    public Dictionary<Guid, Graphic[]> ActiveQueries = new();
 }

@@ -1220,6 +1220,7 @@ public partial class MapView : MapComponent
     public async Task QueryFeatures(Query query, FeatureLayer featureLayer, Symbol displaySymbol,
         PopupTemplate popupTemplate)
     {
+        // TODO: V5 - Remove in favor of FeatureLayer.QueryFeatures
         await CoreJsModule!.InvokeVoidAsync("queryFeatureLayer",
             CancellationTokenSource.Token, (object)query,
             (object)featureLayer, (object)displaySymbol, (object)popupTemplate, Id);
@@ -1239,6 +1240,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task FindPlaces(AddressQuery query, Symbol displaySymbol, PopupTemplate popupTemplate)
     {
+        // TODO: V5 - remove in favor of LocationService
         await CoreJsModule!.InvokeVoidAsync("findPlaces", CancellationTokenSource.Token,
             (object)query, (object)displaySymbol, (object)popupTemplate, Id);
     }

@@ -57,30 +57,18 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
         this.layer.templates = await Promise.all(value.map(async i => await buildJsIFeatureTemplate(i))) as any;
     }
 
-    async queryFeatures(query: DotNetQuery | null, options: any, dotNetRef: any, queryId: string):
+    async queryFeatures(query: DotNetQuery | null, signal: AbortSignal):
         Promise<DotNetFeatureSet | null> {
-        try {
-            let jsQuery: Query | null = null;
-            if (hasValue(query)) {
-                let { buildJsQuery} = await import('./query');
-                jsQuery = buildJsQuery(query) as Query;
-            }
-
-            let featureSet = await this.layer.queryFeatures(jsQuery, options);
-
-            let {buildDotNetFeatureSet} = await import('./featureSet');
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, this.viewId);
-            if (dotNetFeatureSet.features.length > 0) {
-                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
-                await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
-                dotNetFeatureSet.features = [];
-            }
-
-            return dotNetFeatureSet;
-        } catch (error) {
-            console.debug(error);
-            throw error;
+        let jsQuery: Query | null = null;
+        if (hasValue(query)) {
+            let { buildJsQuery} = await import('./query');
+            jsQuery = buildJsQuery(query) as Query;
         }
+
+        let featureSet = await this.layer.queryFeatures(jsQuery, { signal: signal });
+
+        let {buildDotNetFeatureSet} = await import('./featureSet');
+        return await buildDotNetFeatureSet(featureSet, this.geoBlazorId, this.viewId);
     }
 
     async queryExtent(query: any,

@@ -60,54 +60,41 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         return this.component.highlight(graphics);
     }
 
-    async queryExtent(query: DotNetQuery, options: any): Promise<any> {
+    async queryExtent(query: DotNetQuery, signal: AbortSignal): Promise<any> {
         let {buildJsQuery} = await import('./query');
         let jsQuery = buildJsQuery(query) as Query | undefined;
-        let result = await this.component.queryExtent(jsQuery, options);
+        let result = await this.component.queryExtent(jsQuery, { signal: signal });
         return {
             count: result.count,
             extent: result.extent
         };
     }
 
-    async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
+    async queryFeatureCount(query: DotNetQuery, signal: AbortSignal): Promise<number> {
         let {buildJsQuery} = await import('./query');
         let jsQuery = buildJsQuery(query);
-        return await this.component.queryFeatureCount(jsQuery, options);
+        return await this.component.queryFeatureCount(jsQuery, { signal: signal });
     }
 
-    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, queryId: string)
+    async queryFeatures(query: DotNetQuery, options: any, signal: AbortSignal)
         : Promise<any | null> {
-        try {
-            let jsQuery: Query | undefined = undefined;
-            let {buildJsQuery} = await import('./query');
+        let jsQuery: Query | undefined = undefined;
+        let {buildJsQuery} = await import('./query');
 
-            if (hasValue(query)) {
-                jsQuery = buildJsQuery(query);
-            }
-
-            let featureSet = await this.component.queryFeatures(jsQuery, options);
-            let {buildDotNetFeatureSet} = await import('./featureSet');
-
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.layerId, this.viewId);
-            if (dotNetFeatureSet.features.length > 0) {
-                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.component.layer);
-                await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
-                dotNetFeatureSet.features = [];
-            }
-
-            return dotNetFeatureSet;
-        } catch (error) {
-            console.debug(error);
-            throw error;
+        if (hasValue(query)) {
+            jsQuery = buildJsQuery(query);
         }
+
+        let featureSet = await this.component.queryFeatures(jsQuery, { signal: signal });
+        let {buildDotNetFeatureSet} = await import('./featureSet');
+
+        return await buildDotNetFeatureSet(featureSet, this.layerId, this.viewId);
     }
 
-    async queryObjectIds(query: DotNetQuery, options: any): Promise<(string | number)[]> {
+    async queryObjectIds(query: DotNetQuery, signal: AbortSignal): Promise<(string | number)[]> {
         let {buildJsQuery} = await import('./query');
         let jsQuery = buildJsQuery(query);
-        let objectIds = await this.component.queryObjectIds(jsQuery, options);
-        return objectIds;
+        return await this.component.queryObjectIds(jsQuery, { signal: signal });
     }
 
 }
