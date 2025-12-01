@@ -2,11 +2,18 @@
 import SublayerGenerated from './sublayer.gb';
 import Sublayer from '@arcgis/core/layers/support/Sublayer';
 import { hasValue } from './geoBlazorCore';
+import {DotNetQuery} from "./definitions";
+import {buildDotNetQuery} from "./query";
 
 export default class SublayerWrapper extends SublayerGenerated {
 
     constructor(component: Sublayer) {
         super(component);
+    }
+
+    async createQuery(): Promise<DotNetQuery> {
+        let jsQuery = this.component.createQuery();
+        return await buildDotNetQuery(jsQuery, this.viewId);
     }
 
 }

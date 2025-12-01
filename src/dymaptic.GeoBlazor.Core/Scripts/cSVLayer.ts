@@ -2,11 +2,18 @@
 import CSVLayerGenerated from './cSVLayer.gb';
 import CSVLayer from '@arcgis/core/layers/CSVLayer';
 import {buildEncodedJson} from "./geoBlazorCore";
+import {buildDotNetQuery} from "./query";
+import {DotNetQuery} from "./definitions";
 
 export default class CSVLayerWrapper extends CSVLayerGenerated {
 
     constructor(layer: CSVLayer) {
         super(layer);
+    }
+
+    async createQuery(): Promise<DotNetQuery> {
+        let jsQuery = this.layer.createQuery();
+        return await buildDotNetQuery(jsQuery, this.viewId);
     }
 
     async load(options: any): Promise<any> {

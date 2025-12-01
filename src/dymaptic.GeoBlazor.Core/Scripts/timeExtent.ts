@@ -32,7 +32,7 @@ export default class TimeExtentWrapper implements IPropertyWrapper {
 
     async intersection(timeExtent: any): Promise<any> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        let jsTimeExtent = await buildJsTimeExtent(timeExtent) as any;
+        let jsTimeExtent = buildJsTimeExtent(timeExtent) as any;
         // @ts-ignore This method does exist
         let result = this.component.intersection(jsTimeExtent);
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -41,7 +41,7 @@ export default class TimeExtentWrapper implements IPropertyWrapper {
 
     async union(timeExtent: any): Promise<any> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        let jsTimeExtent = await buildJsTimeExtent(timeExtent) as any;
+        let jsTimeExtent = buildJsTimeExtent(timeExtent) as any;
         // @ts-ignore This method does exist
         let result = this.component.union(jsTimeExtent);
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -59,7 +59,7 @@ export default class TimeExtentWrapper implements IPropertyWrapper {
     }
 }
 
-export async function buildJsTimeExtent(dotNetObject: any): Promise<any> {
+export function buildJsTimeExtent(dotNetObject: any): any {
     let properties: any = {};
 
     if (hasValue(dotNetObject.end)) {

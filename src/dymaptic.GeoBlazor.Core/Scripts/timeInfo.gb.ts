@@ -10,7 +10,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any): Promise<any> 
     let properties: any = {};
     if (hasValue(dotNetObject.fullTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent) as any;
+        properties.fullTimeExtent = buildJsTimeExtent(dotNetObject.fullTimeExtent) as any;
     }
     if (hasValue(dotNetObject.interval)) {
         let { buildJsTimeInterval } = await import('./timeInterval');

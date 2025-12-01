@@ -34,7 +34,7 @@ export default class WMTSLayerWrapper extends WMTSLayerGenerated {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+            this.layer.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
         if (hasValue(dotNetObject.blendMode)) {
             this.layer.blendMode = dotNetObject.blendMode;

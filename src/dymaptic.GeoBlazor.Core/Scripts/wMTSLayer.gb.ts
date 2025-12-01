@@ -272,7 +272,7 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+        properties.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {

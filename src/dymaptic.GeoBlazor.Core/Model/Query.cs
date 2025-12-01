@@ -9,6 +9,11 @@ public partial record Query
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UseViewExtent { get; set; }
+    
+    /// <summary>
+    ///     Internal GeoBlazor Tracking Id for Queries Created by a Layer or View
+    /// </summary>
+    public Guid Id { get; set; }
 }
 
 

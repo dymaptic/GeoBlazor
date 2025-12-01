@@ -27,7 +27,7 @@ export default class UnsupportedLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+            this.layer.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -159,7 +159,7 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+        properties.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {

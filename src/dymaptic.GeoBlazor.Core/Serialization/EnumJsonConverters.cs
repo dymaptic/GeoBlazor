@@ -251,3 +251,27 @@ internal class ImageFormatConverter<T> : EnumToKebabCaseStringConverter<T> where
         writer.WriteStringValue(resultString);
     }
 }
+
+internal class ImageFormatReadonlyListConverter<T> : EnumToKebabCaseReadOnlyListConverter<T> where T : notnull
+{
+    public override void Write(Utf8JsonWriter writer, IReadOnlyList<T>? value, JsonSerializerOptions options)
+    {
+        if (value is null || !value.Any())
+        {
+            writer.WriteStartArray();
+            writer.WriteEndArray();
+            return;
+        }
+
+        writer.WriteStartArray();
+        foreach (T item in value)
+        {
+            string? stringVal = Enum.GetName(typeof(T), item);
+            if (stringVal is not null)
+            {
+                writer.WriteStringValue(stringVal.ToLowerInvariant());
+            }
+        }
+        writer.WriteEndArray();
+    }
+}

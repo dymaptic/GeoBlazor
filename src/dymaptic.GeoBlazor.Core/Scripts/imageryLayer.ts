@@ -2,6 +2,7 @@
 import ImageryLayerGenerated from './imageryLayer.gb';
 import ImageryLayer from '@arcgis/core/layers/ImageryLayer';
 import {buildEncodedJson, hasValue} from "./geoBlazorCore";
+import Query from "@arcgis/core/rest/support/Query";
 
 export default class ImageryLayerWrapper extends ImageryLayerGenerated {
 
@@ -13,6 +14,39 @@ export default class ImageryLayerWrapper extends ImageryLayerGenerated {
         let result = await this.layer.load(options);
         let dotNetLayer = await buildDotNetImageryLayer(result, this.viewId);
         return buildEncodedJson(dotNetLayer);
+    }
+
+    async queryObjectIds(query: any,
+                         requestOptions: any): Promise<any> {
+        let jsQuery: Query | null = null;
+        if (hasValue(query)) {
+            let { buildJsQuery} = await import('./query');
+            jsQuery = buildJsQuery(query) as Query;
+        }
+        return await this.layer.queryObjectIds(jsQuery,
+            requestOptions);
+    }
+
+    async queryRasterCount(query: any,
+                           requestOptions: any): Promise<any> {
+        let jsQuery: Query | null = null;
+        if (hasValue(query)) {
+            let { buildJsQuery} = await import('./query');
+            jsQuery = buildJsQuery(query) as Query;
+        }
+        return await this.layer.queryRasterCount(jsQuery,
+            requestOptions);
+    }
+
+    async queryRasters(query: any,
+                       requestOptions: any): Promise<any> {
+        let jsQuery: Query | null = null;
+        if (hasValue(query)) {
+            let { buildJsQuery} = await import('./query');
+            jsQuery = buildJsQuery(query) as Query;
+        }
+        return await this.layer.queryRasters(jsQuery,
+            requestOptions);
     }
 }
 

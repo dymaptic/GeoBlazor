@@ -32,12 +32,6 @@ public partial class MapView : MapComponent
     /// </summary>
     [Inject]
     private IAppValidator AppValidator { get; set; } = null!;
-
-    /// <summary>
-    ///     Manages custom serialization/synchronization of JS and .NET objects
-    /// </summary>
-    [Inject]
-    private JsSyncManager JsSyncManager { get; set; } = null!;
 #endregion
     
 
@@ -159,6 +153,9 @@ public partial class MapView : MapComponent
     [Parameter]
     public bool ExcludeApiKey { get; set; }
     
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? UnMatchedAttributes { get; set; }
+    
 #endregion
 
 
@@ -195,21 +192,6 @@ public partial class MapView : MapComponent
     /// </summary>
     [RequiredProperty]
     public Map? Map { get; private set; }
-    
-    /// <summary>
-    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
-    /// </summary>
-    public bool IsServer => JsRuntime!.GetType().Name.Contains("Remote");
-
-    /// <summary>
-    ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
-    /// </summary>
-    public bool IsWebAssembly => OperatingSystem.IsBrowser();
-
-    /// <summary>
-    ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
-    /// </summary>
-    public bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
     
     /// <summary>
     ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be modifiable by markup until <see cref="Refresh" /> is called
@@ -1476,6 +1458,11 @@ public partial class MapView : MapComponent
         _graphics.Clear();
         if (CoreJsModule is not null)
         {
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
             await CoreJsModule!.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id);    
         }
         
@@ -1576,6 +1563,12 @@ public partial class MapView : MapComponent
         }
 
         if (CoreJsModule is null || !removed) return;
+        
+        // TODO: V5 - Expose Cancellation Token option to end users
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
 
         await CoreJsModule.InvokeVoidAsync("removeLayer", CancellationTokenSource.Token,
             layer.Id, Id, isBasemapLayer, isReferenceLayer);
@@ -1595,6 +1588,11 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task SolveServiceArea(string serviceAreaUrl, double[] driveTimeCutOffs, Symbol serviceAreaSymbol)
     {
+        // TODO: V5 - Move to a separate service, expose CancellationToken to end user
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
         await CoreJsModule!.InvokeVoidAsync("solveServiceArea", CancellationTokenSource.Token,
             serviceAreaUrl, driveTimeCutOffs, serviceAreaSymbol, Id);
     }
@@ -1610,6 +1608,11 @@ public partial class MapView : MapComponent
         _graphics.Remove(graphic);
 
         if (CoreJsModule is null) return;
+        // TODO: V5 - Expose Cancellation Token option to end users
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
 
         await CoreJsModule.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
             graphic.Id, Id);
@@ -1636,6 +1639,11 @@ public partial class MapView : MapComponent
         }
 
         if (CoreJsModule is null) return;
+        // TODO: V5 - Expose Cancellation Token option to end users
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
 
         await CoreJsModule.InvokeVoidAsync("removeGraphics", CancellationTokenSource.Token,
             oldGraphics.Select(g => g.Id), Id);
@@ -1655,6 +1663,11 @@ public partial class MapView : MapComponent
             Longitude = point.Longitude;
 
             if (CoreJsModule is null || !MapRendered) return;
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
 
             ViewExtentUpdate change =
                 await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setCenter",
@@ -1677,6 +1690,11 @@ public partial class MapView : MapComponent
         {
             return;
         }
+        // TODO: V5 - Expose Cancellation Token option to end users
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
         
         await CoreJsModule.InvokeVoidAsync("setBackgroundColor", CancellationTokenSource.Token, Id, backgroundColor);
     }
@@ -1690,6 +1708,11 @@ public partial class MapView : MapComponent
 
         if (CoreJsModule is not null && MapRendered)
         {
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
             center = await CoreJsModule.InvokeAsync<Point?>("getCenter", CancellationTokenSource.Token, Id);
 
             if (center is not null)
@@ -1717,6 +1740,11 @@ public partial class MapView : MapComponent
         {
             ShouldUpdate = false;
             ExtentSetByCode = true;
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
 
             ViewExtentUpdate change =
                 await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setZoom", CancellationTokenSource.Token, Zoom, Id);
@@ -1736,6 +1764,11 @@ public partial class MapView : MapComponent
     {
         if (CoreJsModule is not null)
         {
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
             Zoom = await CoreJsModule.InvokeAsync<double>("getZoom", CancellationTokenSource.Token, Id);
         }
 
@@ -1753,6 +1786,11 @@ public partial class MapView : MapComponent
         {
             ShouldUpdate = false;
             ExtentSetByCode = true;
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
 
             ViewExtentUpdate change =
                 await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setScale",
@@ -1773,6 +1811,11 @@ public partial class MapView : MapComponent
     {
         if (CoreJsModule is not null)
         {
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
             Scale = await CoreJsModule.InvokeAsync<double>("getScale", CancellationTokenSource.Token, Id);
         }
 
@@ -1790,6 +1833,11 @@ public partial class MapView : MapComponent
         {
             ShouldUpdate = false;
             ExtentSetByCode = true;
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
 
             ViewExtentUpdate change =
                 await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setRotation",
@@ -1810,6 +1858,11 @@ public partial class MapView : MapComponent
     {
         if (CoreJsModule is not null)
         {
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
             Rotation = await CoreJsModule.InvokeAsync<double>("getRotation", CancellationTokenSource.Token, Id);
         }
 
@@ -1829,6 +1882,11 @@ public partial class MapView : MapComponent
 
             ShouldUpdate = false;
             ExtentSetByCode = true;
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
 
             ViewExtentUpdate change =
                 await CoreJsModule.InvokeAsync<ViewExtentUpdate>("setExtent",
@@ -1849,6 +1907,11 @@ public partial class MapView : MapComponent
     {
         if (CoreJsModule is not null)
         {
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
             Extent = await CoreJsModule.InvokeAsync<Extent?>("getExtent", CancellationTokenSource.Token, Id);
         }
 
@@ -1866,6 +1929,11 @@ public partial class MapView : MapComponent
 
             if (CoreJsModule is null) return;
 
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
             await CoreJsModule.InvokeVoidAsync("setConstraints",
                 CancellationTokenSource.Token, (object)Constraints, Id);
         }
@@ -1878,12 +1946,18 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task SetHighlightOptions(HighlightOptions highlightOptions)
     {
+        // TODO: V5 - Replace with IReadOnlyCollection<HighlightOptions> Highlights
         if (!highlightOptions.Equals(HighlightOptions))
         {
             HighlightOptions = highlightOptions;
 
             if (CoreJsModule is null) return;
 
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
             await CoreJsModule.InvokeVoidAsync("setHighlightOptions",
                 CancellationTokenSource.Token, (object)HighlightOptions, Id);
         }
@@ -1901,6 +1975,12 @@ public partial class MapView : MapComponent
             SpatialReference = spatialReference;
 
             if (CoreJsModule is null) return;
+            
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
 
             await CoreJsModule.InvokeVoidAsync("setSpatialReference",
                 CancellationTokenSource.Token, (object)SpatialReference, Id);
@@ -1916,6 +1996,11 @@ public partial class MapView : MapComponent
     {
         if (CoreJsModule is not null)
         {
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
             SpatialReference = await CoreJsModule.InvokeAsync<SpatialReference?>("getSpatialReference",
                 CancellationTokenSource.Token, Id);
         }
@@ -1943,6 +2028,12 @@ public partial class MapView : MapComponent
 
         ShouldUpdate = false;
         ExtentSetByCode = true;
+        
+        // TODO: V5 - Expose Cancellation Token option to end users
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
 
         ViewExtentUpdate change =
             await CoreJsModule.InvokeAsync<ViewExtentUpdate>("goToExtent",
@@ -1968,6 +2059,12 @@ public partial class MapView : MapComponent
 
         ShouldUpdate = false;
         ExtentSetByCode = true;
+        
+        // TODO: V5 - Expose Cancellation Token option to end users
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
 
         ViewExtentUpdate change =
             await CoreJsModule.InvokeAsync<ViewExtentUpdate>("goToGraphics",
@@ -2051,9 +2148,13 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    [SerializedMethod]
     public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options)
     {
+        // TODO: V5 - Expose Cancellation Token option to end users
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
         return await JsSyncManager.InvokeJsMethod<HitTestResult>(JsComponentReference!, IsServer, 
             className: nameof(MapView), cancellationToken: CancellationTokenSource.Token, 
             parameters: [screenPoint, Id, options]);
@@ -2090,6 +2191,12 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<Point> ToMap(ScreenPoint screenPoint)
     {
+        // TODO: V5 - Expose Cancellation Token option to end users
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
+        
         return await CoreJsModule!.InvokeAsync<Point>("toMap",
             CancellationTokenSource.Token, screenPoint, Id);
     }
@@ -2099,6 +2206,12 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<ScreenPoint> ToScreen(Point mapPoint)
     {
+        // TODO: V5 - Expose Cancellation Token option to end users
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
+        
         return await CoreJsModule!.InvokeAsync<ScreenPoint>("toScreen",
             CancellationTokenSource.Token, mapPoint, Id);
     }
@@ -2108,6 +2221,11 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<string> GetCursor()
     {
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
+        
         return await CoreJsModule!.InvokeAsync<string>("getCursor",
             CancellationTokenSource.Token, Id);
     }
@@ -2117,6 +2235,11 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task SetCursor(string cursor)
     {
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
+        
         await CoreJsModule!.InvokeVoidAsync("setCursor",
             CancellationTokenSource.Token, cursor, Id);
     }
@@ -2182,6 +2305,11 @@ public partial class MapView : MapComponent
         {
             try
             {
+                // TODO: V5 - Expose Cancellation Token option to end users
+                if (CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    CancellationTokenSource = new CancellationTokenSource();
+                }
                 await CoreJsModule.InvokeVoidAsync("removeWidget",
                     CancellationTokenSource.Token, widget.Id, Id);
             }
@@ -2205,6 +2333,12 @@ public partial class MapView : MapComponent
     {
         try
         {
+            // TODO: V5 - Expose Cancellation Token option to end users
+            if (CancellationTokenSource.Token.IsCancellationRequested)
+            {
+                CancellationTokenSource = new CancellationTokenSource();
+            }
+            
             JsScreenshot jsScreenshot = await CoreJsModule!.InvokeAsync<JsScreenshot>("takeScreenshot",
                 CancellationTokenSource.Token, Id, options);
             Stream mapStream = await jsScreenshot.Stream.OpenReadStreamAsync(1_000_000_000L);
@@ -2331,7 +2465,7 @@ public partial class MapView : MapComponent
             {
                 await AuthenticationManager.Login();
             }
-
+            
             // we load CSS programmatically to avoid issues with devs adding or forgetting to add the links
             // so we can check and ensure at runtime, especially since we are changing the behavior in version 4.2.0
             if (HasCustomAssetPath())
@@ -2381,6 +2515,11 @@ public partial class MapView : MapComponent
 
             if (_newWidgets.Any())
             {
+                if (CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    CancellationTokenSource = new CancellationTokenSource();
+                }
+                
                 Widget[] newWidgets = _newWidgets.ToArray();
                 _newWidgets.Clear();
                 foreach (Widget newWidget in newWidgets)
@@ -2589,6 +2728,11 @@ public partial class MapView : MapComponent
         }
 
         ShouldUpdate = false;
+        
+        if (CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
 
         ViewExtentUpdate? change = await CoreJsModule!.InvokeAsync<ViewExtentUpdate?>("updateView",
             CancellationTokenSource.Token,

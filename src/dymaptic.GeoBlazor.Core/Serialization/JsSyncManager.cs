@@ -4,19 +4,24 @@ using System.Runtime.CompilerServices;
 
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
-public class JsSyncManager
+public static class JsSyncManager
 {
-    public JsSyncManager(ISerializationData serializationData)
+    public static Dictionary<string, SerializableMethodRecord[]> SerializableMethods { get; set; } = [];
+
+    public static Dictionary<Type, Type> ProtoContractTypes { get; set; } = [];
+
+    public static Dictionary<Type, Type> ProtoCollectionTypes { get; set; } = [];
+    
+    public static void Initialize()
     {
-        _serializationData = serializationData;
-        foreach (Type protoType in _serializationData.ProtoContractTypes.Values)
+        foreach (Type protoType in ProtoContractTypes.Values)
         {
             RuntimeTypeModel.Default.Add(protoType, true);
         }
 
         RuntimeTypeModel.Default.CompileInPlace();
         
-        _serializableMethods = _serializationData.SerializableMethods
+        _serializableMethods = SerializableMethods
             .ToDictionary(g => g.Key, g => g.Value.ToList());
     }
 
@@ -41,7 +46,7 @@ public class JsSyncManager
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    public async Task InvokeVoidJsMethod(IJSObjectReference js, bool isServer, 
+    public static async Task InvokeVoidJsMethod(IJSObjectReference js, bool isServer, 
         [CallerMemberName]string method = "", string className = "",
         CancellationToken cancellationToken = default, params object?[] parameters)
     {
@@ -73,7 +78,7 @@ public class JsSyncManager
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    public async Task<T> InvokeJsMethod<T>(IJSObjectReference js, bool isServer, 
+    public static async Task<T> InvokeJsMethod<T>(IJSObjectReference js, bool isServer, 
         [CallerMemberName]string method = "", string className = "",
         CancellationToken cancellationToken = default, 
         params object?[] parameters)
@@ -83,7 +88,7 @@ public class JsSyncManager
         List<object?> parameterList = GenerateSerializedParameters(methodRecord, parameters, isServer);
 
         Type? returnType = methodRecord.ReturnValue?.Type;
-        bool returnTypeIsProtobuf = returnType is not null && _serializationData.ProtoContractTypes.ContainsKey(returnType);
+        bool returnTypeIsProtobuf = returnType is not null && ProtoContractTypes.ContainsKey(returnType);
 
         if (isServer || returnTypeIsProtobuf)
         {
@@ -93,12 +98,12 @@ public class JsSyncManager
                 Type? protoReturnType;
                 if (methodRecord.ReturnValue!.SingleType is not null)
                 {
-                    _serializationData.ProtoCollectionTypes.TryGetValue(methodRecord.ReturnValue.SingleType,
+                    ProtoCollectionTypes.TryGetValue(methodRecord.ReturnValue.SingleType,
                         out protoReturnType);
                 }
                 else
                 {
-                    _serializationData.ProtoContractTypes.TryGetValue(returnType!, out protoReturnType);
+                    ProtoContractTypes.TryGetValue(returnType!, out protoReturnType);
                 }
                 
                 protoReturnTypeName = protoReturnType?.Name.Replace("SerializationRecord", "");
@@ -117,20 +122,19 @@ public class JsSyncManager
             {
                 if (methodRecord.ReturnValue?.SingleType is not null)
                 {
-                    return await _serializationData.ReadJsProtobufCollectionStreamReference<T>(streamRef,
-                        methodRecord.ReturnValue.SingleType) ?? default!;
+                    return await streamRef.ReadJsProtobufCollectionStreamReference<T>(methodRecord.ReturnValue.SingleType) ?? default!;
                 }
-                return await _serializationData.ReadJsProtobufStreamReference<T>(streamRef, returnType!) ?? default!;
+                return await streamRef.ReadJsProtobufStreamReference<T>(returnType!) ?? default!;
             }
             
             return (await streamRef.ReadJsStreamReference<T>())!;
         }
 
         return await js.InvokeAsync<T>(
-            "invokeSerializedMethod", cancellationToken, [method, false, false, null, ..parameterList]);
+            "invokeSerializedMethod", cancellationToken, [methodRecord.MethodName, false, false, null, ..parameterList]);
     }
 
-    private SerializableMethodRecord GetMethodRecord<T>(string method, string className, bool returnsVoid, 
+    private static SerializableMethodRecord GetMethodRecord<T>(string method, string className, bool returnsVoid, 
         object?[] providedParameters)
     {
         if (!_serializableMethods.TryGetValue(className, out List<SerializableMethodRecord>? classMethods))
@@ -224,7 +228,7 @@ public class JsSyncManager
                     returnRecord = new SerializableParameterRecord(returnType, isNullable, singleType);
                 }
 
-                SerializableMethodRecord methodRecord = new(method, methodParams.ToArray(), returnRecord);
+                SerializableMethodRecord methodRecord = new(method.ToLowerFirstChar(), methodParams.ToArray(), returnRecord);
                 matchedMethods.Add(methodRecord);
 
                 if (methodRecord.ReturnValue?.Type.IsGenericType != true)
@@ -287,7 +291,7 @@ public class JsSyncManager
         });
     }
     
-    private List<object?> GenerateSerializedParameters(SerializableMethodRecord methodRecord,
+    private static List<object?> GenerateSerializedParameters(SerializableMethodRecord methodRecord,
         object?[] parameters, bool isServer)
     {
         List<object?> serializedParameters = [];
@@ -312,7 +316,7 @@ public class JsSyncManager
     /// <param name="isServer">
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </param>
-    private object?[] ProcessParameter(object? parameterValue, SerializableParameterRecord parameterRecord, 
+    private static object?[] ProcessParameter(object? parameterValue, SerializableParameterRecord parameterRecord, 
         bool isServer)
     {
         if (parameterValue is null)
@@ -325,6 +329,11 @@ public class JsSyncManager
         if (simpleTypes.Contains(paramType) || paramType.IsPrimitive)
         {
             return [GetKey(paramType), parameterValue];
+        }
+
+        if (paramType.IsAssignableTo(typeof(IJSObjectReference)))
+        {
+            return ["JsObject", parameterValue];
         }
 
         if (paramType.IsEnum)
@@ -349,18 +358,18 @@ public class JsSyncManager
                 : paramType.GenericTypeArguments[0]);
             string key = $"{GetKey(genericType)}Collection";
             
-            if (_serializationData.ProtoContractTypes.ContainsKey(genericType))
+            if (ProtoContractTypes.ContainsKey(genericType))
             {
-                object protobufParameter = _serializationData.GenerateProtobufCollectionParameter(list, genericType, isServer);
+                object protobufParameter = list.ToProtobufCollectionParameter(genericType, isServer);
                 return [key, protobufParameter];
             }
                 
-            return [key, GenerateJsonParameter(parameterValue, isServer)];
+            return [key, parameterValue.ToJsonParameter(isServer)];
         }
         
-        if (_serializationData.ProtoContractTypes.ContainsKey(paramType))
+        if (ProtoContractTypes.ContainsKey(paramType))
         {
-            object protobufParameter = _serializationData.GenerateProtobufParameter(parameterValue, paramType, isServer);
+            object protobufParameter = parameterValue.ToProtobufParameter(paramType, isServer);
             return [GetKey(paramType), protobufParameter];
         }
         
@@ -382,10 +391,10 @@ public class JsSyncManager
             return [nameof(AttributesDictionary), data];
         }
 
-        return [GetKey(paramType), GenerateJsonParameter(parameterValue, isServer)];
+        return [GetKey(paramType), parameterValue.ToJsonParameter(isServer)];
     }
     
-    private static object GenerateJsonParameter<T>(T obj, bool isServer)
+    private static object ToJsonParameter<T>(this T obj, bool isServer)
     {
         if (isServer)
         {
@@ -398,19 +407,19 @@ public class JsSyncManager
         return JsonSerializer.Serialize(obj, GeoBlazorSerialization.JsonSerializerOptions);
     }
 
-    private string GetKey(Type type)
+    private static string GetKey(Type type)
     {
-        Type? matchedType = _serializationData.ProtoContractTypes.Keys.FirstOrDefault(t => t == type);
+        Type? matchedType = ProtoContractTypes.Keys.FirstOrDefault(t => t == type);
 
         if (matchedType is not null)
         {
-            return _serializationData.ProtoContractTypes[type].GetCustomAttribute<ProtoContractAttribute>()!.Name;
+            return ProtoContractTypes[type].GetCustomAttribute<ProtoContractAttribute>()!.Name;
         }
 
         return type.Name;
     }
 
-    private SerializableParameterRecord GetSerializableParameterRecord(object? parameter)
+    private static SerializableParameterRecord GetSerializableParameterRecord(object? parameter)
     {
         if (parameter is null)
         {
@@ -423,6 +432,13 @@ public class JsSyncManager
         {
             return new SerializableParameterRecord(paramType, true, null);
         }
+
+        if (paramType.Name.Contains("AnonymousType"))
+        {
+            // anonymous object
+            return new  SerializableParameterRecord(typeof(object), true, null);
+        }
+        
         bool isCollection = paramType.IsAssignableTo(typeof(IEnumerable));
         Type? collectionType = isCollection 
             ? paramType.IsArray 
@@ -432,7 +448,7 @@ public class JsSyncManager
         return new SerializableParameterRecord(paramType, true, collectionType);
     }
 
-    private SerializableParameterRecord GetSerializableReturnRecord<T>(bool returnsVoid)
+    private static SerializableParameterRecord GetSerializableReturnRecord<T>(bool returnsVoid)
     {
         if (returnsVoid)
         {
@@ -453,8 +469,7 @@ public class JsSyncManager
         return new SerializableParameterRecord(returnType, true, collectionType);
     }
     
-    private readonly ISerializationData _serializationData;
-    private readonly Dictionary<string, List<SerializableMethodRecord>> _serializableMethods;
+    private static Dictionary<string, List<SerializableMethodRecord>> _serializableMethods = [];
     private static readonly NullabilityInfoContext nullabilityContext = new();
     
     private static readonly Type[] simpleTypes =

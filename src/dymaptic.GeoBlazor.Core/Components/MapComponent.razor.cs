@@ -131,6 +131,21 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     [JsonIgnore]
     public bool IsDisposed { get; private set; }
+    
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    protected bool IsServer => JsRuntime!.GetType().Name.Contains("Remote");
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
+    /// </summary>
+    protected bool IsWebAssembly => OperatingSystem.IsBrowser();
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
+    /// </summary>
+    protected bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
@@ -1037,7 +1052,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.
     /// </summary>
-    protected readonly internal Dictionary<string, object?> ModifiedParameters = new();
+    protected internal readonly Dictionary<string, object?> ModifiedParameters = new();
 
     /// <summary>
     ///     Creates a cancellation token to control external calls

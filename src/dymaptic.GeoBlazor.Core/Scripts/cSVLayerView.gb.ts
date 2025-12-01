@@ -49,10 +49,6 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         return this.component.createAggregateQuery();
     }
 
-    async createQuery(): Promise<any> {
-        return this.component.createQuery();
-    }
-
     async highlight(target: any,
         options: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
@@ -76,7 +72,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryAggregates(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
+        let jsQuery = buildJsQuery(query) as any;
         return await this.component.queryAggregates(jsQuery,
             options);
     }
@@ -90,7 +86,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryExtent(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
+        let jsQuery = buildJsQuery(query) as any;
         return await this.component.queryExtent(jsQuery,
             options);
     }
@@ -98,7 +94,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
+        let jsQuery = buildJsQuery(query) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
@@ -106,7 +102,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryFeatures(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
+        let jsQuery = buildJsQuery(query) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
@@ -114,7 +110,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
     async queryObjectIds(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
+        let jsQuery = buildJsQuery(query) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }

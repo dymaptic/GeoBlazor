@@ -1,6 +1,8 @@
 // override generated code in this file
 import FeatureFilterGenerated from './featureFilter.gb';
 import FeatureFilter from '@arcgis/core/layers/support/FeatureFilter';
+import {DotNetQuery} from "./definitions";
+import {buildDotNetQuery} from "./query";
 
 export default class FeatureFilterWrapper extends FeatureFilterGenerated {
 
@@ -8,6 +10,10 @@ export default class FeatureFilterWrapper extends FeatureFilterGenerated {
         super(component);
     }
 
+    async createQuery(): Promise<DotNetQuery> {
+        let jsQuery = this.component.createQuery();
+        return await buildDotNetQuery(jsQuery, this.viewId);
+    }
 }
 
 export async function buildJsFeatureFilter(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

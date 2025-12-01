@@ -245,7 +245,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         Graphic[] updatedFeatures = edits.UpdateFeatures?.ToArray() ?? [];
         Graphic[] deletedFeatures = edits.DeleteFeatures?.ToArray() ?? [];
         long? editMoment = null;
-        int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
+        int chunkSize = View!.GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);
         AbortManager ??= new AbortManager(CoreJsModule!);
         
         FeatureEditsResult? addFeatureResults = null;
@@ -367,7 +367,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         FeatureEditsResult result;
 
-        if (View!.IsWebAssembly)
+        if (IsWebAssembly)
         {
             result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsSynchronously",
                 cancellationToken, ms.ToArray(), editType, options, abortSignal);
@@ -756,16 +756,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         if (JsComponentReference is null) return null;
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Guid queryId = Guid.NewGuid();
-
-        FeatureSet result = (await JsComponentReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetComponentReference, queryId))!;
-
-        if (_activeQueries.ContainsKey(queryId))
-        {
-            result = result with {Features = _activeQueries[queryId]};
-            _activeQueries.Remove(queryId);
-        }
+        
+        FeatureSet result = await JsSyncManager.InvokeJsMethod<FeatureSet>(
+            JsComponentReference, IsServer, nameof(QueryFeatures), nameof(FeatureLayer),
+            cancellationToken, query, abortSignal);
         
         foreach (Graphic graphic in result.Features!)
         {
@@ -778,30 +772,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
-    }
-
-    /// <summary>
-    ///     Internal use callback from JavaScript
-    /// </summary>
-    [JSInvokable]
-    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId)
-    {
-        try
-        {
-            await using Stream stream = await streamReference
-                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            GraphicCollectionSerializationRecord collection = Serializer.Deserialize<GraphicCollectionSerializationRecord>(ms);
-            Graphic[] graphics = collection?.Items?.Select(g => g.FromSerializationRecord()).ToArray()!;
-
-            _activeQueries[queryId] = graphics;
-        }
-        catch (Exception ex)
-        {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);   
-        }
     }
 
     /// <summary>
@@ -845,65 +815,13 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         if (JsComponentReference is null) return null;
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Guid queryId = Guid.NewGuid();
-        RelatedFeaturesQueryResult result = (await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
-            "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
-            DotNetComponentReference, queryId))!;
-
-        if (_activeRelatedQueries.ContainsKey(queryId))
-        {
-            Dictionary<long, Graphic[]> relatedGraphics = _activeRelatedQueries[queryId];
-            foreach (KeyValuePair<long, FeatureSet?> kvp in result)
-            {
-                if (kvp.Value is null || !relatedGraphics.TryGetValue(kvp.Key, out Graphic[]? relatedGraphic))
-                    continue;
-                foreach (Graphic graphic in relatedGraphic)
-                {
-                    graphic.View = View;
-                    graphic.Parent = this;
-                    graphic.Layer = this;
-                }
-                
-                result[kvp.Key] = kvp.Value with
-                {
-                    Features = relatedGraphic
-                };
-            }
-            _activeRelatedQueries.Remove(queryId);
-        }
+        RelatedFeaturesQueryResult result = await JsSyncManager.InvokeJsMethod<RelatedFeaturesQueryResult>(
+            JsComponentReference, IsServer, nameof(QueryRelatedFeatures), nameof(FeatureLayer),
+            cancellationToken, query, abortSignal);
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
-    }
-    
-    /// <summary>
-    ///     Internal use callback from JavaScript
-    /// </summary>
-    [JSInvokable]
-    public async Task OnQueryRelatedFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId, string objectId)
-    {
-        try
-        {
-            await using Stream stream = await streamReference
-                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            GraphicCollectionSerializationRecord collection = Serializer.Deserialize<GraphicCollectionSerializationRecord>(ms);
-            Graphic[] graphics = collection?.Items?.Select(g => g.FromSerializationRecord()).ToArray()!;
-
-            if (!_activeRelatedQueries.ContainsKey(queryId))
-            {
-                _activeRelatedQueries[queryId] = new Dictionary<long, Graphic[]>();
-            }
-
-            _activeRelatedQueries[queryId][int.Parse(objectId)] = graphics;
-        }
-        catch (Exception ex)
-        {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);   
-        }
     }
 
     /// <summary>
@@ -983,14 +901,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
-        FeatureSet result = (await JsComponentReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetComponentReference, queryId))!;
-
-        if (_activeQueries.ContainsKey(queryId))
-        {
-            result = result with {Features = _activeQueries[queryId]};
-            _activeQueries.Remove(queryId);
-        }
+        FeatureSet result = await JsSyncManager.InvokeJsMethod<FeatureSet>(JsComponentReference,
+            IsServer, nameof(QueryTopFeatures), nameof(FeatureLayer), cancellationToken, queryId, abortSignal);
         
         foreach (Graphic graphic in result.Features!)
         {
@@ -1061,9 +973,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         return result;
     }
-
-    private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();
-    private readonly Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
 }
 
 /// <summary>

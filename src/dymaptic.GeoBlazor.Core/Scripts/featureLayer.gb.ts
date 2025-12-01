@@ -2,14 +2,16 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
+import BaseComponent from "./baseComponent";
 
-export default class FeatureLayerGenerated implements IPropertyWrapper {
+export default class FeatureLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: FeatureLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
     constructor(layer: FeatureLayer) {
+        super();
         this.layer = layer;
     }
     
@@ -93,7 +95,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+            this.layer.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
         }
         if (hasValue(dotNetObject.timeInfo)) {
             let { buildJsTimeInfo } = await import('./timeInfo');
@@ -113,7 +115,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+            this.layer.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.apiKey)) {
@@ -924,7 +926,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+        properties.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
@@ -944,7 +946,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+        properties.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {

@@ -13,8 +13,8 @@ public class GeometryEngine : LogicComponent
     ///     Default Constructor
     /// </summary>
     public GeometryEngine(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
-        AuthenticationManager authenticationManager, JsSyncManager jsSyncManager)
-        : base(appValidator, jsRuntime, jsModuleManager, authenticationManager, jsSyncManager)
+        AuthenticationManager authenticationManager)
+        : base(appValidator, jsRuntime, jsModuleManager, authenticationManager)
     {
     }
 

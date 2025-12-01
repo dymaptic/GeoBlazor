@@ -55,7 +55,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+            this.layer.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
         }
         if (hasValue(dotNetObject.timeInfo)) {
             let { buildJsTimeInfo } = await import('./timeInfo');
@@ -67,7 +67,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+            this.layer.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.activePresetRendererName)) {
@@ -362,30 +362,6 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async queryGPSInfo(parameters: any,
         requestOptions: any): Promise<any> {
         return await this.layer.queryGPSInfo(parameters,
-            requestOptions);
-    }
-
-    async queryObjectIds(query: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
-        return await this.layer.queryObjectIds(jsQuery,
-            requestOptions);
-    }
-
-    async queryRasterCount(query: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
-        return await this.layer.queryRasterCount(jsQuery,
-            requestOptions);
-    }
-
-    async queryRasters(query: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
-        return await this.layer.queryRasters(jsQuery,
             requestOptions);
     }
 
@@ -816,7 +792,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+        properties.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
@@ -828,7 +804,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+        properties.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.activePresetRendererName)) {

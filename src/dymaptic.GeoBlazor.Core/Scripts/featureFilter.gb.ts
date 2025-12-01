@@ -27,7 +27,7 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.component.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+            this.component.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
         }
 
         if (hasValue(dotNetObject.distance)) {
@@ -45,10 +45,6 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.where)) {
             this.component.where = dotNetObject.where;
         }
-    }
-    
-    async createQuery(): Promise<any> {
-        return this.component.createQuery();
     }
 
     // region properties
@@ -115,7 +111,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+        properties.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
 
     if (hasValue(dotNetObject.distance)) {

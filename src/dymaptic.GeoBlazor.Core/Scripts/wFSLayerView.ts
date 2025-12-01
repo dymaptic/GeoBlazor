@@ -2,11 +2,18 @@
 import WFSLayerViewGenerated from './wFSLayerView.gb';
 import WFSLayerView from '@arcgis/core/views/layers/WFSLayerView';
 import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
+import {DotNetQuery} from "./definitions";
+import {buildDotNetQuery} from "./query";
 
 export default class WFSLayerViewWrapper extends WFSLayerViewGenerated {
 
     constructor(component: WFSLayerView) {
         super(component);
+    }
+
+    async createQuery(): Promise<DotNetQuery> {
+        let jsQuery = this.component.createQuery();
+        return await buildDotNetQuery(jsQuery, this.viewId);
     }
 
     highlightByGeoBlazorId(geoBlazorId: string): any {

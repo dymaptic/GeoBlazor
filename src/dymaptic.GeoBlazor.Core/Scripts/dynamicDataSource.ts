@@ -11,7 +11,7 @@ export async function buildJsDynamicDataSource(dotNetObject: any): Promise<any> 
             return await buildJsJoinTableDataSource(dotNetObject);
         case 'query-table':
             let {buildJsQueryTableDataSource} = await import('./queryTableDataSource');
-            return await buildJsQueryTableDataSource(dotNetObject);
+            return buildJsQueryTableDataSource(dotNetObject);
         case 'raster':
             let {buildJsRasterDataSource} = await import('./rasterDataSource');
             return await buildJsRasterDataSource(dotNetObject);

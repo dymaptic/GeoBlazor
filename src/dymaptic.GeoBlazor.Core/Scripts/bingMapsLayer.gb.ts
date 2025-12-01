@@ -39,7 +39,7 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+            this.layer.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -303,7 +303,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+        properties.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {

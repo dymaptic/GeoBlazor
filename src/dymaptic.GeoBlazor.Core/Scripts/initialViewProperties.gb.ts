@@ -18,7 +18,7 @@ export async function buildJsInitialViewPropertiesGenerated(dotNetObject: any, l
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+        properties.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsViewpoint } = await import('./viewpoint');

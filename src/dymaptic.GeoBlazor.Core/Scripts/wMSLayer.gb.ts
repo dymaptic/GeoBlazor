@@ -47,7 +47,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+            this.layer.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
         }
         if (hasValue(dotNetObject.timeInfo)) {
             let { buildJsTimeInfo } = await import('./timeInfo');
@@ -59,7 +59,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+            this.layer.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -497,7 +497,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+        properties.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
@@ -509,7 +509,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+        properties.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {

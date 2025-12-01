@@ -82,7 +82,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+            this.layer.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
         }
         if (hasValue(dotNetObject.timeInfo)) {
             let { buildJsTimeInfo } = await import('./timeInfo');
@@ -98,7 +98,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+            this.layer.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
         }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -198,10 +198,6 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         return this.layer.createPopupTemplate(options);
     }
 
-    async createQuery(): Promise<any> {
-        return this.layer.createQuery();
-    }
-
     async fetchAttributionData(): Promise<any> {
         let result = await this.layer.fetchAttributionData();
         
@@ -233,30 +229,6 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     async queryAttributeBins(binsQuery: any,
         options: any): Promise<any> {
         return await this.layer.queryAttributeBins(binsQuery,
-            options);
-    }
-
-    async queryExtent(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
-        return await this.layer.queryExtent(jsQuery,
-            options);
-    }
-
-    async queryFeatureCount(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
-        return await this.layer.queryFeatureCount(jsQuery,
-            options);
-    }
-
-    async queryObjectIds(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query) as any;
-        return await this.layer.queryObjectIds(jsQuery,
             options);
     }
 
@@ -703,7 +675,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+        properties.timeExtent = buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
@@ -719,7 +691,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+        properties.visibilityTimeExtent = buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {

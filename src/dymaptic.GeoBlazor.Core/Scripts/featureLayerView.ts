@@ -2,6 +2,7 @@ import FeatureLayerViewGenerated from './featureLayerView.gb';
 import Query from '@arcgis/core/rest/support/Query';
 import {DotNetQuery} from './definitions';
 import {getProtobufGraphicStream, hasValue, graphicsRefs, lookupJsGraphicById} from './geoBlazorCore';
+import {buildDotNetQuery} from "./query";
 
 export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     
@@ -27,8 +28,9 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         return this.component.createAggregateQuery();
     }
 
-    createQuery(): Query {
-        return this.component.createQuery();
+    async createQuery(): Promise<DotNetQuery> {
+        let jsQuery = this.component.createQuery();
+        return await buildDotNetQuery(jsQuery, this.viewId);
     }
 
     highlight(target: any): any {
@@ -60,7 +62,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {
         let {buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query);
+        let jsQuery = buildJsQuery(query) as Query | undefined;
         let result = await this.component.queryExtent(jsQuery, options);
         return {
             count: result.count,
@@ -70,7 +72,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
     async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
         let {buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query);
+        let jsQuery = buildJsQuery(query);
         return await this.component.queryFeatureCount(jsQuery, options);
     }
 
@@ -81,7 +83,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
             let {buildJsQuery} = await import('./query');
 
             if (hasValue(query)) {
-                jsQuery = await buildJsQuery(query);
+                jsQuery = buildJsQuery(query);
             }
 
             let featureSet = await this.component.queryFeatures(jsQuery, options);
@@ -103,7 +105,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
     async queryObjectIds(query: DotNetQuery, options: any): Promise<(string | number)[]> {
         let {buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query);
+        let jsQuery = buildJsQuery(query);
         let objectIds = await this.component.queryObjectIds(jsQuery, options);
         return objectIds;
     }

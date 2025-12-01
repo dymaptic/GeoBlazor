@@ -362,7 +362,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
 
     if (!view.ui.view) {
         // this state happens after an internal ArcGIS error, we need to reload everything
-        await resetMapComponent(id);
+        resetMapComponent(id);
         if (retry) {
             throw new Error(`Map component view is in an invalid state. This often occurs after an error on navigation. We suggest catching this exception and re-rendering the MapView.`);
         } else {
@@ -436,11 +436,12 @@ export function resetMapComponent(id: string): void {
     newComponent.className = 'map-container';
     newComponent.id = `map-container-${id}`;
     let knownAttributes = ['id', 'class', 'style', 'hydrated'];
-    let blazorAttr = mapComponent.getAttributeNames()
-        .find(a => !knownAttributes.includes(a));
+    let attrs = mapComponent.getAttributeNames()
+        .filter(a => !knownAttributes.includes(a));
     
-    if (blazorAttr) {
-        newComponent.setAttribute(blazorAttr, '');
+    for (let attr of attrs) {
+        let value = mapComponent.getAttribute(attr);
+        newComponent.setAttribute(attr, value ?? '');
     }
     
     parentContainer!.replaceChild(newComponent, mapComponent);

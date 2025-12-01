@@ -23,7 +23,7 @@ export async function buildJsBookmark(dnBookmark: any): Promise<any> {
     
     if (hasValue(dnBookmark.timeExtent)) {
         let {buildJsTimeExtent} = await import('./timeExtent');
-        bookmark.timeExtent = await buildJsTimeExtent(dnBookmark.timeExtent);
+        bookmark.timeExtent = buildJsTimeExtent(dnBookmark.timeExtent);
     }
 
     if (hasValue(dnBookmark.thumbnail)) {

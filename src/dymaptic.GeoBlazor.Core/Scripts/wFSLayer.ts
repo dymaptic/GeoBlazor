@@ -1,7 +1,10 @@
 // override generated code in this file
 import WFSLayerGenerated from './wFSLayer.gb';
 import WFSLayer from '@arcgis/core/layers/WFSLayer';
-import {buildEncodedJson} from "./geoBlazorCore";
+import {buildEncodedJson, hasValue} from "./geoBlazorCore";
+import Query from "@arcgis/core/rest/support/Query";
+import {DotNetQuery} from "./definitions";
+import {buildDotNetQuery} from "./query";
 
 export default class WFSLayerWrapper extends WFSLayerGenerated {
 
@@ -9,10 +12,59 @@ export default class WFSLayerWrapper extends WFSLayerGenerated {
         super(layer);
     }
 
+    async createQuery(): Promise<DotNetQuery> {
+        let jsQuery = this.layer.createQuery();
+        return await buildDotNetQuery(jsQuery, this.viewId);
+    }
+
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
         let dotNetLayer = await buildDotNetWFSLayer(result, this.viewId);
         return buildEncodedJson(dotNetLayer);
+    }
+
+    async queryExtent(query: any,
+                      options: any): Promise<any> {
+        let jsQuery: Query | null = null;
+        if (hasValue(query)) {
+            let { buildJsQuery} = await import('./query');
+            jsQuery = buildJsQuery(query) as Query;
+        }
+        return await this.layer.queryExtent(jsQuery,
+            options);
+    }
+
+    async queryFeatureCount(query: any,
+                            options: any): Promise<any> {
+        let jsQuery: Query | null = null;
+        if (hasValue(query)) {
+            let { buildJsQuery} = await import('./query');
+            jsQuery = buildJsQuery(query) as Query;
+        }
+        return await this.layer.queryFeatureCount(jsQuery,
+            options);
+    }
+
+    async queryFeatures(query: any,
+                        options: any): Promise<any> {
+        let jsQuery: Query | null = null;
+        if (hasValue(query)) {
+            let { buildJsQuery} = await import('./query');
+            jsQuery = buildJsQuery(query) as Query;
+        }
+        return await this.layer.queryFeatures(jsQuery,
+            options);
+    }
+
+    async queryObjectIds(query: any,
+                         options: any): Promise<any> {
+        let jsQuery: Query | null = null;
+        if (hasValue(query)) {
+            let { buildJsQuery} = await import('./query');
+            jsQuery = buildJsQuery(query) as Query;
+        }
+        return await this.layer.queryObjectIds(jsQuery,
+            options);
     }
 
     async getFeatureReduction(): Promise<any> {

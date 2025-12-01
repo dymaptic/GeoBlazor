@@ -2,11 +2,18 @@
 import CSVLayerViewGenerated from './cSVLayerView.gb';
 import CSVLayerView from '@arcgis/core/views/layers/CSVLayerView';
 import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
+import {buildDotNetQuery} from "./query";
+import {DotNetQuery} from "./definitions";
 
 export default class CSVLayerViewWrapper extends CSVLayerViewGenerated {
 
     constructor(component: CSVLayerView) {
         super(component);
+    }
+
+    async createQuery(): Promise<DotNetQuery> {
+        let jsQuery = this.component.createQuery();
+        return await buildDotNetQuery(jsQuery, this.viewId);
     }
 
     highlightByGeoBlazorId(geoBlazorId: string): any {

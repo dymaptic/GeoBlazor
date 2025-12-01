@@ -52,6 +52,11 @@ export default class BaseComponent {
             return null;
         }
 
+        if (paramType === 'JsObject') {
+            // don't parse JsObjectReferences
+            return paramValue;
+        }
+
         if (Array.isArray(paramValue)) {
             let arrayValues: any[] = [];
             for (let i = 0; i < paramValue.length; i++) {

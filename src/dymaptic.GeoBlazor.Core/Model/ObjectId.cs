@@ -3,11 +3,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///     Wraps the string and numeric possibilities of ObjectIds from ArcGIS.
 /// </summary>
-/// <param name="stringVal">
-///     The string value of the ObjectId.
-/// </param>
 [JsonConverter(typeof(ObjectIdConverter))]
-public class ObjectId(string stringVal) : IEquatable<ObjectId>
+public class ObjectId : IEquatable<ObjectId>
 {
     /// <summary>
     ///     Constructor for ObjectId that takes a numeric (long) value.
@@ -18,9 +15,22 @@ public class ObjectId(string stringVal) : IEquatable<ObjectId>
     }
 
     /// <summary>
+    ///     Constructor for ObjectId that takes a string value and checks if it is also a number.
+    /// </summary>
+    public ObjectId(string stringVal)
+    {
+        StringVal = stringVal;
+
+        if (long.TryParse(stringVal, out var numericVal))
+        {
+            NumericVal = numericVal;
+        }
+    }
+
+    /// <summary>
     ///     The string value of the ObjectId. If the ObjectId is numeric, this will be the string representation of the number.
     /// </summary>
-    public string StringVal { get; } = stringVal;
+    public string StringVal { get; }
 
     /// <summary>
     ///     The numeric value of the ObjectId, if applicable.

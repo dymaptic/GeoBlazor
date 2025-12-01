@@ -234,11 +234,11 @@ public partial class GraphicsLayer : Layer
             return;
         }
         
-        int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
+        int chunkSize = View!.GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        if (View.IsWebAssembly)
+        if (IsWebAssembly)
         {
             for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
@@ -270,7 +270,7 @@ public partial class GraphicsLayer : Layer
                 await Task.Delay(1, cancellationToken);
             }
         }
-        else if (View.IsMaui)
+        else if (IsMaui)
         {
             // MAUI at least on windows seems to occasionally throw an exception when adding graphics from multiple threads
             for (var index = 0; index < newGraphics.Count; index += chunkSize)

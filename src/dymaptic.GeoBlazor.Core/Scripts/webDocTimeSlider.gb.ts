@@ -10,11 +10,11 @@ export async function buildJsWebDocTimeSliderGenerated(dotNetObject: any, layerI
     let properties: any = {};
     if (hasValue(dotNetObject.currentTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.currentTimeExtent = await buildJsTimeExtent(dotNetObject.currentTimeExtent) as any;
+        properties.currentTimeExtent = buildJsTimeExtent(dotNetObject.currentTimeExtent) as any;
     }
     if (hasValue(dotNetObject.fullTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent) as any;
+        properties.fullTimeExtent = buildJsTimeExtent(dotNetObject.fullTimeExtent) as any;
     }
     if (hasValue(dotNetObject.stopInterval)) {
         let { buildJsTimeInterval } = await import('./timeInterval');

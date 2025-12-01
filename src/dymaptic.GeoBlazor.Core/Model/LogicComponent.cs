@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.
 /// </summary>
 public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRuntime, 
-    JsModuleManager jsModuleManager, AuthenticationManager authenticationManager, JsSyncManager jsSyncManager)
+    JsModuleManager jsModuleManager, AuthenticationManager authenticationManager)
 {
     /// <summary>
     ///     The name of the logic component.
@@ -83,7 +83,7 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     {
         await Initialize();
 
-        await jsSyncManager.InvokeVoidJsMethod(Component!, IsServer, method, className, CancellationToken.None, parameters);
+        await JsSyncManager.InvokeVoidJsMethod(Component!, IsServer, method, className, CancellationToken.None, parameters);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     {
         await Initialize(cancellationToken);
         
-        return await jsSyncManager.InvokeJsMethod<T>(Component!, IsServer, method, className, cancellationToken, parameters);
+        return await JsSyncManager.InvokeJsMethod<T>(Component!, IsServer, method, className, cancellationToken, parameters);
     }
     
     private bool _validated;
