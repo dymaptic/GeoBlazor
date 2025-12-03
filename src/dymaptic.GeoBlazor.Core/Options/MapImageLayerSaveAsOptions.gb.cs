@@ -17,6 +17,7 @@ public partial record MapImageLayerSaveAsOptions(
     public MapImageLayerSaveAsOptions(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     
     /// </summary>

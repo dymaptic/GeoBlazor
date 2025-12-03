@@ -114,6 +114,7 @@ public partial record TopFeaturesQuery(
     public TopFeaturesQuery(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     Indicates if the service should cache the query results.
     ///     default undefined

@@ -27,6 +27,7 @@ public partial record GroundQueryElevationOptions(
     public GroundQueryElevationOptions(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`).
     ///     default auto

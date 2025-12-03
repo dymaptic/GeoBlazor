@@ -26,6 +26,7 @@ public partial record SubtypeSublayerApplyEditsOptions(
     public SubtypeSublayerApplyEditsOptions(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     
     /// </summary>

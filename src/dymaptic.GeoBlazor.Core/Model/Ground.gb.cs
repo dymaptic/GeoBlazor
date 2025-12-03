@@ -29,15 +29,24 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     default null
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#surfaceColor">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Loaded">
+///     Indicates whether the instance has loaded.
+///     default false
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#loaded">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record Ground(
     IReadOnlyCollection<Layer>? Layers = null,
     GroundNavigationConstraint? NavigationConstraint = null,
     double? Opacity = null,
-    MapColor? SurfaceColor = null) : IIntersectItem, ILayerParent, IMeshUtilsSource, IInteractiveRecord
+    MapColor? SurfaceColor = null,
+    bool? Loaded = null) : IIntersectItem, ILayerParent, IMeshUtilsSource, IInteractiveRecord
 {
     public Ground(): this(null, null)
     {
     }
+    
+    // TODO: V5: Should this be a MapComponent to be added in the markup?
+    
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>

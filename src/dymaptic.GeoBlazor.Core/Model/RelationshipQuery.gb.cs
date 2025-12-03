@@ -94,6 +94,7 @@ public partial record RelationshipQuery(
     public RelationshipQuery(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     Indicates if the service should cache the relationship query results.
     ///     default undefined

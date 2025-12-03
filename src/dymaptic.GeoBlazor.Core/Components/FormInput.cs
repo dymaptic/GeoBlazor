@@ -5,6 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public abstract class FormInput: MapComponent
 {
+    // TODO: V5 - Review and move to a new Namespace/folder
+    
     /// <summary>
     ///     The type of form element input.
     /// </summary>

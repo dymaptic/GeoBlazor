@@ -37,6 +37,7 @@ public partial record WebSceneUpdateFromOptions(
     public WebSceneUpdateFromOptions(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     Do not update the initial environment from the view, defaults to false.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>

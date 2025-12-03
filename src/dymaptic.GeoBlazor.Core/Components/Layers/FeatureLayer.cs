@@ -52,7 +52,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ConditionallyRequiredProperty(nameof(Source))]
-    [CodeGenerationIgnore]
     public string? ObjectIdField { get; set; }
 
     /// <summary>
@@ -61,7 +60,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ConditionallyRequiredProperty(nameof(Source))]
-    [CodeGenerationIgnore]
     public FeatureGeometryType? GeometryType { get; set; }
     
     /// <summary>

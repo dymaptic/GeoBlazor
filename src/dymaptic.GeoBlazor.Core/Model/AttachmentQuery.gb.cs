@@ -81,6 +81,7 @@ public partial record AttachmentQuery(
     public AttachmentQuery(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     The where clause to be applied to attachment queries.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#attachmentsWhere">ArcGIS Maps SDK for JavaScript</a>

@@ -64,6 +64,7 @@ public partial record Relationship(
     public Relationship(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     The cardinality which specifies the number of objects in the origin
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> related to the

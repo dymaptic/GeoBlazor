@@ -52,6 +52,18 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The title of the group.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#title">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="SourceJSON">
+///     The JSON used to create the property values when the `PortalGroup` is created.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="ThumbnailUrl">
+///     The URL to the thumbnail used for the group.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="Url">
+///     The URL to the group.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#url">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record PortalGroup(
     PortalGroupAccess? Access = null,
     DateTime? Created = null,
@@ -63,11 +75,15 @@ public partial record PortalGroup(
     string? PortalGroupId = null,
     string? Snippet = null,
     IReadOnlyCollection<string>? Tags = null,
-    string? Title = null): IInteractiveRecord
+    string? Title = null,
+    string? SourceJSON = null,
+    string? ThumbnailUrl = null,
+    string? Url = null): IInteractiveRecord
 {
     public PortalGroup(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>

@@ -28,6 +28,7 @@ public partial record GeographicTransformationStep(
     public GeographicTransformationStep(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>

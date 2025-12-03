@@ -22,6 +22,7 @@ public partial record CreatePopupTemplateOptions(
     public CreatePopupTemplateOptions(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     An array of field types to ignore when creating the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-popupUtils.html#CreatePopupTemplateOptions">ArcGIS Maps SDK for JavaScript</a>

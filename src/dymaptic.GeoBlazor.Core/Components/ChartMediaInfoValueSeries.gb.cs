@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class ChartMediaInfoValueSeries
 {
-    
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>

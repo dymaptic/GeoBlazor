@@ -17,6 +17,7 @@ public partial record ArcGISImageServiceFetchPixelsOptions(
     public ArcGISImageServiceFetchPixelsOptions(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     
     /// </summary>

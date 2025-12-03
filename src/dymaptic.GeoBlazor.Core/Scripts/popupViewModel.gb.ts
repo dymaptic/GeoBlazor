@@ -163,7 +163,7 @@ export default class PopupViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.component.activeFeature!, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.activeFeature, this.layerId, this.viewId);
     }
     
     async setActiveFeature(value: any): Promise<void> {

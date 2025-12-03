@@ -3690,7 +3690,7 @@ public partial class PortalItem
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> UpdateThumbnail(Stream thumbnail,
+    public async Task<PortalItem?> UpdateThumbnail(Stream? thumbnail,
         string? filename)
     {
         if (CoreJsModule is null)

@@ -15,13 +15,19 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">portal item</a> that owns the resource.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Url">
+///     The absolute url to the item resource.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#url">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record PortalItemResource(
     string? Path = null,
-    PortalItem? PortalItem = null): IInteractiveRecord
+    PortalItem? PortalItem = null,
+    string? Url = null): IInteractiveRecord
 {
     public PortalItemResource(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     Path of the resource relative to `{ITEM}/resources/`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#path">ArcGIS Maps SDK for JavaScript</a>
@@ -33,6 +39,12 @@ public partial record PortalItemResource(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public PortalItem? PortalItem { get; set; } = PortalItem;
+    
+    /// <summary>
+    ///     The absolute url to the item resource.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#url">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? Url { get; set; } = Url;
     
     /// <summary>
     ///     Represents the JavaScript component reference.

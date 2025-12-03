@@ -18,6 +18,7 @@ public partial record GoToParameters(
     public GoToParameters(): this(null, null)
     {
     }
+    
     /// <summary>
     ///     
     /// </summary>
