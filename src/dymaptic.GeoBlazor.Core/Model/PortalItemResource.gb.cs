@@ -19,6 +19,9 @@ public partial record PortalItemResource(
     string? Path = null,
     PortalItem? PortalItem = null): IInteractiveRecord
 {
+    public PortalItemResource(): this(null, null)
+    {
+    }
     /// <summary>
     ///     Path of the resource relative to `{ITEM}/resources/`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#path">ArcGIS Maps SDK for JavaScript</a>

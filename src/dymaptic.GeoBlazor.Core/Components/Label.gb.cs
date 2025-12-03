@@ -303,17 +303,17 @@ public partial class Label
             return LabelExpressionInfo;
         }
 
-        // get the property value
-        LabelExpressionInfo? result = await JsComponentReference!.InvokeAsync<LabelExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, "labelExpressionInfo");
+        LabelExpressionInfo? result = await JsComponentReference.InvokeAsync<LabelExpressionInfo?>(
+            "getLabelExpressionInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelExpressionInfo = result;
+            LabelExpressionInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+            ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
         }
-         
+        
         return LabelExpressionInfo;
     }
     
@@ -752,6 +752,14 @@ public partial class Label
     /// </param>
     public async Task SetLabelExpressionInfo(LabelExpressionInfo? value)
     {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         LabelExpressionInfo = value;
 #pragma warning restore BL0005
@@ -777,8 +785,8 @@ public partial class Label
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "labelExpressionInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setLabelExpressionInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

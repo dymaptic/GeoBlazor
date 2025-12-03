@@ -206,6 +206,9 @@ public partial record Query(
     QueryUnits? Units = null,
     string? Where = null) : IQueryMixin
 {
+    public Query(): this(null, null)
+    {
+    }
     /// <summary>
     ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>

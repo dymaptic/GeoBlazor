@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ApplicationProperties.html">GeoBlazor Docs</a>
-///     Represents configuration of application and UI elements of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a>.
+///     Represents configuration of application and UI elements of the
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-ApplicationProperties.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ApplicationProperties : MapComponent

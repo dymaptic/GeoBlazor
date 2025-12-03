@@ -25,6 +25,9 @@ public partial record GeographicTransformationStep(
     int? Wkid = null,
     string? Wkt = null): IInteractiveRecord
 {
+    public GeographicTransformationStep(): this(null, null)
+    {
+    }
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>

@@ -24,6 +24,9 @@ public partial record TopFilter(
     IReadOnlyCollection<string>? OrderByFields = null,
     int? TopCount = null)
 {
+    public TopFilter(): this(null, null)
+    {
+    }
     /// <summary>
     ///     When one or more field names are provided in this property, the output result will be grouped based on unique values from those fields.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">ArcGIS Maps SDK for JavaScript</a>

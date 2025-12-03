@@ -175,11 +175,11 @@ public partial class MeshComponent : MapComponent
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Material = result;
+             Material = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Material)] = Material;
+             ModifiedParameters[nameof(Material)] = Material;
         }
-        
+         
         return Material;
     }
     

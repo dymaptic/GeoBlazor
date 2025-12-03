@@ -15,6 +15,9 @@ public partial record GoToParameters(
     GoToOptions? Options = null,
     GoToTarget? Target = null)
 {
+    public GoToParameters(): this(null, null)
+    {
+    }
     /// <summary>
     ///     
     /// </summary>

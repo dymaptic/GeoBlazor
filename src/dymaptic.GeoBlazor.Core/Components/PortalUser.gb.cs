@@ -1693,9 +1693,9 @@ public partial class PortalUser : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> AddItem(PortalItem item,
-        string data,
-        string folder)
+    public async Task<PortalItem?> AddItem(PortalItem? item,
+        string? data,
+        string? folder)
     {
         if (CoreJsModule is null)
         {
@@ -1913,13 +1913,13 @@ public partial class PortalUser : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<FetchItemsResult?> FetchItems(PortalFolder folder,
-        bool inRecycleBin,
-        bool includeSubfolderItems,
-        double num,
-        string sortField,
-        OrderBy sortOrder,
-        double start)
+    public async Task<FetchItemsResult?> FetchItems(PortalFolder? folder,
+        bool? inRecycleBin,
+        bool? includeSubfolderItems,
+        double? num,
+        string? sortField,
+        PortalQuerySortOrder? sortOrder,
+        double? start)
     {
         if (CoreJsModule is null)
         {

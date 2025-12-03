@@ -19,6 +19,9 @@ public partial record WFSCapabilities(
     IReadOnlyCollection<WFSFeatureType>? FeatureTypes = null,
     WFSOperations? Operations = null)
 {
+    public WFSCapabilities(): this(null, null)
+    {
+    }
     /// <summary>
     ///     An array of featureTypes (or layers) available in the WFS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSCapabilities">ArcGIS Maps SDK for JavaScript</a>

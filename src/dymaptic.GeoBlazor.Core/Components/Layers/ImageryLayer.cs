@@ -68,9 +68,8 @@ public partial class ImageryLayer : Layer
     /// <summary>
     ///     Indicates if the layer has multidimensionalInfo.
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? HasMultidimensions { get; set; }
+    [JsonInclude]
+    public bool? HasMultidimensions { get; protected set; }
 
     /// <summary>
     ///     Indicates the maximum height of the image exported by the service.
@@ -112,9 +111,8 @@ public partial class ImageryLayer : Layer
     /// <summary>
     ///     The name of an oid field containing a unique value or identifier for each raster in the layer..
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ObjectIdField { get; set; }
+    [JsonInclude]
+    public string? ObjectIdField { get; protected set; }
 
     /// <summary>
     ///     Raster source pixel type.

@@ -65,6 +65,9 @@ public partial record PortalGroup(
     IReadOnlyCollection<string>? Tags = null,
     string? Title = null): IInteractiveRecord
 {
+    public PortalGroup(): this(null, null)
+    {
+    }
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>

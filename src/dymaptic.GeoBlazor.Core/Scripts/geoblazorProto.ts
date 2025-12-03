@@ -420,6 +420,7 @@ message ViewHit {
    Geometry mapPoint = 2;
    Graphic graphic = 3;
    string layerId = 4;
+   double distance = 5;
    bool isNull = 1000;
 }
 message ViewHitCollection {

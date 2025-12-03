@@ -53,6 +53,9 @@ public partial record PortalQueryParams(
     PortalQuerySortOrder? SortOrder = null,
     double? Start = null)
 {
+    public PortalQueryParams(): this(null, null)
+    {
+    }
     /// <summary>
     ///     An array of categories stored within the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#categories">ArcGIS Maps SDK for JavaScript</a>

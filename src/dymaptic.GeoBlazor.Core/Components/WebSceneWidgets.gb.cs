@@ -32,13 +32,14 @@ public partial class WebSceneWidgets : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         TimeSlider = timeSlider;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebSceneWidgets.html#webscenewidgetstimeslider-property">GeoBlazor Docs</a>
     ///     Time animation is controlled by a configurable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#Widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -82,11 +83,11 @@ public partial class WebSceneWidgets : MapComponent
         if (result is not null)
         {
 #pragma warning disable BL0005
-            TimeSlider = result;
+             TimeSlider = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(TimeSlider)] = TimeSlider;
+             ModifiedParameters[nameof(TimeSlider)] = TimeSlider;
         }
-        
+         
         return TimeSlider;
     }
     

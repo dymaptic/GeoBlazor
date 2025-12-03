@@ -8,7 +8,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     A material determines how a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html">MeshComponent</a> is visualized.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class MeshMaterialMetallicRoughness : MeshMaterial, IMeshComponentMaterial
+public partial class MeshMaterialMetallicRoughness : MeshMaterial,
+    IMeshComponentMaterial
 {
 
     /// <summary>

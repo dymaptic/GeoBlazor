@@ -35,6 +35,9 @@ public partial record FindImagesParameters(
     Point? ToGeometry = null,
     string? Where = null)
 {
+    public FindImagesParameters(): this(null, null)
+    {
+    }
     /// <summary>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry with `z` value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#fromGeometry">ArcGIS Maps SDK for JavaScript</a>

@@ -3242,8 +3242,8 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem[]?> FetchRelatedItems(string relationshipType,
-        RelationshipDirection direction,
+    public async Task<PortalItem[]?> FetchRelatedItems(string? relationshipType,
+        RelationshipDirection? direction,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3303,10 +3303,10 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<FetchResourcesResult?> FetchResources(double num,
-        double start,
-        PortalQuerySortOrder sortOrder,
-        SortField sortField,
+    public async Task<FetchResourcesResult?> FetchResources(double? num,
+        double? start,
+        PortalQuerySortOrder? sortOrder,
+        SortField? sortField,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3648,7 +3648,7 @@ public partial class PortalItem
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> Update(string data)
+    public async Task<PortalItem?> Update(string? data)
     {
         if (CoreJsModule is null)
         {
@@ -3691,7 +3691,7 @@ public partial class PortalItem
     /// </param>
     [ArcGISMethod]
     public async Task<PortalItem?> UpdateThumbnail(Stream thumbnail,
-        string filename)
+        string? filename)
     {
         if (CoreJsModule is null)
         {

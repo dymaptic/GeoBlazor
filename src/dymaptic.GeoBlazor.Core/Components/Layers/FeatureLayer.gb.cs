@@ -1154,6 +1154,45 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the GeometryType property.
+    /// </summary>
+    public async Task<FeatureGeometryType?> GetGeometryType()
+    {
+        if (CoreJsModule is null)
+        {
+            return GeometryType;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return GeometryType;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<FeatureGeometryType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureGeometryType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            GeometryType = (FeatureGeometryType)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(GeometryType)] = GeometryType;
+        }
+         
+        return GeometryType;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the AttributeTableTemplate property.
     /// </summary>
     public async Task<IAttributeTableTemplate?> GetAttributeTableTemplate()
@@ -2399,6 +2438,45 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
          
         return IsTable;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ObjectIdField property.
+    /// </summary>
+    public async Task<string?> GetObjectIdField()
+    {
+        if (CoreJsModule is null)
+        {
+            return ObjectIdField;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ObjectIdField;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "objectIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ObjectIdField = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+        }
+         
+        return ObjectIdField;
     }
     
     /// <summary>

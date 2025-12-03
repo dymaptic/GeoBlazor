@@ -91,6 +91,9 @@ public partial record RelationshipQuery(
     int? Start = null,
     string? Where = null)
 {
+    public RelationshipQuery(): this(null, null)
+    {
+    }
     /// <summary>
     ///     Indicates if the service should cache the relationship query results.
     ///     default undefined

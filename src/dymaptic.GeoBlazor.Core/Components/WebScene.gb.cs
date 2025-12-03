@@ -852,14 +852,6 @@ public partial class WebScene : IMapComponent
     /// </param>
     public async Task SetApplicationProperties(WebsceneApplicationProperties? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         ApplicationProperties = value;
 #pragma warning restore BL0005
@@ -1127,14 +1119,6 @@ public partial class WebScene : IMapComponent
     /// </param>
     public async Task SetInitialViewProperties(WebsceneInitialViewProperties? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         InitialViewProperties = value;
 #pragma warning restore BL0005
@@ -1477,27 +1461,11 @@ public partial class WebScene : IMapComponent
     {
         switch (child)
         {
-            case WebsceneApplicationProperties applicationProperties:
-                if (applicationProperties != ApplicationProperties)
-                {
-                    ApplicationProperties = applicationProperties;
-                    ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
-                }
-                
-                return true;
             case Extent clippingArea:
                 if (clippingArea != ClippingArea)
                 {
                     ClippingArea = clippingArea;
                     ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
-                }
-                
-                return true;
-            case WebsceneInitialViewProperties initialViewProperties:
-                if (initialViewProperties != InitialViewProperties)
-                {
-                    InitialViewProperties = initialViewProperties;
-                    ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
                 }
                 
                 return true;
@@ -1519,17 +1487,9 @@ public partial class WebScene : IMapComponent
     {
         switch (child)
         {
-            case WebsceneApplicationProperties _:
-                ApplicationProperties = null;
-                ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
-                return true;
             case Extent _:
                 ClippingArea = null;
                 ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
-                return true;
-            case WebsceneInitialViewProperties _:
-                InitialViewProperties = null;
-                ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
                 return true;
             case WebSceneWidgets _:
                 Widgets = null;
@@ -1548,9 +1508,7 @@ public partial class WebScene : IMapComponent
         {
             throw new MissingRequiredChildElementException(nameof(WebScene), nameof(PortalItem));
         }
-        ApplicationProperties?.ValidateRequiredGeneratedChildren();
         ClippingArea?.ValidateRequiredGeneratedChildren();
-        InitialViewProperties?.ValidateRequiredGeneratedChildren();
         Widgets?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

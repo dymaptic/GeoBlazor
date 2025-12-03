@@ -79,10 +79,6 @@ public partial class ImageryLayer : IBlendLayer,
     ///     The format of the exported image.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="hasMultidimensions">
-    ///     Indicates if the layer has <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalInfo">multidimensionalInfo</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#hasMultidimensions">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="imageMaxHeight">
     ///     Indicates the maximum height of the image exported by the service.
     ///     default 4100
@@ -119,10 +115,6 @@ public partial class ImageryLayer : IBlendLayer,
     /// <param name="noDataInterpretation">
     ///     Interpretation of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">noData</a> setting.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noDataInterpretation">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="objectIdField">
-    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">field</a> containing a unique value or identifier for each raster in the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
     ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
@@ -252,7 +244,6 @@ public partial class ImageryLayer : IBlendLayer,
         string? definitionExpression = null,
         Effect? effect = null,
         ImageFormat? format = null,
-        bool? hasMultidimensions = null,
         int? imageMaxHeight = null,
         int? imageMaxWidth = null,
         Interpolation? interpolation = null,
@@ -261,7 +252,6 @@ public partial class ImageryLayer : IBlendLayer,
         double? minScale = null,
         NoData? noData = null,
         NoDataInterpretation? noDataInterpretation = null,
-        string? objectIdField = null,
         bool? persistenceEnabled = null,
         PixelType? pixelType = null,
         bool? popupEnabled = null,
@@ -303,7 +293,6 @@ public partial class ImageryLayer : IBlendLayer,
         DefinitionExpression = definitionExpression;
         Effect = effect;
         Format = format;
-        HasMultidimensions = hasMultidimensions;
         ImageMaxHeight = imageMaxHeight;
         ImageMaxWidth = imageMaxWidth;
         Interpolation = interpolation;
@@ -312,7 +301,6 @@ public partial class ImageryLayer : IBlendLayer,
         MinScale = minScale;
         NoData = noData;
         NoDataInterpretation = noDataInterpretation;
-        ObjectIdField = objectIdField;
         PersistenceEnabled = persistenceEnabled;
         PixelType = pixelType;
         PopupEnabled = popupEnabled;

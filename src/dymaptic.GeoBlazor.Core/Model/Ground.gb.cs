@@ -35,6 +35,9 @@ public partial record Ground(
     double? Opacity = null,
     MapColor? SurfaceColor = null) : IIntersectItem, ILayerParent, IMeshUtilsSource, IInteractiveRecord
 {
+    public Ground(): this(null, null)
+    {
+    }
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>

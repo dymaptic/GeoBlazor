@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IVectorTileLayerSpriteSourceInfo.html">GeoBlazor Docs</a>
-///     Interface for types SpriteSourceImageInfo, SpriteSourceUrlInfo
+///     Changes the sprite source associated with the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">current style</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setSpriteSource">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IVectorTileLayerSpriteSourceInfo 
+public partial interface IVectorTileLayerSpriteSourceInfo : IMapComponent
 {
 }
