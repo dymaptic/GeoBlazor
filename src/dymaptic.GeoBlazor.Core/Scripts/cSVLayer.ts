@@ -18,8 +18,7 @@ export default class CSVLayerWrapper extends CSVLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetCSVLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetCSVLayer(result, this.viewId);
     }
 
     async getFeatureReduction(): Promise<any> {

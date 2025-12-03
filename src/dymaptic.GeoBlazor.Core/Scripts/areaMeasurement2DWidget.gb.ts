@@ -3,13 +3,16 @@ import AreaMeasurement2D from '@arcgis/core/widgets/AreaMeasurement2D';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class AreaMeasurement2DWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: AreaMeasurement2D;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: AreaMeasurement2D) {
+    constructor(widget:AreaMeasurement2D) {
+        super(widget);
         this.widget = widget;
     }
     

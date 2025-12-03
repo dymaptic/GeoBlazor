@@ -3,13 +3,16 @@ import Measurement from '@arcgis/core/widgets/Measurement';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class MeasurementWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class MeasurementWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Measurement;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Measurement) {
+    constructor(widget:Measurement) {
+        super(widget);
         this.widget = widget;
     }
     

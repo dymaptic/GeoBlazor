@@ -748,8 +748,8 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsFulfilled), nameof(Basemap), 
             CancellationTokenSource.Token);
     }
     
@@ -781,8 +781,8 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsRejected), nameof(Basemap), 
             CancellationTokenSource.Token);
     }
     
@@ -814,8 +814,8 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsResolved), nameof(Basemap), 
             CancellationTokenSource.Token);
     }
     
@@ -851,10 +851,9 @@ public partial class Basemap : ILayerParent
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "load", 
-            CancellationTokenSource.Token,
-            new { signal = abortSignal });
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Load), nameof(Basemap), CancellationTokenSource.Token,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -889,8 +888,8 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Basemap?>(
-            "loadAll", 
+        return await JsComponentReference!.InvokeJsMethod<Basemap?>(
+            IsServer, nameof(LoadAll), nameof(Basemap), 
             CancellationTokenSource.Token);
     }
     
@@ -930,8 +929,8 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(When), nameof(Basemap), 
             CancellationTokenSource.Token,
             callback,
             errback);

@@ -3,13 +3,16 @@ import PopupViewModel from '@arcgis/core/widgets/Popup/PopupViewModel';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class PopupViewModelGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class PopupViewModelGenerated extends BaseComponent implements IPropertyWrapper {
     public component: PopupViewModel;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: PopupViewModel) {
+    constructor(component:PopupViewModel) {
+        super(component);
         this.component = component;
     }
     

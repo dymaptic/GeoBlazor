@@ -4,10 +4,12 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The PortalBasemapsSource class is a Portal-driven <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">source</a> in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html">BasemapGalleryViewModel</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> widget.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html">GeoBlazor Docs</a>
+///     The PortalBasemapsSource class is a Portal-driven <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">source</a>
+///     in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html">BasemapGalleryViewModel</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> widget.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
+public partial class PortalBasemapsSource
 {
 
     /// <summary>
@@ -62,6 +64,7 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourcefilterfunction-property">GeoBlazor Docs</a>
     ///     Function used to filter basemaps after being fetched from the Portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#filterFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -79,6 +82,12 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
         int index,
         IReadOnlyCollection<Basemap> array)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return null;
+        }
+    
         bool? result = null;
     
         if (FilterFunction is not null)
@@ -97,6 +106,7 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
     public bool HasFilterFunction => FilterFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourceportal-property">GeoBlazor Docs</a>
     ///     The Portal from which to fetch basemaps.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#portal">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -106,6 +116,7 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
     public Portal? Portal { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourcequery-property">GeoBlazor Docs</a>
     ///     An object with key-value pairs used to create a custom basemap gallery group query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#query">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -115,6 +126,7 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
     public string? Query { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourceupdatebasemapscallback-property">GeoBlazor Docs</a>
     ///     Callback for updating basemaps after being fetched and filtered.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#updateBasemapsCallback">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -130,6 +142,12 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
     [JSInvokable]
     public async Task<Basemap[]?> OnJsUpdateBasemapsCallback(IReadOnlyCollection<Basemap> items)
     {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return null;
+        }
+    
         Basemap[]? result = null;
     
         if (UpdateBasemapsCallback is not null)
@@ -158,8 +176,17 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
         {
             return Portal;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Portal;
@@ -193,8 +220,17 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
         {
             return Query;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Query;
@@ -226,6 +262,14 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
     /// </param>
     public async Task SetPortal(Portal? value)
     {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Portal = value;
 #pragma warning restore BL0005
@@ -236,8 +280,15 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -266,8 +317,15 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -290,7 +348,6 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
                 if (portal != Portal)
                 {
                     Portal = portal;
-                    
                     ModifiedParameters[nameof(Portal)] = Portal;
                 }
                 
@@ -307,7 +364,6 @@ public partial class PortalBasemapsSource : IBasemapGalleryWidgetSource
         {
             case Portal _:
                 Portal = null;
-                
                 ModifiedParameters[nameof(Portal)] = Portal;
                 return true;
             default:

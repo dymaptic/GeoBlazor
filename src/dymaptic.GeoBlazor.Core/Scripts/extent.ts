@@ -7,7 +7,6 @@ import {buildJsGeometry} from "./geometry";
 
 export default class ExtentWrapper implements IPropertyWrapper {
     public extent: Extent;
-    public geoBlazorId: string | null = null;
     
     constructor(extent: Extent) {
         this.extent = extent;
@@ -26,52 +25,44 @@ export default class ExtentWrapper implements IPropertyWrapper {
     centerAt(point: any) {
         let jsPoint = buildJsPoint(point);
         let jsExtent = this.extent.centerAt(jsPoint);
-        let dotNetExtent = buildDotNetExtent(jsExtent);
-        return dotNetExtent;
+        return buildDotNetExtent(jsExtent);
     }
     
     contains(geometry: any) {
         let jsGeometry = buildJsGeometry(geometry);
-        let contains = this.extent.contains(jsGeometry);
-        return contains;
+        return this.extent.contains(jsGeometry);
     }
     
     expand(factor: number) {
         let jsExtent = this.extent.expand(factor);
-        let dotNetExtent = buildDotNetExtent(jsExtent);
-        return dotNetExtent;
+        return buildDotNetExtent(jsExtent);
     }
     
     intersection(extent: any) {
         let jsExtent = buildJsExtent(extent);
         let jsIntersection = this.extent.intersection(jsExtent);
-        let dotNetIntersection = buildDotNetExtent(jsIntersection);
-        return dotNetIntersection;
+        return buildDotNetExtent(jsIntersection);
     }
     
     intersects(geometry: any) {
         let jsGeometry = buildJsGeometry(geometry);
-        let intersects = this.extent.intersects(jsGeometry);
-        return intersects;
+        return this.extent.intersects(jsGeometry);
     }
     
     normalize() {
         let jsNormalized = this.extent.normalize();
-        let dotNetNormalized = jsNormalized?.map(e => buildDotNetExtent(e));
-        return dotNetNormalized;
+        return jsNormalized?.map(e => buildDotNetExtent(e));
     }
     
     offset(dx, dy, dz) {
         let jsOffset = this.extent.offset(dx, dy, dz);
-        let dotNetOffset = buildDotNetExtent(jsOffset);
-        return dotNetOffset;
+        return buildDotNetExtent(jsOffset);
     }
     
     union(extent: any) {
         let jsExtent = buildJsExtent(extent);
         let jsUnion = this.extent.union(jsExtent);
-        let dotNetUnion = buildDotNetExtent(jsUnion);
-        return dotNetUnion;
+        return buildDotNetExtent(jsUnion);
     }
 }
 
@@ -90,24 +81,7 @@ export function buildJsExtent(dotNetExtent: any, currentSpatialReference: any | 
     }
     let extent = new Extent(properties);
     arcGisObjectRefs[dotNetExtent.id] = extent;
-
-    let extentWrapper = new ExtentWrapper(extent);
-    extentWrapper.geoBlazorId = dotNetExtent.id;
-
-    let jsObjectRef = DotNet.createJSObjectReference(extentWrapper);
-    jsObjectRefs[dotNetExtent.id] = jsObjectRef;
-
-    requestAnimationFrame(async () => {
-        try {
-            let dnInstantiatedExtent = buildDotNetExtent(extent);
-            let dnStream = buildJsStreamReference(dnInstantiatedExtent);
-            
-            dotNetExtent.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated',
-                jsObjectRef, dnStream);
-        } catch (e) {
-            console.error('Error invoking OnJsComponentCreated for FeatureLayer', e);
-        }
-    });
+    jsObjectRefs[dotNetExtent.id] = new ExtentWrapper(extent);
     
     return extent;
 }

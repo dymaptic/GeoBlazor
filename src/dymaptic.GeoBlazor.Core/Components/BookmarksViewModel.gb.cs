@@ -605,8 +605,8 @@ public partial class BookmarksViewModel : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Bookmark?>(
-            "createBookmark", 
+        return await JsComponentReference!.InvokeJsMethod<Bookmark?>(
+            IsServer, nameof(CreateBookmark), nameof(BookmarksViewModel), 
             CancellationTokenSource.Token,
             options);
     }
@@ -649,8 +649,8 @@ public partial class BookmarksViewModel : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Bookmark?>(
-            "editBookmark", 
+        return await JsComponentReference!.InvokeJsMethod<Bookmark?>(
+            IsServer, nameof(EditBookmark), nameof(BookmarksViewModel), 
             CancellationTokenSource.Token,
             bookmark,
             options);
@@ -687,8 +687,8 @@ public partial class BookmarksViewModel : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "goTo", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GoTo), nameof(BookmarksViewModel), 
             CancellationTokenSource.Token,
             bookmark);
     }

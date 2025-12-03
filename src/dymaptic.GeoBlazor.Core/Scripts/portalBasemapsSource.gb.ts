@@ -3,13 +3,16 @@ import PortalBasemapsSource from '@arcgis/core/widgets/BasemapGallery/support/Po
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class PortalBasemapsSourceGenerated extends BaseComponent implements IPropertyWrapper {
     public component: PortalBasemapsSource;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: PortalBasemapsSource) {
+    constructor(component:PortalBasemapsSource) {
+        super(component);
         this.component = component;
     }
     

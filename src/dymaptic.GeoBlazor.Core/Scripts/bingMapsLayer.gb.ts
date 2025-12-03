@@ -3,13 +3,16 @@ import BingMapsLayer from '@arcgis/core/layers/BingMapsLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class BingMapsLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class BingMapsLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: BingMapsLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: BingMapsLayer) {
+    constructor(layer:BingMapsLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -95,7 +98,9 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -109,7 +114,9 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
     async fetchTile(level: any,
         row: any,
         col: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -266,7 +273,7 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {

@@ -3,13 +3,16 @@ import BookmarksViewModel from '@arcgis/core/widgets/Bookmarks/BookmarksViewMode
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class BookmarksViewModelGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class BookmarksViewModelGenerated extends BaseComponent implements IPropertyWrapper {
     public component: BookmarksViewModel;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: BookmarksViewModel) {
+    constructor(component:BookmarksViewModel) {
+        super(component);
         this.component = component;
     }
     

@@ -4,12 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshMaterialMetallicRoughness.html">GeoBlazor Docs</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html">GeoBlazor Docs</a>
 ///     A material determines how a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html">MeshComponent</a> is visualized.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class MeshMaterialMetallicRoughness : MeshMaterial,
-    IMeshComponentMaterial
+public partial class MeshMaterialMetallicRoughness : MeshMaterial, IMeshComponentMaterial
 {
 
     /// <summary>
@@ -139,6 +138,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessemissivecolor-property">GeoBlazor Docs</a>
     ///     Specifies a single, uniform emissive color for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html">MeshComponent</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html#emissiveColor">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -148,6 +148,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     public MapColor? EmissiveColor { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessemissivetexture-property">GeoBlazor Docs</a>
     ///     Specifies a texture from which to get emissive color information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html#emissiveTexture">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -157,6 +158,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     public MeshTexture? EmissiveTexture { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessemissivetexturetransform-property">GeoBlazor Docs</a>
     ///     A transformation of UV mesh coordinates used to sample the emissive texture.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html#emissiveTextureTransform">ArcGIS Maps SDK for JavaScript</a>
@@ -167,6 +169,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     public MeshTextureTransform? EmissiveTextureTransform { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessmetallic-property">GeoBlazor Docs</a>
     ///     Specifies how much the material behaves like a metal.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html#metallic">ArcGIS Maps SDK for JavaScript</a>
@@ -177,6 +180,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     public double? Metallic { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessmetallicroughnesstexture-property">GeoBlazor Docs</a>
     ///     Specifies a texture from which to get the combined metallic/roughness information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html#metallicRoughnessTexture">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -186,6 +190,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     public MeshTexture? MetallicRoughnessTexture { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessocclusiontexture-property">GeoBlazor Docs</a>
     ///     Allows to specify a texture to get the occlusion information from.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html#occlusionTexture">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -195,6 +200,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     public MeshTexture? OcclusionTexture { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessocclusiontexturetransform-property">GeoBlazor Docs</a>
     ///     A transformation of UV mesh coordinates used to sample the occlusion texture.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html#occlusionTextureTransform">ArcGIS Maps SDK for JavaScript</a>
@@ -205,6 +211,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     public MeshTextureTransform? OcclusionTextureTransform { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessroughness-property">GeoBlazor Docs</a>
     ///     Indicates how rough the surface of the material is.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html#roughness">ArcGIS Maps SDK for JavaScript</a>

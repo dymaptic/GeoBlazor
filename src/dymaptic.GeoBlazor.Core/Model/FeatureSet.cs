@@ -35,6 +35,7 @@ public record FeatureSet(
     string? DisplayFieldName = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? ExceededTransferLimit = null,
+    IReadOnlyList<Graphic>? Features = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyList<Field>? Fields = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -49,5 +50,5 @@ public record FeatureSet(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html#features">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Graphic>? Features { get; init; }
+    public IReadOnlyList<Graphic>? Features { get; init; } = Features;
 }

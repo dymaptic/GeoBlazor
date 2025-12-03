@@ -3,13 +3,16 @@ import MapImageLayer from '@arcgis/core/layers/MapImageLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class MapImageLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class MapImageLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: MapImageLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: MapImageLayer) {
+    constructor(layer:MapImageLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -142,7 +145,9 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -175,6 +180,14 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.layer.isResolved();
+    }
+
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async loadAll(): Promise<any> {
@@ -344,7 +357,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.layer.sublayers?.removeAll();
+            this.layer.sublayers.removeAll();
         }
         let { buildJsSublayer } = await import('./sublayer');
         this.layer.sublayers = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
@@ -361,7 +374,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async setSubtables(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.layer.subtables?.removeAll();
+            this.layer.subtables.removeAll();
         }
         let { buildJsSublayer } = await import('./sublayer');
         this.layer.subtables = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
@@ -378,7 +391,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value);
+        this.layer.timeExtent =  buildJsTimeExtent(value);
     }
     
     async getTimeInfo(): Promise<any> {
@@ -444,7 +457,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {

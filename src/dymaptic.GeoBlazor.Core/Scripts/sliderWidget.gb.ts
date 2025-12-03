@@ -3,13 +3,16 @@ import Slider from '@arcgis/core/widgets/Slider';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class SliderWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class SliderWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Slider;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Slider) {
+    constructor(widget:Slider) {
+        super(widget);
         this.widget = widget;
     }
     

@@ -19,8 +19,7 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetGeoJSONLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetGeoJSONLayer(result, this.viewId);
     }
 
     async getFeatureReduction(): Promise<any> {

@@ -4,11 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshMaterial.html">GeoBlazor Docs</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html">GeoBlazor Docs</a>
 ///     The material determines how a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html">MeshComponent</a> is visualized.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class MeshMaterial : IMeshComponentMaterial
+public partial class MeshMaterial
 {
 
     /// <summary>
@@ -86,6 +86,7 @@ public partial class MeshMaterial : IMeshComponentMaterial
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialalphacutoff-property">GeoBlazor Docs</a>
     ///     Specifies how transparency on the object is handled.
     ///     default 0.5
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html#alphaCutoff">ArcGIS Maps SDK for JavaScript</a>
@@ -96,6 +97,7 @@ public partial class MeshMaterial : IMeshComponentMaterial
     public double? AlphaCutoff { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialalphamode-property">GeoBlazor Docs</a>
     ///     Specifies how transparency on the object is handled.
     ///     default "auto"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html#alphaMode">ArcGIS Maps SDK for JavaScript</a>
@@ -106,6 +108,7 @@ public partial class MeshMaterial : IMeshComponentMaterial
     public AlphaMode? AlphaMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialcolor-property">GeoBlazor Docs</a>
     ///     Specifies a single, uniform color for the mesh component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html#color">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -115,6 +118,7 @@ public partial class MeshMaterial : IMeshComponentMaterial
     public MapColor? Color { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialcolortexture-property">GeoBlazor Docs</a>
     ///     Specifies a texture from which to get color information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html#colorTexture">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -124,6 +128,7 @@ public partial class MeshMaterial : IMeshComponentMaterial
     public MeshTexture? ColorTexture { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialcolortexturetransform-property">GeoBlazor Docs</a>
     ///     A transformation of UV mesh coordinates used to sample the color texture.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html#colorTextureTransform">ArcGIS Maps SDK for JavaScript</a>
@@ -134,6 +139,7 @@ public partial class MeshMaterial : IMeshComponentMaterial
     public MeshTextureTransform? ColorTextureTransform { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialdoublesided-property">GeoBlazor Docs</a>
     ///     Specifies whether both sides of each triangle are displayed, or only the front sides.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html#doubleSided">ArcGIS Maps SDK for JavaScript</a>
@@ -144,6 +150,7 @@ public partial class MeshMaterial : IMeshComponentMaterial
     public bool? DoubleSided { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialnormaltexture-property">GeoBlazor Docs</a>
     ///     Specifies a texture from which to get normal information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html#normalTexture">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -153,6 +160,7 @@ public partial class MeshMaterial : IMeshComponentMaterial
     public MeshTexture? NormalTexture { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialnormaltexturetransform-property">GeoBlazor Docs</a>
     ///     A transformation of UV mesh coordinates used to sample the normal texture.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html#normalTextureTransform">ArcGIS Maps SDK for JavaScript</a>

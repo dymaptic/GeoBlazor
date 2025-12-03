@@ -3007,8 +3007,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalRating?>(
-            "addRating", 
+        return await JsComponentReference!.InvokeJsMethod<PortalRating?>(
+            IsServer, nameof(AddRating), nameof(PortalItem), 
             CancellationTokenSource.Token,
             rating);
     }
@@ -3058,12 +3058,12 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "addResource", 
-            CancellationTokenSource.Token,
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(AddResource), nameof(PortalItem), CancellationTokenSource.Token,
             resource,
             content,
-            new { access = options.Access, signal = abortSignal });
+            options,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3131,8 +3131,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "deleteRating", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(DeleteRating), nameof(PortalItem), 
             CancellationTokenSource.Token);
     }
     
@@ -3173,11 +3173,10 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "fetchData", 
-            CancellationTokenSource.Token,
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(FetchData), nameof(PortalItem), CancellationTokenSource.Token,
             responseType,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3216,10 +3215,9 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        PortalRating? result = await JsComponentReference!.InvokeAsync<PortalRating?>(
-            "fetchRating", 
-            CancellationTokenSource.Token,
-            new { signal = abortSignal });
+        PortalRating? result = await JsComponentReference!.InvokeJsMethod<PortalRating?>(
+            IsServer, nameof(FetchRating), nameof(PortalItem), CancellationTokenSource.Token,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3269,11 +3267,10 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        PortalItem[]? result = await JsComponentReference!.InvokeAsync<PortalItem[]?>(
-            "fetchRelatedItems", 
-            CancellationTokenSource.Token,
+        PortalItem[]? result = await JsComponentReference!.InvokeJsMethod<PortalItem[]?>(
+            IsServer, nameof(FetchRelatedItems), nameof(PortalItem), CancellationTokenSource.Token,
             new { relationshipType, direction },
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3333,11 +3330,10 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FetchResourcesResult? result = await JsComponentReference!.InvokeAsync<FetchResourcesResult?>(
-            "fetchResources", 
-            CancellationTokenSource.Token,
+        FetchResourcesResult? result = await JsComponentReference!.InvokeJsMethod<FetchResourcesResult?>(
+            IsServer, nameof(FetchResources), nameof(PortalItem), CancellationTokenSource.Token,
             new { num, start, sortOrder, sortField },
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3375,8 +3371,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getThumbnailUrl", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetThumbnailUrl), nameof(PortalItem), 
             CancellationTokenSource.Token,
             width);
     }
@@ -3409,8 +3405,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsFulfilled), nameof(PortalItem), 
             CancellationTokenSource.Token);
     }
     
@@ -3442,8 +3438,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsRejected), nameof(PortalItem), 
             CancellationTokenSource.Token);
     }
     
@@ -3475,8 +3471,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsResolved), nameof(PortalItem), 
             CancellationTokenSource.Token);
     }
     
@@ -3512,10 +3508,9 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "load", 
-            CancellationTokenSource.Token,
-            new { signal = abortSignal });
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Load), nameof(PortalItem), CancellationTokenSource.Token,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3550,8 +3545,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "reload", 
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(Reload), nameof(PortalItem), 
             CancellationTokenSource.Token);
     }
     
@@ -3587,10 +3582,9 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "removeAllResources", 
-            CancellationTokenSource.Token,
-            new { signal = abortSignal });
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(RemoveAllResources), nameof(PortalItem), CancellationTokenSource.Token,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3634,11 +3628,10 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "removeResource", 
-            CancellationTokenSource.Token,
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(RemoveResource), nameof(PortalItem), CancellationTokenSource.Token,
             resource,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3677,8 +3670,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "update", 
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(Update), nameof(PortalItem), 
             CancellationTokenSource.Token,
             new { data });
     }
@@ -3720,8 +3713,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "updateThumbnail", 
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(UpdateThumbnail), nameof(PortalItem), 
             CancellationTokenSource.Token,
             new { thumbnail, filename });
     }
@@ -3762,8 +3755,8 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(When), nameof(PortalItem), 
             CancellationTokenSource.Token,
             callback,
             errback);

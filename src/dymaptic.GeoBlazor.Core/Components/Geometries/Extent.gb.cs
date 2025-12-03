@@ -512,8 +512,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "centerAt", 
+        return await JsComponentReference!.InvokeJsMethod<Extent?>(
+            IsServer, nameof(CenterAt), nameof(Extent), 
             CancellationTokenSource.Token,
             point);
     }
@@ -549,8 +549,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "contains", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(Contains), nameof(Extent), 
             CancellationTokenSource.Token,
             geometry);
     }
@@ -586,8 +586,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "expand", 
+        return await JsComponentReference!.InvokeJsMethod<Extent?>(
+            IsServer, nameof(Expand), nameof(Extent), 
             CancellationTokenSource.Token,
             factor);
     }
@@ -623,8 +623,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "intersection", 
+        return await JsComponentReference!.InvokeJsMethod<Extent?>(
+            IsServer, nameof(Intersection), nameof(Extent), 
             CancellationTokenSource.Token,
             extent);
     }
@@ -660,8 +660,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "intersects", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(Intersects), nameof(Extent), 
             CancellationTokenSource.Token,
             geometry);
     }
@@ -695,8 +695,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Extent[]?>(
-            "normalize", 
+        return await JsComponentReference!.InvokeJsMethod<Extent[]?>(
+            IsServer, nameof(Normalize), nameof(Extent), 
             CancellationTokenSource.Token);
     }
     
@@ -740,8 +740,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "offset", 
+        return await JsComponentReference!.InvokeJsMethod<Extent?>(
+            IsServer, nameof(Offset), nameof(Extent), 
             CancellationTokenSource.Token,
             dx,
             dy,
@@ -779,8 +779,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "union", 
+        return await JsComponentReference!.InvokeJsMethod<Extent?>(
+            IsServer, nameof(Union), nameof(Extent), 
             CancellationTokenSource.Token,
             extent);
     }

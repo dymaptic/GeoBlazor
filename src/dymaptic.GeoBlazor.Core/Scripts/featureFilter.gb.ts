@@ -3,13 +3,16 @@ import FeatureFilter from '@arcgis/core/layers/support/FeatureFilter';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class FeatureFilterGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class FeatureFilterGenerated extends BaseComponent implements IPropertyWrapper {
     public component: FeatureFilter;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: FeatureFilter) {
+    constructor(component:FeatureFilter) {
+        super(component);
         this.component = component;
     }
     
@@ -46,7 +49,7 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
             this.component.where = dotNetObject.where;
         }
     }
-
+    
     // region properties
     
     async getGeometry(): Promise<any> {
@@ -74,7 +77,7 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.component.timeExtent = await  buildJsTimeExtent(value);
+        this.component.timeExtent =  buildJsTimeExtent(value);
     }
     
     getWhere(): any {

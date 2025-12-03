@@ -3,13 +3,16 @@ import WCSLayer from '@arcgis/core/layers/WCSLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class WCSLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class WCSLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: WCSLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: WCSLayer) {
+    constructor(layer:WCSLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -39,7 +42,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.multidimensionalSubset)) {
             let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, this.viewId) as any;
         }
         if (hasValue(dotNetObject.popupTemplate)) {
             let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -133,7 +136,9 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -151,7 +156,9 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     async fetchPixels(extent: any,
         width: any,
         height: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchPixels(jsExtent,
@@ -161,13 +168,17 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     }
 
     async getSamples(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.getSamples(parameters,
             requestOptions);
     }
 
     async identify(point: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
         let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
@@ -186,6 +197,14 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.layer.isResolved();
+    }
+
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async save(options: any): Promise<any> {
@@ -320,7 +339,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
+        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.viewId);
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -389,7 +408,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value);
+        this.layer.timeExtent =  buildJsTimeExtent(value);
     }
     
     async getTimeInfo(): Promise<any> {
@@ -467,7 +486,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -504,7 +523,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');

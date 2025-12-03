@@ -3,13 +3,16 @@ import GeographicTransformationStep from '@arcgis/core/geometry/operators/suppor
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class GeographicTransformationStepGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class GeographicTransformationStepGenerated extends BaseComponent implements IPropertyWrapper {
     public component: GeographicTransformationStep;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: GeographicTransformationStep) {
+    constructor(component:GeographicTransformationStep) {
+        super(component);
         this.component = component;
     }
     

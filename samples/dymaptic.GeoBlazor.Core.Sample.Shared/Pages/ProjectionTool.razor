@@ -94,7 +94,7 @@
 <label>Transformation Steps</label>
 @if (_transformation?.Steps is not null)
 {
-    for (var i = 0; i < _transformation.Steps.Length; i++)
+    for (var i = 0; i < _transformation.Steps.Count; i++)
     {
         GeographicTransformationStep step = _transformation.Steps[i];
         <div>@(i + 1): @step.Wkid</div>

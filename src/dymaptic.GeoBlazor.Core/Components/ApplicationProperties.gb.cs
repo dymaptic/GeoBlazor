@@ -39,6 +39,7 @@ public partial class ApplicationProperties : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ApplicationProperties.html#applicationpropertiesviewing-property">GeoBlazor Docs</a>
     ///     View-specific properties of application and UI elements for the web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-ApplicationProperties.html#viewing">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

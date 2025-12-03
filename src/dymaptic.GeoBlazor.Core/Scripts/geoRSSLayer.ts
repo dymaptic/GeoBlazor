@@ -11,8 +11,7 @@ export default class GeoRSSLayerWrapper extends GeoRSSLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetGeoRSSLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetGeoRSSLayer(result, this.viewId);
     }
 
     async getPointSymbol(): Promise<any> {

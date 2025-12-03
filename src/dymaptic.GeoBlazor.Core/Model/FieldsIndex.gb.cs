@@ -42,6 +42,11 @@ public partial record FieldsIndex(
     public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    public bool IsServer { get; set; }
+    
+    /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();
@@ -78,8 +83,8 @@ public partial record FieldsIndex(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Field?>(
-            "get", 
+        return await JsComponentReference!.InvokeJsMethod<Field?>(
+            IsServer, nameof(Get), nameof(FieldsIndex), 
             CancellationTokenSource.Token,
             fieldName);
     }
@@ -115,8 +120,8 @@ public partial record FieldsIndex(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getTimeZone", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetTimeZone), nameof(FieldsIndex), 
             CancellationTokenSource.Token,
             fieldOrFieldName);
     }
@@ -152,8 +157,8 @@ public partial record FieldsIndex(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "has", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(Has), nameof(FieldsIndex), 
             CancellationTokenSource.Token,
             fieldName);
     }
@@ -189,8 +194,8 @@ public partial record FieldsIndex(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isDateField", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsDateField), nameof(FieldsIndex), 
             CancellationTokenSource.Token,
             fieldName);
     }

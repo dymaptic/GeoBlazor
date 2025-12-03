@@ -3,13 +3,16 @@ import SearchViewModel from '@arcgis/core/widgets/Search/SearchViewModel';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class SearchViewModelGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class SearchViewModelGenerated extends BaseComponent implements IPropertyWrapper {
     public component: SearchViewModel;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: SearchViewModel) {
+    constructor(component:SearchViewModel) {
+        super(component);
         this.component = component;
     }
     
@@ -107,12 +110,16 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
     }
 
     async search(searchItem: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.search(searchItem,
             options);
     }
 
-    async searchNearby(options: any): Promise<any> {
+    async searchNearby(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.searchNearby(options);
     }
 
@@ -122,7 +129,9 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
 
     async suggest(value: any,
         suggestionDelay: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.suggest(value,
             suggestionDelay,
             options);

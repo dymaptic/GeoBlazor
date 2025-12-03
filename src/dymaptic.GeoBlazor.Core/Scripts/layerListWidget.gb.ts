@@ -3,13 +3,16 @@ import LayerList from '@arcgis/core/widgets/LayerList';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class LayerListWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class LayerListWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: LayerList;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: LayerList) {
+    constructor(widget:LayerList) {
+        super(widget);
         this.widget = widget;
     }
     

@@ -731,8 +731,8 @@ public partial class FeatureFilter
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Query?>(
-            "createQuery", 
+        return await JsComponentReference!.InvokeJsMethod<Query?>(
+            IsServer, nameof(CreateQuery), nameof(FeatureFilter), 
             CancellationTokenSource.Token);
     }
     

@@ -3,13 +3,16 @@ import LocateViewModel from '@arcgis/core/widgets/Locate/LocateViewModel';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class LocateViewModelGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class LocateViewModelGenerated extends BaseComponent implements IPropertyWrapper {
     public component: LocateViewModel;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: LocateViewModel) {
+    constructor(component:LocateViewModel) {
+        super(component);
         this.component = component;
     }
     

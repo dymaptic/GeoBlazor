@@ -926,8 +926,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "defaultInputFormatFunction", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(DefaultInputFormatFunction), nameof(SliderViewModel), 
             CancellationTokenSource.Token,
             value);
     }
@@ -963,8 +963,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<double?>(
-            "defaultInputParseFunction", 
+        return await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(DefaultInputParseFunction), nameof(SliderViewModel), 
             CancellationTokenSource.Token,
             value);
     }
@@ -1000,8 +1000,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "defaultLabelFormatFunction", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(DefaultLabelFormatFunction), nameof(SliderViewModel), 
             CancellationTokenSource.Token,
             value);
     }
@@ -1034,8 +1034,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Bounds?>(
-            "getBounds", 
+        return await JsComponentReference!.InvokeJsMethod<Bounds?>(
+            IsServer, nameof(GetBounds), nameof(SliderViewModel), 
             CancellationTokenSource.Token);
     }
     
@@ -1070,8 +1070,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getBoundsForValueAtIndex", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetBoundsForValueAtIndex), nameof(SliderViewModel), 
             CancellationTokenSource.Token,
             index);
     }
@@ -1116,8 +1116,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getLabelForValue", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetLabelForValue), nameof(SliderViewModel), 
             CancellationTokenSource.Token,
             value,
             type,
@@ -1198,8 +1198,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<double?>(
-            "toPrecision", 
+        return await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(ToPrecision), nameof(SliderViewModel), 
             CancellationTokenSource.Token,
             value);
     }

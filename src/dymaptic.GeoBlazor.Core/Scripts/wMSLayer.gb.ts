@@ -3,13 +3,16 @@ import WMSLayer from '@arcgis/core/layers/WMSLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class WMSLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class WMSLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: WMSLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: WMSLayer) {
+    constructor(layer:WMSLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -144,7 +147,9 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -173,6 +178,14 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.layer.isResolved();
+    }
+
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async refresh(): Promise<void> {
@@ -366,7 +379,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value);
+        this.layer.timeExtent =  buildJsTimeExtent(value);
     }
     
     async getTimeInfo(): Promise<any> {
@@ -444,7 +457,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {

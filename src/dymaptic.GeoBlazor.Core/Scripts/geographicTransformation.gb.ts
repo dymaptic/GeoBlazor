@@ -3,13 +3,16 @@ import GeographicTransformation from '@arcgis/core/geometry/operators/support/Ge
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class GeographicTransformationGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class GeographicTransformationGenerated extends BaseComponent implements IPropertyWrapper {
     public component: GeographicTransformation;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: GeographicTransformation) {
+    constructor(component:GeographicTransformation) {
+        super(component);
         this.component = component;
     }
     

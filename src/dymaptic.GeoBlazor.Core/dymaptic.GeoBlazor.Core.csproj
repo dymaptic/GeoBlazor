@@ -120,5 +120,6 @@
     <ItemGroup>
         <Compile Condition="$(Configuration) == 'SourceGen Highlighting'" 
                  Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated\**\*.g.cs" />
+        <Compile Remove="Interfaces\IViewHit.cs" />
     </ItemGroup>
 </Project>

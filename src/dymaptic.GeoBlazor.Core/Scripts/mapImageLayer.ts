@@ -47,8 +47,7 @@ export default class MapImageLayerWrapper extends MapImageLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetMapImageLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetMapImageLayer(result, this.viewId);
     }
 }
 

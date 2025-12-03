@@ -683,7 +683,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         try
         {
-            if (await jsonStreamReference.ReadJsStreamReference(MapComponentType) is MapComponent deserialized)
+            if (await jsonStreamReference.ReadJsStreamReferenceAsJSON(MapComponentType) is MapComponent deserialized)
             {
                 if (IsDisposed)
                 {
@@ -1006,6 +1006,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             {
                 record.CoreJsModule = CoreJsModule;
                 record.AbortManager = new AbortManager(CoreJsModule!);
+                record.IsServer = IsServer;
             }
         }
     }
@@ -1393,7 +1394,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         if (jsStreamReference is not null)
         {
-            typedValue = await jsStreamReference.ReadJsStreamReference(returnType);
+            typedValue = await jsStreamReference.ReadJsStreamReferenceAsJSON(returnType);
         }
 
         handler.DynamicInvoke(typedValue);
@@ -1526,7 +1527,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         if (jsStreamReference is not null)
         {
-            typedValue = await jsStreamReference.ReadJsStreamReference(returnType);
+            typedValue = await jsStreamReference.ReadJsStreamReferenceAsJSON(returnType);
         }
 
         handler.DynamicInvoke(typedValue);

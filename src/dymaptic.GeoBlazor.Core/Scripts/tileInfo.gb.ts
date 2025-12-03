@@ -3,13 +3,16 @@ import TileInfo from '@arcgis/core/layers/support/TileInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class TileInfoGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class TileInfoGenerated extends BaseComponent implements IPropertyWrapper {
     public component: TileInfo;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: TileInfo) {
+    constructor(component:TileInfo) {
+        super(component);
         this.component = component;
     }
     

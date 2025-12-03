@@ -2365,8 +2365,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<FeatureLayer?>(
-            "createFeatureLayer", 
+        return await JsComponentReference!.InvokeJsMethod<FeatureLayer?>(
+            IsServer, nameof(CreateFeatureLayer), nameof(Sublayer), 
             CancellationTokenSource.Token);
     }
     
@@ -2401,8 +2401,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
-            "createPopupTemplate", 
+        return await JsComponentReference!.InvokeJsMethod<PopupTemplate?>(
+            IsServer, nameof(CreatePopupTemplate), nameof(Sublayer), 
             CancellationTokenSource.Token,
             options);
     }
@@ -2437,8 +2437,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Query?>(
-            "createQuery", 
+        return await JsComponentReference!.InvokeJsMethod<Query?>(
+            IsServer, nameof(CreateQuery), nameof(Sublayer), 
             CancellationTokenSource.Token);
     }
     
@@ -2473,8 +2473,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<FeatureType?>(
-            "getFeatureType", 
+        return await JsComponentReference!.InvokeJsMethod<FeatureType?>(
+            IsServer, nameof(GetFeatureType), nameof(Sublayer), 
             CancellationTokenSource.Token,
             feature);
     }
@@ -2516,8 +2516,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Domain?>(
-            "getFieldDomain", 
+        return await JsComponentReference!.InvokeJsMethod<Domain?>(
+            IsServer, nameof(GetFieldDomain), nameof(Sublayer), 
             CancellationTokenSource.Token,
             fieldName,
             options);
@@ -2551,8 +2551,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsFulfilled), nameof(Sublayer), 
             CancellationTokenSource.Token);
     }
     
@@ -2584,8 +2584,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsRejected), nameof(Sublayer), 
             CancellationTokenSource.Token);
     }
     
@@ -2617,8 +2617,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsResolved), nameof(Sublayer), 
             CancellationTokenSource.Token);
     }
     
@@ -2654,10 +2654,9 @@ public partial class Sublayer
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "load", 
-            CancellationTokenSource.Token,
-            new { signal = abortSignal });
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Load), nameof(Sublayer), CancellationTokenSource.Token,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2701,11 +2700,10 @@ public partial class Sublayer
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        AttachmentsQueryResult? result = await JsComponentReference!.InvokeAsync<AttachmentsQueryResult?>(
-            "queryAttachments", 
-            CancellationTokenSource.Token,
+        AttachmentsQueryResult? result = await JsComponentReference!.InvokeJsMethod<AttachmentsQueryResult?>(
+            IsServer, nameof(QueryAttachments), nameof(Sublayer), CancellationTokenSource.Token,
             attachmentQuery,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2750,11 +2748,10 @@ public partial class Sublayer
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int? result = await JsComponentReference!.InvokeAsync<int?>(
-            "queryFeatureCount", 
-            CancellationTokenSource.Token,
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(QueryFeatureCount), nameof(Sublayer), CancellationTokenSource.Token,
             query,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2798,11 +2795,10 @@ public partial class Sublayer
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
-            "queryFeatures", 
-            CancellationTokenSource.Token,
+        FeatureSet? result = await JsComponentReference!.InvokeJsMethod<FeatureSet?>(
+            IsServer, nameof(QueryFeatures), nameof(Sublayer), CancellationTokenSource.Token,
             query,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2847,11 +2843,10 @@ public partial class Sublayer
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ObjectId[]? result = await JsComponentReference!.InvokeAsync<ObjectId[]?>(
-            "queryObjectIds", 
-            CancellationTokenSource.Token,
+        ObjectId[]? result = await JsComponentReference!.InvokeJsMethod<ObjectId[]?>(
+            IsServer, nameof(QueryObjectIds), nameof(Sublayer), CancellationTokenSource.Token,
             query,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2896,11 +2891,10 @@ public partial class Sublayer
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        RelatedFeaturesQueryResult? result = await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
-            "queryRelatedFeatures", 
-            CancellationTokenSource.Token,
+        RelatedFeaturesQueryResult? result = await JsComponentReference!.InvokeJsMethod<RelatedFeaturesQueryResult?>(
+            IsServer, nameof(QueryRelatedFeatures), nameof(Sublayer), CancellationTokenSource.Token,
             relationshipQuery,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2945,11 +2939,10 @@ public partial class Sublayer
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        RelatedFeaturesCountQueryResult? result = await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult?>(
-            "queryRelatedFeaturesCount", 
-            CancellationTokenSource.Token,
+        RelatedFeaturesCountQueryResult? result = await JsComponentReference!.InvokeJsMethod<RelatedFeaturesCountQueryResult?>(
+            IsServer, nameof(QueryRelatedFeaturesCount), nameof(Sublayer), CancellationTokenSource.Token,
             relationshipQuery,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2992,8 +2985,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(When), nameof(Sublayer), 
             CancellationTokenSource.Token,
             callback,
             errback);

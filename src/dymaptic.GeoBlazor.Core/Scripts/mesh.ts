@@ -1,12 +1,96 @@
 // override generated code in this file
 import Mesh from "@arcgis/core/geometry/Mesh";
-import {arcGisObjectRefs, hasValue } from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import {buildDotNetMeshComponent, buildJsMeshComponent} from "./meshComponent";
 import {buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
 import {buildDotNetMeshTransform, buildJsMeshTransform } from "./meshTransform";
 import {buildDotNetMeshVertexAttributes, buildJsMeshVertexAttributes} from "./meshVertexAttributes";
 import { buildDotNetExtent } from "./extent";
-import { buildDotNetPoint } from "./point";
+import { buildDotNetPoint, buildJsPoint } from "./point";
+import BaseComponent from "./baseComponent";
+import {DotNetPoint} from "./definitions";
+
+export default class MeshWrapper extends BaseComponent {
+    component: Mesh;
+    
+    constructor(mesh: Mesh) {
+        super(mesh);
+        this.component = mesh;
+    }
+    
+    addComponent(dotNetMeshComponent: any): void {
+        let jsMeshComponent = buildJsMeshComponent(dotNetMeshComponent);
+        this.component.addComponent(jsMeshComponent);
+    }
+    
+    cancelLoad(): void {
+        this.component.cancelLoad();
+    }
+    
+    centerAt(dotNetLocation: DotNetPoint, dotNetParams: any): any {
+        let jsLocation = buildJsPoint(dotNetLocation);
+        let jsParams = {
+            geographic: dotNetParams.geographic,
+            origin: buildJsPoint(dotNetParams.origin)
+        }
+        let jsResult = this.component.centerAt(jsLocation, jsParams);
+        return buildDotNetMesh(jsResult);
+    }
+    
+    isFulfilled(): boolean {
+        return this.component.isFulfilled();
+    }
+    
+    isRejected(): boolean {
+        return this.component.isRejected();
+    }
+    
+    isResolved(): boolean {
+        return this.component.isResolved();
+    }
+    
+    async load(signal: AbortSignal): Promise<any> {
+        let jsResult = await this.component.load({signal: signal});
+        return buildDotNetMesh(jsResult);
+    }
+    
+    offset(dx: number, dy: number, dz: number): any {
+        let jsResult = this.component.offset(dx, dy, dz);
+        return buildDotNetMesh(jsResult);
+    }
+    
+    removeComponent(dotNetMeshComponent: any): void {
+        let jsComponent = buildJsMeshComponent(dotNetMeshComponent);
+        this.component.removeComponent(jsComponent);
+    }
+    
+    rotate(angleX: number, angleY: number, angleZ: number, dotNetParams: any): any {
+        let jsParams = {
+            geographic: dotNetParams.geographic,
+            origin: buildJsPoint(dotNetParams.origin)
+        }
+        let jsResult = this.component.rotate(angleX, angleY, angleZ, jsParams);
+        return buildDotNetMesh(jsResult);
+    }
+    
+    scale(factor: number, dotNetParams: any): any {
+        let jsParams = {
+            geographic: dotNetParams.geographic,
+            origin: buildJsPoint(dotNetParams.origin)
+        }
+        let jsResult = this.component.scale(factor, dotNetParams);
+        return buildDotNetMesh(jsResult);
+    }
+
+    async toBinaryGLTF(options: any, signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        return await this.component.toBinaryGLTF(options);
+    }
+    
+    vertexAttributesChanged(): void {
+        this.component.vertexAttributesChanged();
+    }
+}
 
 export function buildJsMesh(dotNetObject: any): any {
     let properties: any = {};
@@ -35,6 +119,9 @@ export function buildJsMesh(dotNetObject: any): any {
 
     let jsMesh = new Mesh(properties);
 
+    jsObjectRefs[dotNetObject.id] = new MeshWrapper(jsMesh);
+    arcGisObjectRefs[dotNetObject.id] = jsMesh;
+    
     return jsMesh;
 }     
 

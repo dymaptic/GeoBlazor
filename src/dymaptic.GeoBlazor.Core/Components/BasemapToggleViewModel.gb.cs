@@ -281,8 +281,8 @@ public partial class BasemapToggleViewModel : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "toggle", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Toggle), nameof(BasemapToggleViewModel), 
             CancellationTokenSource.Token);
     }
     

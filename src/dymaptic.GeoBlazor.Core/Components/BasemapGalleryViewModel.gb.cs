@@ -426,8 +426,8 @@ public partial class BasemapGalleryViewModel : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "basemapEquals", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(BasemapEquals), nameof(BasemapGalleryViewModel), 
             CancellationTokenSource.Token,
             basemap1,
             basemap2);

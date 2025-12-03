@@ -3,13 +3,16 @@ import FeaturesViewModel from '@arcgis/core/widgets/Features/FeaturesViewModel';
 import { hasValue, sanitize, removeCircularReferences, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class FeaturesViewModelGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class FeaturesViewModelGenerated extends BaseComponent implements IPropertyWrapper {
     public component: FeaturesViewModel;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: FeaturesViewModel) {
+    constructor(component:FeaturesViewModel) {
+        super(component);
         this.component = component;
     }
     

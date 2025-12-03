@@ -19,8 +19,7 @@ export default class WFSLayerWrapper extends WFSLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetWFSLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetWFSLayer(result, this.viewId);
     }
 
     async queryExtent(query: any,

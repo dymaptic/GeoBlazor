@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     Coverage description for different versions.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#CoverageInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface ICoverageInfoCoverageDescription 
+public partial interface ICoverageInfoCoverageDescription
 {
 }

@@ -344,11 +344,6 @@ public partial interface IFeatureLayerBase : IMapComponent
     Task SetLayerIndex(int? value);
     
     /// <summary>
-    ///    Asynchronously set the value of the ObjectIdField property after render.
-    /// </summary>
-    Task SetObjectIdField(string? value);
-    
-    /// <summary>
     ///    Asynchronously set the value of the ReturnM property after render.
     /// </summary>
     Task SetReturnM(bool? value);
@@ -463,11 +458,6 @@ public partial interface IFeatureLayerBase : IMapComponent
     Task<GeometryFieldsInfo?> GetGeometryFieldsInfo();
 
     /// <summary>
-    ///     Asynchronously retrieve the current value of the GeometryType property.
-    /// </summary>
-    Task<FeatureGeometryType?> GetGeometryType();
-
-    /// <summary>
     ///     Asynchronously retrieve the current value of the GlobalIdField property.
     /// </summary>
     Task<string?> GetGlobalIdField();
@@ -496,11 +486,6 @@ public partial interface IFeatureLayerBase : IMapComponent
     ///     Asynchronously retrieve the current value of the LayerIndex property.
     /// </summary>
     Task<int?> GetLayerIndex();
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ObjectIdField property.
-    /// </summary>
-    Task<string?> GetObjectIdField();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the PreferredTimeZone property.

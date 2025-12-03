@@ -11,8 +11,7 @@ export default class UnknownLayerWrapper extends UnknownLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetUnknownLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetUnknownLayer(result, this.viewId);
     }
 }
 

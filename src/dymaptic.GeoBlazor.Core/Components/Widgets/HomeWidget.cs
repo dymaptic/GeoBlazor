@@ -25,7 +25,7 @@ public partial class HomeWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
-        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReference<GoToOverrideParameters>();
+        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReferenceAsJSON<GoToOverrideParameters>();
         if (GoToOverride is not null && goToParameters is not null)
         {
             await GoToOverride.Invoke(goToParameters);
@@ -47,7 +47,7 @@ public partial class HomeWidget : Widget
     public async Task OnJsGo(IJSStreamReference jsStreamRef)
     {
         View!.ExtentChangedInJs = true;
-        HomeGoEvent? goEvent = await jsStreamRef.ReadJsStreamReference<HomeGoEvent>();
+        HomeGoEvent? goEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<HomeGoEvent>();
         if (goEvent is not null)
         {
             await OnGo.InvokeAsync(goEvent);

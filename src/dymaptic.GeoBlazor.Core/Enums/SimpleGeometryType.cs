@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SimpleGeometryType.html">GeoBlazor Docs</a>
 ///     Enumeration for SimpleGeometryType
-/// </summary>
+///     </summary>
 [JsonConverter(typeof(SimpleGeometryTypeConverter))]
 public enum SimpleGeometryType
 {

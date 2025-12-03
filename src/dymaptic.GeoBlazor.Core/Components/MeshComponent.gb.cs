@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshComponent.html">GeoBlazor Docs</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html">GeoBlazor Docs</a>
 ///     The MeshComponent class is used to apply one or more materials to
 ///     a single <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html">Mesh</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html">ArcGIS Maps SDK for JavaScript</a>
@@ -60,7 +60,7 @@ public partial class MeshComponent : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshComponent.html#meshcomponentfaces-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentfaces-property">GeoBlazor Docs</a>
     ///     A flat array of indices that refer to vertices in the
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html#vertexAttributes">vertexAttributes</a> of the
     ///     mesh to which the component belongs.
@@ -72,7 +72,7 @@ public partial class MeshComponent : MapComponent
     public byte[]? Faces { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshComponent.html#meshcomponentmaterial-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentmaterial-property">GeoBlazor Docs</a>
     ///     The material determines how the component is visualized.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#material">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -82,7 +82,7 @@ public partial class MeshComponent : MapComponent
     public IMeshComponentMaterial? Material { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshComponent.html#meshcomponentname-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentname-property">GeoBlazor Docs</a>
     ///     Specifies a name of the component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -92,7 +92,7 @@ public partial class MeshComponent : MapComponent
     public string? Name { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshComponent.html#meshcomponentshading-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentshading-property">GeoBlazor Docs</a>
     ///     Specifies the type of normals used for lighting.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#shading">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -169,17 +169,17 @@ public partial class MeshComponent : MapComponent
             return Material;
         }
 
-        // get the property value
-        IMeshComponentMaterial? result = await JsComponentReference!.InvokeAsync<IMeshComponentMaterial?>("getProperty",
-            CancellationTokenSource.Token, "material");
+        IMeshComponentMaterial? result = await JsComponentReference.InvokeAsync<IMeshComponentMaterial?>(
+            "getMaterial", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Material = result;
+            Material = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Material)] = Material;
+            ModifiedParameters[nameof(Material)] = Material;
         }
-         
+        
         return Material;
     }
     
@@ -453,45 +453,4 @@ public partial class MeshComponent : MapComponent
     
 #endregion
 
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case IMeshComponentMaterial material:
-                if (material != Material)
-                {
-                    Material = material;
-                    ModifiedParameters[nameof(Material)] = Material;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case IMeshComponentMaterial _:
-                Material = null;
-                ModifiedParameters[nameof(Material)] = Material;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Material?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

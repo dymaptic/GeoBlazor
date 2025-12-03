@@ -2207,45 +2207,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the GeometryType property.
-    /// </summary>
-    public async Task<FeatureGeometryType?> GetGeometryType()
-    {
-        if (CoreJsModule is null)
-        {
-            return GeometryType;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return GeometryType;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<FeatureGeometryType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureGeometryType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "geometryType");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             GeometryType = (FeatureGeometryType)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(GeometryType)] = GeometryType;
-        }
-         
-        return GeometryType;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the GlobalIdField property.
     /// </summary>
     public async Task<string?> GetGlobalIdField()
@@ -2672,45 +2633,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
          
         return MinScale;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ObjectIdField property.
-    /// </summary>
-    public async Task<string?> GetObjectIdField()
-    {
-        if (CoreJsModule is null)
-        {
-            return ObjectIdField;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ObjectIdField;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "objectIdField");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ObjectIdField = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
-        }
-         
-        return ObjectIdField;
     }
     
     /// <summary>
@@ -5025,43 +4947,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the ObjectIdField property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetObjectIdField(string? value)
-    {
-#pragma warning disable BL0005
-        ObjectIdField = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ObjectIdField)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "objectIdField", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
     /// <param name="value">
@@ -6266,7 +6151,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        FeatureLayerEditsEvent? editsEvent = await jsStreamRef.ReadJsStreamReference<FeatureLayerEditsEvent>();
+        FeatureLayerEditsEvent? editsEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<FeatureLayerEditsEvent>();
         if (editsEvent is not null)
         {
             await OnEdits.InvokeAsync(editsEvent);
@@ -6300,7 +6185,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
@@ -6663,4 +6548,5 @@ public partial class FeatureLayer : IAPIKeyMixin,
         TrackInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
+      
 }

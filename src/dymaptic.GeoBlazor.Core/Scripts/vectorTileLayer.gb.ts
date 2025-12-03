@@ -3,13 +3,16 @@ import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class VectorTileLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class VectorTileLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: VectorTileLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: VectorTileLayer) {
+    constructor(layer:VectorTileLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -83,7 +86,9 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -140,8 +145,18 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
+    }
+
     async loadStyle(style: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.layer.loadStyle(style,
             options);
         
@@ -347,7 +362,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {

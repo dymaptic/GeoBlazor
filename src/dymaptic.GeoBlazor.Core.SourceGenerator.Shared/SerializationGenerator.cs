@@ -126,7 +126,7 @@ public static class SerializationGenerator
                     /// <summary>
                     ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific type via protobuf.
                     /// </summary>
-                    public static async Task<T?> ReadJsProtobufStreamReference<T>(this IJSStreamReference jsStreamReference, 
+                    public static async Task<T?> ReadJsStreamReferenceAsProtobuf<T>(this IJSStreamReference jsStreamReference, 
                         Type returnType, long maxAllowedSize = 1_000_000_000)
                     {
                         await using Stream stream = await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
@@ -146,7 +146,7 @@ public static class SerializationGenerator
                 /// <summary>
                 ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific coolection type via protobuf.
                 /// </summary>
-                public static async Task<T?> ReadJsProtobufCollectionStreamReference<T>(this IJSStreamReference jsStreamReference, 
+                public static async Task<T?> ReadJsStreamReferenceAsProtobufCollection<T>(this IJSStreamReference jsStreamReference, 
                     Type returnType, long maxAllowedSize = 1_000_000_000)
                 {
                     await using Stream stream = await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);

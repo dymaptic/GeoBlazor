@@ -90,7 +90,7 @@ public static class JsSyncManager
         Type? returnType = methodRecord.ReturnValue?.Type;
         bool returnTypeIsProtobuf = returnType is not null && ProtoContractTypes.ContainsKey(returnType);
 
-        if (isServer || returnTypeIsProtobuf)
+        if (isServer || returnTypeIsProtobuf || returnType?.IsAssignableTo(typeof(Stream)) == true)
         {
             string? protoReturnTypeName = null;
             if (returnTypeIsProtobuf)
@@ -122,12 +122,25 @@ public static class JsSyncManager
             {
                 if (methodRecord.ReturnValue?.SingleType is not null)
                 {
-                    return await streamRef.ReadJsProtobufCollectionStreamReference<T>(methodRecord.ReturnValue.SingleType) ?? default!;
+                    return await streamRef.ReadJsStreamReferenceAsProtobufCollection<T>(methodRecord.ReturnValue.SingleType) ?? default!;
                 }
-                return await streamRef.ReadJsProtobufStreamReference<T>(returnType!) ?? default!;
+                return await streamRef.ReadJsStreamReferenceAsProtobuf<T>(returnType!) ?? default!;
+            }
+
+            if (returnType?.IsAssignableTo(typeof(Stream)) == true)
+            {
+                Stream? result = await streamRef.ReadJsStreamReferenceAsStream();
+
+                if (result is null)
+                {
+                    return default!;
+                }
+                
+                // double-cast to force to generic
+                return (T)(object)result;
             }
             
-            return (await streamRef.ReadJsStreamReference<T>())!;
+            return (await streamRef.ReadJsStreamReferenceAsJSON<T>())!;
         }
 
         return await js.InvokeAsync<T>(

@@ -1,6 +1,7 @@
 import BaseTileLayerGenerated from './baseTileLayer.gb';
 import BaseTileLayer from '@arcgis/core/layers/BaseTileLayer';
 import {buildEncodedJson} from "./geoBlazorCore";
+import {DotNetLayer} from "./definitions";
 
 export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 
@@ -12,10 +13,9 @@ export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
         return this.layer.getTileBounds(level, row, col);
     }
 
-    async load(options: any): Promise<any> {
+    async load(options: any): Promise<DotNetLayer> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetBaseTileLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetBaseTileLayer(result, this.viewId);
     }
 
     async setEffect(effect: any) {

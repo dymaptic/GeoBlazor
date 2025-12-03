@@ -3,13 +3,16 @@ import WMTSLayer from '@arcgis/core/layers/WMTSLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class WMTSLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class WMTSLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: WMTSLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: WMTSLayer) {
+    constructor(layer:WMTSLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -24,7 +27,9 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -38,7 +43,9 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
     async fetchTile(level: any,
         row: any,
         col: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -59,6 +66,14 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.layer.isResolved();
+    }
+
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async refresh(): Promise<void> {
@@ -178,7 +193,7 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.layer.sublayers?.removeAll();
+            this.layer.sublayers.removeAll();
         }
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
         this.layer.sublayers = await Promise.all(value.map(async i => await buildJsWMTSSublayer(i, this.layerId, this.viewId))) as any;
@@ -231,7 +246,7 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {

@@ -2109,8 +2109,8 @@ public partial class PopupWidget : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PopupViewModel?>(
-            "next", 
+        return await JsComponentReference!.InvokeJsMethod<PopupViewModel?>(
+            IsServer, nameof(Next), nameof(PopupWidget), 
             CancellationTokenSource.Token);
     }
     
@@ -2180,8 +2180,8 @@ public partial class PopupWidget : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PopupViewModel?>(
-            "previous", 
+        return await JsComponentReference!.InvokeJsMethod<PopupViewModel?>(
+            IsServer, nameof(Previous), nameof(PopupWidget), 
             CancellationTokenSource.Token);
     }
     

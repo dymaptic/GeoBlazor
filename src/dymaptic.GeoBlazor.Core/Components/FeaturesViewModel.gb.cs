@@ -3208,8 +3208,8 @@ public partial class FeaturesViewModel : MapComponent,
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<FeaturesViewModel?>(
-            "next", 
+        return await JsComponentReference!.InvokeJsMethod<FeaturesViewModel?>(
+            IsServer, nameof(Next), nameof(FeaturesViewModel), 
             CancellationTokenSource.Token);
     }
     
@@ -3279,8 +3279,8 @@ public partial class FeaturesViewModel : MapComponent,
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<FeaturesViewModel?>(
-            "previous", 
+        return await JsComponentReference!.InvokeJsMethod<FeaturesViewModel?>(
+            IsServer, nameof(Previous), nameof(FeaturesViewModel), 
             CancellationTokenSource.Token);
     }
     
@@ -3338,7 +3338,7 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
     
-        FeaturesViewModelTriggerActionEvent? triggerActionEvent = await jsStreamRef.ReadJsStreamReference<FeaturesViewModelTriggerActionEvent>();
+        FeaturesViewModelTriggerActionEvent? triggerActionEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<FeaturesViewModelTriggerActionEvent>();
         if (triggerActionEvent is not null)
         {
             await OnTriggerAction.InvokeAsync(triggerActionEvent);

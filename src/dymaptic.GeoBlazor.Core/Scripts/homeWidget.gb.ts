@@ -3,13 +3,16 @@ import Home from '@arcgis/core/widgets/Home';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class HomeWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class HomeWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Home;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Home) {
+    constructor(widget:Home) {
+        super(widget);
         this.widget = widget;
     }
     

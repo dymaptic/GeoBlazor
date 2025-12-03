@@ -1,8 +1,58 @@
 import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Polyline from "@arcgis/core/geometry/Polyline";
+import Point from "@arcgis/core/geometry/Point";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
+import BaseComponent from "./baseComponent";
+import {DotNetPoint} from "./definitions";
+import {buildDotNetPoint, buildJsPoint} from "./point";
+
+export default class PolylineWrapper extends BaseComponent {
+    component: Polyline;
+
+    constructor(component: Polyline) {
+        super();
+        this.component = component;
+    }
+    
+    addPath(path: DotNetPoint[]): Polyline {
+        let jsPath = path.map(buildJsPoint);
+        let jsResult = this.component.addPath(jsPath);
+        return buildDotNetPolyline(jsResult);
+    }
+    
+    getPoint(pathIndex: number, pointIndex: number): DotNetPoint | null {
+        let jsPoint = this.component.getPoint(pathIndex, pointIndex);
+        return buildDotNetPoint(jsPoint);
+    }
+    
+    insertPoint(pathIndex: number, pointIndex: number, dotNetPoint: DotNetPoint): Polyline {
+        let jsPoint = buildJsPoint(dotNetPoint) as Point;
+        let jsResult = this.component.insertPoint(pathIndex, pointIndex, jsPoint);
+        return buildDotNetPolyline(jsResult);
+    }
+    
+    removePath(index: number): DotNetPoint[] | null {
+        let jsResult = this.component.removePath(index);
+        if (!jsResult) {
+            return null;
+        }
+        
+        return jsResult.map(buildDotNetPoint);
+    }
+    
+    removePoint(pathIndex: number, pointIndex: number): DotNetPoint | null {
+        let jsResult = this.component.removePoint(pathIndex, pointIndex);
+        return buildDotNetPoint(jsResult);
+    }
+    
+    setPoint(pathIndex: number, pointIndex: number, dotNetPoint: DotNetPoint): Polyline {
+        let jsPoint = buildJsPoint(dotNetPoint) as Point;
+        let jsResult = this.component.setPoint(pathIndex, pointIndex, jsPoint);
+        return buildDotNetPolyline(jsResult);
+    }
+}
 
 export function buildDotNetPolyline(polyline: any): any {
     let dnPolyline: any = {
@@ -40,8 +90,8 @@ export function buildJsPolyline(dnPolyline: any): any {
         properties.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
     }
     let polyline = new Polyline(properties);
-    let jsObjectRef = DotNet.createJSObjectReference(polyline);
-    jsObjectRefs[dnPolyline.id] = jsObjectRef;
+    
+    jsObjectRefs[dnPolyline.id] = new PolylineWrapper(polyline);
     arcGisObjectRefs[dnPolyline.id] = polyline;
     
     return polyline;

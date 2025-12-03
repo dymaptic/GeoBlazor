@@ -3,13 +3,16 @@ import PixelBlock from '@arcgis/core/layers/support/PixelBlock';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class PixelBlockGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class PixelBlockGenerated extends BaseComponent implements IPropertyWrapper {
     public component: PixelBlock;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: PixelBlock) {
+    constructor(component:PixelBlock) {
+        super(component);
         this.component = component;
     }
     

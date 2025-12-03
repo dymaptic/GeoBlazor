@@ -31,47 +31,15 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record WebMapUpdateFromOptions(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? BackgroundExcluded = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? ScalePreserved = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? ThumbnailExcluded = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     WebMapUpdateFromOptionsThumbnailSize? ThumbnailSize = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? ViewpointExcluded = null,
-    bool? WidgetsExcluded = null)
-{
-    /// <summary>
-    ///     When `true`, the view's background will not be updated for the webmap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public bool? BackgroundExcluded { get; set; } = BackgroundExcluded;
-    
-    /// <summary>
-    ///     When `true`, the view's scale will be updated for the webmap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public bool? ScalePreserved { get; set; } = ScalePreserved;
-    
-    /// <summary>
-    ///     When `true`, the thumbnail will not be updated for the webmap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public bool? ThumbnailExcluded { get; set; } = ThumbnailExcluded;
-    
-    /// <summary>
-    ///     The size of the thumbnail.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public WebMapUpdateFromOptionsThumbnailSize? ThumbnailSize { get; set; } = ThumbnailSize;
-    
-    /// <summary>
-    ///     When `true`, the initial <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-InitialViewProperties.html#viewpoint">viewpoint</a> of the view will not be updated for the webmap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public bool? ViewpointExcluded { get; set; } = ViewpointExcluded;
-    
-    /// <summary>
-    ///     When `true`, the webmap's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#widgets">widgets</a> property will not be updated.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public bool? WidgetsExcluded { get; set; } = WidgetsExcluded;
-    
-}
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? WidgetsExcluded = null);

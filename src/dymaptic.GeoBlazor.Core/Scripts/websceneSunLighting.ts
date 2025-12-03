@@ -1,7 +1,7 @@
 
-export async function buildJsWebsceneSunLighting(dotNetObject: any): Promise<any> {
+export async function buildJsWebsceneSunLighting(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsWebsceneSunLightingGenerated } = await import('./websceneSunLighting.gb');
-    return await buildJsWebsceneSunLightingGenerated(dotNetObject);
+    return await buildJsWebsceneSunLightingGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetWebsceneSunLighting(jsObject: any, viewId: string | null): Promise<any> {

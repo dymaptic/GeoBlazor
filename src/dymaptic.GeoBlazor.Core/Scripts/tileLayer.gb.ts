@@ -3,13 +3,16 @@ import TileLayer from '@arcgis/core/layers/TileLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class TileLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class TileLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: TileLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: TileLayer) {
+    constructor(layer:TileLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -104,7 +107,9 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -124,7 +129,9 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     async fetchTile(level: any,
         row: any,
         col: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -155,6 +162,14 @@ export default class TileLayerGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.layer.isResolved();
+    }
+
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async loadAll(): Promise<any> {
@@ -309,7 +324,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     
     async setSubtables(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.layer.subtables?.removeAll();
+            this.layer.subtables.removeAll();
         }
         let { buildJsSublayer } = await import('./sublayer');
         this.layer.subtables = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
@@ -364,7 +379,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {

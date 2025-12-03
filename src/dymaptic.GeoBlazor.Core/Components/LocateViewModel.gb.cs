@@ -836,8 +836,8 @@ public partial class LocateViewModel : IGeolocationPositioning,
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "locate", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Locate), nameof(LocateViewModel), 
             CancellationTokenSource.Token);
     }
     
@@ -857,7 +857,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
             return;
         }
     
-        LocateViewModelLocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReference<LocateViewModelLocateErrorEvent>();
+        LocateViewModelLocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LocateViewModelLocateErrorEvent>();
         if (locateErrorEvent is not null)
         {
             await OnLocateError.InvokeAsync(locateErrorEvent);

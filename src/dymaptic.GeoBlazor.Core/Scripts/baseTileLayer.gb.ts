@@ -2,14 +2,18 @@
 import BaseTileLayer from '@arcgis/core/layers/BaseTileLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, sanitize, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
+import BaseComponent from "./baseComponent";
 
-export default class BaseTileLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class BaseTileLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: BaseTileLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: BaseTileLayer) {
+    constructor(layer:BaseTileLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -80,7 +84,9 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -94,7 +100,9 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
     async fetchTile(level: any,
         row: any,
         col: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -216,7 +224,7 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {

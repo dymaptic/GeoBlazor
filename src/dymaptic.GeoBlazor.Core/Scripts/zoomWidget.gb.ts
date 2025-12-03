@@ -3,13 +3,16 @@ import Zoom from '@arcgis/core/widgets/Zoom';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class ZoomWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class ZoomWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Zoom;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Zoom) {
+    constructor(widget:Zoom) {
+        super(widget);
         this.widget = widget;
     }
     

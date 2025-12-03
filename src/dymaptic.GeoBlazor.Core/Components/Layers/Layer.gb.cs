@@ -410,7 +410,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        LayerViewCreateEvent? createEvent = await jsStreamRef.ReadJsStreamReference<LayerViewCreateEvent>();
+        LayerViewCreateEvent? createEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewCreateEvent>();
         if (createEvent is not null)
         {
             await OnCreate.InvokeAsync(createEvent);
@@ -442,7 +442,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        LayerViewCreateErrorEvent? createErrorEvent = await jsStreamRef.ReadJsStreamReference<LayerViewCreateErrorEvent>();
+        LayerViewCreateErrorEvent? createErrorEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewCreateErrorEvent>();
         if (createErrorEvent is not null)
         {
             await OnCreateError.InvokeAsync(createErrorEvent);
@@ -475,7 +475,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        LayerViewDestroyEvent? destroyEvent = await jsStreamRef.ReadJsStreamReference<LayerViewDestroyEvent>();
+        LayerViewDestroyEvent? destroyEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewDestroyEvent>();
         if (destroyEvent is not null)
         {
             await OnDestroy.InvokeAsync(destroyEvent);

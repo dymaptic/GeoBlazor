@@ -1,9 +1,45 @@
-import {hasValue} from './geoBlazorCore';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import Multipoint from "@arcgis/core/geometry/Multipoint";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {buildDotNetExtent} from "./extent";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
-import {buildJsPoint} from "./point";
+import {buildDotNetPoint, buildJsPoint} from "./point";
+import BaseComponent from "./baseComponent";
+import {DotNetPoint} from "./definitions";
+
+
+export default class MultipointWrapper extends BaseComponent {
+    component: Multipoint;
+    
+    constructor(multipoint: Multipoint) {
+        super(multipoint);
+        this.component = multipoint;
+    }
+    
+    addPoint(dotNetPoint: DotNetPoint): any {
+        let jsPoint = buildJsPoint(dotNetPoint);
+        let jsResult = this.component.addPoint(jsPoint);
+        return buildDotNetMultipoint(jsPoint);
+    }
+    
+    getPoint(index: number): DotNetPoint {
+        let jsPoint = this.component.getPoint(index);
+        return buildDotNetPoint(jsPoint);
+    }
+    
+    removePoint(index: number): any {
+        let jsPoint = this.component.removePoint(index);
+        return buildDotNetPoint(jsPoint);
+    }
+    
+    setPoint(index: number, dotNetPoint: DotNetPoint): any {
+        let jsPoint = buildJsPoint(dotNetPoint);
+        let jsResult = this.component.setPoint(index, jsPoint);
+        return buildDotNetMultipoint(jsResult);
+    }
+    
+    
+}
 
 export function buildJsMultipoint(dotNetObject: any): any {
     let properties: any = {};
@@ -28,6 +64,8 @@ export function buildJsMultipoint(dotNetObject: any): any {
     }
     
     let jsMultipoint = new Multipoint(properties);
+    jsObjectRefs[dotNetObject.id] = new MultipointWrapper(jsMultipoint);
+    arcGisObjectRefs[dotNetObject.id] = jsMultipoint;
     
     return jsMultipoint;
 }     

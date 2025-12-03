@@ -3,13 +3,16 @@ import PortalItem from '@arcgis/core/portal/PortalItem';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class PortalItemGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class PortalItemGenerated extends BaseComponent implements IPropertyWrapper {
     public component: PortalItem;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: PortalItem) {
+    constructor(component:PortalItem) {
+        super(component);
         this.component = component;
     }
     
@@ -116,7 +119,9 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
     async addResource(resource: any,
         content: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsPortalItemResource } = await import('./portalItemResource');
         let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
         let result = await this.component.addResource(jsResource,
@@ -137,19 +142,25 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     }
 
     async fetchData(responseType: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.fetchData(responseType,
             options);
         
         return generateSerializableJson(result);
     }
 
-    async fetchRating(options: any): Promise<any> {
+    async fetchRating(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.fetchRating(options);
     }
 
     async fetchRelatedItems(parameters: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.fetchRelatedItems(parameters,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -157,7 +168,9 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     }
 
     async fetchResources(parameters: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.fetchResources(parameters,
             options);
     }
@@ -178,7 +191,9 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         return this.component.isResolved();
     }
 
-    async load(options: any): Promise<any> {
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.load(options);
         
         return generateSerializableJson(result);
@@ -190,14 +205,18 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         return await buildDotNetPortalItem(result, this.viewId);
     }
 
-    async removeAllResources(options: any): Promise<any> {
+    async removeAllResources(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.removeAllResources(options);
         
         return generateSerializableJson(result);
     }
 
     async removeResource(resource: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsPortalItemResource } = await import('./portalItemResource');
         let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
         let result = await this.component.removeResource(jsResource,

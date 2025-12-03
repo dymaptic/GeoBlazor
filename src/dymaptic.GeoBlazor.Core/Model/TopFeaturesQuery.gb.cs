@@ -76,7 +76,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="TopFilter">
-///     The `topFilter` parameter is used to set the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">groupByFields</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#orderByFields">orderByFields</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#topCount">topCount</a> criteria used in generating the result.
+///     The `topFilter` parameter is used to set the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">groupByFields</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#orderByFields">orderByFields</a>,
+///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#topCount">topCount</a> criteria used in generating the result.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#topFilter">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Units">

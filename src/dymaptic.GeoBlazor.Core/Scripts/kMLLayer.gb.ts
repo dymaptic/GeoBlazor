@@ -3,13 +3,16 @@ import KMLLayer from '@arcgis/core/layers/KMLLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class KMLLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class KMLLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: KMLLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: KMLLayer) {
+    constructor(layer:KMLLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -79,7 +82,9 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -100,6 +105,14 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.layer.isResolved();
+    }
+
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async when(callback: any,
@@ -177,7 +190,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         if (!hasValue(value)) {
-            this.layer.sublayers!.removeAll();
+            this.layer.sublayers.removeAll();
         }
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
         this.layer.sublayers = await Promise.all(value.map(async i => await buildJsKMLSublayer(i, this.viewId))) as any;
@@ -218,7 +231,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {

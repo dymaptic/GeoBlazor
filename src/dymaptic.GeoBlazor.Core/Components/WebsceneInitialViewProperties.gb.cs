@@ -44,7 +44,7 @@ public partial class WebsceneInitialViewProperties : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-InitialViewProperties.html#viewpoint">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public WebsceneInitialViewProperties(
-        Environment? environment = null,
+        IEnvironment? environment = null,
         SpatialReference? spatialReference = null,
         TimeExtent? timeExtent = null,
         ViewingMode? viewingMode = null,
@@ -70,7 +70,7 @@ public partial class WebsceneInitialViewProperties : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Environment? Environment { get; set; }
+    public IEnvironment? Environment { get; set; }
     
     /// <summary>
     ///     The spatial reference of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
@@ -116,7 +116,7 @@ public partial class WebsceneInitialViewProperties : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Environment property.
     /// </summary>
-    public async Task<Environment?> GetEnvironment()
+    public async Task<IEnvironment?> GetEnvironment()
     {
         if (CoreJsModule is null)
         {
@@ -138,7 +138,7 @@ public partial class WebsceneInitialViewProperties : MapComponent
             return Environment;
         }
 
-        Environment? result = await JsComponentReference.InvokeAsync<Environment?>(
+        IEnvironment? result = await JsComponentReference.InvokeAsync<IEnvironment?>(
             "getEnvironment", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -323,16 +323,8 @@ public partial class WebsceneInitialViewProperties : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEnvironment(Environment? value)
+    public async Task SetEnvironment(IEnvironment? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         Environment = value;
 #pragma warning restore BL0005
@@ -542,14 +534,6 @@ public partial class WebsceneInitialViewProperties : MapComponent
     {
         switch (child)
         {
-            case Environment environment:
-                if (environment != Environment)
-                {
-                    Environment = environment;
-                    ModifiedParameters[nameof(Environment)] = Environment;
-                }
-                
-                return true;
             case SpatialReference spatialReference:
                 if (spatialReference != SpatialReference)
                 {
@@ -584,10 +568,6 @@ public partial class WebsceneInitialViewProperties : MapComponent
     {
         switch (child)
         {
-            case Environment _:
-                Environment = null;
-                ModifiedParameters[nameof(Environment)] = Environment;
-                return true;
             case SpatialReference _:
                 SpatialReference = null;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
@@ -609,7 +589,6 @@ public partial class WebsceneInitialViewProperties : MapComponent
     public override void ValidateRequiredGeneratedChildren()
     {
     
-        Environment?.ValidateRequiredGeneratedChildren();
         SpatialReference?.ValidateRequiredGeneratedChildren();
         TimeExtent?.ValidateRequiredGeneratedChildren();
         Viewpoint?.ValidateRequiredGeneratedChildren();

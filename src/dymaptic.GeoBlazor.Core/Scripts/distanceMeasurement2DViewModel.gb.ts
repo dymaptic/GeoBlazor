@@ -3,13 +3,16 @@ import DistanceMeasurement2DViewModel from '@arcgis/core/widgets/DistanceMeasure
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class DistanceMeasurement2DViewModelGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class DistanceMeasurement2DViewModelGenerated extends BaseComponent implements IPropertyWrapper {
     public component: DistanceMeasurement2DViewModel;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: DistanceMeasurement2DViewModel) {
+    constructor(component:DistanceMeasurement2DViewModel) {
+        super(component);
         this.component = component;
     }
     

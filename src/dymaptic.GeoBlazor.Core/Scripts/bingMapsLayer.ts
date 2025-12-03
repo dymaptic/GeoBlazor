@@ -27,8 +27,7 @@ export default class BingMapsLayerWrapper extends BingMapsLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetBingMapsLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetBingMapsLayer(result, this.viewId);
     }
 }
 

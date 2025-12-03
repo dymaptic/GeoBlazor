@@ -732,8 +732,8 @@ public partial class LocateWidget : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "locate", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Locate), nameof(LocateWidget), 
             CancellationTokenSource.Token);
     }
     
@@ -753,7 +753,7 @@ public partial class LocateWidget : IGoTo
             return;
         }
     
-        LocateEvent? locateEvent = await jsStreamRef.ReadJsStreamReference<LocateEvent>();
+        LocateEvent? locateEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LocateEvent>();
         if (locateEvent is not null)
         {
             await OnLocate.InvokeAsync(locateEvent);
@@ -785,7 +785,7 @@ public partial class LocateWidget : IGoTo
             return;
         }
     
-        LocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReference<LocateErrorEvent>();
+        LocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LocateErrorEvent>();
         if (locateErrorEvent is not null)
         {
             await OnLocateError.InvokeAsync(locateErrorEvent);

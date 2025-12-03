@@ -3,13 +3,16 @@ import ImageryLayer from '@arcgis/core/layers/ImageryLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class ImageryLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class ImageryLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: ImageryLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: ImageryLayer) {
+    constructor(layer:ImageryLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -35,7 +38,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.multidimensionalSubset)) {
             let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, this.viewId) as any;
         }
         if (hasValue(dotNetObject.popupTemplate)) {
             let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -160,7 +163,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
     
     async calculateVolume(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.calculateVolume(parameters,
             requestOptions);
     }
@@ -170,25 +175,33 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
 
     async computeAngles(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.computeAngles(parameters,
             requestOptions);
     }
 
     async computeHistograms(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.computeHistograms(parameters,
             requestOptions);
     }
 
     async computePixelSpaceLocations(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.computePixelSpaceLocations(parameters,
             requestOptions);
     }
 
     async computeStatisticsHistograms(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         let result = await this.layer.computeStatisticsHistograms(parameters,
             requestOptions);
         
@@ -196,7 +209,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -214,7 +229,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async fetchImage(extent: any,
         width: any,
         height: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         let result = await this.layer.fetchImage(jsExtent,
@@ -228,7 +245,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async fetchPixels(extent: any,
         width: any,
         height: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         let result = await this.layer.fetchPixels(jsExtent,
@@ -240,7 +259,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
 
     async findImages(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         let { buildJsFindImagesParameters } = await import('./findImagesParameters');
         let jsParameters = await buildJsFindImagesParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.findImages(jsParameters,
@@ -248,7 +269,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
 
     async generateRasterInfo(rasterFunction: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsRasterFunction } = await import('./rasterFunction');
         let jsRasterFunction = await buildJsRasterFunction(rasterFunction) as any;
         return await this.layer.generateRasterInfo(jsRasterFunction,
@@ -256,7 +279,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
 
     async getCatalogItemICSInfo(rasterId: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.layer.getCatalogItemICSInfo(rasterId,
             options);
         
@@ -264,37 +289,49 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
 
     async getCatalogItemRasterInfo(rasterId: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.getCatalogItemRasterInfo(rasterId,
             options);
     }
 
     async getImageUrl(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.getImageUrl(parameters,
             requestOptions);
     }
 
     async getSamples(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.getSamples(parameters,
             requestOptions);
     }
 
     async identify(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.identify(parameters,
             requestOptions);
     }
 
     async imageToMap(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.imageToMap(parameters,
             requestOptions);
     }
 
     async imageToMapMultiray(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.imageToMapMultiray(parameters,
             requestOptions);
     }
@@ -311,56 +348,82 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
+    }
+
     async mapToImage(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.mapToImage(parameters,
             requestOptions);
     }
 
     async measureAreaAndPerimeter(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.measureAreaAndPerimeter(parameters,
             requestOptions);
     }
 
     async measureAreaFromImage(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.measureAreaFromImage(parameters,
             requestOptions);
     }
 
     async measureDistanceAndAngle(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.measureDistanceAndAngle(parameters,
             requestOptions);
     }
 
     async measureHeight(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.measureHeight(parameters,
             requestOptions);
     }
 
     async measureLengthFromImage(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.measureLengthFromImage(parameters,
             requestOptions);
     }
 
     async measurePointOrCentroid(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.measurePointOrCentroid(parameters,
             requestOptions);
     }
 
     async queryBoundary(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.queryBoundary(parameters,
             requestOptions);
     }
 
     async queryGPSInfo(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.queryGPSInfo(parameters,
             requestOptions);
     }
@@ -545,7 +608,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
+        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.viewId);
     }
     
     getObjectIdField(): any {
@@ -665,7 +728,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value);
+        this.layer.timeExtent =  buildJsTimeExtent(value);
     }
     
     async getTimeInfo(): Promise<any> {
@@ -731,7 +794,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -764,7 +827,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, viewId) as any;
     }
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
         properties.pixelFilter = async (pixelData) => {

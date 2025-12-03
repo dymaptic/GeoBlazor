@@ -3,13 +3,16 @@ import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class FeatureLayerViewGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class FeatureLayerViewGenerated extends BaseComponent implements IPropertyWrapper {
     public component: FeatureLayerView;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: FeatureLayerView) {
+    constructor(component:FeatureLayerView) {
+        super(component);
         this.component = component;
     }
     
@@ -58,7 +61,9 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
     }
 
     async queryAggregates(query: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
         return await this.component.queryAggregates(jsQuery,
@@ -66,7 +71,9 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
     }
 
     async queryAttributeBins(binsQuery: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.queryAttributeBins(binsQuery,
             options);
     }

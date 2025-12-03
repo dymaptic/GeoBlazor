@@ -11,10 +11,10 @@ public interface ISerializationData
     
     Dictionary<Type, Type> ProtoCollectionTypes { get; }
 
-    Task<T?> ReadJsProtobufStreamReference<T>(IJSStreamReference jsStreamReference,
+    Task<T?> ReadJsStreamReferenceAsProtobuf<T>(IJSStreamReference jsStreamReference,
         Type returnType, long maxAllowedSize = 1_000_000_000);
 
-    Task<T?> ReadJsProtobufCollectionStreamReference<T>(IJSStreamReference jsStreamReference,
+    Task<T?> ReadJsStreamReferenceAsProtobufCollection<T>(IJSStreamReference jsStreamReference,
         Type returnType, long maxAllowedSize = 1_000_000_000);
 
     object GenerateProtobufParameter(object value, Type serializableType, bool isServer);

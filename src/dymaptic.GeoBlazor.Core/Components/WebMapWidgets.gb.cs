@@ -45,6 +45,7 @@ public partial class WebMapWidgets : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapWidgets.html#webmapwidgetsfloorfilter-property">GeoBlazor Docs</a>
     ///     Floor filtering is controlled by a configurable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FloorFilter.html">floor filter</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#Widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class WebMapWidgets : MapComponent
     public WebMapFloorFilter? FloorFilter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapWidgets.html#webmapwidgetstimeslider-property">GeoBlazor Docs</a>
     ///     Time animation is controlled by a configurable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#Widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

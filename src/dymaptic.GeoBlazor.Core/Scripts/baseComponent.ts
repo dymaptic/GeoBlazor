@@ -2,10 +2,26 @@ import {Field, Type } from "protobufjs";
 import {hasValue, loadProtobuf, protobufRoot, ProtoTypes, 
     updateGeometryForProtobuf, updateGraphicForProtobuf, updateSymbolForProtobuf} from "./arcGisJsInterop";
 import {buildEncodedJson} from "./geoBlazorCore";
+import {IPropertyWrapper} from "./definitions";
 
 // base class for components that need to invoke methods with serialized parameters
-export default class BaseComponent {
-
+export default class BaseComponent implements IPropertyWrapper {
+    component: any;
+    
+    constructor(component: any) {
+        this.component = component;
+    }
+    
+    setProperty(prop: string, value: any): void {
+        this.component[prop] = value;
+    }
+    getProperty(prop: string) {
+        return this.component[prop];
+    }
+    unwrap() {
+        return this.component;
+    }
+    
     async invokeSerializedMethod(methodName: string, useStreams: boolean, returnAsProtobuf: boolean, 
                                  protoReturnType: string, ...parameters: any[]): Promise<any> {
         loadProtobuf();
@@ -22,6 +38,10 @@ export default class BaseComponent {
         }
         if (result instanceof Promise) {
             result = await result;
+        }
+        
+        if (result instanceof ArrayBuffer || result instanceof Uint8Array) {
+            return result;
         }
         
         if (returnAsProtobuf) {

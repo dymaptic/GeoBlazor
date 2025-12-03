@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshTransform.html">GeoBlazor Docs</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshTransform.html">GeoBlazor Docs</a>
 ///     A mesh transform.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTransform.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
@@ -61,7 +61,7 @@ public partial class MeshTransform : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshTransform.html#meshtransformrotationangle-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshTransform.html#meshtransformrotationangle-property">GeoBlazor Docs</a>
     ///     Rotation angle in degrees.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTransform.html#rotationAngle">ArcGIS Maps SDK for JavaScript</a>
@@ -72,7 +72,7 @@ public partial class MeshTransform : MapComponent
     public double? RotationAngle { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshTransform.html#meshtransformrotationaxis-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshTransform.html#meshtransformrotationaxis-property">GeoBlazor Docs</a>
     ///     Axis of rotation.
     ///     default [0, 0, 1]
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTransform.html#rotationAxis">ArcGIS Maps SDK for JavaScript</a>
@@ -83,7 +83,7 @@ public partial class MeshTransform : MapComponent
     public IReadOnlyList<double>? RotationAxis { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshTransform.html#meshtransformscale-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshTransform.html#meshtransformscale-property">GeoBlazor Docs</a>
     ///     Scale.
     ///     default [1, 1, 1]
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTransform.html#scale">ArcGIS Maps SDK for JavaScript</a>
@@ -94,7 +94,7 @@ public partial class MeshTransform : MapComponent
     public IReadOnlyList<double>? Scale { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshTransform.html#meshtransformtranslation-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshTransform.html#meshtransformtranslation-property">GeoBlazor Docs</a>
     ///     Translation.
     ///     default [0, 0, 0]
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTransform.html#translation">ArcGIS Maps SDK for JavaScript</a>

@@ -7,6 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Results;
 /// <param name="ScreenPoint">
 ///     The screen coordinates (or native mouse event) of the click on the view.
 /// </param>
+[CodeGenerationIgnore]
 public record HitTestResult(ScreenPoint ScreenPoint)
 {
     /// <summary>
@@ -36,7 +37,7 @@ public record ViewHit(string Type, Point MapPoint) : IProtobufSerializable<ViewH
     /// <inheritdoc />
     public virtual ViewHitSerializationRecord ToProtobuf()
     {
-        return new ViewHitSerializationRecord(Type, MapPoint.ToProtobuf(), null, null);
+        return new ViewHitSerializationRecord(Type, MapPoint.ToProtobuf(), null, null, null);
     }
 }
 

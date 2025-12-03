@@ -759,8 +759,8 @@ public partial class TileInfo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<int?>(
-            "scaleToZoom", 
+        return await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(ScaleToZoom), nameof(TileInfo), 
             CancellationTokenSource.Token,
             scale);
     }
@@ -796,8 +796,8 @@ public partial class TileInfo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<double?>(
-            "zoomToScale", 
+        return await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(ZoomToScale), nameof(TileInfo), 
             CancellationTokenSource.Token,
             zoom);
     }

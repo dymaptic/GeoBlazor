@@ -897,8 +897,8 @@ public partial class PixelBlock : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Stream?>(
-            "getAsRGBA", 
+        return await JsComponentReference!.InvokeJsMethod<Stream?>(
+            IsServer, nameof(GetAsRGBA), nameof(PixelBlock), 
             CancellationTokenSource.Token);
     }
     
@@ -930,8 +930,8 @@ public partial class PixelBlock : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<float[]?>(
-            "getAsRGBAFloat", 
+        return await JsComponentReference!.InvokeJsMethod<float[]?>(
+            IsServer, nameof(GetAsRGBAFloat), nameof(PixelBlock), 
             CancellationTokenSource.Token);
     }
     
@@ -963,8 +963,8 @@ public partial class PixelBlock : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<int?>(
-            "getPlaneCount", 
+        return await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GetPlaneCount), nameof(PixelBlock), 
             CancellationTokenSource.Token);
     }
     

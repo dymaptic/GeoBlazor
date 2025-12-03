@@ -1529,8 +1529,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<UniqueValueInfo?>(
-            "getUniqueValueInfo", 
+        return await JsComponentReference!.InvokeJsMethod<UniqueValueInfo?>(
+            IsServer, nameof(GetUniqueValueInfo), nameof(UniqueValueRenderer), 
             CancellationTokenSource.Token,
             graphic);
     }

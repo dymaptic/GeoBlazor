@@ -56,6 +56,11 @@ public partial record Ground(
     public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    public bool IsServer { get; set; }
+    
+    /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();
@@ -136,11 +141,11 @@ public partial record Ground(
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        IElevationSampler? result = await JsComponentReference!.InvokeAsync<IElevationSampler?>(
-            "createElevationSampler", 
-            CancellationTokenSource.Token,
+        IElevationSampler? result = await JsComponentReference!.InvokeJsMethod<IElevationSampler?>(
+            IsServer, nameof(CreateElevationSampler), nameof(Ground), CancellationTokenSource.Token,
             extent,
-            new { demResolution = options.DemResolution, noDataValue = options.NoDataValue, signal = abortSignal });
+            options,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -175,8 +180,8 @@ public partial record Ground(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsFulfilled), nameof(Ground), 
             CancellationTokenSource.Token);
     }
     
@@ -208,8 +213,8 @@ public partial record Ground(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsRejected), nameof(Ground), 
             CancellationTokenSource.Token);
     }
     
@@ -241,8 +246,8 @@ public partial record Ground(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsResolved), nameof(Ground), 
             CancellationTokenSource.Token);
     }
     
@@ -278,10 +283,9 @@ public partial record Ground(
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "load", 
-            CancellationTokenSource.Token,
-            new { signal = abortSignal });
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Load), nameof(Ground), CancellationTokenSource.Token,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -316,8 +320,8 @@ public partial record Ground(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Ground?>(
-            "loadAll", 
+        return await JsComponentReference!.InvokeJsMethod<Ground?>(
+            IsServer, nameof(LoadAll), nameof(Ground), 
             CancellationTokenSource.Token);
     }
     
@@ -362,11 +366,11 @@ public partial record Ground(
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ElevationQueryResult? result = await JsComponentReference!.InvokeAsync<ElevationQueryResult?>(
-            "queryElevation", 
-            CancellationTokenSource.Token,
+        ElevationQueryResult? result = await JsComponentReference!.InvokeJsMethod<ElevationQueryResult?>(
+            IsServer, nameof(QueryElevation), nameof(Ground), CancellationTokenSource.Token,
             geometry,
-            new { demResolution = options.DemResolution, returnSampleInfo = options.ReturnSampleInfo, noDataValue = options.NoDataValue, signal = abortSignal });
+            options,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -409,8 +413,8 @@ public partial record Ground(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(When), nameof(Ground), 
             CancellationTokenSource.Token,
             callback,
             errback);

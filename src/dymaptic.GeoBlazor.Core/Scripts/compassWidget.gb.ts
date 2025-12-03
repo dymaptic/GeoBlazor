@@ -3,13 +3,16 @@ import Compass from '@arcgis/core/widgets/Compass';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class CompassWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class CompassWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Compass;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Compass) {
+    constructor(widget:Compass) {
+        super(widget);
         this.widget = widget;
     }
     

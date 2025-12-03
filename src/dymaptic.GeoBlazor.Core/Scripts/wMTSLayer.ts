@@ -11,8 +11,7 @@ export default class WMTSLayerWrapper extends WMTSLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetWMTSLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetWMTSLayer(result, this.viewId);
     }
     
     async updateComponent(dotNetObject: any): Promise<void> {

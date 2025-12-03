@@ -3,13 +3,16 @@ import PortalGroup from '@arcgis/core/portal/PortalGroup';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class PortalGroupGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class PortalGroupGenerated extends BaseComponent implements IPropertyWrapper {
     public component: PortalGroup;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: PortalGroup) {
+    constructor(component:PortalGroup) {
+        super(component);
         this.component = component;
     }
     
@@ -58,11 +61,15 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
         }
     }
     
-    async fetchCategorySchema(options: any): Promise<any> {
+    async fetchCategorySchema(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.fetchCategorySchema(options);
     }
 
-    async fetchMembers(options: any): Promise<any> {
+    async fetchMembers(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.fetchMembers(options);
     }
 
@@ -71,7 +78,9 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
     }
 
     async queryItems(queryParams: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryItems(jsQueryParams,

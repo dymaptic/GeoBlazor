@@ -39,7 +39,7 @@ public partial class LocateWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
-        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReference<GoToOverrideParameters>();
+        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReferenceAsJSON<GoToOverrideParameters>();
         if (GoToOverride is not null && goToParameters is not null)
         {
             await GoToOverride.Invoke(goToParameters);

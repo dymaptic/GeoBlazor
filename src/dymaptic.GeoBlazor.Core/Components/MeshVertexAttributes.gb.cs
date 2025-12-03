@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshVertexAttributes.html">GeoBlazor Docs</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshVertexAttributes.html">GeoBlazor Docs</a>
 ///     Object describing the attributes of each vertex of the mesh.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html#vertexAttributes">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
@@ -63,7 +63,7 @@ public partial class MeshVertexAttributes : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshVertexAttributes.html#meshvertexattributescolor-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshVertexAttributes.html#meshvertexattributescolor-property">GeoBlazor Docs</a>
     ///     Since: 4.9  A flat array of the vertex colors (4 elements per vertex ranging from 0 to 255).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html#vertexAttributes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -73,7 +73,7 @@ public partial class MeshVertexAttributes : MapComponent
     public byte[]? Color { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshVertexAttributes.html#meshvertexattributesnormal-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshVertexAttributes.html#meshvertexattributesnormal-property">GeoBlazor Docs</a>
     ///     A flat array of the vertex normals (3 elements per vertex ranging from -1 to 1).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html#vertexAttributes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -83,7 +83,7 @@ public partial class MeshVertexAttributes : MapComponent
     public double[]? Normal { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshVertexAttributes.html#meshvertexattributesposition-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshVertexAttributes.html#meshvertexattributesposition-property">GeoBlazor Docs</a>
     ///     A flat array of vertex positions.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html#vertexAttributes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -93,7 +93,7 @@ public partial class MeshVertexAttributes : MapComponent
     public double[]? Position { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshVertexAttributes.html#meshvertexattributestangent-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshVertexAttributes.html#meshvertexattributestangent-property">GeoBlazor Docs</a>
     ///     Since: 4.11  A flat array of the vertex tangents (4 elements per vertex ranging from -1 to 1.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html#vertexAttributes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -103,7 +103,7 @@ public partial class MeshVertexAttributes : MapComponent
     public double[]? Tangent { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshVertexAttributes.html#meshvertexattributesuv-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshVertexAttributes.html#meshvertexattributesuv-property">GeoBlazor Docs</a>
     ///     A flat array of vertex uv coordinates (2 elements per vertex).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html#vertexAttributes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -115,7 +115,7 @@ public partial class MeshVertexAttributes : MapComponent
 #endregion
 
 #region Property Getters
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Normal property.
     /// </summary>
@@ -466,6 +466,20 @@ public partial class MeshVertexAttributes : MapComponent
 #region Add to Collection Methods
 
     /// <summary>
+    ///     Asynchronously adds elements to the Color property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToColor(params byte[] values)
+    {
+        byte[] join = Color is null
+            ? values
+            : [..Color, ..values];
+        await SetColor(join);
+    }
+    
+    /// <summary>
     ///     Asynchronously adds elements to the Normal property.
     /// </summary>
     /// <param name="values">
@@ -525,6 +539,22 @@ public partial class MeshVertexAttributes : MapComponent
 
 #region Remove From Collection Methods
 
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the Color property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromColor(params byte[] values)
+    {
+        if (Color is null)
+        {
+            return;
+        }
+        await SetColor(Color.Except(values).ToArray());
+    }
+    
     
     /// <summary>
     ///     Asynchronously remove an element from the Normal property.

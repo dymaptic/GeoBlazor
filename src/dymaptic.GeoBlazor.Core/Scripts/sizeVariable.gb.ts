@@ -3,13 +3,16 @@ import SizeVariable from '@arcgis/core/renderers/visualVariables/SizeVariable';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class SizeVariableGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class SizeVariableGenerated extends BaseComponent implements IPropertyWrapper {
     public component: SizeVariable;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: SizeVariable) {
+    constructor(component:SizeVariable) {
+        super(component);
         this.component = component;
     }
     

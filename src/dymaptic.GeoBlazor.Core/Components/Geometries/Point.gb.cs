@@ -586,8 +586,8 @@ public partial class Point
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "copy", 
+        return await JsComponentReference!.InvokeJsMethod<Point?>(
+            IsServer, nameof(Copy), nameof(Point), 
             CancellationTokenSource.Token,
             other);
     }
@@ -623,8 +623,8 @@ public partial class Point
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<double?>(
-            "distance", 
+        return await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(Distance), nameof(Point), 
             CancellationTokenSource.Token,
             other);
     }
@@ -658,8 +658,8 @@ public partial class Point
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "normalize", 
+        return await JsComponentReference!.InvokeJsMethod<Point?>(
+            IsServer, nameof(Normalize), nameof(Point), 
             CancellationTokenSource.Token);
     }
     

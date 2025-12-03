@@ -25,4 +25,6 @@ public interface IInteractiveRecord
     ///     Reference to the Core JavaScript module.
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
+
+    public bool IsServer { get; set; }
 }

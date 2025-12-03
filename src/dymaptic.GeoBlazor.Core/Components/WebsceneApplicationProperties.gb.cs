@@ -39,6 +39,7 @@ public partial class WebsceneApplicationProperties : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebsceneApplicationProperties.html#websceneapplicationpropertiesviewing-property">GeoBlazor Docs</a>
     ///     View-specific properties of application and UI elements.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-ApplicationProperties.html#viewing">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

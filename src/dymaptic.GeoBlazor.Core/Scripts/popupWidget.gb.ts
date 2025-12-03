@@ -3,13 +3,16 @@ import Popup from '@arcgis/core/widgets/Popup';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class PopupWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class PopupWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Popup;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Popup) {
+    constructor(widget:Popup) {
+        super(widget);
         this.widget = widget;
     }
     
@@ -288,7 +291,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.widget.selectedDrillInFeature!, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.widget.selectedDrillInFeature, this.layerId, this.viewId);
     }
     
     getTitle(): any {

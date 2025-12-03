@@ -86,6 +86,11 @@ public partial record PortalGroup(
     public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    public bool IsServer { get; set; }
+    
+    /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();
@@ -123,10 +128,9 @@ public partial record PortalGroup(
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
-            "fetchCategorySchema", 
-            CancellationTokenSource.Token,
-            new { signal = abortSignal });
+        string[]? result = await JsComponentReference!.InvokeJsMethod<string[]?>(
+            IsServer, nameof(FetchCategorySchema), nameof(PortalGroup), CancellationTokenSource.Token,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -165,10 +169,9 @@ public partial record PortalGroup(
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Members? result = await JsComponentReference!.InvokeAsync<Members?>(
-            "fetchMembers", 
-            CancellationTokenSource.Token,
-            new { signal = abortSignal });
+        Members? result = await JsComponentReference!.InvokeJsMethod<Members?>(
+            IsServer, nameof(FetchMembers), nameof(PortalGroup), CancellationTokenSource.Token,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -206,8 +209,8 @@ public partial record PortalGroup(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getThumbnailUrl", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetThumbnailUrl), nameof(PortalGroup), 
             CancellationTokenSource.Token,
             width);
     }
@@ -250,11 +253,10 @@ public partial record PortalGroup(
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        PortalQueryResult? result = await JsComponentReference!.InvokeAsync<PortalQueryResult?>(
-            "queryItems", 
-            CancellationTokenSource.Token,
+        PortalQueryResult? result = await JsComponentReference!.InvokeJsMethod<PortalQueryResult?>(
+            IsServer, nameof(QueryItems), nameof(PortalGroup), CancellationTokenSource.Token,
             queryParams,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         

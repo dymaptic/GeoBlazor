@@ -92,8 +92,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Polygon?>(
-            "addRing", 
+        return await JsComponentReference!.InvokeJsMethod<Polygon?>(
+            IsServer, nameof(AddRing), nameof(Polygon), 
             CancellationTokenSource.Token,
             points);
     }
@@ -129,8 +129,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "contains", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(Contains), nameof(Polygon), 
             CancellationTokenSource.Token,
             point);
     }
@@ -171,8 +171,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "getPoint", 
+        return await JsComponentReference!.InvokeJsMethod<Point?>(
+            IsServer, nameof(GetPoint), nameof(Polygon), 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex);
@@ -218,8 +218,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Polygon?>(
-            "insertPoint", 
+        return await JsComponentReference!.InvokeJsMethod<Polygon?>(
+            IsServer, nameof(InsertPoint), nameof(Polygon), 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex,
@@ -257,8 +257,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isClockwise", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsClockwise), nameof(Polygon), 
             CancellationTokenSource.Token,
             ring);
     }
@@ -299,8 +299,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "removePoint", 
+        return await JsComponentReference!.InvokeJsMethod<Point?>(
+            IsServer, nameof(RemovePoint), nameof(Polygon), 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex);
@@ -337,8 +337,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point[]?>(
-            "removeRing", 
+        return await JsComponentReference!.InvokeJsMethod<Point[]?>(
+            IsServer, nameof(RemoveRing), nameof(Polygon), 
             CancellationTokenSource.Token,
             index);
     }
@@ -383,8 +383,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Polygon?>(
-            "setPoint", 
+        return await JsComponentReference!.InvokeJsMethod<Polygon?>(
+            IsServer, nameof(SetPoint), nameof(Polygon), 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex,

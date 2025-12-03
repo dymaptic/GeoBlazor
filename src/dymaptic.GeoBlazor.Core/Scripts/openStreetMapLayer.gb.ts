@@ -3,13 +3,16 @@ import OpenStreetMapLayer from '@arcgis/core/layers/OpenStreetMapLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class OpenStreetMapLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: OpenStreetMapLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: OpenStreetMapLayer) {
+    constructor(layer:OpenStreetMapLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -19,10 +22,15 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         return this.layer;
     }
     
+
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.effect)) {
             let { buildJsEffect } = await import('./effect');
             this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
+        }
+        if (hasValue(dotNetObject.fullExtent)) {
+            let { buildJsExtent } = await import('./extent');
+            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
         if (hasValue(dotNetObject.portalItem)) {
             let { buildJsPortalItem } = await import('./portalItem');
@@ -61,8 +69,17 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.persistenceEnabled)) {
             this.layer.persistenceEnabled = dotNetObject.persistenceEnabled;
         }
+        if (hasValue(dotNetObject.refreshInterval)) {
+            this.layer.refreshInterval = dotNetObject.refreshInterval;
+        }
+        if (hasValue(dotNetObject.subDomains) && dotNetObject.subDomains.length > 0) {
+            this.layer.subDomains = dotNetObject.subDomains;
+        }
         if (hasValue(dotNetObject.title)) {
             this.layer.title = dotNetObject.title;
+        }
+        if (hasValue(dotNetObject.urlTemplate)) {
+            this.layer.urlTemplate = dotNetObject.urlTemplate;
         }
         if (hasValue(dotNetObject.visible)) {
             this.layer.visible = dotNetObject.visible;
@@ -74,7 +91,9 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -88,7 +107,9 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
     async fetchTile(level: any,
         row: any,
         col: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -114,7 +135,15 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
     async isResolved(): Promise<any> {
         return this.layer.isResolved();
     }
-    
+
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
+    }
+
     async refresh(): Promise<void> {
         this.layer.refresh();
     }
@@ -176,6 +205,11 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         return buildDotNetExtent(this.layer.fullExtent);
     }
     
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
+    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -233,6 +267,10 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         return generateSerializableJson(this.layer.urlTemplate);
     }
     
+    setUrlTemplate(value: any): void {
+        this.layer.urlTemplate = JSON.parse(value);
+    }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -244,7 +282,7 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -266,6 +304,10 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.effect)) {
         let { buildJsEffect } = await import('./effect');
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');

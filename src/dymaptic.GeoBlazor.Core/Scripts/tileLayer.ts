@@ -11,8 +11,7 @@ export default class TileLayerWrapper extends TileLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetTileLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetTileLayer(result, this.viewId);
     }
 }
 

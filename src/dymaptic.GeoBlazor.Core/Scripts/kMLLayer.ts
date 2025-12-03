@@ -11,8 +11,7 @@ export default class KMLLayerWrapper extends KMLLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetKMLLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetKMLLayer(result, this.viewId);
     }
 }
 

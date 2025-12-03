@@ -2788,12 +2788,14 @@ public record ViewHitSerializationRecord : MapComponentSerializationRecord<ViewH
     public ViewHitSerializationRecord(string? Type,
         GeometrySerializationRecord? MapPoint,
         GraphicSerializationRecord? Graphic,
-        string? LayerId)
+        string? LayerId,
+        double? Distance)
     {
         this.Type = Type;
         this.MapPoint = MapPoint;
         this.Graphic = Graphic;
         this.LayerId = LayerId;
+        this.Distance = Distance;
     }
 
     [ProtoMember(1)]
@@ -2807,6 +2809,9 @@ public record ViewHitSerializationRecord : MapComponentSerializationRecord<ViewH
 
     [ProtoMember(4)]
     public string? LayerId { get; set; }
+    
+    [ProtoMember(5)]
+    public double? Distance { get; set; }
 
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
@@ -2833,7 +2838,7 @@ public record ViewHitSerializationRecord : MapComponentSerializationRecord<ViewH
             }
 
             return new GraphicHit(Graphic!.FromSerializationRecord()!, layerId,
-                (Point)MapPoint!.FromSerializationRecord()!);
+                (Point)MapPoint!.FromSerializationRecord()!, Distance);
         }
 
         return new ViewHit(Type!, (Point)MapPoint!.FromSerializationRecord()!);

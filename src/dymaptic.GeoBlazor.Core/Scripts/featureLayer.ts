@@ -48,8 +48,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetFeatureLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetFeatureLayer(result, this.viewId);
     }
 
     async queryExtent(query: DotNetQuery, signal: AbortSignal): Promise<any> {

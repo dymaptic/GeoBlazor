@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [ProtobufSerializable]
-public partial class MeshMaterial: MapComponent
+public partial class MeshMaterial: MapComponent, IMeshComponentMaterial
 {
    // Add custom code to this file to override generated code
    

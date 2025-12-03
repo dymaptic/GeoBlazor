@@ -11,8 +11,7 @@ export default class WCSLayerWrapper extends WCSLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetWCSLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetWCSLayer(result, this.viewId);
     }
 }
 

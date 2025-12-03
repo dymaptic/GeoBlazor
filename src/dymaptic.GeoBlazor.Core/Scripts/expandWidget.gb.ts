@@ -3,13 +3,16 @@ import Expand from '@arcgis/core/widgets/Expand';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class ExpandWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class ExpandWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Expand;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Expand) {
+    constructor(widget:Expand) {
+        super(widget);
         this.widget = widget;
     }
     

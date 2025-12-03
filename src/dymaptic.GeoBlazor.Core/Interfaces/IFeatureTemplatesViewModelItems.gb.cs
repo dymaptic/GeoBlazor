@@ -7,7 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     The template items or grouped template items.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTemplates-FeatureTemplatesViewModel.html#items">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-[JsonConverter(typeof(MultiTypeConverter<IFeatureTemplatesViewModelItems>))]
-public partial interface IFeatureTemplatesViewModelItems 
+public partial interface IFeatureTemplatesViewModelItems : IMapComponent
 {
 }

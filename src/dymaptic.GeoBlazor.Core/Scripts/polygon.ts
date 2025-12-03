@@ -1,10 +1,69 @@
 import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Polygon from "@arcgis/core/geometry/Polygon";
+import Point from "@arcgis/core/geometry/Point";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import Circle from "@arcgis/core/geometry/Circle";
 import {buildDotNetPoint, buildJsPoint} from "./point";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
+import BaseComponent from "./baseComponent";
+import {DotNetPoint, DotNetPolygon} from "./definitions";
+
+export default class PolygonWrapper extends BaseComponent {
+    component: Polygon;
+
+    constructor(component: Polygon) {
+        super();
+        this.component = component;
+    }
+    
+    addRing(points: DotNetPoint[]): DotNetPolygon {
+        let jsPoints = points.map(buildJsPoint);
+        let jsResult = this.component.addRing(jsPoints);
+        return buildDotNetPolygon(jsResult);
+    }
+    
+    contains(point: DotNetPoint): boolean {
+        let jsPoint = buildJsPoint(point) as Point;
+        return this.component.contains(jsPoint);
+    }
+    
+    getPoint(ringIndex: number, pointIndex: number): DotNetPoint | null {
+        let jsPoint = this.component.getPoint(ringIndex, pointIndex);
+        return buildDotNetPoint(jsPoint);
+    }
+    
+    insertPoint(ringIndex: number, pointIndex: number, dotNetPoint: DotNetPoint): DotNetPolygon {
+        let jsPoint = buildJsPoint(dotNetPoint) as Point;
+        let jsResult = this.component.insertPoint(ringIndex, pointIndex, jsPoint);
+        return buildDotNetPoint(jsResult);
+    }
+    
+    isClockwise(ring: DotNetPoint[]): boolean {
+        let jsRing = ring.map(buildJsPoint);
+        return this.component.isClockwise(jsRing);
+    }
+
+    removePoint(ringIndex: number, pointIndex: number): DotNetPoint | null {
+        let jsPoint = this.component.removePoint(ringIndex, pointIndex);
+        return buildDotNetPoint(jsPoint);
+    }
+    
+    removeRing(index: number): DotNetPoint[] | null {
+        let jsRing = this.component.removeRing(index);
+        if (!jsRing) {
+            return null;
+        }
+        
+        return jsRing.map(buildJsPoint);
+    }
+
+    setPoint(ringIndex: number, pointIndex: number, dotNetPoint: DotNetPoint): DotNetPolygon {
+        let jsPoint = buildJsPoint(dotNetPoint) as Point;
+        let jsResult = this.component.setPoint(ringIndex, pointIndex, jsPoint);
+        return buildDotNetPoint(jsResult);
+    }
+}
 
 export function buildDotNetPolygon(polygon: any): any {
     if (polygon === undefined || polygon === null) return null;
@@ -106,8 +165,7 @@ export function buildJsPolygon(dnPolygon: any): any {
         polygon = new Polygon(properties);
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(polygon);
-    jsObjectRefs[dnPolygon.id] = jsObjectRef;
+    jsObjectRefs[dnPolygon.id] = new PolygonWrapper(polygon);
     arcGisObjectRefs[dnPolygon.id] = polygon;
     return polygon;
 }

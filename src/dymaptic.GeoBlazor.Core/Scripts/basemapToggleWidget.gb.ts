@@ -3,13 +3,16 @@ import BasemapToggle from '@arcgis/core/widgets/BasemapToggle';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class BasemapToggleWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: BasemapToggle;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: BasemapToggle) {
+    constructor(widget:BasemapToggle) {
+        super(widget);
         this.widget = widget;
     }
     

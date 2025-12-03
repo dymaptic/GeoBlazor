@@ -8,9 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     The web scene is the core element of 3D mapping across ArcGIS.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class WebScene : ITimeSliderViewModelDocument,
-    ITimeSliderWidgetDocument,
-    ITimeUtilsDocument
+public partial class WebScene : IMapComponent
 {
 
     /// <summary>
@@ -84,7 +82,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
         HeightModelInfo? heightModelInfo = null,
         WebsceneInitialViewProperties? initialViewProperties = null,
         PortalItem? portalItem = null,
-        Presentation? presentation = null,
+        IPresentation? presentation = null,
         string? thumbnailUrl = null,
         WebSceneWidgets? widgets = null)
     {
@@ -219,7 +217,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Presentation? Presentation { get; set; }
+    public IPresentation? Presentation { get; set; }
     
     /// <summary>
     ///     The version of the source document from which the WebScene was read.
@@ -689,7 +687,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Presentation property.
     /// </summary>
-    public async Task<Presentation?> GetPresentation()
+    public async Task<IPresentation?> GetPresentation()
     {
         if (CoreJsModule is null)
         {
@@ -711,7 +709,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
             return Presentation;
         }
 
-        Presentation? result = await JsComponentReference.InvokeAsync<Presentation?>(
+        IPresentation? result = await JsComponentReference.InvokeAsync<IPresentation?>(
             "getPresentation", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -1172,7 +1170,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPresentation(Presentation? value)
+    public async Task SetPresentation(IPresentation? value)
     {
 #pragma warning disable BL0005
         Presentation = value;

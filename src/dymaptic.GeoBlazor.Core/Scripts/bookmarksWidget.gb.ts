@@ -3,13 +3,16 @@ import Bookmarks from '@arcgis/core/widgets/Bookmarks';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class BookmarksWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class BookmarksWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Bookmarks;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Bookmarks) {
+    constructor(widget:Bookmarks) {
+        super(widget);
         this.widget = widget;
     }
     

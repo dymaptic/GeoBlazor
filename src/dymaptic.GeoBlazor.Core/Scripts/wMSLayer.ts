@@ -11,8 +11,7 @@ export default class WMSLayerWrapper extends WMSLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetWMSLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetWMSLayer(result, this.viewId);
     }
 
     async setSpatialReference(spatialReference: any): Promise<void> {

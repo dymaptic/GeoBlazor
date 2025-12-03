@@ -3,13 +3,16 @@ import ImageryTileLayer from '@arcgis/core/layers/ImageryTileLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class ImageryTileLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class ImageryTileLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: ImageryTileLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: ImageryTileLayer) {
+    constructor(layer:ImageryTileLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -35,7 +38,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.multidimensionalSubset)) {
             let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, this.viewId) as any;
         }
         if (hasValue(dotNetObject.popupTemplate)) {
             let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -138,7 +141,9 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
 
     async computeStatisticsHistograms(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         let result = await this.layer.computeStatisticsHistograms(parameters,
             requestOptions);
         
@@ -146,7 +151,9 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -164,7 +171,9 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     async fetchPixels(extent: any,
         width: any,
         height: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchPixels(jsExtent,
@@ -176,7 +185,9 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     async fetchTile(level: any,
         row: any,
         col: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.layer.fetchTile(level,
             row,
             col,
@@ -186,7 +197,9 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
 
     async generateRasterInfo(rasterFunction: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsRasterFunction } = await import('./rasterFunction');
         let jsRasterFunction = await buildJsRasterFunction(rasterFunction) as any;
         return await this.layer.generateRasterInfo(jsRasterFunction,
@@ -194,13 +207,17 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
 
     async getSamples(parameters: any,
-        requestOptions: any): Promise<any> {
+        requestOptions: any,
+        signal: AbortSignal): Promise<any> {
+        requestOptions.signal = signal;
         return await this.layer.getSamples(parameters,
             requestOptions);
     }
 
     async identify(point: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
         let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
@@ -219,6 +236,14 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.layer.isResolved();
+    }
+
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async save(options: any): Promise<any> {
@@ -339,7 +364,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
+        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.viewId);
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -464,7 +489,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value);
+        this.layer.timeExtent =  buildJsTimeExtent(value);
     }
     
     async getTimeInfo(): Promise<any> {
@@ -530,7 +555,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -563,7 +588,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');

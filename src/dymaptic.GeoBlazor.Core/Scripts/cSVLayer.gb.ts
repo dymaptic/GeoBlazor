@@ -3,13 +3,16 @@ import CSVLayer from '@arcgis/core/layers/CSVLayer';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class CSVLayerGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class CSVLayerGenerated extends BaseComponent implements IPropertyWrapper {
     public layer: CSVLayer;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(layer: CSVLayer) {
+    constructor(layer:CSVLayer) {
+        super(layer);
         this.layer = layer;
     }
     
@@ -182,7 +185,9 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.createLayerView(view,
             options);
     }
@@ -219,14 +224,26 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         return this.layer.isResolved();
     }
 
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
+    }
+
     async queryAttributeBins(binsQuery: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.layer.queryAttributeBins(binsQuery,
             options);
     }
 
     async queryExtent(query: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
         return await this.layer.queryExtent(jsQuery,
@@ -234,7 +251,9 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     }
 
     async queryFeatureCount(query: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
         return await this.layer.queryFeatureCount(jsQuery,
@@ -242,7 +261,9 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     }
 
     async queryFeatures(query: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
         return await this.layer.queryFeatures(jsQuery,
@@ -250,7 +271,9 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     }
 
     async queryObjectIds(query: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
         return await this.layer.queryObjectIds(jsQuery,
@@ -576,7 +599,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value);
+        this.layer.timeExtent =  buildJsTimeExtent(value);
     }
     
     async getTimeInfo(): Promise<any> {
@@ -656,7 +679,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent =  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {

@@ -12,8 +12,7 @@ export default class ImageryLayerWrapper extends ImageryLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetImageryLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetImageryLayer(result, this.viewId);
     }
 
     async queryObjectIds(query: any,

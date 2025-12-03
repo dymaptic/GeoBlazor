@@ -3,13 +3,16 @@ import Legend from '@arcgis/core/widgets/Legend';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class LegendWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class LegendWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Legend;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Legend) {
+    constructor(widget:Legend) {
+        super(widget);
         this.widget = widget;
     }
     

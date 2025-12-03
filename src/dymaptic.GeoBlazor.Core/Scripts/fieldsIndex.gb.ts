@@ -3,13 +3,16 @@ import FieldsIndex from '@arcgis/core/layers/support/FieldsIndex';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class FieldsIndexGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class FieldsIndexGenerated extends BaseComponent implements IPropertyWrapper {
     public component: FieldsIndex;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: FieldsIndex) {
+    constructor(component:FieldsIndex) {
+        super(component);
         this.component = component;
     }
     

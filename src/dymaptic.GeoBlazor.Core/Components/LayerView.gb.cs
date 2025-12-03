@@ -299,8 +299,8 @@ public partial class LayerView
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsFulfilled), nameof(LayerView), 
             CancellationTokenSource.Token);
     }
     
@@ -332,8 +332,8 @@ public partial class LayerView
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsRejected), nameof(LayerView), 
             CancellationTokenSource.Token);
     }
     
@@ -365,8 +365,8 @@ public partial class LayerView
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsResolved), nameof(LayerView), 
             CancellationTokenSource.Token);
     }
     
@@ -406,8 +406,8 @@ public partial class LayerView
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(When), nameof(LayerView), 
             CancellationTokenSource.Token,
             callback,
             errback);

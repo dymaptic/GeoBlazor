@@ -1717,8 +1717,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "addItem", 
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(AddItem), nameof(PortalUser), 
             CancellationTokenSource.Token,
             new { item, data, folder });
     }
@@ -1759,8 +1759,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "deleteItem", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(DeleteItem), nameof(PortalUser), 
             CancellationTokenSource.Token,
             item,
             permanentDelete);
@@ -1802,8 +1802,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<DeleteItemsResult[]?>(
-            "deleteItems", 
+        return await JsComponentReference!.InvokeJsMethod<DeleteItemsResult[]?>(
+            IsServer, nameof(DeleteItems), nameof(PortalUser), 
             CancellationTokenSource.Token,
             items,
             permanentDelete);
@@ -1837,8 +1837,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalFolder[]?>(
-            "fetchFolders", 
+        return await JsComponentReference!.InvokeJsMethod<PortalFolder[]?>(
+            IsServer, nameof(FetchFolders), nameof(PortalUser), 
             CancellationTokenSource.Token);
     }
     
@@ -1870,8 +1870,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalGroup[]?>(
-            "fetchGroups", 
+        return await JsComponentReference!.InvokeJsMethod<PortalGroup[]?>(
+            IsServer, nameof(FetchGroups), nameof(PortalUser), 
             CancellationTokenSource.Token);
     }
     
@@ -1941,8 +1941,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<FetchItemsResult?>(
-            "fetchItems", 
+        return await JsComponentReference!.InvokeJsMethod<FetchItemsResult?>(
+            IsServer, nameof(FetchItems), nameof(PortalUser), 
             CancellationTokenSource.Token,
             new { folder, inRecycleBin, includeSubfolderItems, num, sortField, sortOrder, start });
     }
@@ -1975,8 +1975,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string[]?>(
-            "fetchTags", 
+        return await JsComponentReference!.InvokeJsMethod<string[]?>(
+            IsServer, nameof(FetchTags), nameof(PortalUser), 
             CancellationTokenSource.Token);
     }
     
@@ -2011,8 +2011,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getThumbnailUrl", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetThumbnailUrl), nameof(PortalUser), 
             CancellationTokenSource.Token,
             width);
     }
@@ -2049,8 +2049,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalQueryResult?>(
-            "queryFavorites", 
+        return await JsComponentReference!.InvokeJsMethod<PortalQueryResult?>(
+            IsServer, nameof(QueryFavorites), nameof(PortalUser), 
             CancellationTokenSource.Token,
             queryParams);
     }
@@ -2092,8 +2092,8 @@ public partial class PortalUser : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "restoreItem", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(RestoreItem), nameof(PortalUser), 
             CancellationTokenSource.Token,
             item,
             folder);

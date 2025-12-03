@@ -3,13 +3,16 @@ import KMLLayerView = __esri.KMLLayerView;
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class KMLLayerViewGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class KMLLayerViewGenerated extends BaseComponent implements IPropertyWrapper {
     public component: KMLLayerView;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: KMLLayerView) {
+    constructor(component:KMLLayerView) {
+        super(component);
         this.component = component;
     }
     

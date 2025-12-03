@@ -7,13 +7,16 @@ import { buildJsPortalFeaturedGroups } from './portalFeaturedGroups';
 import { buildJsExtent } from './extent';
 import {IPropertyWrapper} from './definitions';
 
-export default class PortalGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class PortalGenerated extends BaseComponent implements IPropertyWrapper {
     public component: Portal;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: Portal) {
+    constructor(component:Portal) {
+        super(component);
         this.component = component;
     }
     
@@ -226,40 +229,54 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
 
     async fetchBasemaps(basemapGalleryGroupQuery: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
             options);
         let { buildDotNetBasemap } = await import('./basemap');
         return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.viewId)));
     }
 
-    async fetchCategorySchema(options: any): Promise<any> {
+    async fetchCategorySchema(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.fetchCategorySchema(options);
     }
 
-    async fetchClassificationSchema(options: any): Promise<any> {
+    async fetchClassificationSchema(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.fetchClassificationSchema(options);
         
         return generateSerializableJson(result);
     }
 
-    async fetchDefault3DBasemap(options: any): Promise<any> {
+    async fetchDefault3DBasemap(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.fetchDefault3DBasemap(options);
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(result, this.viewId);
     }
 
-    async fetchFeaturedGroups(options: any): Promise<any> {
+    async fetchFeaturedGroups(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.fetchFeaturedGroups(options);
         let { buildDotNetPortalGroup } = await import('./portalGroup');
         return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
 
-    async fetchRegions(options: any): Promise<any> {
+    async fetchRegions(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         return await this.component.fetchRegions(options);
     }
 
-    async fetchSettings(options: any): Promise<any> {
+    async fetchSettings(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.fetchSettings(options);
         
         return generateSerializableJson(result);
@@ -277,14 +294,18 @@ export default class PortalGenerated implements IPropertyWrapper {
         return this.component.isResolved();
     }
 
-    async load(options: any): Promise<any> {
+    async load(options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.load(options);
         
         return generateSerializableJson(result);
     }
 
     async queryGroups(queryParams: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryGroups(jsQueryParams,
@@ -292,7 +313,9 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
 
     async queryItems(queryParams: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryItems(jsQueryParams,
@@ -300,7 +323,9 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
 
     async queryUsers(queryParams: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryUsers(jsQueryParams,

@@ -3,13 +3,16 @@ import BasemapGalleryViewModel from '@arcgis/core/widgets/BasemapGallery/Basemap
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class BasemapGalleryViewModelGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class BasemapGalleryViewModelGenerated extends BaseComponent implements IPropertyWrapper {
     public component: BasemapGalleryViewModel;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component: BasemapGalleryViewModel) {
+    constructor(component:BasemapGalleryViewModel) {
+        super(component);
         this.component = component;
     }
     

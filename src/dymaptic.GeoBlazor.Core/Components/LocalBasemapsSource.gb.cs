@@ -4,11 +4,12 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The LocalBasemapsSource class is a Collection-driven <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">source</a> in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html">BasemapGalleryViewModel</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> widget.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-LocalBasemapsSource.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocalBasemapsSource.html">GeoBlazor Docs</a>
+///     The LocalBasemapsSource class is a Collection-driven <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">source</a>
+///     in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html">BasemapGalleryViewModel</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> widget.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-LocalBasemapsSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class LocalBasemapsSource : MapComponent,
-    IBasemapGalleryWidgetSource
+public partial class LocalBasemapsSource : MapComponent
 {
 
     /// <summary>
@@ -39,6 +40,7 @@ public partial class LocalBasemapsSource : MapComponent,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocalBasemapsSource.html#localbasemapssourcebasemaps-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a>s.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-LocalBasemapsSource.html#basemaps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -48,6 +50,7 @@ public partial class LocalBasemapsSource : MapComponent,
     public IReadOnlyList<Basemap>? Basemaps { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocalBasemapsSource.html#localbasemapssourcestate-property">GeoBlazor Docs</a>
     ///     The source's state.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-LocalBasemapsSource.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,8 +72,17 @@ public partial class LocalBasemapsSource : MapComponent,
         {
             return Basemaps;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Basemaps;
@@ -99,8 +111,17 @@ public partial class LocalBasemapsSource : MapComponent,
         {
             return State;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return State;
@@ -132,6 +153,17 @@ public partial class LocalBasemapsSource : MapComponent,
     /// </param>
     public async Task SetBasemaps(IReadOnlyList<Basemap>? value)
     {
+        if (value is not null)
+        {
+            foreach (Basemap item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Basemaps = value;
 #pragma warning restore BL0005
@@ -142,16 +174,23 @@ public partial class LocalBasemapsSource : MapComponent,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setBasemaps", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "basemaps", value);
     }
     
 #endregion
@@ -205,7 +244,6 @@ public partial class LocalBasemapsSource : MapComponent,
                 if (!Basemaps.Contains(basemaps))
                 {
                     Basemaps = [..Basemaps, basemaps];
-                    
                     ModifiedParameters[nameof(Basemaps)] = Basemaps;
                 }
                 
@@ -222,7 +260,6 @@ public partial class LocalBasemapsSource : MapComponent,
         {
             case Basemap basemaps:
                 Basemaps = Basemaps?.Where(b => b != basemaps).ToList();
-                
                 ModifiedParameters[nameof(Basemaps)] = Basemaps;
                 return true;
             default:

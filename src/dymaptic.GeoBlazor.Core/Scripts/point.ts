@@ -1,7 +1,34 @@
-import { buildDotNetExtent } from "./extent";
-import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
+import {buildDotNetExtent} from "./extent";
+import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Point from "@arcgis/core/geometry/Point";
-import { arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs } from './geoBlazorCore';
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from './geoBlazorCore';
+import BaseComponent from "./baseComponent";
+import {DotNetPoint, IPropertyWrapper} from "./definitions";
+
+export default class PointWrapper extends BaseComponent {
+    component: Point;
+    
+    constructor(component: Point) {
+        super(component);
+        this.component = component;
+    }
+    
+    copy(dotNetOther: DotNetPoint): DotNetPoint {
+        let jsOther = buildJsPoint(dotNetOther) as Point;
+        let jsResult = this.component.copy(jsOther);
+        return buildDotNetPoint(jsResult);
+    }
+    
+    distance(dotNetOther: DotNetPoint): number {
+        let jsOther = buildJsPoint(dotNetOther) as Point;
+        return this.component.distance(jsOther);
+    }
+    
+    normalize(): DotNetPoint {
+        let jsNormalized = this.component.normalize();
+        return buildDotNetPoint(jsNormalized);
+    }
+}
 
 export function buildDotNetPoint(point: any): any {
     if (point === undefined || point === null) return null;
@@ -29,8 +56,7 @@ export function buildJsPoint(dotNetObject: any): any {
     copyValuesIfExists(dotNetObject, properties, 'latitude', 'longitude', 'x', 'y', 'z', 'm',
         'hasZ', 'hasM');
     let point = new Point(properties);
-    let jsObjectRef = DotNet.createJSObjectReference(point);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = new PointWrapper(point);
     arcGisObjectRefs[dotNetObject.id] = point;
 
     return point;

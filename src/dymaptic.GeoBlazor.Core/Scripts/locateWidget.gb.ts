@@ -3,13 +3,16 @@ import Locate from '@arcgis/core/widgets/Locate';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, buildJsStreamReference, generateSerializableJson } from './geoBlazorCore';
 import {IPropertyWrapper} from './definitions';
 
-export default class LocateWidgetGenerated implements IPropertyWrapper {
+import BaseComponent from './baseComponent';
+
+export default class LocateWidgetGenerated extends BaseComponent implements IPropertyWrapper {
     public widget: Locate;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(widget: Locate) {
+    constructor(widget:Locate) {
+        super(widget);
         this.widget = widget;
     }
     

@@ -52,6 +52,11 @@ public partial record PortalItemResource(
     public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    public bool IsServer { get; set; }
+    
+    /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();
@@ -98,11 +103,11 @@ public partial record PortalItemResource(
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "fetch", 
-            CancellationTokenSource.Token,
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Fetch), nameof(PortalItemResource), CancellationTokenSource.Token,
             responseType,
-            new { cacheBust = options.CacheBust, signal = abortSignal });
+            options,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -150,11 +155,11 @@ public partial record PortalItemResource(
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "update", 
-            CancellationTokenSource.Token,
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Update), nameof(PortalItemResource), CancellationTokenSource.Token,
             content,
-            new { access = options.Access, signal = abortSignal });
+            options,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         

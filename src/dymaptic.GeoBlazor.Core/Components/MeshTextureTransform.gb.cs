@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Pro.Components.MeshTextureTransform.html">GeoBlazor Docs</a>
-///     MeshTextureTransform represents a transformation of UV mesh coordinates used to sample a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTexture.html">MeshTexture</a>.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshTextureTransform.html">GeoBlazor Docs</a>
+///     MeshTextureTransform represents a transformation of UV mesh coordinates used to sample a
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTexture.html">MeshTexture</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTextureTransform.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class MeshTextureTransform : MapComponent
@@ -54,6 +55,7 @@ public partial class MeshTextureTransform : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshTextureTransform.html#meshtexturetransformoffset-property">GeoBlazor Docs</a>
     ///     The offset of the UV coordinate origin as a factor of the texture dimensions.
     ///     default [0, 0]
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTextureTransform.html#offset">ArcGIS Maps SDK for JavaScript</a>
@@ -64,6 +66,7 @@ public partial class MeshTextureTransform : MapComponent
     public IReadOnlyList<double>? Offset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshTextureTransform.html#meshtexturetransformrotation-property">GeoBlazor Docs</a>
     ///     The rotation of the UV coordinates in degrees, counter-clockwise around the origin.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTextureTransform.html#rotation">ArcGIS Maps SDK for JavaScript</a>
@@ -74,6 +77,7 @@ public partial class MeshTextureTransform : MapComponent
     public double? Rotation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshTextureTransform.html#meshtexturetransformscale-property">GeoBlazor Docs</a>
     ///     The scale factor applied to the components of the UV coordinates.
     ///     default [1, 1]
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshTextureTransform.html#scale">ArcGIS Maps SDK for JavaScript</a>
