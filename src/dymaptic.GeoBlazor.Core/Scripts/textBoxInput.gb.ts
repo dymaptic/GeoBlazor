@@ -12,12 +12,6 @@ export async function buildJsTextBoxInputGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.maxLength)) {
         properties.maxLength = dotNetObject.maxLength;
     }
-    if (hasValue(dotNetObject.maxLength)) {
-        properties.maxLength = dotNetObject.maxLength;
-    }
-    if (hasValue(dotNetObject.minLength)) {
-        properties.minLength = dotNetObject.minLength;
-    }
     if (hasValue(dotNetObject.minLength)) {
         properties.minLength = dotNetObject.minLength;
     }
@@ -39,14 +33,6 @@ export async function buildDotNetTextBoxInputGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.maxLength)) {
         dotNetTextBoxInput.maxLength = jsObject.maxLength;
-    }
-    
-    if (hasValue(jsObject.maxLength)) {
-        dotNetTextBoxInput.maxLength = jsObject.maxLength;
-    }
-    
-    if (hasValue(jsObject.minLength)) {
-        dotNetTextBoxInput.minLength = jsObject.minLength;
     }
     
     if (hasValue(jsObject.minLength)) {

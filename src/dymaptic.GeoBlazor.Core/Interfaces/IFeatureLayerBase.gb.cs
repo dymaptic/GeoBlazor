@@ -179,7 +179,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    string? ObjectIdField { get; set; }
+    string? ObjectIdField { get; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasepreferredtimezone-property">GeoBlazor Docs</a>

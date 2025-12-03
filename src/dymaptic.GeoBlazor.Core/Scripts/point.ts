@@ -3,7 +3,7 @@ import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialRef
 import Point from "@arcgis/core/geometry/Point";
 import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from './geoBlazorCore';
 import BaseComponent from "./baseComponent";
-import {DotNetPoint, IPropertyWrapper} from "./definitions";
+import {DotNetPoint} from "./definitions";
 
 export default class PointWrapper extends BaseComponent {
     component: Point;

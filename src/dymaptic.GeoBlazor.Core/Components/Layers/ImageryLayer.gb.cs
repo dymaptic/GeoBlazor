@@ -116,6 +116,10 @@ public partial class ImageryLayer : IBlendLayer,
     ///     Interpretation of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">noData</a> setting.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noDataInterpretation">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="objectIdField">
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">field</a> containing a unique value or identifier for each raster in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="persistenceEnabled">
     ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
     ///     default true
@@ -252,6 +256,7 @@ public partial class ImageryLayer : IBlendLayer,
         double? minScale = null,
         NoData? noData = null,
         NoDataInterpretation? noDataInterpretation = null,
+        string? objectIdField = null,
         bool? persistenceEnabled = null,
         PixelType? pixelType = null,
         bool? popupEnabled = null,
@@ -301,6 +306,7 @@ public partial class ImageryLayer : IBlendLayer,
         MinScale = minScale;
         NoData = noData;
         NoDataInterpretation = noDataInterpretation;
+        ObjectIdField = objectIdField;
         PersistenceEnabled = persistenceEnabled;
         PixelType = pixelType;
         PopupEnabled = popupEnabled;
@@ -405,6 +411,16 @@ public partial class ImageryLayer : IBlendLayer,
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerhasmultidimensions-property">GeoBlazor Docs</a>
+    ///     Indicates if the layer has <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalInfo">multidimensionalInfo</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#hasMultidimensions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public bool? HasMultidimensions { get; protected set; }
+    
+    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerinterpolation-property">GeoBlazor Docs</a>
     ///     Defines how to interpolate pixel values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
@@ -464,6 +480,16 @@ public partial class ImageryLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public NoDataInterpretation? NoDataInterpretation { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerobjectidfield-property">GeoBlazor Docs</a>
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">field</a> containing a unique value or identifier for each raster in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public string? ObjectIdField { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerpixelfilter-property">GeoBlazor Docs</a>

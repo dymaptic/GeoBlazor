@@ -32,7 +32,7 @@ public partial class WebSceneWidgets : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         TimeSlider = timeSlider;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -83,11 +83,11 @@ public partial class WebSceneWidgets : MapComponent
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeSlider = result;
+            TimeSlider = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeSlider)] = TimeSlider;
+            ModifiedParameters[nameof(TimeSlider)] = TimeSlider;
         }
-         
+        
         return TimeSlider;
     }
     
@@ -128,8 +128,8 @@ public partial class WebSceneWidgets : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeSlider", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeSlider", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

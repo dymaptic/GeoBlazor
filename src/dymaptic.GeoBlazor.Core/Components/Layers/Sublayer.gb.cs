@@ -115,6 +115,11 @@ public partial class Sublayer
     ///     This property is used to configure the associated layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html">FeatureTable</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#attributeTableTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="objectIdField">
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#fields">field</a> containing a unique value or identifier for each
+    ///     feature in the Sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public Sublayer(
         long? sublayerId = null,
         bool? labelsVisible = null,
@@ -135,7 +140,8 @@ public partial class Sublayer
         IReadOnlyList<Sublayer>? sublayers = null,
         IReadOnlyList<OrderByInfo>? orderBy = null,
         string? url = null,
-        IAttributeTableTemplate? attributeTableTemplate = null)
+        IAttributeTableTemplate? attributeTableTemplate = null,
+        string? objectIdField = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -159,6 +165,7 @@ public partial class Sublayer
         OrderBy = orderBy;
         Url = url;
         AttributeTableTemplate = attributeTableTemplate;
+        ObjectIdField = objectIdField;
 #pragma warning restore BL0005    
     }
     

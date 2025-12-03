@@ -5,25 +5,17 @@ import PortalWrapper from './portal';
 import { buildJsPortalProperties } from './portalProperties';
 import { buildJsPortalFeaturedGroups } from './portalFeaturedGroups';
 import { buildJsExtent } from './extent';
-import {IPropertyWrapper} from './definitions';
+import BaseComponent from "./baseComponent";
 
-import BaseComponent from './baseComponent';
-
-export default class PortalGenerated extends BaseComponent implements IPropertyWrapper {
+export default class PortalGenerated extends BaseComponent {
     public component: Portal;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
-    constructor(component:Portal) {
+    constructor(component: Portal) {
         super(component);
         this.component = component;
-    }
-    
-    // region methods
-   
-    unwrap() {
-        return this.component;
     }
     
 
@@ -220,6 +212,7 @@ export default class PortalGenerated extends BaseComponent implements IPropertyW
         }
     }
     
+    // region methods
     async cancelLoad(): Promise<void> {
         this.component.cancelLoad();
     }
@@ -247,9 +240,7 @@ export default class PortalGenerated extends BaseComponent implements IPropertyW
     async fetchClassificationSchema(options: any,
         signal: AbortSignal): Promise<any> {
         options.signal = signal;
-        let result = await this.component.fetchClassificationSchema(options);
-        
-        return generateSerializableJson(result);
+        return await this.component.fetchClassificationSchema(options);
     }
 
     async fetchDefault3DBasemap(options: any,
@@ -277,9 +268,7 @@ export default class PortalGenerated extends BaseComponent implements IPropertyW
     async fetchSettings(options: any,
         signal: AbortSignal): Promise<any> {
         options.signal = signal;
-        let result = await this.component.fetchSettings(options);
-        
-        return generateSerializableJson(result);
+        return await this.component.fetchSettings(options);
     }
 
     async isFulfilled(): Promise<any> {
@@ -297,9 +286,7 @@ export default class PortalGenerated extends BaseComponent implements IPropertyW
     async load(options: any,
         signal: AbortSignal): Promise<any> {
         options.signal = signal;
-        let result = await this.component.load(options);
-        
-        return generateSerializableJson(result);
+        return await this.component.load(options);
     }
 
     async queryGroups(queryParams: any,
@@ -334,10 +321,8 @@ export default class PortalGenerated extends BaseComponent implements IPropertyW
 
     async when(callback: any,
         errback: any): Promise<any> {
-        let result = await this.component.when(callback,
+        return await this.component.when(callback,
             errback);
-        
-        return generateSerializableJson(result);
     }
 
     // region properties
@@ -743,13 +728,6 @@ export default class PortalGenerated extends BaseComponent implements IPropertyW
         this.component.vectorBasemapGalleryGroupQuery = JSON.parse(value);
     }
     
-    getProperty(prop: string): any {
-        return this.component[prop];
-    }
-    
-    setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
-    }
 }
 
 

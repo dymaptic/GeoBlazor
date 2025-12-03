@@ -12,12 +12,6 @@ export async function buildJsTextAreaInputGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.maxLength)) {
         properties.maxLength = dotNetObject.maxLength;
     }
-    if (hasValue(dotNetObject.maxLength)) {
-        properties.maxLength = dotNetObject.maxLength;
-    }
-    if (hasValue(dotNetObject.minLength)) {
-        properties.minLength = dotNetObject.minLength;
-    }
     if (hasValue(dotNetObject.minLength)) {
         properties.minLength = dotNetObject.minLength;
     }
@@ -39,14 +33,6 @@ export async function buildDotNetTextAreaInputGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.maxLength)) {
         dotNetTextAreaInput.maxLength = jsObject.maxLength;
-    }
-    
-    if (hasValue(jsObject.maxLength)) {
-        dotNetTextAreaInput.maxLength = jsObject.maxLength;
-    }
-    
-    if (hasValue(jsObject.minLength)) {
-        dotNetTextAreaInput.minLength = jsObject.minLength;
     }
     
     if (hasValue(jsObject.minLength)) {

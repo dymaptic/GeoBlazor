@@ -9,12 +9,10 @@ export async function buildJsWebsceneInitialViewPropertiesGenerated(dotNetObject
 
     let properties: any = {};
     if (hasValue(dotNetObject.analyses) && dotNetObject.analyses.length > 0) {
-        let { buildJsSliceAnalysis } = await import('./sliceAnalysis');
-        properties.analyses = await Promise.all(dotNetObject.analyses.map(async i => await buildJsSliceAnalysis(i, layerId, viewId))) as any;
+        properties.analyses = dotNetObject.analyses;
     }
     if (hasValue(dotNetObject.environment)) {
-        let { buildJsEnvironment } = await import('./environment');
-        properties.environment = await buildJsEnvironment(dotNetObject.environment, layerId, viewId) as any;
+        properties.environment = dotNetObject.environment;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
@@ -48,16 +46,6 @@ export async function buildDotNetWebsceneInitialViewPropertiesGenerated(jsObject
     
     let dotNetWebsceneInitialViewProperties: any = {};
     
-    if (hasValue(jsObject.analyses)) {
-        let { buildDotNetSliceAnalysis } = await import('./sliceAnalysis');
-        dotNetWebsceneInitialViewProperties.analyses = await Promise.all(jsObject.analyses.map(async i => await buildDotNetSliceAnalysis(i, viewId)));
-    }
-    
-    if (hasValue(jsObject.environment)) {
-        let { buildDotNetEnvironment } = await import('./environment');
-        dotNetWebsceneInitialViewProperties.environment = await buildDotNetEnvironment(jsObject.environment, layerId, viewId);
-    }
-    
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         dotNetWebsceneInitialViewProperties.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
@@ -71,6 +59,14 @@ export async function buildDotNetWebsceneInitialViewPropertiesGenerated(jsObject
     if (hasValue(jsObject.viewpoint)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
         dotNetWebsceneInitialViewProperties.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
+    }
+    
+    if (hasValue(jsObject.analyses)) {
+        dotNetWebsceneInitialViewProperties.analyses = removeCircularReferences(jsObject.analyses);
+    }
+    
+    if (hasValue(jsObject.environment)) {
+        dotNetWebsceneInitialViewProperties.environment = removeCircularReferences(jsObject.environment);
     }
     
     if (hasValue(jsObject.viewingMode)) {

@@ -504,9 +504,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SimpleGeometryType? GeometryType { get; set; }
+    [JsonInclude]
+    public SimpleGeometryType? GeometryType { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerhasz-property">GeoBlazor Docs</a>
@@ -591,9 +591,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ObjectIdField { get; set; }
+    [JsonInclude]
+    public string? ObjectIdField { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerorderby-property">GeoBlazor Docs</a>
@@ -2892,43 +2892,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the GeometryType property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetGeometryType(SimpleGeometryType? value)
-    {
-#pragma warning disable BL0005
-        GeometryType = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(GeometryType)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "geometryType", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
     /// <param name="value">
@@ -3122,43 +3085,6 @@ public partial class GeoJSONLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ObjectIdField property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetObjectIdField(string? value)
-    {
-#pragma warning disable BL0005
-        ObjectIdField = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ObjectIdField)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "objectIdField", value);
     }
     
     /// <summary>
