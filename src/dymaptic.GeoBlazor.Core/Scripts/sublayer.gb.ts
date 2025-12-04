@@ -480,6 +480,9 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.minScale)) {
         properties.minScale = dotNetObject.minScale;
     }
+    if (hasValue(dotNetObject.objectIdField)) {
+        properties.objectIdField = dotNetObject.objectIdField;
+    }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
     }

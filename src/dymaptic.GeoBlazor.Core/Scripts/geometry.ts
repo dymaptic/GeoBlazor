@@ -7,43 +7,28 @@ import {buildDotNetMesh, buildJsMesh} from "./mesh";
 import {
     hasValue,
     removeCircularReferences,
-    updateGeometryForProtobuf,
-    UseStreams
 } from './geoBlazorCore';
-import {DotNetGeometry} from "./definitions";
 
 export function buildDotNetGeometry(geometry: any): any {
     if (!hasValue(geometry)) {
         return null;
     }
-    
-    let dnGeometry: DotNetGeometry;
     switch (geometry?.type) {
         case "point":
-            dnGeometry = buildDotNetPoint(geometry);
-            break;
+            return buildDotNetPoint(geometry);
         case "polyline":
-            dnGeometry = buildDotNetPolyline(geometry);
-            break;
+            return buildDotNetPolyline(geometry);
         case "polygon":
-            dnGeometry = buildDotNetPolygon(geometry);
-            break;
+            return buildDotNetPolygon(geometry);
         case "extent":
-            dnGeometry = buildDotNetExtent(geometry);
-            break;
+            return buildDotNetExtent(geometry);
         case "multipoint":
-            dnGeometry = buildDotNetMultipoint(geometry);
-            break;
+            return buildDotNetMultipoint(geometry);
         case "mesh":
-            dnGeometry = buildDotNetMesh(geometry);
-            break;
+            return buildDotNetMesh(geometry);
         default:
             // unknown type
             return removeCircularReferences(geometry);
-    }
-    
-    if (UseStreams) {
-        updateGeometryForProtobuf(dnGeometry);
     }
 }
 

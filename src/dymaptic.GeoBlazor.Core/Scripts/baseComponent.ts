@@ -1,6 +1,13 @@
 import {Field, Type } from "protobufjs";
-import {hasValue, loadProtobuf, protobufRoot, ProtoTypes} from "./arcGisJsInterop";
-import {buildEncodedJson, setUseStreams} from "./geoBlazorCore";
+import {
+    hasValue,
+    loadProtobuf,
+    protobufRoot,
+    ProtoTypes,
+    updateGeometryForProtobuf,
+    updateGraphicForProtobuf, updateSymbolForProtobuf
+} from "./arcGisJsInterop";
+import {buildEncodedJson} from "./geoBlazorCore";
 import {IPropertyWrapper} from "./definitions";
 
 // base class for components that need to invoke methods with serialized parameters
@@ -24,7 +31,6 @@ export default class BaseComponent implements IPropertyWrapper {
     async invokeSerializedMethod(methodName: string, useStreams: boolean, returnAsProtobuf: boolean, 
                                  protoReturnType: string, ...parameters: any[]): Promise<any> {
         loadProtobuf();
-        setUseStreams(useStreams);
         let methodParams: any[] = [];
         for (let i = 0; i < parameters.length; i += 2) {
             let paramType = parameters[i];
@@ -216,19 +222,23 @@ export default class BaseComponent implements IPropertyWrapper {
 
                 if (isArrayType) {
                     let collectionType = `${protoReturnType}Collection`;
-                    let ProtoCollectionType: any = ProtoTypes[collectionType];
-                    if (!ProtoCollectionType) {
+                    let protoCollectionType: any = ProtoTypes[collectionType];
+                    if (!protoCollectionType) {
                         // create missing protobuf type for array of this type
-                        ProtoCollectionType = new Type(collectionType)
+                        protoCollectionType = new Type(collectionType)
                             .add(new Field('items', 1, protoType.name, 'repeated'));
-                        ProtoTypes[collectionType] = ProtoCollectionType;
-                        protobufRoot.nested.dymaptic.GeoBlazor.Core.add(ProtoCollectionType)
+                        ProtoTypes[collectionType] = protoCollectionType;
+                        protobufRoot.nested.dymaptic.GeoBlazor.Core.add(protoCollectionType)
                     }
+                    
+                    this.checkObjectForGraphics(protoCollectionType, returnValue, true);
 
-                    return ProtoCollectionType.encode({
+                    return protoCollectionType.encode({
                         items: returnValue
                     }).finish();
                 }
+                
+                this.checkObjectForGraphics(protoType, returnValue, false);
 
                 return protoType.encode(returnValue).finish();
             } catch (e) {
@@ -238,6 +248,49 @@ export default class BaseComponent implements IPropertyWrapper {
         }
         
         return buildEncodedJson(returnValue);
+    }
+    
+    checkObjectForGraphics(protoType: any, returnValue: any, isArrayType: boolean): void {
+        if (this.updateGraphicsForProtobuf(protoType, returnValue, isArrayType)) {
+            return;
+        }
+        for (let nested of protoType.nestedArray) {
+            this.checkObjectForGraphics(nested, returnValue, isArrayType);
+        }
+    }
+    
+    updateGraphicsForProtobuf(protoType: any, returnValue: any, isArrayType: boolean): boolean {
+        switch (protoType.name) {
+            case 'Graphic':
+                if (isArrayType) {
+                    for(let val of returnValue as Array<any>) {
+                        updateGraphicForProtobuf(val, null);
+                    }
+                } else {
+                    updateGraphicForProtobuf(returnValue, null);
+                }
+                return true;
+            case 'Geometry':
+                if (isArrayType) {
+                    for(let val of returnValue as Array<any>) {
+                        updateGeometryForProtobuf(val);
+                    }
+                } else {
+                    updateGeometryForProtobuf(returnValue);
+                }
+                return true;
+            case 'Symbol':
+                if (isArrayType) {
+                    for(let val of returnValue as Array<any>) {
+                        updateSymbolForProtobuf(val);
+                    }
+                } else {
+                    updateSymbolForProtobuf(returnValue);
+                }
+                return true;
+            default:
+                return false;
+        }
     }
 
     simpleDotNetTypes = ['int32', 'int64', 'long', 'decimal', 'double', 'single', 'float', 'int', 'bool',

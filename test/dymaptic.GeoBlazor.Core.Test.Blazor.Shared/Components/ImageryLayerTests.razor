@@ -60,7 +60,7 @@
                           Opacity="0.6" Title="Test Layer" 
                           ImageMaxHeight="4100"
                           ImageMaxWidth="15000"
-                          HasMultidimensions=false
+                          BlendMode="BlendMode.Average"
                           LegendEnabled="true"
                           >
             </ImageryLayer>
@@ -73,7 +73,7 @@
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "opacity", 0.6]);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "title", "Test Layer"]);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "imageMaxHeight", 4100]);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "hasMultidimensions", false]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "blendMode", "average"]);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "fullExtent.xmax", 2266845]);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "imageMaxWidth", 15000]);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "legendEnabled", true]);

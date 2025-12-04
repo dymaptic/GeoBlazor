@@ -697,6 +697,9 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.editingEnabled)) {
         properties.editingEnabled = dotNetObject.editingEnabled;
     }
+    if (hasValue(dotNetObject.geometryType)) {
+        properties.geometryType = dotNetObject.geometryType;
+    }
     if (hasValue(dotNetObject.labelsVisible)) {
         properties.labelsVisible = dotNetObject.labelsVisible;
     }
@@ -711,6 +714,9 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.minScale)) {
         properties.minScale = dotNetObject.minScale;
+    }
+    if (hasValue(dotNetObject.objectIdField)) {
+        properties.objectIdField = dotNetObject.objectIdField;
     }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;

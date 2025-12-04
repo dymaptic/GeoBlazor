@@ -6,8 +6,7 @@ import {buildDotNetPictureFillSymbol, buildJsPictureFillSymbol} from "./pictureF
 import {buildDotNetSimpleFillSymbol, buildJsSimpleFillSymbol} from './simpleFillSymbol';
 import {buildDotNetTextSymbol, buildJsTextSymbol} from "./textSymbol";
 import {buildDotNetWebStyleSymbol, buildJsWebStyleSymbol} from "./webStyleSymbol";
-import {hasValue, removeCircularReferences, sanitize, updateSymbolForProtobuf, UseStreams} from './geoBlazorCore';
-import {DotNetSymbol} from "./definitions";
+import {hasValue, removeCircularReferences, sanitize } from './geoBlazorCore';
 
 export function buildJsSymbol(symbol: any, layerId: string | null, viewId: string | null): any {
     if (!hasValue(symbol)) {
@@ -38,35 +37,22 @@ export function buildDotNetSymbol(symbol: any, viewId: string | null): any {
         return null;
     }
     
-    let dnSymbol: DotNetSymbol;
     switch (symbol.type) {
         case 'picture-fill':
-            dnSymbol = buildDotNetPictureFillSymbol(symbol);
-            break;
+            return buildDotNetPictureFillSymbol(symbol);
         case 'picture-marker':
-            dnSymbol = buildDotNetPictureMarkerSymbol(symbol);
-            break;
+            return buildDotNetPictureMarkerSymbol(symbol);
         case 'simple-fill':
-            dnSymbol = buildDotNetSimpleFillSymbol(symbol);
-            break;
+            return buildDotNetSimpleFillSymbol(symbol);
         case 'simple-line':
-            dnSymbol = buildDotNetSimpleLineSymbol(symbol);
-            break;
+            return buildDotNetSimpleLineSymbol(symbol);
         case 'simple-marker':
-            dnSymbol = buildDotNetSimpleMarkerSymbol(symbol);
-            break;
+            return buildDotNetSimpleMarkerSymbol(symbol);
         case 'text':
-            dnSymbol = buildDotNetTextSymbol(symbol);
-            break;
+            return buildDotNetTextSymbol(symbol);
         case 'web-style':
-            dnSymbol = buildDotNetWebStyleSymbol(symbol, viewId);
-            break;
+            return buildDotNetWebStyleSymbol(symbol, viewId);
         default:
-            dnSymbol = removeCircularReferences(symbol);
-            break;
-    }
-    
-    if (UseStreams) {
-        updateSymbolForProtobuf(dnSymbol);
+            return removeCircularReferences(symbol);
     }
 }

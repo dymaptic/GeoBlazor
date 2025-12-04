@@ -1885,25 +1885,6 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
 }
 
 export function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
-    if (hasValue(graphic.attributes)) {
-        const fields = layer?.fields;
-        graphic.attributes = Object.keys(graphic.attributes).map(attr => {
-            const typedValue = graphic.attributes[attr];
-            let valueType: string | undefined = undefined;
-            if (hasValue(fields)) {
-                const field = fields!.find(f => f.name === attr);
-                if (hasValue(field)) {
-                    valueType = field!.type;
-                }
-            }
-            valueType ??= Object.prototype.toString.call(typedValue);
-            return {
-                key: attr,
-                value: typedValue?.toString(),
-                valueType: valueType
-            }
-        });
-    }
     if (hasValue(graphic.geometry)) {
         updateGeometryForProtobuf(graphic.geometry);
     }

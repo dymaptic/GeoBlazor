@@ -473,7 +473,8 @@ public static class JsSyncManager
         {
             return new SerializableParameterRecord(returnType, true, null);
         }
-        bool isCollection = returnType.IsAssignableTo(typeof(IEnumerable));
+        bool isCollection = returnType.IsAssignableTo(typeof(IEnumerable))
+            && !returnType.IsAssignableTo(typeof(IDictionary));
         Type? collectionType = isCollection 
             ? returnType.IsArray 
                 ? returnType.GetElementType() 

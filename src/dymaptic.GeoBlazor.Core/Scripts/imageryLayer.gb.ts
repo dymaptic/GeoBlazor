@@ -893,6 +893,9 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.noDataInterpretation)) {
         properties.noDataInterpretation = dotNetObject.noDataInterpretation;
     }
+    if (hasValue(dotNetObject.objectIdField)) {
+        properties.objectIdField = dotNetObject.objectIdField;
+    }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
     }

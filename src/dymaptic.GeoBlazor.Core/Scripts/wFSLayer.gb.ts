@@ -647,6 +647,9 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.displayFilterEnabled)) {
         properties.displayFilterEnabled = dotNetObject.displayFilterEnabled;
     }
+    if (hasValue(dotNetObject.geometryType)) {
+        properties.geometryType = dotNetObject.geometryType;
+    }
     if (hasValue(dotNetObject.labelsVisible)) {
         properties.labelsVisible = dotNetObject.labelsVisible;
     }
@@ -673,6 +676,9 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.namespaceUri)) {
         properties.namespaceUri = dotNetObject.namespaceUri;
+    }
+    if (hasValue(dotNetObject.objectIdField)) {
+        properties.objectIdField = dotNetObject.objectIdField;
     }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;

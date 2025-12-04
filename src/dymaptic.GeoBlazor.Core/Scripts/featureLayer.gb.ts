@@ -965,6 +965,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
     }
+    if (hasValue(dotNetObject.geometryType)) {
+        properties.geometryType = dotNetObject.geometryType;
+    }
     if (hasValue(dotNetObject.globalIdField)) {
         properties.globalIdField = dotNetObject.globalIdField;
     }
@@ -994,6 +997,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.minScale)) {
         properties.minScale = dotNetObject.minScale;
+    }
+    if (hasValue(dotNetObject.objectIdField)) {
+        properties.objectIdField = dotNetObject.objectIdField;
     }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;

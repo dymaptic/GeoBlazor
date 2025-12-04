@@ -20,13 +20,8 @@ export const dotNetRefs: Record<string, any> = {};
 const observers: Record<string, any> = {};
 
 export let Pro: any;
-export let UseStreams: boolean;
 export function setPro(pro: any): void {
     Pro = pro;
-}
-
-export function setUseStreams(useStreams: boolean): void {
-    UseStreams = useStreams;
 }
 
 export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetReference: any, long: number | null,
@@ -40,7 +35,6 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    tilt?: number) : Promise<MapViewWrapper | null> {
     try {
         setCursor('wait');
-        UseStreams = isServer;
 
         clearError();
         

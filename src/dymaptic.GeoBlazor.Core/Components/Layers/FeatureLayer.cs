@@ -899,9 +899,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         if (JsComponentReference is null) return null;
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Guid queryId = Guid.NewGuid();
         FeatureSet result = await JsComponentReference!.InvokeJsMethod<FeatureSet>(IsServer, 
-            nameof(QueryTopFeatures), nameof(FeatureLayer), cancellationToken, queryId, abortSignal);
+            nameof(QueryTopFeatures), nameof(FeatureLayer), cancellationToken, query, abortSignal);
         
         foreach (Graphic graphic in result.Features!)
         {

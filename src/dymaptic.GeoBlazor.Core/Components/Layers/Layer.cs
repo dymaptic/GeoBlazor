@@ -337,16 +337,15 @@ public abstract partial class Layer : MapComponent
         JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", cancellationToken, Id);
         
-        IJSStreamReference streamRef = await JsComponentReference!.InvokeAsync<IJSStreamReference>("load", 
-            cancellationToken, abortSignal);
         Type type = GetType();
-        Layer? deserializedLayer = await streamRef.ReadJsStreamReferenceAsJSON(type) as Layer;
-        if (deserializedLayer is null)
+        Layer? loadedLayer = await JsComponentReference!.InvokeJsMethod<Layer>(IsServer, 
+            nameof(Load), type.Name, cancellationToken, abortSignal);
+        if (loadedLayer is null)
         {
             throw new InvalidOperationException($"Could not load layer of type {type.Name}");
         }
-        CopyProperties(deserializedLayer);
-        await UpdateFromJavaScript(deserializedLayer);
+        CopyProperties(loadedLayer);
+        await UpdateFromJavaScript(loadedLayer);
         await AbortManager.DisposeAbortController(cancellationToken);
     }
 

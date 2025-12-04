@@ -676,7 +676,7 @@ public class GeometryEngineTests : TestRunnerBase
         Polygon? generalizedPolygon =
             await GeometryEngine.Generalize(complexPolygon, 1, true,
                 GeometryEngineLinearUnit.Feet) as Polygon;
-        Assert.IsNotNull(generalizedPolygon);
+        Assert.IsNotNull(generalizedPolygon?.Rings);
         Assert.AreNotEqual(complexPolygon, generalizedPolygon);
         Assert.IsGreaterThan(generalizedPolygon.Rings.Select(r => r.Count).Sum(),
             complexPolygon.Rings.Select(r => r.Count).Sum());
