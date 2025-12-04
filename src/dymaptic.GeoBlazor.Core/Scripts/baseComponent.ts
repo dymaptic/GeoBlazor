@@ -1,7 +1,6 @@
 import {Field, Type } from "protobufjs";
-import {hasValue, loadProtobuf, protobufRoot, ProtoTypes, 
-    updateGeometryForProtobuf, updateGraphicForProtobuf, updateSymbolForProtobuf} from "./arcGisJsInterop";
-import {buildEncodedJson} from "./geoBlazorCore";
+import {hasValue, loadProtobuf, protobufRoot, ProtoTypes} from "./arcGisJsInterop";
+import {buildEncodedJson, setUseStreams} from "./geoBlazorCore";
 import {IPropertyWrapper} from "./definitions";
 
 // base class for components that need to invoke methods with serialized parameters
@@ -25,6 +24,7 @@ export default class BaseComponent implements IPropertyWrapper {
     async invokeSerializedMethod(methodName: string, useStreams: boolean, returnAsProtobuf: boolean, 
                                  protoReturnType: string, ...parameters: any[]): Promise<any> {
         loadProtobuf();
+        setUseStreams(useStreams);
         let methodParams: any[] = [];
         for (let i = 0; i < parameters.length; i += 2) {
             let paramType = parameters[i];
@@ -215,18 +215,6 @@ export default class BaseComponent implements IPropertyWrapper {
                 const protoType = ProtoTypes[protoReturnType];
 
                 if (isArrayType) {
-                    switch (protoReturnType) {
-                        case 'Geometry':
-                            returnValue.forEach(v => updateGeometryForProtobuf(v));
-                            break;
-                        case 'Graphic':
-                            returnValue.foreEach(v => updateGraphicForProtobuf(v, null));
-                            break;
-                        case 'Symbol':
-                            returnValue.forEach(v => updateSymbolForProtobuf(v));
-                            break;
-                    }
-
                     let collectionType = `${protoReturnType}Collection`;
                     let ProtoCollectionType: any = ProtoTypes[collectionType];
                     if (!ProtoCollectionType) {
@@ -240,18 +228,6 @@ export default class BaseComponent implements IPropertyWrapper {
                     return ProtoCollectionType.encode({
                         items: returnValue
                     }).finish();
-                }
-
-                switch (protoReturnType) {
-                    case 'Geometry':
-                        updateGeometryForProtobuf(returnValue);
-                        break;
-                    case 'Graphic':
-                        updateGraphicForProtobuf(returnValue, null);
-                        break;
-                    case 'Symbol':
-                        updateSymbolForProtobuf(returnValue);
-                        break;
                 }
 
                 return protoType.encode(returnValue).finish();

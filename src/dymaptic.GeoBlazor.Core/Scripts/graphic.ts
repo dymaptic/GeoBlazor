@@ -1,11 +1,11 @@
 import Graphic from "@arcgis/core/Graphic";
 import {
     arcGisObjectRefs,
-    copyValuesIfExists,
+    copyValuesIfExists, getArcGisObjectById,
     graphicsRefs,
     hasValue,
     jsObjectRefs, lookupGeoBlazorGraphicId, lookupGeoBlazorId,
-    lookupJsGraphicById
+    lookupJsGraphicById, updateGraphicForProtobuf, UseStreams
 } from './geoBlazorCore';
 import Geometry from "@arcgis/core/geometry/Geometry";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
@@ -110,6 +110,10 @@ export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, vie
         }
     } else if (!hasValue(dotNetGraphic.id)) {
         dotNetGraphic.id = crypto.randomUUID();
+    }
+
+    if (UseStreams) {
+        updateGraphicForProtobuf(dotNetGraphic, graphic.layer as any);
     }
     
     return dotNetGraphic;

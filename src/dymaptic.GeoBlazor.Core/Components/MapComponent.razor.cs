@@ -11,14 +11,38 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     [Inject]
     [JsonIgnore]
-    public IJSRuntime? JsRuntime { get; set; }
+    public IJSRuntime? JsRuntime
+    {
+        get
+        {
+            if (field is null && Parent?.JsRuntime is not null)
+            {
+                field = Parent.JsRuntime;
+            }
+
+            return field;
+        }
+        set;
+    }
 
     /// <summary>
     ///     Manages references to JavaScript modules.
     /// </summary>
     [Inject]
     [JsonIgnore]
-    public JsModuleManager? JsModuleManager { get; set; }
+    public JsModuleManager? JsModuleManager
+    {
+        get
+        {
+            if (field is null && Parent?.JsModuleManager is not null)
+            {
+                field = Parent.JsModuleManager;
+            }
+
+            return field;
+        }
+        set;
+    }
 
     /// <summary>
     ///     ChildContent defines the ability to add other components within this component in the razor syntax.
@@ -135,7 +159,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
-    protected internal bool IsServer => JsRuntime!.GetType().Name.Contains("Remote");
+    protected internal bool IsServer => JsRuntime?.GetType().Name.Contains("Remote") ?? false;
 
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode

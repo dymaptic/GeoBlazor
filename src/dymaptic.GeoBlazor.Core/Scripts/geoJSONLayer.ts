@@ -2,7 +2,7 @@
 import Query from "@arcgis/core/rest/support/Query";
 import GeoJSONLayerGenerated from './geoJSONLayer.gb';
 import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer';
-import {buildEncodedJson, getProtobufGraphicStream, hasValue} from './geoBlazorCore';
+import {hasValue} from './geoBlazorCore';
 import {DotNetFeatureSet, DotNetQuery} from "./definitions";
 import {buildDotNetQuery} from "./query";
 

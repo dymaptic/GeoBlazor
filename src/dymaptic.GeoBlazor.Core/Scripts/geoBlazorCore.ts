@@ -20,8 +20,13 @@ export const dotNetRefs: Record<string, any> = {};
 const observers: Record<string, any> = {};
 
 export let Pro: any;
+export let UseStreams: boolean;
 export function setPro(pro: any): void {
     Pro = pro;
+}
+
+export function setUseStreams(useStreams: boolean): void {
+    UseStreams = useStreams;
 }
 
 export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetReference: any, long: number | null,
@@ -35,6 +40,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    tilt?: number) : Promise<MapViewWrapper | null> {
     try {
         setCursor('wait');
+        UseStreams = isServer;
 
         clearError();
         
@@ -127,7 +133,7 @@ export function logUncaughtError(level: string, module: string, viewId: string, 
         error.message = args.join(', ');
     }
 
-    if (args[1].toLowerCase().includes('failed to load basemap')) {
+    if (args[1] instanceof String && args[1].toLowerCase().includes('failed to load basemap')) {
         let errorMessage = `${module} error: ${error.message}. Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
         if (viewId && viewId !== 'global') {
             resetMapComponent(viewId);

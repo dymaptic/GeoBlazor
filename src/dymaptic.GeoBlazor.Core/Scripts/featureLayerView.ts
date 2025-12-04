@@ -1,7 +1,7 @@
 import FeatureLayerViewGenerated from './featureLayerView.gb';
 import Query from '@arcgis/core/rest/support/Query';
 import {DotNetQuery} from './definitions';
-import {getProtobufGraphicStream, hasValue, graphicsRefs, lookupJsGraphicById} from './geoBlazorCore';
+import {hasValue, lookupJsGraphicById} from './geoBlazorCore';
 import {buildDotNetQuery} from "./query";
 
 export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {

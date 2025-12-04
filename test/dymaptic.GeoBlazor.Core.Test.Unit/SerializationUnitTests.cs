@@ -168,7 +168,7 @@ public class SerializationUnitTests
         WFSCapabilities capabilities = JsonSerializer.Deserialize<WFSCapabilities>(json, 
             GeoBlazorSerialization.JsonSerializerOptions)!;
         Assert.IsNotNull(capabilities.FeatureTypes);
-        Assert.IsTrue(capabilities.FeatureTypes!.Count > 0);
+        Assert.IsNotEmpty(capabilities.FeatureTypes!);
     }
 
     private readonly Random _random = new();

@@ -115,8 +115,8 @@ export const actionHandlers: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 
-export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper();
-export let projectionEngine: ProjectionWrapper = new ProjectionWrapper();
+export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper({});
+export let projectionEngine: ProjectionWrapper = new ProjectionWrapper({});
 
 // region module variables
 let notifyExtentChanged: boolean = true;
@@ -1855,6 +1855,18 @@ export function loadProtobuf(): void {
     console.debug('Protobuf graphic types initialized');
 }
 
+export function getArcGisObjectById(id: string | null) : any {
+    if (!id) {
+        return null;
+    }
+    
+    if (arcGisObjectRefs.hasOwnProperty(id)) {
+        return arcGisObjectRefs[id];
+    }
+    
+    return null;
+}
+
 export async function getGraphicsFromProtobufStream(streamRef): Promise<any[] | null> {
     const buffer = await streamRef.arrayBuffer();
     return decodeProtobufGraphics(new Uint8Array(buffer));
@@ -1870,18 +1882,6 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
         objects: false
     });
     return array.items;
-}
-
-export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: FeatureLayer | GeoJSONLayer | null): any {
-    for (let i = 0; i < graphics.length; i++) {
-        updateGraphicForProtobuf(graphics[i], layer);
-    }
-    const obj = {
-        items: graphics
-    };
-    const collection = GraphicCollectionSerializationRecord.fromObject(obj);
-    const encoded = GraphicCollectionSerializationRecord.encode(collection).finish();
-        return DotNet.createJSStreamReference(encoded);
 }
 
 export function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
@@ -1914,70 +1914,82 @@ export function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureL
 }
 
 export function updateGeometryForProtobuf(geometry) {
-    if (hasValue(geometry.paths)) {
-        geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
-            return {
-                points: p.map(pt => {
-                    return {
-                        coordinates: pt
-                    }
-                })
-            }
-        });
+    if (hasValue(geometry.paths) && geometry.paths.length > 0) {
+        if (hasValue(geometry.paths[0].points)) {
+            // already transformed
+        } else {
+            geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
+                return {
+                    points: p.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        }
     } else {
         geometry.paths = [];
     }
-    if (hasValue(geometry.rings)) {
-        geometry.rings = (geometry as DotNetPolygon).rings.map(r => {
-            return {
-                points: r.map(pt => {
-                    return {
-                        coordinates: pt
-                    }
-                })
-            }
-        });
+    if (hasValue(geometry.rings) && geometry.rings.length > 0) {
+        if (hasValue(geometry.rings[0].points)) {
+            // already transformed
+        } else {
+            geometry.rings = (geometry as DotNetPolygon).rings.map(r => {
+                return {
+                    points: r.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        }
     } else {
         geometry.rings = [];
     }
-    if (hasValue(geometry.points)) {
-        geometry.points = geometry.points.map(pt => {
-            return {
-                coordinates: pt
-            }
-        });
+    if (hasValue(geometry.points) && geometry.points.length > 0) {
+        if (hasValue(geometry.points[0].coordinates)) {
+            // already transformed
+        } else {
+            geometry.points = geometry.points.map(pt => {
+                return {
+                    coordinates: pt
+                }
+            });
+        }
     } else {
         geometry.points = [];
     }
 }
 
 export function updateSymbolForProtobuf(symbol) {
-    if (hasValue(symbol.color)) {
+    if (hasValue(symbol.color) && !hasValue(symbol.color.hexOrNameValue)) {
         symbol.color = {
             hexOrNameValue: symbol.color
         }
     }
-    if (hasValue(symbol.haloColor)) {
+    if (hasValue(symbol.haloColor) && !hasValue(symbol.haloColor.hexOrNameValue)) {
         symbol.haloColor = {
             hexOrNameValue: symbol.haloColor
         }
     }
-    if (hasValue(symbol.backgroundColor)) {
+    if (hasValue(symbol.backgroundColor) && !hasValue(symbol.backgroundColor.hexOrNameValue)) {
         symbol.backgroundColor = {
             hexOrNameValue: symbol.backgroundColor
         }
     }
-    if (hasValue(symbol.borderLineColor)) {
+    if (hasValue(symbol.borderLineColor) && !hasValue(symbol.borderLineColor.hexOrNameValue)) {
         symbol.borderLineColor = {
             hexOrNameValue: symbol.borderLineColor
         }
     }
-    if (hasValue(symbol.outline?.color)) {
+    if (hasValue(symbol.outline?.color) && !hasValue(symbol.outline.color.hexOrNameValue)) {
         symbol.outline.color = {
             hexOrNameValue: symbol.outline.color
         }
     }
-    if (hasValue(symbol.portal)) {
+    if (hasValue(symbol.portal) && !hasValue(symbol.portalUrl)) {
         symbol.portalUrl = symbol.portal.url;
     }
 }
