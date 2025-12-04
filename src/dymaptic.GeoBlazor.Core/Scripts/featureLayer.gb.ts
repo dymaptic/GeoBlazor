@@ -114,6 +114,9 @@ export default class FeatureLayerGenerated extends BaseComponent {
         if (hasValue(dotNetObject.apiKey)) {
             this.layer.apiKey = dotNetObject.apiKey;
         }
+        if (hasValue(dotNetObject.arcGISLayerId)) {
+            this.layer.id = dotNetObject.arcGISLayerId;
+        }
         if (hasValue(dotNetObject.blendMode)) {
             this.layer.blendMode = dotNetObject.blendMode;
         }
@@ -331,6 +334,18 @@ export default class FeatureLayerGenerated extends BaseComponent {
     
     setApiKey(value: any): void {
         this.layer.apiKey = JSON.parse(value);
+    }
+    
+    getArcGISLayerId(): any {
+        if (!hasValue(this.layer.id)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.id);
+    }
+    
+    setArcGISLayerId(value: any): void {
+        this.layer.id = JSON.parse(value);
     }
     
     getCopyright(): any {
@@ -918,7 +933,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
         properties.apiKey = dotNetObject.apiKey;
     }
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        properties.layerId = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
         properties.blendMode = dotNetObject.blendMode;
@@ -1226,8 +1241,8 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, viewId: st
         dotNetFeatureLayer.apiKey = jsObject.apiKey;
     }
     
-    if (hasValue(jsObject.layerId)) {
-        dotNetFeatureLayer.arcGISLayerId = jsObject.layerId;
+    if (hasValue(jsObject.id)) {
+        dotNetFeatureLayer.arcGISLayerId = jsObject.id;
     }
     
     if (hasValue(jsObject.attributeTableTemplate)) {

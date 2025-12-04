@@ -1173,7 +1173,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: st
     }
     
     if (hasValue(jsObject.noData)) {
-        dotNetImageryLayer.noData = jsObject.noData;
+        dotNetImageryLayer.noData = removeCircularReferences(jsObject.noData);
     }
     
     if (hasValue(jsObject.noDataInterpretation)) {
