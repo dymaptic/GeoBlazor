@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     An enum converter containing the string values representing the color ramp type. Possible Values:"algorithmic"|"multipart"
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.ColorRampType.html">GeoBlazor Docs</a>
+///     An enum converter containing the string values representing the color ramp type.
+///     Possible Values:"algorithmic"|"multipart"
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ColorRampType>))]
 public enum ColorRampType

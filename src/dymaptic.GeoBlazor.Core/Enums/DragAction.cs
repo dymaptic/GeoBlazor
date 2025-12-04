@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     JavaScript Drag actions
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.DragAction.html">GeoBlazor Docs</a>
+/// JavaScript Drag actions
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<DragAction>))]
 public enum DragAction

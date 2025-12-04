@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.OriginPosition.html">GeoBlazor Docs</a>
 ///     The integer's coordinates will be returned relative to the origin position defined by this property value.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<OriginPosition>))]

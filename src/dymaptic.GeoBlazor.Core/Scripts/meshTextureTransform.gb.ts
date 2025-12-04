@@ -2,7 +2,7 @@
 import MeshTextureTransform from '@arcgis/core/geometry/support/MeshTextureTransform';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './geoBlazorCore';
 
-export async function buildJsMeshTextureTransformGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMeshTextureTransformGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }

@@ -1,6 +1,19 @@
+import MeshComponentGenerated from './meshComponent.gb';
 // override generated code in this file
 import MeshComponent from "@arcgis/core/geometry/support/MeshComponent";
 import { hasValue } from './geoBlazorCore';
+
+export default class MeshComponentWrapper extends MeshComponentGenerated {
+
+    constructor(component: MeshComponent) {
+        super(component);
+    }
+
+    async getMaterial(): Promise<any> {
+        return super.getMaterial();
+    }
+}
+
 
 export function buildJsMeshComponent(dotNetObject: any): any {
     let properties : any = {};

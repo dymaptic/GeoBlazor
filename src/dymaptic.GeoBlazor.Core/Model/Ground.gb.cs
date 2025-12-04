@@ -45,8 +45,6 @@ public partial record Ground(
     {
     }
     
-    // TODO: V5: Should this be a MapComponent to be added in the markup?
-    
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>

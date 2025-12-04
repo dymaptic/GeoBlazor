@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.PopupContentType.html">GeoBlazor Docs</a>
 ///     Possible types of content in popups
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PopupContentType>))]

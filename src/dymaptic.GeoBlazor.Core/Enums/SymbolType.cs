@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SymbolType.html">GeoBlazor Docs</a>
 ///     SymbolType enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SymbolType>))]

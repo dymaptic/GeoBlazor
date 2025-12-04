@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.GeometryEngineLinearUnit.html">GeoBlazor Docs</a>
 ///     A collection of units for measuring Linear distances.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html#LinearUnits">ArcGIS Maps SDK for JavaScript</a>
 ///     Used by the Geometry Engine.

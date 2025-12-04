@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.RendererType.html">GeoBlazor Docs</a>
 ///     A collection of renderer types
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<RendererType>))]

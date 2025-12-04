@@ -2,7 +2,7 @@
 import MeshMaterialMetallicRoughness from '@arcgis/core/geometry/support/MeshMaterialMetallicRoughness';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, sanitize, removeCircularReferences } from './geoBlazorCore';
 
-export async function buildJsMeshMaterialMetallicRoughnessGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMeshMaterialMetallicRoughnessGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -14,7 +14,7 @@ export async function buildJsMeshMaterialMetallicRoughnessGenerated(dotNetObject
     }
     if (hasValue(dotNetObject.colorTextureTransform)) {
         let { buildJsMeshTextureTransform } = await import('./meshTextureTransform');
-        properties.colorTextureTransform = await buildJsMeshTextureTransform(dotNetObject.colorTextureTransform, layerId, viewId) as any;
+        properties.colorTextureTransform = await buildJsMeshTextureTransform(dotNetObject.colorTextureTransform) as any;
     }
     if (hasValue(dotNetObject.emissiveColor)) {
         let { buildJsMapColor } = await import('./mapColor');
@@ -22,15 +22,15 @@ export async function buildJsMeshMaterialMetallicRoughnessGenerated(dotNetObject
     }
     if (hasValue(dotNetObject.emissiveTextureTransform)) {
         let { buildJsMeshTextureTransform } = await import('./meshTextureTransform');
-        properties.emissiveTextureTransform = await buildJsMeshTextureTransform(dotNetObject.emissiveTextureTransform, layerId, viewId) as any;
+        properties.emissiveTextureTransform = await buildJsMeshTextureTransform(dotNetObject.emissiveTextureTransform) as any;
     }
     if (hasValue(dotNetObject.normalTextureTransform)) {
         let { buildJsMeshTextureTransform } = await import('./meshTextureTransform');
-        properties.normalTextureTransform = await buildJsMeshTextureTransform(dotNetObject.normalTextureTransform, layerId, viewId) as any;
+        properties.normalTextureTransform = await buildJsMeshTextureTransform(dotNetObject.normalTextureTransform) as any;
     }
     if (hasValue(dotNetObject.occlusionTextureTransform)) {
         let { buildJsMeshTextureTransform } = await import('./meshTextureTransform');
-        properties.occlusionTextureTransform = await buildJsMeshTextureTransform(dotNetObject.occlusionTextureTransform, layerId, viewId) as any;
+        properties.occlusionTextureTransform = await buildJsMeshTextureTransform(dotNetObject.occlusionTextureTransform) as any;
     }
 
     if (hasValue(dotNetObject.alphaCutoff)) {

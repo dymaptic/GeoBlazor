@@ -1,7 +1,7 @@
 
-export async function buildJsMeshTextureTransform(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMeshTextureTransform(dotNetObject: any): Promise<any> {
     let { buildJsMeshTextureTransformGenerated } = await import('./meshTextureTransform.gb');
-    return await buildJsMeshTextureTransformGenerated(dotNetObject, layerId, viewId);
+    return await buildJsMeshTextureTransformGenerated(dotNetObject);
 }     
 
 export async function buildDotNetMeshTextureTransform(jsObject: any, viewId: string | null): Promise<any> {

@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.FieldType.html">GeoBlazor Docs</a>
 ///     Potential types of Fields in a FeatureLayer
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<FieldType>))]

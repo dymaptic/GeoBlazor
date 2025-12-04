@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.VisualVariableType.html">GeoBlazor Docs</a>
 ///     A collection of <see cref="VisualVariable" /> Types
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<VisualVariableType>))]

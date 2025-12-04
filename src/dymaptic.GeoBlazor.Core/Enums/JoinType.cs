@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.JoinType.html">GeoBlazor Docs</a>
 ///     Join types for creating an offset geometry in <see cref="GeometryEngine" />
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<JoinType>))]

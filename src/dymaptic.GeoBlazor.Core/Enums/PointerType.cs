@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.PointerType.html">GeoBlazor Docs</a>
 ///     The types of pointers recognized by the DOM
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PointerType>))]
