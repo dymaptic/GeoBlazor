@@ -45,7 +45,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     /// <param name="url">
     ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#url">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
@@ -62,29 +62,30 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     /// <param name="definitionExpression">
     ///     The SQL where clause used to filter features on the client.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minScale">
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxScale">
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="objectIdField">
-    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
+    ///     The name of the object id <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">field</a> containing a unique identifier for each feature in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="geometryType">
     ///     The geometry type of features in the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
     ///     The opacity of the layer.
@@ -107,7 +108,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     /// <param name="apiKey">
     ///     An authorization string used to access a resource or service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-APIKeyMixin.html#apiKey">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#apiKey">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="arcGISLayerId">
     ///     The unique ID assigned to the layer.
@@ -119,8 +120,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default normal
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="charts">
     ///     Array of Chart Items of type WebMapWebChart available on the feature layer.
@@ -128,23 +129,29 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     /// <param name="copyright">
     ///     Copyright information for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#copyright">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="customParameters">
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-CustomParametersMixin.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="dateFieldsTimeZone">
     ///     The time zone that dates are stored in.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="displayField">
     ///     The name of the layer's primary display field.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#displayField">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="displayFilterEnabled">
+    ///     Indicates whether the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#displayFilterInfo">displayFilterInfo</a> is applied when rendering the layer in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#displayFilterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="displayFilterInfo">
+    ///     Information related to a display filter associated with a layer.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#displayFilterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="dynamicDataSource">
     ///     An object that allows you to create a dynamic layer with data
@@ -192,17 +199,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     /// <param name="gdbVersion">
     ///     The version of the geodatabase of the feature service data.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#gdbVersion">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#gdbVersion">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="hasM">
     ///     Indicates whether the client-side features in the layer have `M` (measurement) values.
     ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#hasM">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#hasM">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="hasZ">
     ///     Indicates whether the client-side features in the layer have `Z` (elevation) values.
     ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="historicMoment">
     ///     The historic moment to query.
@@ -238,7 +245,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="persistenceEnabled">
     ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -257,12 +264,12 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="returnM">
     ///     When `true`, indicates that M values will be returned.
     ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#returnM">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#returnM">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="returnZ">
     ///     When `true`, indicates that z-values will always be returned.
     ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="screenSizePerspectiveEnabled">
     ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
@@ -270,8 +277,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="sourceJSON">
-    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/layer-feature-service-.htm">feature service's metadata JSON</a> exposed by the ArcGIS REST API.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/layer-feature-service-.htm">feature service's metadata JSON</a>
+    ///     exposed by the ArcGIS REST API.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="spatialReference">
     ///     The spatial reference of the layer.
@@ -313,9 +321,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#types">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useViewTime">
-    ///     Determines if the time enabled layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     Determines if the time enabled layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
     ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
@@ -326,7 +335,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
     /// <param name="globalIdField">
-    ///     The name of a gid field containing a globally unique identifier for each feature in the layer. This may be null or undefined if the layer does not have a globally unique identifier field.
+    ///     The name of a `gid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#fields">field</a> containing a globally unique identifier for each
+    ///     feature in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#globalIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public FeatureLayer(
         string? url = null,
@@ -481,7 +492,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -501,7 +512,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayercopyright-property">GeoBlazor Docs</a>
     ///     Copyright information for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#copyright">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -511,7 +522,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayercustomparameters-property">GeoBlazor Docs</a>
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-CustomParametersMixin.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -521,7 +532,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerdatefieldstimezone-property">GeoBlazor Docs</a>
     ///     The time zone that dates are stored in.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -532,7 +543,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerdatesinunknowntimezone-property">GeoBlazor Docs</a>
     ///     This property is set by the service publisher and indicates that dates should be considered without the local timezone.
     ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#datesInUnknownTimezone">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#datesInUnknownTimezone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -542,7 +553,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerdisplayfield-property">GeoBlazor Docs</a>
     ///     The name of the layer's primary display field.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#displayField">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -551,7 +562,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerdisplayfilterenabled-property">GeoBlazor Docs</a>
-    ///     
+    ///     Indicates whether the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#displayFilterInfo">displayFilterInfo</a> is applied when rendering the layer in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#displayFilterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -560,7 +573,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerdisplayfilterinfo-property">GeoBlazor Docs</a>
-    ///     
+    ///     Information related to a display filter associated with a layer.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#displayFilterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -580,8 +595,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayereditfieldsinfo-property">GeoBlazor Docs</a>
-    ///     The editor tracking fields, which record who adds or edits the data through the feature service and when edits are made.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#editFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     The editor tracking fields, which record who adds or edits the data through the feature service
+    ///     and when edits are made.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#editFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -602,7 +618,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayereditinginfo-property">GeoBlazor Docs</a>
     ///     Specifies information about editing.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#editingInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#editingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -612,7 +628,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayereffectivecapabilities-property">GeoBlazor Docs</a>
     ///     Describes effective capabilities of the layer taking in to consideration privileges of the currently signed-in user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#effectiveCapabilities">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#effectiveCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -621,8 +637,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayereffectiveeditingenabled-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer is editable taking in to consideration privileges of the currently signed-in user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#effectiveEditingEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Indicates whether the layer is editable taking in to consideration privileges of the
+    ///     currently signed-in user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#effectiveEditingEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -662,7 +679,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerfieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a field by name.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -692,7 +709,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayergdbversion-property">GeoBlazor Docs</a>
     ///     The version of the geodatabase of the feature service data.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#gdbVersion">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#gdbVersion">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -702,7 +719,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayergeometryfieldsinfo-property">GeoBlazor Docs</a>
     ///     Provides information on the system maintained area and length fields along with their respective units.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#geometryFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#geometryFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -711,7 +728,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerglobalidfield-property">GeoBlazor Docs</a>
-    ///     The name of a gid field containing a globally unique identifier for each feature in the layer. This may be null or undefined if the layer does not have a globally unique identifier field.
+    ///     The name of a `gid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#fields">field</a> containing a globally unique identifier for each
+    ///     feature in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#globalIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -722,7 +741,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerhasm-property">GeoBlazor Docs</a>
     ///     Indicates whether the client-side features in the layer have `M` (measurement) values.
     ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#hasM">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#hasM">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -733,7 +752,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerhasz-property">GeoBlazor Docs</a>
     ///     Indicates whether the client-side features in the layer have `Z` (elevation) values.
     ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -754,7 +773,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayeristable-property">GeoBlazor Docs</a>
     ///     Returns `true` if the layer is loaded from a non-spatial table in a service.
     ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#isTable">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#isTable">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -839,7 +858,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerpreferredtimezone-property">GeoBlazor Docs</a>
     ///     The IANA time zone the author of the service intended data from date fields to be viewed in.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#preferredTimeZone">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#preferredTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -849,7 +868,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerpublishinginfo-property">GeoBlazor Docs</a>
     ///     Checks layer's publishing status while the layer is being published to the portal.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PublishableLayer.html#publishingInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#publishingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -870,7 +889,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerrelationships-property">GeoBlazor Docs</a>
     ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">relationships</a> set up for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#relationships">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#relationships">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -891,7 +910,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerreturnm-property">GeoBlazor Docs</a>
     ///     When `true`, indicates that M values will be returned.
     ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#returnM">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#returnM">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -902,7 +921,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerreturnz-property">GeoBlazor Docs</a>
     ///     When `true`, indicates that z-values will always be returned.
     ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -923,7 +942,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerservicedefinitionexpression-property">GeoBlazor Docs</a>
     ///     The service definition expression limits the features available for display and query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#serviceDefinitionExpression">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#serviceDefinitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -933,7 +952,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerserviceitemid-property">GeoBlazor Docs</a>
     ///     Indicates the portal item of the hosted feature service that contains this layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#serviceItemId">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#serviceItemId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -953,8 +972,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayersourcejson-property">GeoBlazor Docs</a>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/layer-feature-service-.htm">feature service's metadata JSON</a> exposed by the ArcGIS REST API.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/layer-feature-service-.htm">feature service's metadata JSON</a>
+    ///     exposed by the ArcGIS REST API.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -973,8 +993,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayersubtypefield-property">GeoBlazor Docs</a>
-    ///     The name of the field which holds the id of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypes">subtypes</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypeField">ArcGIS Maps SDK for JavaScript</a>
+    ///     The name of the field which holds the id of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#subtypes">subtypes</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#subtypeField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -984,7 +1004,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayersubtypes-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Subtype.html">subtypes</a> defined in the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypes">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#subtypes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -1081,7 +1101,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerurl-property">GeoBlazor Docs</a>
     ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#url">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -1091,9 +1111,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayeruseviewtime-property">GeoBlazor Docs</a>
-    ///     Determines if the time enabled layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     Determines if the time enabled layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -1103,7 +1124,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerversion-property">GeoBlazor Docs</a>
     ///     The version of ArcGIS Server in which the layer is published.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#version">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

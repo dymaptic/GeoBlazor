@@ -30,7 +30,7 @@ export default class ImageryLayerGenerated extends BaseComponent {
         }
         if (hasValue(dotNetObject.multidimensionalSubset)) {
             let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, this.viewId) as any;
+            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
         }
         if (hasValue(dotNetObject.popupTemplate)) {
             let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -581,7 +581,7 @@ export default class ImageryLayerGenerated extends BaseComponent {
     
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.viewId);
+        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
     }
     
     getObjectIdField(): any {
@@ -793,7 +793,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, viewId) as any;
+        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
     }
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
         properties.pixelFilter = async (pixelData) => {
@@ -1173,7 +1173,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: st
     }
     
     if (hasValue(jsObject.noData)) {
-        dotNetImageryLayer.noData = removeCircularReferences(jsObject.noData);
+        dotNetImageryLayer.noData = jsObject.noData;
     }
     
     if (hasValue(jsObject.noDataInterpretation)) {

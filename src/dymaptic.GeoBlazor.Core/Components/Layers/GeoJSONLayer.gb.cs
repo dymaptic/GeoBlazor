@@ -70,8 +70,8 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default normal
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="customParameters">
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
@@ -86,8 +86,14 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="displayFilterEnabled">
+    ///     Indicates whether the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayFilterInfo">displayFilterInfo</a> is applied when rendering the layer in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayFilterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="displayFilterInfo">
+    ///     Information related to a display filter associated with a layer.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayFilterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="editingEnabled">
     ///     Indicates if the layer is editable.
@@ -145,12 +151,12 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="maxScale">
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minScale">
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="objectIdField">
     ///     The name of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
@@ -169,7 +175,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="persistenceEnabled">
     ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -359,8 +365,8 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default normal
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -419,7 +425,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdisplayfilterenabled-property">GeoBlazor Docs</a>
-    ///     
+    ///     Indicates whether the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayFilterInfo">displayFilterInfo</a> is applied when rendering the layer in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayFilterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -428,7 +436,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdisplayfilterinfo-property">GeoBlazor Docs</a>
-    ///     
+    ///     Information related to a display filter associated with a layer.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayFilterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -567,7 +577,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -578,7 +588,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

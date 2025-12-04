@@ -12,6 +12,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="CacheHint">
+///     Indicates if the service should cache the query results.
+///     default undefined
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#cacheHint">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="DatumTransformation">
 ///     Datum transformation used for projecting geometries in the query results when
@@ -19,6 +22,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#datumTransformation">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Distance">
+///     Specifies a search distance from a given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a> in a spatial query.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#distance">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="GdbVersion">
 ///     Specifies the geodatabase version to display for feature service queries.
@@ -143,6 +148,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SpatialRelationship">
+///     For spatial queries, this parameter defines the spatial relationship to query features in the layer or layer view against the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a>.
+///     default intersects
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SqlFormat">
 ///     This parameter can be either standard SQL92 `standard` or it can use the native SQL of the underlying datastore `native`.
@@ -163,8 +171,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Units">
+///     The unit for calculating the buffer distance when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#distance">distance</a> is specified in spatial queries.
+///     default null
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#units">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Where">
+///     A where clause for the query.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#where">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record Query(
     IReadOnlyCollection<string>? AggregateIds = null,
@@ -217,7 +230,9 @@ public partial record Query(
     public IReadOnlyCollection<string>? AggregateIds { get; set; } = AggregateIds;
     
     /// <summary>
-    ///     
+    ///     Indicates if the service should cache the query results.
+    ///     default undefined
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#cacheHint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? CacheHint { get; set; } = CacheHint;
     
@@ -229,7 +244,8 @@ public partial record Query(
     public QueryDatumTransformation? DatumTransformation { get; set; } = DatumTransformation;
     
     /// <summary>
-    ///     
+    ///     Specifies a search distance from a given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a> in a spatial query.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#distance">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? Distance { get; set; } = Distance;
     
@@ -410,7 +426,9 @@ public partial record Query(
     public bool? ReturnZ { get; set; } = ReturnZ;
     
     /// <summary>
-    ///     
+    ///     For spatial queries, this parameter defines the spatial relationship to query features in the layer or layer view against the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#geometry">geometry</a>.
+    ///     default intersects
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public SpatialRelationship? SpatialRelationship { get; set; } = SpatialRelationship;
     
@@ -441,12 +459,15 @@ public partial record Query(
     public TimeExtent? TimeExtent { get; set; } = TimeExtent;
     
     /// <summary>
-    ///     
+    ///     The unit for calculating the buffer distance when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#distance">distance</a> is specified in spatial queries.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#units">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public QueryUnits? Units { get; set; } = Units;
     
     /// <summary>
-    ///     
+    ///     A where clause for the query.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#where">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Where { get; set; } = Where;
     

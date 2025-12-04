@@ -59,8 +59,8 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default normal
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupTemplate">
     ///     The popup template for the layer.
@@ -91,8 +91,14 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="displayFilterEnabled">
+    ///     Indicates whether the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#displayFilterInfo">displayFilterInfo</a> is applied when rendering the layer in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#displayFilterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="displayFilterInfo">
+    ///     Information related to a display filter associated with a layer.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#displayFilterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
@@ -153,12 +159,12 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="maxScale">
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minScale">
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="objectIdField">
     ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#fields">field</a> containing
@@ -226,9 +232,10 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#trackInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useViewTime">
-    ///     Determines if the time enabled layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     Determines if the time enabled layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
     ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
@@ -394,7 +401,9 @@ public partial class CSVLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerdisplayfilterenabled-property">GeoBlazor Docs</a>
-    ///     
+    ///     Indicates whether the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#displayFilterInfo">displayFilterInfo</a> is applied when rendering the layer in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#displayFilterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -403,7 +412,9 @@ public partial class CSVLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerdisplayfilterinfo-property">GeoBlazor Docs</a>
-    ///     
+    ///     Information related to a display filter associated with a layer.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#displayFilterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -540,7 +551,7 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -551,7 +562,7 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -724,9 +735,10 @@ public partial class CSVLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayeruseviewtime-property">GeoBlazor Docs</a>
-    ///     Determines if the time enabled layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     Determines if the time enabled layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

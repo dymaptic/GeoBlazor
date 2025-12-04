@@ -26,11 +26,11 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
         }
         if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
             let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-            this.layer.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, this.viewId))) as any;
+            this.layer.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i))) as any;
         }
         if (hasValue(dotNetObject.multidimensionalSubset)) {
             let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, this.viewId) as any;
+            this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
         }
         if (hasValue(dotNetObject.popupTemplate)) {
             let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -327,7 +327,7 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
             this.layer.multidimensionalDefinition = [];
         }
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        this.layer.multidimensionalDefinition = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i, this.viewId))) as any;
+        this.layer.multidimensionalDefinition = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i))) as any;
     }
     
     async getMultidimensionalSubset(): Promise<any> {
@@ -341,7 +341,7 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
     
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.viewId);
+        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -554,11 +554,11 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, viewId))) as any;
+        properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i))) as any;
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, viewId) as any;
+        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');

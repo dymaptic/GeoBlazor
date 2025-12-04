@@ -17,8 +17,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewavailablefields-property">GeoBlazor Docs</a>
-    ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer` `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
+    ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer`
+    ///     `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -27,8 +28,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewdataupdating-property">GeoBlazor Docs</a>
-    ///     Indicates if the layer view is updating its data and new features are being fetched.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
+    ///     Indicates whether the layer view is currently fetching new features.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -61,7 +62,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewhasallfeatures-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view contains all available features from the service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -70,8 +71,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewhasallfeaturesinview-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer view has all the features available in the current view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
+    ///     This property helps determine if the layer view has successfully retrieved all relevant data for the current extent, even if no features are visible
+    ///     (for example, if the result is zero).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -81,7 +83,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewhasfullgeometries-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view has geometries at full resolution.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

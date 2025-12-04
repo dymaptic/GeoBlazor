@@ -14,7 +14,7 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any, viewId: stri
     }
     if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, viewId))) as any;
+        properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i))) as any;
     }
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsPoint } = await import('./point');

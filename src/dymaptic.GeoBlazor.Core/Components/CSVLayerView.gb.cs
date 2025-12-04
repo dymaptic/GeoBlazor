@@ -42,11 +42,11 @@ public partial class CSVLayerView : LayerView,
     /// </param>
     /// <param name="maximumNumberOfFeatures">
     ///     The maximum number of features that can be displayed at a time.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maximumNumberOfFeaturesExceeded">
     ///     Signifies whether the maximum number of features has been exceeded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
     ///     When `true`, the layer is visible in the view.
@@ -77,8 +77,9 @@ public partial class CSVLayerView : LayerView,
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewavailablefields-property">GeoBlazor Docs</a>
-    ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer` `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
+    ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer`
+    ///     `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -87,8 +88,8 @@ public partial class CSVLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewdataupdating-property">GeoBlazor Docs</a>
-    ///     Indicates if the layer view is updating its data and new features are being fetched.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
+    ///     Indicates whether the layer view is currently fetching new features.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -121,7 +122,7 @@ public partial class CSVLayerView : LayerView,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhasallfeatures-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view contains all available features from the service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -130,8 +131,9 @@ public partial class CSVLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhasallfeaturesinview-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer view has all the features available in the current view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
+    ///     This property helps determine if the layer view has successfully retrieved all relevant data for the current extent, even if no features are visible
+    ///     (for example, if the result is zero).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -141,7 +143,7 @@ public partial class CSVLayerView : LayerView,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhasfullgeometries-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view has geometries at full resolution.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -161,7 +163,7 @@ public partial class CSVLayerView : LayerView,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewmaximumnumberoffeatures-property">GeoBlazor Docs</a>
     ///     The maximum number of features that can be displayed at a time.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -171,7 +173,7 @@ public partial class CSVLayerView : LayerView,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewmaximumnumberoffeaturesexceeded-property">GeoBlazor Docs</a>
     ///     Signifies whether the maximum number of features has been exceeded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

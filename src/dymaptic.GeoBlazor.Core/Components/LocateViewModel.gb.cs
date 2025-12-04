@@ -33,16 +33,18 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// <param name="geolocationOptions">
     ///     An object used for setting optional position parameters.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#geolocationOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#geolocationOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="goToLocationEnabled">
     ///     Indicates whether to navigate the view to the position and scale of the geolocated result.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#goToLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#goToLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="goToOverride">
-    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
+    ///     This function provides the ability to override either the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="graphic">
     ///     The graphic used to show the user's location on the map.
@@ -55,9 +57,10 @@ public partial class LocateViewModel : IGeolocationPositioning,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="scale">
-    ///     Indicates the scale to set on the view when navigating to the position of the geolocated result, after a location is returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#event-track">track</a> event.
+    ///     Indicates the scale to set on the view when navigating to the position of the geolocated
+    ///     result, after a location is returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event-track">track</a> event.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#scale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#scale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="stringError">
     ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
@@ -105,7 +108,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelgeolocationoptions-property">GeoBlazor Docs</a>
     ///     An object used for setting optional position parameters.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#geolocationOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#geolocationOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -116,7 +119,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelgotolocationenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to navigate the view to the position and scale of the geolocated result.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#goToLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#goToLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -147,9 +150,10 @@ public partial class LocateViewModel : IGeolocationPositioning,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelscale-property">GeoBlazor Docs</a>
-    ///     Indicates the scale to set on the view when navigating to the position of the geolocated result, after a location is returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#event-track">track</a> event.
+    ///     Indicates the scale to set on the view when navigating to the position of the geolocated
+    ///     result, after a location is returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event-track">track</a> event.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#scale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#scale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

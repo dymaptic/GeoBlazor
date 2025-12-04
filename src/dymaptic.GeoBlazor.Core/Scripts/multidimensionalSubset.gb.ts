@@ -2,7 +2,7 @@
 import MultidimensionalSubset from '@arcgis/core/layers/support/MultidimensionalSubset';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './geoBlazorCore';
 
-export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -14,7 +14,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
     }
     if (hasValue(dotNetObject.subsetDefinitions) && dotNetObject.subsetDefinitions.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        properties.subsetDefinitions = await Promise.all(dotNetObject.subsetDefinitions.map(async i => await buildJsDimensionalDefinition(i, viewId))) as any;
+        properties.subsetDefinitions = await Promise.all(dotNetObject.subsetDefinitions.map(async i => await buildJsDimensionalDefinition(i))) as any;
     }
 
     let jsMultidimensionalSubset = new MultidimensionalSubset(properties);

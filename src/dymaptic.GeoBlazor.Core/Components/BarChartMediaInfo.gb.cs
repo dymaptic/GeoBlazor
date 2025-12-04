@@ -23,10 +23,16 @@ public partial class BarChartMediaInfo : IChartMediaInfo
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="title">
+    ///     The title of the media element.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="caption">
+    ///     Defines a caption for the media.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html#caption">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="altText">
+    ///     Provides an alternate text for an image if the image cannot be displayed.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html#altText">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="value">
     ///     Defines the chart value.

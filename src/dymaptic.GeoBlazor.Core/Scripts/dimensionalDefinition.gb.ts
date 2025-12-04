@@ -2,7 +2,7 @@
 import DimensionalDefinition from '@arcgis/core/layers/support/DimensionalDefinition';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './geoBlazorCore';
 
-export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
