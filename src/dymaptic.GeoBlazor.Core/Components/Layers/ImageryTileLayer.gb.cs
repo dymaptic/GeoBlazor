@@ -192,7 +192,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         BlendMode? blendMode = null,
         string? copyright = null,
         Effect? effect = null,
-        Interpolation? interpolation = null,
+        PixelInterpolation? interpolation = null,
         bool? legendEnabled = null,
         ListMode? listMode = null,
         double? maxScale = null,
@@ -292,7 +292,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Interpolation? Interpolation { get; set; }
+    public PixelInterpolation? Interpolation { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayermultidimensionaldefinition-property">GeoBlazor Docs</a>
@@ -678,7 +678,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Interpolation property.
     /// </summary>
-    public async Task<Interpolation?> GetInterpolation()
+    public async Task<PixelInterpolation?> GetInterpolation()
     {
         if (CoreJsModule is null)
         {
@@ -701,12 +701,12 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableEnumWrapper<Interpolation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Interpolation>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<PixelInterpolation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PixelInterpolation>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "interpolation");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Interpolation = (Interpolation)result.Value.Value!;
+             Interpolation = (PixelInterpolation)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Interpolation)] = Interpolation;
         }
@@ -1858,7 +1858,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInterpolation(Interpolation? value)
+    public async Task SetInterpolation(PixelInterpolation? value)
     {
 #pragma warning disable BL0005
         Interpolation = value;
