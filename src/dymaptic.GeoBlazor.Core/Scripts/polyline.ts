@@ -1,8 +1,8 @@
-import {buildDotNetExtent} from "./extent";
+import {buildDotNetExtent, buildJsExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import Point from "@arcgis/core/geometry/Point";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from './geoBlazorCore';
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
 import BaseComponent from "./baseComponent";
 import {DotNetPoint} from "./definitions";
@@ -12,7 +12,7 @@ export default class PolylineWrapper extends BaseComponent {
     component: Polyline;
 
     constructor(component: Polyline) {
-        super();
+        super(component);
         this.component = component;
     }
     
@@ -77,18 +77,17 @@ export function buildDotNetPolyline(polyline: any): any {
 export function buildJsPolyline(dnPolyline: any): any {
     if (dnPolyline === undefined || dnPolyline === null) return null;
     let properties: any = {};
+    
     if (hasValue(dnPolyline.paths)) {
         properties.paths = buildJsPathsOrRings(dnPolyline.paths);
     }
-    if (hasValue(dnPolyline.hasZ)) {
-        properties.hasZ = dnPolyline.hasZ;
-    }
-    if (hasValue(dnPolyline.hasM)) {
-        properties.hasM = dnPolyline.hasM;
-    }
+    
     if (hasValue(dnPolyline.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
     }
+    
+    copyValuesIfExists(dnPolyline, properties, 'hasM', 'hasZ')
+    
     let polyline = new Polyline(properties);
     
     jsObjectRefs[dnPolyline.id] = new PolylineWrapper(polyline);

@@ -5,7 +5,7 @@ import {
     graphicsRefs,
     hasValue,
     jsObjectRefs, lookupGeoBlazorGraphicId, lookupGeoBlazorId,
-    lookupJsGraphicById,
+    lookupJsGraphicById
 } from './geoBlazorCore';
 import Geometry from "@arcgis/core/geometry/Geometry";
 import PopupTemplate from "@arcgis/core/PopupTemplate";

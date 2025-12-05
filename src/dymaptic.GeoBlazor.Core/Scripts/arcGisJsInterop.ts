@@ -26,7 +26,7 @@ import Color from "@arcgis/core/Color";
 import esriConfig from "@arcgis/core/config";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import GeometryEngineWrapper from "./geometryEngine";
+import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
 import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Layer from "@arcgis/core/layers/Layer";
@@ -43,7 +43,7 @@ import Popup from "@arcgis/core/widgets/Popup";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Portal from "@arcgis/core/portal/Portal";
 import * as promiseUtils from "@arcgis/core/core/promiseUtils";
-import ProjectionWrapper from "./projectionEngine";
+import * as projectionEngine from "@arcgis/core/geometry/projection";
 import Query from "@arcgis/core/rest/support/Query";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
@@ -106,7 +106,12 @@ export {
     Portal,
     SimpleRenderer,
     buildJsLayer,
-    reactiveUtils
+    buildJsGeometry,
+    buildJsGraphic,
+    buildJsSymbol,
+    reactiveUtils,
+    geometryEngine,
+    projectionEngine
 };
 
 export const popupTemplateRefs: Record<string, Accessor> = {};
@@ -114,9 +119,6 @@ export const graphicsRefs: Record<string, Record<string, Graphic>> = {};
 export const actionHandlers: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-
-export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper({});
-export let projectionEngine: ProjectionWrapper = new ProjectionWrapper({});
 
 // region module variables
 let notifyExtentChanged: boolean = true;

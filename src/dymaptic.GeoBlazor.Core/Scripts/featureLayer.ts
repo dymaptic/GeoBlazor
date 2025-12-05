@@ -14,7 +14,6 @@ import {
     DotNetTopFeaturesQuery
 } from "./definitions";
 import {
-    buildEncodedJson,
     decodeProtobufGraphics,
     getGraphicsFromProtobufStream,
     hasValue,
@@ -173,19 +172,9 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     async applyGraphicEdits(graphics: any[], editType: string, options: any, abortSignal: AbortSignal): Promise<any> {
         let jsGraphics: Graphic[] = [];
-        if (editType === 'add' || editType === 'update') {
-            // add needs built, update needs property checking
-            for (const g of graphics) {
-                let jsGraphic = buildJsGraphic(g) as Graphic;
-                jsGraphics.push(jsGraphic);
-            }
-        } else {
-            // delete can just be looked up if they exist
-            for (const g of graphics) {
-                let jsGraphic = lookupJsGraphicById(g.id, g.layerId, g.viewId)
-                    ?? buildJsGraphic(g) as Graphic;
-                jsGraphics.push(jsGraphic);
-            }
+        for (const g of graphics) {
+            let jsGraphic = buildJsGraphic(g) as Graphic;
+            jsGraphics.push(jsGraphic);
         }
         if (abortSignal.aborted) {
             return;

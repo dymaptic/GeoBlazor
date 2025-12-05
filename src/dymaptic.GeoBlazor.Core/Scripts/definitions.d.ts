@@ -31,8 +31,11 @@ export interface DotNetGraphic {
     aggregateGeometries: string | null;
     origin: any;
     layerId: string | null;
+    layer: any | null;
+    viewId: string | null;
     dotNetGraphicReference: any;
     symbol: DotNetSymbol;
+    popupTemplate: DotNetPopupTemplate;
 }
 
 export interface DotNetFeature {

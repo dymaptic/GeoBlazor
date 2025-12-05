@@ -1,8 +1,8 @@
-import {buildDotNetExtent} from "./extent";
+import {buildDotNetExtent, buildJsExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import Point from "@arcgis/core/geometry/Point";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from './geoBlazorCore';
 import Circle from "@arcgis/core/geometry/Circle";
 import {buildDotNetPoint, buildJsPoint} from "./point";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
@@ -13,7 +13,7 @@ export default class PolygonWrapper extends BaseComponent {
     component: Polygon;
 
     constructor(component: Polygon) {
-        super();
+        super(component);
         this.component = component;
     }
     
@@ -134,18 +134,16 @@ export function buildJsPolygon(dnPolygon: any): any {
     if (dnPolygon === undefined || dnPolygon === null) return null;
     
     let properties : any = {};
+
     if (hasValue(dnPolygon.rings)) {
         properties.rings = buildJsPathsOrRings(dnPolygon.rings);
     }
+    
     if (hasValue(dnPolygon.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
     }
-    if (hasValue(dnPolygon.hasM)) {
-        properties.hasM = dnPolygon.hasM;
-    }
-    if (hasValue(dnPolygon.hasZ)) {
-        properties.hasZ = dnPolygon.hasZ;
-    }
+    
+    copyValuesIfExists(dnPolygon, properties, 'hasM', 'hasZ');
 
     let polygon: Polygon;
     if (hasValue(dnPolygon.center) && hasValue(dnPolygon.radius)) {
