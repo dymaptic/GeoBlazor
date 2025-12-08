@@ -415,7 +415,9 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     
     if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
         jsSearchViewModel.on('search-complete', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
+                let { buildDotNetSearchViewModelSearchCompleteEvent } = await import('./searchViewModelSearchCompleteEvent');
+                let dnEvent = await buildDotNetSearchViewModelSearchCompleteEvent(evt, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
             });
     }
@@ -429,14 +431,18 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     
     if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
         jsSearchViewModel.on('select-result', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
+                let { buildDotNetSearchViewModelSelectResultEvent } = await import('./searchViewModelSelectResultEvent');
+                let dnEvent = await buildDotNetSearchViewModelSelectResultEvent(evt, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
             });
     }
     
     if (hasValue(dotNetObject.hasSuggestCompleteListener) && dotNetObject.hasSuggestCompleteListener) {
         jsSearchViewModel.on('suggest-complete', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
+                let { buildDotNetSearchViewModelSuggestCompleteEvent } = await import('./searchViewModelSuggestCompleteEvent');
+                let dnEvent = await buildDotNetSearchViewModelSuggestCompleteEvent(evt, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', streamRef);
             });
     }

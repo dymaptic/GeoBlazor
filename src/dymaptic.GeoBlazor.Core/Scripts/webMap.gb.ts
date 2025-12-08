@@ -28,6 +28,10 @@ export default class WebMapGenerated extends BaseComponent {
             let { buildJsMapFloorInfo } = await import('./mapFloorInfo');
             this.component.floorInfo = await buildJsMapFloorInfo(dotNetObject.floorInfo, this.layerId, this.viewId) as any;
         }
+        if (hasValue(dotNetObject.geotriggersInfo)) {
+            let { buildJsGeotriggersInfo } = await import('./geotriggersInfo');
+            this.component.geotriggersInfo = await buildJsGeotriggersInfo(dotNetObject.geotriggersInfo, this.layerId, this.viewId) as any;
+        }
         if (hasValue(dotNetObject.initialViewProperties)) {
             let { buildJsInitialViewProperties } = await import('./initialViewProperties');
             this.component.initialViewProperties = await buildJsInitialViewProperties(dotNetObject.initialViewProperties, this.layerId, this.viewId) as any;
@@ -53,9 +57,6 @@ export default class WebMapGenerated extends BaseComponent {
         }
         if (hasValue(dotNetObject.authoringAppVersion)) {
             this.component.authoringAppVersion = dotNetObject.authoringAppVersion;
-        }
-        if (hasValue(dotNetObject.geotriggersInfo)) {
-            this.component.geotriggersInfo = dotNetObject.geotriggersInfo;
         }
         if (hasValue(dotNetObject.presentation)) {
             this.component.presentation = dotNetObject.presentation;
@@ -189,6 +190,20 @@ export default class WebMapGenerated extends BaseComponent {
         this.component.floorInfo = await  buildJsMapFloorInfo(value, this.layerId, this.viewId);
     }
     
+    async getGeotriggersInfo(): Promise<any> {
+        if (!hasValue(this.component.geotriggersInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetGeotriggersInfo } = await import('./geotriggersInfo');
+        return await buildDotNetGeotriggersInfo(this.component.geotriggersInfo, this.viewId);
+    }
+    
+    async setGeotriggersInfo(value: any): Promise<void> {
+        let { buildJsGeotriggersInfo } = await import('./geotriggersInfo');
+        this.component.geotriggersInfo = await  buildJsGeotriggersInfo(value, this.layerId, this.viewId);
+    }
+    
     async getInitialViewProperties(): Promise<any> {
         if (!hasValue(this.component.initialViewProperties)) {
             return null;
@@ -290,6 +305,10 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
         let { buildJsMapFloorInfo } = await import('./mapFloorInfo');
         properties.floorInfo = await buildJsMapFloorInfo(dotNetObject.floorInfo, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.geotriggersInfo)) {
+        let { buildJsGeotriggersInfo } = await import('./geotriggersInfo');
+        properties.geotriggersInfo = await buildJsGeotriggersInfo(dotNetObject.geotriggersInfo, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.initialViewProperties)) {
         let { buildJsInitialViewProperties } = await import('./initialViewProperties');
         properties.initialViewProperties = await buildJsInitialViewProperties(dotNetObject.initialViewProperties, layerId, viewId) as any;
@@ -315,9 +334,6 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.authoringAppVersion)) {
         properties.authoringAppVersion = dotNetObject.authoringAppVersion;
-    }
-    if (hasValue(dotNetObject.geotriggersInfo)) {
-        properties.geotriggersInfo = dotNetObject.geotriggersInfo;
     }
     if (hasValue(dotNetObject.presentation)) {
         properties.presentation = JSON.parse(dotNetObject.presentation);
@@ -363,6 +379,11 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
         dotNetWebMap.floorInfo = await buildDotNetMapFloorInfo(jsObject.floorInfo, viewId);
     }
     
+    if (hasValue(jsObject.geotriggersInfo)) {
+        let { buildDotNetGeotriggersInfo } = await import('./geotriggersInfo');
+        dotNetWebMap.geotriggersInfo = await buildDotNetGeotriggersInfo(jsObject.geotriggersInfo, viewId);
+    }
+    
     if (hasValue(jsObject.initialViewProperties)) {
         let { buildDotNetInitialViewProperties } = await import('./initialViewProperties');
         dotNetWebMap.initialViewProperties = await buildDotNetInitialViewProperties(jsObject.initialViewProperties, layerId, viewId);
@@ -389,10 +410,6 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.authoringAppVersion)) {
         dotNetWebMap.authoringAppVersion = jsObject.authoringAppVersion;
-    }
-    
-    if (hasValue(jsObject.geotriggersInfo)) {
-        dotNetWebMap.geotriggersInfo = removeCircularReferences(jsObject.geotriggersInfo);
     }
     
     if (hasValue(jsObject.loaded)) {

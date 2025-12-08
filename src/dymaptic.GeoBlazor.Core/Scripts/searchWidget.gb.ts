@@ -364,7 +364,9 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     
     if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
         jswidgetsSearch.on('search-complete', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
+                let { buildDotNetSearchCompleteEvent } = await import('./searchCompleteEvent');
+                let dnEvent = await buildDotNetSearchCompleteEvent(evt, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
             });
     }
@@ -385,7 +387,9 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     
     if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
         jswidgetsSearch.on('select-result', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
+                let { buildDotNetSearchSelectResultEvent } = await import('./searchSelectResultEvent');
+                let dnEvent = await buildDotNetSearchSelectResultEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
             });
     }

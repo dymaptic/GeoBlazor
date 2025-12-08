@@ -702,6 +702,15 @@ export default class FeatureLayerGenerated extends BaseComponent {
         return generateSerializableJson(this.layer.subtypeField);
     }
     
+    async getSubtypes(): Promise<any> {
+        if (!hasValue(this.layer.subtypes)) {
+            return null;
+        }
+        
+        let { buildDotNetSubtype } = await import('./subtype');
+        return await Promise.all(this.layer.subtypes!.map(async i => await buildDotNetSubtype(i, this.viewId)));
+    }
+    
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
             return null;
@@ -1073,7 +1082,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     
     if (hasValue(dotNetObject.hasEditsListener) && dotNetObject.hasEditsListener) {
         jsFeatureLayer.on('edits', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
+                let { buildDotNetFeatureLayerEditsEvent } = await import('./featureLayerEditsEvent');
+                let dnEvent = await buildDotNetFeatureLayerEditsEvent(evt, layerId, viewId);
+                let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', streamRef);
             });
     }
@@ -1206,6 +1217,11 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, viewId: st
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         dotNetFeatureLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+    }
+    
+    if (hasValue(jsObject.subtypes)) {
+        let { buildDotNetSubtype } = await import('./subtype');
+        dotNetFeatureLayer.subtypes = await Promise.all(jsObject.subtypes.map(async i => await buildDotNetSubtype(i, viewId)));
     }
     
     if (hasValue(jsObject.templates)) {
@@ -1433,10 +1449,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.subtypeField)) {
         dotNetFeatureLayer.subtypeField = jsObject.subtypeField;
-    }
-    
-    if (hasValue(jsObject.subtypes)) {
-        dotNetFeatureLayer.subtypes = removeCircularReferences(jsObject.subtypes);
     }
     
     if (hasValue(jsObject.title)) {
