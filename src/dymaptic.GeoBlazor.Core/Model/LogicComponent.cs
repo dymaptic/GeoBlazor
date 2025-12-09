@@ -83,7 +83,7 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     {
         await Initialize();
 
-        await JsSyncManager.InvokeVoidJsMethod(Component!, IsServer, method, className, CancellationToken.None, parameters);
+        await Component!.InvokeVoidJsMethod(IsServer, method, className, CancellationToken.None, parameters);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     {
         await Initialize(cancellationToken);
         
-        return await JsSyncManager.InvokeJsMethod<T>(Component!, IsServer, method, className, cancellationToken, parameters);
+        return await Component!.InvokeJsMethod<T>(IsServer, method, className, cancellationToken, parameters);
     }
     
     private bool _validated;
