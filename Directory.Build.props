@@ -2,9 +2,22 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <CoreVersion>4.3.0.8</CoreVersion>
+    <CoreVersion>4.3.0.10</CoreVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CompressionEnabled Condition="$(Configuration) != 'RELEASE' OR $(EnableCompression) != 'true'">false</CompressionEnabled>
-    <DefineConstants Condition="$(EnableCompression) == 'true'">$(DefineConstants);ENABLE_COMPRESSION</DefineConstants>
+    <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
+    <Platforms>AnyCPU</Platforms>
+    <CoreProjectPath>$(MSBuildThisFileDirectory)src\dymaptic.GeoBlazor.Core</CoreProjectPath>
+    <StaticWebAssetEndpointExclusionPattern>
+            $(StaticWebAssetEndpointExclusionPattern);js/**
+        </StaticWebAssetEndpointExclusionPattern>
   </PropertyGroup>
+  <ItemGroup>
+    <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
+    <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
+    <CompilerVisibleProperty Include="LogSourceGenOutput" Value="$(LogSourceGenOutput)" />
+    <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)" />
+  </ItemGroup>
 </Project>
