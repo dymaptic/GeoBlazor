@@ -748,10 +748,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         
         foreach (Graphic graphic in result.Features!)
         {
-            graphic.View = View;
-            graphic.Parent = this;
-            graphic.Layer = this;
-            graphic.CoreJsModule = CoreJsModule;
+            graphic.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, this);
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);

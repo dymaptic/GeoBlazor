@@ -852,11 +852,8 @@ public partial class MapView : MapComponent
 
         if (layerView is not null)
         {
-            layerView.View = this;
-            layerView.Parent = this;
-            layerView.CoreJsModule = CoreJsModule;
+            layerView.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, this, this, null);
             layerView.JsComponentReference = layerViewCreateEvent.LayerViewObjectRef;
-            layerView.AbortManager = AbortManager;
         }
 
         Layer? createdLayer = layerViewCreateEvent.IsBasemapLayer
@@ -892,26 +889,14 @@ public partial class MapView : MapComponent
             if (layer is not null)
             {
                 layer.LayerView = layerView;
-                layer.AbortManager = new AbortManager(CoreJsModule!);
+                layer.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, this, this, null);
                 layer.JsComponentReference = layerViewCreateEvent.LayerObjectRef;
-                layer.CoreJsModule = CoreJsModule;
-                layer.ProJsModule = ProJsModule;
                 layer.Imported = true;
                 layer.Loaded = true;
 
                 if (layerView is not null)
                 {
                     layerView.Layer = layer;
-                }
-
-                layer.View = this;
-
-                if (layer is ISublayersLayer { Sublayers: not null} sublayersLayer)
-                {
-                    foreach (Sublayer sublayer in sublayersLayer.Sublayers)
-                    {
-                        sublayer.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, this);
-                    }
                 }
 
                 if (layerViewCreateEvent.IsBasemapLayer)
@@ -2143,9 +2128,7 @@ public partial class MapView : MapComponent
         if (!_widgets.Contains(widget))
         {
             _widgets.Add(widget);
-            widget.Parent ??= this;
-            widget.View ??= this;
-            widget.CoreJsModule ??= CoreJsModule;
+            widget.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, null);
         }
 
         if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return Task.CompletedTask;

@@ -739,20 +739,39 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         if (currentValue is MapComponent currentPropComponent && currentValue.GetType() == newValue.GetType())
         {
-            currentPropComponent.CoreJsModule = CoreJsModule;
-            currentPropComponent.View = View;
-            currentPropComponent.Layer = Layer;
-            currentPropComponent.Parent = this;
+            currentPropComponent.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             currentPropComponent.CopyProperties((MapComponent)newValue);
         }
         else
         {
             if (newValue is MapComponent newComponent)
             {
-                newComponent.CoreJsModule = CoreJsModule;
-                newComponent.View = View;
-                newComponent.Layer = Layer;
-                newComponent.Parent = this;
+                newComponent.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+
+            if (prop.PropertyType.IsArray)
+            {
+                Type elementType = prop.PropertyType.GetElementType()!;
+
+                if (elementType.IsAssignableTo(typeof(MapComponent)))
+                {
+                    foreach (MapComponent item in (Array)newValue)
+                    {
+                        item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                    }
+                }
+            }
+            else if (prop.PropertyType.IsGenericType)
+            {
+                Type genericType = prop.PropertyType.GenericTypeArguments[0];
+
+                if (genericType.IsAssignableTo(typeof(MapComponent)))
+                {
+                    foreach (MapComponent item in (IEnumerable)newValue)
+                    {
+                        item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                    }
+                }
             }
             prop.SetValue(this, newValue);
         }
@@ -981,18 +1000,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             return;
         }
-
-        _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-        foreach (PropertyInfo propInfo in _props)
-        {
-            if (propInfo.PropertyType.IsAssignableTo(typeof(IInteractiveRecord))
-                && propInfo.GetValue(this) is IInteractiveRecord record)
-            {
-                record.CoreJsModule = CoreJsModule;
-                record.AbortManager = new AbortManager(CoreJsModule!);
-            }
-        }
+        
+        UpdateGeoBlazorReferences(CoreJsModule, ProJsModule, View, Parent, Layer);
     }
 
     /// <inheritdoc />
@@ -1021,6 +1030,109 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         if (Parent is not null)
         {
             await Parent.RenderView(forceRender);
+        }
+    }
+
+    /// <summary>
+    ///     For internal use only. Populates necessary references to JS-deserialized child components.
+    /// </summary>
+    /// <param name="coreJsModule">
+    ///     The core JavaScript module reference.
+    /// </param>
+    /// <param name="proJsModule">
+    ///     The Pro JavaScript module reference, if available.
+    /// </param>
+    /// <param name="view">
+    ///     The MapView instance that this sublayer is associated with.
+    /// </param>
+    /// <param name="parent">
+    ///     The parent of this component.
+    /// </param>
+    /// <param name="layer">
+    ///     The referenced Layer that applies to this component. Does not apply to all components.
+    /// </param>
+    protected internal void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
+        MapView? view, MapComponent? parent, Layer? layer)
+    {
+        CoreJsModule ??= coreJsModule;
+        ProJsModule ??= proJsModule;
+
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+
+        if (view is not null && View is null)
+        {
+            View = view;
+        }
+
+        if (parent is not null && Parent is null)
+        {
+            Parent = parent;
+        }
+
+        if (layer is not null && Layer is null)
+        {
+            Layer = layer;
+        }
+        
+        LayerId ??= Layer?.Id;
+        
+        if (MapComponentType.IsAssignableTo(typeof(Layer)))
+        {
+            // set the layer for the child components
+            layer = (Layer)this;
+        }
+        
+        _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+        foreach (PropertyInfo prop in _props)
+        {
+            object? value = prop.GetValue(this);
+
+            if (value is null)
+            {
+                continue;
+            }
+
+            if (value is IInteractiveRecord record)
+            {
+                record.CoreJsModule ??= CoreJsModule;
+                if (record.AbortManager is null || record.AbortManager.Disposed)
+                {
+                    record.AbortManager = new AbortManager(CoreJsModule);
+                }
+            }
+            else if (value is MapComponent propComponent)
+            {
+                propComponent.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, this, layer);
+            }
+            else if (prop.PropertyType.IsArray || prop.PropertyType.IsGenericType)
+            {
+                Type elementType = prop.PropertyType.IsArray 
+                    ? prop.PropertyType.GetElementType()!
+                    : prop.PropertyType.GenericTypeArguments[0];
+
+                if (elementType.IsAssignableTo(typeof(IInteractiveRecord)))
+                {
+                    foreach (IInteractiveRecord item in (IEnumerable)value)
+                    {
+                        item.CoreJsModule ??= CoreJsModule;
+                        if (item.AbortManager is null || item.AbortManager.Disposed)
+                        {
+                            item.AbortManager = new AbortManager(CoreJsModule);
+                        }
+                    }
+                }
+                else if (elementType.IsAssignableTo(typeof(MapComponent)))
+                {
+                    foreach (MapComponent item in (IEnumerable)value)
+                    {
+                        item.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, this, layer);
+                    }
+                }
+            }
         }
     }
 
