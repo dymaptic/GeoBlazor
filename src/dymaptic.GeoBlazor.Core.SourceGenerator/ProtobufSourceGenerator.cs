@@ -74,6 +74,13 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
                 $"Found {pipeline.Data.Types.Length} protobuf-serializable types.",
                 DiagnosticSeverity.Info,
                 context);
+
+            // TODO: Generate protobuf serialization records and registration code.
+            // This will include:
+            // 1. Generating *SerializationRecord classes for each protobuf-attributed type
+            // 2. Generating ToProtobuf()/FromProtobuf() extension methods
+            // 3. Generating JsSyncManager registration code for ProtoContractTypes dictionary
+            // 4. Copying .proto definitions to TypeScript for JS-side deserialization
         }
     }
 

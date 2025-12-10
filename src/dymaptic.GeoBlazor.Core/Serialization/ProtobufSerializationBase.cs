@@ -8,6 +8,9 @@ namespace dymaptic.GeoBlazor.Core.Serialization;
 [ProtoContract(Name = "MapComponent")]
 public record MapComponentSerializationRecord
 {
+    // ProtoMember tag 1000 is used for base class properties to avoid conflicts with derived class tags.
+    // Derived classes use tags 1-999 for their specific properties.
+
     /// <summary>
     ///     Indicates whether this record represents a null value.
     /// </summary>
@@ -33,6 +36,8 @@ public abstract record MapComponentSerializationRecord<T> : MapComponentSerializ
 [ProtoContract(Name = "MapComponentCollection")]
 public record MapComponentBaseCollectionSerializationRecord
 {
+    // ProtoMember tag 1000 is used for base class properties to avoid conflicts with derived class tags.
+
     /// <summary>
     ///     Indicates whether this record represents a null collection.
     /// </summary>

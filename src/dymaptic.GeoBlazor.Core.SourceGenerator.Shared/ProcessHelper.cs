@@ -72,22 +72,18 @@ public static class ProcessHelper
                 case ExitedCommandEvent exited:
                     exitCode = exited.ExitCode;
                     outputBuilder.AppendLine($"{processName} - PID {processId}: Process exited with code: {exited.ExitCode}");
-                    logBuilder.AppendLine(outputBuilder.ToString());
-                    outputBuilder.Clear();
                     break;
             }
         }
 
+        // Append any accumulated output to the log
         if (outputBuilder.Length > 0)
         {
             logBuilder.AppendLine(outputBuilder.ToString());
         }
-        
 
         if (exitCode != 0)
         {
-            logBuilder.AppendLine(outputBuilder.ToString());
-            // Throw an exception if the process returned an error
             throw new Exception($"{processName}: Error executing command '{shellArguments}' for process {processId}. Exit code: {exitCode}");
         }
 

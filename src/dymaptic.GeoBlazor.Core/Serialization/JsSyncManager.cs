@@ -33,8 +33,14 @@ public static class JsSyncManager
     /// <summary>
     ///     Initializes the JsSyncManager with Protobuf type registrations.
     /// </summary>
+    /// <remarks>
+    ///     This method should be called once at application startup to register all
+    ///     protobuf types with the RuntimeTypeModel and compile the serialization model.
+    /// </remarks>
     public static void Initialize()
     {
+        // TODO: ProtoContractTypes and SerializableMethods dictionaries will be populated
+        // by generated code from ProtobufSourceGenerator in a subsequent PR.
         foreach (Type protoType in ProtoContractTypes.Values)
         {
             RuntimeTypeModel.Default.Add(protoType, true);
@@ -59,7 +65,9 @@ public static class JsSyncManager
         [CallerMemberName] string method = "", string className = "",
         CancellationToken cancellationToken = default, params object?[] parameters)
     {
-        // Placeholder implementation - full serialization support will be added in subsequent PR
+        // TODO: Implement protobuf serialization for Blazor Server mode.
+        // When isServer is true and the method/parameters support protobuf serialization,
+        // this should serialize parameters to binary format for more efficient transfer.
         await js.InvokeVoidAsync(method, cancellationToken, parameters);
     }
 
@@ -79,7 +87,9 @@ public static class JsSyncManager
         CancellationToken cancellationToken = default,
         params object?[] parameters)
     {
-        // Placeholder implementation - full serialization support will be added in subsequent PR
+        // TODO: Implement protobuf deserialization for Blazor Server mode.
+        // When isServer is true and the return type supports protobuf serialization,
+        // this should deserialize the binary response for more efficient transfer.
         return await js.InvokeAsync<T>(method, cancellationToken, parameters);
     }
 }
