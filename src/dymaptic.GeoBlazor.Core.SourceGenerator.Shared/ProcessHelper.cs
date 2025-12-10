@@ -13,6 +13,7 @@ public static class ProcessHelper
         string powershellScriptName, string arguments, StringBuilder logBuilder, CancellationToken token, 
         Dictionary<string, string?>? environmentVariables = null)
     {
+        // Since we are always providing the scripts, this is safe to call `ByPass`
         string shellArguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{
             Path.Combine(workingDirectory, powershellScriptName)}\" {arguments}";
         
@@ -84,7 +85,7 @@ public static class ProcessHelper
 
         if (exitCode != 0)
         {
-            throw new Exception($"{processName}: Error executing command '{shellArguments}' for process {processId}. Exit code: {exitCode}");
+            throw new ProcessException($"{processName}: Error executing command '{shellArguments}' for process {processId}. Exit code: {exitCode}");
         }
 
         // Return the standard output if the process completed normally
@@ -109,3 +110,5 @@ public static class ProcessHelper
         ? WindowsShell 
         : LinuxShell;
 }
+
+public class ProcessException(string message): Exception(message);

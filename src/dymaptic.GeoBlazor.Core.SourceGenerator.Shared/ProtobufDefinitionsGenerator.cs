@@ -38,6 +38,7 @@ public static class ProtobufDefinitionsGenerator
         string scriptPath = Path.Combine(corePath, "copyProtobuf.ps1");
         
         // write protobuf definitions to geoblazorProto.ts
+        // must use GetAwaiter().GetResult(), since Source Generator is not Async
         ProcessHelper.RunPowerShellScript("Copy Protobuf Definitions",
             corePath, scriptPath,
             $"-Content \"{encoded}\"",
@@ -53,7 +54,7 @@ public static class ProtobufDefinitionsGenerator
             DiagnosticSeverity.Info,
             context);
         
-        return ProtoDefinitions!;
+        return ProtoDefinitions ?? [];
     }
     
     private static string Generate(SourceProductionContext context,
