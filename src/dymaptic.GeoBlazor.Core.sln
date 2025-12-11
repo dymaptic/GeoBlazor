@@ -40,7 +40,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client", "..\samples\dymaptic.GeoBlazor.Core.Sample.TokenRefresh\dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client\dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.csproj", "{6CB414BD-0536-A361-CEFF-C84EE3906931}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Analyzers", "dymaptic.GeoBlazor.Analyzers\dymaptic.GeoBlazor.Analyzers.csproj", "{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Analyzers", "dymaptic.GeoBlazor.Core.Analyzers\dymaptic.GeoBlazor.Core.Analyzers.csproj", "{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.MigratingToGeoBlazor", "..\samples\dymaptic.GeoBlazor.Core.Sample.MigratingToGeoBlazor\dymaptic.GeoBlazor.Core.Sample.MigratingToGeoBlazor\dymaptic.GeoBlazor.Core.Sample.MigratingToGeoBlazor.csproj", "{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.MigratingToGeoBlazor.Client", "..\samples\dymaptic.GeoBlazor.Core.Sample.MigratingToGeoBlazor\dymaptic.GeoBlazor.Core.Sample.MigratingToGeoBlazor.Client\dymaptic.GeoBlazor.Core.Sample.MigratingToGeoBlazor.Client.csproj", "{B2C3D4E5-F678-9012-BC34-DE56FA789012}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -258,6 +262,30 @@ Global
 		{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}.Release|x64.Build.0 = Release|Any CPU
 		{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}.Release|x86.ActiveCfg = Release|Any CPU
 		{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}.Release|x86.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Debug|x64.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Debug|x86.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Release|x64.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Release|x64.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Release|x86.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-AB12-CD34EF567890}.Release|x86.Build.0 = Release|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Debug|x64.Build.0 = Debug|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Debug|x86.Build.0 = Debug|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Release|x64.ActiveCfg = Release|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Release|x64.Build.0 = Release|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Release|x86.ActiveCfg = Release|Any CPU
+		{B2C3D4E5-F678-9012-BC34-DE56FA789012}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,362 @@
+@page "/google/guide"
+@rendermode InteractiveAuto
+
+<PageTitle>Google Maps Migration Guide</PageTitle>
+
+<div class="container-fluid">
+    <h1>Google Maps to GeoBlazor Migration Guide</h1>
+
+    <div class="d-flex gap-2 mb-3">
+        <a class="btn btn-secondary" target="_blank" href="https://developers.google.com/maps/documentation/javascript">Google Maps JS API</a>
+        <a class="btn btn-primary" target="_blank" href="https://docs.geoblazor.com">GeoBlazor Documentation</a>
+        <a class="btn btn-success" href="/google/demo">Interactive Demo</a>
+    </div>
+
+    <p class="lead">
+        This guide helps developers migrate from Google Maps JavaScript API to GeoBlazor.
+        Learn the conceptual mapping between Google Maps patterns and GeoBlazor components.
+    </p>
+
+    <div class="alert alert-info">
+        <strong>Note:</strong> GeoBlazor uses ArcGIS Maps SDK which provides comparable basemaps
+        (Streets, Satellite, Hybrid, Terrain) with similar visual quality to Google Maps.
+    </div>
+
+    <!-- Section 1: Account Setup -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="mb-0">1. Account &amp; API Key Setup</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Google Maps Setup</h4>
+                    <ol>
+                        <li>Create a <a href="https://console.cloud.google.com" target="_blank">Google Cloud Console</a> account</li>
+                        <li>Create a new project</li>
+                        <li>Enable the Maps JavaScript API</li>
+                        <li>Go to <strong>Credentials &gt; Create Credentials &gt; API Key</strong></li>
+                        <li>Restrict your API key:
+                            <ul>
+                                <li><strong>Application restrictions:</strong> HTTP referrers</li>
+                                <li><strong>API restrictions:</strong> Maps JavaScript API only</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-md-6">
+                    <h4>GeoBlazor / ArcGIS Setup</h4>
+                    <ol>
+                        <li>Create an <a href="https://developers.arcgis.com/sign-up/" target="_blank">ArcGIS Developer Account</a> (free tier available)</li>
+                        <li>Go to your Dashboard and create a new API key</li>
+                        <li>Configure referrer restrictions for your domains</li>
+                        <li>Add the API key to your Blazor app:
+                            <pre><code>// appsettings.json
+{
+  "ArcGISApiKey": "YOUR_API_KEY"
+}</code></pre>
+                        </li>
+                        <li>Register GeoBlazor services:
+                            <pre><code>// Program.cs
+builder.Services.AddGeoBlazor(builder.Configuration);</code></pre>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Basic Map -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="mb-0">2. Basic Map Initialization</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Google Maps (JavaScript)</h4>
+                    <pre><code>&lt;!-- HTML --&gt;
+&lt;div id="map" style="height: 400px;"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+async function initMap() {
+  const { Map } = await google.maps.importLibrary("maps");
+
+  const map = new Map(document.getElementById("map"), {
+    center: { lat: 34.027, lng: -118.805 },
+    zoom: 12,
+    mapTypeId: "roadmap"
+  });
+}
+initMap();
+&lt;/script&gt;</code></pre>
+                </div>
+                <div class="col-md-6">
+                    <h4>GeoBlazor (Razor Component)</h4>
+                    <pre><code>@* Razor Component *@
+&lt;MapView Class="map-view"
+         Latitude="34.027"
+         Longitude="-118.805"
+         Zoom="12"&gt;
+    &lt;Map&gt;
+        &lt;Basemap&gt;
+            &lt;BasemapStyle Name="BasemapStyleName.ArcgisStreets" /&gt;
+        &lt;/Basemap&gt;
+    &lt;/Map&gt;
+&lt;/MapView&gt;</code></pre>
+                    <p class="mt-2"><strong>Key Differences:</strong></p>
+                    <ul>
+                        <li>Declarative Razor syntax vs imperative JavaScript</li>
+                        <li>No DOM element management needed</li>
+                        <li>Type-safe parameters with IntelliSense</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: Basemap Mapping -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="mb-0">3. Basemap Type Mapping</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Google Maps Type</th>
+                        <th>GeoBlazor BasemapStyleName</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>roadmap</code></td><td><code>ArcgisStreets</code></td><td>Standard road map</td></tr>
+                    <tr><td><code>satellite</code></td><td><code>ArcgisImagery</code></td><td>Satellite imagery</td></tr>
+                    <tr><td><code>hybrid</code></td><td><code>ArcgisImageryLabels</code></td><td>Satellite with labels</td></tr>
+                    <tr><td><code>terrain</code></td><td><code>ArcgisTerrain</code></td><td>Terrain/topographic</td></tr>
+                    <tr><td>Dark mode</td><td><code>ArcgisStreetsNight</code></td><td>Dark theme streets</td></tr>
+                    <tr><td>Navigation</td><td><code>ArcgisNavigation</code></td><td>Navigation-optimized</td></tr>
+                </tbody>
+            </table>
+            <p>GeoBlazor also supports OpenStreetMap basemaps:</p>
+            <pre><code>&lt;BasemapStyle Name="BasemapStyleName.OsmStreets" /&gt;
+
+@* Or use OpenStreetMapLayer directly *@
+&lt;Map&gt;
+    &lt;OpenStreetMapLayer /&gt;
+&lt;/Map&gt;</code></pre>
+        </div>
+    </div>
+
+    <!-- Section 4: Markers -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="mb-0">4. Adding Markers / Graphics</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Google Maps Marker</h4>
+                    <pre><code>const marker = new google.maps.Marker({
+  position: { lat: 34.027, lng: -118.805 },
+  map: map,
+  title: "My Location"
+});
+
+// With InfoWindow
+const infoWindow = new google.maps.InfoWindow({
+  content: "&lt;h3&gt;Hello!&lt;/h3&gt;"
+});
+
+marker.addListener("click", () =&gt; {
+  infoWindow.open(map, marker);
+});</code></pre>
+                </div>
+                <div class="col-md-6">
+                    <h4>GeoBlazor Graphic with Popup</h4>
+                    <pre><code>&lt;GraphicsLayer&gt;
+    &lt;Graphic&gt;
+        &lt;Point Latitude="34.027" Longitude="-118.805" /&gt;
+        &lt;SimpleMarkerSymbol Color="@@(new MapColor("red"))"
+                            Size="12" /&gt;
+        &lt;PopupTemplate Title="Hello!"
+            StringContent="&lt;p&gt;My marker.&lt;/p&gt;" /&gt;
+    &lt;/Graphic&gt;
+&lt;/GraphicsLayer&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 5: Events -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="mb-0">5. Handling Map Events</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Google Maps Events</h4>
+                    <pre><code>map.addListener("click", (event) =&gt; {
+  console.log("Clicked:", event.latLng.lat());
+});
+
+map.addListener("zoom_changed", () =&gt; {
+  console.log("Zoom:", map.getZoom());
+});</code></pre>
+                </div>
+                <div class="col-md-6">
+                    <h4>GeoBlazor Events</h4>
+                    <pre><code>&lt;MapView OnClick="OnMapClick"
+         OnExtentChanged="OnExtentChanged"&gt;
+    ...
+&lt;/MapView&gt;
+
+@@code {
+    private Task OnMapClick(ClickEvent e)
+    {
+        Console.WriteLine($"Clicked: {e.MapPoint?.Latitude}");
+        return Task.CompletedTask;
+    }
+
+    private Task OnExtentChanged(ExtentChangedEvent e)
+    {
+        Console.WriteLine($"Extent: {e.Extent}");
+        return Task.CompletedTask;
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 6: Data Layers -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="mb-0">6. Adding Data Layers</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Google Maps KML Layer</h4>
+                    <pre><code>const kmlLayer = new google.maps.KmlLayer({
+  url: "https://example.com/data.kml",
+  map: map
+});</code></pre>
+
+                    <h4 class="mt-3">Google Maps GeoJSON</h4>
+                    <pre><code>map.data.loadGeoJson("https://example.com/data.geojson");
+
+map.data.setStyle({
+  fillColor: "blue",
+  strokeWeight: 1
+});</code></pre>
+                </div>
+                <div class="col-md-6">
+                    <h4>GeoBlazor KMLLayer</h4>
+                    <pre><code>&lt;KMLLayer Url="https://example.com/data.kml"
+          Title="My KML Data" /&gt;</code></pre>
+
+                    <h4 class="mt-3">GeoBlazor GeoJSONLayer</h4>
+                    <pre><code>&lt;GeoJSONLayer Url="https://example.com/data.geojson"&gt;
+    &lt;SimpleRenderer&gt;
+        &lt;SimpleFillSymbol Color="@@(new MapColor(0, 0, 255, 0.5))"&gt;
+            &lt;Outline Color="@@(new MapColor("blue"))" Width="1" /&gt;
+        &lt;/SimpleFillSymbol&gt;
+    &lt;/SimpleRenderer&gt;
+&lt;/GeoJSONLayer&gt;</code></pre>
+                </div>
+            </div>
+            <h4 class="mt-3">Additional GeoBlazor Layer Types</h4>
+            <ul>
+                <li><code>FeatureLayer</code> - Vector features from ArcGIS services</li>
+                <li><code>CSVLayer</code> - CSV point data</li>
+                <li><code>WMSLayer</code> / <code>WFSLayer</code> - OGC services</li>
+                <li><code>ImageryLayer</code> - Raster imagery</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Section 7: Feature Mapping Table -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="mb-0">7. Complete Feature Mapping</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Google Maps Feature</th>
+                        <th>GeoBlazor Equivalent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>google.maps.Map</code></td><td><code>&lt;MapView&gt;</code> / <code>&lt;SceneView&gt;</code></td></tr>
+                    <tr><td><code>map.setCenter()</code></td><td><code>MapView.GoTo()</code> or <code>Latitude/Longitude</code> params</td></tr>
+                    <tr><td><code>google.maps.Marker</code></td><td><code>&lt;Graphic&gt;</code> with <code>&lt;SimpleMarkerSymbol&gt;</code></td></tr>
+                    <tr><td><code>google.maps.Polyline</code></td><td><code>&lt;Graphic&gt;</code> with <code>&lt;Polyline&gt;</code></td></tr>
+                    <tr><td><code>google.maps.Polygon</code></td><td><code>&lt;Graphic&gt;</code> with <code>&lt;Polygon&gt;</code></td></tr>
+                    <tr><td><code>google.maps.InfoWindow</code></td><td><code>&lt;PopupTemplate&gt;</code> / <code>&lt;Popup&gt;</code></td></tr>
+                    <tr><td>Map type control</td><td><code>&lt;BasemapToggleWidget&gt;</code> / <code>&lt;BasemapGalleryWidget&gt;</code></td></tr>
+                    <tr><td>Zoom control</td><td><code>&lt;ZoomWidget&gt;</code> (built-in)</td></tr>
+                    <tr><td>Geocoding API</td><td><code>LocatorTask</code></td></tr>
+                    <tr><td>Directions API</td><td><code>RouteTask</code> (Pro feature)</td></tr>
+                    <tr><td>Places API</td><td><code>&lt;SearchWidget&gt;</code></td></tr>
+                    <tr><td>KmlLayer</td><td><code>&lt;KMLLayer&gt;</code></td></tr>
+                    <tr><td>Data layer (GeoJSON)</td><td><code>&lt;GeoJSONLayer&gt;</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Live Example -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="mb-0">8. Live Example</h2>
+        </div>
+        <div class="card-body">
+            <p>
+                Below is a GeoBlazor map using <code>ArcgisStreets</code> basemap - equivalent to Google Maps' "roadmap" type.
+            </p>
+            <MapView Class="map-view" Zoom="12" Latitude="34.027" Longitude="-118.805">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisStreets" />
+                    </Basemap>
+                    <GraphicsLayer>
+                        <Graphic>
+                            <Point Latitude="34.027" Longitude="-118.805" />
+                            <SimpleMarkerSymbol Color="@(new MapColor("#FF4444"))" Size="14">
+                                <Outline Color="@(new MapColor("white"))" Width="2" />
+                            </SimpleMarkerSymbol>
+                            <PopupTemplate Title="Sample Location"
+                                           StringContent="This marker was created using GeoBlazor's declarative syntax!" />
+                        </Graphic>
+                    </GraphicsLayer>
+                </Map>
+                <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
+            </MapView>
+            <p class="mt-3">
+                <a href="/google/demo" class="btn btn-success btn-lg">Try the Interactive Demo</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .map-view {
+        height: 500px;
+        width: 100%;
+    }
+
+    pre {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        overflow-x: auto;
+    }
+
+    code {
+        font-size: 0.875rem;
+    }
+</style>

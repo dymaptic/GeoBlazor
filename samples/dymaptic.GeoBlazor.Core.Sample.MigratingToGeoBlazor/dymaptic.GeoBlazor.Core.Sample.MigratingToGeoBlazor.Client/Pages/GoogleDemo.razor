@@ -1,0 +1,429 @@
+@page "/google/demo"
+@rendermode InteractiveAuto
+
+<PageTitle>Google Maps Migration Demo</PageTitle>
+
+<div class="container-fluid">
+    <h1>Google Maps Migration - Interactive Demo</h1>
+
+    <div class="d-flex gap-2 mb-3">
+        <a class="btn btn-secondary" href="/google/guide">Back to Guide</a>
+        <button class="btn btn-primary" @onclick="ToggleCodeModal">
+            @(_showCodeModal ? "Hide Code" : "View Code Comparison")
+        </button>
+    </div>
+
+    <p class="lead">
+        Interactive demo comparing Google Maps and GeoBlazor. Switch basemaps to see equivalent map styles,
+        and click "View Code Comparison" to see the code for both implementations.
+    </p>
+
+    <!-- Controls -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <label class="form-label"><strong>Basemap Style:</strong></label>
+                    <select class="form-select" @bind="_selectedBasemap" @bind:after="RefreshMap">
+                        <option value="streets">Streets (Google: roadmap)</option>
+                        <option value="satellite">Satellite (Google: satellite)</option>
+                        <option value="hybrid">Hybrid (Google: hybrid)</option>
+                        <option value="terrain">Terrain (Google: terrain)</option>
+                        <option value="navigation">Navigation</option>
+                        <option value="dark">Dark Mode (Streets Night)</option>
+                        <option value="osm">OpenStreetMap</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><strong>Layers:</strong></label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="showKml" @bind="_showKmlLayer" @bind:after="RefreshMap" />
+                        <label class="form-check-label" for="showKml">Show KML Layer (US States)</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><strong>Graphics:</strong></label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="showMarker" @bind="_showMarker" @bind:after="RefreshMap" />
+                        <label class="form-check-label" for="showMarker">Show Center Marker</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><strong>Actions:</strong></label>
+                    <div>
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="ClearClickedPoints">Clear Clicked Points</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Code Comparison Modal -->
+    @if (_showCodeModal)
+    {
+        <div class="code-modal-overlay" @onclick="ToggleCodeModal">
+            <div class="code-modal" @onclick:stopPropagation="true">
+                <div class="code-modal-header">
+                    <h4>Code Comparison: @GetBasemapDisplayName()</h4>
+                    <button class="btn-close" @onclick="ToggleCodeModal"></button>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <button class="nav-link @(_codeTab == 0 ? "active" : "")" @onclick="@(() => _codeTab = 0)">Google Maps JS</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link @(_codeTab == 1 ? "active" : "")" @onclick="@(() => _codeTab = 1)">GeoBlazor Razor</button>
+                    </li>
+                </ul>
+                <div class="code-modal-content">
+                    @if (_codeTab == 0)
+                    {
+                        <h5>Google Maps JavaScript Implementation</h5>
+                        <pre><code>@GetGoogleMapsCode()</code></pre>
+                    }
+                    else
+                    {
+                        <h5>GeoBlazor Razor Implementation</h5>
+                        <pre><code>@GetGeoBlazorCode()</code></pre>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Main Map -->
+    <div class="map-container">
+        <MapView @ref="_mapView"
+                 Class="map-view"
+                 Zoom="4"
+                 Latitude="39.8283"
+                 Longitude="-98.5795"
+                 OnClick="OnMapClick">
+            <Map>
+                <Basemap>
+                    @switch (_selectedBasemap)
+                    {
+                        case "streets":
+                            <BasemapStyle Name="BasemapStyleName.ArcgisStreets" />
+                            break;
+                        case "satellite":
+                            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                            break;
+                        case "hybrid":
+                            <BasemapStyle Name="BasemapStyleName.ArcgisImageryLabels" />
+                            break;
+                        case "terrain":
+                            <BasemapStyle Name="BasemapStyleName.ArcgisTerrain" />
+                            break;
+                        case "navigation":
+                            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                            break;
+                        case "dark":
+                            <BasemapStyle Name="BasemapStyleName.ArcgisStreetsNight" />
+                            break;
+                        case "osm":
+                            <BasemapStyle Name="BasemapStyleName.OsmStreets" />
+                            break;
+                    }
+                </Basemap>
+
+                @* KML Layer - US States *@
+                @if (_showKmlLayer)
+                {
+                    <KMLLayer Url="https://www.census.gov/kml/doc/state_cbsa_csa/cb_2021_us_state_500k.kml"
+                              Title="US States" />
+                }
+
+                @* Graphics Layer *@
+                <GraphicsLayer @ref="_graphicsLayer">
+                    @if (_showMarker)
+                    {
+                        <Graphic>
+                            <Point Latitude="39.8283" Longitude="-98.5795" />
+                            <SimpleMarkerSymbol Color="@(new MapColor("#FF4444"))" Size="16">
+                                <Outline Color="@(new MapColor("white"))" Width="2" />
+                            </SimpleMarkerSymbol>
+                            <PopupTemplate Title="Center of USA"
+                                           StringContent="<p>Geographic center of the contiguous United States.</p><p>This popup is equivalent to Google Maps InfoWindow.</p>" />
+                        </Graphic>
+                    }
+                    @foreach (var point in _clickedPoints)
+                    {
+                        <Graphic>
+                            <Point Latitude="point.Latitude" Longitude="point.Longitude" />
+                            <SimpleMarkerSymbol Color="@(new MapColor("#4488FF"))" Size="12">
+                                <Outline Color="@(new MapColor("white"))" Width="1" />
+                            </SimpleMarkerSymbol>
+                            <PopupTemplate Title="Clicked Location"
+                                           StringContent="@($"<p>Lat: {point.Latitude:F4}<br/>Lng: {point.Longitude:F4}</p>")" />
+                        </Graphic>
+                    }
+                </GraphicsLayer>
+            </Map>
+            <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
+            <BasemapToggleWidget Position="OverlayPosition.TopRight">
+                <NextBasemap>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </NextBasemap>
+            </BasemapToggleWidget>
+        </MapView>
+    </div>
+
+    @if (_lastClickLocation != null)
+    {
+        <div class="alert alert-info mt-3">
+            <strong>Last Click:</strong>
+            Latitude: @_lastClickLocation.Value.Latitude.ToString("F4"),
+            Longitude: @_lastClickLocation.Value.Longitude.ToString("F4")
+            <span class="badge bg-primary ms-2">@_clickedPoints.Count points added</span>
+        </div>
+    }
+</div>
+
+<style>
+    .map-view {
+        height: 600px;
+        width: 100%;
+    }
+
+    .code-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 1rem;
+        z-index: 1050;
+        overflow-y: auto;
+    }
+
+    .code-modal {
+        background-color: white;
+        border-radius: 0.5rem;
+        max-width: 700px;
+        width: 100%;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+    }
+
+    .code-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .code-modal-header h4 {
+        margin: 0;
+    }
+
+    .code-modal-content {
+        padding: 1rem;
+    }
+
+    .code-modal-content pre {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        overflow-x: auto;
+        font-size: 0.8rem;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    .map-container {
+        border: 2px solid #dee2e6;
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+</style>
+
+@code {
+    private MapView? _mapView;
+    private GraphicsLayer? _graphicsLayer;
+    private string _selectedBasemap = "streets";
+    private bool _showCodeModal;
+    private bool _showKmlLayer;
+    private bool _showMarker = true;
+    private int _codeTab;
+    private (double Latitude, double Longitude)? _lastClickLocation;
+    private List<(double Latitude, double Longitude)> _clickedPoints = new();
+
+    private void ToggleCodeModal()
+    {
+        _showCodeModal = !_showCodeModal;
+    }
+
+    private async Task RefreshMap()
+    {
+        if (_mapView != null)
+        {
+            await _mapView.Refresh();
+        }
+    }
+
+    private Task OnMapClick(ClickEvent e)
+    {
+        if (e.MapPoint != null)
+        {
+            var lat = e.MapPoint.Latitude ?? 0;
+            var lng = e.MapPoint.Longitude ?? 0;
+            _lastClickLocation = (lat, lng);
+            _clickedPoints.Add((lat, lng));
+            StateHasChanged();
+        }
+        return Task.CompletedTask;
+    }
+
+    private void ClearClickedPoints()
+    {
+        _clickedPoints.Clear();
+        _lastClickLocation = null;
+    }
+
+    private string GetBasemapDisplayName() => _selectedBasemap switch
+    {
+        "streets" => "Streets / Roadmap",
+        "satellite" => "Satellite",
+        "hybrid" => "Hybrid",
+        "terrain" => "Terrain",
+        "navigation" => "Navigation",
+        "dark" => "Dark Mode",
+        "osm" => "OpenStreetMap",
+        _ => _selectedBasemap
+    };
+
+    private string GetGoogleMapsCode()
+    {
+        var mapTypeId = _selectedBasemap switch
+        {
+            "streets" => "roadmap",
+            "satellite" => "satellite",
+            "hybrid" => "hybrid",
+            "terrain" => "terrain",
+            _ => "roadmap"
+        };
+
+        var kmlCode = _showKmlLayer ? @"
+
+// Add KML Layer
+const kmlLayer = new google.maps.KmlLayer({
+  url: 'https://www.census.gov/kml/doc/state_cbsa_csa/cb_2021_us_state_500k.kml',
+  map: map
+});" : "";
+
+        var markerCode = _showMarker ? @"
+
+// Add Marker
+const marker = new google.maps.Marker({
+  position: { lat: 39.8283, lng: -98.5795 },
+  map: map,
+  title: 'Center of USA'
+});
+
+// Add InfoWindow
+const infoWindow = new google.maps.InfoWindow({
+  content: '<h3>Center of USA</h3><p>Geographic center of the contiguous United States.</p>'
+});
+
+marker.addListener('click', () => {
+  infoWindow.open(map, marker);
+});" : "";
+
+        return $@"<!-- HTML -->
+<div id=""map"" style=""height: 600px; width: 100%;""></div>
+<script src=""https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"" async defer></script>
+
+<script>
+function initMap() {{
+  const map = new google.maps.Map(document.getElementById('map'), {{
+    center: {{ lat: 39.8283, lng: -98.5795 }},
+    zoom: 4,
+    mapTypeId: '{mapTypeId}'
+  }});
+{kmlCode}{markerCode}
+
+  // Handle click events
+  map.addListener('click', (e) => {{
+    console.log('Clicked:', e.latLng.lat(), e.latLng.lng());
+
+    // Add marker at clicked location
+    new google.maps.Marker({{
+      position: e.latLng,
+      map: map
+    }});
+  }});
+}}
+</script>";
+    }
+
+    private string GetGeoBlazorCode()
+    {
+        var basemapStyle = _selectedBasemap switch
+        {
+            "streets" => "ArcgisStreets",
+            "satellite" => "ArcgisImagery",
+            "hybrid" => "ArcgisImageryLabels",
+            "terrain" => "ArcgisTerrain",
+            "navigation" => "ArcgisNavigation",
+            "dark" => "ArcgisStreetsNight",
+            "osm" => "OsmStreets",
+            _ => "ArcgisStreets"
+        };
+
+        var kmlCode = _showKmlLayer ? @"
+
+        <KMLLayer Url=""https://www.census.gov/kml/doc/state_cbsa_csa/cb_2021_us_state_500k.kml""
+                  Title=""US States"" />" : "";
+
+        var markerCode = _showMarker ? @"
+            <Graphic>
+                <Point Latitude=""39.8283"" Longitude=""-98.5795"" />
+                <SimpleMarkerSymbol Color=""@(new MapColor(""#FF4444""))"" Size=""16"">
+                    <Outline Color=""@(new MapColor(""white""))"" Width=""2"" />
+                </SimpleMarkerSymbol>
+                <PopupTemplate Title=""Center of USA""
+                    StringContent=""Geographic center of the contiguous US."" />
+            </Graphic>" : "";
+
+        return $@"@* Razor Component *@
+<MapView @ref=""_mapView""
+         Class=""map-view""
+         Zoom=""4""
+         Latitude=""39.8283""
+         Longitude=""-98.5795""
+         OnClick=""OnMapClick"">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name=""BasemapStyleName.{basemapStyle}"" />
+        </Basemap>{kmlCode}
+
+        <GraphicsLayer>{markerCode}
+        </GraphicsLayer>
+    </Map>
+    <ScaleBarWidget Position=""OverlayPosition.BottomLeft"" />
+</MapView>
+
+@code {{
+    private MapView? _mapView;
+
+    private Task OnMapClick(ClickEvent e)
+    {{
+        if (e.MapPoint != null)
+        {{
+            Console.WriteLine($""Clicked: {{e.MapPoint.Latitude}}, {{e.MapPoint.Longitude}}"");
+            // Add graphics dynamically via _graphicsLayer.Add()
+        }}
+        return Task.CompletedTask;
+    }}
+}}";
+    }
+}

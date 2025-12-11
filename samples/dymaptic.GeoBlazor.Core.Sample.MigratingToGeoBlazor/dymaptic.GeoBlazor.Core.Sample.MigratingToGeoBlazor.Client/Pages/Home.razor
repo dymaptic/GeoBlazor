@@ -1,0 +1,155 @@
+@page "/"
+
+<PageTitle>Migrating to GeoBlazor</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Migrating to GeoBlazor</h1>
+
+            <div class="alert alert-primary">
+                <strong>Welcome!</strong> This sample demonstrates how to migrate from popular mapping libraries to GeoBlazor,
+                Blazor's premier mapping component library powered by ArcGIS Maps SDK for JavaScript.
+            </div>
+
+            <p>
+                GeoBlazor brings the power of ArcGIS mapping to .NET Blazor applications with a declarative,
+                component-based approach. Whether you're coming from Google Maps, Bing Maps, Mapbox, or another
+                mapping platform, this guide will help you understand the conceptual mapping between your
+                current platform and GeoBlazor.
+            </p>
+
+            <h2 class="mt-4">Available Migration Guides</h2>
+
+            <div class="row mt-3">
+                <!-- Google Maps Card -->
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-success">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="card-title mb-0">Google Maps</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Migrate from Google Maps JavaScript API to GeoBlazor. Learn how Google Maps
+                                concepts like markers, info windows, and map types translate to GeoBlazor components.
+                            </p>
+                            <ul class="small">
+                                <li>Account &amp; API key setup comparison</li>
+                                <li>Basemap type mapping (roadmap, satellite, etc.)</li>
+                                <li>Markers to Graphics conversion</li>
+                                <li>Event handling patterns</li>
+                                <li>Interactive code comparison demo</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/google/guide" class="btn btn-success me-2">Migration Guide</a>
+                            <a href="/google/demo" class="btn btn-outline-success">Interactive Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bing Maps Card -->
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-primary">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Bing Maps / Azure Maps</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Migrate from Bing Maps or Azure Maps to GeoBlazor. Understanding the transition
+                                from Microsoft's mapping platforms.
+                            </p>
+                            <p class="text-muted">
+                                <em>Coming soon...</em>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-secondary" disabled>Coming Soon</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mapbox Card -->
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-info">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="card-title mb-0">Mapbox GL JS</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Migrate from Mapbox GL JS to GeoBlazor. Learn how Mapbox's styling and
+                                vector tile approach compares to GeoBlazor's component model.
+                            </p>
+                            <p class="text-muted">
+                                <em>Coming soon...</em>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-secondary" disabled>Coming Soon</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="mt-4">Why GeoBlazor?</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Declarative Syntax</h4>
+                    <p>
+                        Build maps using familiar Razor component syntax instead of imperative JavaScript.
+                        Your map configuration becomes part of your component tree.
+                    </p>
+                    <pre><code>&lt;MapView Latitude="34.027" Longitude="-118.805" Zoom="12"&gt;
+    &lt;Map&gt;
+        &lt;Basemap&gt;
+            &lt;BasemapStyle Name="BasemapStyleName.ArcgisStreets" /&gt;
+        &lt;/Basemap&gt;
+    &lt;/Map&gt;
+&lt;/MapView&gt;</code></pre>
+                </div>
+                <div class="col-md-6">
+                    <h4>Type Safety</h4>
+                    <p>
+                        Full C# type safety with IntelliSense support. No more runtime errors from typos
+                        in string-based configuration.
+                    </p>
+                    <pre><code>// Strongly-typed event handling
+private Task OnMapClick(ClickEvent e)
+{
+    var lat = e.MapPoint?.Latitude;
+    var lng = e.MapPoint?.Longitude;
+    // Full IntelliSense support!
+    return Task.CompletedTask;
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <h4>Rich Ecosystem</h4>
+                    <p>
+                        Access the full power of ArcGIS Maps SDK including advanced analysis, geocoding,
+                        routing, and thousands of ready-to-use basemaps and data layers.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h4>.NET Integration</h4>
+                    <p>
+                        Seamless integration with ASP.NET Core, Entity Framework, and the entire .NET ecosystem.
+                        Use your existing skills and tools.
+                    </p>
+                </div>
+            </div>
+
+            <h2 class="mt-4">Resources</h2>
+            <ul>
+                <li><a href="https://www.geoblazor.com" target="_blank">GeoBlazor Home Page</a></li>
+                <li><a href="https://docs.geoblazor.com" target="_blank">GeoBlazor Documentation</a></li>
+                <li><a href="https://github.com/dymaptic/GeoBlazor" target="_blank">GeoBlazor on GitHub</a></li>
+                <li><a href="https://www.nuget.org/packages/dymaptic.GeoBlazor.Core" target="_blank">GeoBlazor NuGet Package</a></li>
+                <li><a href="https://developers.arcgis.com/javascript/latest/" target="_blank">ArcGIS Maps SDK for JavaScript</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

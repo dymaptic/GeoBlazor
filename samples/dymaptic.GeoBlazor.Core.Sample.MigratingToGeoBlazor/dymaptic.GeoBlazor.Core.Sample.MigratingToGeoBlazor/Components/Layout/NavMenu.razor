@@ -1,0 +1,51 @@
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Migrating to GeoBlazor</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3 nav-header">
+            <span class="text-muted small">Google Maps</span>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="google/guide">
+                <span class="bi bi-book-nav-menu" aria-hidden="true"></span> Migration Guide
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="google/demo">
+                <span class="bi bi-map-nav-menu" aria-hidden="true"></span> Interactive Demo
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3 nav-header">
+            <span class="text-muted small">Bing Maps / Azure Maps</span>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link disabled" href="bing/guide">
+                <span class="bi bi-book-nav-menu" aria-hidden="true"></span> Migration Guide
+                <span class="badge bg-secondary">Coming Soon</span>
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3 nav-header">
+            <span class="text-muted small">Mapbox</span>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link disabled" href="mapbox/guide">
+                <span class="bi bi-book-nav-menu" aria-hidden="true"></span> Migration Guide
+                <span class="badge bg-secondary">Coming Soon</span>
+            </NavLink>
+        </div>
+    </nav>
+</div>
