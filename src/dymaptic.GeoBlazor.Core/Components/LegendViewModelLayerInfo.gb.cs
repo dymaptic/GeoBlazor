@@ -29,7 +29,7 @@ public partial class LegendViewModelLayerInfo : MapComponent
     /// <param name="title">
     /// </param>
     public LegendViewModelLayerInfo(
-        MapComponent? layer = null,
+        Layer? layer = null,
         IReadOnlyList<long>? sublayerIds = null,
         string? title = null)
     {
@@ -69,7 +69,7 @@ public partial class LegendViewModelLayerInfo : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
-    public async Task<MapComponent?> GetLayer()
+    public async Task<Layer?> GetLayer()
     {
         if (CoreJsModule is null)
         {
@@ -92,7 +92,7 @@ public partial class LegendViewModelLayerInfo : MapComponent
         }
 
         // get the property value
-        MapComponent? result = await JsComponentReference!.InvokeAsync<MapComponent?>("getProperty",
+        Layer? result = await JsComponentReference!.InvokeAsync<Layer?>("getProperty",
             CancellationTokenSource.Token, "layer");
         if (result is not null)
         {
@@ -193,7 +193,7 @@ public partial class LegendViewModelLayerInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayer(MapComponent? value)
+    public async Task SetLayer(Layer? value)
     {
 #pragma warning disable BL0005
         Layer = value;

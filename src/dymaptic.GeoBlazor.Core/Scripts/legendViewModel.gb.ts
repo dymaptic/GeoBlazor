@@ -16,8 +16,8 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
         properties.activeLayerInfos = await Promise.all(dotNetObject.activeLayerInfos.map(async i => await buildJsActiveLayerInfo(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.layerInfos) && dotNetObject.layerInfos.length > 0) {
-        let { buildJsLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
-        properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendViewModelLayerInfos(i, layerId, viewId))) as any;
+        let { buildJsLegendViewModelLayerInfo } = await import('./legendViewModelLayerInfo');
+        properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendViewModelLayerInfo(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.basemapLegendVisible)) {
@@ -25,6 +25,9 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {
         properties.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
+    }
+    if (hasValue(dotNetObject.respectLayerDefinitionExpression)) {
+        properties.respectLayerDefinitionExpression = dotNetObject.respectLayerDefinitionExpression;
     }
     if (hasValue(dotNetObject.respectLayerVisibility)) {
         properties.respectLayerVisibility = dotNetObject.respectLayerVisibility;
@@ -51,8 +54,8 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any, viewId:
     }
     
     if (hasValue(jsObject.layerInfos)) {
-        let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
-        dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfos(i, viewId)));
+        let { buildDotNetLegendViewModelLayerInfo } = await import('./legendViewModelLayerInfo');
+        dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfo(i, viewId)));
     }
     
     if (hasValue(jsObject.basemapLegendVisible)) {
@@ -61,6 +64,14 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {
         dotNetLegendViewModel.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
+    }
+    
+    if (hasValue(jsObject.loading)) {
+        dotNetLegendViewModel.loading = jsObject.loading;
+    }
+    
+    if (hasValue(jsObject.respectLayerDefinitionExpression)) {
+        dotNetLegendViewModel.respectLayerDefinitionExpression = jsObject.respectLayerDefinitionExpression;
     }
     
     if (hasValue(jsObject.respectLayerVisibility)) {

@@ -64,6 +64,10 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any, viewId:
         dotNetActiveLayerInfo.legendElements = await Promise.all(jsObject.legendElements.map(async i => await buildDotNetILegendElement(i)));
     }
     
+    if (hasValue(jsObject.cssEffectFilter)) {
+        dotNetActiveLayerInfo.cssEffectFilter = jsObject.cssEffectFilter;
+    }
+    
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {
         dotNetActiveLayerInfo.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
     }

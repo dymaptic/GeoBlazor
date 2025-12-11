@@ -32,6 +32,9 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.supportsSize)) {
         jsCapabilitiesAttachment.supportsSize = dotNetObject.supportsSize;
     }
+    if (hasValue(dotNetObject.supportsTypeWildcard)) {
+        jsCapabilitiesAttachment.supportsTypeWildcard = dotNetObject.supportsTypeWildcard;
+    }
     
     jsObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
@@ -77,6 +80,10 @@ export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any, 
     
     if (hasValue(jsObject.supportsSize)) {
         dotNetCapabilitiesAttachment.supportsSize = jsObject.supportsSize;
+    }
+    
+    if (hasValue(jsObject.supportsTypeWildcard)) {
+        dotNetCapabilitiesAttachment.supportsTypeWildcard = jsObject.supportsTypeWildcard;
     }
     
 

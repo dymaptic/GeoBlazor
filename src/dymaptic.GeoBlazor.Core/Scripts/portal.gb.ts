@@ -5,22 +5,17 @@ import PortalWrapper from './portal';
 import { buildJsPortalProperties } from './portalProperties';
 import { buildJsPortalFeaturedGroups } from './portalFeaturedGroups';
 import { buildJsExtent } from './extent';
-import {IPropertyWrapper} from './definitions';
+import BaseComponent from "./baseComponent";
 
-export default class PortalGenerated implements IPropertyWrapper {
+export default class PortalGenerated extends BaseComponent {
     public component: Portal;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
     constructor(component: Portal) {
+        super(component);
         this.component = component;
-    }
-    
-    // region methods
-   
-    unwrap() {
-        return this.component;
     }
     
 
@@ -115,6 +110,12 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.featuredItemsGroupQuery)) {
             this.component.featuredItemsGroupQuery = dotNetObject.featuredItemsGroupQuery;
+        }
+        if (hasValue(dotNetObject.g3dTilesEnabled)) {
+            this.component.g3dTilesEnabled = dotNetObject.g3dTilesEnabled;
+        }
+        if (hasValue(dotNetObject.g3DTilesGalleryGroupQuery)) {
+            this.component.g3DTilesGalleryGroupQuery = dotNetObject.g3DTilesGalleryGroupQuery;
         }
         if (hasValue(dotNetObject.galleryTemplatesGroupQuery)) {
             this.component.galleryTemplatesGroupQuery = dotNetObject.galleryTemplatesGroupQuery;
@@ -217,6 +218,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
     }
     
+    // region methods
     async cancelLoad(): Promise<void> {
         this.component.cancelLoad();
     }
@@ -226,43 +228,47 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
 
     async fetchBasemaps(basemapGalleryGroupQuery: any,
-        options: any): Promise<any> {
+        options: any,
+        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
             options);
         let { buildDotNetBasemap } = await import('./basemap');
         return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.viewId)));
     }
 
-    async fetchCategorySchema(options: any): Promise<any> {
+    async fetchCategorySchema(signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
         return await this.component.fetchCategorySchema(options);
     }
 
-    async fetchClassificationSchema(options: any): Promise<any> {
-        let result = await this.component.fetchClassificationSchema(options);
-        
-        return generateSerializableJson(result);
+    async fetchClassificationSchema(signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
+        return await this.component.fetchClassificationSchema(options);
     }
 
-    async fetchDefault3DBasemap(options: any): Promise<any> {
+    async fetchDefault3DBasemap(signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
         let result = await this.component.fetchDefault3DBasemap(options);
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(result, this.viewId);
     }
 
-    async fetchFeaturedGroups(options: any): Promise<any> {
+    async fetchFeaturedGroups(signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
         let result = await this.component.fetchFeaturedGroups(options);
         let { buildDotNetPortalGroup } = await import('./portalGroup');
         return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
 
-    async fetchRegions(options: any): Promise<any> {
+    async fetchRegions(signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
         return await this.component.fetchRegions(options);
     }
 
-    async fetchSettings(options: any): Promise<any> {
-        let result = await this.component.fetchSettings(options);
-        
-        return generateSerializableJson(result);
+    async fetchSettings(signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
+        return await this.component.fetchSettings(options);
     }
 
     async isFulfilled(): Promise<any> {
@@ -277,14 +283,14 @@ export default class PortalGenerated implements IPropertyWrapper {
         return this.component.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.component.load(options);
-        
-        return generateSerializableJson(result);
+    async load(signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
+        return await this.component.load(options);
     }
 
     async queryGroups(queryParams: any,
-        options: any): Promise<any> {
+        signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryGroups(jsQueryParams,
@@ -292,7 +298,8 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
 
     async queryItems(queryParams: any,
-        options: any): Promise<any> {
+        signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryItems(jsQueryParams,
@@ -300,19 +307,18 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
 
     async queryUsers(queryParams: any,
-        options: any): Promise<any> {
+        signal: AbortSignal): Promise<any> {
+        let options = { signal: signal };
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryUsers(jsQueryParams,
             options);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        let result = await this.component.when(callback,
-            errback);
-        
-        return generateSerializableJson(result);
+    async when(onFulfilled: any,
+        onRejected: any): Promise<any> {
+        return await this.component.when(onFulfilled,
+            onRejected);
     }
 
     // region properties
@@ -508,6 +514,18 @@ export default class PortalGenerated implements IPropertyWrapper {
     
     setFeaturedItemsGroupQuery(value: any): void {
         this.component.featuredItemsGroupQuery = JSON.parse(value);
+    }
+    
+    getG3DTilesGalleryGroupQuery(): any {
+        if (!hasValue(this.component.g3DTilesGalleryGroupQuery)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.g3DTilesGalleryGroupQuery);
+    }
+    
+    setG3DTilesGalleryGroupQuery(value: any): void {
+        this.component.g3DTilesGalleryGroupQuery = JSON.parse(value);
     }
     
     getGalleryTemplatesGroupQuery(): any {
@@ -718,13 +736,6 @@ export default class PortalGenerated implements IPropertyWrapper {
         this.component.vectorBasemapGalleryGroupQuery = JSON.parse(value);
     }
     
-    getProperty(prop: string): any {
-        return this.component[prop];
-    }
-    
-    setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
-    }
 }
 
 
@@ -821,6 +832,12 @@ export function buildJsPortalGenerated(dotNetObject: any, layerId: string | null
     }
     if (hasValue(dotNetObject.featuredItemsGroupQuery)) {
         properties.featuredItemsGroupQuery = dotNetObject.featuredItemsGroupQuery;
+    }
+    if (hasValue(dotNetObject.g3dTilesEnabled)) {
+        properties.g3dTilesEnabled = dotNetObject.g3dTilesEnabled;
+    }
+    if (hasValue(dotNetObject.g3DTilesGalleryGroupQuery)) {
+        properties.g3DTilesGalleryGroupQuery = dotNetObject.g3DTilesGalleryGroupQuery;
     }
     if (hasValue(dotNetObject.galleryTemplatesGroupQuery)) {
         properties.galleryTemplatesGroupQuery = dotNetObject.galleryTemplatesGroupQuery;
@@ -1059,6 +1076,14 @@ export async function buildDotNetPortalGenerated(jsObject: any, viewId: string |
     
     if (hasValue(jsObject.featuredItemsGroupQuery)) {
         dotNetPortal.featuredItemsGroupQuery = jsObject.featuredItemsGroupQuery;
+    }
+    
+    if (hasValue(jsObject.g3dTilesEnabled)) {
+        dotNetPortal.g3dTilesEnabled = jsObject.g3dTilesEnabled;
+    }
+    
+    if (hasValue(jsObject.g3DTilesGalleryGroupQuery)) {
+        dotNetPortal.g3DTilesGalleryGroupQuery = jsObject.g3DTilesGalleryGroupQuery;
     }
     
     if (hasValue(jsObject.galleryTemplatesGroupQuery)) {

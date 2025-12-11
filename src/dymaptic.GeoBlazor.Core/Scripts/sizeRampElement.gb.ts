@@ -12,6 +12,9 @@ export async function buildJsSizeRampElementGenerated(dotNetObject: any, layerId
         jsSizeRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsSizeRampStop(i, layerId, viewId))) as any;
     }
 
+    if (hasValue(dotNetObject.theme)) {
+        jsSizeRampElement.theme = dotNetObject.theme;
+    }
     if (hasValue(dotNetObject.title)) {
         jsSizeRampElement.title = dotNetObject.title;
     }
@@ -33,6 +36,10 @@ export async function buildDotNetSizeRampElementGenerated(jsObject: any, viewId:
     if (hasValue(jsObject.infos)) {
         let { buildDotNetSizeRampStop } = await import('./sizeRampStop');
         dotNetSizeRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetSizeRampStop(i, viewId)));
+    }
+    
+    if (hasValue(jsObject.theme)) {
+        dotNetSizeRampElement.theme = jsObject.theme;
     }
     
     if (hasValue(jsObject.title)) {

@@ -36,6 +36,9 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.defaultZoomScale)) {
         properties.defaultZoomScale = dotNetObject.defaultZoomScale;
     }
+    if (hasValue(dotNetObject.language)) {
+        properties.language = dotNetObject.language;
+    }
     if (hasValue(dotNetObject.localSearchDisabled)) {
         properties.localSearchDisabled = dotNetObject.localSearchDisabled;
     }
@@ -139,6 +142,10 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any, vie
     
     if (hasValue(jsObject.defaultZoomScale)) {
         dotNetLocatorSearchSource.defaultZoomScale = jsObject.defaultZoomScale;
+    }
+    
+    if (hasValue(jsObject.language)) {
+        dotNetLocatorSearchSource.language = jsObject.language;
     }
     
     if (hasValue(jsObject.localSearchDisabled)) {

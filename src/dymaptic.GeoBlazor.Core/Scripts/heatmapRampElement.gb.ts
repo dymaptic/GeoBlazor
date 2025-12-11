@@ -12,6 +12,9 @@ export async function buildJsHeatmapRampElementGenerated(dotNetObject: any): Pro
         jsHeatmapRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsHeatmapRampStop(i))) as any;
     }
 
+    if (hasValue(dotNetObject.preview)) {
+        jsHeatmapRampElement.preview = dotNetObject.preview;
+    }
     if (hasValue(dotNetObject.title)) {
         jsHeatmapRampElement.title = dotNetObject.title;
     }
@@ -33,6 +36,10 @@ export async function buildDotNetHeatmapRampElementGenerated(jsObject: any, view
     if (hasValue(jsObject.infos)) {
         let { buildDotNetHeatmapRampStop } = await import('./heatmapRampStop');
         dotNetHeatmapRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetHeatmapRampStop(i, viewId)));
+    }
+    
+    if (hasValue(jsObject.preview)) {
+        dotNetHeatmapRampElement.preview = jsObject.preview;
     }
     
     if (hasValue(jsObject.title)) {

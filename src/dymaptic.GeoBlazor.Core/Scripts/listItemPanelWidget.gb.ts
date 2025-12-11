@@ -9,6 +9,10 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any, vie
     
     let dotNetListItemPanelWidget: any = {};
     
+    if (hasValue(jsObject.destroyed)) {
+        dotNetListItemPanelWidget.destroyed = jsObject.destroyed;
+    }
+    
     if (hasValue(jsObject.disabled)) {
         dotNetListItemPanelWidget.disabled = jsObject.disabled;
     }

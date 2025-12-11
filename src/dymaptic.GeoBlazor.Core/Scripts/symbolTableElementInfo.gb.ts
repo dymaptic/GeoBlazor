@@ -18,6 +18,9 @@ export async function buildJsSymbolTableElementInfoGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.preview)) {
         jsSymbolTableElementInfo.preview = dotNetObject.preview;
     }
+    if (hasValue(dotNetObject.previewAriaLabel)) {
+        jsSymbolTableElementInfo.previewAriaLabel = dotNetObject.previewAriaLabel;
+    }
     if (hasValue(dotNetObject.size)) {
         jsSymbolTableElementInfo.size = dotNetObject.size;
     }
@@ -50,6 +53,10 @@ export async function buildDotNetSymbolTableElementInfoGenerated(jsObject: any, 
     
     if (hasValue(jsObject.preview)) {
         dotNetSymbolTableElementInfo.preview = jsObject.preview;
+    }
+    
+    if (hasValue(jsObject.previewAriaLabel)) {
+        dotNetSymbolTableElementInfo.previewAriaLabel = jsObject.previewAriaLabel;
     }
     
     if (hasValue(jsObject.size)) {
