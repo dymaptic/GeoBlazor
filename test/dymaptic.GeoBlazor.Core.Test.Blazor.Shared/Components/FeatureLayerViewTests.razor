@@ -8,7 +8,8 @@
     
     [TestMethod]
     public async Task TestCanQueryFeatures(Action renderHandler, Action<LayerViewCreateEvent> layerViewCreatedHandler)
-    {AddMapRenderFragment(
+    {
+        AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler"
                       OnLayerViewCreate="layerViewCreatedHandler">
                 <Map>

@@ -5,9 +5,10 @@
     <CoreVersion>4.3.0.9</CoreVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CoreProjectPath>$(MSBuildThisFileDirectory)src\dymaptic.GeoBlazor.Core</CoreProjectPath>
+    <!-- https://github.com/dotnet/aspnetcore/issues/64381 -->
     <StaticWebAssetEndpointExclusionPattern>
-            $(StaticWebAssetEndpointExclusionPattern);js/**
-        </StaticWebAssetEndpointExclusionPattern>
+        $(StaticWebAssetEndpointExclusionPattern);js/**
+    </StaticWebAssetEndpointExclusionPattern>
   </PropertyGroup>
   <ItemGroup>
     <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*" />
