@@ -1,4 +1,4 @@
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 
 export async function buildJsBasemapStyle(dotNetObject: any): Promise<any> {
     let jsBasemapStyle: any = {};

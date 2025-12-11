@@ -1,0 +1,27 @@
+﻿@inherits TestRunnerBase
+@attribute [IsolatedTest]
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    
+    [Inject]
+    public required AuthenticationManager AuthenticationManager { get; set; }
+     
+    [TestMethod]
+    public async Task TestArcGISBasemapWithNoApiKeyShowsError(Action renderHandler)
+    {
+        AddMapRenderFragment(@<MapView class="map-view" 
+                                       OnViewRendered="renderHandler" 
+                                       ExcludeApiKey="true">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                                     </Basemap>
+                                 </Map>
+                             </MapView>);
+        await Assert.ThrowsExactlyAsync<TimeoutException>(() => WaitForMapToRender(timeoutInSeconds: 4));
+    }
+}

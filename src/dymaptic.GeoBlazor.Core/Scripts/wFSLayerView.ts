@@ -1,7 +1,7 @@
 // override generated code in this file
 import WFSLayerViewGenerated from './wFSLayerView.gb';
 import WFSLayerView from '@arcgis/core/views/layers/WFSLayerView';
-import {hasValue, lookupJsGraphicById, graphicsRefs} from "./arcGisJsInterop";
+import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
 
 export default class WFSLayerViewWrapper extends WFSLayerViewGenerated {
 

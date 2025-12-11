@@ -1,7 +1,7 @@
 // override generated code in this file
 import GeoRSSLayerGenerated from './geoRSSLayer.gb';
 import GeoRSSLayer from '@arcgis/core/layers/GeoRSSLayer';
-import {buildEncodedJson} from "./arcGisJsInterop";
+import {buildEncodedJson} from "./geoBlazorCore";
 
 export default class GeoRSSLayerWrapper extends GeoRSSLayerGenerated {
 

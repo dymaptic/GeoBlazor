@@ -1,5 +1,5 @@
 import LocatorSearchSource from "@arcgis/core/widgets/Search/LocatorSearchSource";
-import {arcGisObjectRefs, hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, lookupGeoBlazorId} from './geoBlazorCore';
 import {buildDotNetPoint} from "./point";
 import {buildDotNetSpatialReference} from "./spatialReference";
 import {buildJsExtent} from "./extent";

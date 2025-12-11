@@ -55,8 +55,8 @@ public class AbortManager : IAsyncDisposable
     {
         if (_jsModule is null)
         {
-            IJSObjectReference? proJsModule = await _jsModuleManager!.GetArcGisJsPro(_jsRuntime!, cancellationToken);
-            _jsModule = await _jsModuleManager.GetArcGisJsCore(_jsRuntime!, proJsModule, cancellationToken);
+            IJSObjectReference? proJsModule = await _jsModuleManager!.GetProJsModule(_jsRuntime!, cancellationToken);
+            _jsModule = await _jsModuleManager.GetCoreJsModule(_jsRuntime!, proJsModule, cancellationToken);
         }
         
         AbortManagerResult result = await _jsModule

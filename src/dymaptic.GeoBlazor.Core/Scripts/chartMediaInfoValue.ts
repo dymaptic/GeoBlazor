@@ -1,6 +1,6 @@
 // override generated code in this file
 import ChartMediaInfoValue from '@arcgis/core/popup/content/support/ChartMediaInfoValue';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 import {buildDotNetChartMediaInfoValueSeries, buildJsChartMediaInfoValueSeries} from './chartMediaInfoValueSeries';
 

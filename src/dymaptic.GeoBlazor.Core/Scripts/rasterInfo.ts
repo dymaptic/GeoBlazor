@@ -1,6 +1,6 @@
 // override generated code in this file
 
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 
 export async function buildJsRasterInfo(dotNetObject: any): Promise<any> {
     let {buildJsRasterInfoGenerated} = await import('./rasterInfo.gb');

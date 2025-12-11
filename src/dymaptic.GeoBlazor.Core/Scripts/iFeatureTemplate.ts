@@ -1,4 +1,4 @@
-import {Pro} from "./arcGisJsInterop";
+import {Pro} from './geoBlazorCore';
 
 export async function buildJsIFeatureTemplate(dnFeatureTemplate: any): Promise<any> {
     if (!Pro) {

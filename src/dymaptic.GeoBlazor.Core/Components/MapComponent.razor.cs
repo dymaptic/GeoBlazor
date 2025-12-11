@@ -43,14 +43,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     public bool MapRendered { get; set; }
 
     /// <summary>
-    ///     The reference to arcGisJsInterop.ts from .NET
+    ///     The reference to geoBlazorCore.ts from .NET
     /// </summary>
     [Obsolete("Use the CoreJsModule property instead.")]
     [JsonIgnore]
     public IJSObjectReference? JsModule => CoreJsModule;
 
     /// <summary>
-    ///     The reference to the entry point arcGisJsInterop.js from .NET
+    ///     The reference to the entry point geoBlazorCore.js from .NET
     /// </summary>
     [JsonIgnore]
     public IJSObjectReference? CoreJsModule
@@ -1002,8 +1002,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         if (firstRender)
         {
-            ProJsModule ??= await JsModuleManager!.GetArcGisJsPro(JsRuntime!, CancellationToken.None);
-            CoreJsModule ??= await JsModuleManager!.GetArcGisJsCore(JsRuntime!, ProJsModule, CancellationToken.None);
+            ProJsModule ??= await JsModuleManager!.GetProJsModule(JsRuntime!, CancellationToken.None);
+            CoreJsModule ??= await JsModuleManager!.GetCoreJsModule(JsRuntime!, ProJsModule, CancellationToken.None);
             AbortManager ??= new AbortManager(CoreJsModule);
         }
 

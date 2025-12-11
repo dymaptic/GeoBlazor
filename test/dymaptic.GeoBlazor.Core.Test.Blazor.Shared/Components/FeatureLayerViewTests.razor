@@ -9,6 +9,7 @@
     [TestMethod]
     public async Task TestCanQueryFeatures(Action renderHandler, Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
+        FeatureLayerView? layerView = null;
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler"
                       OnLayerViewCreate="layerViewCreatedHandler">
@@ -29,7 +30,7 @@
             </MapView>);
         await WaitForMapToRender();
         LayerViewCreateEvent layerViewCreatedEvent = await WaitForLayerToRender<FeatureLayer>();
-        var layerView = layerViewCreatedEvent.LayerView as FeatureLayerView;
+        layerView = layerViewCreatedEvent.LayerView as FeatureLayerView;
         Assert.IsNotNull(layerView, "FeatureLayerView did not materialize");
         Point point = new(x: -13627933.093831237, y: 4547153.388126561, spatialReference: new(102100));
         var query = new Query
@@ -51,7 +52,11 @@
   [TestMethod]
     public async Task FeatureLayerView_PropertyRoundtrips_And_Queries(Action renderHandler,
         Action<LayerViewCreateEvent> layerViewCreatedHandler)
-    {// In-memory layer for deterministic queries/highlights
+    {
+        FeatureLayer? layer = null;
+        FeatureLayerView? layerView = null;
+
+        // In-memory layer for deterministic queries/highlights
         var graphics = new List<Graphic>
         {
             new Graphic(
@@ -68,7 +73,8 @@
             @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreatedHandler">
                 <Map>
                     <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
-                    <FeatureLayer Source="graphics"
+                    <FeatureLayer @ref="layer"
+                                  Source="graphics"
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
@@ -80,7 +86,7 @@
 
         // Wait for the FeatureLayerView
         LayerViewCreateEvent layerViewCreatedEvent = await WaitForLayerToRender<FeatureLayer>();
-        var layerView = layerViewCreatedEvent.LayerView as FeatureLayerView;
+        layerView = layerViewCreatedEvent.LayerView as FeatureLayerView;
         Assert.IsNotNull(layerView, "FeatureLayerView did not materialize");
 
         // ---------------------------
@@ -111,7 +117,7 @@
 
         double? max = await layerView.GetMaximumNumberOfFeatures();
         Assert.IsTrue(max >= 0, "maximumNumberOfFeatures should be non-negative.");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max!]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
 
         bool exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded() ?? false;
         // For two graphics, exceeded should normally be false, but assert against the JS value rather than forcing it.
@@ -151,7 +157,11 @@
    [TestMethod]
     public async Task FeatureLayerView_Getters_Invoke_JS_SourceOfTruth(Action renderHandler,
         Action<LayerViewCreateEvent> layerViewCreatedHandler)
-    {// In-memory layer for deterministic behavior
+    {
+        FeatureLayer? layer = null;
+        FeatureLayerView? layerView = null;
+
+        // In-memory layer for deterministic behavior
         var graphics = new List<Graphic>
         {
             new Graphic(
@@ -168,7 +178,8 @@
             @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreatedHandler">
                 <Map>
                     <Basemap><BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" /></Basemap>
-                    <FeatureLayer Source="graphics"
+                    <FeatureLayer @ref="layer"
+                                  Source="graphics"
                                   OutFields="@(["*"])"
                                   SpatialReference="SpatialReference.Wgs84"
                                   GeometryType="FeatureGeometryType.Point"
@@ -178,7 +189,7 @@
 
         await WaitForMapToRender();
         LayerViewCreateEvent layerViewCreatedEvent = await WaitForLayerToRender<FeatureLayer>();
-        var layerView = layerViewCreatedEvent.LayerView as FeatureLayerView;
+        layerView = layerViewCreatedEvent.LayerView as FeatureLayerView;
         Assert.IsNotNull(layerView, "FeatureLayerView did not materialize");
 
         // ---------------------------
@@ -199,7 +210,7 @@
         // 2) Read-only props: read them, then assert JS reports the same value
         double? max = await layerView.GetMaximumNumberOfFeatures();
         Assert.IsTrue(max >= 0);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max!]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
 
         bool? exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded();
         Assert.IsNotNull(exceeded);

@@ -1,7 +1,7 @@
 // override generated code in this file
 import VectorTileLayerGenerated from './vectorTileLayer.gb';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
-import {buildEncodedJson} from "./arcGisJsInterop";
+import {buildEncodedJson} from "./geoBlazorCore";
 
 export default class VectorTileLayerWrapper extends VectorTileLayerGenerated {
 

@@ -1,5 +1,5 @@
 // override generated code in this file
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import TextContent from "@arcgis/core/popup/content/TextContent";
 
 export function buildJsTextPopupContent(dotNetObject: any): any {

@@ -1,0 +1,151 @@
+@page "/test-frame"
+
+@if (_testClassName is not null)
+{
+    <DynamicComponent Type="@_testClassType" @ref="_dynamicComponent" Parameters="@Parameters" />
+}
+
+@code {
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
+    
+    [Inject]
+    public required IJSRuntime JsRuntime { get; set; }
+    
+    public const string CancelTestRun = "CancelTestRun";
+    
+    [JSInvokable]
+    public async Task OnIframeMessage(IsolatedTestMessage message)
+    {
+        Console.WriteLine($"Message Received by Frame {_testClassName}: {message.Method}");
+        try
+        {
+            if (message.Class != _testClassName)
+            {
+                return;
+            }
+            
+            switch (message.Method)
+            {
+                case nameof(TestRunner.RunTests):
+                    await _cts.CancelAsync();
+                    _cts = new CancellationTokenSource();
+                    switch (message.Arguments.Length)
+                    {
+                        case 0:
+                            await TestRunner!.RunTests(cancellationToken: _cts.Token);
+                            break;
+                        case 1:
+                            await TestRunner!.RunTests(GetBoolValue(message.Arguments[0]),
+                                cancellationToken: _cts.Token);
+                            break;
+                        case 2:
+                            await TestRunner!.RunTests(GetBoolValue(message.Arguments[0]), 
+                                GetIntValue(message.Arguments[1]),
+                                cancellationToken: _cts.Token);
+                            break;
+                    }
+
+                    break;
+                case nameof(TestRunner.Toggle):
+                    TestRunner!.Toggle(GetBoolValue(message.Arguments[0]));
+                    break;
+                case nameof(CancelTestRun):
+                    await _cts.CancelAsync();
+                    break;
+                default:
+                    throw new NotSupportedException($"Method {message.Method} is not supported.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error processing iframe message: {ex.Message}");
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (_testClassName is not null)
+        {
+            return;
+        }
+        
+        // read query string
+        Uri uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        Dictionary<string, StringValues> queryDict = QueryHelpers.ParseQuery(uri.Query);
+        if (!queryDict.TryGetValue("class", out StringValues classValues))
+        {
+            throw new InvalidOperationException("Query parameter 'class' is required.");
+        }
+        _testClassName = classValues.First();
+        var assembly = Assembly.GetExecutingAssembly();
+        Type[] types = assembly.GetTypes();
+        try
+        {
+            var proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
+            types = types.Concat(proAssembly.GetTypes()
+                .Where(t => t.Name != "ProTestRunnerBase")).ToArray();
+        }
+        catch
+        {
+            //ignore if not running pro
+        }
+        
+        _testClassType = types.FirstOrDefault(t => t.Name == _testClassName);
+        
+        if (_testClassType is null)
+        {
+            throw new InvalidOperationException($"Test class '{_testClassName}' not found.");
+        }
+
+        if (queryDict.TryGetValue("results", out StringValues resultsValues))
+        {
+            string json = Uri.UnescapeDataString(resultsValues.ToString());
+            _results = JsonSerializer.Deserialize<TestResult>(json);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JsRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/Pages/TestFrame.razor.js");
+            await _module.InvokeVoidAsync("initialize", DotNetObjectReference.Create(this), _testClassName);
+        }
+    }
+
+    private async Task OnTestResults(TestResult result)
+    {
+        await _module!.InvokeVoidAsync("sendMessage", nameof(OnTestResults), result);
+    }
+    
+    private TestRunnerBase? TestRunner => _dynamicComponent?.Instance as TestRunnerBase;
+    
+    private Dictionary<string, object?> Parameters => new()
+    {
+        { nameof(OnTestResults), EventCallback.Factory.Create<TestResult>(this, OnTestResults) },
+        { nameof(Results), _results }
+    };
+
+    private bool GetBoolValue(object? arg)
+    {
+        return arg is not JsonElement jsonElement 
+            ? throw new InvalidOperationException("Argument is not a JsonElement.") 
+            : jsonElement.GetBoolean();
+    }
+    
+    private int GetIntValue(object? arg)
+    {
+        return arg is not JsonElement jsonElement 
+            ? throw new InvalidOperationException("Argument is not a JsonElement.") 
+            : jsonElement.GetInt32();
+    }
+
+    private string? _testClassName;
+    private Type? _testClassType;
+    private TestResult? _results;
+    private DynamicComponent? _dynamicComponent;
+    private IJSObjectReference? _module;
+    private CancellationTokenSource _cts = new();
+}

@@ -2,6 +2,7 @@
 using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Model;
 using Microsoft.AspNetCore.Components;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 #pragma warning disable BL0005
