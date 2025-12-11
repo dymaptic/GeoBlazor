@@ -4,10 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A file-based raster that resides in a registered raster workspace.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#RasterDataSource">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterDataSource.html">GeoBlazor Docs</a>
+///     A file-based raster that resides in a registered raster workspace.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#RasterDataSource">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class RasterDataSource : IDynamicDataLayerDataSource
+public partial class RasterDataSource
 {
 
     /// <summary>
@@ -52,8 +53,17 @@ public partial class RasterDataSource : IDynamicDataLayerDataSource
         {
             return DataSourceName;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return DataSourceName;
@@ -82,8 +92,17 @@ public partial class RasterDataSource : IDynamicDataLayerDataSource
         {
             return WorkspaceId;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return WorkspaceId;
@@ -113,7 +132,7 @@ public partial class RasterDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDataSourceName(string value)
+    public async Task SetDataSourceName(string? value)
     {
 #pragma warning disable BL0005
         DataSourceName = value;
@@ -125,8 +144,15 @@ public partial class RasterDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -143,7 +169,7 @@ public partial class RasterDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWorkspaceId(string value)
+    public async Task SetWorkspaceId(string? value)
     {
 #pragma warning disable BL0005
         WorkspaceId = value;
@@ -155,8 +181,15 @@ public partial class RasterDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {

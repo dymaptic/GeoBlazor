@@ -4,10 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A query table is a feature class or table defined by a SQL query on the fly.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#QueryTableDataSource">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.QueryTableDataSource.html">GeoBlazor Docs</a>
+///     A query table is a feature class or table defined by a SQL query on the fly.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#QueryTableDataSource">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class QueryTableDataSource : IDynamicDataLayerDataSource
+public partial class QueryTableDataSource
 {
 
     /// <summary>
@@ -62,6 +63,7 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.QueryTableDataSource.html#querytabledatasourcespatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the geometry of each feature in the table source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#QueryTableDataSource">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -83,8 +85,17 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
         {
             return GeometryType;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return GeometryType;
@@ -113,8 +124,17 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
         {
             return OidFields;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return OidFields;
@@ -143,8 +163,17 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
         {
             return Query;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Query;
@@ -173,24 +202,33 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
         {
             return SpatialReference;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return SpatialReference;
         }
 
-        // get the property value
-        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, "spatialReference");
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialReference = result;
+            SpatialReference = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-         
+        
         return SpatialReference;
     }
     
@@ -203,8 +241,17 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
         {
             return WorkspaceId;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return WorkspaceId;
@@ -234,7 +281,7 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeometryType(FeatureGeometryType value)
+    public async Task SetGeometryType(FeatureGeometryType? value)
     {
 #pragma warning disable BL0005
         GeometryType = value;
@@ -246,8 +293,15 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -264,7 +318,7 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOidFields(string value)
+    public async Task SetOidFields(string? value)
     {
 #pragma warning disable BL0005
         OidFields = value;
@@ -276,8 +330,15 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -294,7 +355,7 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQuery(string value)
+    public async Task SetQuery(string? value)
     {
 #pragma warning disable BL0005
         Query = value;
@@ -306,8 +367,15 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -324,8 +392,13 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference value)
+    public async Task SetSpatialReference(SpatialReference? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -336,8 +409,15 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -354,7 +434,7 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWorkspaceId(string value)
+    public async Task SetWorkspaceId(string? value)
     {
 #pragma warning disable BL0005
         WorkspaceId = value;
@@ -366,8 +446,15 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -390,7 +477,6 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -407,7 +493,6 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
         {
             case SpatialReference _:
                 SpatialReference = null;
-                
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             default:

@@ -11,54 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 public partial class Polygon
 {
 
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Centroid property.
-    /// </summary>
-    public async Task<Point?> GetCentroid()
-    {
-        if (CoreJsModule is null)
-        {
-            return Centroid;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Centroid;
-        }
-
-        Point? result = await JsComponentReference.InvokeAsync<Point?>(
-            "getCentroid", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Centroid is not null)
-            {
-                result.Id = Centroid.Id;
-            }
-            
-#pragma warning disable BL0005
-            Centroid = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Centroid)] = Centroid;
-        }
-        
-        return Centroid;
-    }
-    
-#endregion
-
 #region Public Methods
 
     /// <summary>

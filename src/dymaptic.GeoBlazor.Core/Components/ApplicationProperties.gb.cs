@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ApplicationProperties.html">GeoBlazor Docs</a>
-///     Represents configuration of application and UI elements of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a>.
+///     Represents configuration of application and UI elements of the
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-ApplicationProperties.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ApplicationProperties : MapComponent
@@ -39,6 +40,7 @@ public partial class ApplicationProperties : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ApplicationProperties.html#applicationpropertiesviewing-property">GeoBlazor Docs</a>
     ///     View-specific properties of application and UI elements for the web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-ApplicationProperties.html#viewing">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -104,10 +106,7 @@ public partial class ApplicationProperties : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

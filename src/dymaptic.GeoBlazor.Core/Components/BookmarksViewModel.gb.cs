@@ -39,8 +39,10 @@ public partial class BookmarksViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#defaultEditOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="goToOverride">
-    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
+    ///     This function provides the ability to override either the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public BookmarksViewModel(
         IReadOnlyList<Bookmark>? bookmarks = null,
@@ -377,10 +379,7 @@ public partial class BookmarksViewModel : IGoTo
         {
             foreach (Bookmark item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -423,10 +422,7 @@ public partial class BookmarksViewModel : IGoTo
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -692,6 +688,77 @@ public partial class BookmarksViewModel : IGoTo
             CancellationTokenSource.Token,
             bookmark);
     }
+    
+#endregion
+
+#region Event Handlers
+
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsBookmarkEdit(IJSStreamReference jsStreamRef)
+    {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        BookmarksViewModelBookmarkEditEvent? bookmarkEditEvent = await jsStreamRef.ReadJsStreamReference<BookmarksViewModelBookmarkEditEvent>();
+        if (bookmarkEditEvent is not null)
+        {
+            await OnBookmarkEdit.InvokeAsync(bookmarkEditEvent);
+        }
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelonbookmarkedit-property">GeoBlazor Docs</a>
+    ///     Event Listener for BookmarkEdit.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<BookmarksViewModelBookmarkEditEvent> OnBookmarkEdit { get; set; }
+   
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
+    public bool HasBookmarkEditListener => OnBookmarkEdit.HasDelegate;
+    
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsBookmarkSelect(IJSStreamReference jsStreamRef)
+    {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        BookmarksViewModelBookmarkSelectEvent? bookmarkSelectEvent = await jsStreamRef.ReadJsStreamReference<BookmarksViewModelBookmarkSelectEvent>();
+        if (bookmarkSelectEvent is not null)
+        {
+            await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);
+        }
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelonbookmarkselect-property">GeoBlazor Docs</a>
+    ///     Indicates whether there is an event listener on the instance that matches
+    ///     the provided event name.
+    ///     param type The name of the event.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#hasEventListener">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<BookmarksViewModelBookmarkSelectEvent> OnBookmarkSelect { get; set; }
+   
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
+    public bool HasBookmarkSelectListener => OnBookmarkSelect.HasDelegate;
     
 #endregion
 

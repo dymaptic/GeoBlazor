@@ -11,12 +11,5 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#save">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record WebMapSaveOptions(
-    bool? IgnoreUnsupported = null)
-{
-    /// <summary>
-    ///     When `true`, the webmap will save even if it contains unsupported content (layers, renderers, symbols).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#save">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public bool? IgnoreUnsupported { get; set; } = IgnoreUnsupported;
-    
-}
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? IgnoreUnsupported = null);

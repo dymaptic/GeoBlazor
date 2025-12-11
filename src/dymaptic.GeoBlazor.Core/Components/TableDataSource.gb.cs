@@ -4,10 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A table or feature class that resides in a registered workspace (either a folder or geodatabase).
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#TableDataSource">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TableDataSource.html">GeoBlazor Docs</a>
+///     A table or feature class that resides in a registered workspace (either a folder or geodatabase).
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#TableDataSource">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class TableDataSource : IDynamicDataLayerDataSource
+public partial class TableDataSource
 {
 
     /// <summary>
@@ -58,8 +59,17 @@ public partial class TableDataSource : IDynamicDataLayerDataSource
         {
             return DataSourceName;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return DataSourceName;
@@ -88,8 +98,17 @@ public partial class TableDataSource : IDynamicDataLayerDataSource
         {
             return GdbVersion;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return GdbVersion;
@@ -118,8 +137,17 @@ public partial class TableDataSource : IDynamicDataLayerDataSource
         {
             return WorkspaceId;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return WorkspaceId;
@@ -149,7 +177,7 @@ public partial class TableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDataSourceName(string value)
+    public async Task SetDataSourceName(string? value)
     {
 #pragma warning disable BL0005
         DataSourceName = value;
@@ -161,8 +189,15 @@ public partial class TableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -179,7 +214,7 @@ public partial class TableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGdbVersion(string value)
+    public async Task SetGdbVersion(string? value)
     {
 #pragma warning disable BL0005
         GdbVersion = value;
@@ -191,8 +226,15 @@ public partial class TableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -209,7 +251,7 @@ public partial class TableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWorkspaceId(string value)
+    public async Task SetWorkspaceId(string? value)
     {
 #pragma warning disable BL0005
         WorkspaceId = value;
@@ -221,8 +263,15 @@ public partial class TableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {

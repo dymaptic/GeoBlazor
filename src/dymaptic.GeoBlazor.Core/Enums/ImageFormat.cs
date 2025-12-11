@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.ImageFormat.html">GeoBlazor Docs</a>
-///     <summary>
-///      The format of the data sent by the server.
-///      </summary>
+///     The format of the data sent by the server.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ImageFormat>))]
 public enum ImageFormat

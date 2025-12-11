@@ -320,6 +320,7 @@ public partial class ActiveLayerInfo : MapComponent
             {
                 result.Id = Layer.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Layer = result;
@@ -364,6 +365,7 @@ public partial class ActiveLayerInfo : MapComponent
             {
                 result.Id = LayerView.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             LayerView = result;
@@ -404,6 +406,10 @@ public partial class ActiveLayerInfo : MapComponent
         
         if (result is not null)
         {
+            foreach (ILegendElement item in result)
+            {
+                ((MapComponent)item).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             LegendElements = result;
 #pragma warning restore BL0005
@@ -737,10 +743,7 @@ public partial class ActiveLayerInfo : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -782,10 +785,7 @@ public partial class ActiveLayerInfo : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -829,10 +829,7 @@ public partial class ActiveLayerInfo : MapComponent
         {
             foreach (ILegendElement item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                ((MapComponent)item).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         

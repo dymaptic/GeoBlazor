@@ -29,6 +29,10 @@ public partial record SubtypeSublayerEdits(
     IReadOnlyCollection<AttachmentEdit>? UpdateAttachments = null,
     IReadOnlyCollection<Graphic>? UpdateFeatures = null)
 {
+    public SubtypeSublayerEdits(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     
     /// </summary>

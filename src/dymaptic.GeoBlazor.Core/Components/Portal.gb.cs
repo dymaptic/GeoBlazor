@@ -137,8 +137,8 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#devBasemapGalleryGroupQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="eueiEnabled">
-    ///     Boolean value indicating whether to opt-in to the [Esri
-    ///     User Experience Improvement (EUEI) program](https://doc.arcgis.com/en/arcgis-online/reference/faq.htm#ESRI_QUESTIONANSWER_AED97F28DCD84F7682623C2FA9E5CE49).
+    ///     Boolean value indicating whether to opt-in to the
+    ///     <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/reference/faq.htm#ESRI_QUESTIONANSWER_AED97F28DCD84F7682623C2FA9E5CE49">Esri User Experience Improvement (EUEI) program</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#eueiEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -726,8 +726,8 @@ public partial class Portal
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portaleueienabled-property">GeoBlazor Docs</a>
-    ///     Boolean value indicating whether to opt-in to the [Esri
-    ///     User Experience Improvement (EUEI) program](https://doc.arcgis.com/en/arcgis-online/reference/faq.htm#ESRI_QUESTIONANSWER_AED97F28DCD84F7682623C2FA9E5CE49).
+    ///     Boolean value indicating whether to opt-in to the
+    ///     <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/reference/faq.htm#ESRI_QUESTIONANSWER_AED97F28DCD84F7682623C2FA9E5CE49">Esri User Experience Improvement (EUEI) program</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#eueiEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -2033,6 +2033,7 @@ public partial class Portal
             {
                 result.Id = DefaultExtent.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             DefaultExtent = result;
@@ -4587,10 +4588,7 @@ public partial class Portal
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -4745,10 +4743,7 @@ public partial class Portal
         {
             foreach (PortalFeaturedGroups item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -6257,7 +6252,8 @@ public partial class Portal
             "fetchBasemaps", 
             CancellationTokenSource.Token,
             basemapGalleryGroupQuery,
-            new { signal = abortSignal, include3d = options.Include3d });
+            options,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6299,7 +6295,7 @@ public partial class Portal
         string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
             "fetchCategorySchema", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6341,7 +6337,7 @@ public partial class Portal
         string? result = await JsComponentReference!.InvokeAsync<string?>(
             "fetchClassificationSchema", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6383,7 +6379,7 @@ public partial class Portal
         Basemap? result = await JsComponentReference!.InvokeAsync<Basemap?>(
             "fetchDefault3DBasemap", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6425,7 +6421,7 @@ public partial class Portal
         PortalGroup[]? result = await JsComponentReference!.InvokeAsync<PortalGroup[]?>(
             "fetchFeaturedGroups", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6467,7 +6463,7 @@ public partial class Portal
         string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
             "fetchRegions", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6509,7 +6505,7 @@ public partial class Portal
         string? result = await JsComponentReference!.InvokeAsync<string?>(
             "fetchSettings", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6650,7 +6646,7 @@ public partial class Portal
         string? result = await JsComponentReference!.InvokeAsync<string?>(
             "load", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6699,7 +6695,7 @@ public partial class Portal
             "queryGroups", 
             CancellationTokenSource.Token,
             queryParams,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6748,7 +6744,7 @@ public partial class Portal
             "queryItems", 
             CancellationTokenSource.Token,
             queryParams,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6797,7 +6793,7 @@ public partial class Portal
             "queryUsers", 
             CancellationTokenSource.Token,
             queryParams,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -6807,18 +6803,17 @@ public partial class Portal
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html#portalwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param errback The function to execute when the promise fails.
+    ///     param onRejected The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="callback">
+    /// <param name="onFulfilled">
     ///     The function to call when the promise resolves.
     /// </param>
-    /// <param name="errback">
-    ///     The function to execute when the promise fails.
+    /// <param name="onRejected">
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task> onFulfilled,
+        Func<Task> onRejected)
     {
         if (CoreJsModule is null)
         {
@@ -6843,8 +6838,8 @@ public partial class Portal
         return await JsComponentReference!.InvokeAsync<string?>(
             "when", 
             CancellationTokenSource.Token,
-            callback,
-            errback);
+            onFulfilled,
+            onRejected);
     }
     
 #endregion

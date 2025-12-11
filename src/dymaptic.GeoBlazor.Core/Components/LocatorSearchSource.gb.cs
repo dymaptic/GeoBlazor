@@ -92,7 +92,6 @@ public partial class LocatorSearchSource
     /// <param name="minSuggestCharacters">
     ///     Indicates the minimum number of characters
     ///     required before querying for a suggestion.
-    ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#minSuggestCharacters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="name">
@@ -159,6 +158,10 @@ public partial class LocatorSearchSource
     ///     The set zoom scale for the resulting search result.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#zoomScale">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="language">
+    ///     This property defines the preferred language for reverse geocoded results (if supported by the locator service at the geolocated location).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#language">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public LocatorSearchSource(
         string? url = null,

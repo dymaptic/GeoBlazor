@@ -55,7 +55,9 @@ public partial class FeatureLayerView : LayerView
         AbortManager = abortManager;
         FeatureEffect = featureEffect;
         Filter = filter;
+#pragma warning disable CS0618 // Type or member is obsolete
         HighlightOptions = highlightOptions;
+#pragma warning restore CS0618 // Type or member is obsolete
         MaximumNumberOfFeatures = maximumNumberOfFeatures;
         MaximumNumberOfFeaturesExceeded = maximumNumberOfFeaturesExceeded;
 #pragma warning restore BL0005
@@ -71,6 +73,7 @@ public partial class FeatureLayerView : LayerView
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Deprecated since GeoBlazor version 4.4.0. Use the <a target=\"_blank\" href=\"module:esri/views/View#highlights\">View.highlights</a> property instead.")]
     public HighlightOptions? HighlightOptions { get; set; }
 
     /// <summary>

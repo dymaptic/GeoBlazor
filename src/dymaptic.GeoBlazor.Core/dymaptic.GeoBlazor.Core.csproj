@@ -118,6 +118,19 @@
                           ReferenceOutputAssembly="false" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Components\DateTimeFieldFormat.cs" />
+      <Compile Remove="Components\FeatureInfo.cs" />
+      <Compile Remove="Options\EditorViewModelStartMergeFeaturesWorkflowOptions.gb.cs" />
+      <Compile Remove="Options\EditorViewModelStartMergeFeaturesWorkflowOptions.cs" />
+      <Compile Remove="Options\FeatureTitleOptions.gb.cs" />
+      <Compile Remove="Options\FeatureTitleOptions.cs" />
+      <Compile Remove="Enums\PortalBasemapsSourceState.cs" />
+      <Compile Remove="Interfaces\IFieldConfigurationFieldFormat.cs" />
+      <Compile Remove="Interfaces\IFieldInfoFieldFormat.cs" />
+      <Compile Remove="Model\CompositeTransformationGeoTransforms1.cs" />
+    </ItemGroup>
+
     <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
         <Message Importance="high" Text="Clearing locks on esBuild files..." />
         <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />

@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.TopFeaturesQuery.html">GeoBlazor Docs</a>
-///     This class defines parameters for executing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryTopFeatures">top features queries</a> from a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
+///     This class defines parameters for executing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryTopFeatures">top features queries</a>
+///     from a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="CacheHint">
@@ -25,7 +26,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#geometryPrecision">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="MaxAllowableOffset">
-///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#outSpatialReference">outSpatialReference</a> used for generalizing geometries returned by the query operation.
+///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#outSpatialReference">outSpatialReference</a> used for
+///     generalizing geometries returned by the query operation.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#maxAllowableOffset">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Num">
@@ -76,7 +78,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="TopFilter">
-///     The `topFilter` parameter is used to set the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">groupByFields</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#orderByFields">orderByFields</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#topCount">topCount</a> criteria used in generating the result.
+///     The `topFilter` parameter is used to set the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">groupByFields</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#orderByFields">orderByFields</a>,
+///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#topCount">topCount</a> criteria used in generating the result.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#topFilter">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Units">
@@ -109,6 +112,10 @@ public partial record TopFeaturesQuery(
     QueryUnits? Units = null,
     string? Where = null) : IQueryMixin
 {
+    public TopFeaturesQuery(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     Indicates if the service should cache the query results.
     ///     default undefined
@@ -135,7 +142,8 @@ public partial record TopFeaturesQuery(
     public double? GeometryPrecision { get; set; } = GeometryPrecision;
     
     /// <summary>
-    ///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#outSpatialReference">outSpatialReference</a> used for generalizing geometries returned by the query operation.
+    ///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#outSpatialReference">outSpatialReference</a> used for
+    ///     generalizing geometries returned by the query operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#maxAllowableOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? MaxAllowableOffset { get; set; } = MaxAllowableOffset;
@@ -210,7 +218,8 @@ public partial record TopFeaturesQuery(
     public TimeExtent? TimeExtent { get; set; } = TimeExtent;
     
     /// <summary>
-    ///     The `topFilter` parameter is used to set the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">groupByFields</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#orderByFields">orderByFields</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#topCount">topCount</a> criteria used in generating the result.
+    ///     The `topFilter` parameter is used to set the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">groupByFields</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#orderByFields">orderByFields</a>,
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#topCount">topCount</a> criteria used in generating the result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#topFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public TopFilter? TopFilter { get; set; } = TopFilter;

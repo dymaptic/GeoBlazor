@@ -14,6 +14,10 @@ public partial record MapImageLayerSaveAsOptions(
     PortalFolder? Folder = null,
     bool? IgnoreUnsupported = null)
 {
+    public MapImageLayerSaveAsOptions(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     
     /// </summary>

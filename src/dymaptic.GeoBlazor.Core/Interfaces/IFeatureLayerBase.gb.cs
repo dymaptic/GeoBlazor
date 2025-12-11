@@ -86,7 +86,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     ///     Specifies how features are placed on the vertical axis (z).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    FeatureLayerBaseElevationInfo? ElevationInfo { get; set; }
+    ElevationInfo? ElevationInfo { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasefieldsindex-property">GeoBlazor Docs</a>
@@ -179,7 +179,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    string? ObjectIdField { get; set; }
+    string? ObjectIdField { get; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasepreferredtimezone-property">GeoBlazor Docs</a>
@@ -301,7 +301,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the ElevationInfo property after render.
     /// </summary>
-    Task SetElevationInfo(FeatureLayerBaseElevationInfo? value);
+    Task SetElevationInfo(ElevationInfo? value);
     
     /// <summary>
     ///    Asynchronously set the value of the FloorInfo property after render.
@@ -342,11 +342,6 @@ public partial interface IFeatureLayerBase : IMapComponent
     ///    Asynchronously set the value of the LayerIndex property after render.
     /// </summary>
     Task SetLayerIndex(int? value);
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ObjectIdField property after render.
-    /// </summary>
-    Task SetObjectIdField(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the ReturnM property after render.
@@ -435,7 +430,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElevationInfo property.
     /// </summary>
-    Task<FeatureLayerBaseElevationInfo?> GetElevationInfo();
+    Task<ElevationInfo?> GetElevationInfo();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsIndex property.

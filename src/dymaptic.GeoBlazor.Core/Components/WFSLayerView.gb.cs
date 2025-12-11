@@ -26,7 +26,7 @@ public partial class WFSLayerView : LayerView,
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="featureEffect">
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="filter">
@@ -42,11 +42,11 @@ public partial class WFSLayerView : LayerView,
     /// </param>
     /// <param name="maximumNumberOfFeatures">
     ///     The maximum number of features that can be displayed at a time.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maximumNumberOfFeaturesExceeded">
     ///     Signifies whether the maximum number of features has been exceeded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
     ///     When `true`, the layer is visible in the view.
@@ -65,7 +65,9 @@ public partial class WFSLayerView : LayerView,
 #pragma warning disable BL0005
         FeatureEffect = featureEffect;
         Filter = filter;
+#pragma warning disable CS0618 // Type or member is obsolete
         HighlightOptions = highlightOptions;
+#pragma warning restore CS0618 // Type or member is obsolete
         MaximumNumberOfFeatures = maximumNumberOfFeatures;
         MaximumNumberOfFeaturesExceeded = maximumNumberOfFeaturesExceeded;
         Visible = visible;
@@ -77,8 +79,9 @@ public partial class WFSLayerView : LayerView,
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewavailablefields-property">GeoBlazor Docs</a>
-    ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer` `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
+    ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer`
+    ///     `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -87,8 +90,8 @@ public partial class WFSLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewdataupdating-property">GeoBlazor Docs</a>
-    ///     Indicates if the layer view is updating its data and new features are being fetched.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
+    ///     Indicates whether the layer view is currently fetching new features.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -97,7 +100,7 @@ public partial class WFSLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewfeatureeffect-property">GeoBlazor Docs</a>
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -120,8 +123,8 @@ public partial class WFSLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewhasallfeatures-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer view contains all available features from the service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
+    ///     Indicates whether the layer view contains all available features from the service or source.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -130,8 +133,9 @@ public partial class WFSLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewhasallfeaturesinview-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer view has all the features available in the current view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
+    ///     This property helps determine if the layer view has successfully retrieved all relevant data for the current extent, even if no features are visible
+    ///     (for example, if the result is zero).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -140,8 +144,8 @@ public partial class WFSLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewhasfullgeometries-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer view has geometries at full resolution.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
+    ///     Indicates whether the LayerView contains geometries at full resolution.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -149,19 +153,9 @@ public partial class WFSLayerView : LayerView,
     public bool? HasFullGeometries { get; protected set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewhighlightoptions-property">GeoBlazor Docs</a>
-    ///     Options for configuring the highlight.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HighlightOptions? HighlightOptions { get; set; }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewmaximumnumberoffeatures-property">GeoBlazor Docs</a>
     ///     The maximum number of features that can be displayed at a time.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -171,7 +165,7 @@ public partial class WFSLayerView : LayerView,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewmaximumnumberoffeaturesexceeded-property">GeoBlazor Docs</a>
     ///     Signifies whether the maximum number of features has been exceeded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -333,6 +327,7 @@ public partial class WFSLayerView : LayerView,
             {
                 result.Id = Filter.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Filter = result;
@@ -461,45 +456,6 @@ public partial class WFSLayerView : LayerView,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the HighlightOptions property.
-    /// </summary>
-    public async Task<HighlightOptions?> GetHighlightOptions()
-    {
-        if (CoreJsModule is null)
-        {
-            return HighlightOptions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return HighlightOptions;
-        }
-
-        HighlightOptions? result = await JsComponentReference.InvokeAsync<HighlightOptions?>(
-            "getHighlightOptions", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            HighlightOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-        }
-        
-        return HighlightOptions;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the MaximumNumberOfFeatures property.
     /// </summary>
     public async Task<double?> GetMaximumNumberOfFeatures()
@@ -591,10 +547,7 @@ public partial class WFSLayerView : LayerView,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -636,10 +589,7 @@ public partial class WFSLayerView : LayerView,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -668,51 +618,6 @@ public partial class WFSLayerView : LayerView,
         }
         
         await JsComponentReference.InvokeVoidAsync("setFilter", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the HighlightOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHighlightOptions(HighlightOptions? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        HighlightOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HighlightOptions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setHighlightOptions", 
             CancellationTokenSource.Token, value);
     }
     
@@ -818,14 +723,6 @@ public partial class WFSLayerView : LayerView,
                 }
                 
                 return true;
-            case HighlightOptions highlightOptions:
-                if (highlightOptions != HighlightOptions)
-                {
-                    HighlightOptions = highlightOptions;
-                    ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-                }
-                
-                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -844,10 +741,6 @@ public partial class WFSLayerView : LayerView,
                 Filter = null;
                 ModifiedParameters[nameof(Filter)] = Filter;
                 return true;
-            case HighlightOptions _:
-                HighlightOptions = null;
-                ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -859,7 +752,6 @@ public partial class WFSLayerView : LayerView,
     
         FeatureEffect?.ValidateRequiredGeneratedChildren();
         Filter?.ValidateRequiredGeneratedChildren();
-        HighlightOptions?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

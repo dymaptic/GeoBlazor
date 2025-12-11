@@ -62,6 +62,10 @@ public partial record WFSLayerInfo(
     string? Url = null,
     WFSCapabilities? WfsCapabilities = null)
 {
+    public WFSLayerInfo(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     The custom parameters applied to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
