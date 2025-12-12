@@ -153,8 +153,15 @@ public partial class MapView : MapComponent
     [Parameter]
     public bool ExcludeApiKey { get; set; }
     
+    /// <summary>
+    ///     Represents a collection of <see cref="HighlightOptions" /> objects which can be used to highlight features throughout an application.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyCollection<HighlightOptions>? Highlights { get; set; }
+    
 #endregion
 
+    // TODO: V5 : Update MapView from ArcGIS, make more properties public parameters
 
 #region Public Properties
 
@@ -236,6 +243,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the shadow of the highlighted feature is displayed in a darker shade.
     /// </summary>
+    [Obsolete("Deprecated since GeoBlazor version 4.4.0. Use the View.Highlights property instead.")]
     protected HighlightOptions? HighlightOptions { get; private set; }
 
     /// <summary>
@@ -1855,6 +1863,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Sets the <see cref="HighlightOptions" /> of the view.
     /// </summary>
+    [Obsolete("Deprecated since GeoBlazor version 4.4.0. Use the View.SetHighlights method instead.")]
     public async Task SetHighlightOptions(HighlightOptions highlightOptions)
     {
         if (!highlightOptions.Equals(HighlightOptions))
@@ -1868,6 +1877,21 @@ public partial class MapView : MapComponent
         }
         
         ModifiedParameters[nameof(HighlightOptions)] = highlightOptions;
+    }
+    
+    /// <summary>
+    ///     Sets the <see cref="Highlights" /> of the view.
+    /// </summary>
+    public async Task SetHighlights(IReadOnlyCollection<HighlightOptions> highlights)
+    {
+        Highlights = highlights;
+
+        if (CoreJsModule is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setHighlights",
+            CancellationTokenSource.Token, (object)Highlights, Id);
+        
+        ModifiedParameters[nameof(Highlights)] = highlights;
     }
 
     /// <summary>
@@ -2465,7 +2489,9 @@ public partial class MapView : MapComponent
             await CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, abortSignal, Id,
                 DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
+#pragma warning disable CS0618 // Type or member is obsolete
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, Highlights, PopupEnabled,
+#pragma warning restore CS0618 // Type or member is obsolete
                 Theme?.ToString().ToLowerInvariant(), AllowDefaultEsriLogin, 
                 AuthenticationManager.ExcludeApiKey ? null : AuthenticationManager.ApiKey, AuthenticationManager.AppId);
             await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
@@ -2626,7 +2652,8 @@ public partial class MapView : MapComponent
 
                 break;
             case HighlightOptions highlightOptions:
-                await SetHighlightOptions(highlightOptions);
+                Highlights ??= [];
+                Highlights = [..Highlights, highlightOptions];
 
                 break;
             default:
@@ -2666,8 +2693,8 @@ public partial class MapView : MapComponent
                 Extent = null;
 
                 break;
-            case HighlightOptions _:
-                HighlightOptions = null;
+            case HighlightOptions highlightOptions:
+                Highlights = Highlights?.Except([highlightOptions]).ToArray();
 
                 break;
             default:
@@ -2694,6 +2721,14 @@ public partial class MapView : MapComponent
         foreach (Widget widget in Widgets)
         {
             widget.ValidateRequiredChildren();
+        }
+
+        if (Highlights is not null)
+        {
+            foreach (HighlightOptions options in Highlights)
+            {
+                options.ValidateRequiredChildren();
+            }
         }
     }
     

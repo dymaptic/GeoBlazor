@@ -392,6 +392,7 @@
     public async Task TestSearchWidgetGetSuggestionsHandler(Action renderHandler)
     {
         var suggestionsHandlerWasCalled = false;
+        MapView? mapView = null;
 
         Task<IReadOnlyList<SuggestResult>> GetSuggestionsHandler(int? maxSuggestions, int? sourceIndex, 
             SpatialReference? spatialReference, string? suggestTerm, Guid? viewId)
@@ -403,7 +404,7 @@
         }
 
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
 
                 <Map>
                     <Basemap>
@@ -419,7 +420,7 @@
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
-        await AssertJavaScript("triggerSearchHandlers");
+        await AssertJavaScript("triggerSearchHandlers", args: mapView!.Id);
 
         var tries = 50;
 

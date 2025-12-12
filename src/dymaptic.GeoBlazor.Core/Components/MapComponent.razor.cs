@@ -236,8 +236,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         try
         {
-            _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic |
-                BindingFlags.Instance);
+            _props ??= GetPropertyInfos();
             PropertyInfo? prop = _props.FirstOrDefault(p => p.Name == propertyName);
 
             if (prop is null)
@@ -292,7 +291,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             return methodTask.GetType().GetProperty("Result")!.GetValue(methodTask) is T result ? result : default;
         }
 
-        _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        _props ??= GetPropertyInfos();
         PropertyInfo prop = _props.First(p => p.Name == propertyName);
         T? currentValue = (T?)prop.GetValue(this);
 
@@ -695,8 +694,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
     internal void CopyProperties(MapComponent deserializedComponent)
     {
-        _props ??= MapComponentType
-            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        _props ??= GetPropertyInfos();
         foreach (PropertyInfo prop in _props.Where(p => p.SetMethod is not null))
         {
             if (IsDisposed)
@@ -765,9 +763,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             {
                 Type genericType = prop.PropertyType.GenericTypeArguments[0];
 
-                if (genericType.IsAssignableTo(typeof(MapComponent)))
+                if (genericType.IsAssignableTo(typeof(MapComponent))
+                    && newValue is IEnumerable itemCollection)
                 {
-                    foreach (MapComponent item in (IEnumerable)newValue)
+                    foreach (MapComponent item in itemCollection)
                     {
                         item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
                     }
@@ -836,7 +835,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     {
         if (_isValidated) return;
 
-        _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        _props ??= GetPropertyInfos();
 
         IEnumerable<PropertyInfo> requiredParameters = _props.Where(p =>
             Attribute.IsDefined(p, typeof(RequiredPropertyAttribute)));
@@ -1051,8 +1050,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="layer">
     ///     The referenced Layer that applies to this component. Does not apply to all components.
     /// </param>
+    /// <param name="depth">
+    ///     The depth of properties to copy
+    /// </param>
     protected internal void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
-        MapView? view, MapComponent? parent, Layer? layer)
+        MapView? view, MapComponent? parent, Layer? layer, int depth = 0)
     {
         CoreJsModule ??= coreJsModule;
         ProJsModule ??= proJsModule;
@@ -1062,14 +1064,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             AbortManager = new AbortManager(CoreJsModule);
         }
 
-        if (view is not null && View is null)
+        // don't give view and parent to views
+        if (!MapComponentType.IsAssignableTo(typeof(MapView)))
         {
-            View = view;
-        }
+            if (view is not null && View is null)
+            {
+                View = view;
+            }
 
-        if (parent is not null && Parent is null)
-        {
-            Parent = parent;
+            if (parent is not null && Parent is null)
+            {
+                Parent = parent;
+            }
         }
 
         if (layer is not null && Layer is null)
@@ -1084,11 +1090,28 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             // set the layer for the child components
             layer = (Layer)this;
         }
+
+        if (depth >= 10)
+        {
+            return;
+        }
         
-        _props ??= MapComponentType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        _props ??= GetPropertyInfos();
 
         foreach (PropertyInfo prop in _props)
         {
+            if (prop.Name == nameof(Layer)
+                || prop.Name == nameof(Parent)
+                || prop.Name == nameof(View)
+                || prop.Name == nameof(MapView)
+                || prop.Name == nameof(DotNetComponentReference)
+                || prop.PropertyType == typeof(EventCallback)
+                || (prop.PropertyType.IsGenericType 
+                    && prop.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
+            {
+                continue;
+            }
+            
             object? value = prop.GetValue(this);
 
             if (value is null)
@@ -1106,7 +1129,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             }
             else if (value is MapComponent propComponent)
             {
-                propComponent.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, this, layer);
+                propComponent.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, this, layer, depth + 1);
             }
             else if (prop.PropertyType.IsArray || prop.PropertyType.IsGenericType)
             {
@@ -1125,15 +1148,24 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                         }
                     }
                 }
-                else if (elementType.IsAssignableTo(typeof(MapComponent)))
+                else if (elementType.IsAssignableTo(typeof(MapComponent))
+                    && value is IEnumerable itemCollection)
                 {
-                    foreach (MapComponent item in (IEnumerable)value)
+                    foreach (MapComponent item in itemCollection)
                     {
-                        item.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, this, layer);
+                        item.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, this, layer, depth + 1);
                     }
                 }
             }
         }
+    }
+
+    protected PropertyInfo[] GetPropertyInfos()
+    {
+        return MapComponentType
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .Where(p => p.DeclaringType?.Namespace?.StartsWith("dymaptic.GeoBlazor") == true)
+            .ToArray(); 
     }
 
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();

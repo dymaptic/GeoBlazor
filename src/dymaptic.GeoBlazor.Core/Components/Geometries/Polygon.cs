@@ -47,9 +47,7 @@ public partial class Polygon : Geometry
 #pragma warning disable BL0005
         Rings = rings;
         SpatialReference = spatialReference;
-#pragma warning disable CS0618 // Type or member is obsolete
         Centroid = centroid;
-#pragma warning restore CS0618 // Type or member is obsolete
         HasM = hasM;
         HasZ = hasZ;
 #pragma warning restore BL0005    
@@ -64,7 +62,6 @@ public partial class Polygon : Geometry
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Deprecated since GeoBlazor version 4.4.0. Please use <a target=\"_blank\" href=\"module:esri/geometry/operators/centroidOperator#execute\">centroidOperator.execute()</a> instead.")]
     public Point? Centroid { get; set; }
     
     /// <summary>
@@ -116,9 +113,7 @@ public partial class Polygon : Geometry
     public Polygon Clone()
     {
         return new Polygon(Rings.Select(p => p.Clone()).ToArray(), SpatialReference?.Clone(), 
-#pragma warning disable CS0618 // Type or member is obsolete
             Centroid, HasM, HasZ);
-#pragma warning restore CS0618 // Type or member is obsolete
     }
     
     internal override GeometrySerializationRecord ToSerializationRecord()
@@ -130,8 +125,8 @@ public partial class Polygon : Geometry
             Rings = Rings.Select(p => p.ToSerializationRecord()).ToArray(),
             HasM = HasM,
             HasZ = HasZ,
-#pragma warning disable CS0618 // Type or member is obsolete
             Centroid = Centroid?.ToSerializationRecord(),
+#pragma warning disable CS0618 // Type or member is obsolete
             IsSelfIntersecting = IsSelfIntersecting
 #pragma warning restore CS0618 // Type or member is obsolete
         };

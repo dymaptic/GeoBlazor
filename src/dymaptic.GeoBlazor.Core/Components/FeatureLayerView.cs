@@ -73,7 +73,7 @@ public partial class FeatureLayerView : LayerView
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Deprecated since GeoBlazor version 4.4.0. Use the <a target=\"_blank\" href=\"module:esri/views/View#highlights\">View.highlights</a> property instead.")]
+    [Obsolete($"Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
     public HighlightOptions? HighlightOptions { get; set; }
 
     /// <summary>

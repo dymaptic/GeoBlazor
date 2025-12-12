@@ -339,10 +339,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#globalIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="fieldConfigurations">
-    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldConfiguration.html">FieldConfiguration</a> objects that control how fields are displayed in popups and other UI elements.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#fieldConfigurations">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     public FeatureLayer(
         string? url = null,
         PortalItem? portalItem = null,
@@ -2232,6 +2228,45 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the GeometryType property.
+    /// </summary>
+    public async Task<FeatureGeometryType?> GetGeometryType()
+    {
+        if (CoreJsModule is null)
+        {
+            return GeometryType;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return GeometryType;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<FeatureGeometryType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureGeometryType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             GeometryType = (FeatureGeometryType)result.Value.Value!;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(GeometryType)] = GeometryType;
+        }
+         
+        return GeometryType;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the GlobalIdField property.
     /// </summary>
     public async Task<string?> GetGlobalIdField()
@@ -2658,6 +2693,45 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
          
         return MinScale;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ObjectIdField property.
+    /// </summary>
+    public async Task<string?> GetObjectIdField()
+    {
+        if (CoreJsModule is null)
+        {
+            return ObjectIdField;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ObjectIdField;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "objectIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ObjectIdField = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+        }
+         
+        return ObjectIdField;
     }
     
     /// <summary>

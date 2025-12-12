@@ -9,7 +9,7 @@
     [TestMethod]
     public async Task TestCanQueryFeatures(Action renderHandler, Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
-        FeatureLayerView? layerView = null;
+        FeatureLayerView? layerView;
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler"
                       OnLayerViewCreate="layerViewCreatedHandler">
@@ -104,20 +104,13 @@
         Assert.AreEqual(true, visible);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "visible", true]);
 
-        // HighlightOptions (object) — set & ensure roundtrip (object equality via C#)
-        var hl = new HighlightOptions(color: new MapColor("cyan"), fillOpacity: 1.0, haloOpacity: 1.0);
-        await layerView.SetHighlightOptions(hl);
-        HighlightOptions? gotHl = await layerView.GetHighlightOptions();
-        Assert.IsNotNull(gotHl);
-        // Skipping JS assert because it is hard to compare the color object deeply in JS, but this has been tested manually
-
         // ---------------------------
         // Read-only indicators (do NOT set): just read and verify JS matches getter
         // ---------------------------
 
         double? max = await layerView.GetMaximumNumberOfFeatures();
         Assert.IsTrue(max >= 0, "maximumNumberOfFeatures should be non-negative.");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max!]);
 
         bool exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded() ?? false;
         // For two graphics, exceeded should normally be false, but assert against the JS value rather than forcing it.
@@ -210,17 +203,11 @@
         // 2) Read-only props: read them, then assert JS reports the same value
         double? max = await layerView.GetMaximumNumberOfFeatures();
         Assert.IsTrue(max >= 0);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max!]);
 
         bool? exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded();
         Assert.IsNotNull(exceeded);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeaturesExceeded", exceeded]);
-
-        // 3) Complex object roundtrip: ensure we can set/get an object without touching component-only internals
-        var hl = new HighlightOptions(color: new MapColor("cyan"), fillOpacity: 1.0, haloOpacity: 1.0);
-        await layerView.SetHighlightOptions(hl);
-        HighlightOptions? gotHl = await layerView.GetHighlightOptions();
-        Assert.IsNotNull(gotHl);
 
         // Optional: feature effect as an object (do not set IncludedEffect here)
         var fx = new FeatureEffect();

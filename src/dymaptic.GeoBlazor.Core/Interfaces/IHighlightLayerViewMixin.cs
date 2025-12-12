@@ -13,7 +13,7 @@ public interface IHighlightLayerViewMixin
     ///     Options for configuring the highlight.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-HighlightLayerViewMixin.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    [Obsolete("Deprecated since GeoBlazor version 4.4.0. Use the <a target=\"_blank\" href=\"module:esri/views/View#highlights\">View.highlights</a> property instead.")]
+    [Obsolete($"Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
     HighlightOptions? HighlightOptions { get; set; }
     
     /// <summary>
