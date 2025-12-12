@@ -10,9 +10,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0" />
+        <PackageReference Include="BlazorFrame" Version="2.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.1" />
         <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
     </ItemGroup>
     

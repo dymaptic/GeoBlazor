@@ -9,11 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="10.0.0" />
-    <!-- TODO: This is a security override of a transient dependency, and should be removed when the underlying package is updated-->
-    <PackageReference Include="System.Private.Uri" Version="4.3.2" />
-	<ProjectReference Include="..\..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="10.0.1" />
+    <ProjectReference Include="..\..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
   </ItemGroup>
 
 </Project>

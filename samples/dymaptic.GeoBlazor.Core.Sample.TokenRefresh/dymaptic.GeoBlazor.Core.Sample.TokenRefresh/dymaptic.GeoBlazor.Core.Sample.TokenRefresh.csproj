@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client/dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.csproj" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.1" />
 	<ProjectReference Include="../../../src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj" />
   </ItemGroup>
 
