@@ -1,6 +1,5 @@
 # PowerShell
-param([string][Alias("c")]$Configuration = "Debug",
-    [switch]$Pro)
+param([string][Alias("c")]$Configuration = "Debug")
 
 $CoreRootDir = Join-Path -Path $PSScriptRoot "src\dymaptic.GeoBlazor.Core"
 $ProRootDir = Join-Path -Path $PSScriptRoot "..\src\dymaptic.GeoBlazor.Pro"
