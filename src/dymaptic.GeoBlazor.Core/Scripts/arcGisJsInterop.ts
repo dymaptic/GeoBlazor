@@ -95,8 +95,6 @@ import {
     lookupGeoBlazorId,
     logUncaughtError
 } from "./geoBlazorCore";
-import GraphicOrigin from "@arcgis/core/graphic/GraphicOrigin";
-import VectorTileGraphicOrigin from "@arcgis/core/graphic/VectorTileGraphicOrigin";
 // endregion
 
 // region exports
@@ -131,7 +129,6 @@ let notifyExtentChanged: boolean = true;
 const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
-let colorTheme: string;
 
 // endregion
 
@@ -165,24 +162,19 @@ export function setAssetsPath(path: string) {
 }
 
 export function setTheme(theme: string | null, viewId): string | null {
-    colorTheme = theme ?? '';
     if (hasValue(theme)) {
         if (theme === 'dark') {
             removeHeadLink('/esri/themes/light/main.css');
             addHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`);
-            document.body.classList.add('calcite-mode-dark');
         } else {
             removeHeadLink('/esri/themes/dark/main.css');
             addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
-            document.body.classList.remove('calcite-mode-dark');
         }
     } else if (checkHeadLink(`${esriConfig.assetsPath}/esri/themes/dark/main.css`)) {
         theme = 'dark';
-        document.body.classList.add('calcite-mode-dark');
     } else {
         theme = 'light';
         addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
-        document.body.classList.remove('calcite-mode-dark');
     }
     
     setViewTheme(theme, viewId);
@@ -198,13 +190,6 @@ function setViewTheme(theme, viewId: string): void {
             if (theme === 'dark' && !view!.ui.container!.classList.contains('calcite-mode-dark')) {
                 // if the view was already rendered, this class is missed and needs adding
                 view!.ui.container!.classList.add('calcite-mode-dark');
-                let widgetNames = view!.ui.components;
-                for (let i = 0; i < widgetNames.length; i++) {
-                    let widget = view!.ui.find(widgetNames[i]) as Widget;
-                    if (widget && !widget.container!.classList.contains('calcite-mode-dark')) {
-                        widget.container!.classList.add('calcite-mode-dark');
-                    }
-                }
             }
         }
     }
@@ -1351,18 +1336,13 @@ export function setGraphicOrigin(id: string, origin: any, layerId: string | null
 export function getGraphicOrigin(id: string, layerId: string | null, viewId: string | null): any {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (hasValue(graphic?.origin)) {
-        let origin: GraphicOrigin = graphic!.origin as GraphicOrigin;
-        if (origin instanceof VectorTileGraphicOrigin) {
-            let layerId: any = lookupGeoBlazorId(origin.layer);
+        let layerId: any = lookupGeoBlazorId(graphic!.origin!.layer);
 
-            return {
-                layerId: layerId,
-                arcGISLayerId: origin.layerId,
-                layerIndex: origin.layerIndex
-            };
-        }
-        
-        return {};
+        return {
+            layerId: layerId,
+            arcGISLayerId: graphic!.origin!.layerId,
+            layerIndex: graphic!.origin!.layerIndex
+        };
     }
 
     return null;
@@ -1589,10 +1569,6 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
                 widgetContainer.innerHTML = '';
                 newWidget.container = widgetContainer;
             }
-        }
-
-        if (colorTheme === 'dark') {
-            newWidget.container.classList.add('calcite-mode-dark');
         }
     } finally {
         setCursor('unset', viewId);

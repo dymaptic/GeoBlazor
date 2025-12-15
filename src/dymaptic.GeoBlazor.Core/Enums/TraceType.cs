@@ -17,8 +17,6 @@ public enum TraceType
     Subnetwork,
     SubnetworkController,
     Loops,
-    Isolation,
-    Path,
-    Circuit
+    Isolation
 #pragma warning restore CS1591
 }

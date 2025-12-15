@@ -43,10 +43,6 @@ export default class FeatureLayerGenerated extends BaseComponent {
             let { buildJsIFeatureReduction } = await import('./iFeatureReduction');
             this.layer.featureReduction = await buildJsIFeatureReduction(dotNetObject.featureReduction, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.fieldConfigurations) && dotNetObject.fieldConfigurations.length > 0) {
-            let { buildJsFieldConfiguration } = await import('./fieldConfiguration');
-            this.layer.fieldConfigurations = await Promise.all(dotNetObject.fieldConfigurations.map(async i => await buildJsFieldConfiguration(i, this.layerId, this.viewId))) as any;
-        }
         if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
             let { buildJsField } = await import('./field');
             this.layer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -245,11 +241,6 @@ export default class FeatureLayerGenerated extends BaseComponent {
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
-
-    async createFieldConfigurations(): Promise<any> {
-        return this.layer.createFieldConfigurations();
-    }
-
     async createLayerView(view: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
@@ -267,22 +258,6 @@ export default class FeatureLayerGenerated extends BaseComponent {
 
     async fetchAttributionData(): Promise<any> {
         return await this.layer.fetchAttributionData();
-    }
-
-    async getFeatureTitle(graphic: any,
-        options: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = buildJsGraphic(graphic) as any;
-        return await this.layer.getFeatureTitle(jsGraphic,
-            options);
-    }
-
-    async getFieldAlias(fieldName: any): Promise<any> {
-        return this.layer.getFieldAlias(fieldName);
-    }
-
-    async getFieldConfiguration(fieldName: any): Promise<any> {
-        return this.layer.getFieldConfiguration(fieldName);
     }
 
     async isFulfilled(): Promise<any> {
@@ -489,23 +464,6 @@ export default class FeatureLayerGenerated extends BaseComponent {
     async setFeatureEffect(value: any): Promise<void> {
         let { buildJsFeatureEffect } = await import('./featureEffect');
         this.layer.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
-    }
-    
-    async getFieldConfigurations(): Promise<any> {
-        if (!hasValue(this.layer.fieldConfigurations)) {
-            return null;
-        }
-        
-        let { buildDotNetFieldConfiguration } = await import('./fieldConfiguration');
-        return await Promise.all(this.layer.fieldConfigurations!.map(async i => await buildDotNetFieldConfiguration(i, this.viewId)));
-    }
-    
-    async setFieldConfigurations(value: any): Promise<void> {
-        if (!hasValue(value)) {
-            this.layer.fieldConfigurations = [];
-        }
-        let { buildJsFieldConfiguration } = await import('./fieldConfiguration');
-        this.layer.fieldConfigurations = await Promise.all(value.map(async i => await buildJsFieldConfiguration(i, this.layerId, this.viewId))) as any;
     }
     
     async getFields(): Promise<any> {
@@ -908,10 +866,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsIFeatureReduction } = await import('./iFeatureReduction');
         properties.featureReduction = await buildJsIFeatureReduction(dotNetObject.featureReduction, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.fieldConfigurations) && dotNetObject.fieldConfigurations.length > 0) {
-        let { buildJsFieldConfiguration } = await import('./fieldConfiguration');
-        properties.fieldConfigurations = await Promise.all(dotNetObject.fieldConfigurations.map(async i => await buildJsFieldConfiguration(i, layerId, viewId))) as any;
-    }
     if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsField } = await import('./field');
         properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -1209,11 +1163,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, viewId: st
     if (hasValue(jsObject.featureReduction)) {
         let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
         dotNetFeatureLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, viewId);
-    }
-    
-    if (hasValue(jsObject.fieldConfigurations)) {
-        let { buildDotNetFieldConfiguration } = await import('./fieldConfiguration');
-        dotNetFeatureLayer.fieldConfigurations = await Promise.all(jsObject.fieldConfigurations.map(async i => await buildDotNetFieldConfiguration(i, viewId)));
     }
     
     if (hasValue(jsObject.fields)) {

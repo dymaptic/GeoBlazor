@@ -66,10 +66,6 @@ public partial class AreaMeasurement2DWidget
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="destroyed">
-    ///     When `true`, this property indicates whether the widget has been destroyed.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#destroyed">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     public AreaMeasurement2DWidget(
         string? containerId = null,
         string? icon = null,

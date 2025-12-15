@@ -753,9 +753,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
                 if (elementType.IsAssignableTo(typeof(MapComponent)))
                 {
-                    foreach (MapComponent item in (Array)newValue)
+                    foreach (MapComponent? item in (Array)newValue)
                     {
-                        item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                        item?.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
                     }
                 }
             }
@@ -766,9 +766,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                 if (genericType.IsAssignableTo(typeof(MapComponent))
                     && newValue is IEnumerable itemCollection)
                 {
-                    foreach (MapComponent item in itemCollection)
+                    foreach (MapComponent? item in itemCollection)
                     {
-                        item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                        item?.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
                     }
                 }
             }
@@ -991,19 +991,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        
-        UpdateGeoBlazorReferences(CoreJsModule, ProJsModule, View, Parent, Layer);
-    }
-
-    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -1100,14 +1087,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         foreach (PropertyInfo prop in _props)
         {
-            if (prop.Name == nameof(Layer)
-                || prop.Name == nameof(Parent)
-                || prop.Name == nameof(View)
-                || prop.Name == nameof(MapView)
-                || prop.Name == nameof(DotNetComponentReference)
-                || prop.PropertyType == typeof(EventCallback)
+            if (_circularMapComponents.Contains(prop.Name)
+                || _circularMapComponents.Contains(prop.PropertyType.Name)
                 || (prop.PropertyType.IsGenericType 
-                    && prop.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
+                    && _circularMapComponents.Any(c => prop.PropertyType
+                        .GetGenericTypeDefinition().Name.StartsWith(c))))
             {
                 continue;
             }
@@ -1129,7 +1113,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             }
             else if (value is MapComponent propComponent)
             {
-                propComponent.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, this, layer, depth + 1);
+                propComponent.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, 
+                    this, layer, depth + 1);
             }
             else if (prop.PropertyType.IsArray || prop.PropertyType.IsGenericType)
             {
@@ -1151,9 +1136,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                 else if (elementType.IsAssignableTo(typeof(MapComponent))
                     && value is IEnumerable itemCollection)
                 {
-                    foreach (MapComponent item in itemCollection)
+                    foreach (MapComponent? item in itemCollection)
                     {
-                        item.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, this, layer, depth + 1);
+                        item?.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, 
+                            this, layer, depth + 1);
                     }
                 }
             }
@@ -1172,6 +1158,25 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
     private static Type? _proExtensions;
+    
+    /// <summary>
+    ///     Components to skip in <see cref="UpdateGeoBlazorReferences"/> so as not to create neverending loops
+    /// </summary>
+    private readonly string[] _circularMapComponents =
+    [
+        nameof(MapView),
+        nameof(View),
+        nameof(SceneView),
+        nameof(Parent),
+        nameof(Layer),
+        nameof(DotNetComponentReference),
+        nameof(JsComponentReference),
+        nameof(EventCallback),
+        nameof(Basemap),
+        nameof(Extent),
+        nameof(Extent.Center),
+        nameof(Portal)
+    ];
 
     /// <summary>
     ///     The previous parameters that were set in the component.

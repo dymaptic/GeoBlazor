@@ -16,7 +16,6 @@ public enum PopupContentType
     Fields,
     Media,
     Relationship,
-    Text,
-    UtilityNetworkAssociations
+    Text
 #pragma warning restore CS1591
 }
