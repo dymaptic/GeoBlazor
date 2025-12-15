@@ -193,6 +193,10 @@ export default class SublayerGenerated extends BaseComponent {
     // region properties
     
     async getCapabilities(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.capabilities)) {
             return null;
         }
@@ -202,6 +206,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     getDefinitionExpression(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.definitionExpression)) {
             return null;
         }
@@ -214,6 +222,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getFieldsIndex(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.fieldsIndex)) {
             return null;
         }
@@ -223,6 +235,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getFloorInfo(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.floorInfo)) {
             return null;
         }
@@ -237,6 +253,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getFullExtent(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.fullExtent)) {
             return null;
         }
@@ -246,6 +266,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getLabelingInfo(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.labelingInfo)) {
             return null;
         }
@@ -263,6 +287,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getLayer(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.layer)) {
             return null;
         }
@@ -272,6 +300,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     getObjectIdField(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.objectIdField)) {
             return null;
         }
@@ -280,6 +312,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getOrderBy(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.orderBy)) {
             return null;
         }
@@ -297,6 +333,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getPopupTemplate(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.popupTemplate)) {
             return null;
         }
@@ -311,6 +351,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getRenderer(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.renderer)) {
             return null;
         }
@@ -325,6 +369,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getSource(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.source)) {
             return null;
         }
@@ -339,6 +387,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     getSourceJSON(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.sourceJSON)) {
             return null;
         }
@@ -347,6 +399,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getSpatialReference(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.spatialReference)) {
             return null;
         }
@@ -356,6 +412,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getSublayers(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.sublayers)) {
             return null;
         }
@@ -373,6 +433,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     getTitle(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.title)) {
             return null;
         }
@@ -385,6 +449,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     getTypeIdField(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.typeIdField)) {
             return null;
         }
@@ -393,6 +461,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     async getTypes(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.types)) {
             return null;
         }
@@ -402,6 +474,10 @@ export default class SublayerGenerated extends BaseComponent {
     }
     
     getUrl(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.url)) {
             return null;
         }

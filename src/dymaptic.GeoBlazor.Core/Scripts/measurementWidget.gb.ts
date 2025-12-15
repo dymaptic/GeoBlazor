@@ -119,7 +119,7 @@ export default class MeasurementWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-        return await buildDotNetMeasurementViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetMeasurementViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -218,7 +218,7 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, layer
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-        dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel, viewId);
+        dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.activeTool)) {

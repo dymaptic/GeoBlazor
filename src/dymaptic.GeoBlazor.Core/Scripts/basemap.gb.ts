@@ -77,6 +77,10 @@ export default class BasemapGenerated extends BaseComponent {
     // region properties
     
     async getBaseLayers(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.baseLayers)) {
             return null;
         }
@@ -93,7 +97,11 @@ export default class BasemapGenerated extends BaseComponent {
         this.component.baseLayers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
     
-    getBasemapId(): any {
+    async getBasemapId(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.id)) {
             return null;
         }
@@ -106,6 +114,10 @@ export default class BasemapGenerated extends BaseComponent {
     }
     
     async getPortalItem(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.portalItem)) {
             return null;
         }
@@ -115,6 +127,10 @@ export default class BasemapGenerated extends BaseComponent {
     }
     
     async getReferenceLayers(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.referenceLayers)) {
             return null;
         }
@@ -132,6 +148,10 @@ export default class BasemapGenerated extends BaseComponent {
     }
     
     async getSpatialReference(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.spatialReference)) {
             return null;
         }
@@ -141,6 +161,10 @@ export default class BasemapGenerated extends BaseComponent {
     }
     
     async getStyle(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.style)) {
             return null;
         }
@@ -149,7 +173,11 @@ export default class BasemapGenerated extends BaseComponent {
         return await buildDotNetBasemapStyle(this.component.style, this.viewId);
     }
     
-    getThumbnailUrl(): any {
+    async getThumbnailUrl(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.thumbnailUrl)) {
             return null;
         }
@@ -162,6 +190,10 @@ export default class BasemapGenerated extends BaseComponent {
     }
     
     getTitle(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.title)) {
             return null;
         }

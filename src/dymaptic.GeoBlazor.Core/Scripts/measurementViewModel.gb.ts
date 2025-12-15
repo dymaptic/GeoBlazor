@@ -30,7 +30,7 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetMeasurementViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetMeasurementViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -39,7 +39,7 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any, vi
     
     if (hasValue(jsObject.activeViewModel)) {
         let { buildDotNetIMeasurementViewModelActiveViewModel } = await import('./iMeasurementViewModelActiveViewModel');
-        dotNetMeasurementViewModel.activeViewModel = buildDotNetIMeasurementViewModelActiveViewModel(jsObject.activeViewModel);
+        dotNetMeasurementViewModel.activeViewModel = buildDotNetIMeasurementViewModelActiveViewModel(jsObject.activeViewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.activeTool)) {

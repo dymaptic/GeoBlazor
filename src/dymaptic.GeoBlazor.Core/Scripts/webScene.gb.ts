@@ -121,6 +121,10 @@ export default class WebSceneGenerated extends BaseComponent {
     // region properties
     
     getAuthoringApp(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.authoringApp)) {
             return null;
         }
@@ -133,6 +137,10 @@ export default class WebSceneGenerated extends BaseComponent {
     }
     
     getAuthoringAppVersion(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.authoringAppVersion)) {
             return null;
         }
@@ -145,6 +153,10 @@ export default class WebSceneGenerated extends BaseComponent {
     }
     
     async getClippingArea(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.clippingArea)) {
             return null;
         }
@@ -159,6 +171,10 @@ export default class WebSceneGenerated extends BaseComponent {
     }
     
     async getFloorInfo(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.floorInfo)) {
             return null;
         }
@@ -173,6 +189,10 @@ export default class WebSceneGenerated extends BaseComponent {
     }
     
     async getPortalItem(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.portalItem)) {
             return null;
         }
@@ -187,6 +207,10 @@ export default class WebSceneGenerated extends BaseComponent {
     }
     
     getThumbnailUrl(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.thumbnailUrl)) {
             return null;
         }
@@ -199,6 +223,10 @@ export default class WebSceneGenerated extends BaseComponent {
     }
     
     async getWidgets(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.widgets)) {
             return null;
         }

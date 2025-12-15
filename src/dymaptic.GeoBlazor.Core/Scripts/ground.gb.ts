@@ -91,6 +91,10 @@ export default class GroundGenerated extends BaseComponent {
     // region properties
     
     async getLayers(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.layers)) {
             return null;
         }
@@ -108,6 +112,10 @@ export default class GroundGenerated extends BaseComponent {
     }
     
     async getNavigationConstraint(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.navigationConstraint)) {
             return null;
         }
@@ -122,6 +130,10 @@ export default class GroundGenerated extends BaseComponent {
     }
     
     async getSurfaceColor(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.surfaceColor)) {
             return null;
         }

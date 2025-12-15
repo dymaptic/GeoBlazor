@@ -174,7 +174,7 @@ export default class LegendWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetLegendViewModel } = await import('./legendViewModel');
-        return await buildDotNetLegendViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetLegendViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -300,7 +300,7 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetLegendViewModel } = await import('./legendViewModel');
-        dotNetLegendWidget.viewModel = await buildDotNetLegendViewModel(jsObject.viewModel, viewId);
+        dotNetLegendWidget.viewModel = await buildDotNetLegendViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.basemapLegendVisible)) {

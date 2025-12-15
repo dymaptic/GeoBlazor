@@ -220,6 +220,10 @@ export default class PortalItemGenerated extends BaseComponent {
     // region properties
     
     getAccessInformation(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.accessInformation)) {
             return null;
         }
@@ -232,6 +236,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getApiKey(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.apiKey)) {
             return null;
         }
@@ -244,6 +252,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getCulture(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.culture)) {
             return null;
         }
@@ -256,6 +268,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getDescription(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.description)) {
             return null;
         }
@@ -268,6 +284,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     async getExtent(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.extent)) {
             return null;
         }
@@ -282,6 +302,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getItemPageUrl(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.itemPageUrl)) {
             return null;
         }
@@ -290,6 +314,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getItemUrl(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.itemUrl)) {
             return null;
         }
@@ -298,6 +326,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getLicenseInfo(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.licenseInfo)) {
             return null;
         }
@@ -310,6 +342,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getName(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.name)) {
             return null;
         }
@@ -322,6 +358,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getOwner(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.owner)) {
             return null;
         }
@@ -334,6 +374,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getOwnerFolder(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.ownerFolder)) {
             return null;
         }
@@ -346,6 +390,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     async getPortal(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.portal)) {
             return null;
         }
@@ -360,6 +408,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getPortalItemId(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.id)) {
             return null;
         }
@@ -372,6 +424,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getSnippet(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.snippet)) {
             return null;
         }
@@ -384,6 +440,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getSourceJSON(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.sourceJSON)) {
             return null;
         }
@@ -392,6 +452,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getTitle(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.title)) {
             return null;
         }
@@ -404,6 +468,10 @@ export default class PortalItemGenerated extends BaseComponent {
     }
     
     getUrl(): any {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.url)) {
             return null;
         }

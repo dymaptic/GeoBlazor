@@ -204,7 +204,7 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
 
 export async function buildDotNetListItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
-        return null; 
+        return null;
     }
     
     let dotNetListItem: any = {};
