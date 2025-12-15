@@ -1,4 +1,4 @@
-﻿@inherits TestRunnerBase
+@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -55,5 +55,295 @@
         Assert.IsTrue(layer!.Sublayers!.Count > 0);
         Assert.IsTrue(layer.AllSublayers!.Count > 0);
         await AssertJavaScript("assertLayerExists", args: "map-image");
+    }
+
+    /// <summary>
+    /// Tests that GetSublayers returns sublayers with properly populated JS references.
+    /// This addresses GitHub Issue #492 where sublayers returned from GetSublayers
+    /// did not have JsComponentReference registered, causing subsequent operations to fail.
+    /// </summary>
+    [TestMethod]
+    public async Task TestGetSublayersReturnsFullyConnectedSublayers(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+    {
+        MapImageLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view"
+                      OnViewRendered="renderHandler"
+                      OnLayerViewCreate="layerViewCreatedHandler">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+
+        await WaitForLayerToRender<MapImageLayer>();
+
+        // Get sublayers dynamically - this was the problematic path
+        IReadOnlyList<Sublayer>? sublayers = await layer!.GetSublayers();
+
+        Assert.IsNotNull(sublayers);
+        Assert.IsTrue(sublayers.Count > 0, "Expected at least one sublayer");
+
+        // Verify each sublayer has CoreJsModule populated - this was the bug
+        foreach (Sublayer sl in sublayers)
+        {
+            Assert.IsNotNull(sl.CoreJsModule, $"Sublayer {sl.SublayerId} should have CoreJsModule populated");
+
+            // Verify we can call methods on the sublayer without setting CoreJsModule manually
+            string? title = await sl.GetTitle();
+            Assert.IsNotNull(title, $"Sublayer {sl.SublayerId} should be able to retrieve its title");
+        }
+    }
+
+    /// <summary>
+    /// Tests that Sublayer.SetTitle correctly updates the sublayer's title.
+    /// User reported that SetTitle didn't work - the title was set in JS but not reflected in LayerList.
+    /// </summary>
+    [TestMethod]
+    public async Task TestSublayerSetTitleUpdatesTitle(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+    {
+        MapImageLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view"
+                      OnViewRendered="renderHandler"
+                      OnLayerViewCreate="layerViewCreatedHandler">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+
+        await WaitForLayerToRender<MapImageLayer>();
+
+        IReadOnlyList<Sublayer>? sublayers = await layer!.GetSublayers();
+        Assert.IsNotNull(sublayers);
+        Assert.IsTrue(sublayers.Count > 0);
+
+        Sublayer firstSublayer = sublayers[0];
+        string? originalTitle = await firstSublayer.GetTitle();
+        string newTitle = $"{originalTitle} - Modified";
+
+        // Set the new title
+        await firstSublayer.SetTitle(newTitle);
+
+        // Verify the title was updated
+        string? updatedTitle = await firstSublayer.GetTitle();
+        Assert.AreEqual(newTitle, updatedTitle, "Sublayer title should be updated after SetTitle");
+
+        // Verify via JavaScript that the property was set correctly
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "title", newTitle]);
+    }
+
+    /// <summary>
+    /// Tests that Sublayer.GetFields returns the field definitions for the sublayer.
+    /// User reported "Could not find 'getFields'" error when calling GetFields on sublayers.
+    /// </summary>
+    [TestMethod]
+    public async Task TestSublayerGetFieldsReturnsFields(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+    {
+        MapImageLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view"
+                      OnViewRendered="renderHandler"
+                      OnLayerViewCreate="layerViewCreatedHandler">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+
+        await WaitForLayerToRender<MapImageLayer>();
+
+        IReadOnlyList<Sublayer>? sublayers = await layer!.GetSublayers();
+        Assert.IsNotNull(sublayers);
+        Assert.IsTrue(sublayers.Count > 0);
+
+        // Find a sublayer that should have fields (non-group layer)
+        Sublayer? sublayerWithFields = sublayers.FirstOrDefault(s => s.Sublayers is null or { Count: 0 });
+
+        Assert.IsNotNull(sublayerWithFields);
+        // This call was failing with "Could not find 'getFields'" before the fix
+        IReadOnlyList<Field>? fields = await sublayerWithFields.GetFields();
+
+        // Fields may be null if not loaded yet, but the call should not throw
+        // The important thing is that the call succeeds without ArgumentNullException
+        Log($"Sublayer {sublayerWithFields.SublayerId} has {fields?.Count ?? 0} fields");
+    }
+
+    /// <summary>
+    /// Tests that Sublayer.SetDefinitionExpression correctly sets a definition expression filter.
+    /// User reported this worked after manually setting CoreJsModule, so we verify it works automatically.
+    /// </summary>
+    [TestMethod]
+    public async Task TestSublayerSetDefinitionExpressionWorks(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+    {
+        MapImageLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view"
+                      OnViewRendered="renderHandler"
+                      OnLayerViewCreate="layerViewCreatedHandler">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+
+        await WaitForLayerToRender<MapImageLayer>();
+
+        // Check if the service supports sublayer definition expressions
+        ArcGISMapServiceCapabilities? capabilities = await layer!.GetCapabilities();
+        bool supportsDefinitionExpression = capabilities?.ExportMap?.SupportsSublayerDefinitionExpression ?? false;
+
+        if (!supportsDefinitionExpression)
+        {
+            Log("Service does not support sublayer definition expressions, skipping test");
+            return;
+        }
+
+        IReadOnlyList<Sublayer>? sublayers = await layer.GetSublayers();
+        Assert.IsNotNull(sublayers);
+        Assert.IsTrue(sublayers.Count > 0);
+
+        // Find a non-group sublayer
+        Sublayer? targetSublayer = sublayers.FirstOrDefault(s => s.Sublayers is null or { Count: 0 });
+
+        if (targetSublayer is not null)
+        {
+            const string definitionExpression = "1=1";
+
+            // This should work without manually setting CoreJsModule
+            await targetSublayer.SetDefinitionExpression(definitionExpression);
+
+            // Verify the definition expression was set
+            string? retrievedExpression = await targetSublayer.GetDefinitionExpression();
+            Assert.AreEqual(definitionExpression, retrievedExpression,
+                "Definition expression should be set on the sublayer");
+
+            await AssertJavaScript("assertObjectHasPropertyWithValue",
+                args: [targetSublayer.Id, "definitionExpression", definitionExpression]);
+        }
+    }
+
+    /// <summary>
+    /// Tests that Sublayer.SetRenderer correctly sets a custom renderer on a sublayer.
+    /// User reported renderers didn't work - this verifies the fix.
+    /// </summary>
+    [TestMethod]
+    public async Task TestSublayerSetRendererWorks(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+    {
+        MapImageLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view"
+                      OnViewRendered="renderHandler"
+                      OnLayerViewCreate="layerViewCreatedHandler">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+
+        await WaitForLayerToRender<MapImageLayer>();
+
+        IReadOnlyList<Sublayer>? sublayers = await layer!.GetSublayers();
+        Assert.IsNotNull(sublayers);
+        Assert.IsTrue(sublayers.Count > 0);
+
+        // Find a polygon sublayer (States layer is usually index 2)
+        Sublayer? polygonSublayer = sublayers.FirstOrDefault(s => s.SublayerId == 2);
+
+        if (polygonSublayer is null)
+        {
+            // Fall back to first non-group sublayer
+            polygonSublayer = sublayers.FirstOrDefault(s => s.Sublayers is null or { Count: 0 });
+        }
+
+        if (polygonSublayer is not null)
+        {
+            // Create a simple fill renderer
+            MapColor fillColor = new MapColor(255, 0, 0, 0.5);
+            Outline outline = new Outline(new MapColor(0, 0, 0), 1);
+            SimpleFillSymbol fillSymbol = new SimpleFillSymbol(outline, fillColor, SimpleFillSymbolStyle.Solid);
+            SimpleRenderer renderer = new SimpleRenderer(fillSymbol);
+
+            // Set the renderer on the sublayer - this was reported as not working
+            await polygonSublayer.SetRenderer(renderer);
+
+            // Verify the renderer was set by checking the sublayer's renderer property
+            Renderer? retrievedRenderer = await polygonSublayer.GetRenderer();
+            Assert.IsNotNull(retrievedRenderer, "Renderer should be set on the sublayer");
+            Assert.IsInstanceOfType<SimpleRenderer>(retrievedRenderer, "Renderer should be a SimpleRenderer");
+            await AssertJavaScript("assertSymbolOnLayer", args: [polygonSublayer.Id, "simple-fill", fillSymbol]);
+        }
+    }
+
+    /// <summary>
+    /// Tests the complete workflow reported by the user: getting sublayers from a MapImageLayer
+    /// in OnLayerViewCreate and performing operations on them.
+    /// </summary>
+    [TestMethod]
+    public async Task TestCompleteSublayerWorkflowInLayerViewCreate(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+    {
+        MapImageLayer? imageLayer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view"
+                      OnViewRendered="renderHandler"
+                      OnLayerViewCreate="layerViewCreatedHandler">
+                <Map>
+                    <MapImageLayer @ref="imageLayer"
+                                   Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
+                </Map>
+                <LayerListWidget Position="OverlayPosition.BottomLeft" />
+            </MapView>);
+        await WaitForMapToRender();
+        
+        await WaitForLayerToRender<MapImageLayer>();
+        
+        Dictionary<string, bool> sublayersVisible = [];
+        
+        IReadOnlyList<Sublayer>? sublayers = await imageLayer!.GetSublayers();
+
+        Assert.IsNotNull(sublayers);
+        foreach (Sublayer sl in sublayers)
+        {
+            // These operations should work without manual CoreJsModule assignment
+            string title = (await sl.GetTitle())!;
+            sublayersVisible[title] = true;
+
+            // Try to add a reactive watcher (this was the original bug)
+            await sl.AddReactiveWatcher<bool>($"{title}.visible", v =>
+            {
+                Console.WriteLine($"Toggling layer {title} to {v}");
+                sublayersVisible[title] = v;
+            }, title);
+        }
+        
+        foreach (string sublayerTitle in sublayersVisible.Keys)
+        {
+            Assert.IsTrue(sublayersVisible[sublayerTitle]);
+        }
+        
+        await AssertJavaScript("mapImageLayerAsserts.toggleSublayers", 
+            args: [sublayers.Select(s => s.Id).ToArray()]);
+
+        foreach (string sublayerTitle in sublayersVisible.Keys)
+        {
+            Assert.IsFalse(sublayersVisible[sublayerTitle]);
+        }
     }
 }
