@@ -68,9 +68,6 @@ export default class SearchViewModelGenerated extends BaseComponent {
         if (hasValue(dotNetObject.maxSuggestions)) {
             this.component.maxSuggestions = dotNetObject.maxSuggestions;
         }
-        if (hasValue(dotNetObject.messages)) {
-            this.component.messages = dotNetObject.messages;
-        }
         if (hasValue(dotNetObject.minSuggestCharacters)) {
             this.component.minSuggestCharacters = dotNetObject.minSuggestCharacters;
         }
@@ -119,16 +116,18 @@ export default class SearchViewModelGenerated extends BaseComponent {
         return await this.component.select(value);
     }
 
-    async suggest(suggestTerm: any,
+    async suggest(value: any,
         suggestionDelay: any,
         options: any): Promise<any> {
-        return await this.component.suggest(suggestTerm,
+        return await this.component.suggest(value,
             suggestionDelay,
             options);
     }
 
-    async when(): Promise<any> {
-        return await this.component.when();
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -214,18 +213,6 @@ export default class SearchViewModelGenerated extends BaseComponent {
         this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
     
-    getMessages(): any {
-        if (!hasValue(this.component.messages)) {
-            return null;
-        }
-        
-        return generateSerializableJson(this.component.messages);
-    }
-    
-    setMessages(value: any): void {
-        this.component.messages = JSON.parse(value);
-    }
-    
     getPlaceholder(): any {
         if (!hasValue(this.component.placeholder)) {
             return null;
@@ -254,7 +241,7 @@ export default class SearchViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.viewId);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -391,9 +378,6 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.maxSuggestions)) {
         properties.maxSuggestions = dotNetObject.maxSuggestions;
     }
-    if (hasValue(dotNetObject.messages)) {
-        properties.messages = JSON.parse(dotNetObject.messages);
-    }
     if (hasValue(dotNetObject.minSuggestCharacters)) {
         properties.minSuggestCharacters = dotNetObject.minSuggestCharacters;
     }
@@ -524,7 +508,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetSearchViewModel.portal = await buildDotNetPortal(jsObject.portal, viewId);
+        dotNetSearchViewModel.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
     
     if (hasValue(jsObject.resultGraphic)) {
@@ -586,10 +570,6 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.maxSuggestions)) {
         dotNetSearchViewModel.maxSuggestions = jsObject.maxSuggestions;
-    }
-    
-    if (hasValue(jsObject.messages)) {
-        dotNetSearchViewModel.messages = generateSerializableJson(jsObject.messages);
     }
     
     if (hasValue(jsObject.minSuggestCharacters)) {
@@ -658,11 +638,18 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
             }
         }
     }
+
     if (hasValue(dotNetSearchViewModel.id)) {
-        jsObjectRefs[dotNetSearchViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetSearchViewModel.id)) {
+            let { default: SearchViewModelWrapper } = await import('./searchViewModel');
+            let searchViewModelWrapper = new SearchViewModelWrapper(jsObject);
+            searchViewModelWrapper.geoBlazorId = dotNetSearchViewModel.id;
+            searchViewModelWrapper.viewId = viewId;
+            searchViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetSearchViewModel.id] = searchViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetSearchViewModel.id] ??= jsObject;
     }
-
     return dotNetSearchViewModel;
 }
 

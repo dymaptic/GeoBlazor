@@ -58,7 +58,7 @@ export default class LayerListViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.operationalItems!.map(async i => await buildDotNetListItem(i, this.viewId)));
+        return await Promise.all(this.component.operationalItems!.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
 }
@@ -111,7 +111,7 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetLayerListViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerListViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -120,7 +120,7 @@ export async function buildDotNetLayerListViewModelGenerated(jsObject: any, view
     
     if (hasValue(jsObject.operationalItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, viewId)));
+        dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.checkPublishStatusEnabled)) {
@@ -149,11 +149,18 @@ export async function buildDotNetLayerListViewModelGenerated(jsObject: any, view
             }
         }
     }
+
     if (hasValue(dotNetLayerListViewModel.id)) {
-        jsObjectRefs[dotNetLayerListViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetLayerListViewModel.id)) {
+            let { default: LayerListViewModelWrapper } = await import('./layerListViewModel');
+            let layerListViewModelWrapper = new LayerListViewModelWrapper(jsObject);
+            layerListViewModelWrapper.geoBlazorId = dotNetLayerListViewModel.id;
+            layerListViewModelWrapper.viewId = viewId;
+            layerListViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetLayerListViewModel.id] = layerListViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetLayerListViewModel.id] ??= jsObject;
     }
-
     return dotNetLayerListViewModel;
 }
 

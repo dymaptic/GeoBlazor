@@ -97,10 +97,10 @@ export default class KMLLayerGenerated extends BaseComponent {
         return this.layer.isResolved();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -151,7 +151,7 @@ export default class KMLLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -319,7 +319,7 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
         try {
             let jsObjectRef = DotNet.createJSObjectReference(kMLLayerWrapper);
             let { buildDotNetKMLLayer } = await import('./kMLLayer');
-            let dnInstantiatedObject = await buildDotNetKMLLayer(jsKMLLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetKMLLayer(jsKMLLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -333,7 +333,7 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetKMLLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -352,7 +352,7 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.sublayers)) {
@@ -427,11 +427,18 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any, viewId: string
             }
         }
     }
+
     if (hasValue(dotNetKMLLayer.id)) {
-        jsObjectRefs[dotNetKMLLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetKMLLayer.id)) {
+            let { default: KMLLayerWrapper } = await import('./kMLLayer');
+            let kMLLayerWrapper = new KMLLayerWrapper(jsObject);
+            kMLLayerWrapper.geoBlazorId = dotNetKMLLayer.id;
+            kMLLayerWrapper.viewId = viewId;
+            kMLLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetKMLLayer.id] = kMLLayerWrapper;
+        }
         arcGisObjectRefs[dotNetKMLLayer.id] ??= jsObject;
     }
-
     return dotNetKMLLayer;
 }
 

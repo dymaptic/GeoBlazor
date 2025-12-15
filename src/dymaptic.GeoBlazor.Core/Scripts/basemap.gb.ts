@@ -65,13 +65,13 @@ export default class BasemapGenerated extends BaseComponent {
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(result, this.viewId);
+        return await buildDotNetBasemap(result, this.layerId, this.viewId);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -82,7 +82,7 @@ export default class BasemapGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.component.baseLayers!.map(async i => await buildDotNetLayer(i, this.viewId)));
+        return await Promise.all(this.component.baseLayers!.map(async i => await buildDotNetLayer(i, this.layerId, this.viewId)));
     }
     
     async setBaseLayers(value: any): Promise<void> {
@@ -111,7 +111,7 @@ export default class BasemapGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.component.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.component.portalItem, this.layerId, this.viewId);
     }
     
     async getReferenceLayers(): Promise<any> {
@@ -120,7 +120,7 @@ export default class BasemapGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.component.referenceLayers!.map(async i => await buildDotNetLayer(i, this.viewId)));
+        return await Promise.all(this.component.referenceLayers!.map(async i => await buildDotNetLayer(i, this.layerId, this.viewId)));
     }
     
     async setReferenceLayers(value: any): Promise<void> {
@@ -228,7 +228,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
 }
 
 
-export async function buildDotNetBasemapGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -237,7 +237,7 @@ export async function buildDotNetBasemapGenerated(jsObject: any, viewId: string 
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.spatialReference)) {
@@ -280,11 +280,18 @@ export async function buildDotNetBasemapGenerated(jsObject: any, viewId: string 
             }
         }
     }
+
     if (hasValue(dotNetBasemap.id)) {
-        jsObjectRefs[dotNetBasemap.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetBasemap.id)) {
+            let { default: BasemapWrapper } = await import('./basemap');
+            let basemapWrapper = new BasemapWrapper(jsObject);
+            basemapWrapper.geoBlazorId = dotNetBasemap.id;
+            basemapWrapper.viewId = viewId;
+            basemapWrapper.layerId = layerId;
+            jsObjectRefs[dotNetBasemap.id] = basemapWrapper;
+        }
         arcGisObjectRefs[dotNetBasemap.id] ??= jsObject;
     }
-
     return dotNetBasemap;
 }
 

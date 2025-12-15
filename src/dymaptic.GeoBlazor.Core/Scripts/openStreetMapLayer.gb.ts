@@ -129,10 +129,10 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -195,7 +195,7 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -218,7 +218,7 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo, this.viewId);
+        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
     
     async setTileInfo(value: any): Promise<void> {
@@ -385,7 +385,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
         try {
             let jsObjectRef = DotNet.createJSObjectReference(openStreetMapLayerWrapper);
             let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
-            let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -399,7 +399,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -418,7 +418,7 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, view
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetOpenStreetMapLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetOpenStreetMapLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.spatialReference)) {
@@ -428,7 +428,7 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, view
     
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetOpenStreetMapLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, viewId);
+        dotNetOpenStreetMapLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {
@@ -514,11 +514,18 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, view
             }
         }
     }
+
     if (hasValue(dotNetOpenStreetMapLayer.id)) {
-        jsObjectRefs[dotNetOpenStreetMapLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetOpenStreetMapLayer.id)) {
+            let { default: OpenStreetMapLayerWrapper } = await import('./openStreetMapLayer');
+            let openStreetMapLayerWrapper = new OpenStreetMapLayerWrapper(jsObject);
+            openStreetMapLayerWrapper.geoBlazorId = dotNetOpenStreetMapLayer.id;
+            openStreetMapLayerWrapper.viewId = viewId;
+            openStreetMapLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetOpenStreetMapLayer.id] = openStreetMapLayerWrapper;
+        }
         arcGisObjectRefs[dotNetOpenStreetMapLayer.id] ??= jsObject;
     }
-
     return dotNetOpenStreetMapLayer;
 }
 

@@ -36,9 +36,6 @@ export default class LayerListWidgetGenerated extends BaseComponent {
         if (hasValue(dotNetObject.collapsed)) {
             this.widget.collapsed = dotNetObject.collapsed;
         }
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.dragEnabled)) {
             this.widget.dragEnabled = dotNetObject.dragEnabled;
         }
@@ -120,10 +117,10 @@ export default class LayerListWidgetGenerated extends BaseComponent {
             jsItem);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -210,7 +207,7 @@ export default class LayerListWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.widget.openedLayers!.map(async i => await buildDotNetLayer(i, this.viewId)));
+        return await Promise.all(this.widget.openedLayers!.map(async i => await buildDotNetLayer(i, this.layerId, this.viewId)));
     }
     
     async getOperationalItems(): Promise<any> {
@@ -219,7 +216,7 @@ export default class LayerListWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.operationalItems!.map(async i => await buildDotNetListItem(i, this.viewId)));
+        return await Promise.all(this.widget.operationalItems!.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async getSelectedItems(): Promise<any> {
@@ -228,7 +225,7 @@ export default class LayerListWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.selectedItems!.map(async i => await buildDotNetListItem(i, this.viewId)));
+        return await Promise.all(this.widget.selectedItems!.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async setSelectedItems(value: any): Promise<void> {
@@ -245,7 +242,7 @@ export default class LayerListWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
-        return await buildDotNetLayerListViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetLayerListViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -298,7 +295,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.hasFilterPredicate) && dotNetObject.hasFilterPredicate) {
         properties.filterPredicate = async (item) => {
             let { buildDotNetListItem } = await import('./listItem');
-            let dnItem = await buildDotNetListItem(item, viewId);
+            let dnItem = await buildDotNetListItem(item, layerId, viewId);
 
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsFilterPredicate', dnItem);
         };
@@ -328,9 +325,6 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
 
     if (hasValue(dotNetObject.collapsed)) {
         properties.collapsed = dotNetObject.collapsed;
-    }
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
     }
     if (hasValue(dotNetObject.dragEnabled)) {
         properties.dragEnabled = dotNetObject.dragEnabled;
@@ -395,7 +389,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
         try {
             let jsObjectRef = DotNet.createJSObjectReference(layerListWidgetWrapper);
             let { buildDotNetLayerListWidget } = await import('./layerListWidget');
-            let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList, viewId);
+            let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -409,7 +403,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetLayerListWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerListWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -428,17 +422,17 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.operationalItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetLayerListWidget.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, viewId)));
+        dotNetLayerListWidget.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.selectedItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i, viewId)));
+        dotNetLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
-        dotNetLayerListWidget.viewModel = await buildDotNetLayerListViewModel(jsObject.viewModel, viewId);
+        dotNetLayerListWidget.viewModel = await buildDotNetLayerListViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.visibleElements)) {
@@ -452,10 +446,6 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.collapsed)) {
         dotNetLayerListWidget.collapsed = jsObject.collapsed;
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetLayerListWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.dragEnabled)) {
@@ -528,11 +518,18 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetLayerListWidget.id)) {
-        jsObjectRefs[dotNetLayerListWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetLayerListWidget.id)) {
+            let { default: LayerListWidgetWrapper } = await import('./layerListWidget');
+            let layerListWidgetWrapper = new LayerListWidgetWrapper(jsObject);
+            layerListWidgetWrapper.geoBlazorId = dotNetLayerListWidget.id;
+            layerListWidgetWrapper.viewId = viewId;
+            layerListWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetLayerListWidget.id] = layerListWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetLayerListWidget.id] ??= jsObject;
     }
-
     return dotNetLayerListWidget;
 }
 

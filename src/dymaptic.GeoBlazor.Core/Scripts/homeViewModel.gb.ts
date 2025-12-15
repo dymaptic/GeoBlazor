@@ -110,7 +110,7 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetHomeViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetHomeViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -140,11 +140,18 @@ export async function buildDotNetHomeViewModelGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetHomeViewModel.id)) {
-        jsObjectRefs[dotNetHomeViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetHomeViewModel.id)) {
+            let { default: HomeViewModelWrapper } = await import('./homeViewModel');
+            let homeViewModelWrapper = new HomeViewModelWrapper(jsObject);
+            homeViewModelWrapper.geoBlazorId = dotNetHomeViewModel.id;
+            homeViewModelWrapper.viewId = viewId;
+            homeViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetHomeViewModel.id] = homeViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetHomeViewModel.id] ??= jsObject;
     }
-
     return dotNetHomeViewModel;
 }
 

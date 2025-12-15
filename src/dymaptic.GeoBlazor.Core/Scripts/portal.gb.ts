@@ -111,12 +111,6 @@ export default class PortalGenerated extends BaseComponent {
         if (hasValue(dotNetObject.featuredItemsGroupQuery)) {
             this.component.featuredItemsGroupQuery = dotNetObject.featuredItemsGroupQuery;
         }
-        if (hasValue(dotNetObject.g3dTilesEnabled)) {
-            this.component.g3dTilesEnabled = dotNetObject.g3dTilesEnabled;
-        }
-        if (hasValue(dotNetObject.g3DTilesGalleryGroupQuery)) {
-            this.component.g3DTilesGalleryGroupQuery = dotNetObject.g3DTilesGalleryGroupQuery;
-        }
         if (hasValue(dotNetObject.galleryTemplatesGroupQuery)) {
             this.component.galleryTemplatesGroupQuery = dotNetObject.galleryTemplatesGroupQuery;
         }
@@ -234,7 +228,7 @@ export default class PortalGenerated extends BaseComponent {
         let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
             options);
         let { buildDotNetBasemap } = await import('./basemap');
-        return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.viewId)));
+        return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.layerId, this.viewId)));
     }
 
     async fetchCategorySchema(signal: AbortSignal): Promise<any> {
@@ -251,7 +245,7 @@ export default class PortalGenerated extends BaseComponent {
         let options = { signal: signal };
         let result = await this.component.fetchDefault3DBasemap(options);
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(result, this.viewId);
+        return await buildDotNetBasemap(result, this.layerId, this.viewId);
     }
 
     async fetchFeaturedGroups(signal: AbortSignal): Promise<any> {
@@ -315,10 +309,10 @@ export default class PortalGenerated extends BaseComponent {
             options);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -413,7 +407,7 @@ export default class PortalGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultBasemap, this.viewId);
+        return await buildDotNetBasemap(this.component.defaultBasemap, this.layerId, this.viewId);
     }
     
     async setDefaultBasemap(value: any): Promise<void> {
@@ -427,7 +421,7 @@ export default class PortalGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultDevBasemap, this.viewId);
+        return await buildDotNetBasemap(this.component.defaultDevBasemap, this.layerId, this.viewId);
     }
     
     async setDefaultDevBasemap(value: any): Promise<void> {
@@ -455,7 +449,7 @@ export default class PortalGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultVectorBasemap, this.viewId);
+        return await buildDotNetBasemap(this.component.defaultVectorBasemap, this.layerId, this.viewId);
     }
     
     async setDefaultVectorBasemap(value: any): Promise<void> {
@@ -514,18 +508,6 @@ export default class PortalGenerated extends BaseComponent {
     
     setFeaturedItemsGroupQuery(value: any): void {
         this.component.featuredItemsGroupQuery = JSON.parse(value);
-    }
-    
-    getG3DTilesGalleryGroupQuery(): any {
-        if (!hasValue(this.component.g3DTilesGalleryGroupQuery)) {
-            return null;
-        }
-        
-        return generateSerializableJson(this.component.g3DTilesGalleryGroupQuery);
-    }
-    
-    setG3DTilesGalleryGroupQuery(value: any): void {
-        this.component.g3DTilesGalleryGroupQuery = JSON.parse(value);
     }
     
     getGalleryTemplatesGroupQuery(): any {
@@ -833,12 +815,6 @@ export function buildJsPortalGenerated(dotNetObject: any, layerId: string | null
     if (hasValue(dotNetObject.featuredItemsGroupQuery)) {
         properties.featuredItemsGroupQuery = dotNetObject.featuredItemsGroupQuery;
     }
-    if (hasValue(dotNetObject.g3dTilesEnabled)) {
-        properties.g3dTilesEnabled = dotNetObject.g3dTilesEnabled;
-    }
-    if (hasValue(dotNetObject.g3DTilesGalleryGroupQuery)) {
-        properties.g3DTilesGalleryGroupQuery = dotNetObject.g3DTilesGalleryGroupQuery;
-    }
     if (hasValue(dotNetObject.galleryTemplatesGroupQuery)) {
         properties.galleryTemplatesGroupQuery = dotNetObject.galleryTemplatesGroupQuery;
     }
@@ -952,7 +928,7 @@ export function buildJsPortalGenerated(dotNetObject: any, layerId: string | null
 }
 
 
-export async function buildDotNetPortalGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -1076,14 +1052,6 @@ export async function buildDotNetPortalGenerated(jsObject: any, viewId: string |
     
     if (hasValue(jsObject.featuredItemsGroupQuery)) {
         dotNetPortal.featuredItemsGroupQuery = jsObject.featuredItemsGroupQuery;
-    }
-    
-    if (hasValue(jsObject.g3dTilesEnabled)) {
-        dotNetPortal.g3dTilesEnabled = jsObject.g3dTilesEnabled;
-    }
-    
-    if (hasValue(jsObject.g3DTilesGalleryGroupQuery)) {
-        dotNetPortal.g3DTilesGalleryGroupQuery = jsObject.g3DTilesGalleryGroupQuery;
     }
     
     if (hasValue(jsObject.galleryTemplatesGroupQuery)) {
@@ -1248,11 +1216,18 @@ export async function buildDotNetPortalGenerated(jsObject: any, viewId: string |
             }
         }
     }
+
     if (hasValue(dotNetPortal.id)) {
-        jsObjectRefs[dotNetPortal.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetPortal.id)) {
+            let { default: PortalWrapper } = await import('./portal');
+            let portalWrapper = new PortalWrapper(jsObject);
+            portalWrapper.geoBlazorId = dotNetPortal.id;
+            portalWrapper.viewId = viewId;
+            portalWrapper.layerId = layerId;
+            jsObjectRefs[dotNetPortal.id] = portalWrapper;
+        }
         arcGisObjectRefs[dotNetPortal.id] ??= jsObject;
     }
-
     return dotNetPortal;
 }
 

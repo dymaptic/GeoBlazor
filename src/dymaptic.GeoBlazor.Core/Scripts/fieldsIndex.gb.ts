@@ -88,7 +88,7 @@ export async function buildJsFieldsIndexGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetFieldsIndexGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetFieldsIndexGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -114,11 +114,18 @@ export async function buildDotNetFieldsIndexGenerated(jsObject: any, viewId: str
             }
         }
     }
+
     if (hasValue(dotNetFieldsIndex.id)) {
-        jsObjectRefs[dotNetFieldsIndex.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetFieldsIndex.id)) {
+            let { default: FieldsIndexWrapper } = await import('./fieldsIndex');
+            let fieldsIndexWrapper = new FieldsIndexWrapper(jsObject);
+            fieldsIndexWrapper.geoBlazorId = dotNetFieldsIndex.id;
+            fieldsIndexWrapper.viewId = viewId;
+            fieldsIndexWrapper.layerId = layerId;
+            jsObjectRefs[dotNetFieldsIndex.id] = fieldsIndexWrapper;
+        }
         arcGisObjectRefs[dotNetFieldsIndex.id] ??= jsObject;
     }
-
     return dotNetFieldsIndex;
 }
 

@@ -174,10 +174,10 @@ export default class WMSLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -314,7 +314,7 @@ export default class WMSLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -625,7 +625,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
         try {
             let jsObjectRef = DotNet.createJSObjectReference(wMSLayerWrapper);
             let { buildDotNetWMSLayer } = await import('./wMSLayer');
-            let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -639,7 +639,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWMSLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWMSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -663,7 +663,7 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWMSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetWMSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.spatialReference)) {
@@ -826,11 +826,18 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, viewId: string
             }
         }
     }
+
     if (hasValue(dotNetWMSLayer.id)) {
-        jsObjectRefs[dotNetWMSLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetWMSLayer.id)) {
+            let { default: WMSLayerWrapper } = await import('./wMSLayer');
+            let wMSLayerWrapper = new WMSLayerWrapper(jsObject);
+            wMSLayerWrapper.geoBlazorId = dotNetWMSLayer.id;
+            wMSLayerWrapper.viewId = viewId;
+            wMSLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetWMSLayer.id] = wMSLayerWrapper;
+        }
         arcGisObjectRefs[dotNetWMSLayer.id] ??= jsObject;
     }
-
     return dotNetWMSLayer;
 }
 

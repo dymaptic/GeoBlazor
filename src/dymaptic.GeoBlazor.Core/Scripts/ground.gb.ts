@@ -69,7 +69,7 @@ export default class GroundGenerated extends BaseComponent {
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetGround } = await import('./ground');
-        return await buildDotNetGround(result, this.viewId);
+        return await buildDotNetGround(result, this.layerId, this.viewId);
     }
 
     async queryElevation(geometry: any,
@@ -82,10 +82,10 @@ export default class GroundGenerated extends BaseComponent {
             options);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -96,7 +96,7 @@ export default class GroundGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.component.layers!.map(async i => await buildDotNetLayer(i, this.viewId)));
+        return await Promise.all(this.component.layers!.map(async i => await buildDotNetLayer(i, this.layerId, this.viewId)));
     }
     
     async setLayers(value: any): Promise<void> {
@@ -176,7 +176,7 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
 }
 
 
-export async function buildDotNetGroundGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGroundGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -215,11 +215,18 @@ export async function buildDotNetGroundGenerated(jsObject: any, viewId: string |
             }
         }
     }
+
     if (hasValue(dotNetGround.id)) {
-        jsObjectRefs[dotNetGround.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetGround.id)) {
+            let { default: GroundWrapper } = await import('./ground');
+            let groundWrapper = new GroundWrapper(jsObject);
+            groundWrapper.geoBlazorId = dotNetGround.id;
+            groundWrapper.viewId = viewId;
+            groundWrapper.layerId = layerId;
+            jsObjectRefs[dotNetGround.id] = groundWrapper;
+        }
         arcGisObjectRefs[dotNetGround.id] ??= jsObject;
     }
-
     return dotNetGround;
 }
 

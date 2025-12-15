@@ -101,9 +101,6 @@ export default class PopupViewModelGenerated extends BaseComponent {
         if (hasValue(dotNetObject.visible)) {
             this.component.visible = dotNetObject.visible;
         }
-        if (hasValue(dotNetObject.zoomFactor)) {
-            this.component.zoomFactor = dotNetObject.zoomFactor;
-        }
     }
     
     // region methods
@@ -456,9 +453,6 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.visible)) {
         properties.visible = dotNetObject.visible;
     }
-    if (hasValue(dotNetObject.zoomFactor)) {
-        properties.zoomFactor = dotNetObject.zoomFactor;
-    }
     let jsPopupViewModel = new PopupViewModel(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
         jsPopupViewModel.on('trigger-action', async (evt: any) => {
@@ -655,10 +649,6 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         dotNetPopupViewModel.waitingForResult = jsObject.waitingForResult;
     }
     
-    if (hasValue(jsObject.zoomFactor)) {
-        dotNetPopupViewModel.zoomFactor = jsObject.zoomFactor;
-    }
-    
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
@@ -673,11 +663,18 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
             }
         }
     }
+
     if (hasValue(dotNetPopupViewModel.id)) {
-        jsObjectRefs[dotNetPopupViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetPopupViewModel.id)) {
+            let { default: PopupViewModelWrapper } = await import('./popupViewModel');
+            let popupViewModelWrapper = new PopupViewModelWrapper(jsObject);
+            popupViewModelWrapper.geoBlazorId = dotNetPopupViewModel.id;
+            popupViewModelWrapper.viewId = viewId;
+            popupViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetPopupViewModel.id] = popupViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetPopupViewModel.id] ??= jsObject;
     }
-
     return dotNetPopupViewModel;
 }
 

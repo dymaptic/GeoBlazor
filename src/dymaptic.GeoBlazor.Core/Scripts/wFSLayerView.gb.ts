@@ -26,7 +26,7 @@ export default class WFSLayerViewGenerated extends BaseComponent {
         }
         if (hasValue(dotNetObject.highlightOptions)) {
             let { buildJsHighlightOptions } = await import('./highlightOptions');
-            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.viewId) as any;
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
         }
 
         if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
@@ -121,10 +121,10 @@ export default class WFSLayerViewGenerated extends BaseComponent {
             options);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -135,7 +135,7 @@ export default class WFSLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.component.featureEffect, this.viewId);
+        return await buildDotNetFeatureEffect(this.component.featureEffect, this.layerId, this.viewId);
     }
     
     async setFeatureEffect(value: any): Promise<void> {
@@ -149,7 +149,7 @@ export default class WFSLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        return await buildDotNetFeatureFilter(this.component.filter, this.viewId);
+        return await buildDotNetFeatureFilter(this.component.filter, this.layerId, this.viewId);
     }
     
     async setFilter(value: any): Promise<void> {
@@ -163,12 +163,12 @@ export default class WFSLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.viewId);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.viewId);
+        this.component.highlightOptions = await  buildJsHighlightOptions(value);
     }
     
     async getLayer(): Promise<any> {
@@ -177,7 +177,7 @@ export default class WFSLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     
 }
@@ -199,7 +199,7 @@ export async function buildJsWFSLayerViewGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsWFSLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, viewId) as any;
+        jsWFSLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
     }
 
     if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
@@ -226,7 +226,7 @@ export async function buildJsWFSLayerViewGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetWFSLayerViewGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -235,12 +235,17 @@ export async function buildDotNetWFSLayerViewGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        dotNetWFSLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, viewId);
+        dotNetWFSLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
     }
     
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetWFSLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, viewId);
+        dotNetWFSLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+    }
+    
+    if (hasValue(jsObject.highlightOptions)) {
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        dotNetWFSLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
     }
     
     if (hasValue(jsObject.availableFields)) {
@@ -309,11 +314,18 @@ export async function buildDotNetWFSLayerViewGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetWFSLayerView.id)) {
-        jsObjectRefs[dotNetWFSLayerView.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetWFSLayerView.id)) {
+            let { default: WFSLayerViewWrapper } = await import('./wFSLayerView');
+            let wFSLayerViewWrapper = new WFSLayerViewWrapper(jsObject);
+            wFSLayerViewWrapper.geoBlazorId = dotNetWFSLayerView.id;
+            wFSLayerViewWrapper.viewId = viewId;
+            wFSLayerViewWrapper.layerId = layerId;
+            jsObjectRefs[dotNetWFSLayerView.id] = wFSLayerViewWrapper;
+        }
         arcGisObjectRefs[dotNetWFSLayerView.id] ??= jsObject;
     }
-
     return dotNetWFSLayerView;
 }
 

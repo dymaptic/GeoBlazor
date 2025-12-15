@@ -50,9 +50,6 @@ export default class PopupWidgetGenerated extends BaseComponent {
         if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
             this.widget.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
         }
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.dockEnabled)) {
             this.widget.dockEnabled = dotNetObject.dockEnabled;
         }
@@ -149,10 +146,10 @@ export default class PopupWidgetGenerated extends BaseComponent {
         this.widget.triggerAction(actionIndex);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -388,9 +385,6 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
         properties.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
     }
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.dockEnabled)) {
         properties.dockEnabled = dotNetObject.dockEnabled;
     }
@@ -535,10 +529,6 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         dotNetPopupWidget.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
     }
     
-    if (hasValue(jsObject.destroyed)) {
-        dotNetPopupWidget.destroyed = jsObject.destroyed;
-    }
-    
     if (hasValue(jsObject.dockEnabled)) {
         dotNetPopupWidget.dockEnabled = jsObject.dockEnabled;
     }
@@ -609,11 +599,18 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
             }
         }
     }
+
     if (hasValue(dotNetPopupWidget.id)) {
-        jsObjectRefs[dotNetPopupWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetPopupWidget.id)) {
+            let { default: PopupWidgetWrapper } = await import('./popupWidget');
+            let popupWidgetWrapper = new PopupWidgetWrapper(jsObject);
+            popupWidgetWrapper.geoBlazorId = dotNetPopupWidget.id;
+            popupWidgetWrapper.viewId = viewId;
+            popupWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetPopupWidget.id] = popupWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetPopupWidget.id] ??= jsObject;
     }
-
     return dotNetPopupWidget;
 }
 

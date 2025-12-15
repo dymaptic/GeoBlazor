@@ -101,12 +101,6 @@ export function buildJsPortalPropertiesGenerated(dotNetObject: any): any {
     if (hasValue(dotNetObject.featuredItemsGroupQuery)) {
         jsPortalProperties.featuredItemsGroupQuery = dotNetObject.featuredItemsGroupQuery;
     }
-    if (hasValue(dotNetObject.g3dTilesEnabled)) {
-        jsPortalProperties.g3dTilesEnabled = dotNetObject.g3dTilesEnabled;
-    }
-    if (hasValue(dotNetObject.g3DTilesGalleryGroupQuery)) {
-        jsPortalProperties.g3DTilesGalleryGroupQuery = dotNetObject.g3DTilesGalleryGroupQuery;
-    }
     if (hasValue(dotNetObject.galleryTemplatesGroupQuery)) {
         jsPortalProperties.galleryTemplatesGroupQuery = dotNetObject.galleryTemplatesGroupQuery;
     }
@@ -352,14 +346,6 @@ export async function buildDotNetPortalPropertiesGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.featuredItemsGroupQuery)) {
         dotNetPortalProperties.featuredItemsGroupQuery = removeCircularReferences(jsObject.featuredItemsGroupQuery);
-    }
-    
-    if (hasValue(jsObject.g3dTilesEnabled)) {
-        dotNetPortalProperties.g3dTilesEnabled = removeCircularReferences(jsObject.g3dTilesEnabled);
-    }
-    
-    if (hasValue(jsObject.g3DTilesGalleryGroupQuery)) {
-        dotNetPortalProperties.g3DTilesGalleryGroupQuery = removeCircularReferences(jsObject.g3DTilesGalleryGroupQuery);
     }
     
     if (hasValue(jsObject.galleryTemplatesGroupQuery)) {

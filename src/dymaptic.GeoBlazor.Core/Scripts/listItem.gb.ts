@@ -76,7 +76,7 @@ export default class ListItemGenerated extends BaseComponent {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.children!.map(async i => await buildDotNetListItem(i, this.viewId)));
+        return await Promise.all(this.component.children!.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async setChildren(value: any): Promise<void> {
@@ -93,7 +93,7 @@ export default class ListItemGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     
     async setLayer(value: any): Promise<void> {
@@ -107,7 +107,7 @@ export default class ListItemGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayerView } = await import('./layerView');
-        return await buildDotNetLayerView(this.component.layerView, this.viewId);
+        return await buildDotNetLayerView(this.component.layerView, this.layerId, this.viewId);
     }
     
     async getPanel(): Promise<any> {
@@ -202,9 +202,9 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetListItemGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetListItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
-        return null;
+        return null; 
     }
     
     let dotNetListItem: any = {};
@@ -216,7 +216,7 @@ export async function buildDotNetListItemGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetListItem.layerView = await buildDotNetLayerView(jsObject.layerView, viewId);
+        dotNetListItem.layerView = await buildDotNetLayerView(jsObject.layerView, layerId, viewId);
     }
     
     if (hasValue(jsObject.actionsOpen)) {
@@ -297,11 +297,18 @@ export async function buildDotNetListItemGenerated(jsObject: any, viewId: string
             }
         }
     }
+
     if (hasValue(dotNetListItem.id)) {
-        jsObjectRefs[dotNetListItem.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetListItem.id)) {
+            let { default: ListItemWrapper } = await import('./listItem');
+            let listItemWrapper = new ListItemWrapper(jsObject);
+            listItemWrapper.geoBlazorId = dotNetListItem.id;
+            listItemWrapper.viewId = viewId;
+            listItemWrapper.layerId = layerId;
+            jsObjectRefs[dotNetListItem.id] = listItemWrapper;
+        }
         arcGisObjectRefs[dotNetListItem.id] ??= jsObject;
     }
-
     return dotNetListItem;
 }
 

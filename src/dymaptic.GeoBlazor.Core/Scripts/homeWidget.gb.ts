@@ -25,9 +25,6 @@ export default class HomeWidgetGenerated extends BaseComponent {
             this.widget.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
         }
 
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -86,10 +83,10 @@ export default class HomeWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -150,7 +147,7 @@ export default class HomeWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetHomeViewModel } = await import('./homeViewModel');
-        return await buildDotNetHomeViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetHomeViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -209,9 +206,6 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
         properties.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
     }
 
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -252,7 +246,7 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
         try {
             let jsObjectRef = DotNet.createJSObjectReference(homeWidgetWrapper);
             let { buildDotNetHomeWidget } = await import('./homeWidget');
-            let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome, viewId);
+            let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -266,7 +260,7 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetHomeWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetHomeWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -275,16 +269,12 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any, viewId: stri
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetHomeViewModel } = await import('./homeViewModel');
-        dotNetHomeWidget.viewModel = await buildDotNetHomeViewModel(jsObject.viewModel, viewId);
+        dotNetHomeWidget.viewModel = await buildDotNetHomeViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.viewpoint)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
         dotNetHomeWidget.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetHomeWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.icon)) {
@@ -325,11 +315,18 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any, viewId: stri
             }
         }
     }
+
     if (hasValue(dotNetHomeWidget.id)) {
-        jsObjectRefs[dotNetHomeWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetHomeWidget.id)) {
+            let { default: HomeWidgetWrapper } = await import('./homeWidget');
+            let homeWidgetWrapper = new HomeWidgetWrapper(jsObject);
+            homeWidgetWrapper.geoBlazorId = dotNetHomeWidget.id;
+            homeWidgetWrapper.viewId = viewId;
+            homeWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetHomeWidget.id] = homeWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetHomeWidget.id] ??= jsObject;
     }
-
     return dotNetHomeWidget;
 }
 

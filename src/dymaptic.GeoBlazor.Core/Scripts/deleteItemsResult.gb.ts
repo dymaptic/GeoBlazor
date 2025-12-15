@@ -26,7 +26,7 @@ export async function buildJsDeleteItemsResultGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetDeleteItemsResultGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetDeleteItemsResultGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -35,7 +35,7 @@ export async function buildDotNetDeleteItemsResultGenerated(jsObject: any, viewI
     
     if (hasValue(jsObject.item)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetDeleteItemsResult.item = await buildDotNetPortalItem(jsObject.item, viewId);
+        dotNetDeleteItemsResult.item = await buildDotNetPortalItem(jsObject.item, layerId, viewId);
     }
     
     if (hasValue(jsObject.error)) {

@@ -57,11 +57,11 @@ export async function buildDotNetSwitchInputGenerated(jsObject: any, viewId: str
             }
         }
     }
+
     if (hasValue(dotNetSwitchInput.id)) {
         jsObjectRefs[dotNetSwitchInput.id] ??= jsObject;
         arcGisObjectRefs[dotNetSwitchInput.id] ??= jsObject;
     }
-
     return dotNetSwitchInput;
 }
 

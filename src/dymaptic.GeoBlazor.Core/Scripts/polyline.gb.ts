@@ -21,9 +21,6 @@ export default class PolylineGenerated extends BaseComponent {
             this.component.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
         }
 
-        if (hasValue(dotNetObject.curvePaths) && dotNetObject.curvePaths.length > 0) {
-            this.component.curvePaths = dotNetObject.curvePaths;
-        }
         if (hasValue(dotNetObject.hasM)) {
             this.component.hasM = dotNetObject.hasM;
         }

@@ -129,10 +129,10 @@ export default class WebTileLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -195,7 +195,7 @@ export default class WebTileLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -218,7 +218,7 @@ export default class WebTileLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo, this.viewId);
+        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
     
     async setTileInfo(value: any): Promise<void> {
@@ -390,7 +390,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
                 try {
                     let jsObjectRef = DotNet.createJSObjectReference(webTileLayerWrapper);
                     let { buildDotNetWebTileLayer } = await import('./webTileLayer');
-                    let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer, viewId);
+                    let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer, layerId, viewId);
 
                     let dnStream = buildJsStreamReference(dnInstantiatedObject);
                     await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -410,7 +410,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     }
 }     
 
-export async function buildDotNetWebTileLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWebTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -430,7 +430,7 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any, viewId: st
     
             if (hasValue(jsObject.portalItem)) {
                 let { buildDotNetPortalItem } = await import('./portalItem');
-                dotNetWebTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+                dotNetWebTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
             }
     
             if (hasValue(jsObject.spatialReference)) {
@@ -440,7 +440,7 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any, viewId: st
     
             if (hasValue(jsObject.tileInfo)) {
                 let { buildDotNetTileInfo } = await import('./tileInfo');
-                dotNetWebTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, viewId);
+                dotNetWebTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
             }
     
             if (hasValue(jsObject.visibilityTimeExtent)) {
@@ -526,16 +526,23 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any, viewId: st
                     }
                 }
             }
+
             if (hasValue(dotNetWebTileLayer.id)) {
-                jsObjectRefs[dotNetWebTileLayer.id] ??= jsObject;
+                if (!jsObjectRefs.hasOwnProperty(dotNetWebTileLayer.id)) {
+                    let { default: WebTileLayerWrapper } = await import('./webTileLayer');
+                    let webTileLayerWrapper = new WebTileLayerWrapper(jsObject);
+                    webTileLayerWrapper.geoBlazorId = dotNetWebTileLayer.id;
+                    webTileLayerWrapper.viewId = viewId;
+                    webTileLayerWrapper.layerId = layerId;
+                    jsObjectRefs[dotNetWebTileLayer.id] = webTileLayerWrapper;
+                }
                 arcGisObjectRefs[dotNetWebTileLayer.id] ??= jsObject;
             }
-
             return dotNetWebTileLayer;
 
         case 'open-street-map': 
             let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
-            return await buildDotNetOpenStreetMapLayer(jsObject, viewId);
+            return await buildDotNetOpenStreetMapLayer(jsObject, layerId, viewId);
         default: 
             return removeCircularReferences(jsObject);
     }

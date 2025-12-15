@@ -67,11 +67,11 @@ export async function buildDotNetLODGenerated(jsObject: any, viewId: string | nu
             }
         }
     }
+
     if (hasValue(dotNetLOD.id)) {
         jsObjectRefs[dotNetLOD.id] ??= jsObject;
         arcGisObjectRefs[dotNetLOD.id] ??= jsObject;
     }
-
     return dotNetLOD;
 }
 

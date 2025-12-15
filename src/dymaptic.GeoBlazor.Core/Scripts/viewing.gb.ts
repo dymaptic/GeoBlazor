@@ -48,11 +48,11 @@ export async function buildDotNetViewingGenerated(jsObject: any, layerId: string
             }
         }
     }
+
     if (hasValue(dotNetViewing.id)) {
         jsObjectRefs[dotNetViewing.id] ??= jsObject;
         arcGisObjectRefs[dotNetViewing.id] ??= jsObject;
     }
-
     return dotNetViewing;
 }
 

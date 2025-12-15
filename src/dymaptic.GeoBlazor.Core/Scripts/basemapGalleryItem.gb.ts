@@ -25,7 +25,7 @@ export async function buildJsBasemapGalleryItemGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -34,7 +34,7 @@ export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any, view
     
     if (hasValue(jsObject.basemap)) {
         let { buildDotNetBasemap } = await import('./basemap');
-        dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap, viewId);
+        dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap, layerId, viewId);
     }
     
     if (hasValue(jsObject.error)) {
@@ -59,11 +59,11 @@ export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any, view
             }
         }
     }
+
     if (hasValue(dotNetBasemapGalleryItem.id)) {
         jsObjectRefs[dotNetBasemapGalleryItem.id] ??= jsObject;
         arcGisObjectRefs[dotNetBasemapGalleryItem.id] ??= jsObject;
     }
-
     return dotNetBasemapGalleryItem;
 }
 

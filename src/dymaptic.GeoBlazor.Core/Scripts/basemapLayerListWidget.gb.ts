@@ -37,9 +37,6 @@ export default class BasemapLayerListWidgetGenerated extends BaseComponent {
         if (hasValue(dotNetObject.collapsed)) {
             this.widget.collapsed = dotNetObject.collapsed;
         }
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.dragEnabled)) {
             this.widget.dragEnabled = dotNetObject.dragEnabled;
         }
@@ -121,10 +118,10 @@ export default class BasemapLayerListWidgetGenerated extends BaseComponent {
             jsItem);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -147,7 +144,7 @@ export default class BasemapLayerListWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.baseItems!.map(async i => await buildDotNetListItem(i, this.viewId)));
+        return await Promise.all(this.widget.baseItems!.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     getBasemapTitle(): any {
@@ -216,7 +213,7 @@ export default class BasemapLayerListWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.referenceItems!.map(async i => await buildDotNetListItem(i, this.viewId)));
+        return await Promise.all(this.widget.referenceItems!.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async getSelectedItems(): Promise<any> {
@@ -225,7 +222,7 @@ export default class BasemapLayerListWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.selectedItems!.map(async i => await buildDotNetListItem(i, this.viewId)));
+        return await Promise.all(this.widget.selectedItems!.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async setSelectedItems(value: any): Promise<void> {
@@ -242,7 +239,7 @@ export default class BasemapLayerListWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-        return await buildDotNetBasemapLayerListViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetBasemapLayerListViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -291,7 +288,7 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.hasBaseFilterPredicate) && dotNetObject.hasBaseFilterPredicate) {
         properties.baseFilterPredicate = async (item) => {
             let { buildDotNetListItem } = await import('./listItem');
-            let dnItem = await buildDotNetListItem(item, viewId);
+            let dnItem = await buildDotNetListItem(item, layerId, viewId);
 
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseFilterPredicate', dnItem);
         };
@@ -305,7 +302,7 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.hasReferenceFilterPredicate) && dotNetObject.hasReferenceFilterPredicate) {
         properties.referenceFilterPredicate = async (item) => {
             let { buildDotNetListItem } = await import('./listItem');
-            let dnItem = await buildDotNetListItem(item, viewId);
+            let dnItem = await buildDotNetListItem(item, layerId, viewId);
 
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceFilterPredicate', dnItem);
         };
@@ -340,9 +337,6 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     }
     if (hasValue(dotNetObject.collapsed)) {
         properties.collapsed = dotNetObject.collapsed;
-    }
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
     }
     if (hasValue(dotNetObject.dragEnabled)) {
         properties.dragEnabled = dotNetObject.dragEnabled;
@@ -430,22 +424,22 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any, 
     
     if (hasValue(jsObject.baseItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListWidget.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i, viewId)));
+        dotNetBasemapLayerListWidget.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.referenceItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListWidget.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i, viewId)));
+        dotNetBasemapLayerListWidget.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.selectedItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i, viewId)));
+        dotNetBasemapLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-        dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel, viewId);
+        dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.visibleElements)) {
@@ -471,10 +465,6 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any, 
     
     if (hasValue(jsObject.collapsed)) {
         dotNetBasemapLayerListWidget.collapsed = jsObject.collapsed;
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetBasemapLayerListWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.dragEnabled)) {
@@ -543,11 +533,18 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any, 
             }
         }
     }
+
     if (hasValue(dotNetBasemapLayerListWidget.id)) {
-        jsObjectRefs[dotNetBasemapLayerListWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetBasemapLayerListWidget.id)) {
+            let { default: BasemapLayerListWidgetWrapper } = await import('./basemapLayerListWidget');
+            let basemapLayerListWidgetWrapper = new BasemapLayerListWidgetWrapper(jsObject);
+            basemapLayerListWidgetWrapper.geoBlazorId = dotNetBasemapLayerListWidget.id;
+            basemapLayerListWidgetWrapper.viewId = viewId;
+            basemapLayerListWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetBasemapLayerListWidget.id] = basemapLayerListWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetBasemapLayerListWidget.id] ??= jsObject;
     }
-
     return dotNetBasemapLayerListWidget;
 }
 

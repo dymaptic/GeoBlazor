@@ -18,7 +18,7 @@ export default class ImageryLayerViewGenerated extends BaseComponent {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.highlightOptions)) {
             let { buildJsHighlightOptions } = await import('./highlightOptions');
-            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.viewId) as any;
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
         }
         if (hasValue(dotNetObject.pixelData)) {
             let { buildJsPixelData } = await import('./pixelData');
@@ -55,10 +55,10 @@ export default class ImageryLayerViewGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -69,12 +69,12 @@ export default class ImageryLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.viewId);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.viewId);
+        this.component.highlightOptions = await  buildJsHighlightOptions(value);
     }
     
     async getLayer(): Promise<any> {
@@ -83,7 +83,7 @@ export default class ImageryLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     
     async getPixelData(): Promise<any> {
@@ -92,7 +92,7 @@ export default class ImageryLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetPixelData } = await import('./pixelData');
-        return await buildDotNetPixelData(this.component.pixelData, this.viewId);
+        return await buildDotNetPixelData(this.component.pixelData, this.layerId, this.viewId);
     }
     
     async setPixelData(value: any): Promise<void> {
@@ -111,7 +111,7 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
     let properties: any = {};
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, viewId) as any;
+        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
     }
     if (hasValue(dotNetObject.pixelData)) {
         let { buildJsPixelData } = await import('./pixelData');
@@ -137,16 +137,21 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetImageryLayerViewGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
     let dotNetImageryLayerView: any = {};
     
+    if (hasValue(jsObject.highlightOptions)) {
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        dotNetImageryLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
+    }
+    
     if (hasValue(jsObject.pixelData)) {
         let { buildDotNetPixelData } = await import('./pixelData');
-        dotNetImageryLayerView.pixelData = await buildDotNetPixelData(jsObject.pixelData, viewId);
+        dotNetImageryLayerView.pixelData = await buildDotNetPixelData(jsObject.pixelData, layerId, viewId);
     }
     
     if (hasValue(jsObject.spatialReferenceSupported)) {
@@ -187,11 +192,18 @@ export async function buildDotNetImageryLayerViewGenerated(jsObject: any, viewId
             }
         }
     }
+
     if (hasValue(dotNetImageryLayerView.id)) {
-        jsObjectRefs[dotNetImageryLayerView.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetImageryLayerView.id)) {
+            let { default: ImageryLayerViewWrapper } = await import('./imageryLayerView');
+            let imageryLayerViewWrapper = new ImageryLayerViewWrapper(jsObject);
+            imageryLayerViewWrapper.geoBlazorId = dotNetImageryLayerView.id;
+            imageryLayerViewWrapper.viewId = viewId;
+            imageryLayerViewWrapper.layerId = layerId;
+            jsObjectRefs[dotNetImageryLayerView.id] = imageryLayerViewWrapper;
+        }
         arcGisObjectRefs[dotNetImageryLayerView.id] ??= jsObject;
     }
-
     return dotNetImageryLayerView;
 }
 

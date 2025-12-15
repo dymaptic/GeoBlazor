@@ -70,10 +70,10 @@ export default class UnsupportedLayerGenerated extends BaseComponent {
         return this.layer.isResolved();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -208,7 +208,7 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
         try {
             let jsObjectRef = DotNet.createJSObjectReference(unsupportedLayerWrapper);
             let { buildDotNetUnsupportedLayer } = await import('./unsupportedLayer');
-            let dnInstantiatedObject = await buildDotNetUnsupportedLayer(jsUnsupportedLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetUnsupportedLayer(jsUnsupportedLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -222,7 +222,7 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetUnsupportedLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetUnsupportedLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -285,11 +285,18 @@ export async function buildDotNetUnsupportedLayerGenerated(jsObject: any, viewId
             }
         }
     }
+
     if (hasValue(dotNetUnsupportedLayer.id)) {
-        jsObjectRefs[dotNetUnsupportedLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetUnsupportedLayer.id)) {
+            let { default: UnsupportedLayerWrapper } = await import('./unsupportedLayer');
+            let unsupportedLayerWrapper = new UnsupportedLayerWrapper(jsObject);
+            unsupportedLayerWrapper.geoBlazorId = dotNetUnsupportedLayer.id;
+            unsupportedLayerWrapper.viewId = viewId;
+            unsupportedLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetUnsupportedLayer.id] = unsupportedLayerWrapper;
+        }
         arcGisObjectRefs[dotNetUnsupportedLayer.id] ??= jsObject;
     }
-
     return dotNetUnsupportedLayer;
 }
 

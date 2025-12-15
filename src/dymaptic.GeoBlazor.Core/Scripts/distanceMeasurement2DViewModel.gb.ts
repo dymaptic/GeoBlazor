@@ -110,7 +110,7 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -157,11 +157,18 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
             }
         }
     }
+
     if (hasValue(dotNetDistanceMeasurement2DViewModel.id)) {
-        jsObjectRefs[dotNetDistanceMeasurement2DViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetDistanceMeasurement2DViewModel.id)) {
+            let { default: DistanceMeasurement2DViewModelWrapper } = await import('./distanceMeasurement2DViewModel');
+            let distanceMeasurement2DViewModelWrapper = new DistanceMeasurement2DViewModelWrapper(jsObject);
+            distanceMeasurement2DViewModelWrapper.geoBlazorId = dotNetDistanceMeasurement2DViewModel.id;
+            distanceMeasurement2DViewModelWrapper.viewId = viewId;
+            distanceMeasurement2DViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetDistanceMeasurement2DViewModel.id] = distanceMeasurement2DViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetDistanceMeasurement2DViewModel.id] ??= jsObject;
     }
-
     return dotNetDistanceMeasurement2DViewModel;
 }
 

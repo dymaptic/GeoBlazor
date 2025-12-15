@@ -63,7 +63,7 @@ export default class PortalItemResourceGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.component.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.component.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -121,7 +121,7 @@ export async function buildDotNetPortalItemResourceGenerated(jsObject: any, laye
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetPortalItemResource.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetPortalItemResource.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.path)) {
@@ -146,11 +146,18 @@ export async function buildDotNetPortalItemResourceGenerated(jsObject: any, laye
             }
         }
     }
+
     if (hasValue(dotNetPortalItemResource.id)) {
-        jsObjectRefs[dotNetPortalItemResource.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetPortalItemResource.id)) {
+            let { default: PortalItemResourceWrapper } = await import('./portalItemResource');
+            let portalItemResourceWrapper = new PortalItemResourceWrapper(jsObject);
+            portalItemResourceWrapper.geoBlazorId = dotNetPortalItemResource.id;
+            portalItemResourceWrapper.viewId = viewId;
+            portalItemResourceWrapper.layerId = layerId;
+            jsObjectRefs[dotNetPortalItemResource.id] = portalItemResourceWrapper;
+        }
         arcGisObjectRefs[dotNetPortalItemResource.id] ??= jsObject;
     }
-
     return dotNetPortalItemResource;
 }
 

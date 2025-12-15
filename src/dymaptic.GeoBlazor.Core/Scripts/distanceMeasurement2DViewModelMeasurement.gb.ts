@@ -53,11 +53,11 @@ export async function buildDotNetDistanceMeasurement2DViewModelMeasurementGenera
             }
         }
     }
+
     if (hasValue(dotNetDistanceMeasurement2DViewModelMeasurement.id)) {
         jsObjectRefs[dotNetDistanceMeasurement2DViewModelMeasurement.id] ??= jsObject;
         arcGisObjectRefs[dotNetDistanceMeasurement2DViewModelMeasurement.id] ??= jsObject;
     }
-
     return dotNetDistanceMeasurement2DViewModelMeasurement;
 }
 

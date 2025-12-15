@@ -93,11 +93,11 @@ export async function buildDotNetAttachmentsVisibleElementsGenerated(jsObject: a
             }
         }
     }
+
     if (hasValue(dotNetAttachmentsVisibleElements.id)) {
         jsObjectRefs[dotNetAttachmentsVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetAttachmentsVisibleElements.id] ??= jsObject;
     }
-
     return dotNetAttachmentsVisibleElements;
 }
 

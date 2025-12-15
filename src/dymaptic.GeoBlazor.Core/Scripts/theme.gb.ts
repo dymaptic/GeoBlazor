@@ -57,11 +57,11 @@ export async function buildDotNetThemeGenerated(jsObject: any, viewId: string | 
             }
         }
     }
+
     if (hasValue(dotNetTheme.id)) {
         jsObjectRefs[dotNetTheme.id] ??= jsObject;
         arcGisObjectRefs[dotNetTheme.id] ??= jsObject;
     }
-
     return dotNetTheme;
 }
 

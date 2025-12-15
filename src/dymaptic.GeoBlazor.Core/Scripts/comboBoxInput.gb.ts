@@ -57,11 +57,11 @@ export async function buildDotNetComboBoxInputGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetComboBoxInput.id)) {
         jsObjectRefs[dotNetComboBoxInput.id] ??= jsObject;
         arcGisObjectRefs[dotNetComboBoxInput.id] ??= jsObject;
     }
-
     return dotNetComboBoxInput;
 }
 

@@ -44,11 +44,11 @@ export async function buildDotNetOrientationGenerated(jsObject: any, viewId: str
             }
         }
     }
+
     if (hasValue(dotNetOrientation.id)) {
         jsObjectRefs[dotNetOrientation.id] ??= jsObject;
         arcGisObjectRefs[dotNetOrientation.id] ??= jsObject;
     }
-
     return dotNetOrientation;
 }
 

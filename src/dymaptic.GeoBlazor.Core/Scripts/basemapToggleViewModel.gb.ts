@@ -36,7 +36,7 @@ export default class BasemapToggleViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.activeBasemap, this.viewId);
+        return await buildDotNetBasemap(this.component.activeBasemap, this.layerId, this.viewId);
     }
     
     async getNextBasemap(): Promise<any> {
@@ -45,7 +45,7 @@ export default class BasemapToggleViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.nextBasemap, this.viewId);
+        return await buildDotNetBasemap(this.component.nextBasemap, this.layerId, this.viewId);
     }
     
     async setNextBasemap(value: any): Promise<void> {
@@ -86,7 +86,7 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -111,11 +111,18 @@ export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any, 
             }
         }
     }
+
     if (hasValue(dotNetBasemapToggleViewModel.id)) {
-        jsObjectRefs[dotNetBasemapToggleViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetBasemapToggleViewModel.id)) {
+            let { default: BasemapToggleViewModelWrapper } = await import('./basemapToggleViewModel');
+            let basemapToggleViewModelWrapper = new BasemapToggleViewModelWrapper(jsObject);
+            basemapToggleViewModelWrapper.geoBlazorId = dotNetBasemapToggleViewModel.id;
+            basemapToggleViewModelWrapper.viewId = viewId;
+            basemapToggleViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetBasemapToggleViewModel.id] = basemapToggleViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetBasemapToggleViewModel.id] ??= jsObject;
     }
-
     return dotNetBasemapToggleViewModel;
 }
 

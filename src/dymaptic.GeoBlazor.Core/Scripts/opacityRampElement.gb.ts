@@ -12,9 +12,6 @@ export async function buildJsOpacityRampElementGenerated(dotNetObject: any): Pro
         jsOpacityRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsOpacityRampStop(i))) as any;
     }
 
-    if (hasValue(dotNetObject.preview)) {
-        jsOpacityRampElement.preview = dotNetObject.preview;
-    }
     if (hasValue(dotNetObject.title)) {
         jsOpacityRampElement.title = dotNetObject.title;
     }
@@ -36,10 +33,6 @@ export async function buildDotNetOpacityRampElementGenerated(jsObject: any, view
     if (hasValue(jsObject.infos)) {
         let { buildDotNetOpacityRampStop } = await import('./opacityRampStop');
         dotNetOpacityRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetOpacityRampStop(i, viewId)));
-    }
-    
-    if (hasValue(jsObject.preview)) {
-        dotNetOpacityRampElement.preview = jsObject.preview;
     }
     
     if (hasValue(jsObject.title)) {
@@ -64,11 +57,11 @@ export async function buildDotNetOpacityRampElementGenerated(jsObject: any, view
             }
         }
     }
+
     if (hasValue(dotNetOpacityRampElement.id)) {
         jsObjectRefs[dotNetOpacityRampElement.id] ??= jsObject;
         arcGisObjectRefs[dotNetOpacityRampElement.id] ??= jsObject;
     }
-
     return dotNetOpacityRampElement;
 }
 

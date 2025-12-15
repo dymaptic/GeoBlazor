@@ -156,7 +156,7 @@
                       OnLayerViewCreate="layerViewCreatedHandler">
                 <Map>
                     <MapImageLayer @ref="layer"
-                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
+                                   Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
                 </Map>
             </MapView>);
         await WaitForMapToRender();
@@ -174,9 +174,8 @@
         // This call was failing with "Could not find 'getFields'" before the fix
         IReadOnlyList<Field>? fields = await sublayerWithFields.GetFields();
 
-        // Fields may be null if not loaded yet, but the call should not throw
-        // The important thing is that the call succeeds without ArgumentNullException
-        Log($"Sublayer {sublayerWithFields.SublayerId} has {fields?.Count ?? 0} fields");
+        Assert.IsNotNull(fields);
+        Assert.IsGreaterThan(0, fields.Count);
     }
 
     /// <summary>
@@ -340,6 +339,9 @@
         
         await AssertJavaScript("mapImageLayerAsserts.toggleSublayers", 
             args: [sublayers.Select(s => s.Id).ToArray()]);
+
+        // setting visibility is async and takes a second
+        await Task.Delay(1000);
 
         foreach (string sublayerTitle in sublayersVisible.Keys)
         {

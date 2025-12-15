@@ -167,7 +167,7 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetSliderViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetSliderViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -224,11 +224,18 @@ export async function buildDotNetSliderViewModelGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetSliderViewModel.id)) {
-        jsObjectRefs[dotNetSliderViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetSliderViewModel.id)) {
+            let { default: SliderViewModelWrapper } = await import('./sliderViewModel');
+            let sliderViewModelWrapper = new SliderViewModelWrapper(jsObject);
+            sliderViewModelWrapper.geoBlazorId = dotNetSliderViewModel.id;
+            sliderViewModelWrapper.viewId = viewId;
+            sliderViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetSliderViewModel.id] = sliderViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetSliderViewModel.id] ??= jsObject;
     }
-
     return dotNetSliderViewModel;
 }
 

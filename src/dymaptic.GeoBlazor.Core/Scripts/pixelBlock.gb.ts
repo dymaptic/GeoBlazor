@@ -133,7 +133,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetPixelBlockGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPixelBlockGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -187,11 +187,18 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any, viewId: stri
             }
         }
     }
+
     if (hasValue(dotNetPixelBlock.id)) {
-        jsObjectRefs[dotNetPixelBlock.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetPixelBlock.id)) {
+            let { default: PixelBlockWrapper } = await import('./pixelBlock');
+            let pixelBlockWrapper = new PixelBlockWrapper(jsObject);
+            pixelBlockWrapper.geoBlazorId = dotNetPixelBlock.id;
+            pixelBlockWrapper.viewId = viewId;
+            pixelBlockWrapper.layerId = layerId;
+            jsObjectRefs[dotNetPixelBlock.id] = pixelBlockWrapper;
+        }
         arcGisObjectRefs[dotNetPixelBlock.id] ??= jsObject;
     }
-
     return dotNetPixelBlock;
 }
 

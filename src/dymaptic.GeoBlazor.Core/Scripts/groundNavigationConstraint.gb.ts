@@ -41,11 +41,11 @@ export async function buildDotNetGroundNavigationConstraintGenerated(jsObject: a
             }
         }
     }
+
     if (hasValue(dotNetGroundNavigationConstraint.id)) {
         jsObjectRefs[dotNetGroundNavigationConstraint.id] ??= jsObject;
         arcGisObjectRefs[dotNetGroundNavigationConstraint.id] ??= jsObject;
     }
-
     return dotNetGroundNavigationConstraint;
 }
 

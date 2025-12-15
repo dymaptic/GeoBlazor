@@ -65,11 +65,11 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any, 
             }
         }
     }
+
     if (hasValue(dotNetMultidimensionalSubset.id)) {
         jsObjectRefs[dotNetMultidimensionalSubset.id] ??= jsObject;
         arcGisObjectRefs[dotNetMultidimensionalSubset.id] ??= jsObject;
     }
-
     return dotNetMultidimensionalSubset;
 }
 

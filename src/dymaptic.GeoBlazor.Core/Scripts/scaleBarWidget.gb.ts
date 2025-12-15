@@ -17,9 +17,6 @@ export default class ScaleBarWidgetGenerated extends BaseComponent {
 
     async updateComponent(dotNetObject: any): Promise<void> {
 
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -73,10 +70,10 @@ export default class ScaleBarWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -111,7 +108,7 @@ export default class ScaleBarWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
-        return await buildDotNetScaleBarViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetScaleBarViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -148,9 +145,6 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
         properties.viewModel = await buildJsScaleBarViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -187,7 +181,7 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
         try {
             let jsObjectRef = DotNet.createJSObjectReference(scaleBarWidgetWrapper);
             let { buildDotNetScaleBarWidget } = await import('./scaleBarWidget');
-            let dnInstantiatedObject = await buildDotNetScaleBarWidget(jsScaleBar, viewId);
+            let dnInstantiatedObject = await buildDotNetScaleBarWidget(jsScaleBar, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -201,7 +195,7 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetScaleBarWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetScaleBarWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -210,11 +204,7 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any, viewId: 
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
-        dotNetScaleBarWidget.viewModel = await buildDotNetScaleBarViewModel(jsObject.viewModel, viewId);
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetScaleBarWidget.destroyed = jsObject.destroyed;
+        dotNetScaleBarWidget.viewModel = await buildDotNetScaleBarViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.icon)) {
@@ -259,11 +249,18 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any, viewId: 
             }
         }
     }
+
     if (hasValue(dotNetScaleBarWidget.id)) {
-        jsObjectRefs[dotNetScaleBarWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetScaleBarWidget.id)) {
+            let { default: ScaleBarWidgetWrapper } = await import('./scaleBarWidget');
+            let scaleBarWidgetWrapper = new ScaleBarWidgetWrapper(jsObject);
+            scaleBarWidgetWrapper.geoBlazorId = dotNetScaleBarWidget.id;
+            scaleBarWidgetWrapper.viewId = viewId;
+            scaleBarWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetScaleBarWidget.id] = scaleBarWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetScaleBarWidget.id] ??= jsObject;
     }
-
     return dotNetScaleBarWidget;
 }
 

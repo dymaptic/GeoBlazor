@@ -60,11 +60,11 @@ export async function buildDotNetMeshTextureTransformGenerated(jsObject: any, vi
             }
         }
     }
+
     if (hasValue(dotNetMeshTextureTransform.id)) {
         jsObjectRefs[dotNetMeshTextureTransform.id] ??= jsObject;
         arcGisObjectRefs[dotNetMeshTextureTransform.id] ??= jsObject;
     }
-
     return dotNetMeshTextureTransform;
 }
 

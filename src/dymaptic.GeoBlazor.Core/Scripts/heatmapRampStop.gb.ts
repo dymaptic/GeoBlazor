@@ -60,11 +60,11 @@ export async function buildDotNetHeatmapRampStopGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetHeatmapRampStop.id)) {
         jsObjectRefs[dotNetHeatmapRampStop.id] ??= jsObject;
         arcGisObjectRefs[dotNetHeatmapRampStop.id] ??= jsObject;
     }
-
     return dotNetHeatmapRampStop;
 }
 

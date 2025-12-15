@@ -28,6 +28,9 @@ export default class WebSceneGenerated extends BaseComponent {
             let { buildJsPortalItem } = await import('./portalItem');
             this.component.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
+        if (hasValue(dotNetObject.presentation)) {
+            this.component.presentation = dotNetObject.iPresentation;
+        }
         if (hasValue(dotNetObject.widgets)) {
             let { buildJsWebSceneWidgets } = await import('./webSceneWidgets');
             this.component.widgets = await buildJsWebSceneWidgets(dotNetObject.widgets, this.layerId, this.viewId) as any;
@@ -51,19 +54,12 @@ export default class WebSceneGenerated extends BaseComponent {
         if (hasValue(dotNetObject.initialViewProperties)) {
             this.component.initialViewProperties = dotNetObject.initialViewProperties;
         }
-        if (hasValue(dotNetObject.presentation)) {
-            this.component.presentation = dotNetObject.presentation;
-        }
         if (hasValue(dotNetObject.thumbnailUrl)) {
             this.component.thumbnailUrl = dotNetObject.thumbnailUrl;
         }
     }
     
     // region methods
-    async cancelLoad(): Promise<void> {
-        this.component.cancelLoad();
-    }
-
     async isFulfilled(): Promise<any> {
         return this.component.isFulfilled();
     }
@@ -76,21 +72,20 @@ export default class WebSceneGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async load(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
-        return await this.component.load(options);
+    async load(): Promise<any> {
+        return await this.component.load();
     }
 
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetWebScene } = await import('./webScene');
-        return await buildDotNetWebScene(result, this.viewId);
+        return await buildDotNetWebScene(result, this.layerId, this.viewId);
     }
 
     async save(options: any): Promise<any> {
         let result = await this.component.save(options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
@@ -102,7 +97,7 @@ export default class WebSceneGenerated extends BaseComponent {
         let result = await this.component.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async updateFrom(view: any,
@@ -117,10 +112,10 @@ export default class WebSceneGenerated extends BaseComponent {
             options);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -183,7 +178,7 @@ export default class WebSceneGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.component.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.component.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -209,7 +204,7 @@ export default class WebSceneGenerated extends BaseComponent {
         }
         
         let { buildDotNetWebSceneWidgets } = await import('./webSceneWidgets');
-        return await buildDotNetWebSceneWidgets(this.component.widgets, this.viewId);
+        return await buildDotNetWebSceneWidgets(this.component.widgets, this.layerId, this.viewId);
     }
     
     async setWidgets(value: any): Promise<void> {
@@ -238,6 +233,9 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.presentation)) {
+        properties.presentation = dotNetObject.presentation;
+    }
     if (hasValue(dotNetObject.widgets)) {
         let { buildJsWebSceneWidgets } = await import('./webSceneWidgets');
         properties.widgets = await buildJsWebSceneWidgets(dotNetObject.widgets, layerId, viewId) as any;
@@ -261,9 +259,6 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.initialViewProperties)) {
         properties.initialViewProperties = dotNetObject.initialViewProperties;
     }
-    if (hasValue(dotNetObject.presentation)) {
-        properties.presentation = dotNetObject.presentation;
-    }
     if (hasValue(dotNetObject.thumbnailUrl)) {
         properties.thumbnailUrl = dotNetObject.thumbnailUrl;
     }
@@ -283,7 +278,7 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWebSceneGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -302,12 +297,12 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.widgets)) {
         let { buildDotNetWebSceneWidgets } = await import('./webSceneWidgets');
-        dotNetWebScene.widgets = await buildDotNetWebSceneWidgets(jsObject.widgets, viewId);
+        dotNetWebScene.widgets = await buildDotNetWebSceneWidgets(jsObject.widgets, layerId, viewId);
     }
     
     if (hasValue(jsObject.applicationProperties)) {
@@ -338,6 +333,14 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, viewId: string
         dotNetWebScene.loaded = jsObject.loaded;
     }
     
+    if (hasValue(jsObject.loadError)) {
+        dotNetWebScene.loadError = removeCircularReferences(jsObject.loadError);
+    }
+    
+    if (hasValue(jsObject.loadStatus)) {
+        dotNetWebScene.loadStatus = removeCircularReferences(jsObject.loadStatus);
+    }
+    
     if (hasValue(jsObject.presentation)) {
         dotNetWebScene.presentation = removeCircularReferences(jsObject.presentation);
     }
@@ -364,11 +367,18 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, viewId: string
             }
         }
     }
+
     if (hasValue(dotNetWebScene.id)) {
-        jsObjectRefs[dotNetWebScene.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetWebScene.id)) {
+            let { default: WebSceneWrapper } = await import('./webScene');
+            let webSceneWrapper = new WebSceneWrapper(jsObject);
+            webSceneWrapper.geoBlazorId = dotNetWebScene.id;
+            webSceneWrapper.viewId = viewId;
+            webSceneWrapper.layerId = layerId;
+            jsObjectRefs[dotNetWebScene.id] = webSceneWrapper;
+        }
         arcGisObjectRefs[dotNetWebScene.id] ??= jsObject;
     }
-
     return dotNetWebScene;
 }
 

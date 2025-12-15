@@ -23,9 +23,6 @@ export default class MeasurementWidgetGenerated extends BaseComponent {
         if (hasValue(dotNetObject.areaUnit)) {
             this.widget.areaUnit = dotNetObject.areaUnit;
         }
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -84,10 +81,10 @@ export default class MeasurementWidgetGenerated extends BaseComponent {
         this.widget.startMeasurement();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -165,9 +162,6 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     if (hasValue(dotNetObject.areaUnit)) {
         properties.areaUnit = dotNetObject.areaUnit;
     }
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -201,7 +195,7 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
         try {
             let jsObjectRef = DotNet.createJSObjectReference(measurementWidgetWrapper);
             let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
-            let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement, viewId);
+            let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -215,7 +209,7 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -237,10 +231,6 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, viewI
     
     if (hasValue(jsObject.areaUnit)) {
         dotNetMeasurementWidget.areaUnit = removeCircularReferences(jsObject.areaUnit);
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetMeasurementWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.icon)) {
@@ -281,11 +271,18 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, viewI
             }
         }
     }
+
     if (hasValue(dotNetMeasurementWidget.id)) {
-        jsObjectRefs[dotNetMeasurementWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetMeasurementWidget.id)) {
+            let { default: MeasurementWidgetWrapper } = await import('./measurementWidget');
+            let measurementWidgetWrapper = new MeasurementWidgetWrapper(jsObject);
+            measurementWidgetWrapper.geoBlazorId = dotNetMeasurementWidget.id;
+            measurementWidgetWrapper.viewId = viewId;
+            measurementWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetMeasurementWidget.id] = measurementWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetMeasurementWidget.id] ??= jsObject;
     }
-
     return dotNetMeasurementWidget;
 }
 

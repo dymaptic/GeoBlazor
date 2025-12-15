@@ -146,10 +146,10 @@ export default class BingMapsLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -387,7 +387,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
         try {
             let jsObjectRef = DotNet.createJSObjectReference(bingMapsLayerWrapper);
             let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
-            let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -401,7 +401,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetBingMapsLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -425,7 +425,7 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, viewId);
+        dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {
@@ -523,11 +523,18 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetBingMapsLayer.id)) {
-        jsObjectRefs[dotNetBingMapsLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetBingMapsLayer.id)) {
+            let { default: BingMapsLayerWrapper } = await import('./bingMapsLayer');
+            let bingMapsLayerWrapper = new BingMapsLayerWrapper(jsObject);
+            bingMapsLayerWrapper.geoBlazorId = dotNetBingMapsLayer.id;
+            bingMapsLayerWrapper.viewId = viewId;
+            bingMapsLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetBingMapsLayer.id] = bingMapsLayerWrapper;
+        }
         arcGisObjectRefs[dotNetBingMapsLayer.id] ??= jsObject;
     }
-
     return dotNetBingMapsLayer;
 }
 

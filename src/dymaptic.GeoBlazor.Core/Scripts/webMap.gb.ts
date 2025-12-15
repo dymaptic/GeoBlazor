@@ -67,10 +67,6 @@ export default class WebMapGenerated extends BaseComponent {
     }
     
     // region methods
-    async cancelLoad(): Promise<void> {
-        this.component.cancelLoad();
-    }
-
     async isFulfilled(): Promise<any> {
         return this.component.isFulfilled();
     }
@@ -83,9 +79,8 @@ export default class WebMapGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async load(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
-        return await this.component.load(options);
+    async load(): Promise<any> {
+        return await this.component.load();
     }
 
     async loadAll(): Promise<any> {
@@ -97,7 +92,7 @@ export default class WebMapGenerated extends BaseComponent {
     async save(options: any): Promise<any> {
         let result = await this.component.save(options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
@@ -107,7 +102,7 @@ export default class WebMapGenerated extends BaseComponent {
         let result = await this.component.saveAs(jsPortalItem,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async updateFrom(view: any,
@@ -118,10 +113,10 @@ export default class WebMapGenerated extends BaseComponent {
             jsOptions);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -243,7 +238,7 @@ export default class WebMapGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.component.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.component.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -401,7 +396,7 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWebMap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetWebMap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.widgets)) {
@@ -419,6 +414,14 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.loaded)) {
         dotNetWebMap.loaded = jsObject.loaded;
+    }
+    
+    if (hasValue(jsObject.loadError)) {
+        dotNetWebMap.loadError = removeCircularReferences(jsObject.loadError);
+    }
+    
+    if (hasValue(jsObject.loadStatus)) {
+        dotNetWebMap.loadStatus = removeCircularReferences(jsObject.loadStatus);
     }
     
     if (hasValue(jsObject.presentation)) {
@@ -451,11 +454,18 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
             }
         }
     }
+
     if (hasValue(dotNetWebMap.id)) {
-        jsObjectRefs[dotNetWebMap.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetWebMap.id)) {
+            let { default: WebMapWrapper } = await import('./webMap');
+            let webMapWrapper = new WebMapWrapper(jsObject);
+            webMapWrapper.geoBlazorId = dotNetWebMap.id;
+            webMapWrapper.viewId = viewId;
+            webMapWrapper.layerId = layerId;
+            jsObjectRefs[dotNetWebMap.id] = webMapWrapper;
+        }
         arcGisObjectRefs[dotNetWebMap.id] ??= jsObject;
     }
-
     return dotNetWebMap;
 }
 

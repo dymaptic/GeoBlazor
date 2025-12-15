@@ -86,7 +86,7 @@ export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetCompassViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetCompassViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -116,11 +116,18 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any, viewId
             }
         }
     }
+
     if (hasValue(dotNetCompassViewModel.id)) {
-        jsObjectRefs[dotNetCompassViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetCompassViewModel.id)) {
+            let { default: CompassViewModelWrapper } = await import('./compassViewModel');
+            let compassViewModelWrapper = new CompassViewModelWrapper(jsObject);
+            compassViewModelWrapper.geoBlazorId = dotNetCompassViewModel.id;
+            compassViewModelWrapper.viewId = viewId;
+            compassViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetCompassViewModel.id] = compassViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetCompassViewModel.id] ??= jsObject;
     }
-
     return dotNetCompassViewModel;
 }
 

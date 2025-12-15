@@ -136,11 +136,11 @@ export async function buildDotNetWMSSublayerGenerated(jsObject: any, viewId: str
             }
         }
     }
+
     if (hasValue(dotNetWMSSublayer.id)) {
         jsObjectRefs[dotNetWMSSublayer.id] ??= jsObject;
         arcGisObjectRefs[dotNetWMSSublayer.id] ??= jsObject;
     }
-
     return dotNetWMSSublayer;
 }
 

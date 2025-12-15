@@ -26,7 +26,7 @@ export default class FeatureLayerViewGenerated extends BaseComponent {
         }
         if (hasValue(dotNetObject.highlightOptions)) {
             let { buildJsHighlightOptions } = await import('./highlightOptions');
-            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.viewId) as any;
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
         }
 
         if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
@@ -69,10 +69,10 @@ export default class FeatureLayerViewGenerated extends BaseComponent {
             options);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -83,7 +83,7 @@ export default class FeatureLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.component.featureEffect, this.viewId);
+        return await buildDotNetFeatureEffect(this.component.featureEffect, this.layerId, this.viewId);
     }
     
     async getFilter(): Promise<any> {
@@ -92,7 +92,7 @@ export default class FeatureLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        return await buildDotNetFeatureFilter(this.component.filter, this.viewId);
+        return await buildDotNetFeatureFilter(this.component.filter, this.layerId, this.viewId);
     }
     
     async getHighlightOptions(): Promise<any> {
@@ -101,12 +101,12 @@ export default class FeatureLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.viewId);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.viewId);
+        this.component.highlightOptions = await  buildJsHighlightOptions(value);
     }
     
     async getLayer(): Promise<any> {
@@ -115,7 +115,7 @@ export default class FeatureLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(this.component.layer, this.viewId);
+        return await buildDotNetFeatureLayer(this.component.layer, this.layerId, this.viewId);
     }
     
 }
@@ -137,7 +137,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, viewId) as any;
+        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
     }
 
     if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
@@ -165,7 +165,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -174,12 +174,17 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        dotNetFeatureLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, viewId);
+        dotNetFeatureLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
     }
     
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetFeatureLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, viewId);
+        dotNetFeatureLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+    }
+    
+    if (hasValue(jsObject.highlightOptions)) {
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        dotNetFeatureLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
     }
     
     if (hasValue(jsObject.availableFields)) {
@@ -248,11 +253,18 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, viewId
             }
         }
     }
+
     if (hasValue(dotNetFeatureLayerView.id)) {
-        jsObjectRefs[dotNetFeatureLayerView.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetFeatureLayerView.id)) {
+            let { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
+            let featureLayerViewWrapper = new FeatureLayerViewWrapper(jsObject);
+            featureLayerViewWrapper.geoBlazorId = dotNetFeatureLayerView.id;
+            featureLayerViewWrapper.viewId = viewId;
+            featureLayerViewWrapper.layerId = layerId;
+            jsObjectRefs[dotNetFeatureLayerView.id] = featureLayerViewWrapper;
+        }
         arcGisObjectRefs[dotNetFeatureLayerView.id] ??= jsObject;
     }
-
     return dotNetFeatureLayerView;
 }
 

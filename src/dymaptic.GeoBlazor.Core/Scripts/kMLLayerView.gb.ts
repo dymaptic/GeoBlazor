@@ -35,10 +35,10 @@ export default class KMLLayerViewGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -85,7 +85,7 @@ export default class KMLLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     
 }
@@ -116,7 +116,7 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetKMLLayerViewGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetKMLLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -166,11 +166,18 @@ export async function buildDotNetKMLLayerViewGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetKMLLayerView.id)) {
-        jsObjectRefs[dotNetKMLLayerView.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetKMLLayerView.id)) {
+            let { default: KMLLayerViewWrapper } = await import('./kMLLayerView');
+            let kMLLayerViewWrapper = new KMLLayerViewWrapper(jsObject);
+            kMLLayerViewWrapper.geoBlazorId = dotNetKMLLayerView.id;
+            kMLLayerViewWrapper.viewId = viewId;
+            kMLLayerViewWrapper.layerId = layerId;
+            jsObjectRefs[dotNetKMLLayerView.id] = kMLLayerViewWrapper;
+        }
         arcGisObjectRefs[dotNetKMLLayerView.id] ??= jsObject;
     }
-
     return dotNetKMLLayerView;
 }
 

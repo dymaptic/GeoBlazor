@@ -90,7 +90,7 @@ export default class SublayerGenerated extends BaseComponent {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(result, this.viewId);
+        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -184,15 +184,10 @@ export default class SublayerGenerated extends BaseComponent {
             options);
     }
 
-    async reload(signal: AbortSignal): Promise<void> {
-        let options = { signal: signal };
-        await this.component.reload(options);
-    }
-
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -218,22 +213,13 @@ export default class SublayerGenerated extends BaseComponent {
         this.component.definitionExpression = JSON.parse(value);
     }
     
-    async getFields(): Promise<any> {
-        if (!hasValue(this.component.fields)) {
-            return null;
-        }
-        
-        let { buildDotNetField } = await import('./field');
-        return this.component.fields!.map(i => buildDotNetField(i));
-    }
-    
     async getFieldsIndex(): Promise<any> {
         if (!hasValue(this.component.fieldsIndex)) {
             return null;
         }
         
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        return await buildDotNetFieldsIndex(this.component.fieldsIndex, this.viewId);
+        return await buildDotNetFieldsIndex(this.component.fieldsIndex, this.layerId, this.viewId);
     }
     
     async getFloorInfo(): Promise<any> {
@@ -265,7 +251,7 @@ export default class SublayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetLabel } = await import('./label');
-        return await Promise.all(this.component.labelingInfo!.map(async i => await buildDotNetLabel(i, this.viewId)));
+        return await Promise.all(this.component.labelingInfo!.map(async i => await buildDotNetLabel(i, this.layerId, this.viewId)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
@@ -282,7 +268,7 @@ export default class SublayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     
     getObjectIdField(): any {
@@ -375,7 +361,7 @@ export default class SublayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await Promise.all(this.component.sublayers!.map(async i => await buildDotNetSublayer(i, this.viewId)));
+        return await Promise.all(this.component.sublayers!.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId)));
     }
     
     async setSublayers(value: any): Promise<void> {
@@ -519,7 +505,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetSublayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -538,7 +524,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, viewId);
+        dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
     }
     
     if (hasValue(jsObject.floorInfo)) {
@@ -553,7 +539,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
-        dotNetSublayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i, viewId)));
+        dotNetSublayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.orderBy)) {
@@ -668,11 +654,18 @@ export async function buildDotNetSublayerGenerated(jsObject: any, viewId: string
             }
         }
     }
+
     if (hasValue(dotNetSublayer.id)) {
-        jsObjectRefs[dotNetSublayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetSublayer.id)) {
+            let { default: SublayerWrapper } = await import('./sublayer');
+            let sublayerWrapper = new SublayerWrapper(jsObject);
+            sublayerWrapper.geoBlazorId = dotNetSublayer.id;
+            sublayerWrapper.viewId = viewId;
+            sublayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetSublayer.id] = sublayerWrapper;
+        }
         arcGisObjectRefs[dotNetSublayer.id] ??= jsObject;
     }
-
     return dotNetSublayer;
 }
 

@@ -143,7 +143,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetTileInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetTileInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

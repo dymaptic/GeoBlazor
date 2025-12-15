@@ -70,10 +70,10 @@ export default class UnknownLayerGenerated extends BaseComponent {
         return this.layer.isResolved();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -208,7 +208,7 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
         try {
             let jsObjectRef = DotNet.createJSObjectReference(unknownLayerWrapper);
             let { buildDotNetUnknownLayer } = await import('./unknownLayer');
-            let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -222,7 +222,7 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetUnknownLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetUnknownLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -285,11 +285,18 @@ export async function buildDotNetUnknownLayerGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetUnknownLayer.id)) {
-        jsObjectRefs[dotNetUnknownLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetUnknownLayer.id)) {
+            let { default: UnknownLayerWrapper } = await import('./unknownLayer');
+            let unknownLayerWrapper = new UnknownLayerWrapper(jsObject);
+            unknownLayerWrapper.geoBlazorId = dotNetUnknownLayer.id;
+            unknownLayerWrapper.viewId = viewId;
+            unknownLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetUnknownLayer.id] = unknownLayerWrapper;
+        }
         arcGisObjectRefs[dotNetUnknownLayer.id] ??= jsObject;
     }
-
     return dotNetUnknownLayer;
 }
 

@@ -42,14 +42,8 @@ export default class SearchWidgetGenerated extends BaseComponent {
         if (hasValue(dotNetObject.allPlaceholder)) {
             this.widget.allPlaceholder = dotNetObject.allPlaceholder;
         }
-        if (hasValue(dotNetObject.autoNavigate)) {
-            this.widget.autoNavigate = dotNetObject.autoNavigate;
-        }
         if (hasValue(dotNetObject.autoSelect)) {
             this.widget.autoSelect = dotNetObject.autoSelect;
-        }
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
         }
         if (hasValue(dotNetObject.disabled)) {
             this.widget.disabled = dotNetObject.disabled;
@@ -143,10 +137,10 @@ export default class SearchWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -221,7 +215,7 @@ export default class SearchWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.widget.portal, this.viewId);
+        return await buildDotNetPortal(this.widget.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -305,14 +299,8 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.allPlaceholder)) {
         properties.allPlaceholder = dotNetObject.allPlaceholder;
     }
-    if (hasValue(dotNetObject.autoNavigate)) {
-        properties.autoNavigate = dotNetObject.autoNavigate;
-    }
     if (hasValue(dotNetObject.autoSelect)) {
         properties.autoSelect = dotNetObject.autoSelect;
-    }
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
     }
     if (hasValue(dotNetObject.disabled)) {
         properties.disabled = dotNetObject.disabled;
@@ -482,7 +470,7 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetSearchWidget.portal = await buildDotNetPortal(jsObject.portal, viewId);
+        dotNetSearchWidget.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
     
     if (hasValue(jsObject.resultGraphic)) {
@@ -522,16 +510,8 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         dotNetSearchWidget.allPlaceholder = jsObject.allPlaceholder;
     }
     
-    if (hasValue(jsObject.autoNavigate)) {
-        dotNetSearchWidget.autoNavigate = jsObject.autoNavigate;
-    }
-    
     if (hasValue(jsObject.autoSelect)) {
         dotNetSearchWidget.autoSelect = jsObject.autoSelect;
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetSearchWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.disabled)) {
@@ -616,11 +596,18 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
             }
         }
     }
+
     if (hasValue(dotNetSearchWidget.id)) {
-        jsObjectRefs[dotNetSearchWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetSearchWidget.id)) {
+            let { default: SearchWidgetWrapper } = await import('./searchWidget');
+            let searchWidgetWrapper = new SearchWidgetWrapper(jsObject);
+            searchWidgetWrapper.geoBlazorId = dotNetSearchWidget.id;
+            searchWidgetWrapper.viewId = viewId;
+            searchWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetSearchWidget.id] = searchWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetSearchWidget.id] ??= jsObject;
     }
-
     return dotNetSearchWidget;
 }
 

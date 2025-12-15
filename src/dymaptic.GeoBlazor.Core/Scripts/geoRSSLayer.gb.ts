@@ -111,10 +111,10 @@ export default class GeoRSSLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -347,7 +347,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
         try {
             let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);
             let { buildDotNetGeoRSSLayer } = await import('./geoRSSLayer');
-            let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -361,7 +361,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -468,11 +468,18 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, viewId: str
             }
         }
     }
+
     if (hasValue(dotNetGeoRSSLayer.id)) {
-        jsObjectRefs[dotNetGeoRSSLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetGeoRSSLayer.id)) {
+            let { default: GeoRSSLayerWrapper } = await import('./geoRSSLayer');
+            let geoRSSLayerWrapper = new GeoRSSLayerWrapper(jsObject);
+            geoRSSLayerWrapper.geoBlazorId = dotNetGeoRSSLayer.id;
+            geoRSSLayerWrapper.viewId = viewId;
+            geoRSSLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetGeoRSSLayer.id] = geoRSSLayerWrapper;
+        }
         arcGisObjectRefs[dotNetGeoRSSLayer.id] ??= jsObject;
     }
-
     return dotNetGeoRSSLayer;
 }
 

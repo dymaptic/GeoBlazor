@@ -110,7 +110,7 @@ export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: a
 }
 
 
-export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -158,11 +158,18 @@ export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: a
             }
         }
     }
+
     if (hasValue(dotNetAreaMeasurement2DViewModel.id)) {
-        jsObjectRefs[dotNetAreaMeasurement2DViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetAreaMeasurement2DViewModel.id)) {
+            let { default: AreaMeasurement2DViewModelWrapper } = await import('./areaMeasurement2DViewModel');
+            let areaMeasurement2DViewModelWrapper = new AreaMeasurement2DViewModelWrapper(jsObject);
+            areaMeasurement2DViewModelWrapper.geoBlazorId = dotNetAreaMeasurement2DViewModel.id;
+            areaMeasurement2DViewModelWrapper.viewId = viewId;
+            areaMeasurement2DViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetAreaMeasurement2DViewModel.id] = areaMeasurement2DViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetAreaMeasurement2DViewModel.id] ??= jsObject;
     }
-
     return dotNetAreaMeasurement2DViewModel;
 }
 

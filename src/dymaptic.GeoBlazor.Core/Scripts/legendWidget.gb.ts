@@ -28,9 +28,6 @@ export default class LegendWidgetGenerated extends BaseComponent {
         if (hasValue(dotNetObject.basemapLegendVisible)) {
             this.widget.basemapLegendVisible = dotNetObject.basemapLegendVisible;
         }
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.headingLevel)) {
             this.widget.headingLevel = dotNetObject.headingLevel;
         }
@@ -93,10 +90,10 @@ export default class LegendWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -107,7 +104,7 @@ export default class LegendWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-        return await Promise.all(this.widget.activeLayerInfos!.map(async i => await buildDotNetActiveLayerInfo(i, this.viewId)));
+        return await Promise.all(this.widget.activeLayerInfos!.map(async i => await buildDotNetActiveLayerInfo(i, this.layerId, this.viewId)));
     }
     
     async setActiveLayerInfos(value: any): Promise<void> {
@@ -225,9 +222,6 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.basemapLegendVisible)) {
         properties.basemapLegendVisible = dotNetObject.basemapLegendVisible;
     }
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.headingLevel)) {
         properties.headingLevel = dotNetObject.headingLevel;
     }
@@ -273,7 +267,7 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
         try {
             let jsObjectRef = DotNet.createJSObjectReference(legendWidgetWrapper);
             let { buildDotNetLegendWidget } = await import('./legendWidget');
-            let dnInstantiatedObject = await buildDotNetLegendWidget(jsLegend, viewId);
+            let dnInstantiatedObject = await buildDotNetLegendWidget(jsLegend, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -287,7 +281,7 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetLegendWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLegendWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -296,7 +290,7 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.activeLayerInfos)) {
         let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-        dotNetLegendWidget.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i, viewId)));
+        dotNetLegendWidget.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.layerInfos)) {
@@ -311,10 +305,6 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.basemapLegendVisible)) {
         dotNetLegendWidget.basemapLegendVisible = jsObject.basemapLegendVisible;
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetLegendWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.headingLevel)) {
@@ -371,11 +361,18 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetLegendWidget.id)) {
-        jsObjectRefs[dotNetLegendWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetLegendWidget.id)) {
+            let { default: LegendWidgetWrapper } = await import('./legendWidget');
+            let legendWidgetWrapper = new LegendWidgetWrapper(jsObject);
+            legendWidgetWrapper.geoBlazorId = dotNetLegendWidget.id;
+            legendWidgetWrapper.viewId = viewId;
+            legendWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetLegendWidget.id] = legendWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetLegendWidget.id] ??= jsObject;
     }
-
     return dotNetLegendWidget;
 }
 

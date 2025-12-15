@@ -39,10 +39,10 @@ export default class ImageryTileLayerViewGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -53,7 +53,7 @@ export default class ImageryTileLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     
 }
@@ -85,7 +85,7 @@ export async function buildJsImageryTileLayerViewGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetImageryTileLayerViewGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryTileLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -130,11 +130,18 @@ export async function buildDotNetImageryTileLayerViewGenerated(jsObject: any, vi
             }
         }
     }
+
     if (hasValue(dotNetImageryTileLayerView.id)) {
-        jsObjectRefs[dotNetImageryTileLayerView.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetImageryTileLayerView.id)) {
+            let { default: ImageryTileLayerViewWrapper } = await import('./imageryTileLayerView');
+            let imageryTileLayerViewWrapper = new ImageryTileLayerViewWrapper(jsObject);
+            imageryTileLayerViewWrapper.geoBlazorId = dotNetImageryTileLayerView.id;
+            imageryTileLayerViewWrapper.viewId = viewId;
+            imageryTileLayerViewWrapper.layerId = layerId;
+            jsObjectRefs[dotNetImageryTileLayerView.id] = imageryTileLayerViewWrapper;
+        }
         arcGisObjectRefs[dotNetImageryTileLayerView.id] ??= jsObject;
     }
-
     return dotNetImageryTileLayerView;
 }
 

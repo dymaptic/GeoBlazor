@@ -21,8 +21,8 @@ export default class GraphicsLayerGenerated extends BaseComponent {
             this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
         }
         if (hasValue(dotNetObject.elevationInfo)) {
-            let { buildJsElevationInfo } = await import('./elevationInfo');
-            this.layer.elevationInfo = await buildJsElevationInfo(dotNetObject.elevationInfo, this.layerId, this.viewId) as any;
+            let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
+            this.layer.elevationInfo = await buildJsGraphicsLayerElevationInfo(dotNetObject.elevationInfo, this.viewId) as any;
         }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
@@ -102,10 +102,10 @@ export default class GraphicsLayerGenerated extends BaseComponent {
         return this.layer.isResolved();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -141,13 +141,13 @@ export default class GraphicsLayerGenerated extends BaseComponent {
             return null;
         }
         
-        let { buildDotNetElevationInfo } = await import('./elevationInfo');
-        return await buildDotNetElevationInfo(this.layer.elevationInfo, this.viewId);
+        let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
+        return await buildDotNetGraphicsLayerElevationInfo(this.layer.elevationInfo, this.viewId);
     }
     
     async setElevationInfo(value: any): Promise<void> {
-        let { buildJsElevationInfo } = await import('./elevationInfo');
-        this.layer.elevationInfo = await  buildJsElevationInfo(value, this.layerId, this.viewId);
+        let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
+        this.layer.elevationInfo = await  buildJsGraphicsLayerElevationInfo(value, this.viewId);
     }
     
     async getFullExtent(): Promise<any> {
@@ -221,8 +221,8 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
     if (hasValue(dotNetObject.elevationInfo)) {
-        let { buildJsElevationInfo } = await import('./elevationInfo');
-        properties.elevationInfo = await buildJsElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
+        let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
+        properties.elevationInfo = await buildJsGraphicsLayerElevationInfo(dotNetObject.elevationInfo, viewId) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -305,7 +305,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
         try {
             let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
             let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
-            let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -319,7 +319,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetGraphicsLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -332,8 +332,8 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, viewId: s
     }
     
     if (hasValue(jsObject.elevationInfo)) {
-        let { buildDotNetElevationInfo } = await import('./elevationInfo');
-        dotNetGraphicsLayer.elevationInfo = await buildDotNetElevationInfo(jsObject.elevationInfo, viewId);
+        let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
+        dotNetGraphicsLayer.elevationInfo = await buildDotNetGraphicsLayerElevationInfo(jsObject.elevationInfo, viewId);
     }
     
     if (hasValue(jsObject.fullExtent)) {
@@ -408,11 +408,18 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetGraphicsLayer.id)) {
-        jsObjectRefs[dotNetGraphicsLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetGraphicsLayer.id)) {
+            let { default: GraphicsLayerWrapper } = await import('./graphicsLayer');
+            let graphicsLayerWrapper = new GraphicsLayerWrapper(jsObject);
+            graphicsLayerWrapper.geoBlazorId = dotNetGraphicsLayer.id;
+            graphicsLayerWrapper.viewId = viewId;
+            graphicsLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetGraphicsLayer.id] = graphicsLayerWrapper;
+        }
         arcGisObjectRefs[dotNetGraphicsLayer.id] ??= jsObject;
     }
-
     return dotNetGraphicsLayer;
 }
 

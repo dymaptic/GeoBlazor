@@ -229,7 +229,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSizeVariableGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetSizeVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

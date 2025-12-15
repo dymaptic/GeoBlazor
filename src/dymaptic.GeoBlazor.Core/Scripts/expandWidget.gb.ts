@@ -29,9 +29,6 @@ export default class ExpandWidgetGenerated extends BaseComponent {
         if (hasValue(dotNetObject.collapseTooltip)) {
             this.widget.collapseTooltip = dotNetObject.collapseTooltip;
         }
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.expanded)) {
             this.widget.expanded = dotNetObject.expanded;
         }
@@ -115,10 +112,10 @@ export default class ExpandWidgetGenerated extends BaseComponent {
         this.widget.toggle();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -274,9 +271,6 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.collapseTooltip)) {
         properties.collapseTooltip = dotNetObject.collapseTooltip;
     }
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.expanded)) {
         properties.expanded = dotNetObject.expanded;
     }
@@ -331,7 +325,7 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
         try {
             let jsObjectRef = DotNet.createJSObjectReference(expandWidgetWrapper);
             let { buildDotNetExpandWidget } = await import('./expandWidget');
-            let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand, viewId);
+            let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -345,7 +339,7 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetExpandWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetExpandWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -375,10 +369,6 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.content)) {
         dotNetExpandWidget.content = jsObject.content;
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetExpandWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.expanded)) {
@@ -447,11 +437,18 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetExpandWidget.id)) {
-        jsObjectRefs[dotNetExpandWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetExpandWidget.id)) {
+            let { default: ExpandWidgetWrapper } = await import('./expandWidget');
+            let expandWidgetWrapper = new ExpandWidgetWrapper(jsObject);
+            expandWidgetWrapper.geoBlazorId = dotNetExpandWidget.id;
+            expandWidgetWrapper.viewId = viewId;
+            expandWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetExpandWidget.id] = expandWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetExpandWidget.id] ??= jsObject;
     }
-
     return dotNetExpandWidget;
 }
 

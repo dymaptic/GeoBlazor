@@ -1,4 +1,3 @@
-import PortalGenerated from './portal.gb';
 // override generated code in this file
 import PortalGenerated, {buildDotNetPortalGenerated, buildJsPortalGenerated} from './portal.gb';
 import Portal from '@arcgis/core/portal/Portal';
@@ -15,6 +14,6 @@ export function buildJsPortal(dotNetObject: any, layerId: string | null, viewId:
     return buildJsPortalGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetPortal(jsObject: any, viewId: string | null): Promise<any> {
-    return await buildDotNetPortalGenerated(jsObject, viewId);
+export async function buildDotNetPortal(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    return await buildDotNetPortalGenerated(jsObject, layerId, viewId);
 }

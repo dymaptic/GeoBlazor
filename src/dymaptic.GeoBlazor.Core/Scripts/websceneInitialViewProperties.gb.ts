@@ -8,6 +8,12 @@ export async function buildJsWebsceneInitialViewPropertiesGenerated(dotNetObject
     }
 
     let properties: any = {};
+    if (hasValue(dotNetObject.analyses) && dotNetObject.analyses.length > 0) {
+        properties.analyses = dotNetObject.analyses;
+    }
+    if (hasValue(dotNetObject.environment)) {
+        properties.environment = dotNetObject.environment;
+    }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
         properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
@@ -21,12 +27,6 @@ export async function buildJsWebsceneInitialViewPropertiesGenerated(dotNetObject
         properties.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
     }
 
-    if (hasValue(dotNetObject.analyses) && dotNetObject.analyses.length > 0) {
-        properties.analyses = dotNetObject.analyses;
-    }
-    if (hasValue(dotNetObject.environment)) {
-        properties.environment = dotNetObject.environment;
-    }
     if (hasValue(dotNetObject.viewingMode)) {
         properties.viewingMode = dotNetObject.viewingMode;
     }

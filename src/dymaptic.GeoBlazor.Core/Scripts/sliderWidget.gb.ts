@@ -25,9 +25,6 @@ export default class SliderWidgetGenerated extends BaseComponent {
             this.widget.visibleElements = await buildJsSliderVisibleElements(dotNetObject.visibleElements, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.disabled)) {
             this.widget.disabled = dotNetObject.disabled;
         }
@@ -120,10 +117,10 @@ export default class SliderWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -175,7 +172,7 @@ export default class SliderWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-        return await buildDotNetSliderViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetSliderViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -292,9 +289,6 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
         properties.visibleElements = await buildJsSliderVisibleElements(dotNetObject.visibleElements, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.disabled)) {
         properties.disabled = dotNetObject.disabled;
     }
@@ -447,7 +441,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
         try {
             let jsObjectRef = DotNet.createJSObjectReference(sliderWidgetWrapper);
             let { buildDotNetSliderWidget } = await import('./sliderWidget');
-            let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider, viewId);
+            let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -461,7 +455,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSliderWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetSliderWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -475,16 +469,12 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-        dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel, viewId);
+        dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
         dotNetSliderWidget.visibleElements = await buildDotNetSliderVisibleElements(jsObject.visibleElements, viewId);
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetSliderWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.disabled)) {
@@ -621,11 +611,18 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetSliderWidget.id)) {
-        jsObjectRefs[dotNetSliderWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetSliderWidget.id)) {
+            let { default: SliderWidgetWrapper } = await import('./sliderWidget');
+            let sliderWidgetWrapper = new SliderWidgetWrapper(jsObject);
+            sliderWidgetWrapper.geoBlazorId = dotNetSliderWidget.id;
+            sliderWidgetWrapper.viewId = viewId;
+            sliderWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetSliderWidget.id] = sliderWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetSliderWidget.id] ??= jsObject;
     }
-
     return dotNetSliderWidget;
 }
 

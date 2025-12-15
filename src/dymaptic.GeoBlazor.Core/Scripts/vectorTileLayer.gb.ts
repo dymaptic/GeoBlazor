@@ -152,11 +152,8 @@ export default class VectorTileLayerGenerated extends BaseComponent {
             painter);
     }
 
-    async setSpriteSource(spriteSourceInfo: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
-        return await this.layer.setSpriteSource(spriteSourceInfo,
-            options);
+    async setSpriteSource(spriteSourceInfo: any): Promise<any> {
+        return await this.layer.setSpriteSource(spriteSourceInfo);
     }
 
     async setStyleLayer(layer: any,
@@ -171,10 +168,10 @@ export default class VectorTileLayerGenerated extends BaseComponent {
             visibility);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -263,7 +260,7 @@ export default class VectorTileLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -298,7 +295,7 @@ export default class VectorTileLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo, this.viewId);
+        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
     
     getTitle(): any {
@@ -459,7 +456,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
         try {
             let jsObjectRef = DotNet.createJSObjectReference(vectorTileLayerWrapper);
             let { buildDotNetVectorTileLayer } = await import('./vectorTileLayer');
-            let dnInstantiatedObject = await buildDotNetVectorTileLayer(jsVectorTileLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetVectorTileLayer(jsVectorTileLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -473,7 +470,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetVectorTileLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -502,7 +499,7 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.spatialReference)) {
@@ -512,7 +509,7 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetVectorTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, viewId);
+        dotNetVectorTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {
@@ -606,11 +603,18 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetVectorTileLayer.id)) {
-        jsObjectRefs[dotNetVectorTileLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetVectorTileLayer.id)) {
+            let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
+            let vectorTileLayerWrapper = new VectorTileLayerWrapper(jsObject);
+            vectorTileLayerWrapper.geoBlazorId = dotNetVectorTileLayer.id;
+            vectorTileLayerWrapper.viewId = viewId;
+            vectorTileLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetVectorTileLayer.id] = vectorTileLayerWrapper;
+        }
         arcGisObjectRefs[dotNetVectorTileLayer.id] ??= jsObject;
     }
-
     return dotNetVectorTileLayer;
 }
 

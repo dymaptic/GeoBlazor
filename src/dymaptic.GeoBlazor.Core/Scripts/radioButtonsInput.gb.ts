@@ -57,11 +57,11 @@ export async function buildDotNetRadioButtonsInputGenerated(jsObject: any, viewI
             }
         }
     }
+
     if (hasValue(dotNetRadioButtonsInput.id)) {
         jsObjectRefs[dotNetRadioButtonsInput.id] ??= jsObject;
         arcGisObjectRefs[dotNetRadioButtonsInput.id] ??= jsObject;
     }
-
     return dotNetRadioButtonsInput;
 }
 

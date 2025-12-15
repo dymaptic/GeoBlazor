@@ -205,7 +205,7 @@ export default class WCSLayerGenerated extends BaseComponent {
     async save(options: any): Promise<any> {
         let result = await this.layer.save(options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
@@ -215,13 +215,13 @@ export default class WCSLayerGenerated extends BaseComponent {
         let result = await this.layer.saveAs(jsPortalItem,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -355,7 +355,7 @@ export default class WCSLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -641,7 +641,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         try {
             let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
             let { buildDotNetWCSLayer } = await import('./wCSLayer');
-            let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -655,7 +655,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWCSLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -689,7 +689,7 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, viewId: string
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWCSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetWCSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.rasterFields)) {
@@ -829,11 +829,18 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, viewId: string
             }
         }
     }
+
     if (hasValue(dotNetWCSLayer.id)) {
-        jsObjectRefs[dotNetWCSLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetWCSLayer.id)) {
+            let { default: WCSLayerWrapper } = await import('./wCSLayer');
+            let wCSLayerWrapper = new WCSLayerWrapper(jsObject);
+            wCSLayerWrapper.geoBlazorId = dotNetWCSLayer.id;
+            wCSLayerWrapper.viewId = viewId;
+            wCSLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetWCSLayer.id] = wCSLayerWrapper;
+        }
         arcGisObjectRefs[dotNetWCSLayer.id] ??= jsObject;
     }
-
     return dotNetWCSLayer;
 }
 

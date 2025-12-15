@@ -14,7 +14,7 @@ export async function buildJsZoomViewModel(dotNetObject: any, layerId: string | 
     return await buildJsZoomViewModelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetZoomViewModel(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetZoomViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetZoomViewModelGenerated} = await import('./zoomViewModel.gb');
-    return await buildDotNetZoomViewModelGenerated(jsObject, viewId);
+    return await buildDotNetZoomViewModelGenerated(jsObject, layerId, viewId);
 }

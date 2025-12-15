@@ -15,7 +15,7 @@ export async function buildJsGround(dotNetObject: any, layerId: string | null, v
     return await buildJsGroundGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGround(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGround(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGroundGenerated } = await import('./ground.gb');
-    return await buildDotNetGroundGenerated(jsObject, viewId);
+    return await buildDotNetGroundGenerated(jsObject, layerId, viewId);
 }

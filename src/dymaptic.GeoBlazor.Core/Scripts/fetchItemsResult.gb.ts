@@ -26,7 +26,7 @@ export async function buildJsFetchItemsResultGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetFetchItemsResultGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetFetchItemsResultGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -35,7 +35,7 @@ export async function buildDotNetFetchItemsResultGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.items)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetFetchItemsResult.items = await Promise.all(jsObject.items.map(async i => await buildDotNetPortalItem(i, viewId)));
+        dotNetFetchItemsResult.items = await Promise.all(jsObject.items.map(async i => await buildDotNetPortalItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.nextStart)) {

@@ -138,7 +138,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetFeatureFilterGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -189,11 +189,18 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetFeatureFilter.id)) {
-        jsObjectRefs[dotNetFeatureFilter.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetFeatureFilter.id)) {
+            let { default: FeatureFilterWrapper } = await import('./featureFilter');
+            let featureFilterWrapper = new FeatureFilterWrapper(jsObject);
+            featureFilterWrapper.geoBlazorId = dotNetFeatureFilter.id;
+            featureFilterWrapper.viewId = viewId;
+            featureFilterWrapper.layerId = layerId;
+            jsObjectRefs[dotNetFeatureFilter.id] = featureFilterWrapper;
+        }
         arcGisObjectRefs[dotNetFeatureFilter.id] ??= jsObject;
     }
-
     return dotNetFeatureFilter;
 }
 

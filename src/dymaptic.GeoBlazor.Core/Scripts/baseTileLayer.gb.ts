@@ -121,10 +121,10 @@ export default class BaseTileLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -179,7 +179,7 @@ export default class BaseTileLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo, this.viewId);
+        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
     
     async setTileInfo(value: any): Promise<void> {
@@ -327,7 +327,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
                 try {
                     let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
                     let { buildDotNetBaseTileLayer } = await import('./baseTileLayer');
-                    let dnInstantiatedObject = await buildDotNetBaseTileLayer(jsBaseTileLayer, viewId);
+                    let dnInstantiatedObject = await buildDotNetBaseTileLayer(jsBaseTileLayer, layerId, viewId);
 
                     let dnStream = buildJsStreamReference(dnInstantiatedObject);
                     await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -347,7 +347,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
     }
 }     
 
-export async function buildDotNetBaseTileLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBaseTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -372,7 +372,7 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any, viewId: s
     
             if (hasValue(jsObject.tileInfo)) {
                 let { buildDotNetTileInfo } = await import('./tileInfo');
-                dotNetBaseTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, viewId);
+                dotNetBaseTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
             }
     
             if (hasValue(jsObject.visibilityTimeExtent)) {
@@ -442,16 +442,23 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any, viewId: s
                     }
                 }
             }
+
             if (hasValue(dotNetBaseTileLayer.id)) {
-                jsObjectRefs[dotNetBaseTileLayer.id] ??= jsObject;
+                if (!jsObjectRefs.hasOwnProperty(dotNetBaseTileLayer.id)) {
+                    let { default: BaseTileLayerWrapper } = await import('./baseTileLayer');
+                    let baseTileLayerWrapper = new BaseTileLayerWrapper(jsObject);
+                    baseTileLayerWrapper.geoBlazorId = dotNetBaseTileLayer.id;
+                    baseTileLayerWrapper.viewId = viewId;
+                    baseTileLayerWrapper.layerId = layerId;
+                    jsObjectRefs[dotNetBaseTileLayer.id] = baseTileLayerWrapper;
+                }
                 arcGisObjectRefs[dotNetBaseTileLayer.id] ??= jsObject;
             }
-
             return dotNetBaseTileLayer;
 
         case 'bing-maps': 
             let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
-            return await buildDotNetBingMapsLayer(jsObject, viewId);
+            return await buildDotNetBingMapsLayer(jsObject, layerId, viewId);
         default: 
             return removeCircularReferences(jsObject);
     }

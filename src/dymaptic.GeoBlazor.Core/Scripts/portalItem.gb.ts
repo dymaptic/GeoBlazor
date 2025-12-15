@@ -148,7 +148,7 @@ export default class PortalItemGenerated extends BaseComponent {
         let result = await this.component.fetchRelatedItems(parameters,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await Promise.all(result.map(async i => await buildDotNetPortalItem(i, this.viewId)));
+        return await Promise.all(result.map(async i => await buildDotNetPortalItem(i, this.layerId, this.viewId)));
     }
 
     async fetchResources(parameters: any,
@@ -182,7 +182,7 @@ export default class PortalItemGenerated extends BaseComponent {
     async reload(): Promise<any> {
         let result = await this.component.reload();
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async removeAllResources(signal: AbortSignal): Promise<any> {
@@ -202,19 +202,19 @@ export default class PortalItemGenerated extends BaseComponent {
     async update(parameters: any): Promise<any> {
         let result = await this.component.update(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async updateThumbnail(parameters: any): Promise<any> {
         let result = await this.component.updateThumbnail(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -351,7 +351,7 @@ export default class PortalItemGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.viewId);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -527,7 +527,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetPortalItemGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -541,7 +541,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any, viewId: stri
     
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal, viewId);
+        dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
     
     if (hasValue(jsObject.access)) {
@@ -698,11 +698,18 @@ export async function buildDotNetPortalItemGenerated(jsObject: any, viewId: stri
             }
         }
     }
+
     if (hasValue(dotNetPortalItem.id)) {
-        jsObjectRefs[dotNetPortalItem.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetPortalItem.id)) {
+            let { default: PortalItemWrapper } = await import('./portalItem');
+            let portalItemWrapper = new PortalItemWrapper(jsObject);
+            portalItemWrapper.geoBlazorId = dotNetPortalItem.id;
+            portalItemWrapper.viewId = viewId;
+            portalItemWrapper.layerId = layerId;
+            jsObjectRefs[dotNetPortalItem.id] = portalItemWrapper;
+        }
         arcGisObjectRefs[dotNetPortalItem.id] ??= jsObject;
     }
-
     return dotNetPortalItem;
 }
 

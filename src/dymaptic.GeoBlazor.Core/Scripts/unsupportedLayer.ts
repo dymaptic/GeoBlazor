@@ -21,7 +21,7 @@ export async function buildJsUnsupportedLayer(dotNetObject: any, layerId: string
     return await buildJsUnsupportedLayerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetUnsupportedLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetUnsupportedLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetUnsupportedLayerGenerated } = await import('./unsupportedLayer.gb');
-    return await buildDotNetUnsupportedLayerGenerated(jsObject, viewId);
+    return await buildDotNetUnsupportedLayerGenerated(jsObject, layerId, viewId);
 }

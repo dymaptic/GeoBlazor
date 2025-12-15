@@ -37,9 +37,6 @@ export default class BookmarksWidgetGenerated extends BaseComponent {
             this.widget.visibleElements = await buildJsBookmarksVisibleElements(dotNetObject.visibleElements, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.disabled)) {
             this.widget.disabled = dotNetObject.disabled;
         }
@@ -108,10 +105,10 @@ export default class BookmarksWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -229,7 +226,7 @@ export default class BookmarksWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
-        return await buildDotNetBookmarksViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetBookmarksViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -300,9 +297,6 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
         properties.visibleElements = await buildJsBookmarksVisibleElements(dotNetObject.visibleElements, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.disabled)) {
         properties.disabled = dotNetObject.disabled;
     }
@@ -366,7 +360,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
         try {
             let jsObjectRef = DotNet.createJSObjectReference(bookmarksWidgetWrapper);
             let { buildDotNetBookmarksWidget } = await import('./bookmarksWidget');
-            let dnInstantiatedObject = await buildDotNetBookmarksWidget(jsBookmarks, viewId);
+            let dnInstantiatedObject = await buildDotNetBookmarksWidget(jsBookmarks, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -380,7 +374,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetBookmarksWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBookmarksWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -404,16 +398,12 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
-        dotNetBookmarksWidget.viewModel = await buildDotNetBookmarksViewModel(jsObject.viewModel, viewId);
+        dotNetBookmarksWidget.viewModel = await buildDotNetBookmarksViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
         dotNetBookmarksWidget.visibleElements = await buildDotNetBookmarksVisibleElements(jsObject.visibleElements, viewId);
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetBookmarksWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.disabled)) {
@@ -470,11 +460,18 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetBookmarksWidget.id)) {
-        jsObjectRefs[dotNetBookmarksWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetBookmarksWidget.id)) {
+            let { default: BookmarksWidgetWrapper } = await import('./bookmarksWidget');
+            let bookmarksWidgetWrapper = new BookmarksWidgetWrapper(jsObject);
+            bookmarksWidgetWrapper.geoBlazorId = dotNetBookmarksWidget.id;
+            bookmarksWidgetWrapper.viewId = viewId;
+            bookmarksWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetBookmarksWidget.id] = bookmarksWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetBookmarksWidget.id] ??= jsObject;
     }
-
     return dotNetBookmarksWidget;
 }
 

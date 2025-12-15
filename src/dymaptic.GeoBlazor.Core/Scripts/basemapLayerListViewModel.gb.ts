@@ -47,7 +47,7 @@ export default class BasemapLayerListViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.baseItems!.map(async i => await buildDotNetListItem(i, this.viewId)));
+        return await Promise.all(this.component.baseItems!.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     getBasemapTitle(): any {
@@ -68,7 +68,7 @@ export default class BasemapLayerListViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.referenceItems!.map(async i => await buildDotNetListItem(i, this.viewId)));
+        return await Promise.all(this.component.referenceItems!.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
 }
@@ -121,7 +121,7 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -130,12 +130,12 @@ export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: an
     
     if (hasValue(jsObject.baseItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListViewModel.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i, viewId)));
+        dotNetBasemapLayerListViewModel.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.referenceItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListViewModel.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i, viewId)));
+        dotNetBasemapLayerListViewModel.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.basemapTitle)) {
@@ -168,11 +168,18 @@ export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: an
             }
         }
     }
+
     if (hasValue(dotNetBasemapLayerListViewModel.id)) {
-        jsObjectRefs[dotNetBasemapLayerListViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetBasemapLayerListViewModel.id)) {
+            let { default: BasemapLayerListViewModelWrapper } = await import('./basemapLayerListViewModel');
+            let basemapLayerListViewModelWrapper = new BasemapLayerListViewModelWrapper(jsObject);
+            basemapLayerListViewModelWrapper.geoBlazorId = dotNetBasemapLayerListViewModel.id;
+            basemapLayerListViewModelWrapper.viewId = viewId;
+            basemapLayerListViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetBasemapLayerListViewModel.id] = basemapLayerListViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetBasemapLayerListViewModel.id] ??= jsObject;
     }
-
     return dotNetBasemapLayerListViewModel;
 }
 

@@ -9,10 +9,6 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any, vie
     
     let dotNetListItemPanelWidget: any = {};
     
-    if (hasValue(jsObject.destroyed)) {
-        dotNetListItemPanelWidget.destroyed = jsObject.destroyed;
-    }
-    
     if (hasValue(jsObject.disabled)) {
         dotNetListItemPanelWidget.disabled = jsObject.disabled;
     }
@@ -67,11 +63,11 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any, vie
             }
         }
     }
+
     if (hasValue(dotNetListItemPanelWidget.id)) {
         jsObjectRefs[dotNetListItemPanelWidget.id] ??= jsObject;
         arcGisObjectRefs[dotNetListItemPanelWidget.id] ??= jsObject;
     }
-
     return dotNetListItemPanelWidget;
 }
 

@@ -32,9 +32,6 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.supportsSize)) {
         jsCapabilitiesAttachment.supportsSize = dotNetObject.supportsSize;
     }
-    if (hasValue(dotNetObject.supportsTypeWildcard)) {
-        jsCapabilitiesAttachment.supportsTypeWildcard = dotNetObject.supportsTypeWildcard;
-    }
     
     jsObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
@@ -82,10 +79,6 @@ export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any, 
         dotNetCapabilitiesAttachment.supportsSize = jsObject.supportsSize;
     }
     
-    if (hasValue(jsObject.supportsTypeWildcard)) {
-        dotNetCapabilitiesAttachment.supportsTypeWildcard = jsObject.supportsTypeWildcard;
-    }
-    
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
@@ -100,11 +93,11 @@ export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any, 
             }
         }
     }
+
     if (hasValue(dotNetCapabilitiesAttachment.id)) {
         jsObjectRefs[dotNetCapabilitiesAttachment.id] ??= jsObject;
         arcGisObjectRefs[dotNetCapabilitiesAttachment.id] ??= jsObject;
     }
-
     return dotNetCapabilitiesAttachment;
 }
 

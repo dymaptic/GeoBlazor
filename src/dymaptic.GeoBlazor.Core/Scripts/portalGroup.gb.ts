@@ -109,7 +109,7 @@ export default class PortalGroupGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.viewId);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -238,7 +238,7 @@ export async function buildDotNetPortalGroupGenerated(jsObject: any, layerId: st
     
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetPortalGroup.portal = await buildDotNetPortal(jsObject.portal, viewId);
+        dotNetPortalGroup.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
     
     if (hasValue(jsObject.access)) {
@@ -303,11 +303,18 @@ export async function buildDotNetPortalGroupGenerated(jsObject: any, layerId: st
             }
         }
     }
+
     if (hasValue(dotNetPortalGroup.id)) {
-        jsObjectRefs[dotNetPortalGroup.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetPortalGroup.id)) {
+            let { default: PortalGroupWrapper } = await import('./portalGroup');
+            let portalGroupWrapper = new PortalGroupWrapper(jsObject);
+            portalGroupWrapper.geoBlazorId = dotNetPortalGroup.id;
+            portalGroupWrapper.viewId = viewId;
+            portalGroupWrapper.layerId = layerId;
+            jsObjectRefs[dotNetPortalGroup.id] = portalGroupWrapper;
+        }
         arcGisObjectRefs[dotNetPortalGroup.id] ??= jsObject;
     }
-
     return dotNetPortalGroup;
 }
 

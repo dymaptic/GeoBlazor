@@ -17,9 +17,6 @@ export default class ZoomWidgetGenerated extends BaseComponent {
 
     async updateComponent(dotNetObject: any): Promise<void> {
 
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -70,10 +67,10 @@ export default class ZoomWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     async zoomIn(): Promise<void> {
@@ -116,7 +113,7 @@ export default class ZoomWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
-        return await buildDotNetZoomViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetZoomViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -153,9 +150,6 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
         properties.viewModel = await buildJsZoomViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -212,11 +206,7 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any, layerId: str
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
-        dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel, viewId);
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetZoomWidget.destroyed = jsObject.destroyed;
+        dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.icon)) {
@@ -257,11 +247,18 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any, layerId: str
             }
         }
     }
+
     if (hasValue(dotNetZoomWidget.id)) {
-        jsObjectRefs[dotNetZoomWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetZoomWidget.id)) {
+            let { default: ZoomWidgetWrapper } = await import('./zoomWidget');
+            let zoomWidgetWrapper = new ZoomWidgetWrapper(jsObject);
+            zoomWidgetWrapper.geoBlazorId = dotNetZoomWidget.id;
+            zoomWidgetWrapper.viewId = viewId;
+            zoomWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetZoomWidget.id] = zoomWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetZoomWidget.id] ??= jsObject;
     }
-
     return dotNetZoomWidget;
 }
 

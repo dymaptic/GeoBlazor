@@ -6,9 +6,9 @@ export async function buildJsWebSceneWidgets(dotNetObject: any, layerId: string 
     return await buildJsWebSceneWidgetsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebSceneWidgets(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWebSceneWidgets(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWebSceneWidgetsGenerated } = await import('./webSceneWidgets.gb');
-    return await buildDotNetWebSceneWidgetsGenerated(jsObject, viewId);
+    return await buildDotNetWebSceneWidgetsGenerated(jsObject, layerId, viewId);
 }
 
 export default class WebSceneWidgetsWrapper extends WebSceneWidgetsGenerated {

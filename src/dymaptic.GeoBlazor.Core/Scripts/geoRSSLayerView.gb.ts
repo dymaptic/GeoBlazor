@@ -35,10 +35,10 @@ export default class GeoRSSLayerViewGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -49,7 +49,7 @@ export default class GeoRSSLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     
 }
@@ -80,7 +80,7 @@ export async function buildJsGeoRSSLayerViewGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -125,11 +125,18 @@ export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetGeoRSSLayerView.id)) {
-        jsObjectRefs[dotNetGeoRSSLayerView.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetGeoRSSLayerView.id)) {
+            let { default: GeoRSSLayerViewWrapper } = await import('./geoRSSLayerView');
+            let geoRSSLayerViewWrapper = new GeoRSSLayerViewWrapper(jsObject);
+            geoRSSLayerViewWrapper.geoBlazorId = dotNetGeoRSSLayerView.id;
+            geoRSSLayerViewWrapper.viewId = viewId;
+            geoRSSLayerViewWrapper.layerId = layerId;
+            jsObjectRefs[dotNetGeoRSSLayerView.id] = geoRSSLayerViewWrapper;
+        }
         arcGisObjectRefs[dotNetGeoRSSLayerView.id] ??= jsObject;
     }
-
     return dotNetGeoRSSLayerView;
 }
 

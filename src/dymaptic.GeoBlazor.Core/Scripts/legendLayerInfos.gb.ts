@@ -8,6 +8,14 @@ export async function buildDotNetLegendLayerInfosGenerated(jsObject: any, viewId
     
     let dotNetLegendLayerInfos: any = {};
     
+    if (hasValue(jsObject.sublayerIds)) {
+        dotNetLegendLayerInfos.sublayerIds = jsObject.sublayerIds;
+    }
+    
+    if (hasValue(jsObject.title)) {
+        dotNetLegendLayerInfos.title = jsObject.title;
+    }
+    
 
     return dotNetLegendLayerInfos;
 }

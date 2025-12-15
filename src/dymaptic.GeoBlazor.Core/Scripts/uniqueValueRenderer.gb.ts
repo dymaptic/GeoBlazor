@@ -353,7 +353,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -445,11 +445,18 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, vie
             }
         }
     }
+
     if (hasValue(dotNetUniqueValueRenderer.id)) {
-        jsObjectRefs[dotNetUniqueValueRenderer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetUniqueValueRenderer.id)) {
+            let { default: UniqueValueRendererWrapper } = await import('./uniqueValueRenderer');
+            let uniqueValueRendererWrapper = new UniqueValueRendererWrapper(jsObject);
+            uniqueValueRendererWrapper.geoBlazorId = dotNetUniqueValueRenderer.id;
+            uniqueValueRendererWrapper.viewId = viewId;
+            uniqueValueRendererWrapper.layerId = layerId;
+            jsObjectRefs[dotNetUniqueValueRenderer.id] = uniqueValueRendererWrapper;
+        }
         arcGisObjectRefs[dotNetUniqueValueRenderer.id] ??= jsObject;
     }
-
     return dotNetUniqueValueRenderer;
 }
 

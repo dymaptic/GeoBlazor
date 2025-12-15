@@ -45,7 +45,7 @@ export default class BasemapGalleryViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.activeBasemap, this.viewId);
+        return await buildDotNetBasemap(this.component.activeBasemap, this.layerId, this.viewId);
     }
     
     async setActiveBasemap(value: any): Promise<void> {
@@ -59,7 +59,7 @@ export default class BasemapGalleryViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
-        return await Promise.all(this.component.items!.map(async i => await buildDotNetBasemapGalleryItem(i, this.viewId)));
+        return await Promise.all(this.component.items!.map(async i => await buildDotNetBasemapGalleryItem(i, this.layerId, this.viewId)));
     }
     
     async getSource(): Promise<any> {
@@ -68,7 +68,7 @@ export default class BasemapGalleryViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
-        return await buildDotNetIBasemapGalleryWidgetSource(this.component.source, this.viewId);
+        return await buildDotNetIBasemapGalleryWidgetSource(this.component.source, this.layerId, this.viewId);
     }
     
     async setSource(value: any): Promise<void> {
@@ -113,7 +113,7 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -122,7 +122,7 @@ export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any,
     
     if (hasValue(jsObject.items)) {
         let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
-        dotNetBasemapGalleryViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetBasemapGalleryItem(i, viewId)));
+        dotNetBasemapGalleryViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetBasemapGalleryItem(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.activeBasemapIndex)) {
@@ -147,11 +147,18 @@ export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any,
             }
         }
     }
+
     if (hasValue(dotNetBasemapGalleryViewModel.id)) {
-        jsObjectRefs[dotNetBasemapGalleryViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetBasemapGalleryViewModel.id)) {
+            let { default: BasemapGalleryViewModelWrapper } = await import('./basemapGalleryViewModel');
+            let basemapGalleryViewModelWrapper = new BasemapGalleryViewModelWrapper(jsObject);
+            basemapGalleryViewModelWrapper.geoBlazorId = dotNetBasemapGalleryViewModel.id;
+            basemapGalleryViewModelWrapper.viewId = viewId;
+            basemapGalleryViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetBasemapGalleryViewModel.id] = basemapGalleryViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetBasemapGalleryViewModel.id] ??= jsObject;
     }
-
     return dotNetBasemapGalleryViewModel;
 }
 

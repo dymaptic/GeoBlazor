@@ -25,9 +25,6 @@ export default class LocateWidgetGenerated extends BaseComponent {
             this.widget.graphic = buildJsGraphic(dotNetObject.graphic) as any;
         }
 
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.geolocationOptions)) {
             this.widget.geolocationOptions = dotNetObject.geolocationOptions;
         }
@@ -95,10 +92,10 @@ export default class LocateWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -218,9 +215,6 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
         properties.viewModel = await buildJsLocateViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.geolocationOptions)) {
         properties.geolocationOptions = JSON.parse(dotNetObject.geolocationOptions);
     }

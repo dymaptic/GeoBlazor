@@ -61,10 +61,10 @@ export default class WMTSLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -75,7 +75,7 @@ export default class WMTSLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-        return await buildDotNetWMTSSublayer(this.layer.activeLayer, this.viewId);
+        return await buildDotNetWMTSSublayer(this.layer.activeLayer, this.layerId, this.viewId);
     }
     
     async setActiveLayer(value: any): Promise<void> {
@@ -153,7 +153,7 @@ export default class WMTSLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -167,7 +167,7 @@ export default class WMTSLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-        return await Promise.all(this.layer.sublayers!.map(async i => await buildDotNetWMTSSublayer(i, this.viewId)));
+        return await Promise.all(this.layer.sublayers!.map(async i => await buildDotNetWMTSSublayer(i, this.layerId, this.viewId)));
     }
     
     async setSublayers(value: any): Promise<void> {
@@ -355,7 +355,7 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
         try {
             let jsObjectRef = DotNet.createJSObjectReference(wMTSLayerWrapper);
             let { buildDotNetWMTSLayer } = await import('./wMTSLayer');
-            let dnInstantiatedObject = await buildDotNetWMTSLayer(jsWMTSLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetWMTSLayer(jsWMTSLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -369,7 +369,7 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetWMTSLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWMTSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -378,7 +378,7 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any, viewId: strin
     
     if (hasValue(jsObject.activeLayer)) {
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-        dotNetWMTSLayer.activeLayer = await buildDotNetWMTSSublayer(jsObject.activeLayer, viewId);
+        dotNetWMTSLayer.activeLayer = await buildDotNetWMTSSublayer(jsObject.activeLayer, layerId, viewId);
     }
     
     if (hasValue(jsObject.effect)) {
@@ -393,12 +393,12 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any, viewId: strin
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWMTSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetWMTSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-        dotNetWMTSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMTSSublayer(i, viewId)));
+        dotNetWMTSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMTSSublayer(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {
@@ -492,11 +492,18 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any, viewId: strin
             }
         }
     }
+
     if (hasValue(dotNetWMTSLayer.id)) {
-        jsObjectRefs[dotNetWMTSLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetWMTSLayer.id)) {
+            let { default: WMTSLayerWrapper } = await import('./wMTSLayer');
+            let wMTSLayerWrapper = new WMTSLayerWrapper(jsObject);
+            wMTSLayerWrapper.geoBlazorId = dotNetWMTSLayer.id;
+            wMTSLayerWrapper.viewId = viewId;
+            wMTSLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetWMTSLayer.id] = wMTSLayerWrapper;
+        }
         arcGisObjectRefs[dotNetWMTSLayer.id] ??= jsObject;
     }
-
     return dotNetWMTSLayer;
 }
 

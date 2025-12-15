@@ -25,9 +25,6 @@ export default class BasemapToggleWidgetGenerated extends BaseComponent {
             this.widget.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -79,10 +76,10 @@ export default class BasemapToggleWidgetGenerated extends BaseComponent {
         return await this.widget.toggle();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -93,7 +90,7 @@ export default class BasemapToggleWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.widget.activeBasemap, this.viewId);
+        return await buildDotNetBasemap(this.widget.activeBasemap, this.layerId, this.viewId);
     }
     
     getIcon(): any {
@@ -126,7 +123,7 @@ export default class BasemapToggleWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.widget.nextBasemap, this.viewId);
+        return await buildDotNetBasemap(this.widget.nextBasemap, this.layerId, this.viewId);
     }
     
     async setNextBasemap(value: any): Promise<void> {
@@ -140,7 +137,7 @@ export default class BasemapToggleWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-        return await buildDotNetBasemapToggleViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetBasemapToggleViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -199,9 +196,6 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
         properties.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -232,7 +226,7 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
         try {
             let jsObjectRef = DotNet.createJSObjectReference(basemapToggleWidgetWrapper);
             let { buildDotNetBasemapToggleWidget } = await import('./basemapToggleWidget');
-            let dnInstantiatedObject = await buildDotNetBasemapToggleWidget(jsBasemapToggle, viewId);
+            let dnInstantiatedObject = await buildDotNetBasemapToggleWidget(jsBasemapToggle, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -246,7 +240,7 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -255,16 +249,12 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any, vie
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-        dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel, viewId);
+        dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
         dotNetBasemapToggleWidget.visibleElements = await buildDotNetBasemapToggleVisibleElements(jsObject.visibleElements, viewId);
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetBasemapToggleWidget.destroyed = jsObject.destroyed;
     }
     
     if (hasValue(jsObject.icon)) {
@@ -301,11 +291,18 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any, vie
             }
         }
     }
+
     if (hasValue(dotNetBasemapToggleWidget.id)) {
-        jsObjectRefs[dotNetBasemapToggleWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetBasemapToggleWidget.id)) {
+            let { default: BasemapToggleWidgetWrapper } = await import('./basemapToggleWidget');
+            let basemapToggleWidgetWrapper = new BasemapToggleWidgetWrapper(jsObject);
+            basemapToggleWidgetWrapper.geoBlazorId = dotNetBasemapToggleWidget.id;
+            basemapToggleWidgetWrapper.viewId = viewId;
+            basemapToggleWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetBasemapToggleWidget.id] = basemapToggleWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetBasemapToggleWidget.id] ??= jsObject;
     }
-
     return dotNetBasemapToggleWidget;
 }
 

@@ -20,10 +20,6 @@ export default class ImageryLayerGenerated extends BaseComponent {
             let { buildJsEffect } = await import('./effect');
             this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
         }
-        if (hasValue(dotNetObject.elevationInfo)) {
-            let { buildJsElevationInfo } = await import('./elevationInfo');
-            this.layer.elevationInfo = await buildJsElevationInfo(dotNetObject.elevationInfo, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -140,9 +136,6 @@ export default class ImageryLayerGenerated extends BaseComponent {
         }
         if (hasValue(dotNetObject.refreshInterval)) {
             this.layer.refreshInterval = dotNetObject.refreshInterval;
-        }
-        if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
-            this.layer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
         }
         if (hasValue(dotNetObject.sourceJSON)) {
             this.layer.sourceJSON = dotNetObject.sourceJSON;
@@ -667,7 +660,7 @@ export default class ImageryLayerGenerated extends BaseComponent {
     async save(options: any): Promise<any> {
         let result = await this.layer.save(options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
@@ -690,13 +683,13 @@ export default class ImageryLayerGenerated extends BaseComponent {
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -781,20 +774,6 @@ export default class ImageryLayerGenerated extends BaseComponent {
         this.layer.effect =  buildJsEffect(value);
     }
     
-    async getElevationInfo(): Promise<any> {
-        if (!hasValue(this.layer.elevationInfo)) {
-            return null;
-        }
-        
-        let { buildDotNetElevationInfo } = await import('./elevationInfo');
-        return await buildDotNetElevationInfo(this.layer.elevationInfo, this.viewId);
-    }
-    
-    async setElevationInfo(value: any): Promise<void> {
-        let { buildJsElevationInfo } = await import('./elevationInfo');
-        this.layer.elevationInfo = await  buildJsElevationInfo(value, this.layerId, this.viewId);
-    }
-    
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
             return null;
@@ -810,7 +789,7 @@ export default class ImageryLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        return await buildDotNetFieldsIndex(this.layer.fieldsIndex, this.viewId);
+        return await buildDotNetFieldsIndex(this.layer.fieldsIndex, this.layerId, this.viewId);
     }
     
     async getFullExtent(): Promise<any> {
@@ -892,7 +871,7 @@ export default class ImageryLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -1063,10 +1042,6 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsEffect } = await import('./effect');
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
-    if (hasValue(dotNetObject.elevationInfo)) {
-        let { buildJsElevationInfo } = await import('./elevationInfo');
-        properties.elevationInfo = await buildJsElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
-    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -1082,7 +1057,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
         properties.pixelFilter = async (pixelData) => {
             let { buildDotNetPixelData } = await import('./pixelData');
-            let dnPixelData = await buildDotNetPixelData(pixelData, viewId);
+            let dnPixelData = await buildDotNetPixelData(pixelData, layerId, viewId);
 
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
         };
@@ -1195,9 +1170,6 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.refreshInterval)) {
         properties.refreshInterval = dotNetObject.refreshInterval;
     }
-    if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
-        properties.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
-    }
     if (hasValue(dotNetObject.sourceJSON)) {
         properties.sourceJSON = JSON.parse(dotNetObject.sourceJSON);
     }
@@ -1265,7 +1237,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         try {
             let jsObjectRef = DotNet.createJSObjectReference(imageryLayerWrapper);
             let { buildDotNetImageryLayer } = await import('./imageryLayer');
-            let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -1279,7 +1251,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -1301,11 +1273,6 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: st
         dotNetImageryLayer.effect = buildDotNetEffect(jsObject.effect);
     }
     
-    if (hasValue(jsObject.elevationInfo)) {
-        let { buildDotNetElevationInfo } = await import('./elevationInfo');
-        dotNetImageryLayer.elevationInfo = await buildDotNetElevationInfo(jsObject.elevationInfo, viewId);
-    }
-    
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetImageryLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
@@ -1313,7 +1280,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        dotNetImageryLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, viewId);
+        dotNetImageryLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
     }
     
     if (hasValue(jsObject.fullExtent)) {
@@ -1343,7 +1310,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetImageryLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetImageryLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.presetRenderers)) {
@@ -1503,10 +1470,6 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: st
         dotNetImageryLayer.refreshInterval = jsObject.refreshInterval;
     }
     
-    if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
-        dotNetImageryLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
-    }
-    
     if (hasValue(jsObject.sourceType)) {
         dotNetImageryLayer.sourceType = removeCircularReferences(jsObject.sourceType);
     }
@@ -1549,11 +1512,18 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetImageryLayer.id)) {
-        jsObjectRefs[dotNetImageryLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetImageryLayer.id)) {
+            let { default: ImageryLayerWrapper } = await import('./imageryLayer');
+            let imageryLayerWrapper = new ImageryLayerWrapper(jsObject);
+            imageryLayerWrapper.geoBlazorId = dotNetImageryLayer.id;
+            imageryLayerWrapper.viewId = viewId;
+            imageryLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetImageryLayer.id] = imageryLayerWrapper;
+        }
         arcGisObjectRefs[dotNetImageryLayer.id] ??= jsObject;
     }
-
     return dotNetImageryLayer;
 }
 

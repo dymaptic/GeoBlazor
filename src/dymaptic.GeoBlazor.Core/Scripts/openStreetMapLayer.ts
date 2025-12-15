@@ -38,9 +38,9 @@ export async function buildJsOpenStreetMapLayer(dotNetObject: any, layerId: stri
     return osmLayer;
 }
 
-export async function buildDotNetOpenStreetMapLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetOpenStreetMapLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetOpenStreetMapLayerGenerated } = await import('./openStreetMapLayer.gb');
-    return await buildDotNetOpenStreetMapLayerGenerated(jsObject, viewId);
+    return await buildDotNetOpenStreetMapLayerGenerated(jsObject, layerId, viewId);
 }
 
 async function prepareUrlTemplate(dotNetObject: any): Promise<boolean> {

@@ -97,9 +97,6 @@ export default class FeaturesViewModelGenerated extends BaseComponent {
         if (hasValue(dotNetObject.visible)) {
             this.component.visible = dotNetObject.visible;
         }
-        if (hasValue(dotNetObject.zoomFactor)) {
-            this.component.zoomFactor = dotNetObject.zoomFactor;
-        }
     }
     
     // region methods

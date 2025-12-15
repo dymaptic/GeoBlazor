@@ -701,8 +701,8 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
             const result = {
                 layerObjectRef: layerRef,
                 layerViewObjectRef: layerViewRef,
-                layerView: await buildDotNetLayerView(evt.layerView, viewId),
-                layer: await buildDotNetLayer(evt.layer, viewId),
+                layerView: await buildDotNetLayerView(evt.layerView, layerGeoBlazorId, viewId),
+                layer: await buildDotNetLayer(evt.layer, layerGeoBlazorId, viewId),
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
                 isReferenceLayer: isReferenceLayer

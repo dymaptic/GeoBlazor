@@ -73,7 +73,7 @@ export default class PortalUserGenerated extends BaseComponent {
         let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
         let result = await this.component.addItem(jsparameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async deleteItem(item: any,
@@ -200,7 +200,7 @@ export default class PortalUserGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.viewId);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -451,11 +451,18 @@ export async function buildDotNetPortalUserGenerated(jsObject: any, layerId: str
             }
         }
     }
+
     if (hasValue(dotNetPortalUser.id)) {
-        jsObjectRefs[dotNetPortalUser.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetPortalUser.id)) {
+            let { default: PortalUserWrapper } = await import('./portalUser');
+            let portalUserWrapper = new PortalUserWrapper(jsObject);
+            portalUserWrapper.geoBlazorId = dotNetPortalUser.id;
+            portalUserWrapper.viewId = viewId;
+            portalUserWrapper.layerId = layerId;
+            jsObjectRefs[dotNetPortalUser.id] = portalUserWrapper;
+        }
         arcGisObjectRefs[dotNetPortalUser.id] ??= jsObject;
     }
-
     return dotNetPortalUser;
 }
 

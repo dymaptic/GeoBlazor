@@ -65,11 +65,11 @@ export async function buildDotNetRelationshipLabelsGenerated(jsObject: any, view
             }
         }
     }
+
     if (hasValue(dotNetRelationshipLabels.id)) {
         jsObjectRefs[dotNetRelationshipLabels.id] ??= jsObject;
         arcGisObjectRefs[dotNetRelationshipLabels.id] ??= jsObject;
     }
-
     return dotNetRelationshipLabels;
 }
 

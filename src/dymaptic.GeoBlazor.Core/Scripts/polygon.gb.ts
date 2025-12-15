@@ -21,9 +21,6 @@ export default class PolygonGenerated extends BaseComponent {
             this.component.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
         }
 
-        if (hasValue(dotNetObject.curveRings) && dotNetObject.curveRings.length > 0) {
-            this.component.curveRings = dotNetObject.curveRings;
-        }
         if (hasValue(dotNetObject.hasM)) {
             this.component.hasM = dotNetObject.hasM;
         }

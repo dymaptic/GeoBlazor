@@ -18,7 +18,7 @@ export default class GraphicsLayerViewGenerated extends BaseComponent {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.highlightOptions)) {
             let { buildJsHighlightOptions } = await import('./highlightOptions');
-            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.viewId) as any;
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
         }
 
         if (hasValue(dotNetObject.visible)) {
@@ -51,10 +51,10 @@ export default class GraphicsLayerViewGenerated extends BaseComponent {
         return await this.component.queryGraphics();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.component.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -65,12 +65,12 @@ export default class GraphicsLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.viewId);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.viewId);
+        this.component.highlightOptions = await  buildJsHighlightOptions(value);
     }
     
     async getLayer(): Promise<any> {
@@ -79,7 +79,7 @@ export default class GraphicsLayerViewGenerated extends BaseComponent {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     
 }
@@ -93,7 +93,7 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
     let jsGraphicsLayerView: any = {};
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsGraphicsLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, viewId) as any;
+        jsGraphicsLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
     }
 
     if (hasValue(dotNetObject.visible)) {
@@ -114,12 +114,17 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
     let dotNetGraphicsLayerView: any = {};
+    
+    if (hasValue(jsObject.highlightOptions)) {
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        dotNetGraphicsLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
+    }
     
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetGraphicsLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
@@ -159,11 +164,18 @@ export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any, viewI
             }
         }
     }
+
     if (hasValue(dotNetGraphicsLayerView.id)) {
-        jsObjectRefs[dotNetGraphicsLayerView.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetGraphicsLayerView.id)) {
+            let { default: GraphicsLayerViewWrapper } = await import('./graphicsLayerView');
+            let graphicsLayerViewWrapper = new GraphicsLayerViewWrapper(jsObject);
+            graphicsLayerViewWrapper.geoBlazorId = dotNetGraphicsLayerView.id;
+            graphicsLayerViewWrapper.viewId = viewId;
+            graphicsLayerViewWrapper.layerId = layerId;
+            jsObjectRefs[dotNetGraphicsLayerView.id] = graphicsLayerViewWrapper;
+        }
         arcGisObjectRefs[dotNetGraphicsLayerView.id] ??= jsObject;
     }
-
     return dotNetGraphicsLayerView;
 }
 

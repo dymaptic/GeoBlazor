@@ -117,11 +117,18 @@ export async function buildDotNetGeographicTransformationStepGenerated(jsObject:
             }
         }
     }
+
     if (hasValue(dotNetGeographicTransformationStep.id)) {
-        jsObjectRefs[dotNetGeographicTransformationStep.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetGeographicTransformationStep.id)) {
+            let { default: GeographicTransformationStepWrapper } = await import('./geographicTransformationStep');
+            let geographicTransformationStepWrapper = new GeographicTransformationStepWrapper(jsObject);
+            geographicTransformationStepWrapper.geoBlazorId = dotNetGeographicTransformationStep.id;
+            geographicTransformationStepWrapper.viewId = viewId;
+            geographicTransformationStepWrapper.layerId = layerId;
+            jsObjectRefs[dotNetGeographicTransformationStep.id] = geographicTransformationStepWrapper;
+        }
         arcGisObjectRefs[dotNetGeographicTransformationStep.id] ??= jsObject;
     }
-
     return dotNetGeographicTransformationStep;
 }
 

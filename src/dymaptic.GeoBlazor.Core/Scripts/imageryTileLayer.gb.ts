@@ -20,10 +20,6 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
             let { buildJsEffect } = await import('./effect');
             this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
         }
-        if (hasValue(dotNetObject.elevationInfo)) {
-            let { buildJsElevationInfo } = await import('./elevationInfo');
-            this.layer.elevationInfo = await buildJsElevationInfo(dotNetObject.elevationInfo, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -114,9 +110,6 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
         }
         if (hasValue(dotNetObject.popupEnabled)) {
             this.layer.popupEnabled = dotNetObject.popupEnabled;
-        }
-        if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
-            this.layer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
         }
         if (hasValue(dotNetObject.source)) {
             this.layer.source = dotNetObject.source;
@@ -258,7 +251,7 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
     async save(options: any): Promise<any> {
         let result = await this.layer.save(options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
@@ -281,13 +274,13 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.viewId);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.layer.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -340,20 +333,6 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
     async setEffect(value: any): Promise<void> {
         let { buildJsEffect } = await import('./effect');
         this.layer.effect =  buildJsEffect(value);
-    }
-    
-    async getElevationInfo(): Promise<any> {
-        if (!hasValue(this.layer.elevationInfo)) {
-            return null;
-        }
-        
-        let { buildDotNetElevationInfo } = await import('./elevationInfo');
-        return await buildDotNetElevationInfo(this.layer.elevationInfo, this.viewId);
-    }
-    
-    async setElevationInfo(value: any): Promise<void> {
-        let { buildJsElevationInfo } = await import('./elevationInfo');
-        this.layer.elevationInfo = await  buildJsElevationInfo(value, this.layerId, this.viewId);
     }
     
     async getFullExtent(): Promise<any> {
@@ -421,7 +400,7 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -504,7 +483,7 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo, this.viewId);
+        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
     
     async setTileInfo(value: any): Promise<void> {
@@ -605,10 +584,6 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
         let { buildJsEffect } = await import('./effect');
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
-    if (hasValue(dotNetObject.elevationInfo)) {
-        let { buildJsElevationInfo } = await import('./elevationInfo');
-        properties.elevationInfo = await buildJsElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
-    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -700,9 +675,6 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
     }
-    if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
-        properties.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
-    }
     if (hasValue(dotNetObject.source)) {
         properties.source = dotNetObject.source;
     }
@@ -763,7 +735,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
         try {
             let jsObjectRef = DotNet.createJSObjectReference(imageryTileLayerWrapper);
             let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
-            let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer, viewId);
+            let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -777,7 +749,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -787,11 +759,6 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetImageryTileLayer.effect = buildDotNetEffect(jsObject.effect);
-    }
-    
-    if (hasValue(jsObject.elevationInfo)) {
-        let { buildDotNetElevationInfo } = await import('./elevationInfo');
-        dotNetImageryTileLayer.elevationInfo = await buildDotNetElevationInfo(jsObject.elevationInfo, viewId);
     }
     
     if (hasValue(jsObject.fullExtent)) {
@@ -816,7 +783,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetImageryTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, viewId);
+        dotNetImageryTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     
     if (hasValue(jsObject.presetRenderers)) {
@@ -846,7 +813,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetImageryTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, viewId);
+        dotNetImageryTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
     
     if (hasValue(jsObject.timeExtent)) {
@@ -929,10 +896,6 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
         dotNetImageryTileLayer.popupEnabled = jsObject.popupEnabled;
     }
     
-    if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
-        dotNetImageryTileLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
-    }
-    
     if (hasValue(jsObject.source)) {
         dotNetImageryTileLayer.source = jsObject.source;
     }
@@ -975,11 +938,18 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, viewId
             }
         }
     }
+
     if (hasValue(dotNetImageryTileLayer.id)) {
-        jsObjectRefs[dotNetImageryTileLayer.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetImageryTileLayer.id)) {
+            let { default: ImageryTileLayerWrapper } = await import('./imageryTileLayer');
+            let imageryTileLayerWrapper = new ImageryTileLayerWrapper(jsObject);
+            imageryTileLayerWrapper.geoBlazorId = dotNetImageryTileLayer.id;
+            imageryTileLayerWrapper.viewId = viewId;
+            imageryTileLayerWrapper.layerId = layerId;
+            jsObjectRefs[dotNetImageryTileLayer.id] = imageryTileLayerWrapper;
+        }
         arcGisObjectRefs[dotNetImageryTileLayer.id] ??= jsObject;
     }
-
     return dotNetImageryTileLayer;
 }
 

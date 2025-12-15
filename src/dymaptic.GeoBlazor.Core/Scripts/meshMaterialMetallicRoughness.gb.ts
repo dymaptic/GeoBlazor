@@ -163,11 +163,11 @@ export async function buildDotNetMeshMaterialMetallicRoughnessGenerated(jsObject
             }
         }
     }
+
     if (hasValue(dotNetMeshMaterialMetallicRoughness.id)) {
         jsObjectRefs[dotNetMeshMaterialMetallicRoughness.id] ??= jsObject;
         arcGisObjectRefs[dotNetMeshMaterialMetallicRoughness.id] ??= jsObject;
     }
-
     return dotNetMeshMaterialMetallicRoughness;
 }
 

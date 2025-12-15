@@ -68,7 +68,7 @@ export async function buildJsWebSceneWidgetsGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetWebSceneWidgetsGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWebSceneWidgetsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -94,11 +94,18 @@ export async function buildDotNetWebSceneWidgetsGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetWebSceneWidgets.id)) {
-        jsObjectRefs[dotNetWebSceneWidgets.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetWebSceneWidgets.id)) {
+            let { default: WebSceneWidgetsWrapper } = await import('./webSceneWidgets');
+            let webSceneWidgetsWrapper = new WebSceneWidgetsWrapper(jsObject);
+            webSceneWidgetsWrapper.geoBlazorId = dotNetWebSceneWidgets.id;
+            webSceneWidgetsWrapper.viewId = viewId;
+            webSceneWidgetsWrapper.layerId = layerId;
+            jsObjectRefs[dotNetWebSceneWidgets.id] = webSceneWidgetsWrapper;
+        }
         arcGisObjectRefs[dotNetWebSceneWidgets.id] ??= jsObject;
     }
-
     return dotNetWebSceneWidgets;
 }
 

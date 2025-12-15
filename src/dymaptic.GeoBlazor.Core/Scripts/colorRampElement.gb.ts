@@ -12,9 +12,6 @@ export async function buildJsColorRampElementGenerated(dotNetObject: any): Promi
         jsColorRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsColorRampStop(i))) as any;
     }
 
-    if (hasValue(dotNetObject.preview)) {
-        jsColorRampElement.preview = dotNetObject.preview;
-    }
     if (hasValue(dotNetObject.title)) {
         jsColorRampElement.title = dotNetObject.title;
     }
@@ -36,10 +33,6 @@ export async function buildDotNetColorRampElementGenerated(jsObject: any, viewId
     if (hasValue(jsObject.infos)) {
         let { buildDotNetColorRampStop } = await import('./colorRampStop');
         dotNetColorRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetColorRampStop(i, viewId)));
-    }
-    
-    if (hasValue(jsObject.preview)) {
-        dotNetColorRampElement.preview = jsObject.preview;
     }
     
     if (hasValue(jsObject.title)) {
@@ -64,11 +57,11 @@ export async function buildDotNetColorRampElementGenerated(jsObject: any, viewId
             }
         }
     }
+
     if (hasValue(dotNetColorRampElement.id)) {
         jsObjectRefs[dotNetColorRampElement.id] ??= jsObject;
         arcGisObjectRefs[dotNetColorRampElement.id] ??= jsObject;
     }
-
     return dotNetColorRampElement;
 }
 

@@ -165,7 +165,7 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
 }
 
 
-export async function buildDotNetLabelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLabelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -239,11 +239,18 @@ export async function buildDotNetLabelGenerated(jsObject: any, viewId: string | 
             }
         }
     }
+
     if (hasValue(dotNetLabel.id)) {
-        jsObjectRefs[dotNetLabel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetLabel.id)) {
+            let { default: LabelWrapper } = await import('./label');
+            let labelWrapper = new LabelWrapper(jsObject);
+            labelWrapper.geoBlazorId = dotNetLabel.id;
+            labelWrapper.viewId = viewId;
+            labelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetLabel.id] = labelWrapper;
+        }
         arcGisObjectRefs[dotNetLabel.id] ??= jsObject;
     }
-
     return dotNetLabel;
 }
 

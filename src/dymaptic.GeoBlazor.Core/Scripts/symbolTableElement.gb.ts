@@ -62,11 +62,11 @@ export async function buildDotNetSymbolTableElementGenerated(jsObject: any, view
             }
         }
     }
+
     if (hasValue(dotNetSymbolTableElement.id)) {
         jsObjectRefs[dotNetSymbolTableElement.id] ??= jsObject;
         arcGisObjectRefs[dotNetSymbolTableElement.id] ??= jsObject;
     }
-
     return dotNetSymbolTableElement;
 }
 

@@ -72,11 +72,11 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any, vi
             }
         }
     }
+
     if (hasValue(dotNetMeasurementViewModel.id)) {
         jsObjectRefs[dotNetMeasurementViewModel.id] ??= jsObject;
         arcGisObjectRefs[dotNetMeasurementViewModel.id] ??= jsObject;
     }
-
     return dotNetMeasurementViewModel;
 }
 

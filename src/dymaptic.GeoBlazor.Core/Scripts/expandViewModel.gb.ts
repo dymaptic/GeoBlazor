@@ -67,11 +67,11 @@ export async function buildDotNetExpandViewModelGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetExpandViewModel.id)) {
         jsObjectRefs[dotNetExpandViewModel.id] ??= jsObject;
         arcGisObjectRefs[dotNetExpandViewModel.id] ??= jsObject;
     }
-
     return dotNetExpandViewModel;
 }
 

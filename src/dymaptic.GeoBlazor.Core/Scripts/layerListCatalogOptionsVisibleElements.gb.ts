@@ -65,11 +65,11 @@ export async function buildDotNetLayerListCatalogOptionsVisibleElementsGenerated
             }
         }
     }
+
     if (hasValue(dotNetLayerListCatalogOptionsVisibleElements.id)) {
         jsObjectRefs[dotNetLayerListCatalogOptionsVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetLayerListCatalogOptionsVisibleElements.id] ??= jsObject;
     }
-
     return dotNetLayerListCatalogOptionsVisibleElements;
 }
 

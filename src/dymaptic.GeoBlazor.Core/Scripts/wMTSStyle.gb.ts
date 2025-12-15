@@ -67,11 +67,11 @@ export async function buildDotNetWMTSStyleGenerated(jsObject: any, viewId: strin
             }
         }
     }
+
     if (hasValue(dotNetWMTSStyle.id)) {
         jsObjectRefs[dotNetWMTSStyle.id] ??= jsObject;
         arcGisObjectRefs[dotNetWMTSStyle.id] ??= jsObject;
     }
-
     return dotNetWMTSStyle;
 }
 

@@ -58,11 +58,11 @@ export async function buildDotNetLayerListKnowledgeGraphOptionsVisibleElementsGe
             }
         }
     }
+
     if (hasValue(dotNetLayerListKnowledgeGraphOptionsVisibleElements.id)) {
         jsObjectRefs[dotNetLayerListKnowledgeGraphOptionsVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetLayerListKnowledgeGraphOptionsVisibleElements.id] ??= jsObject;
     }
-
     return dotNetLayerListKnowledgeGraphOptionsVisibleElements;
 }
 

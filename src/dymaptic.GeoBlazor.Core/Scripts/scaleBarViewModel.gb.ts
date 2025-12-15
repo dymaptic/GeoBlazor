@@ -57,7 +57,7 @@ export async function buildJsScaleBarViewModelGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetScaleBarViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetScaleBarViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -82,11 +82,18 @@ export async function buildDotNetScaleBarViewModelGenerated(jsObject: any, viewI
             }
         }
     }
+
     if (hasValue(dotNetScaleBarViewModel.id)) {
-        jsObjectRefs[dotNetScaleBarViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetScaleBarViewModel.id)) {
+            let { default: ScaleBarViewModelWrapper } = await import('./scaleBarViewModel');
+            let scaleBarViewModelWrapper = new ScaleBarViewModelWrapper(jsObject);
+            scaleBarViewModelWrapper.geoBlazorId = dotNetScaleBarViewModel.id;
+            scaleBarViewModelWrapper.viewId = viewId;
+            scaleBarViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetScaleBarViewModel.id] = scaleBarViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetScaleBarViewModel.id] ??= jsObject;
     }
-
     return dotNetScaleBarViewModel;
 }
 

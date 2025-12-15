@@ -47,7 +47,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetActiveLayerInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetActiveLayerInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -56,16 +56,12 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetActiveLayerInfo.layerView = await buildDotNetLayerView(jsObject.layerView, viewId);
+        dotNetActiveLayerInfo.layerView = await buildDotNetLayerView(jsObject.layerView, layerId, viewId);
     }
     
     if (hasValue(jsObject.legendElements)) {
         let { buildDotNetILegendElement } = await import('./iLegendElement');
         dotNetActiveLayerInfo.legendElements = await Promise.all(jsObject.legendElements.map(async i => await buildDotNetILegendElement(i)));
-    }
-    
-    if (hasValue(jsObject.cssEffectFilter)) {
-        dotNetActiveLayerInfo.cssEffectFilter = jsObject.cssEffectFilter;
     }
     
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {

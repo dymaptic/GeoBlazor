@@ -29,7 +29,7 @@ export async function buildJsTileMatrixSetGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetTileMatrixSetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetTileMatrixSetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -43,7 +43,7 @@ export async function buildDotNetTileMatrixSetGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetTileMatrixSet.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, viewId);
+        dotNetTileMatrixSet.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
     
     if (hasValue(jsObject.id)) {
@@ -64,11 +64,11 @@ export async function buildDotNetTileMatrixSetGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetTileMatrixSet.id)) {
         jsObjectRefs[dotNetTileMatrixSet.id] ??= jsObject;
         arcGisObjectRefs[dotNetTileMatrixSet.id] ??= jsObject;
     }
-
     return dotNetTileMatrixSet;
 }
 

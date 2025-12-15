@@ -51,11 +51,11 @@ export async function buildDotNetSliderVisibleElementsGenerated(jsObject: any, v
             }
         }
     }
+
     if (hasValue(dotNetSliderVisibleElements.id)) {
         jsObjectRefs[dotNetSliderVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetSliderVisibleElements.id] ??= jsObject;
     }
-
     return dotNetSliderVisibleElements;
 }
 

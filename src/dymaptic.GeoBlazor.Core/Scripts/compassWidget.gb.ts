@@ -21,9 +21,6 @@ export default class CompassWidgetGenerated extends BaseComponent {
             this.widget.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.destroyed)) {
-            this.widget.destroyed = dotNetObject.destroyed;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -75,10 +72,10 @@ export default class CompassWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(onFulfilled: any,
-        onRejected: any): Promise<any> {
-        return await this.widget.when(onFulfilled,
-            onRejected);
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -127,7 +124,7 @@ export default class CompassWidgetGenerated extends BaseComponent {
         }
         
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
-        return await buildDotNetCompassViewModel(this.widget.viewModel, this.viewId);
+        return await buildDotNetCompassViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -168,9 +165,6 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
         properties.viewModel = await buildJsCompassViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.destroyed)) {
-        properties.destroyed = dotNetObject.destroyed;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -201,7 +195,7 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
         try {
             let jsObjectRef = DotNet.createJSObjectReference(compassWidgetWrapper);
             let { buildDotNetCompassWidget } = await import('./compassWidget');
-            let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass, viewId);
+            let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass, layerId, viewId);
 
             let dnStream = buildJsStreamReference(dnInstantiatedObject);
             await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -215,7 +209,7 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetCompassWidgetGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetCompassWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -224,11 +218,7 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
-        dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel, viewId);
-    }
-    
-    if (hasValue(jsObject.destroyed)) {
-        dotNetCompassWidget.destroyed = jsObject.destroyed;
+        dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel, layerId, viewId);
     }
     
     if (hasValue(jsObject.icon)) {
@@ -265,11 +255,18 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetCompassWidget.id)) {
-        jsObjectRefs[dotNetCompassWidget.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetCompassWidget.id)) {
+            let { default: CompassWidgetWrapper } = await import('./compassWidget');
+            let compassWidgetWrapper = new CompassWidgetWrapper(jsObject);
+            compassWidgetWrapper.geoBlazorId = dotNetCompassWidget.id;
+            compassWidgetWrapper.viewId = viewId;
+            compassWidgetWrapper.layerId = layerId;
+            jsObjectRefs[dotNetCompassWidget.id] = compassWidgetWrapper;
+        }
         arcGisObjectRefs[dotNetCompassWidget.id] ??= jsObject;
     }
-
     return dotNetCompassWidget;
 }
 

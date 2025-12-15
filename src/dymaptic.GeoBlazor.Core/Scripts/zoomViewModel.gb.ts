@@ -71,7 +71,7 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetZoomViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetZoomViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -104,11 +104,18 @@ export async function buildDotNetZoomViewModelGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetZoomViewModel.id)) {
-        jsObjectRefs[dotNetZoomViewModel.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetZoomViewModel.id)) {
+            let { default: ZoomViewModelWrapper } = await import('./zoomViewModel');
+            let zoomViewModelWrapper = new ZoomViewModelWrapper(jsObject);
+            zoomViewModelWrapper.geoBlazorId = dotNetZoomViewModel.id;
+            zoomViewModelWrapper.viewId = viewId;
+            zoomViewModelWrapper.layerId = layerId;
+            jsObjectRefs[dotNetZoomViewModel.id] = zoomViewModelWrapper;
+        }
         arcGisObjectRefs[dotNetZoomViewModel.id] ??= jsObject;
     }
-
     return dotNetZoomViewModel;
 }
 
