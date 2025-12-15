@@ -219,7 +219,7 @@ export default class PortalItemGenerated extends BaseComponent {
 
     // region properties
     
-    getAccessInformation(): any {
+    async getAccessInformation(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -235,7 +235,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.accessInformation = JSON.parse(value);
     }
     
-    getApiKey(): any {
+    async getApiKey(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -251,7 +251,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.apiKey = JSON.parse(value);
     }
     
-    getCulture(): any {
+    async getCulture(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -267,7 +267,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.culture = JSON.parse(value);
     }
     
-    getDescription(): any {
+    async getDescription(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -301,7 +301,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.extent =  buildJsExtent(value);
     }
     
-    getItemPageUrl(): any {
+    async getItemPageUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -313,7 +313,7 @@ export default class PortalItemGenerated extends BaseComponent {
         return generateSerializableJson(this.component.itemPageUrl);
     }
     
-    getItemUrl(): any {
+    async getItemUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -325,7 +325,7 @@ export default class PortalItemGenerated extends BaseComponent {
         return generateSerializableJson(this.component.itemUrl);
     }
     
-    getLicenseInfo(): any {
+    async getLicenseInfo(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -341,7 +341,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.licenseInfo = JSON.parse(value);
     }
     
-    getName(): any {
+    async getName(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -357,7 +357,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.name = JSON.parse(value);
     }
     
-    getOwner(): any {
+    async getOwner(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -373,7 +373,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.owner = JSON.parse(value);
     }
     
-    getOwnerFolder(): any {
+    async getOwnerFolder(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -407,7 +407,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.portal =  buildJsPortal(value, this.layerId, this.viewId);
     }
     
-    getPortalItemId(): any {
+    async getPortalItemId(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -423,7 +423,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.id = JSON.parse(value);
     }
     
-    getSnippet(): any {
+    async getSnippet(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -439,7 +439,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.snippet = JSON.parse(value);
     }
     
-    getSourceJSON(): any {
+    async getSourceJSON(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -451,7 +451,7 @@ export default class PortalItemGenerated extends BaseComponent {
         return generateSerializableJson(this.component.sourceJSON);
     }
     
-    getTitle(): any {
+    async getTitle(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -467,7 +467,7 @@ export default class PortalItemGenerated extends BaseComponent {
         this.component.title = JSON.parse(value);
     }
     
-    getUrl(): any {
+    async getUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }

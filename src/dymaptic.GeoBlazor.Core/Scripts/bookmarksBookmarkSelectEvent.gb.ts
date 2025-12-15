@@ -20,7 +20,7 @@ export async function buildJsBookmarksBookmarkSelectEventGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetBookmarksBookmarkSelectEventGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBookmarksBookmarkSelectEventGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

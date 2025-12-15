@@ -4,5 +4,5 @@ export async function buildJsOpacityVariable(dotNetObject: any, layerId: string 
 }
 export async function buildDotNetOpacityVariable(jsObject: any): Promise<any> {
     let { buildDotNetOpacityVariableGenerated } = await import('./opacityVariable.gb');
-    return await buildDotNetOpacityVariableGenerated(jsObject, viewId);
+    return await buildDotNetOpacityVariableGenerated(jsObject);
 }

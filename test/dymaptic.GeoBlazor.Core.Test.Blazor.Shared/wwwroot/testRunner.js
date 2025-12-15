@@ -224,7 +224,7 @@ export function testThrow() {
     throw new Error("Test throw");
 }
 
-export async function clickOnPopupAction(methodName, viewId) {
+export async function clickOnPopupAction(methodName) {
     let view = getView(methodName);
     let layer = view.map.layers.items[0];
     let featureSet = await layer.queryFeatures();
@@ -234,8 +234,7 @@ export async function clickOnPopupAction(methodName, viewId) {
     let button = null;
     while (button === null) {
         await new Promise(resolve => setTimeout(resolve, 100));
-        button = document.querySelector(`#map-container-${viewId}`)
-            .shadowRoot.querySelector('[title="Measure Length"]');
+        button = document.querySelector('[title="Measure Length"]');
     }
     button.click();
 }
@@ -250,8 +249,7 @@ export async function clickOnGraphicPopupAction(methodName, viewId) {
     let button = null;
     while (button === null) {
         await new Promise(resolve => setTimeout(resolve, 100));
-        button = document.querySelector(`#map-container-${viewId}`)
-            .shadowRoot.querySelector('[title="Button Click"]');
+        button = document.querySelector('[title="Button Click"]');
     }
     button.click();
 }
@@ -274,9 +272,8 @@ export async function clickOnMap(methodName) {
     mapContainer.dispatchEvent(clickEvent);
 }
 
-export async function triggerSearchHandlers(methodName, viewId) {
-    let searchInput = document.querySelector(`#map-container-${viewId}`)
-         .shadowRoot.querySelector('.esri-search__autocomplete')
+export async function triggerSearchHandlers() {
+    let searchInput = document.querySelector('.esri-search__autocomplete')
         .shadowRoot.querySelector('calcite-input')
         .shadowRoot.querySelector('input');
     searchInput.value = 'testFromJavascript';

@@ -46,7 +46,7 @@ export async function buildDotNetAggregateFieldGenerated(jsObject: any, viewId: 
     
     if (hasValue(jsObject.onStatisticExpression)) {
         let { buildDotNetSupportExpressionInfo } = await import('./supportExpressionInfo');
-        dotNetAggregateField.onStatisticExpression = await buildDotNetSupportExpressionInfo(jsObject.onStatisticExpression, viewId);
+        dotNetAggregateField.onStatisticExpression = await buildDotNetSupportExpressionInfo(jsObject.onStatisticExpression);
     }
     
     if (hasValue(jsObject.alias)) {

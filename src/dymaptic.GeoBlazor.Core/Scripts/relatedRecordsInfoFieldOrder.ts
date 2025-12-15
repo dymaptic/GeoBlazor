@@ -4,5 +4,5 @@ export async function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any, lay
 }
 export async function buildDotNetRelatedRecordsInfoFieldOrder(jsObject: any): Promise<any> {
     let { buildDotNetRelatedRecordsInfoFieldOrderGenerated } = await import('./relatedRecordsInfoFieldOrder.gb');
-    return await buildDotNetRelatedRecordsInfoFieldOrderGenerated(jsObject, viewId);
+    return await buildDotNetRelatedRecordsInfoFieldOrderGenerated(jsObject);
 }

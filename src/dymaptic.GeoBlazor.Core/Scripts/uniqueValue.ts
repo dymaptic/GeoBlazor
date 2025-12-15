@@ -4,5 +4,5 @@ export async function buildJsUniqueValue(dotNetObject: any, layerId: string | nu
 }
 export async function buildDotNetUniqueValue(jsObject: any): Promise<any> {
     let { buildDotNetUniqueValueGenerated } = await import('./uniqueValue.gb');
-    return await buildDotNetUniqueValueGenerated(jsObject, viewId);
+    return await buildDotNetUniqueValueGenerated(jsObject);
 }

@@ -189,7 +189,7 @@ export default class BasemapGenerated extends BaseComponent {
         this.component.thumbnailUrl = JSON.parse(value);
     }
     
-    getTitle(): any {
+    async getTitle(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }

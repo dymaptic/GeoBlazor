@@ -120,7 +120,7 @@ export default class WebSceneGenerated extends BaseComponent {
 
     // region properties
     
-    getAuthoringApp(): any {
+    async getAuthoringApp(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -136,7 +136,7 @@ export default class WebSceneGenerated extends BaseComponent {
         this.component.authoringApp = JSON.parse(value);
     }
     
-    getAuthoringAppVersion(): any {
+    async getAuthoringAppVersion(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -206,7 +206,7 @@ export default class WebSceneGenerated extends BaseComponent {
         this.component.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     
-    getThumbnailUrl(): any {
+    async getThumbnailUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }

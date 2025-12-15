@@ -205,7 +205,7 @@ export default class SublayerGenerated extends BaseComponent {
         return await buildDotNetSublayerCapabilities(this.component.capabilities);
     }
     
-    getDefinitionExpression(): any {
+    async getDefinitionExpression(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -299,7 +299,7 @@ export default class SublayerGenerated extends BaseComponent {
         return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     
-    getObjectIdField(): any {
+    async getObjectIdField(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -386,7 +386,7 @@ export default class SublayerGenerated extends BaseComponent {
         this.component.source = await  buildJsDynamicLayer(value);
     }
     
-    getSourceJSON(): any {
+    async getSourceJSON(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -432,7 +432,7 @@ export default class SublayerGenerated extends BaseComponent {
         this.component.sublayers = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
     }
     
-    getTitle(): any {
+    async getTitle(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -448,7 +448,7 @@ export default class SublayerGenerated extends BaseComponent {
         this.component.title = JSON.parse(value);
     }
     
-    getTypeIdField(): any {
+    async getTypeIdField(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -473,7 +473,7 @@ export default class SublayerGenerated extends BaseComponent {
         return await Promise.all(this.component.types!.map(async i => await buildDotNetFeatureType(i)));
     }
     
-    getUrl(): any {
+    async getUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
