@@ -24,6 +24,8 @@
         <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoWarn>GeoBlazor_Untested</NoWarn>
+        <LangVersion>latest</LangVersion>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -43,13 +45,13 @@
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Unit" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.CodeGen" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Unit" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
     </ItemGroup>
 
     <ItemGroup>
@@ -118,6 +120,12 @@
                           ReferenceOutputAssembly="false" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Compile Condition="$(Configuration) == 'SourceGen Highlighting'"
+                 Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated\**\*.g.cs" />
+        <Compile Remove="Interfaces\IViewHit.cs" />
+    </ItemGroup>
+    
     <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
         <Message Importance="high" Text="Clearing locks on esBuild files..." />
         <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />

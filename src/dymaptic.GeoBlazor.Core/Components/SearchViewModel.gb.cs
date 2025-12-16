@@ -3070,7 +3070,7 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        SearchViewModelSearchClearEvent? searchClearEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSearchClearEvent>();
+        SearchViewModelSearchClearEvent? searchClearEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchViewModelSearchClearEvent>();
         if (searchClearEvent is not null)
         {
             await OnSearchClear.InvokeAsync(searchClearEvent);
@@ -3102,7 +3102,7 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        SearchViewModelSearchCompleteEvent? searchCompleteEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSearchCompleteEvent>();
+        SearchViewModelSearchCompleteEvent? searchCompleteEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchViewModelSearchCompleteEvent>();
         if (searchCompleteEvent is not null)
         {
             await OnSearchComplete.InvokeAsync(searchCompleteEvent);
@@ -3134,7 +3134,7 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        SearchViewModelSearchStartEvent? searchStartEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSearchStartEvent>();
+        SearchViewModelSearchStartEvent? searchStartEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchViewModelSearchStartEvent>();
         if (searchStartEvent is not null)
         {
             await OnSearchStart.InvokeAsync(searchStartEvent);
@@ -3166,7 +3166,7 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        SearchViewModelSelectResultEvent? selectResultEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSelectResultEvent>();
+        SearchViewModelSelectResultEvent? selectResultEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchViewModelSelectResultEvent>();
         if (selectResultEvent is not null)
         {
             await OnSelectResult.InvokeAsync(selectResultEvent);
@@ -3198,7 +3198,7 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        SearchViewModelSuggestCompleteEvent? suggestCompleteEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSuggestCompleteEvent>();
+        SearchViewModelSuggestCompleteEvent? suggestCompleteEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchViewModelSuggestCompleteEvent>();
         if (suggestCompleteEvent is not null)
         {
             await OnSuggestComplete.InvokeAsync(suggestCompleteEvent);
@@ -3230,7 +3230,7 @@ public partial class SearchViewModel : IGoTo
             return;
         }
     
-        SearchViewModelSuggestStartEvent? suggestStartEvent = await jsStreamRef.ReadJsStreamReference<SearchViewModelSuggestStartEvent>();
+        SearchViewModelSuggestStartEvent? suggestStartEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchViewModelSuggestStartEvent>();
         if (suggestStartEvent is not null)
         {
             await OnSuggestStart.InvokeAsync(suggestStartEvent);

@@ -1,7 +1,7 @@
 import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Polygon from "@arcgis/core/geometry/Polygon";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from './geoBlazorCore';
 import Circle from "@arcgis/core/geometry/Circle";
 import {buildDotNetPoint, buildJsPoint} from "./point";
 import * as simplifyOperator from '@arcgis/core/geometry/operators/simplifyOperator';
@@ -49,7 +49,12 @@ export function buildDotNetPolygon(polygon: any): any {
         dnPolygon.geodesic = polygon.geodesic;
     }
 
-    dnPolygon.isSimple = simplifyOperator.isSimple(polygon);
+    try {
+        dnPolygon.isSimple = simplifyOperator.isSimple(polygon);
+    } catch (e) {
+        // invalid token
+        console.error(e);
+    }
     
     if (hasValue(polygon.isSelfIntersecting)) {
         dnPolygon.isSelfIntersecting = polygon.isSelfIntersecting;
@@ -70,18 +75,16 @@ export function buildJsPolygon(dnPolygon: any): any {
     if (dnPolygon === undefined || dnPolygon === null) return null;
     
     let properties : any = {};
+
     if (hasValue(dnPolygon.rings)) {
         properties.rings = buildJsPathsOrRings(dnPolygon.rings);
     }
+    
     if (hasValue(dnPolygon.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
     }
-    if (hasValue(dnPolygon.hasM)) {
-        properties.hasM = dnPolygon.hasM;
-    }
-    if (hasValue(dnPolygon.hasZ)) {
-        properties.hasZ = dnPolygon.hasZ;
-    }
+    
+    copyValuesIfExists(dnPolygon, properties, 'hasM', 'hasZ');
 
     let polygon: Polygon;
     if (hasValue(dnPolygon.center) && hasValue(dnPolygon.radius)) {

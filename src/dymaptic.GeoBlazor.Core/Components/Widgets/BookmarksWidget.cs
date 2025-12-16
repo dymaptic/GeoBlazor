@@ -45,7 +45,7 @@ public partial class BookmarksWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
-        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReference<GoToOverrideParameters>();
+        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReferenceAsJSON<GoToOverrideParameters>();
         if (GoToOverride is not null && goToParameters is not null)
         {
             await GoToOverride.Invoke(goToParameters);
@@ -66,7 +66,7 @@ public partial class BookmarksWidget : Widget
     public async Task OnJsBookmarkSelect(IJSStreamReference jsStreamRef)
     {
         View!.ExtentChangedInJs = true;
-        BookmarkSelectEvent? bookmarkSelectEvent = await jsStreamRef.ReadJsStreamReference<BookmarkSelectEvent>();
+        BookmarkSelectEvent? bookmarkSelectEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<BookmarkSelectEvent>();
         if (bookmarkSelectEvent is not null)
         {
             await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);

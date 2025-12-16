@@ -1,21 +1,20 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class LineChartMediaInfo : MediaInfo
 {
-
-
     /// <inheritdoc/>
     public override string Type => "line-chart";
 
-
-    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override MediaInfoSerializationRecord ToProtobuf()
     {
         return new MediaInfoSerializationRecord(Id.ToString(), "line-chart")
         {
             AltText = AltText,
             Caption = Caption,
             Title = Title,
-            Value = Value?.ToSerializationRecord()
+            Value = Value?.ToProtobuf()
         };
     }
 }

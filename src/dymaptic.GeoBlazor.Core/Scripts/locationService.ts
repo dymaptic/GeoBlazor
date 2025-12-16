@@ -11,9 +11,10 @@ import locatorLocationToAddressParams = __esri.locatorLocationToAddressParams;
 import locatorAddressToLocationsParams = __esri.locatorAddressToLocationsParams;
 import locatorAddressesToLocationsParams = __esri.locatorAddressesToLocationsParams;
 import SuggestionResult = __esri.SuggestionResult;
+import BaseComponent from "./baseComponent";
 
-export default class LocatorWrapper {
-    
+export default class LocatorWrapper extends BaseComponent {
+
     async addressesToLocations(url: string, addresses: any, countryCode: string | null,
                                categories: string[] | null, locationType: string | null,
                                outSpatialReference: DotNetSpatialReference | null,
@@ -65,11 +66,7 @@ export default class LocatorWrapper {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
-
-        let json = JSON.stringify(dotNetResult);
-        let encoded = new TextEncoder().encode(json);
-        return encoded;
+        return result.map(r => buildDotNetAddressCandidate(r));
     }
 
     async addressToLocations(url: string, address: any, categories: string[] | null, countryCode: string | null,
@@ -133,11 +130,7 @@ export default class LocatorWrapper {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
-
-        let json = JSON.stringify(dotNetResult);
-        let encoded = new TextEncoder().encode(json);
-        return encoded;
+        return result.map(r => buildDotNetAddressCandidate(r));
     }
 
     async locationToAddress(url: string, location: DotNetPoint, locationType: string | null,

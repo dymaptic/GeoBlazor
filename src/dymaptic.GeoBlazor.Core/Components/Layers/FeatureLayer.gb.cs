@@ -6266,7 +6266,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        FeatureLayerEditsEvent? editsEvent = await jsStreamRef.ReadJsStreamReference<FeatureLayerEditsEvent>();
+        FeatureLayerEditsEvent? editsEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<FeatureLayerEditsEvent>();
         if (editsEvent is not null)
         {
             await OnEdits.InvokeAsync(editsEvent);
@@ -6300,7 +6300,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);

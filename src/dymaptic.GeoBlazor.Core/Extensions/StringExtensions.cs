@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Extensions;
+namespace dymaptic.GeoBlazor.Core.Extensions;
 
 internal static class StringExtensions
 {
@@ -7,6 +7,19 @@ internal static class StringExtensions
         return string.Create(val.Length, val, (span, txt) =>
         {
             span[0] = char.ToLower(txt[0]);
+
+            for (var i = 1; i < txt.Length; i++)
+            {
+                span[i] = txt[i];
+            }
+        });
+    }
+
+    public static string ToUpperFirstChar(this string val)
+    {
+        return string.Create(val.Length, val, (span, txt) =>
+        {
+            span[0] = char.ToUpper(txt[0]);
 
             for (var i = 1; i < txt.Length; i++)
             {

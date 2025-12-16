@@ -3338,7 +3338,7 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
     
-        FeaturesViewModelTriggerActionEvent? triggerActionEvent = await jsStreamRef.ReadJsStreamReference<FeaturesViewModelTriggerActionEvent>();
+        FeaturesViewModelTriggerActionEvent? triggerActionEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<FeaturesViewModelTriggerActionEvent>();
         if (triggerActionEvent is not null)
         {
             await OnTriggerAction.InvokeAsync(triggerActionEvent);

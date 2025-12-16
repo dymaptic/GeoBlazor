@@ -7,18 +7,19 @@ namespace dymaptic.GeoBlazor.Core.Components;
 [CodeGenerationIgnore]
 public class GeometryEngine : LogicComponent
 {
+    // TODO: Add CancellationToken support to all methods
+    
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name="authenticationManager">
-    ///     Injected Identity Manager reference
-    /// </param>
-    public GeometryEngine(AuthenticationManager authenticationManager) : base(authenticationManager)
+    public GeometryEngine(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
+        AuthenticationManager authenticationManager)
+        : base(appValidator, jsRuntime, jsModuleManager, authenticationManager)
     {
     }
 
     /// <inheritdoc/>
-    protected override string ComponentName => nameof(GeometryEngine);
+    protected override string ComponentName => nameof(GeometryEngine).ToLowerFirstChar();
 
     /// <summary>
     ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.
@@ -38,9 +39,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances)
     {
-        return await InvokeAsync<Polygon[]>("buffer", geometries, distances, null, null);
+        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, null, null]);
     }
 
     /// <summary>
@@ -64,10 +66,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
         GeometryEngineLinearUnit? unit)
     {
-        return await InvokeAsync<Polygon[]>("buffer", geometries, distances, unit, null);
+        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, unit, null]);
     }
 
     /// <summary>
@@ -94,10 +97,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
         GeometryEngineLinearUnit? unit, bool? unionResults)
     {
-        return await InvokeAsync<Polygon[]>("buffer", geometries, distances, unit, unionResults);
+        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, unit, unionResults]);
     }
 
     /// <summary>
@@ -118,9 +122,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffer.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon> Buffer(Geometry geometry, double distance)
     {
-        return await InvokeAsync<Polygon>("buffer", geometry, distance, null);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [geometry, distance, null]);
     }
 
     /// <summary>
@@ -144,9 +149,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffer.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon> Buffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit)
     {
-        return await InvokeAsync<Polygon>("buffer", geometry, distance, unit);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [geometry, distance, unit]);
     }
 
     /// <summary>
@@ -161,9 +167,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Clipped geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry?> Clip(Geometry geometry, Extent extent)
     {
-        return await InvokeAsync<Geometry?>("clip", geometry, extent);
+        return await InvokeAsync<Geometry?>(nameof(GeometryEngine), parameters: [geometry, extent]);
     }
 
     /// <summary>
@@ -178,9 +185,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the containerGeometry contains the insideGeometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> Contains(Geometry containerGeometry, Geometry insideGeometry)
     {
-        return await InvokeAsync<bool>("contains", containerGeometry, insideGeometry);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [containerGeometry, insideGeometry]);
     }
 
     /// <summary>
@@ -196,9 +204,10 @@ public class GeometryEngine : LogicComponent
     ///     Returns the convex hull of the input geometries. This is usually a polygon, but can also be a polyline (if the
     ///     input is a set of points or polylines forming a straight line), or a point (in degenerate cases).
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> ConvexHull(IEnumerable<Geometry> geometries, bool? merge = null)
     {
-        return await InvokeAsync<Geometry[]>("convexHull", geometries, merge);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, merge]);
     }
 
     /// <summary>
@@ -211,9 +220,10 @@ public class GeometryEngine : LogicComponent
     ///     Returns the convex hull of the input geometries. This is usually a polygon, but can also be a polyline (if the
     ///     input is a set of points or polylines forming a straight line), or a point (in degenerate cases).
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> ConvexHull(Geometry geometry)
     {
-        return await InvokeAsync<Geometry>("convexHull", geometry);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry]);
     }
 
     /// <summary>
@@ -228,9 +238,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if geometry1 crosses geometry2.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> Crosses(Geometry geometry1, Geometry geometry2)
     {
-        return await InvokeAsync<bool>("crosses", geometry1, geometry2);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
     }
 
     /// <summary>
@@ -245,9 +256,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an array of geometries created by cutting the input geometry with the cutter.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> Cut(Geometry geometry, Polyline cutter)
     {
-        return await InvokeAsync<Geometry[]>("cut", geometry, cutter);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometry, cutter]);
     }
 
     /// <summary>
@@ -265,9 +277,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The densified geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Densify(Geometry geometry, double maxSegmentLength, GeometryEngineLinearUnit? maxSegmentLengthUnit = null)
     {
-        return await InvokeAsync<Geometry>("densify", geometry, maxSegmentLength, maxSegmentLengthUnit);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, maxSegmentLength, maxSegmentLengthUnit]);
     }
 
     /// <summary>
@@ -282,9 +295,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the geometry of inputGeometry minus the subtractor geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> Difference(IEnumerable<Geometry> geometries, Geometry subtractor)
     {
-        return await InvokeAsync<Geometry[]>("difference", geometries, subtractor);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, subtractor]);
     }
 
     /// <summary>
@@ -299,9 +313,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the geometry of inputGeometry minus the subtractor geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Difference(Geometry geometry, Geometry subtractor)
     {
-        return await InvokeAsync<Geometry>("difference", geometry, subtractor);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, subtractor]);
     }
 
     /// <summary>
@@ -316,9 +331,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if geometry1 and geometry2 are disjoint (don't intersect in any way).
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> Disjoint(Geometry geometry1, Geometry geometry2)
     {
-        return await InvokeAsync<bool>("disjoint", geometry1, geometry2);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
     }
 
     /// <summary>
@@ -336,9 +352,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Distance between the two input geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<double> Distance(Geometry geometry1, Geometry geometry2, GeometryEngineLinearUnit? distanceUnit = null)
     {
-        return await InvokeAsync<double>("distance", geometry1, geometry2, distanceUnit);
+        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry1, geometry2, distanceUnit]);
     }
 
     /// <summary>
@@ -356,9 +373,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the two input geometries are equal.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> AreEqual(Geometry geometry1, Geometry geometry2)
     {
-        return await InvokeAsync<bool>("equals", geometry1, geometry2);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
     }
 
     /// <summary>
@@ -370,9 +388,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Resolves to a <see cref = "SpatialReferenceInfo"/> object.
     /// </returns>
+    [SerializedMethod]
     public async Task<SpatialReferenceInfo> ExtendedSpatialReferenceInfo(SpatialReference spatialReference)
     {
-        return await InvokeAsync<SpatialReferenceInfo>("extendedSpatialReferenceInfo", spatialReference);
+        return await InvokeAsync<SpatialReferenceInfo>(nameof(GeometryEngine), parameters: [spatialReference]);
     }
 
     /// <summary>
@@ -387,9 +406,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The flipped geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> FlipHorizontal(Geometry geometry, Point? flipOrigin = null)
     {
-        return await InvokeAsync<Geometry>("flipHorizontal", geometry, flipOrigin);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, flipOrigin]);
     }
 
     /// <summary>
@@ -404,9 +424,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The flipped geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> FlipVertical(Geometry geometry, Point? flipOrigin = null)
     {
-        return await InvokeAsync<Geometry>("flipVertical", geometry, flipOrigin);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, flipOrigin]);
     }
 
     /// <summary>
@@ -427,9 +448,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The generalized geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Generalize(Geometry geometry, double maxDeviation, bool? removeDegenerateParts = null, GeometryEngineLinearUnit? maxDeviationUnit = null)
     {
-        return await InvokeAsync<Geometry>("generalize", geometry, maxDeviation, removeDegenerateParts, maxDeviationUnit);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, maxDeviation, removeDegenerateParts, maxDeviationUnit]);
     }
 
     /// <summary>
@@ -447,9 +469,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Area of the input geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<double> GeodesicArea(Polygon geometry, GeometryEngineAreaUnit? unit = null)
     {
-        return await InvokeAsync<double>("geodesicArea", geometry, unit);
+        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, unit]);
     }
 
     /// <summary>
@@ -470,9 +493,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances)
     {
-        return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, null, null);
+        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, null, null]);
     }
 
     /// <summary>
@@ -496,10 +520,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
         GeometryEngineLinearUnit? unit)
     {
-        return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, unit, null);
+        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, unit, null]);
     }
 
     /// <summary>
@@ -526,10 +551,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
         GeometryEngineLinearUnit? unit, bool? unionResults)
     {
-        return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, unit, unionResults);
+        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, unit, unionResults]);
     }
 
     /// <summary>
@@ -550,9 +576,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance)
     {
-        return await InvokeAsync<Polygon>("geodesicBuffer", geometry, distance, null);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [geometry, distance, null]);
     }
 
     /// <summary>
@@ -576,9 +603,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit)
     {
-        return await InvokeAsync<Polygon>("geodesicBuffer", geometry, distance, unit);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [geometry, distance, unit]);
     }
 
     /// <summary>
@@ -593,9 +621,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the densified geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength)
     {
-        return await InvokeAsync<Geometry>("geodesicDensify", geometry, maxSegmentLength, null);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, maxSegmentLength, null]);
     }
     
     /// <summary>
@@ -613,10 +642,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the densified geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength, 
         GeometryEngineLinearUnit? maxSegmentLengthUnit)
     {
-        return await InvokeAsync<Geometry>("geodesicDensify", geometry, maxSegmentLength, maxSegmentLengthUnit);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, maxSegmentLength, maxSegmentLengthUnit]);
     }
 
     /// <summary>
@@ -634,9 +664,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Length of the input geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<double> GeodesicLength(Geometry geometry, GeometryEngineLinearUnit? unit = null)
     {
-        return await InvokeAsync<double>("geodesicLength", geometry, unit);
+        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, unit]);
     }
 
     /// <summary>
@@ -651,9 +682,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The intersections of the geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> Intersect(IEnumerable<Geometry> geometries1, Geometry geometry2)
     {
-        return await InvokeAsync<Geometry[]>("intersect", geometries1, geometry2);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries1, geometry2]);
     }
 
     /// <summary>
@@ -668,9 +700,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The intersections of the geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Intersect(Geometry geometry1, Geometry geometry2)
     {
-        return await InvokeAsync<Geometry>("intersect", geometry1, geometry2);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
     }
 
     /// <summary>
@@ -685,9 +718,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the input geometries intersect each other.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> Intersects(Geometry geometry1, Geometry geometry2)
     {
-        return await InvokeAsync<bool>("intersects", geometry1, geometry2);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
     }
 
     /// <summary>
@@ -699,9 +733,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the geometry is topologically simple.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> IsSimple(Geometry geometry)
     {
-        return await InvokeAsync<bool>("isSimple", geometry);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry]);
     }
 
     /// <summary>
@@ -716,9 +751,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object containing the nearest coordinate.
     /// </returns>
+    [SerializedMethod]
     public async Task<NearestPointResult> NearestCoordinate(Geometry geometry, Point inputPoint)
     {
-        return await InvokeAsync<NearestPointResult>("nearestCoordinate", geometry, inputPoint);
+        return await InvokeAsync<NearestPointResult>(nameof(GeometryEngine), parameters: [geometry, inputPoint]);
     }
 
     /// <summary>
@@ -733,9 +769,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object containing the nearest vertex.
     /// </returns>
+    [SerializedMethod]
     public async Task<NearestPointResult> NearestVertex(Geometry geometry, Point inputPoint)
     {
-        return await InvokeAsync<NearestPointResult>("nearestVertex", geometry, inputPoint);
+        return await InvokeAsync<NearestPointResult>(nameof(GeometryEngine), parameters: [geometry, inputPoint]);
     }
 
     /// <summary>
@@ -756,9 +793,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     An array of objects containing the nearest vertices within the given searchRadius.
     /// </returns>
+    [SerializedMethod]
     public async Task<NearestPointResult[]> NearestVertices(Geometry geometry, Point inputPoint, double searchRadius, int maxVertexCountToReturn)
     {
-        return await InvokeAsync<NearestPointResult[]>("nearestVertices", geometry, inputPoint, searchRadius, maxVertexCountToReturn);
+        return await InvokeAsync<NearestPointResult[]>(nameof(GeometryEngine), parameters: [geometry, inputPoint, searchRadius, maxVertexCountToReturn]);
     }
 
     /// <summary>
@@ -773,9 +811,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance)
     {
-        return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance, null, null, null, null);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, null, null, null, null]);
     }
 
     /// <summary>
@@ -793,11 +832,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit)
     {
-        return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance,
-            offsetUnit, null, null, null);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, offsetUnit, null, null, null]);
     }
 
     /// <summary>
@@ -818,11 +857,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType)
     {
-        return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance,
-            offsetUnit, joinType, null, null);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, offsetUnit, joinType, null, null]);
     }
 
     /// <summary>
@@ -846,11 +885,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio)
     {
-        return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance,
-            offsetUnit, joinType, bevelRatio, null);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, offsetUnit, joinType, bevelRatio, null]);
     }
 
     /// <summary>
@@ -877,11 +916,12 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
         double? flattenError)
     {
-        return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError]);
     }
 
     /// <summary>
@@ -896,9 +936,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Offset(Geometry geometry, double offsetDistance)
     {
-        return await InvokeAsync<Geometry>("offset", geometry, offsetDistance, null, null, null, null);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, null, null, null, null]);
     }
 
     /// <summary>
@@ -916,11 +957,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit)
     {
-        return await InvokeAsync<Geometry>("offset", geometry, offsetDistance,
-            offsetUnit, null, null, null);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, offsetUnit, null, null, null]);
     }
 
     /// <summary>
@@ -941,11 +982,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType)
     {
-        return await InvokeAsync<Geometry>("offset", geometry, offsetDistance,
-            offsetUnit, joinType, null, null);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, offsetUnit, joinType, null, null]);
     }
 
     /// <summary>
@@ -969,11 +1010,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio)
     {
-        return await InvokeAsync<Geometry>("offset", geometry, offsetDistance,
-            offsetUnit, joinType, bevelRatio, null);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, offsetUnit, joinType, bevelRatio, null]);
     }
 
     /// <summary>
@@ -1000,11 +1041,12 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
         double? flattenError)
     {
-        return await InvokeAsync<Geometry>("offset", geometry, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError]);
     }
 
     /// <summary>
@@ -1019,9 +1061,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the two geometries overlap.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> Overlaps(Geometry geometry1, Geometry geometry2)
     {
-        return await InvokeAsync<bool>("overlaps", geometry1, geometry2);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
     }
 
     /// <summary>
@@ -1030,9 +1073,10 @@ public class GeometryEngine : LogicComponent
     /// <param name="geometry">
     ///     The input polygon.
     /// </param>
+    [SerializedMethod]
     public async Task<double> PlanarArea(Polygon geometry)
     {
-        return await InvokeAsync<double>("planarArea", geometry, null);
+        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, null]);
     }
     
     /// <summary>
@@ -1047,9 +1091,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The area of the input geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<double> PlanarArea(Polygon geometry, GeometryEngineAreaUnit? unit)
     {
-        return await InvokeAsync<double>("planarArea", geometry, unit);
+        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, unit]);
     }
 
     /// <summary>
@@ -1061,9 +1106,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The length of the input geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<double> PlanarLength(Geometry geometry)
     {
-        return await InvokeAsync<double>("planarLength", geometry);
+        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry]);
     }
     
     /// <summary>
@@ -1078,9 +1124,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The length of the input geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<double> PlanarLength(Geometry geometry, GeometryEngineLinearUnit? unit)
     {
-        return await InvokeAsync<double>("planarLength", geometry, unit);
+        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, unit]);
     }
 
     /// <summary>
@@ -1104,9 +1151,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the relation of the input geometries is accurate.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> Relate(Geometry geometry1, Geometry geometry2, string relation)
     {
-        return await InvokeAsync<bool>("relate", geometry1, geometry2, relation);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2, relation]);
     }
 
     /// <summary>
@@ -1124,9 +1172,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The rotated geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Rotate(Geometry geometry, double angle, Point rotationOrigin)
     {
-        return await InvokeAsync<Geometry>("rotate", geometry, angle, rotationOrigin);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, angle, rotationOrigin]);
     }
 
     /// <summary>
@@ -1138,9 +1187,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The simplified geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Simplify(Geometry geometry)
     {
-        return await InvokeAsync<Geometry>("simplify", geometry);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry]);
     }
 
     /// <summary>
@@ -1155,9 +1205,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The symmetric differences of the two geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]> SymmetricDifference(IEnumerable<Geometry> leftGeometries, Geometry rightGeometry)
     {
-        return await InvokeAsync<Geometry[]>("symmetricDifference", leftGeometries, rightGeometry);
+        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [leftGeometries, rightGeometry]);
     }
 
     /// <summary>
@@ -1172,9 +1223,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The symmetric differences of the two geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> SymmetricDifference(Geometry leftGeometry, Geometry rightGeometry)
     {
-        return await InvokeAsync<Geometry>("symmetricDifference", leftGeometry, rightGeometry);
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [leftGeometry, rightGeometry]);
     }
 
     /// <summary>
@@ -1189,9 +1241,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     When true, geometry1 touches geometry2.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> Touches(Geometry geometry1, Geometry geometry2)
     {
-        return await InvokeAsync<bool>("touches", geometry1, geometry2);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
     }
 
     /// <summary>
@@ -1203,9 +1256,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The union of the geometries
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Union(params Geometry[] geometries)
     {
-        return await InvokeAsync<Geometry>("union", geometries.Cast<object>());
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometries.Cast<object>()]);
     }
 
     /// <summary>
@@ -1217,9 +1271,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The union of the geometries
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry> Union(IEnumerable<Geometry> geometries)
     {
-        return await InvokeAsync<Geometry>("union", geometries.Cast<object>());
+        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometries.Cast<object>()]);
     }
 
     /// <summary>
@@ -1234,9 +1289,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if innerGeometry is within outerGeometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> Within(Geometry innerGeometry, Geometry outerGeometry)
     {
-        return await InvokeAsync<bool>("within", innerGeometry, outerGeometry);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [innerGeometry, outerGeometry]);
     }
 
     /// <summary>
@@ -1248,10 +1304,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new geometry instance.
     /// </returns>
+    [SerializedMethod]
     public async Task<T> FromArcGisJson<T>(string json)
         where T : Geometry
     {
-        return await InvokeAsync<T>("fromJSON", json, typeof(T).Name);
+        return await InvokeAsync<T>(nameof(GeometryEngine), parameters: [json, typeof(T).Name]);
     }
 
     /// <summary>
@@ -1263,10 +1320,11 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The <a target="_blank" href="https://developers.arcgis.com/documentation/common-data-types/geometry-objects.htm">ArcGIS portal JSON</a> representation of an instance of this class.
     /// </returns>
+    [SerializedMethod]
     public async Task<string> ToArcGisJson<T>(T geometry)
         where T : Geometry
     {
-        return await InvokeAsync<string>("toJSON", geometry);
+        return await InvokeAsync<string>(nameof(GeometryEngine), parameters: [geometry]);
     }
 
     /// <summary>
@@ -1275,10 +1333,11 @@ public class GeometryEngine : LogicComponent
     /// <remarks>
     ///     Unlike the Clone methods in the Geometry classes, this method does a loop through the ArcGIS JS SDK. Therefore, if you are having issues with unpopulated fields in the geometry, try using this method instead.
     /// </remarks>
+    [SerializedMethod]
     public async Task<T> Clone<T>(T geometry)
         where T : Geometry
     {
-        return await InvokeAsync<T>("clone", geometry);
+        return await InvokeAsync<T>(nameof(GeometryEngine), parameters: [geometry]);
     }
 
     /// <summary>
@@ -1293,9 +1352,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The centered extent.
     /// </returns>
+    [SerializedMethod]
     public async Task<Extent> CenterExtentAt(Extent extent, Point point)
     {
-        return await InvokeAsync<Extent>("centerExtentAt", extent, point);
+        return await InvokeAsync<Extent>(nameof(GeometryEngine), parameters: [extent, point]);
     }
 
     /// <summary>
@@ -1310,9 +1370,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The expanded extent.
     /// </returns>
+    [SerializedMethod]
     public async Task<Extent> Expand(Extent extent, double factor)
     {
-        return await InvokeAsync<Extent>("expand", extent, factor);
+        return await InvokeAsync<Extent>(nameof(GeometryEngine), parameters: [extent, factor]);
     }
 
     /// <summary>
@@ -1324,9 +1385,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     An array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent intersects the International Dateline.
     /// </returns>
+    [SerializedMethod]
     public async Task<Extent[]> NormalizeExtent(Extent extent)
     {
-        return await InvokeAsync<Extent[]>("normalizeExtent", extent);
+        return await InvokeAsync<Extent[]>(nameof(GeometryEngine), parameters: [extent]);
     }
 
     /// <summary>
@@ -1345,9 +1407,10 @@ public class GeometryEngine : LogicComponent
     ///     The offset distance in map units for the Z-coordinate.
     /// </param>
     /// <returns></returns>
+    [SerializedMethod]
     public async Task<Extent> OffsetExtent(Extent extent, double dx, double dy, double dz = 0)
     {
-        return await InvokeAsync<Extent>("offsetExtent", extent, dx, dy, dz);
+        return await InvokeAsync<Extent>(nameof(GeometryEngine), parameters: [extent, dx, dy, dz]);
     }
 
     /// <summary>
@@ -1359,9 +1422,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a point with a normalized x-value.
     /// </returns>
+    [SerializedMethod]
     public async Task<Point> NormalizePoint(Point point)
     {
-        return await InvokeAsync<Point>("normalizePoint", point);
+        return await InvokeAsync<Point>(nameof(GeometryEngine), parameters: [point]);
     }
 
     /// <summary>
@@ -1376,9 +1440,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the added path.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polyline> AddPath(Polyline polyline, MapPath points)
     {
-        return await InvokeAsync<Polyline>("addPath", polyline, points);
+        return await InvokeAsync<Polyline>(nameof(GeometryEngine), parameters: [polyline, points]);
     }
 
     /// <summary>
@@ -1393,12 +1458,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the added path.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polyline> AddPath(Polyline polyline, Point[] points)
     {
         var mapPoints = new List<MapPoint>();
         foreach (Point p in points)
         {
-            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+            mapPoints.Add(new MapPoint(p.X ?? p.Longitude!.Value, p.Y ?? p.Latitude!.Value));
         }
 
         return await AddPath(polyline, new MapPath(mapPoints));
@@ -1419,9 +1485,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the point along the Polyline located in the given path and point indices.
     /// </returns>
+    [SerializedMethod]
     public async Task<Point> GetPoint(Polyline polyline, int pathIndex, int pointIndex)
     {
-        return await InvokeAsync<Point>("getPointOnPolyline", polyline, pathIndex, pointIndex);
+        return await InvokeAsync<Point>(nameof(GeometryEngine), parameters: [polyline, pathIndex, pointIndex]);
     }
 
     /// <summary>
@@ -1442,9 +1509,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the inserted point.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polyline> InsertPoint(Polyline polyline, int pathIndex, int pointIndex, Point point)
     {
-        return await InvokeAsync<Polyline>("insertPointOnPolyline", polyline, pathIndex, pointIndex, point);
+        return await InvokeAsync<Polyline>(nameof(GeometryEngine), parameters: [polyline, pathIndex, pointIndex, point]);
     }
 
     /// <summary>
@@ -1461,7 +1529,12 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     public async Task<(Polyline PolyLine, Point[] Path)> RemovePath(Polyline polyline, int index)
     {
-        return await InvokeAsync<(Polyline PolyLine, Point[] Path)>("removePath", polyline, index);
+        // DON'T ADD [SerializedMethod], doesn't work here
+        // TODO: Refactor API for V5
+        GeometryRemovePathResult result = 
+            await InvokeAsync<GeometryRemovePathResult>(nameof(GeometryEngine), parameters: [polyline, index]);
+        
+        return ((Polyline)result.Geometry, result.Path);
     }
 
     /// <summary>
@@ -1479,9 +1552,15 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polyline and the removed point.
     /// </returns>
-    public async Task<(Polyline PolyLine, Point Point)> RemovePoint(Polyline polyline, int pathIndex, int pointIndex)
+    public async Task<(Polyline Polyline, Point Point)> RemovePoint(Polyline polyline, int pathIndex, int pointIndex)
     {
-        return await InvokeAsync<(Polyline PolyLine, Point Point)>("removePointOnPolyline", polyline, pathIndex, pointIndex);
+        // DON'T ADD [SerializedMethod], doesn't work here
+        // TODO: Refactor API for V5
+        GeometryRemovePointResult result =
+            await InvokeAsync<GeometryRemovePointResult>(nameof(GeometryEngine), 
+                parameters: [polyline, pathIndex, pointIndex]);
+
+        return ((Polyline)result.Geometry, result.Point);
     }
 
     /// <summary>
@@ -1502,9 +1581,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the updated point.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polyline> SetPoint(Polyline polyline, int pathIndex, int pointIndex, Point point)
     {
-        return await InvokeAsync<Polyline>("setPointOnPolyline", polyline, pathIndex, pointIndex, point);
+        return await InvokeAsync<Polyline>(nameof(GeometryEngine), parameters: [polyline, pathIndex, pointIndex, point]);
     }
 
     /// <summary>
@@ -1519,9 +1599,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polygon with the added ring.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon> AddRing(Polygon polygon, MapPath points)
     {
-        return await InvokeAsync<Polygon>("addRing", polygon, points);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [polygon, points]);
     }
 
     /// <summary>
@@ -1536,12 +1617,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polygon with the added ring.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon> AddRing(Polygon polygon, Point[] points)
     {
         var mapPoints = new List<MapPoint>();
         foreach (Point p in points)
         {
-            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+            mapPoints.Add(new MapPoint(p.X ?? p.Longitude!.Value, p.Y ?? p.Latitude!.Value));
         }
 
         return await AddRing(polygon, new MapPath(mapPoints));
@@ -1556,9 +1638,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     A polygon instance representing the given extent.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon> PolygonFromExtent(Extent extent)
     {
-        return await InvokeAsync<Polygon>("fromExtent", extent);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [extent]);
     }
 
     /// <summary>
@@ -1576,9 +1659,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the point at the specified ring index and point index.
     /// </returns>
+    [SerializedMethod]
     public async Task<Point> GetPoint(Polygon polygon, int ringIndex, int pointIndex)
     {
-        return await InvokeAsync<Point>("getPointOnPolygon", polygon, ringIndex, pointIndex);
+        return await InvokeAsync<Point>(nameof(GeometryEngine), parameters: [polygon, ringIndex, pointIndex]);
     }
 
     /// <summary>
@@ -1599,9 +1683,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polygon with the inserted point.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon> InsertPoint(Polygon polygon, int ringIndex, int pointIndex, Point point)
     {
-        return await InvokeAsync<Polygon>("insertPointOnPolygon", polygon, ringIndex, pointIndex, point);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [polygon, ringIndex, pointIndex, point]);
     }
 
     /// <summary>
@@ -1616,9 +1701,10 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the ring is clockwise and false for counterclockwise.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> IsClockwise(Polygon polygon, MapPath ring)
     {
-        return await InvokeAsync<bool>("isClockwise", polygon, ring);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [polygon, ring]);
     }
 
     /// <summary>
@@ -1633,6 +1719,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the ring is clockwise and false for counterclockwise.
     /// </returns>
+    [SerializedMethod]
     public async Task<bool> IsClockwise(Polygon polygon, Point[] ring)
     {
         var mapPoints = new List<MapPoint>();
@@ -1661,7 +1748,13 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     public async Task<(Polygon Polygon, Point Point)> RemovePoint(Polygon polygon, int ringIndex, int pointIndex)
     {
-        return await InvokeAsync<(Polygon Polygon, Point Point)>("removePointOnPolygon", polygon, ringIndex, pointIndex);
+        // DON'T ADD [SerializedMethod], doesn't work here
+        // TODO: Refactor API for V5
+        GeometryRemovePointResult result =
+            await InvokeAsync<GeometryRemovePointResult>(nameof(GeometryEngine), 
+                parameters: [polygon, ringIndex, pointIndex]);
+
+        return ((Polygon)result.Geometry, result.Point);
     }
 
     /// <summary>
@@ -1678,7 +1771,12 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     public async Task<(Polygon Polygon, Point[] Ring)> RemoveRing(Polygon polygon, int index)
     {
-        return await InvokeAsync<(Polygon Polygon, Point[] Ring)>("removeRing", polygon, index);
+        // DON'T ADD [SerializedMethod], doesn't work here
+        // TODO: Refactor API for V5
+        GeometryRemovePathResult result =
+            await InvokeAsync<GeometryRemovePathResult>(nameof(GeometryEngine), parameters: [polygon, index]);
+        
+        return ((Polygon)result.Geometry, result.Path);
     }
 
     /// <summary>
@@ -1699,32 +1797,39 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polygon with the updated point.
     /// </returns>
+    [SerializedMethod]
     public async Task<Polygon> SetPoint(Polygon polygon, int ringIndex, int pointIndex, Point point)
     {
-        return await InvokeAsync<Polygon>("setPointOnPolygon", polygon, ringIndex, pointIndex, point);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [polygon, ringIndex, pointIndex, point]);
     }
 
     /// <summary>
     ///     Retrieves the center point of the extent in map units.
     /// </summary>
+    [SerializedMethod]
     public async Task<Point?> GetExtentCenter(Extent extent)
     {
-        return await InvokeAsync<Point?>("getExtentCenter", extent);
+        return await InvokeAsync<Point?>(nameof(GeometryEngine), parameters: [extent]);
     }
 
     /// <summary>
     ///     Retrieves the height of the extent in map units (the distance between ymin and ymax).
     /// </summary>
+    [SerializedMethod]
     public async Task<double?> GetExtentHeight(Extent extent)
     {
-        return await InvokeAsync<double?>("getExtentHeight", extent);
+        return await InvokeAsync<double?>(nameof(GeometryEngine), parameters: [extent]);
     }
 
     /// <summary>
     ///     Retrieves the width of the extent in map units (the distance between xmin and xmax).
     /// </summary>
+    [SerializedMethod]
     public async Task<double?> GetExtentWidth(Extent extent)
     {
-        return await InvokeAsync<double?>("getExtentWidth", extent);
+        return await InvokeAsync<double?>(nameof(GeometryEngine), parameters: [extent]);
     }
 }
+
+internal record GeometryRemovePointResult(Geometry Geometry, Point Point);
+internal record GeometryRemovePathResult(Geometry Geometry, Point[] Path);

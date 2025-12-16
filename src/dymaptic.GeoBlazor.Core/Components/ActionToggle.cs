@@ -1,10 +1,9 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [CodeGenerationIgnore]
+[ProtobufSerializable]
 public partial class ActionToggle : ActionBase
 {
-
-
     /// <inheritdoc />
     public override string Type => "toggle";
 
@@ -15,7 +14,8 @@ public partial class ActionToggle : ActionBase
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Value { get; set; }
 
-    internal override ActionBaseSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override ActionBaseSerializationRecord ToProtobuf()
     {
         return new ActionBaseSerializationRecord(Id.ToString(), Type, Title, null, Active, Disabled, Visible, ActionId)
         {

@@ -290,7 +290,7 @@ public partial class HomeViewModel : IGoTo
             return;
         }
     
-        HomeViewModelGoEvent? goEvent = await jsStreamRef.ReadJsStreamReference<HomeViewModelGoEvent>();
+        HomeViewModelGoEvent? goEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<HomeViewModelGoEvent>();
         if (goEvent is not null)
         {
             await OnGo.InvokeAsync(goEvent);

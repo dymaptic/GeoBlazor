@@ -11,14 +11,38 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     [Inject]
     [JsonIgnore]
-    public IJSRuntime? JsRuntime { get; set; }
+    public IJSRuntime? JsRuntime
+    {
+        get
+        {
+            if (field is null && Parent?.JsRuntime is not null)
+            {
+                field = Parent.JsRuntime;
+            }
+
+            return field;
+        }
+        set;
+    }
 
     /// <summary>
     ///     Manages references to JavaScript modules.
     /// </summary>
     [Inject]
     [JsonIgnore]
-    public JsModuleManager? JsModuleManager { get; set; }
+    public JsModuleManager? JsModuleManager
+    {
+        get
+        {
+            if (field is null && Parent?.JsModuleManager is not null)
+            {
+                field = Parent.JsModuleManager;
+            }
+
+            return field;
+        }
+        set;
+    }
 
     /// <summary>
     ///     ChildContent defines the ability to add other components within this component in the razor syntax.
@@ -131,6 +155,21 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     [JsonIgnore]
     public bool IsDisposed { get; private set; }
+    
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    protected internal bool IsServer => JsRuntime?.GetType().Name.Contains("Remote") ?? false;
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
+    /// </summary>
+    protected internal bool IsWebAssembly => OperatingSystem.IsBrowser();
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
+    /// </summary>
+    protected internal bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
@@ -668,7 +707,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         try
         {
-            if (await jsonStreamReference.ReadJsStreamReference(MapComponentType) is MapComponent deserialized)
+            if (await jsonStreamReference.ReadJsStreamReferenceAsJSON(MapComponentType) is MapComponent deserialized)
             {
                 if (IsDisposed)
                 {
@@ -991,6 +1030,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             {
                 record.CoreJsModule = CoreJsModule;
                 record.AbortManager = new AbortManager(CoreJsModule!);
+                record.IsServer = IsServer;
             }
         }
     }
@@ -1037,7 +1077,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.
     /// </summary>
-    protected readonly internal Dictionary<string, object?> ModifiedParameters = new();
+    protected internal readonly Dictionary<string, object?> ModifiedParameters = new();
 
     /// <summary>
     ///     Creates a cancellation token to control external calls
@@ -1378,7 +1418,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         if (jsStreamReference is not null)
         {
-            typedValue = await jsStreamReference.ReadJsStreamReference(returnType);
+            typedValue = await jsStreamReference.ReadJsStreamReferenceAsJSON(returnType);
         }
 
         handler.DynamicInvoke(typedValue);
@@ -1511,7 +1551,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         if (jsStreamReference is not null)
         {
-            typedValue = await jsStreamReference.ReadJsStreamReference(returnType);
+            typedValue = await jsStreamReference.ReadJsStreamReferenceAsJSON(returnType);
         }
 
         handler.DynamicInvoke(typedValue);
@@ -1833,5 +1873,3 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
             GeoBlazorSerialization.JsonSerializerOptions));
     }
 }
-
-internal record MapComponentSerializationRecord;

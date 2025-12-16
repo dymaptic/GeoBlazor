@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A client-side projection engine for converting geometries from one SpatialReference to another. When projecting geometries the starting spatial reference must be specified on the input geometry. You can specify a specific geographic (datum) transformation for the project operation, or accept the default transformation if one is needed.
@@ -10,11 +10,9 @@ public class ProjectionEngine : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name="authenticationManager">
-    ///     Injected Identity Manager reference
-    /// </param>
-    public ProjectionEngine(AuthenticationManager authenticationManager) : 
-        base(authenticationManager)
+    public ProjectionEngine(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
+        AuthenticationManager authenticationManager)
+        : base(appValidator, jsRuntime, jsModuleManager, authenticationManager)
     {
     }
 
@@ -33,9 +31,10 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A collection of projected geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference)
     {
-        return await InvokeAsync<Geometry[]?>("project", geometries, spatialReference, null);
+        return await InvokeAsync<Geometry[]?>(nameof(ProjectionEngine), parameters: [geometries, spatialReference, null]);
     }
 
     /// <summary>
@@ -53,11 +52,12 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A collection of projected geometries.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference,
         GeographicTransformation? geographicTransformation)
     {
-        return await InvokeAsync<Geometry[]?>("project", geometries, spatialReference,
-            geographicTransformation);
+        return await InvokeAsync<Geometry[]?>(nameof(ProjectionEngine), parameters: [geometries, spatialReference,
+            geographicTransformation]);
     }
 
     /// <summary>
@@ -72,9 +72,10 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A projected geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference)
     {
-        return await InvokeAsync<Geometry?>("project", geometry, spatialReference, null);
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), parameters: [geometry, spatialReference, null]);
     }
 
     /// <summary>
@@ -92,11 +93,12 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A projected geometry.
     /// </returns>
+    [SerializedMethod]
     public async Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference,
         GeographicTransformation? geographicTransformation)
     {
-        return await InvokeAsync<Geometry?>("project", geometry, spatialReference,
-            geographicTransformation);
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), parameters: [geometry, spatialReference,
+            geographicTransformation]);
     }
 
     /// <summary>
@@ -114,11 +116,12 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A geographic transformation.
     /// </returns>
+    [SerializedMethod]
     public async Task<GeographicTransformation?> GetTransformation(SpatialReference inSpatialReference,
         SpatialReference outSpatialReference, Extent extent)
     {
-        return await InvokeAsync<GeographicTransformation?>("getTransformation", inSpatialReference,
-            outSpatialReference, extent);
+        return await InvokeAsync<GeographicTransformation?>(nameof(ProjectionEngine), parameters: [inSpatialReference,
+            outSpatialReference, extent]);
     }
 
     /// <summary>
@@ -136,10 +139,11 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A collection of geographic transformation.
     /// </returns>
+    [SerializedMethod]
     public async Task<GeographicTransformation[]?> GetTransformations(SpatialReference inSpatialReference,
         SpatialReference outSpatialReference, Extent extent)
     {
-        return await InvokeAsync<GeographicTransformation[]?>("getTransformations",
-            inSpatialReference, outSpatialReference, extent);
+        return await InvokeAsync<GeographicTransformation[]?>(nameof(ProjectionEngine), 
+            parameters: [inSpatialReference, outSpatialReference, extent]);
     }
 }

@@ -1,6 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-public partial class PopupTemplate : MapComponent
+[ProtobufSerializable]
+public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTemplateSerializationRecord>
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -237,93 +238,13 @@ public partial class PopupTemplate : MapComponent
 
     }
 
-    internal PopupTemplateSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public PopupTemplateSerializationRecord ToProtobuf()
     {
         return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,
-            FieldInfos?.Select(f => f.ToSerializationRecord()),
-            Content?.Select(c => c.ToSerializationRecord()),
-            ExpressionInfos?.Select(e => e.ToSerializationRecord()), OverwriteActions,
-            ReturnGeometry, Actions?.Select(a => a.ToSerializationRecord()), Id.ToString());
+            FieldInfos?.Select(f => f.ToProtobuf()),
+            Content?.Select(c => c.ToProtobuf()),
+            ExpressionInfos?.Select(e => e.ToProtobuf()), OverwriteActions,
+            ReturnGeometry, Actions?.Select(a => a.ToProtobuf()), Id.ToString());
     }
-}
-
-[ProtoContract(Name = "PopupTemplate")]
-internal record PopupTemplateSerializationRecord : MapComponentSerializationRecord
-{
-    public PopupTemplateSerializationRecord()
-    {
-    }
-    
-    public PopupTemplateSerializationRecord(string? Title,
-        string? StringContent = null,
-        IEnumerable<string>? OutFields = null,
-        IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
-        IEnumerable<PopupContentSerializationRecord>? Content = null,
-        IEnumerable<PopupExpressionInfoSerializationRecord>? ExpressionInfos = null,
-        bool? OverwriteActions = null,
-        bool? ReturnGeometry = null,
-        IEnumerable<ActionBaseSerializationRecord>? Actions = null,
-        string? Id = null)
-    {
-        this.Title = Title;
-        this.StringContent = StringContent;
-        this.OutFields = OutFields;
-        this.FieldInfos = FieldInfos;
-        this.Content = Content;
-        this.ExpressionInfos = ExpressionInfos;
-        this.OverwriteActions = OverwriteActions;
-        this.ReturnGeometry = ReturnGeometry;
-        this.Actions = Actions;
-        this.Id = Id;
-    }
-
-    public PopupTemplate FromSerializationRecord()
-    {
-        return new PopupTemplate(Title, StringContent, OutFields?.ToList(),
-            FieldInfos?.Select(f => f.FromSerializationRecord()).ToList(),
-            Content?.Select(c => c.FromSerializationRecord()).ToList(),
-            ExpressionInfos?.Select(e => e.FromSerializationRecord()).ToList(), 
-            OverwriteActions, ReturnGeometry, 
-            Actions?.Select(a => a.FromSerializationRecord()).ToList());
-    }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(1)]
-    public string? Title { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(2)]
-    public string? StringContent { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(3)]
-    public IEnumerable<string>? OutFields { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(4)]
-    public IEnumerable<FieldInfoSerializationRecord>? FieldInfos { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(5)]
-    public IEnumerable<PopupContentSerializationRecord>? Content { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(6)]
-    public IEnumerable<PopupExpressionInfoSerializationRecord>? ExpressionInfos { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(7)]
-    public bool? OverwriteActions { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(8)]
-    public bool? ReturnGeometry { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(9)]
-    public IEnumerable<ActionBaseSerializationRecord>? Actions { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(10)]
-    public string? Id { get; init; }
 }

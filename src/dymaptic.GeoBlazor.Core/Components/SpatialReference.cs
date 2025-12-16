@@ -1,7 +1,9 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [JsonConverter(typeof(SpatialReferenceConverter))]
-public partial class SpatialReference : MapComponent, IEquatable<SpatialReference>
+[ProtobufSerializable]
+public partial class SpatialReference : MapComponent, IEquatable<SpatialReference>, 
+    IProtobufSerializable<SpatialReferenceSerializationRecord>
 {
     /// <summary>
     ///     Constructor for use in C# code.
@@ -106,9 +108,10 @@ public partial class SpatialReference : MapComponent, IEquatable<SpatialReferenc
         return Wkid.HasValue ? new SpatialReference(Wkid!.Value) : new SpatialReference();
     }
 
-    internal SpatialReferenceSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public SpatialReferenceSerializationRecord ToProtobuf()
     {
-        return new SpatialReferenceSerializationRecord(Wkid, Wkt);
+        return new SpatialReferenceSerializationRecord(Wkid, Wkt, Wkt2);
     }
 
     /// <summary>
@@ -234,31 +237,4 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
 
         writer.WriteEndObject();
     }
-}
-
-[ProtoContract(Name = "SpatialReference")]
-internal record SpatialReferenceSerializationRecord : MapComponentSerializationRecord
-{
-    public SpatialReferenceSerializationRecord()
-    {
-    }
-
-    public SpatialReferenceSerializationRecord(int? Wkid, string? Wkt = null)
-    {
-        this.Wkid = Wkid;
-        this.Wkt = Wkt;
-    }
-
-    public SpatialReference FromSerializationRecord()
-    {
-        return new SpatialReference(Wkid ?? 4326);
-    }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(1)]
-    public int? Wkid { get; init; }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(2)]
-    public string? Wkt { get; init; }
 }

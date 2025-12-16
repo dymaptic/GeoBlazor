@@ -87,7 +87,25 @@ export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, vie
 
     copyValuesIfExists(graphic, dotNetGraphic, 'visible', 'aggregateGeometries', 'uid');
 
-    dotNetGraphic.attributes = graphic.attributes ?? {};
+    if (hasValue(graphic.attributes)) {
+        const fields = (graphic.layer as any)?.fields;
+        dotNetGraphic.attributes = Object.keys(graphic.attributes).map(attr => {
+            const typedValue = graphic.attributes[attr];
+            let valueType: string | undefined = undefined;
+            if (hasValue(fields)) {
+                const field = fields!.find(f => f.name === attr);
+                if (hasValue(field)) {
+                    valueType = field!.type;
+                }
+            }
+            valueType ??= Object.prototype.toString.call(typedValue);
+            return {
+                key: attr,
+                value: typedValue?.toString(),
+                valueType: valueType
+            }
+        });
+    }
     dotNetGraphic.layerId = layerId;
     dotNetGraphic.viewId = viewId;
 

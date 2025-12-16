@@ -502,7 +502,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
         return GetEnumerator();
     }
 
-    internal AttributeSerializationRecord[] ToSerializationRecord()
+    public AttributeSerializationRecord[] ToProtobufArray()
     {
         return _backingDictionary
             .Select(kvp =>
@@ -526,6 +526,12 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
             })
             .ToArray();
     }
+    
+    /// <inheritdoc />
+    public AttributeCollectionSerializationRecord ToProtobuf()
+    {
+        return new AttributeCollectionSerializationRecord(ToProtobufArray());
+    }
 
     private readonly Dictionary<string, object?> _backingDictionary;
 
@@ -536,30 +542,6 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
     ///     The key to get the value for
     /// </param>
     public object? this[string key] => _backingDictionary[key];
-}
-
-[ProtoContract(Name = "Attribute")]
-internal record AttributeSerializationRecord : MapComponentSerializationRecord
-{
-    public AttributeSerializationRecord()
-    {
-    }
-    
-    public AttributeSerializationRecord(string Key,
-        string? Value,
-        string ValueType)
-    {
-        this.Key = Key;
-        this.Value = Value;
-        this.ValueType = ValueType;
-    }
-
-    [ProtoMember(1)]
-    public string Key { get; init; } = string.Empty;
-    [ProtoMember(2)]
-    public string? Value { get; init; }
-    [ProtoMember(3)]
-    public string ValueType { get; init; } = string.Empty;
 }
 
 internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionary>
