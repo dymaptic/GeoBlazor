@@ -4,7 +4,7 @@ development and refactoring of existing code, but may not be adhered to by all e
 
 ## TypeScript/ESBuild
 The TypeScript files are compiled as part of the build process using a source generator and ESBuild.
-The source generator, `ESBuildLauncher.cs`, watches the `Scripts` folder for changes, and then runs the ESBuild
+The source generator, `ESBuildGenerator.cs`, watches the `Scripts` folder for changes, and then runs the ESBuild
 compiler on the TypeScript files. The output is placed in the `wwwroot/js` folder.
 
 If you are making changes to the TypeScript files, you can run the ESBuild compiler manually by running 

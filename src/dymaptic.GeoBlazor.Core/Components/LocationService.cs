@@ -6,10 +6,9 @@ public partial class LocationService : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name="authenticationManager">
-    ///     Injected Identity Manager reference
-    /// </param>
-    public LocationService(AuthenticationManager authenticationManager) : base(authenticationManager)
+    public LocationService(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
+        AuthenticationManager authenticationManager)
+        : base(appValidator, jsRuntime, jsModuleManager, authenticationManager)
     {
     }
 
@@ -26,6 +25,7 @@ public partial class LocationService : LogicComponent
     /// </summary>
     /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
     [CodeGenerationIgnore]
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses);
@@ -40,6 +40,7 @@ public partial class LocationService : LogicComponent
     /// <param name="countryCode">
     ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode);
@@ -58,6 +59,7 @@ public partial class LocationService : LogicComponent
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
         List<string>? categories)
     {
@@ -80,6 +82,7 @@ public partial class LocationService : LogicComponent
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType)
     {
@@ -105,6 +108,7 @@ public partial class LocationService : LogicComponent
     /// <param name="outSpatialReference">
     ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the default spatial reference returned by the service if finding locations by address.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
         SpatialReference? outSpatialReference)
@@ -135,6 +139,7 @@ public partial class LocationService : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
         SpatialReference? outSpatialReference, RequestOptions? requestOptions)
@@ -258,12 +263,13 @@ public partial class LocationService : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
         string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
         SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
     {
-        return await AddressesToLocations(url, addresses, countryCode, categories, locationType,
-            outSpatialReference, requestOptions, null);
+        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService), parameters: [url, addresses, countryCode, categories, 
+            locationType, outSpatialReference, requestOptions, null]);
     }
 
 #endregion
@@ -278,6 +284,7 @@ public partial class LocationService : LogicComponent
     /// </summary>
     /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
     [CodeGenerationIgnore]
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses);
@@ -292,6 +299,7 @@ public partial class LocationService : LogicComponent
     /// <param name="countryCode">
     ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode);
@@ -310,6 +318,7 @@ public partial class LocationService : LogicComponent
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
         List<string>? categories)
     {
@@ -332,6 +341,7 @@ public partial class LocationService : LogicComponent
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType)
     {
@@ -357,6 +367,7 @@ public partial class LocationService : LogicComponent
     /// <param name="outSpatialReference">
     ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the default spatial reference returned by the service if finding locations by address.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
         SpatialReference? outSpatialReference)
@@ -387,6 +398,7 @@ public partial class LocationService : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
         SpatialReference? outSpatialReference, RequestOptions? requestOptions)
@@ -420,6 +432,7 @@ public partial class LocationService : LogicComponent
     /// <param name="addressSearchStringParameterName">
     ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
         SpatialReference? outSpatialReference, RequestOptions? requestOptions, string? addressSearchStringParameterName)
@@ -577,13 +590,14 @@ public partial class LocationService : LogicComponent
     /// <param name="addressSearchStringParameterName">
     ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
         string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
         SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null,
         string? addressSearchStringParameterName = null)
     {
-        return await AddressesToLocations(url, addresses as object, countryCode, categories, locationType,
-            outSpatialReference, requestOptions, addressSearchStringParameterName);
+        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService), parameters: [url, addresses, countryCode, categories, 
+            locationType, outSpatialReference, requestOptions, addressSearchStringParameterName]);
     }
 
 #endregion
@@ -611,6 +625,7 @@ public partial class LocationService : LogicComponent
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories);
@@ -629,6 +644,7 @@ public partial class LocationService : LogicComponent
     ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode)
     {
@@ -649,6 +665,7 @@ public partial class LocationService : LogicComponent
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage)
     {
@@ -670,6 +687,7 @@ public partial class LocationService : LogicComponent
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
     /// <param name="location">Used to weight returned results for a specified area.</param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location)
     {
@@ -694,6 +712,7 @@ public partial class LocationService : LogicComponent
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType)
     {
@@ -720,6 +739,7 @@ public partial class LocationService : LogicComponent
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey)
@@ -748,6 +768,7 @@ public partial class LocationService : LogicComponent
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
     /// <param name="maxLocations">Maximum results to return from the query.</param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations)
@@ -779,6 +800,7 @@ public partial class LocationService : LogicComponent
     /// <param name="outFields">
     ///     The list of fields included in the returned result set. This list is a comma delimited list of field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection candidate fields.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields)
@@ -813,6 +835,7 @@ public partial class LocationService : LogicComponent
     /// <param name="outSpatialReference">
     ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the default spatial reference returned by the service if finding locations by address.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields,
@@ -851,6 +874,7 @@ public partial class LocationService : LogicComponent
     /// <param name="searchExtent">
     ///     Defines the extent within which the geocode server will search. Requires ArcGIS Server version 10.1 or greater.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields,
@@ -892,6 +916,7 @@ public partial class LocationService : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request 
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories = null,
         string? countryCode = null, bool? forStorage = null, Point? location = null, LocationType? locationType = null,
         string? magicKey = null, int? maxLocations = null, List<string>? outFields = null,
@@ -1213,6 +1238,7 @@ public partial class LocationService : LogicComponent
     /// </param>
     /// 
 #pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
 #pragma warning restore RS0026 // Do not add multiple public overloads with optional parameters
         List<string>? categories = null, string? countryCode = null, bool? forStorage = null, Point? location = null,
@@ -1250,6 +1276,7 @@ public partial class LocationService : LogicComponent
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories);
@@ -1268,6 +1295,7 @@ public partial class LocationService : LogicComponent
     ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode)
     {
@@ -1288,6 +1316,7 @@ public partial class LocationService : LogicComponent
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage)
     {
@@ -1309,6 +1338,7 @@ public partial class LocationService : LogicComponent
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
     /// <param name="location">Used to weight returned results for a specified area.</param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location)
     {
@@ -1333,6 +1363,7 @@ public partial class LocationService : LogicComponent
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType)
     {
@@ -1359,6 +1390,7 @@ public partial class LocationService : LogicComponent
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey)
@@ -1387,6 +1419,7 @@ public partial class LocationService : LogicComponent
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
     /// <param name="maxLocations">Maximum results to return from the query.</param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations)
@@ -1418,6 +1451,7 @@ public partial class LocationService : LogicComponent
     /// <param name="outFields">
     ///     The list of fields included in the returned result set. This list is a comma delimited list of field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection candidate fields.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields)
@@ -1452,6 +1486,7 @@ public partial class LocationService : LogicComponent
     /// <param name="outSpatialReference">
     ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the default spatial reference returned by the service if finding locations by address.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields,
@@ -1490,6 +1525,7 @@ public partial class LocationService : LogicComponent
     /// <param name="searchExtent">
     ///     Defines the extent within which the geocode server will search. Requires ArcGIS Server version 10.1 or greater.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields,
@@ -1531,6 +1567,7 @@ public partial class LocationService : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request 
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories = null,
         string? countryCode = null, bool? forStorage = null, Point? location = null, LocationType? locationType = null,
         string? magicKey = null, int? maxLocations = null, List<string>? outFields = null,
@@ -1576,6 +1613,7 @@ public partial class LocationService : LogicComponent
     /// <param name="addressSearchStringParameterName">
     ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories = null,
         string? countryCode = null, bool? forStorage = null, Point? location = null, LocationType? locationType = null,
         string? magicKey = null, int? maxLocations = null, List<string>? outFields = null,
@@ -1900,6 +1938,7 @@ public partial class LocationService : LogicComponent
     ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
 #pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string url, string address,
 #pragma warning restore RS0026 // Do not add multiple public overloads with optional parameters
         List<string>? categories = null, string? countryCode = null, bool? forStorage = null, Point? location = null,
@@ -1923,6 +1962,7 @@ public partial class LocationService : LogicComponent
     ///     The point at which to search for the closest address. The location should be in the same spatial reference as that of the geocode service.
     /// </param>
     [CodeGenerationIgnore]
+    [SerializedMethod]
     public Task<AddressCandidate> LocationToAddress(Point location)
     {
         return LocationToAddress(ESRIGeoLocationUrl, location);
@@ -1993,7 +2033,7 @@ public partial class LocationService : LogicComponent
     /// </param>
     public Task<AddressCandidate> LocationToAddress(string url, Point location)
     {
-        return InvokeAsync<AddressCandidate>("locationToAddress", url, location, null, null, null);
+        return InvokeAsync<AddressCandidate>(nameof(LocationService), parameters: [url, location, null, null, null]);
     }
 
     /// <summary>
@@ -2008,7 +2048,7 @@ public partial class LocationService : LogicComponent
     /// </param>
     public Task<AddressCandidate> LocationToAddress(string url, Point location, LocationType? locationType)
     {
-        return InvokeAsync<AddressCandidate>("locationToAddress", url, location, locationType, null, null);
+        return InvokeAsync<AddressCandidate>(nameof(LocationService), parameters: [url, location, locationType, null, null]);
     }
 
     /// <summary>
@@ -2046,11 +2086,12 @@ public partial class LocationService : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request 
     /// </param>
+    [SerializedMethod]
     public async Task<AddressCandidate> LocationToAddress(string url, Point location, LocationType? locationType,
         SpatialReference? outSpatialReference, RequestOptions? requestOptions)
     {
-        return await InvokeAsync<AddressCandidate>("locationToAddress", url, location, locationType,
-            outSpatialReference, requestOptions);
+        return await InvokeAsync<AddressCandidate>(nameof(LocationService), parameters: [url, location, locationType, outSpatialReference, 
+            requestOptions]);
     }
 
     /// <summary>
@@ -2064,6 +2105,7 @@ public partial class LocationService : LogicComponent
     ///     The input text entered by a user which is used by the suggest operation to generate a list of possible matches.
     /// </param>
     [CodeGenerationIgnore]
+    [SerializedMethod]
     public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text)
     {
         return await SuggestLocations(ESRIGeoLocationUrl, location, text);
@@ -2082,6 +2124,7 @@ public partial class LocationService : LogicComponent
     /// <param name="categories">
     ///     A place or address type which can be used to filter suggest results. The parameter supports input of single category values or multiple comma-separated values.
     /// </param>
+    [SerializedMethod]
     public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text,
         List<string>? categories)
     {
@@ -2104,6 +2147,7 @@ public partial class LocationService : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request 
     /// </param>
+    [SerializedMethod]
     public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text,
         List<string>? categories, RequestOptions? requestOptions)
     {
@@ -2120,9 +2164,10 @@ public partial class LocationService : LogicComponent
     /// <param name="text">
     ///     The input text entered by a user which is used by the suggest operation to generate a list of possible matches.
     /// </param>
+    [SerializedMethod]
     public async Task<List<SuggestionResult>> SuggestLocations(string url, Point location, string text)
     {
-        return await InvokeAsync<List<SuggestionResult>>("suggestLocations", url, location, text, null, null);
+        return await InvokeAsync<List<SuggestionResult>>(nameof(LocationService), parameters: [url, location, text, null, null]);
     }
 
     /// <summary>
@@ -2138,11 +2183,11 @@ public partial class LocationService : LogicComponent
     /// <param name="categories">
     ///     A place or address type which can be used to filter suggest results. The parameter supports input of single category values or multiple comma-separated values.
     /// </param>
+    [SerializedMethod]
     public async Task<List<SuggestionResult>> SuggestLocations(string url, Point location, string text,
         List<string>? categories)
     {
-        return await InvokeAsync<List<SuggestionResult>>("suggestLocations", url, location, text,
-            categories, null);
+        return await InvokeAsync<List<SuggestionResult>>(nameof(LocationService), parameters: [url, location, text, categories, null]);
     }
 
     /// <summary>
@@ -2161,11 +2206,12 @@ public partial class LocationService : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request 
     /// </param>
+    [SerializedMethod]
     public async Task<List<SuggestionResult>> SuggestLocations(string url, Point location, string text,
         List<string>? categories, RequestOptions? requestOptions)
     {
-        return await InvokeAsync<List<SuggestionResult>>("suggestLocations", url, location, text, categories,
-            requestOptions);
+        return await InvokeAsync<List<SuggestionResult>>(nameof(LocationService), parameters: [url, location, text, categories,
+            requestOptions]);
     }
 
     private async Task<List<AddressCandidate>> AddressToLocations(string url, object address,
@@ -2175,50 +2221,9 @@ public partial class LocationService : LogicComponent
         List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
         RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null)
     {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
-            categories, countryCode, forStorage, location, locationType, magicKey,
-            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions, addressSearchStringParameterName);
-
-        return await streamRef.ReadJsStreamReferenceAsJSON<List<AddressCandidate>>() ?? [];
-    }
-
-    /// <summary>
-    ///     Converts a list of addresses to locations.
-    /// </summary>
-    /// <param name="url">
-    ///     URL to the ArcGIS Server REST resource that represents a locator service.
-    /// </param>
-    /// <param name="addresses">
-    ///     A list of addresses to be converted to locations. The addresses can be specified as a JSON object or an array of JSON objects.
-    /// </param>
-    /// <param name="countryCode">
-    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
-    /// </param>
-    /// <param name="categories">
-    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
-    /// </param>
-    /// <param name="locationType">
-    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
-    /// </param>
-    /// <param name="outSpatialReference">
-    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the default spatial reference returned by the service if finding locations by address.
-    /// </param>
-    /// <param name="requestOptions">
-    ///     Additional options to be used for the data request
-    /// </param>
-    /// <param name="addressSearchStringParameterName">
-    ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
-    /// </param>
-    public async Task<List<AddressCandidate>> AddressesToLocations(string url, object addresses,
-        string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
-        SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null,
-        string? addressSearchStringParameterName = null)
-    {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url,
-            addresses, countryCode, categories, locationType,
-            outSpatialReference, requestOptions, addressSearchStringParameterName);
-
-        return await streamRef.ReadJsStreamReferenceAsJSON<List<AddressCandidate>>() ?? [];
+        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService), parameters: [url, address, categories, countryCode, 
+            forStorage, location, locationType, magicKey, maxLocations, outFields, outSpatialReference, 
+            searchExtent, requestOptions, addressSearchStringParameterName]);
     }
 
     private const string ESRIGeoLocationUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";

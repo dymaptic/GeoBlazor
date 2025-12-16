@@ -52,6 +52,23 @@ public class JsModuleManager
         return _proModule;
     }
     
+    /// <summary>
+    ///     Retrieves or creates a JavaScript wrapper for a logic component.
+    /// </summary>
+    /// <param name="jsRuntime">The JS runtime to use for module loading.</param>
+    /// <param name="componentName">The name of the logic component (e.g., "geometryEngine").</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>A JavaScript object reference to the component wrapper.</returns>
+    public async ValueTask<IJSObjectReference> GetLogicComponent(IJSRuntime jsRuntime, string componentName,
+        CancellationToken cancellationToken)
+    {
+        IJSObjectReference? proModule = await GetProJsModule(jsRuntime, cancellationToken);
+        IJSObjectReference coreModule = await GetCoreJsModule(jsRuntime, proModule, cancellationToken);
+
+        return await coreModule.InvokeAsync<IJSObjectReference>($"get{componentName.ToUpperFirstChar()}Wrapper",
+            cancellationToken);
+    }
+
     private IJSObjectReference? _proModule;
     private IJSObjectReference? _coreModule;
     private bool _proChecked;
