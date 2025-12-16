@@ -56,19 +56,28 @@ public class JsModuleManager
     ///     Retrieves or creates a JavaScript wrapper for a logic component.
     /// </summary>
     /// <param name="jsRuntime">The JS runtime to use for module loading.</param>
-    /// <param name="componentName">The name of the logic component (e.g., "geometryEngine").</param>
+    /// <param name="moduleName">The name of the logic component (e.g., "geometryEngine").</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>A JavaScript object reference to the component wrapper.</returns>
-    public async ValueTask<IJSObjectReference> GetLogicComponent(IJSRuntime jsRuntime, string componentName,
+    public async ValueTask<IJSObjectReference> GetLogicComponent(IJSRuntime jsRuntime, string moduleName,
         CancellationToken cancellationToken)
     {
-        IJSObjectReference? proModule = await GetProJsModule(jsRuntime, cancellationToken);
-        IJSObjectReference coreModule = await GetCoreJsModule(jsRuntime, proModule, cancellationToken);
+        if (!_proChecked)
+        {
+            await GetProJsModule(jsRuntime, cancellationToken);
+        }
 
-        return await coreModule.InvokeAsync<IJSObjectReference>($"get{componentName.ToUpperFirstChar()}Wrapper",
-            cancellationToken);
+        if (_coreModule is null)
+        {
+            await GetCoreJsModule(jsRuntime, _proModule, cancellationToken);
+        }
+
+        string modulePath = $"./_content/dymaptic.GeoBlazor.{(_proModule is null ? "Core" : "Pro")}/js/{moduleName}.js?v={_version}";
+        IJSObjectReference module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", cancellationToken, modulePath);
+        // load the default export class from the module
+        return await _coreModule!.InvokeAsync<IJSObjectReference>("getDefaultClassInstanceFromModule", cancellationToken, module);
     }
-
+    
     private IJSObjectReference? _proModule;
     private IJSObjectReference? _coreModule;
     private bool _proChecked;
