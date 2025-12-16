@@ -3,7 +3,7 @@ import {
     graphicsRefs,
     buildArcGisMapView,
     loadProtobuf,
-    ProtoGraphicCollection,
+    GraphicCollectionSerializationRecord,
     popupTemplateRefs,
     actionHandlers, 
     esriConfig,
@@ -13,6 +13,7 @@ import AuthenticationManager from "./authenticationManager";
 import ProjectionWrapper from "./projection";
 import GeometryEngineWrapper from "./geometryEngine";
 import LocatorWrapper from "./locationService";
+import MapViewWrapper from "./mapView";
 
 // backwards-compatibility re-export, since everything used to be in this module
 export * from './arcGisJsInterop';
@@ -36,7 +37,7 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, 
                                    theme?: string | null, allowDefaultEsriLogin?: boolean | null, apiKey?: string | null,
                                    appId?: string | null, zIndex?: number, 
-                                   tilt?: number) : Promise<any> {
+                                   tilt?: number) : Promise<MapViewWrapper | null> {
     try {
         setCursor('wait');
 
@@ -85,13 +86,13 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
         
         addHeadLink('_content/dymaptic.GeoBlazor.Core/css/geoblazor.css');
 
-        await buildArcGisMapView(abortSignal, id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, mapType,
+        return await buildArcGisMapView(abortSignal, id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, mapType,
             widgets, graphics, spatialReference, constraints, extent, backgroundColor, eventRateLimitInMilliseconds,
             activeEventHandlers, isServer, highlightOptions, popupEnabled, theme, zIndex, tilt);
 
     } catch (e) {
         if (abortSignal.aborted) {
-            return;
+            return null;
         }
         resetMapComponent(id);
         showError(id);
@@ -131,7 +132,7 @@ export function logUncaughtError(level: string, module: string, viewId: string, 
         error.message = args.join(', ');
     }
 
-    if (args[1].toLowerCase().includes('failed to load basemap')) {
+    if (args[1] instanceof String && args[1].toLowerCase().includes('failed to load basemap')) {
         let errorMessage = `${module} error: ${error.message}. Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
         if (viewId && viewId !== 'global') {
             resetMapComponent(viewId);
@@ -540,23 +541,20 @@ export function removeCircularReferences(jsObject: any) {
 }
 
 export function buildJsStreamReference(dnObject: any) {
-    let json = generateSerializableJson(dnObject);
-    if (!hasValue(json)) {
+    let encodedArray = buildEncodedJson(dnObject);
+    if (!hasValue(encodedArray)) {
         return null;
     }
-    let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json!);
-    return DotNet.createJSStreamReference(encodedArray);
+    return DotNet.createJSStreamReference(encodedArray!);
 }
 
-export function buildEncodedJson(object: any) {
+export function buildEncodedJson(object: any): Uint8Array {
     let json = generateSerializableJson(object);
     if (!hasValue(json)) {
-        return null;
+        json = 'null';
     }
     let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json!);
-    return encodedArray;
+    return encoder.encode(json!);
 }
 
 // Converts a base64 string to an ArrayBuffer
@@ -583,22 +581,22 @@ export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, 
 }
 
 export async function getProjectionEngineWrapper(): Promise<ProjectionWrapper> {
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
+    if (GraphicCollectionSerializationRecord === undefined) {
+        loadProtobuf();
     }
     return new ProjectionWrapper();
 }
 
 export async function getGeometryEngineWrapper(): Promise<GeometryEngineWrapper> {
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
+    if (GraphicCollectionSerializationRecord === undefined) {
+        loadProtobuf();
     }
     return new GeometryEngineWrapper();
 }
 
 export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
+    if (GraphicCollectionSerializationRecord === undefined) {
+        loadProtobuf();
     }
 
     return new LocatorWrapper();

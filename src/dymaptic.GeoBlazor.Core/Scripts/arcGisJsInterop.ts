@@ -5,15 +5,11 @@ import {
     DotNetExtent,
     DotNetGeometry,
     DotNetGraphic,
-    DotNetGraphicHit,
-    DotNetHitTestOptions,
-    DotNetHitTestResult,
     DotNetPoint,
     DotNetPolygon,
     DotNetPolyline,
     DotNetPopupTemplate,
     DotNetSpatialReference,
-    DotNetViewHit,
     MapCollection
 } from './definitions';
 import * as MapComponents from '@arcgis/map-components';
@@ -30,14 +26,14 @@ import Color from "@arcgis/core/Color";
 import esriConfig from "@arcgis/core/config";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import GeometryEngineWrapper from "./geometryEngine";
+import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
 import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Layer from "@arcgis/core/layers/Layer";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
-import { ArcgisMap } from "@arcgis/map-components/components/arcgis-map";
-import { ArcgisScene } from "@arcgis/map-components/components/arcgis-scene";
+import {ArcgisMap} from "@arcgis/map-components/components/arcgis-map";
+import {ArcgisScene} from "@arcgis/map-components/components/arcgis-scene";
 // @ts-ignore
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
 import Point from "@arcgis/core/geometry/Point";
@@ -47,7 +43,7 @@ import Popup from "@arcgis/core/widgets/Popup";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Portal from "@arcgis/core/portal/Portal";
 import * as promiseUtils from "@arcgis/core/core/promiseUtils";
-import ProjectionWrapper from "./projection";
+import * as projectionEngine from "@arcgis/core/geometry/projection";
 import Query from "@arcgis/core/rest/support/Query";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
@@ -59,9 +55,10 @@ import TileLayer from "@arcgis/core/layers/TileLayer";
 import View from "@arcgis/core/views/View";
 import WebMap from "@arcgis/core/WebMap";
 import Widget from "@arcgis/core/widgets/Widget";
-import {load} from "protobufjs";
+import {load, parse } from "protobufjs";
+import { protoTypeDefinitions } from "./geoblazorProto";
 import {buildDotNetExtent, buildJsExtent} from './extent';
-import {buildDotNetGraphic, buildJsGraphic} from './graphic';
+import {buildJsGraphic} from './graphic';
 import {buildDotNetLayer, buildJsLayer, buildJsLayerWrapper} from './layer';
 import {buildDotNetPoint, buildJsPoint} from './point';
 import {buildDotNetLayerView, buildJsLayerViewWrapper} from './layerView';
@@ -69,16 +66,14 @@ import {buildDotNetSpatialReference} from './spatialReference';
 import {buildDotNetGeometry, buildJsGeometry} from './geometry';
 import {buildDotNetSymbol, buildJsSymbol} from './symbol';
 import {buildDotNetPopupTemplate} from './popupTemplate';
+import MapViewWrapper, {buildViewExtentUpdate} from './mapView';
 import {buildJsAttributes} from './attributes';
-import HitTestResult = __esri.HitTestResult;
-import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
-import ScreenPoint = __esri.ScreenPoint;
-import ViewHit = __esri.ViewHit;
 import {buildJsWidget} from "./widget";
 import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
-import { buildJsColor } from './mapColor';
+import {buildJsColor} from './mapColor';
 import {buildJsBasemap} from "./basemap";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+import ScreenPoint = __esri.ScreenPoint;
 import {
     arcGisObjectRefs,
     dotNetRefs,
@@ -111,7 +106,12 @@ export {
     Portal,
     SimpleRenderer,
     buildJsLayer,
-    reactiveUtils
+    buildJsGeometry,
+    buildJsGraphic,
+    buildJsSymbol,
+    reactiveUtils,
+    geometryEngine,
+    projectionEngine
 };
 
 export const popupTemplateRefs: Record<string, Accessor> = {};
@@ -120,9 +120,6 @@ export const actionHandlers: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 export let ProtoGraphicCollection;
-export let ProtoViewHitCollection;
-export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper(false);
-export let projectionEngine: ProjectionWrapper = new ProjectionWrapper(false);
 
 // region module variables
 let notifyExtentChanged: boolean = true;
@@ -204,7 +201,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
                                    isServer: boolean, highlightOptions?: any | null, 
                                    popupEnabled?: boolean | null, theme?: string | null, zIndex?: number, tilt?: number,
                                    retry: boolean = false)
-    : Promise<void> {
+    : Promise<MapViewWrapper | null> {
     // Order of operations in this function is very important
     // do not change without significant testing.
 
@@ -227,8 +224,8 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
         }`);
     esriConfig.log.interceptors.unshift((newInterceptor(logUncaughtError) as __esri.LogInterceptor));
 
-    if (ProtoGraphicCollection === undefined) {
-        await loadProtobuf();
+    if (GraphicCollectionSerializationRecord === undefined) {
+        loadProtobuf();
     }
 
     await projectionEngine.load();
@@ -236,7 +233,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     checkConnectivity(id);
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     dotNetRefs[id] = dotNetRef;
@@ -258,7 +255,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     }
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 3. Create the basemap
@@ -316,7 +313,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     arcGisObjectRefs[mapObject.id] = map;
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 5. set the web component's map object
@@ -328,7 +325,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     arcGisObjectRefs[id] = view;
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 7. Set view properties
@@ -336,7 +333,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
         backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, popupEnabled, theme);
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 8. Register popup widget first before adding layers to not overwrite the popupTemplates
@@ -346,7 +343,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     }
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 9. Add layers to the map
@@ -356,7 +353,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
             const layerObject = mapObject.layers[i];
             await addArcGisLayer(layerObject, mapObject.id, id);
             if (abortSignal.aborted) {
-                return;
+                return null;
             }
         }
     }
@@ -368,7 +365,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
 
     if (!view.ui.view) {
         // this state happens after an internal ArcGIS error, we need to reload everything
-        await resetMapComponent(id);
+        resetMapComponent(id);
         if (retry) {
             throw new Error(`Map component view is in an invalid state. This often occurs after an error on navigation. We suggest catching this exception and re-rendering the MapView.`);
         } else {
@@ -381,11 +378,11 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
 
     if (!hasValue(view.container) || abortSignal.aborted) {
         // someone navigated away or rerendered the page, the view is no longer valid
-        return;
+        return null;
     }
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 11. Add graphics directly to the view
@@ -395,7 +392,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     }
 
     if (abortSignal.aborted) {
-        return;
+        return null;
     }
 
     // 12. Group widgets by position to ensure consistent stacking order
@@ -414,7 +411,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     const positionPromises = Array.from(widgetsByPosition.entries()).map(async ([position, positionWidgets]) => {
         for (const widget of positionWidgets) {
             if (abortSignal.aborted) {
-                return;
+                return null;
             }
             try {
                 // Process widgets in the same position sequentially to maintain stacking order
@@ -428,9 +425,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     // Wait for all position groups to complete
     await Promise.all(positionPromises);
 
-    if (abortSignal.aborted) {
-        return;
-    }
+    return new MapViewWrapper(view);
 }
 
 // rebuilds the <arcgis-map> or <arcgis-scene> web component from scratch to clear any errors
@@ -444,11 +439,12 @@ export function resetMapComponent(id: string): void {
     newComponent.className = 'map-container';
     newComponent.id = `map-container-${id}`;
     let knownAttributes = ['id', 'class', 'style', 'hydrated'];
-    let blazorAttr = mapComponent.getAttributeNames()
-        .find(a => !knownAttributes.includes(a));
+    let attrs = mapComponent.getAttributeNames()
+        .filter(a => !knownAttributes.includes(a));
     
-    if (blazorAttr) {
-        newComponent.setAttribute(blazorAttr, '');
+    for (let attr of attrs) {
+        let value = mapComponent.getAttribute(attr);
+        newComponent.setAttribute(attr, value ?? '');
     }
     
     parentContainer!.replaceChild(newComponent, mapComponent);
@@ -847,27 +843,14 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
     });
 }
 
-export async function hitTest(screenPoint: any, viewId: string, options: DotNetHitTestOptions | null, hitTestId: string)
-    : Promise<DotNetHitTestResult | void> {
-    const view = arcGisObjectRefs[viewId] as MapView;
-    let result: HitTestResult;
-
-    if (options !== null) {
-        const hitOptions = buildHitTestOptions(options, view);
-        result = await view.hitTest(screenPoint, hitOptions);
-    } else {
-        result = await view.hitTest(screenPoint);
+export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
+    if (arcGisObjectRefs.hasOwnProperty(geoBlazorId)) {
+        return;
     }
-
-    const dotNetResult = await buildDotNetHitTestResult(result, viewId);
-    if (dotNetResult.results.length > 0) {
-        const streamRef = getProtobufViewHitStream(dotNetResult.results);
-        dotNetResult.results = [];
-        const dotNetRef = dotNetRefs[viewId];
-        await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);
-    }
-
-    return dotNetResult;
+    jsObjectRefs[geoBlazorId] = jsObjectRef;
+    arcGisObjectRefs[geoBlazorId] = typeof jsObjectRef.unwrap === 'function'
+        ? jsObjectRef.unwrap()
+        : jsObjectRef;
 }
 
 export function toMap(screenPoint: any, viewId: string): DotNetPoint | null {
@@ -1844,110 +1827,38 @@ export function setVisibility(componentId: string, visible: boolean): void {
     }
 }
 
-export async function buildDotNetHitTestResult(hitTestResult: HitTestResult, viewId: string): Promise<DotNetHitTestResult> {
-    let results = await Promise.all(hitTestResult.results.map(async r => await buildDotNetViewHit(r as ViewHit, viewId)))
-        .then(res => res.filter(r => r !== null)) as Array<DotNetViewHit>;
-    return {
-        results: results,
-        screenPoint: hitTestResult.screenPoint
-    }
-}
+export let GraphicCollectionSerializationRecord;
+export let ProtoViewHitCollection;
 
-async function buildDotNetViewHit(viewHit: ViewHit, viewId: string): Promise<any> {
-    switch (viewHit.type) {
-        case "graphic":
-            let layerId: string | null = null;
-            if (Object.values(arcGisObjectRefs).includes(viewHit.layer)) {
-                for (const k of Object.keys(arcGisObjectRefs)) {
-                    if (arcGisObjectRefs[k] === viewHit.layer) {
-                        layerId = k;
-                        break;
-                    }
-                }
-            }
-            let {buildDotNetPoint} = await import('./point');
-            return {
-                type: "graphic",
-                graphic: buildDotNetGraphic(viewHit.graphic, layerId, viewId),
-                layerId: layerId,
-                mapPoint: buildDotNetPoint(viewHit.mapPoint)
-            };
-    }
+export let ProtoTypes: {[key: string]: any} = {};
+export let protobufRoot: any = null;
 
-    return null;
-}
-
-export function buildViewExtentUpdate(view: View): any {
-    if (view instanceof MapView) {
-        return {
-            extent: buildDotNetExtent(view.extent),
-            center: view.center !== null ? buildDotNetPoint(view.center) : null,
-            scale: view.scale,
-            zoom: view.zoom,
-            rotation: view.rotation
-        }
-    } else if (view instanceof SceneView) {
-        return {
-            extent: buildDotNetExtent(view.extent),
-            center: view.center !== null ? buildDotNetPoint(view.center) : null,
-            scale: view.scale,
-            zoom: view.zoom,
-            tilt: view.camera?.tilt
-        }
-    }
-}
-
-function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapViewHitTestOptions {
-    const hitOptions: MapViewHitTestOptions = {};
-    let hitIncludeOptions: Array<any> = [];
-    let hitExcludeOptions: Array<any> = [];
-    const layers = (view.map!.layers as MapCollection).items as Array<Layer>;
-    const graphicsLayers = layers.filter(l => l.type === "graphics") as Array<GraphicsLayer>;
-
-    if (options.includeByGeoBlazorId !== null) {
-        const gbInclude = options.includeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
-        hitIncludeOptions = hitIncludeOptions.concat(gbInclude);
-    }
-    if (options.excludeByGeoBlazorId !== null) {
-        const gbExclude = options.excludeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
-        hitExcludeOptions = hitExcludeOptions.concat(gbExclude);
-    }
-    if (options.includeLayersByArcGISId !== null) {
-        const layerInclude = layers.filter(l => options.includeLayersByArcGISId!.includes(l.id));
-        hitIncludeOptions = hitIncludeOptions.concat(layerInclude);
-    }
-    if (options.excludeLayersByArcGISId !== null) {
-        const layerExclude = layers.filter(l => options.excludeLayersByArcGISId!.includes(l.id));
-        hitExcludeOptions = hitExcludeOptions.concat(layerExclude);
-    }
-    if (options.includeGraphicsByArcGISId !== null) {
-        const graphicInclude = options.includeGraphicsByArcGISId.map(i =>
-            view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
-            graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
-        hitIncludeOptions = hitIncludeOptions.concat(graphicInclude);
-    }
-    if (options.excludeGraphicsByArcGISId !== null) {
-        const graphicExclude = options.excludeGraphicsByArcGISId.map(i =>
-            view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
-            graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
-        hitExcludeOptions = hitExcludeOptions.concat(graphicExclude);
-    }
-
-    if (hitIncludeOptions.length > 0) {
-        hitOptions.include = hitIncludeOptions;
-    }
-    if (hitExcludeOptions.length > 0) {
-        hitOptions.exclude = hitExcludeOptions;
-    }
-
-    return hitOptions;
-}
-
-export async function loadProtobuf() {
-    if (ProtoGraphicCollection && ProtoViewHitCollection) {
-        // already loaded
+export function loadProtobuf(): void {
+    if (GraphicCollectionSerializationRecord !== undefined && ProtoViewHitCollection !== undefined) {
         return;
     }
+
+    let parseResults = parse(protoTypeDefinitions);
+    protobufRoot = parseResults.root;
+    
+    if (!hasValue(protobufRoot)) {
+        throw new Error('Could not load graphic protobuf definition');
+    }
+
+    // Load all types from root into ProtoTypes
+    // @ts-ignore unknown types
+    protobufRoot.nested.dymaptic.GeoBlazor.Core.Serialization.nestedArray.forEach((type: any) => {
+        if (type && type.name) {
+            ProtoTypes[type.name] = type;
+        }
+    });
+
+    GraphicCollectionSerializationRecord = ProtoTypes["GraphicCollection"];
+    // TODO: UNCOMMENT:
+    //  ProtoViewHitCollection = ProtoTypes["ViewHitCollection"];
+    console.debug('Protobuf graphic types initialized');
+    
+    // TODO: REMOVE WHEN NOT NEEDED:
     load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
         if (err) {
             throw err;
@@ -1958,12 +1869,35 @@ export async function loadProtobuf() {
     });
 }
 
+export function getArcGisObjectById(id: string | null) : any {
+    if (!id) {
+        return null;
+    }
+    
+    if (arcGisObjectRefs.hasOwnProperty(id)) {
+        return arcGisObjectRefs[id];
+    }
+    
+    return null;
+}
+
 export async function getGraphicsFromProtobufStream(streamRef): Promise<any[] | null> {
     const buffer = await streamRef.arrayBuffer();
     return decodeProtobufGraphics(new Uint8Array(buffer));
 }
 
 export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
+    // const decoded = GraphicCollectionSerializationRecord.decode(uintArray);
+    // const array = GraphicCollectionSerializationRecord.toObject(decoded, {
+    //     defaults: false,
+    //     enums: String,
+    //     longs: String,
+    //     arrays: false,
+    //     objects: false
+    // });
+    // return array.items;
+
+    // TODO: REPLACE WITH NEW VERSION ABOVE
     const decoded = ProtoGraphicCollection.decode(uintArray);
     const array = ProtoGraphicCollection.toObject(decoded, {
         defaults: false,
@@ -1984,118 +1918,97 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: Featu
     };
     const collection = ProtoGraphicCollection.fromObject(obj);
     const encoded = ProtoGraphicCollection.encode(collection).finish();
-        return DotNet.createJSStreamReference(encoded);
+    return DotNet.createJSStreamReference(encoded);
 }
 
-function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
-    for (let i = 0; i < viewHits.length; i++) {
-        const viewHit = viewHits[i];
-        if (viewHit.type === "graphic") {
-            const graphic = (viewHit as DotNetGraphicHit).graphic;
-            const layer = arcGisObjectRefs[(viewHit as DotNetGraphicHit).layerId] as FeatureLayer;
-            updateGraphicForProtobuf(graphic, layer);
-        }
-    }
-
-    const obj = {
-        viewHits: viewHits
-    };
-    const collection = ProtoViewHitCollection.fromObject(obj);
-    const encoded = ProtoViewHitCollection.encode(collection).finish();
-        return DotNet.createJSStreamReference(encoded);
-}
-
-function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
-    if (hasValue(graphic.attributes)) {
-        const fields = layer?.fields;
-        graphic.attributes = Object.keys(graphic.attributes).map(attr => {
-            const typedValue = graphic.attributes[attr];
-            let valueType: string | undefined = undefined;
-            if (hasValue(fields)) {
-                const field = fields!.find(f => f.name === attr);
-                if (hasValue(field)) {
-                    valueType = field!.type;
-                }
-            }
-            valueType ??= Object.prototype.toString.call(typedValue);
-            return {
-                key: attr,
-                value: typedValue?.toString(),
-                valueType: valueType
-            }
-        });
-    }
+export function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
     if (hasValue(graphic.geometry)) {
         updateGeometryForProtobuf(graphic.geometry);
     }
-    const symbol: any = graphic.symbol;
-    if (hasValue(symbol)) {
-        if (hasValue(symbol.color)) {
-            symbol.color = {
-                hexOrNameValue: symbol.color
-            }
-        }
-        if (hasValue(symbol.haloColor)) {
-            symbol.haloColor = {
-                hexOrNameValue: symbol.haloColor
-            }
-        }
-        if (hasValue(symbol.backgroundColor)) {
-            symbol.backgroundColor = {
-                hexOrNameValue: symbol.backgroundColor
-            }
-        }
-        if (hasValue(symbol.borderLineColor)) {
-            symbol.borderLineColor = {
-                hexOrNameValue: symbol.borderLineColor
-            }
-        }
-        if (hasValue(symbol.outline?.color)) {
-            symbol.outline.color = {
-                hexOrNameValue: symbol.outline.color
-            }
-        }
-        if (hasValue(symbol.portal)) {
-            symbol.portalUrl = symbol.portal.url;
-        }
+
+    if (hasValue(graphic.symbol)) {
+        updateSymbolForProtobuf(graphic.symbol);
     }
 }
 
-function updateGeometryForProtobuf(geometry) {
-    if (hasValue(geometry.paths)) {
-        geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
-            return {
-                points: p.map(pt => {
-                    return {
-                        coordinates: pt
-                    }
-                })
-            }
-        });
+export function updateGeometryForProtobuf(geometry) {
+    if (hasValue(geometry.paths) && geometry.paths.length > 0) {
+        if (hasValue(geometry.paths[0].points)) {
+            // already transformed
+        } else {
+            geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
+                return {
+                    points: p.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        }
     } else {
         geometry.paths = [];
     }
-    if (hasValue(geometry.rings)) {
-        geometry.rings = (geometry as DotNetPolygon).rings.map(r => {
-            return {
-                points: r.map(pt => {
-                    return {
-                        coordinates: pt
-                    }
-                })
-            }
-        });
+    if (hasValue(geometry.rings) && geometry.rings.length > 0) {
+        if (hasValue(geometry.rings[0].points)) {
+            // already transformed
+        } else {
+            geometry.rings = (geometry as DotNetPolygon).rings.map(r => {
+                return {
+                    points: r.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        }
     } else {
         geometry.rings = [];
     }
-    if (hasValue(geometry.points)) {
-        geometry.points = geometry.points.map(pt => {
-            return {
-                coordinates: pt
-            }
-        });
+    if (hasValue(geometry.points) && geometry.points.length > 0) {
+        if (hasValue(geometry.points[0].coordinates)) {
+            // already transformed
+        } else {
+            geometry.points = geometry.points.map(pt => {
+                return {
+                    coordinates: pt
+                }
+            });
+        }
     } else {
         geometry.points = [];
+    }
+}
+
+export function updateSymbolForProtobuf(symbol) {
+    if (hasValue(symbol.color) && !hasValue(symbol.color.hexOrNameValue)) {
+        symbol.color = {
+            hexOrNameValue: symbol.color
+        }
+    }
+    if (hasValue(symbol.haloColor) && !hasValue(symbol.haloColor.hexOrNameValue)) {
+        symbol.haloColor = {
+            hexOrNameValue: symbol.haloColor
+        }
+    }
+    if (hasValue(symbol.backgroundColor) && !hasValue(symbol.backgroundColor.hexOrNameValue)) {
+        symbol.backgroundColor = {
+            hexOrNameValue: symbol.backgroundColor
+        }
+    }
+    if (hasValue(symbol.borderLineColor) && !hasValue(symbol.borderLineColor.hexOrNameValue)) {
+        symbol.borderLineColor = {
+            hexOrNameValue: symbol.borderLineColor
+        }
+    }
+    if (hasValue(symbol.outline?.color) && !hasValue(symbol.outline.color.hexOrNameValue)) {
+        symbol.outline.color = {
+            hexOrNameValue: symbol.outline.color
+        }
+    }
+    if (hasValue(symbol.portal) && !hasValue(symbol.portalUrl)) {
+        symbol.portalUrl = symbol.portal.url;
     }
 }
 
@@ -2132,7 +2045,7 @@ export async function takeScreenshot(viewId, options): Promise<any> {
 
     const buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
 
-        const jsStreamRef = DotNet.createJSStreamReference(buffer);
+    const jsStreamRef = DotNet.createJSStreamReference(buffer);
 
     return {
         width: screenshot.data.width,
