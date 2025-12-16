@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class MapFont : MapComponent
+[ProtobufSerializable]
+public partial class MapFont : MapComponent, IProtobufSerializable<MapFontSerializationRecord>
 {
-
-
     /// <summary>
     ///     The text decoration.
     ///     default none
@@ -46,58 +45,10 @@ public partial class MapFont : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FontWeight? Weight { get; set; }
 
-    internal MapFontSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public MapFontSerializationRecord ToProtobuf()
     {
         return new MapFontSerializationRecord(Id.ToString(), Size?.Points, Family, Style?.ToString().ToKebabCase(), 
             Weight?.ToString().ToKebabCase(), Decoration?.ToString().ToKebabCase());
-    }
-}
-
-[ProtoContract]
-internal record MapFontSerializationRecord
-{
-    public MapFontSerializationRecord()
-    {
-    }
-
-    public MapFontSerializationRecord(string Id, double? Size, string? Family, string? FontStyle, string? Weight, 
-        string? Decoration)
-    {
-        this.Id = Id;
-        this.Size = Size;
-        this.Family = Family;
-        this.FontStyle = FontStyle;
-        this.Weight = Weight;
-        this.Decoration = Decoration;
-    }
-
-    [ProtoMember(1)]
-    public double? Size { get; init; }
-
-    [ProtoMember(2)]
-    public string? Family { get; init; }
-
-    [ProtoMember(3)]
-    public string? FontStyle { get; init; }
-
-    [ProtoMember(4)]
-    public string? Weight { get; init; }
-
-    [ProtoMember(5)]
-    public string? Decoration { get; init; }
-    
-    [ProtoMember(6)]
-    public string? Id { get; init; }
-
-    public MapFont FromSerializationRecord()
-    {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guid))
-        {
-            id = guid;
-        }
-        return new MapFont(Size, Family, FontStyle is null ? null : Enum.Parse<MapFontStyle>(FontStyle), 
-            Weight is null ? null : Enum.Parse<FontWeight>(Weight), 
-            Decoration is null ? null : Enum.Parse<TextDecoration>(Decoration)) { Id = id };
     }
 }

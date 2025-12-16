@@ -4040,7 +4040,7 @@ public partial class GeoJSONLayer : IBlendLayer,
             return;
         }
     
-        GeoJSONLayerEditsEvent? editsEvent = await jsStreamRef.ReadJsStreamReference<GeoJSONLayerEditsEvent>();
+        GeoJSONLayerEditsEvent? editsEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<GeoJSONLayerEditsEvent>();
         if (editsEvent is not null)
         {
             await OnEdits.InvokeAsync(editsEvent);
@@ -4073,7 +4073,7 @@ public partial class GeoJSONLayer : IBlendLayer,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);

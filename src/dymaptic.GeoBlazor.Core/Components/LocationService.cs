@@ -2179,7 +2179,7 @@ public partial class LocationService : LogicComponent
             categories, countryCode, forStorage, location, locationType, magicKey,
             maxLocations, outFields, outSpatialReference, searchExtent, requestOptions, addressSearchStringParameterName);
 
-        return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
+        return await streamRef.ReadJsStreamReferenceAsJSON<List<AddressCandidate>>() ?? [];
     }
 
     /// <summary>
@@ -2218,7 +2218,7 @@ public partial class LocationService : LogicComponent
             addresses, countryCode, categories, locationType,
             outSpatialReference, requestOptions, addressSearchStringParameterName);
 
-        return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
+        return await streamRef.ReadJsStreamReferenceAsJSON<List<AddressCandidate>>() ?? [];
     }
 
     private const string ESRIGeoLocationUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";

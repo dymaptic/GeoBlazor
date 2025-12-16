@@ -340,7 +340,7 @@ public abstract partial class Layer : MapComponent
         IJSStreamReference streamRef = await JsComponentReference!.InvokeAsync<IJSStreamReference>("load", 
             cancellationToken, abortSignal);
         Type type = GetType();
-        Layer? deserializedLayer = await streamRef.ReadJsStreamReference(type) as Layer;
+        Layer? deserializedLayer = await streamRef.ReadJsStreamReferenceAsJSON(type) as Layer;
         if (deserializedLayer is null)
         {
             throw new InvalidOperationException($"Could not load layer of type {type.Name}");

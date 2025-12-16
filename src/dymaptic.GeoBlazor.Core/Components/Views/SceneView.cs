@@ -188,7 +188,7 @@ public class SceneView : MapView
             IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
             CancellationTokenSource.CancelAfter(MapRenderTimeoutInMilliseconds); // timeout for the map view to be built
 
-            await CoreJsModule!.InvokeVoidAsync("buildMapView",
+            JsComponentReference = await CoreJsModule!.InvokeAsync<IJSObjectReference>("buildMapView",
                 CancellationTokenSource.Token, abortSignal, Id, DotNetComponentReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,

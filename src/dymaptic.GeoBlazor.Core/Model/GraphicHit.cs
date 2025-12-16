@@ -16,5 +16,17 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name = "MapPoint">
 ///     The point geometry in the spatial reference of the view corresponding with the input screen coordinates.
 /// </param>
-public record GraphicHit(Graphic Graphic, Guid? LayerId, Point MapPoint) : ViewHit("graphic", MapPoint);
+/// <param name="Distance">
+/// </param>
+[ProtobufSerializable]
+[CodeGenerationIgnore]
+public record GraphicHit(Graphic Graphic, Guid? LayerId, Point MapPoint, double? Distance = null) : ViewHit("graphic", MapPoint)
+{
+    /// <inheritdoc />
+    public override ViewHitSerializationRecord ToProtobuf()
+    {
+        return new ViewHitSerializationRecord(Type, MapPoint.ToProtobuf(), 
+            Graphic.ToProtobuf(), LayerId?.ToString(), Distance);
+    }
+}
 

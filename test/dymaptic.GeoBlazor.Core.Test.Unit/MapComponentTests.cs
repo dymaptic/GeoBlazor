@@ -21,7 +21,7 @@ public class MapComponentTests
         var component = new TestMapComponent();
         var child = new TestChildInCollection();
         await component.RegisterChildComponent(child);
-        Assert.AreEqual(1, component.TestChildrenInCollection!.Count);
+        Assert.HasCount(1, component.TestChildrenInCollection!);
     }
     
     [TestMethod]
@@ -33,7 +33,7 @@ public class MapComponentTests
             TestChildComponent = child
         };
         await component.UnregisterChildComponent(child);
-        Assert.AreEqual(null, component.TestChildComponent);
+        Assert.IsNull(component.TestChildComponent);
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class MapComponentTests
             TestChildrenInCollection = (List<TestChildInCollection>) [child]
         };
         await component.UnregisterChildComponent(child);
-        Assert.AreEqual(0, component.TestChildrenInCollection!.Count);
+        Assert.IsEmpty(component.TestChildrenInCollection!);
     }
     
     [TestMethod]
@@ -53,7 +53,7 @@ public class MapComponentTests
     {
         var component = new TestMapComponent();
         var notAChildComponent = new NotAChildComponent();
-        await Assert.ThrowsExceptionAsync<InvalidChildElementException>(() => 
+        await Assert.ThrowsAsync<InvalidChildElementException>(() => 
             component.RegisterChildComponent(notAChildComponent));
     }
 

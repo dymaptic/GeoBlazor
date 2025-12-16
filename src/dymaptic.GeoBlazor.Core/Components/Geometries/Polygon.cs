@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
+[ProtobufSerializable]
 public partial class Polygon : Geometry
 {
     /// <summary>
@@ -116,16 +117,17 @@ public partial class Polygon : Geometry
             Centroid, HasM, HasZ);
     }
     
-    internal override GeometrySerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override GeometrySerializationRecord ToProtobuf()
     {
         return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), 
-            Extent?.ToSerializationRecord(),
-            SpatialReference?.ToSerializationRecord())
+            Extent?.ToProtobuf(),
+            SpatialReference?.ToProtobuf())
         {
-            Rings = Rings.Select(p => p.ToSerializationRecord()).ToArray(),
+            Rings = Rings.Select(p => p.ToProtobuf()).ToArray(),
             HasM = HasM,
             HasZ = HasZ,
-            Centroid = Centroid?.ToSerializationRecord(),
+            Centroid = Centroid?.ToProtobuf(),
 #pragma warning disable CS0618 // Type or member is obsolete
             IsSelfIntersecting = IsSelfIntersecting
 #pragma warning restore CS0618 // Type or member is obsolete

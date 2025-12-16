@@ -857,7 +857,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
             return;
         }
     
-        LocateViewModelLocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReference<LocateViewModelLocateErrorEvent>();
+        LocateViewModelLocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LocateViewModelLocateErrorEvent>();
         if (locateErrorEvent is not null)
         {
             await OnLocateError.InvokeAsync(locateErrorEvent);

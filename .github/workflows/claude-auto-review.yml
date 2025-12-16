@@ -43,4 +43,10 @@ jobs:
             Use inline comments to highlight specific areas of concern.
             Keep the review concise, and focus on actionable feedback, not positive praise.
             Limit the review to about 5000 words or less.
+            
+            There is a `GlobalUsings.cs` file in this repository, so be aware that individual files do not necessarily require using statements.
+            
+            If you see an unusual pattern, first check to see if there is a specific reason why that pattern had to be used instead of the more
+            typical pattern. If so, you can recommend a comment on the pattern rather than changing the pattern if that is appropriate.
+            
           allowed_tools: "mcp__github__create_pending_pull_request_review,mcp__github__add_pull_request_review_comment_to_pending_review,mcp__github__submit_pending_pull_request_review,mcp__github__get_pull_request_diff"

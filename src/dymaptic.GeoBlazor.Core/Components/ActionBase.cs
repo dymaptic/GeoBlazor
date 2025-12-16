@@ -2,7 +2,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 [JsonConverter(typeof(ActionBaseConverter))]
 [CodeGenerationIgnore]
-public abstract partial class ActionBase : MapComponent
+[ProtobufSerializable]
+public abstract partial class ActionBase : MapComponent, IProtobufSerializable<ActionBaseSerializationRecord>
 {
     /// <summary>
     ///     The title of the action.
@@ -65,92 +66,8 @@ public abstract partial class ActionBase : MapComponent
     /// </summary>
     public abstract string Type { get; }
     
-    internal abstract ActionBaseSerializationRecord ToSerializationRecord();
-}
-
-[ProtoContract(Name = "Action")]
-internal record ActionBaseSerializationRecord : MapComponentSerializationRecord
-{
-    public ActionBaseSerializationRecord()
-    {
-    }
-    
-    public ActionBaseSerializationRecord(string Id,
-        string Type,
-        string? Title,
-        string? ClassName,
-        bool? Active,
-        bool? Disabled,
-        bool? Visible,
-        string? ActionId)
-    {
-        this.Id = Id;
-        this.Type = Type;
-        this.Title = Title;
-        this.ClassName = ClassName;
-        this.Active = Active;
-        this.Disabled = Disabled;
-        this.Visible = Visible;
-        this.ActionId = ActionId;
-    }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(1)]
-    public string Type { get; init; } = string.Empty;
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(2)]
-    public string? Title { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(3)]
-    public string? ClassName { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(4)]
-    public bool? Active { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(5)]
-    public bool? Disabled { get; init; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(6)]
-    public bool? Visible { get; init; }
-    
-    [ProtoMember(7)]
-    public string? Id { get; init; }
-    
-    [ProtoMember(8)]
-    public string? Image { get; init; }
-
-    [ProtoMember(9)]
-    public bool? Value { get; init; }
-    
-    [ProtoMember(10)]
-    public string? ActionId { get; init; }
-
-    public ActionBase FromSerializationRecord()
-    {
-        Guid id = Guid.NewGuid();
-        if (Guid.TryParse(Id, out Guid guidId))
-        {
-            id = guidId;
-        }
-        
-        return Type switch
-        {
-            "button" => new ActionButton(Title, Image, ActionId, null, ClassName, Active, Disabled, Visible)
-            {
-                Id = id
-            },
-            "toggle" => new ActionToggle(Title, ActionId, null, Value, Active, Disabled, Visible)
-            {
-                Id = id
-            },
-            _ => throw new NotSupportedException()
-        };
-    }
+    /// <inheritdoc />
+    public abstract ActionBaseSerializationRecord ToProtobuf();
 }
 
 internal class ActionBaseConverter : JsonConverter<ActionBase>

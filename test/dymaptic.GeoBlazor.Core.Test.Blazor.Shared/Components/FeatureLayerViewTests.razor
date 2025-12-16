@@ -117,7 +117,7 @@
 
         double? max = await layerView.GetMaximumNumberOfFeatures();
         Assert.IsTrue(max >= 0, "maximumNumberOfFeatures should be non-negative.");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max!]);
 
         bool exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded() ?? false;
         // For two graphics, exceeded should normally be false, but assert against the JS value rather than forcing it.
@@ -210,7 +210,7 @@
         // 2) Read-only props: read them, then assert JS reports the same value
         double? max = await layerView.GetMaximumNumberOfFeatures();
         Assert.IsTrue(max >= 0);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeatures", max!]);
 
         bool? exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded();
         Assert.IsNotNull(exceeded);
