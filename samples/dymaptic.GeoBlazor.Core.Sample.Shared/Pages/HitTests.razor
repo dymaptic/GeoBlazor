@@ -64,7 +64,7 @@
         {
             HitTestOptions options = new()
                 {
-                    IncludeByGeoBlazorId = new[] { _hurricaneLayer!.Id }
+                    IncludeByGeoBlazorId = [_hurricaneLayer!.Id]
                 };
             HitTestResult result = await _mapView!.HitTest(pointerEvent, options);
             Graphic? graphic = result.Results.OfType<GraphicHit>().FirstOrDefault()?.Graphic;

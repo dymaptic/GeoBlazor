@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+[ProtobufSerializable]
 public partial class MediaPopupContent : PopupContent
 {
-
-    
     /// <inheritdoc />
     public override PopupContentType Type => PopupContentType.Media;
 
@@ -72,14 +71,15 @@ public partial class MediaPopupContent : PopupContent
     }
 
 
-    internal override PopupContentSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             ActiveMediaInfoIndex = ActiveMediaInfoIndex,
             Description = Description,
             Title = Title,
-            MediaInfos = MediaInfos?.Select(x => x.ToSerializationRecord()).ToArray()
+            MediaInfos = MediaInfos?.Select(x => x.ToProtobuf()).ToArray()
         };
     }
 }

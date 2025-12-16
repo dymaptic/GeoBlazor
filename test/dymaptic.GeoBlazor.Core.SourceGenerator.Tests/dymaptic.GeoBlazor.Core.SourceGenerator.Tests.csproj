@@ -2,27 +2,32 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <Nullable>enable</Nullable>
-
         <IsPackable>false</IsPackable>
-
         <RootNamespace>dymaptic.GeoBlazor.Core.SourceGenerator.Tests</RootNamespace>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing.MSTest" Version="1.1.2" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2"/>
-        <PackageReference Include="MSTest.TestAdapter" Version="4.0.1" />
-        <PackageReference Include="MSTest.TestFramework" Version="4.0.1" />
+        <PackageReference Include="CliWrap" Version="3.9.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.11" />
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing.MSTest" Version="1.1.2"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1"/>
+        <PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
+        <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
         <PackageReference Include="coverlet.collector" Version="6.0.4">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="protobuf-net.Core" Version="3.2.52" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" />
+        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj"
+                          OutputItemType="Analyzer"
+                          ReferenceOutputAssembly="true" />
+        <Reference Include="..\..\src\dymaptic.GeoBlazor.Core\bin\Debug\net8.0\dymaptic.GeoBlazor.Core.dll" />
     </ItemGroup>
-
-
 </Project>

@@ -4,10 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.Horizontal.html">GeoBlazor Docs</a>
-///     Enumeration for Horizontal
+///     Enumeration for Mesh Texture Wrap Modes.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<Horizontal>))]
-public enum Horizontal
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<WrapMode>))]
+[CodeGenerationIgnore]
+public enum WrapMode
 {
 #pragma warning disable CS1591
     Clamp,

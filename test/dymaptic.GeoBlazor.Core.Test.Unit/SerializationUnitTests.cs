@@ -1,5 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Model;
@@ -74,7 +73,7 @@ public class SerializationUnitTests
             new AttributesDictionary(
                 new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
         var sw = Stopwatch.StartNew();
-        ProtoGraphicCollection collection = new([graphic.ToSerializationRecord()]);
+        GraphicCollectionSerializationRecord collection = new([graphic.ToSerializationRecord()]);
         using MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
         byte[] data = ms.ToArray();
@@ -92,14 +91,14 @@ public class SerializationUnitTests
             new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", ["*"]),
             new AttributesDictionary(
                 new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
-        ProtoGraphicCollection collection = new([graphic.ToSerializationRecord()]);
+        GraphicCollectionSerializationRecord collection = new([graphic.ToSerializationRecord()]);
         using MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
         byte[] data = ms.ToArray();
-        ProtoGraphicCollection deserializedCollection =
-            Serializer.Deserialize<ProtoGraphicCollection>((ReadOnlyMemory<byte>)data);
-        Graphic deserialized = deserializedCollection.Graphics[0].FromSerializationRecord();
-        Assert.AreEqual(((Point)graphic.Geometry!).Latitude, ((Point)deserialized.Geometry!).Latitude);
+        GraphicCollectionSerializationRecord deserializedCollection =
+            Serializer.Deserialize<GraphicCollectionSerializationRecord>((ReadOnlyMemory<byte>)data);
+        Graphic deserialized = deserializedCollection.Items![0].FromSerializationRecord()!;
+        Assert.AreEqual(((Point)graphic.Geometry!).Latitude, ((Point)deserialized!.Geometry!).Latitude);
         Assert.AreEqual(((Point)graphic.Geometry!).Longitude, ((Point)deserialized.Geometry!).Longitude);
         Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Color);
         Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Outline!.Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Outline!.Color);
@@ -169,7 +168,7 @@ public class SerializationUnitTests
         WFSCapabilities capabilities = JsonSerializer.Deserialize<WFSCapabilities>(json, 
             GeoBlazorSerialization.JsonSerializerOptions)!;
         Assert.IsNotNull(capabilities.FeatureTypes);
-        Assert.IsTrue(capabilities.FeatureTypes!.Count > 0);
+        Assert.IsNotEmpty(capabilities.FeatureTypes!);
     }
 
     private readonly Random _random = new();

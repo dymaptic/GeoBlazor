@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+[ProtobufSerializable]
 public partial class ExpressionPopupContent : PopupContent
 {
-
-
     /// <inheritdoc />
     public override PopupContentType Type => PopupContentType.Expression;
 
@@ -14,11 +13,12 @@ public partial class ExpressionPopupContent : PopupContent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElementExpressionInfo? ExpressionInfo { get; set; }
 
-    internal override PopupContentSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
-            ExpressionInfo = ExpressionInfo?.ToSerializationRecord()
+            ExpressionInfo = ExpressionInfo?.ToProtobuf()
         };
     }
 }

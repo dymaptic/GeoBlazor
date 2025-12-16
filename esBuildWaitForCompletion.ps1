@@ -1,30 +1,21 @@
 # PowerShell
-param([string][Alias("c")]$Configuration = "Debug",
-    [switch]$Pro)
+param([string][Alias("c")]$Configuration = "Debug")
 
-if ($Pro) {
-    $RootDir = Join-Path -Path $PSScriptRoot "..\src\dymaptic.GeoBlazor.Pro"
-} else {
-    $RootDir = Join-Path -Path $PSScriptRoot "src\dymaptic.GeoBlazor.Core"
-}
-
-$LockFilePath = Join-Path -Path $RootDir "esBuild.$Configuration.lock"
+$CoreRootDir = Join-Path -Path $PSScriptRoot "src\dymaptic.GeoBlazor.Core"
+$ProRootDir = Join-Path -Path $PSScriptRoot "..\src\dymaptic.GeoBlazor.Pro"
+$CoreLockFilePath = Join-Path -Path $CoreRootDir "esBuild.$Configuration.lock"
+$ProLockFilePath = Join-Path -Path $ProRootDir "esBuild.$Configuration.lock"
 
 Write-Host "Waiting for lock file:" $LockFilePath
 
-if (Test-Path -Path $LockFilePath) {
+if ((Test-Path -Path $CoreLockFilePath) -or (Test-Path -Path $ProLockFilePath)) {
     Write-Host "Lock file found. Waiting for release."
 } else {
-    Start-Sleep -Seconds 1
-    if (Test-Path -Path $LockFilePath) {
-        Write-Host "Lock file found. Waiting for release."
-    } else {
-        Write-Host "No lock file found. Exiting."
-        return 0
-    }
+    Write-Host "No lock file found. Exiting."
+    return 0
 }
 
-while (Test-Path -Path $LockFilePath) {
+while ((Test-Path -Path $CoreLockFilePath) -or (Test-Path -Path $ProLockFilePath)) {
     Start-Sleep -Seconds 1
     Write-Host -NoNewline "."
 }

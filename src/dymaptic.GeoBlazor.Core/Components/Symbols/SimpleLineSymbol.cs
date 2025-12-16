@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[ProtobufSerializable]
 public partial class SimpleLineSymbol : LineSymbol
 {
-
-    
     /// <inheritdoc />
     public override SymbolType Type => SymbolType.SimpleLine;
 
@@ -53,9 +52,10 @@ public partial class SimpleLineSymbol : LineSymbol
     [Parameter]
     public SimpleLineSymbolStyle? Style { get; set; }
 
-    internal override SymbolSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override SymbolSerializationRecord ToProtobuf()
     {
-        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
+        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color?.ToProtobuf())
         {
             Width = Width?.Points, 
             Style = Style?.ToString().ToKebabCase()

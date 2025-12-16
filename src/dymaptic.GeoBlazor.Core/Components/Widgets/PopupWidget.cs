@@ -123,7 +123,7 @@ public partial class PopupWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
-        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReference<GoToOverrideParameters>();
+        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReferenceAsJSON<GoToOverrideParameters>();
         if (GoToOverride is not null && goToParameters is not null)
         {
             await GoToOverride.Invoke(goToParameters);
@@ -163,7 +163,7 @@ public partial class PopupWidget : Widget
         
         IJSStreamReference jsStreamRef = await JsComponentReference!.InvokeAsync<IJSStreamReference>(
             "getSelectedFeature", CancellationTokenSource.Token);
-        SelectedFeature = await jsStreamRef.ReadJsStreamReference<Graphic>();
+        SelectedFeature = await jsStreamRef.ReadJsStreamReferenceAsJSON<Graphic>();
         return SelectedFeature;
     }
 
@@ -374,7 +374,7 @@ public partial class PopupWidget : Widget
     public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
         PopupTriggerActionEvent? triggerActionEvent =
-            await jsStreamRef.ReadJsStreamReference<PopupTriggerActionEvent>();
+            await jsStreamRef.ReadJsStreamReferenceAsJSON<PopupTriggerActionEvent>();
         
         if (triggerActionEvent is null || Actions is null)
         {

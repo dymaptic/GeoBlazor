@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
+[ProtobufSerializable]
 public partial class Point : Geometry
 {
-
-
     /// <summary>
     ///     The latitude of the point.
     /// </summary>
@@ -64,11 +63,12 @@ public partial class Point : Geometry
         return new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.Clone(), HasM, HasZ, M);
     }
 
-    internal override GeometrySerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override GeometrySerializationRecord ToProtobuf()
     {
         return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), 
-            Extent?.ToSerializationRecord(),
-            SpatialReference?.ToSerializationRecord())
+            Extent?.ToProtobuf(),
+            SpatialReference?.ToProtobuf())
         {
             Longitude = Longitude,
             Latitude = Latitude,

@@ -2475,7 +2475,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderMaxChangeEvent? maxChangeEvent = await jsStreamRef.ReadJsStreamReference<SliderMaxChangeEvent>();
+        SliderMaxChangeEvent? maxChangeEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMaxChangeEvent>();
         if (maxChangeEvent is not null)
         {
             await OnMaxChange.InvokeAsync(maxChangeEvent);
@@ -2507,7 +2507,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderMaxClickEvent? maxClickEvent = await jsStreamRef.ReadJsStreamReference<SliderMaxClickEvent>();
+        SliderMaxClickEvent? maxClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMaxClickEvent>();
         if (maxClickEvent is not null)
         {
             await OnMaxClick.InvokeAsync(maxClickEvent);
@@ -2539,7 +2539,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderMinChangeEvent? minChangeEvent = await jsStreamRef.ReadJsStreamReference<SliderMinChangeEvent>();
+        SliderMinChangeEvent? minChangeEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMinChangeEvent>();
         if (minChangeEvent is not null)
         {
             await OnMinChange.InvokeAsync(minChangeEvent);
@@ -2571,7 +2571,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderMinClickEvent? minClickEvent = await jsStreamRef.ReadJsStreamReference<SliderMinClickEvent>();
+        SliderMinClickEvent? minClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMinClickEvent>();
         if (minClickEvent is not null)
         {
             await OnMinClick.InvokeAsync(minClickEvent);
@@ -2603,7 +2603,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderSegmentClickEvent? segmentClickEvent = await jsStreamRef.ReadJsStreamReference<SliderSegmentClickEvent>();
+        SliderSegmentClickEvent? segmentClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderSegmentClickEvent>();
         if (segmentClickEvent is not null)
         {
             await OnSegmentClick.InvokeAsync(segmentClickEvent);
@@ -2635,7 +2635,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderSegmentDragEvent? segmentDragEvent = await jsStreamRef.ReadJsStreamReference<SliderSegmentDragEvent>();
+        SliderSegmentDragEvent? segmentDragEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderSegmentDragEvent>();
         if (segmentDragEvent is not null)
         {
             await OnSegmentDrag.InvokeAsync(segmentDragEvent);
@@ -2667,7 +2667,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderThumbChangeEvent? thumbChangeEvent = await jsStreamRef.ReadJsStreamReference<SliderThumbChangeEvent>();
+        SliderThumbChangeEvent? thumbChangeEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbChangeEvent>();
         if (thumbChangeEvent is not null)
         {
             await OnThumbChange.InvokeAsync(thumbChangeEvent);
@@ -2699,7 +2699,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderThumbClickEvent? thumbClickEvent = await jsStreamRef.ReadJsStreamReference<SliderThumbClickEvent>();
+        SliderThumbClickEvent? thumbClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbClickEvent>();
         if (thumbClickEvent is not null)
         {
             await OnThumbClick.InvokeAsync(thumbClickEvent);
@@ -2731,7 +2731,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderThumbDragEvent? thumbDragEvent = await jsStreamRef.ReadJsStreamReference<SliderThumbDragEvent>();
+        SliderThumbDragEvent? thumbDragEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbDragEvent>();
         if (thumbDragEvent is not null)
         {
             await OnThumbDrag.InvokeAsync(thumbDragEvent);
@@ -2763,7 +2763,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderTickClickEvent? tickClickEvent = await jsStreamRef.ReadJsStreamReference<SliderTickClickEvent>();
+        SliderTickClickEvent? tickClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderTickClickEvent>();
         if (tickClickEvent is not null)
         {
             await OnTickClick.InvokeAsync(tickClickEvent);
@@ -2795,7 +2795,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderTrackClickEvent? trackClickEvent = await jsStreamRef.ReadJsStreamReference<SliderTrackClickEvent>();
+        SliderTrackClickEvent? trackClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderTrackClickEvent>();
         if (trackClickEvent is not null)
         {
             await OnTrackClick.InvokeAsync(trackClickEvent);

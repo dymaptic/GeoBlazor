@@ -52,6 +52,11 @@ public partial record PortalItemResource(
     public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    public bool IsServer { get; set; }
+    
+    /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();

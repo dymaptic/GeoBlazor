@@ -2072,7 +2072,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchBlurEvent? searchBlurEvent = await jsStreamRef.ReadJsStreamReference<SearchBlurEvent>();
+        SearchBlurEvent? searchBlurEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchBlurEvent>();
         if (searchBlurEvent is not null)
         {
             await OnSearchBlur.InvokeAsync(searchBlurEvent);
@@ -2104,7 +2104,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchClearEvent? searchClearEvent = await jsStreamRef.ReadJsStreamReference<SearchClearEvent>();
+        SearchClearEvent? searchClearEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchClearEvent>();
         if (searchClearEvent is not null)
         {
             await OnSearchClear.InvokeAsync(searchClearEvent);
@@ -2136,7 +2136,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchFocusEvent? searchFocusEvent = await jsStreamRef.ReadJsStreamReference<SearchFocusEvent>();
+        SearchFocusEvent? searchFocusEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchFocusEvent>();
         if (searchFocusEvent is not null)
         {
             await OnSearchFocus.InvokeAsync(searchFocusEvent);
@@ -2168,7 +2168,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchStartEvent? searchStartEvent = await jsStreamRef.ReadJsStreamReference<SearchStartEvent>();
+        SearchStartEvent? searchStartEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchStartEvent>();
         if (searchStartEvent is not null)
         {
             await OnSearchStart.InvokeAsync(searchStartEvent);
@@ -2200,7 +2200,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchSuggestStartEvent? suggestStartEvent = await jsStreamRef.ReadJsStreamReference<SearchSuggestStartEvent>();
+        SearchSuggestStartEvent? suggestStartEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchSuggestStartEvent>();
         if (suggestStartEvent is not null)
         {
             await OnSuggestStart.InvokeAsync(suggestStartEvent);

@@ -148,29 +148,27 @@
     }
 
     private MapView? _view;
-    private readonly FeatureLayer _localFeatureLayer = new(source: new[]
-    {
-        new Graphic(new Point(11.967162, 49.201448),
+    private readonly FeatureLayer _localFeatureLayer = new(source:
+        [
+            new Graphic(new Point(11.967162, 49.201448),
             new SimpleMarkerSymbol(new Outline(new MapColor("white")),
                 new MapColor("red"), 6))
-    },
+        ],
         objectIdField: "OBJECTID");
     private readonly FeatureLayer _remoteFeatureLayer =
         new("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/weather_stations_010417/FeatureServer/0");
-    private readonly GraphicsLayer _graphicsLayer = new(new[]
-    {
+    private readonly GraphicsLayer _graphicsLayer = new([
         new Graphic(new Point(11.888650, 52.451825),
             new SimpleMarkerSymbol(new Outline(new MapColor("white")),
                 new MapColor("green"), 6)),
-        new Graphic(new Polyline(new[]
-        {
-            new MapPath(new MapPoint(11, 52),
+        new Graphic(new Polyline([
+                new MapPath(new MapPoint(11, 52),
                 new MapPoint(11.5, 53),
                 new MapPoint(12, 55),
                 new MapPoint(10, 55),
                 new MapPoint(10.5, 51),
                 new MapPoint(11, 56))
-        }),
+            ]),
             new SimpleLineSymbol(new MapColor("blue"), 2)),
         new Graphic(new Point(7.274721, 59.614991),
             new PictureMarkerSymbol("https://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png",
@@ -178,7 +176,7 @@
         new Graphic(new Point(29.437639, 55.469513),
             new TextSymbol("Hello World", new MapColor("red"),
                 new MapColor("yellow"), 12))
-    });
+    ]);
 
     private async void On3Click(ClickEvent clickEvent)
     {
@@ -206,8 +204,8 @@
     private bool _map3Rendered;
     private bool _showGraphicsMarkupLayer;
     private readonly Random _random = new();
-    private readonly List<double> _lats = new() { 49.201448, 52.451825, 59.614991, 55.469513 };
-    private readonly List<double> _longs = new() { 11.967162, 11.888650, 7.274721, 29.437639 };
+    private readonly List<double> _lats = [49.201448, 52.451825, 59.614991, 55.469513];
+    private readonly List<double> _longs = [11.967162, 11.888650, 7.274721, 29.437639];
     private MapView? _view3;
     private int _graphicsCount = 1;
 }

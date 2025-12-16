@@ -51,39 +51,40 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
         ((ImmutableArray<BaseTypeDeclarationSyntax> Types, string? ProjectDirectory) Data,
             Compilation Compilation) pipeline)
     {
-        // Skip if not running from the Core project
         if (pipeline.Compilation.AssemblyName != "dymaptic.GeoBlazor.Core")
         {
-            return;
-        }
-
-        // Skip source generation if the project path is not available
-        if (string.IsNullOrEmpty(pipeline.Data.ProjectDirectory))
-        {
             ProcessHelper.Log(nameof(ProtobufSourceGenerator),
-                "CoreProjectPath not set. Skipping protobuf source generation.",
-                DiagnosticSeverity.Warning,
-                context);
-            return;
-        }
-
-        // Log that protobuf types were found (infrastructure ready for future implementation)
-        if (pipeline.Data.Types.Length > 0)
-        {
-            ProcessHelper.Log(nameof(ProtobufSourceGenerator),
-                $"Found {pipeline.Data.Types.Length} protobuf-serializable types.",
+                $"Run from project {pipeline.Compilation.AssemblyName}.",
                 DiagnosticSeverity.Info,
                 context);
 
-            // TODO: Generate protobuf serialization records and registration code.
-            // This will include:
-            // 1. Generating *SerializationRecord classes for each protobuf-attributed type
-            // 2. Generating ToProtobuf()/FromProtobuf() extension methods
-            // 3. Generating JsSyncManager registration code for ProtoContractTypes dictionary
-            // 4. Copying .proto definitions to TypeScript for JS-side deserialization
+            _isTest = true;
+        }
+
+        _corePath = pipeline.Data.ProjectDirectory;
+
+        ProcessHelper.Log(nameof(ProtobufSourceGenerator),
+            "Source Generation triggered.",
+            DiagnosticSeverity.Info,
+            context);
+
+        if (pipeline.Data.Types.Length > 0)
+        {
+            var protoDefinitions = ProtobufDefinitionsGenerator
+                .UpdateProtobufDefinitions(context, pipeline.Data.Types, _corePath!);
+
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            SerializationGenerator.GenerateSerializationDataClass(context,
+                pipeline.Data.Types, protoDefinitions, false,
+                _isTest);
+            
+            context.CancellationToken.ThrowIfCancellationRequested();
         }
     }
 
+    private static string? _corePath;
+    private static bool _isTest;
     private const string ProtoContractAttribute = "ProtoContract";
     private const string ProtoSerializableAttribute = "ProtobufSerializable";
     private const string SerializedMethodAttributeName = "SerializedMethod";

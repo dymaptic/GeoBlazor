@@ -1119,7 +1119,7 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
     
-        BookmarksBookmarkEditEvent? bookmarkEditEvent = await jsStreamRef.ReadJsStreamReference<BookmarksBookmarkEditEvent>();
+        BookmarksBookmarkEditEvent? bookmarkEditEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<BookmarksBookmarkEditEvent>();
         if (bookmarkEditEvent is not null)
         {
             await OnBookmarkEdit.InvokeAsync(bookmarkEditEvent);

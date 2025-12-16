@@ -359,6 +359,9 @@ message PopupTemplateCollection {
    repeated PopupTemplate items = 1;
    bool isNull = 1000;
 }
+message ProtoGraphicCollection {
+   repeated Graphic graphics = 1;
+}
 message RelatedRecordsInfoFieldOrder {
    bool isNull = 1000;
 }

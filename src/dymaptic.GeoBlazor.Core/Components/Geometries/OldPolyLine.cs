@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 /// </summary>
 /// <exclude/>
 [Obsolete("Renamed to Polyline (lowercase 'l') to match the JavaScript API")]
+[ProtobufSerializable]
 public class PolyLine : Polyline
 {
     /// <summary>

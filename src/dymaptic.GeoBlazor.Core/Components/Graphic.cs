@@ -2,7 +2,8 @@ using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class Graphic: MapComponent, IEquatable<Graphic>
+[ProtobufSerializable]
+public partial class Graphic: MapComponent, IEquatable<Graphic>, IProtobufSerializable<GraphicSerializationRecord>
 {
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
@@ -320,7 +321,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         if (CoreJsModule is not null)
         {
             await CoreJsModule.InvokeVoidAsync("setGraphicGeometry", Id, LayerId, View?.Id,
-                Geometry.ToSerializationRecord());
+                Geometry.ToProtobuf());
         }
         else
         {
@@ -343,7 +344,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         Symbol = symbol;
         if (CoreJsModule is not null)
         {
-            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol", Id, Symbol.ToSerializationRecord(),
+            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol", Id, Symbol.ToProtobuf(),
                 LayerId, View?.Id);
         }
         else
@@ -378,7 +379,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         if (CoreJsModule is not null)
         {
             await CoreJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id, 
-                PopupTemplate.ToSerializationRecord(), PopupTemplate.DotNetComponentReference, LayerId, View?.Id);
+                PopupTemplate.ToProtobuf(), PopupTemplate.DotNetComponentReference, LayerId, View?.Id);
         }
         else
         {
@@ -676,13 +677,21 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     {
         if (_serializationRecord is null || refresh)
         {
-            _serializationRecord = new GraphicSerializationRecord(Id.ToString(), Geometry?.ToSerializationRecord(), 
-                Symbol?.ToSerializationRecord(), PopupTemplate?.ToSerializationRecord(), 
-                Attributes.ToSerializationRecord(), Visible, 
-                AggregateGeometries is null ? null : JsonSerializer.Serialize(AggregateGeometries), 
-                Origin?.ToSerializationRecord(), LayerId?.ToString(), ViewId?.ToString());
+            return ToProtobuf();
         }
+        
+        return _serializationRecord;
+    }
 
+    /// <inheritdoc />
+    public virtual GraphicSerializationRecord ToProtobuf()
+    {
+        _serializationRecord = new GraphicSerializationRecord(Id.ToString(), Geometry?.ToProtobuf(), 
+            Symbol?.ToProtobuf(), PopupTemplate?.ToProtobuf(), 
+            Attributes.ToProtobufArray(), Visible, 
+            AggregateGeometries is null ? null : JsonSerializer.Serialize(AggregateGeometries), 
+            Origin?.ToProtobuf(), LayerId?.ToString(), ViewId?.ToString());
+        
         return _serializationRecord;
     }
 
@@ -784,101 +793,4 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     {
         return !Equals(left, right);
     }
-}
-
-[ProtoContract(Name = "Graphic")]
-internal record GraphicSerializationRecord : MapComponentSerializationRecord
-{
-    public GraphicSerializationRecord()
-    {
-    }
-
-    public GraphicSerializationRecord(string Id, GeometrySerializationRecord? Geometry, 
-        SymbolSerializationRecord? Symbol, PopupTemplateSerializationRecord? PopupTemplate, 
-        AttributeSerializationRecord[]? Attributes, bool? Visible, string? AggregateGeometries,
-        GraphicOriginSerializationRecord? Origin, string? LayerId, string? ViewId)
-    {
-        this.Id = Id;
-        this.Geometry = Geometry;
-        this.Symbol = Symbol;
-        this.PopupTemplate = PopupTemplate;
-        this.Attributes = Attributes;
-        this.Visible = Visible;
-        this.AggregateGeometries = AggregateGeometries;
-        this.Origin = Origin;
-        this.LayerId = LayerId;
-        this.ViewId = ViewId;
-    }
-
-    public Graphic FromSerializationRecord()
-    {
-        if (!Guid.TryParse(Id, out Guid graphicId))
-        {
-            graphicId = Guid.NewGuid();
-        }
-
-        Guid? layerId = null;
-
-        if (Guid.TryParse(LayerId, out Guid existingLayerId))
-        {
-            layerId = existingLayerId;
-        }
-
-        Guid? viewId = null;
-        
-        if (Guid.TryParse(ViewId, out Guid existingViewId))
-        {
-            viewId = existingViewId;
-        }
-
-        return new Graphic(Geometry?.FromSerializationRecord(), Symbol?.FromSerializationRecord(), 
-            PopupTemplate?.FromSerializationRecord(), new AttributesDictionary(Attributes),
-            Visible, null, AggregateGeometries, Origin?.FromSerializationRecord())
-        {
-            Id = graphicId,
-#pragma warning disable BL0005
-            LayerId = layerId,
-#pragma warning restore BL0005
-            ViewId = viewId
-        };
-    }
-
-    [ProtoMember(1)]
-    public string? Id { get; set; } = string.Empty;
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(2)]
-    public GeometrySerializationRecord? Geometry { get; set; }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(3)]
-    public SymbolSerializationRecord? Symbol { get; set; }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(4)]
-    public PopupTemplateSerializationRecord? PopupTemplate { get; set; }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(5)]
-    public AttributeSerializationRecord[]? Attributes { get; set; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(6)]
-    public bool? Visible { get; set; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(7)]
-    public string? AggregateGeometries { get; set; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(8)]
-    public GraphicOriginSerializationRecord? Origin { get; set; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(9)]
-    public string? LayerId { get; set; }
-    
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(10)]
-    public string? ViewId { get; set; }
 }

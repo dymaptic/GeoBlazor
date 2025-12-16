@@ -3978,7 +3978,7 @@ public partial class ImageryLayer : IBlendLayer,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
