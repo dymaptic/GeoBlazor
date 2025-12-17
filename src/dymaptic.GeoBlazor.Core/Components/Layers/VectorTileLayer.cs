@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;  
 
-public partial class VectorTileLayer : Layer  
+public partial class VectorTileLayer : Layer, ITileLayer
 {  
     /// <summary>  
     ///     The URL to the vector tile service.  

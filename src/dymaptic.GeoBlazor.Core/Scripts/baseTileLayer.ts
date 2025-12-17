@@ -1,6 +1,6 @@
 import BaseTileLayerGenerated from './baseTileLayer.gb';
 import BaseTileLayer from '@arcgis/core/layers/BaseTileLayer';
-import {buildEncodedJson} from "./arcGisJsInterop";
+import {buildEncodedJson} from "./geoBlazorCore";
 
 export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 

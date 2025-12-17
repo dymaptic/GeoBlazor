@@ -1,4 +1,4 @@
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 
 export function buildJsAttributes(attributes: any): any {
     if (hasValue(attributes)) {

@@ -1,4 +1,17 @@
-﻿param([string][Alias("c")]$Configuration = "Debug")
+﻿param([string][Alias("c")]$Configuration = "Debug",
+      [switch][Alias("f")]$Force,
+      [switch][Alias("h")]$Help)
+
+if ($Help) {
+    Write-Host "ESBuild TypeScript -> JavaScript Compilation Script"
+    Write-Host ""
+    Write-Host "Parameters:"
+    Write-Host "  -Force (-f)                    Removes any lock files and forces the script to run"
+    Write-Host "  -Configuration (-c) <string>   Build configuration (default is 'Release')"
+    Write-Host "                                 Valid values are 'Debug' and 'Release'"
+    Write-Host "  -Help (-h)                     Display this help message"
+    exit 0
+}
 
 cd $PSScriptRoot
 
@@ -13,8 +26,21 @@ $Locked = (($Configuration.ToLowerInvariant() -eq "debug") -and ($null -ne (Get-
 # Prevent multiple instances of the script from running at the same time
 if ($Locked)
 {
-    Write-Output "Another instance of the script is already running. Exiting."
-    Exit 1
+    if ($Force -eq $true) {
+        if (Test-Path $DebugLockFilePath)
+        {
+            Remove-Item -Path $DebugLockFilePath -Force
+        }
+        if (Test-Path $ReleaseLockFilePath)
+        {
+            Remove-Item -Path $ReleaseLockFilePath -Force
+        }
+
+        Write-Host "Cleared esBuild lock files"
+    } else {
+        Write-Output "Another instance of the script is already running. Exiting."
+        Exit 1   
+    }
 }
 
 try

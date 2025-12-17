@@ -5,7 +5,7 @@ import {
     Pro,
     removeCircularReferences,
     esriConfig, jsObjectRefs, lookupGeoBlazorId
-} from './arcGisJsInterop';
+} from './geoBlazorCore';
 
 export async function buildJsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {

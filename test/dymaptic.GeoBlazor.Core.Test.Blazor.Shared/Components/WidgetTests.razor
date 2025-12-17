@@ -109,7 +109,7 @@
 
             </MapView>);
 
-        await Assert.ThrowsExceptionAsync<AggregateException>(async () =>
+        await Assert.ThrowsAsync<AggregateException>(async () =>
             await WaitForMapToRender());
     }
 
@@ -526,7 +526,7 @@
         <HomeWidget />
     </div>);
 
-        await Assert.ThrowsExceptionAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
+        await Assert.ThrowsAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
     }
 
     [TestMethod]
@@ -601,4 +601,44 @@
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
     }
 
+    [TestMethod]
+    public async Task TestCanUpdateWidgetPosition(Action renderHandler)
+    {
+        MapView? mapView = null;
+        DistanceMeasurement2DWidget? distanceWidget = null;
+        AddMapRenderFragment(
+            @<div>
+                <MapView Class="map-view" @ref="mapView" OnViewRendered="renderHandler">
+                    <WebMap>
+                        <PortalItem ExcludeApiKey="true" PortalItemId="990d0191f2574db495c4304a01c3e65b" />
+                    </WebMap>
+                    <DistanceMeasurement2DWidget @ref="distanceWidget"
+                                                 Position="OverlayPosition.BottomRight" />
+                </MapView>
+
+                <div id="external-div" style="height: 100px; width: 400px;"></div>
+            </div>);
+
+        await WaitForMapToRender();
+
+        // in position on map view
+        await AssertJavaScript("assertWidgetPosition",
+            args: [distanceWidget!.Id, "bottom-right"]);
+        
+        await distanceWidget!.SetContainerId("external-div");
+        
+        // in custom container
+        await AssertJavaScript("assertObjectHasPropertyWithValue", 
+            args: [distanceWidget.Id, "container.parentElement.id", "external-div"]);
+
+        // not in position
+        await Assert.ThrowsAsync<Exception>(async() => await AssertJavaScript("assertWidgetPosition",
+            args: [distanceWidget.Id, "bottom-right"]));
+
+        await distanceWidget.SetPosition(OverlayPosition.BottomRight);
+        
+        // returned to position
+        await AssertJavaScript("assertWidgetPosition",
+            args: [distanceWidget!.Id, "bottom-right"]);
+    }
 }

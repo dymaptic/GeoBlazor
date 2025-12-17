@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class WebTileLayer : Layer
+public partial class WebTileLayer : Layer, ITileLayer
 {
     /// <inheritdoc />
     public override LayerType Type => LayerType.WebTile;

@@ -1,0 +1,135 @@
+﻿@page "/measurement-widgets"
+<PageTitle>Measurement Widgets</PageTitle>
+<h1>Measurement Widgets</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-measurement-2d/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=990d0191f2574db495c4304a01c3e65b">NFL Stadiums in the USA</a>
+</div>
+<p class="instructions">
+    This sample shows how to use the measurement widgets in 2D. The measurement widgets can also be used with all types of layers.
+</p>
+<p class="instructions">
+    The straight distance between two or more points can be measured using the DistanceMeasurement2D widget. The widget displays the horizontal distance.
+</p>
+<p class="instructions">
+    To try the measurement widgets, click the area or distance button in the top-right corner of the map, then click on the map to start measuring. Double-click to finish the measurement.
+</p>
+<p class="instructions">
+    To see the detailed widget panel, including options to change units, click the "Show Details" button.
+</p>
+
+<MapView Class="map-view" @ref="_mapView">
+    <WebMap>
+        <PortalItem ExcludeApiKey="true" PortalItemId="990d0191f2574db495c4304a01c3e65b" />
+    </WebMap>
+    <DistanceMeasurement2DWidget @ref="_distanceWidget" 
+                                 Visible="false" 
+                                 ContainerId="distance-widget-holder"
+                                 @bind-ViewModel="_distanceWidgetViewModel"
+                                 @bind-ViewModel:after="StateHasChanged" />
+    <AreaMeasurement2DWidget @ref="_areaWidget" 
+                             Visible="false" 
+                             ContainerId="area-widget-holder"
+                             @bind-ViewModel="_areaWidgetViewModel"
+                             @bind-ViewModel:after="StateHasChanged" />
+    <CustomOverlay @ref="_toolOverlay" Position="OverlayPosition.TopRight">
+        <div id="topbar">
+            <label>Measure Tools</label>
+            <div class="row">
+                <button class="action-button esri-icon-measure-area@(_areaBtnActive ? " active" : "")"
+                        type="button"
+                        title="Measure area"
+                        disabled="@(_areaWidgetViewModel is null)"
+                        @onclick="OnAreaButtonClicked"></button>
+                <button class="action-button esri-icon-measure-line@(_distanceBtnActive ? " active" : "")"
+                        type="button"
+                        title="Measure distance between two or more points"
+                        disabled="@(_distanceWidgetViewModel is null)"
+                        @onclick="OnDistanceButtonClicked"></button>
+            </div>
+        </div>
+    </CustomOverlay>
+    <CustomOverlay Position="OverlayPosition.BottomLeft">
+        <button class="btn btn-primary" @onclick="ToggleWidgets">
+            @(_showDetails ? "Hide" : "Show") Details
+        </button>
+    </CustomOverlay>
+</MapView>
+
+<div id="distance-widget-holder" style="display: none"></div>
+<div id="area-widget-holder" style="display: none"></div>
+
+
+@code {
+    
+    private async Task OnDistanceButtonClicked()
+    {
+        await SetActiveWidget("distance");
+        await SetActiveButton("distance");
+    }
+
+    private async Task OnAreaButtonClicked()
+    {
+        await SetActiveWidget("area");
+        await SetActiveButton("area");
+    }
+
+    private async Task SetActiveWidget(string? widgetType)
+    {
+        switch (widgetType)
+        {
+            case "distance":
+                await _distanceWidget!.SetVisibility(true);
+                await _areaWidget!.SetVisibility(false);
+                await _distanceWidgetViewModel!.Start();
+                break;
+            case "area":
+                await _areaWidget!.SetVisibility(true);
+                await _distanceWidget!.SetVisibility(false);
+                await _areaWidgetViewModel!.Start();
+                break;
+            default:
+                await _distanceWidget!.SetVisibility(false);
+                await _areaWidget!.SetVisibility(false);
+                break;
+        }
+    }
+
+    private async Task SetActiveButton(string? widgetType)
+    {
+        _distanceBtnActive = widgetType == "distance";
+        _areaBtnActive = widgetType == "area";
+        _toolOverlay!.Refresh();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ToggleWidgets()
+    {
+        _showDetails = !_showDetails;
+
+        if (_showDetails)
+        {
+            await _distanceWidget!.SetPosition(OverlayPosition.BottomRight);
+            await _areaWidget!.SetPosition(OverlayPosition.BottomRight);
+        }
+        else
+        {
+            await _distanceWidget!.SetContainerId("distance-widget-holder");
+            await _areaWidget!.SetContainerId("area-widget-holder");
+        }
+
+        await SetActiveButton(null);
+        await SetActiveWidget(null);
+    }
+
+    private DistanceMeasurement2DWidget? _distanceWidget;
+    private AreaMeasurement2DWidget? _areaWidget;
+    private MapView? _mapView;
+    private DistanceMeasurement2DViewModel? _distanceWidgetViewModel;
+    private AreaMeasurement2DViewModel? _areaWidgetViewModel;
+    private CustomOverlay? _toolOverlay;
+    private bool _areaBtnActive;
+    private bool _distanceBtnActive;
+    private bool _showDetails;
+}

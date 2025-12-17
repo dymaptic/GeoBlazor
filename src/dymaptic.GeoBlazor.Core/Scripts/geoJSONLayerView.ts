@@ -1,7 +1,7 @@
 // override generated code in this file
 import GeoJSONLayerViewGenerated from './geoJSONLayerView.gb';
 import GeoJSONLayerView from '@arcgis/core/views/layers/GeoJSONLayerView';
-import {hasValue, lookupJsGraphicById, graphicsRefs} from "./arcGisJsInterop";
+import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
 
 export default class GeoJSONLayerViewWrapper extends GeoJSONLayerViewGenerated {
 

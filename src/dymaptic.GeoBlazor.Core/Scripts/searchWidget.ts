@@ -2,7 +2,7 @@ import widgetsSearch from '@arcgis/core/widgets/Search';
 import Search from '@arcgis/core/widgets/Search';
 import SearchWidgetGenerated from './searchWidget.gb';
 import {buildJsGeometry} from './geometry';
-import {buildEncodedJson, hasValue} from "./arcGisJsInterop";
+import {buildEncodedJson, hasValue} from './geoBlazorCore';
 
 
 export default class SearchWidgetWrapper extends SearchWidgetGenerated {

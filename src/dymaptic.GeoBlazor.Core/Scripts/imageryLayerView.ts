@@ -1,7 +1,7 @@
 // override generated code in this file
 import ImageryLayerViewGenerated from './imageryLayerView.gb';
 import ImageryLayerView from '@arcgis/core/views/layers/ImageryLayerView';
-import {hasValue, lookupJsGraphicById, graphicsRefs} from "./arcGisJsInterop";
+import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
 
 export default class ImageryLayerViewWrapper extends ImageryLayerViewGenerated {
 

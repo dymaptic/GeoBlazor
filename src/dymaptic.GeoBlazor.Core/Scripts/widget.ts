@@ -1,5 +1,5 @@
 // override generated code in this file
-import {arcGisObjectRefs, disposeMapComponent, hasValue, removeCircularReferences} from "./arcGisJsInterop";
+import {arcGisObjectRefs, disposeMapComponent, hasValue, removeCircularReferences} from './geoBlazorCore';
 
 export async function buildJsWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
@@ -11,7 +11,7 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
     }
 
     switch (dotNetObject.type) {
-        case 'area-measurement2-d':
+        case 'area-measurement-2d':
             let {buildJsAreaMeasurement2DWidget} = await import('./areaMeasurement2DWidget');
             return await buildJsAreaMeasurement2DWidget(dotNetObject, layerId, viewId);
         case 'basemap-gallery':
@@ -186,7 +186,7 @@ export async function preloadWidgetTypes(widgets: any[], viewId: string): Promis
         }
         let _ = await buildJsWidget(widget, widget.layerId, viewId);
         importedWidgets.push(widget.type);
-        await disposeMapComponent(widget.id, viewId);
+        disposeMapComponent(widget.id, viewId);
     }
     
     return importedWidgets;

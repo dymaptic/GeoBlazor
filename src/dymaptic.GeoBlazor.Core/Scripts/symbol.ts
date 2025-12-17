@@ -6,7 +6,7 @@ import {buildDotNetPictureFillSymbol, buildJsPictureFillSymbol} from "./pictureF
 import {buildDotNetSimpleFillSymbol, buildJsSimpleFillSymbol} from './simpleFillSymbol';
 import {buildDotNetTextSymbol, buildJsTextSymbol} from "./textSymbol";
 import {buildDotNetWebStyleSymbol, buildJsWebStyleSymbol} from "./webStyleSymbol";
-import {hasValue, removeCircularReferences, sanitize} from "./arcGisJsInterop";
+import {hasValue, removeCircularReferences, sanitize} from './geoBlazorCore';
 
 export function buildJsSymbol(symbol: any, layerId: string | null, viewId: string | null): any {
     if (!hasValue(symbol)) {

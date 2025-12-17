@@ -1,6 +1,6 @@
 // override generated code in this file
 import Field from '@arcgis/core/layers/support/Field';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import {buildJsDomain} from "./domain";
 
 export function buildJsField(dotNetObject: any): any {

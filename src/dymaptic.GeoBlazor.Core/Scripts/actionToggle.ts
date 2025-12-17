@@ -1,6 +1,6 @@
 // override generated code in this file
 
-import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from './geoBlazorCore';
 import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
 
 export function buildJsActionToggle(dotNetObject: any): any {

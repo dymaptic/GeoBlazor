@@ -1,4 +1,4 @@
-import {removeCircularReferences} from "./arcGisJsInterop";
+import {removeCircularReferences} from './geoBlazorCore';
 
 export async function buildJsCapabilities(dotNetObject: any): Promise<any> {
     // NOT USED, PLACEHOLDER

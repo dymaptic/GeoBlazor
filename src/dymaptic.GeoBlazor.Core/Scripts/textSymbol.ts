@@ -1,6 +1,6 @@
 // override generated code in this file
 import TextSymbol from "@arcgis/core/symbols/TextSymbol";
-import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from './geoBlazorCore';
 import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 import {buildDotNetMapFont, buildJsMapFont} from "./mapFont";
 

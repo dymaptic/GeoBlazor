@@ -1,6 +1,6 @@
 // override generated code in this file
 
-import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from './geoBlazorCore';
 import ActionButton from "@arcgis/core/support/actions/ActionButton";
 
 export function buildJsActionButton(dotNetObject: any): any {

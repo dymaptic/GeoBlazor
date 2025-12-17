@@ -1,4 +1,4 @@
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import {buildJsEffect} from "./effect";
 
 export async function buildJsFeatureEffect(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

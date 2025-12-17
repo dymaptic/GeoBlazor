@@ -1,7 +1,7 @@
 // override generated code in this file
 import LayerListViewModelGenerated from './layerListViewModel.gb';
 import LayerListViewModel from '@arcgis/core/widgets/LayerList/LayerListViewModel';
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import {DotNetListItem} from "./definitions";
 
 export default class LayerListViewModelWrapper extends LayerListViewModelGenerated {

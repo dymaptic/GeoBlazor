@@ -1,6 +1,6 @@
 // override generated code in this file
 import SpatialReference from '@arcgis/core/geometry/SpatialReference';
-import {arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, generateSerializableJson} from "./arcGisJsInterop";
+import {arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, generateSerializableJson} from './geoBlazorCore';
 
 
 export function buildDotNetSpatialReference(spatialReference: any): any {

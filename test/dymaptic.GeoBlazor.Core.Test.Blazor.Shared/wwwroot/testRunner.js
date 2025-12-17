@@ -13,6 +13,15 @@ export function initialize(core) {
     Portal = Core.Portal;
     SimpleRenderer = Core.SimpleRenderer;
     esriConfig = Core.esriConfig;
+    setWaitCursor()
+}
+
+export function setWaitCursor(wait) {
+    if (wait) {
+        document.body.style.cursor = 'wait';
+    } else {
+        document.body.style.cursor = 'default';
+    }
 }
 
 export function setJsTimeout(time, methodName) {
@@ -274,15 +283,22 @@ export async function triggerSearchHandlers() {
     searchInput.dispatchEvent(new Event('input'));
 }
 
-export function assertWidgetPropertyEqual(methodName, widgetClass, propName, expectedValue) {
+export function assertWidgetPosition(methodName, widgetId, position) {
     let view = getView(methodName);
-    let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass).widget;
-    let actualValue = widget[propName];
-    if (actualValue !== expectedValue) {
-        throw new Error(`Expected ${propName} to be ${expectedValue} but found ${actualValue}`);
+    let widget = arcGisObjectRefs[widgetId];
+    
+    let viewComponents = view.ui.getComponents();
+    if (!viewComponents.includes(widget)) {
+        throw new Error(`Expected widget ${widgetId} to be in view container, but was not found.`);
+    }
+    
+    let parentDiv = widget.container.parentElement;
+    
+    if (!parentDiv.className.includes(position)) {
+        throw new Error(`Expected widget ${widgetId} to be in position ${position}, but parent div className was ${parentDiv.className}.`);
     }
 }
-
+ 
 export function scrollToTestClass(id) {
     const element = document.getElementById(id);
     if (element instanceof HTMLElement) {
@@ -355,4 +371,28 @@ export function waitForWidgetToLoad(methodName, widgetClass) {
             }
         }, 100);
     });
+}
+
+export function saveSettings(settings) {
+    sessionStorage.setItem('testSettings', JSON.stringify(settings));
+}
+
+export function loadSettings() {
+    let settings = sessionStorage.getItem('testSettings');
+    if (settings) {
+        return JSON.parse(settings);
+    }
+    return null;
+}
+
+export function saveTestResults(results) {
+    sessionStorage.setItem('testResults', JSON.stringify(results));
+}
+
+export function getTestResults() {
+    let results = sessionStorage.getItem('testResults');
+    if (results) {
+        return JSON.parse(results);
+    }
+    return null;
 }
