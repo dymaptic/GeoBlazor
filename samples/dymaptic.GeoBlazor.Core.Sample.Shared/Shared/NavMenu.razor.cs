@@ -93,7 +93,7 @@ public partial class NavMenu: IDisposable
     private double _scrollTop;
     public virtual PageLink[] Pages =>
     [
-        new("", "Home", "oi-home"),
+        new("about", "Home", "oi-home"),
         new("navigation", "Navigation", "oi-compass"),
         new("drawing", "Drawing", "oi-pencil"),
         new("click-to-add", "Click to Add Point", "oi-map-marker"),
