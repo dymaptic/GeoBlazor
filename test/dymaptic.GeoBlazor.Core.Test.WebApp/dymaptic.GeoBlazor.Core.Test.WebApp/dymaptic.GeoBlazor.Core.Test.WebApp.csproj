@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Test.WebApp.Client\dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.1" />
   </ItemGroup>
 
 
