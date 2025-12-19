@@ -261,7 +261,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.component.resultGraphic, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.resultGraphic!, this.layerId, this.viewId);
     }
     
     getSearchTerm(): any {
@@ -426,31 +426,10 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
             });
     }
     
-    if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
-        jsSearchViewModel.on('search-complete', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
-            });
-    }
-    
     if (hasValue(dotNetObject.hasSearchStartListener) && dotNetObject.hasSearchStartListener) {
         jsSearchViewModel.on('search-start', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchStart', streamRef);
-            });
-    }
-    
-    if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
-        jsSearchViewModel.on('select-result', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
-            });
-    }
-    
-    if (hasValue(dotNetObject.hasSuggestCompleteListener) && dotNetObject.hasSuggestCompleteListener) {
-        jsSearchViewModel.on('suggest-complete', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', streamRef);
             });
     }
     

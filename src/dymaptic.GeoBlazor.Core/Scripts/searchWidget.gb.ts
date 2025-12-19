@@ -377,13 +377,6 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
             });
     }
     
-    if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
-        jswidgetsSearch.on('search-complete', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
-            });
-    }
-    
     if (hasValue(dotNetObject.hasSearchFocusListener) && dotNetObject.hasSearchFocusListener) {
         jswidgetsSearch.on('search-focus', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
@@ -395,13 +388,6 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
         jswidgetsSearch.on('search-start', async (evt: any) => {
                 let streamRef = buildJsStreamReference(evt ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchStart', streamRef);
-            });
-    }
-    
-    if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
-        jswidgetsSearch.on('select-result', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
             });
     }
     
