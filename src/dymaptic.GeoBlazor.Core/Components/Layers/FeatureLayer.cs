@@ -595,8 +595,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
-        base.ValidateRequiredChildren();
-
         if (LabelingInfo is not null)
         {
             foreach (Label label in LabelingInfo)
@@ -620,8 +618,28 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
             if (GeometryType is null)
             {
-                throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
-                    nameof(Source), nameof(GeometryType));
+                if (Source.Count > 0 
+                    && Source.Select(g => g.Geometry?.Type)
+                            .Where(t => t != null)
+                            .Distinct()
+                            .ToList() is { Count: 1 } geometryTypes)
+                {
+                    GeometryType = geometryTypes[0] switch
+                    {
+                        Enums.GeometryType.Point => FeatureGeometryType.Point,
+                        Enums.GeometryType.Multipoint => FeatureGeometryType.Multipoint,
+                        Enums.GeometryType.Polyline => FeatureGeometryType.Polyline,
+                        Enums.GeometryType.Polygon => FeatureGeometryType.Polygon,
+                        Enums.GeometryType.Mesh => FeatureGeometryType.Mesh,
+                        _ => null
+                    };
+                }
+
+                if (GeometryType is null)
+                {
+                    throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
+                        nameof(Source), nameof(GeometryType));
+                }
             }
         }
         
@@ -635,6 +653,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         
         FeatureReduction?.ValidateRequiredChildren();
         FormTemplate?.ValidateRequiredChildren();
+        
+        // do last because we add GeometryType above if possible
+        base.ValidateRequiredChildren();
     }
 
     /// <summary>
