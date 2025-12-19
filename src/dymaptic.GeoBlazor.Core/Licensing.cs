@@ -4,17 +4,24 @@ internal static class Licensing
 {
     public static LicenseType GetLicenseType()
     {
-        try
+        if (!_isPro.HasValue)
         {
-           _ = Assembly.Load("dymaptic.GeoBlazor.Pro");
+            try
+            {
+                _ = Assembly.Load("dymaptic.GeoBlazor.Pro");
 
-            return LicenseType.Pro;
+                _isPro = true;
+            }
+            catch
+            {
+                _isPro = false;
+            }    
         }
-        catch
-        {
-            return LicenseType.Core;
-        }
+        
+        return _isPro.Value ? LicenseType.Pro : LicenseType.Core;
     }
+
+    private static bool? _isPro;
 }
 
 internal enum LicenseType
