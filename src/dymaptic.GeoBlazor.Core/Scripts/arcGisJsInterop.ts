@@ -1,6 +1,8 @@
 // noinspection JSUnusedGlobalSymbols
 
 // region imports
+import "@arcgis/map-components/components/arcgis-navigation-toggle";
+import "@arcgis/map-components/components/arcgis-zoom";
 import {
     DotNetExtent,
     DotNetGeometry,
@@ -688,8 +690,8 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
                 }
             }
 
-            let jsLayer: any = await buildJsLayerWrapper(evt.layer);
-            let jsLayerView: any = await buildJsLayerViewWrapper(evt.layerView);
+            let jsLayer: any = await buildJsLayerWrapper(evt.layer) ?? evt.layer;
+            let jsLayerView: any = await buildJsLayerViewWrapper(evt.layerView) ?? evt.layerView;
 
             const layerRef = DotNet.createJSObjectReference(jsLayer);
             const layerViewRef = DotNet.createJSObjectReference(jsLayerView);

@@ -131,7 +131,7 @@ export function logUncaughtError(level: string, module: string, viewId: string, 
         error.message = args.join(', ');
     }
 
-    if (args[1].toLowerCase().includes('failed to load basemap')) {
+    if (args[1] && typeof args[1] === 'string' && args[1].toLowerCase().includes('failed to load basemap')) {
         let errorMessage = `${module} error: ${error.message}. Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
         if (viewId && viewId !== 'global') {
             resetMapComponent(viewId);
@@ -143,7 +143,13 @@ export function logUncaughtError(level: string, module: string, viewId: string, 
     }
 
     let dotNetRef = dotNetRefs[viewId] as any;
-    let _ = dotNetRef.invokeMethodAsync('OnJavascriptError', error);
+    if (dotNetRef) {
+        try {
+            let _ = dotNetRef.invokeMethodAsync('OnJavascriptError', error);
+        } catch {
+            console.debug('Could not invoke GeoBlazor dotnet callback for error message.');
+        }
+    }
     setCursor('unset', viewId);
     
     return true;

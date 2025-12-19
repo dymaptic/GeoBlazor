@@ -22,7 +22,7 @@
     </div>
     <div class="toggle-row">
         <label class="radio-container">
-            From Style
+            2D Map Styles
             <input type="radio" 
                    name="basemap-type" @onclick="@(() => SetBasemap(1))" />
             <div class="radio-box" />
@@ -40,12 +40,30 @@
     </div>
     <div class="toggle-row">
         <label class="radio-container">
-            From Portal Id
-            <input type="radio"
+            3D Scene Styles
+            <input type="radio" 
                    name="basemap-type" @onclick="@(() => SetBasemap(2))" />
-            <div class="radio-box"></div>
+            <div class="radio-box" />
         </label>
         @if (_basemapType == 2)
+        {
+            <select @onchange="SelectSceneStyleMapChanged">
+                @foreach (BasemapStyleName style in Enum.GetValues(typeof(BasemapStyleName)))
+                {
+                    <option value="@style">@style</option>
+                }
+            </select>
+        }
+        <a class="btn btn-primary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html">Basemap Style Service</a>
+    </div>
+    <div class="toggle-row">
+        <label class="radio-container">
+            From Portal Id
+            <input type="radio"
+                   name="basemap-type" @onclick="@(() => SetBasemap(3))" />
+            <div class="radio-box"></div>
+        </label>
+        @if (_basemapType == 3)
         {
             <select @onchange="SelectPortalMapChanged">
                 <option value="55ebf90799fa4a3fa57562700a68c405">Default-Street</option>
@@ -66,7 +84,7 @@
         <label class="radio-container">
             From Tile Layers
             <input type="radio"
-                   name="basemap-type" @onclick="@(() => SetBasemap(3))" />
+                   name="basemap-type" @onclick="@(() => SetBasemap(4))" />
             <div class="radio-box" />
         </label>
         <a class="btn btn-secondary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1b243539f4514b6ba35e7d995890db1d">World Hillshade Tile Layer</a>
@@ -93,7 +111,16 @@
         </MapView>
         break;
     case 2:
-        <MapView @ref="_mapView2" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
+        <SceneView @ref="_sceneView2" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
+            <Map>
+                <Basemap>
+                    <BasemapStyle Name="_basemapStyleName" />
+                </Basemap>
+            </Map>
+        </SceneView>
+        break;
+    case 3:
+        <MapView @ref="_mapView3" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
                     <PortalItem PortalItemId="@_basemapId" />
@@ -101,7 +128,7 @@
             </Map>
         </MapView>
         break;
-    case 3:
+    case 4:
         <MapView Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
@@ -130,15 +157,22 @@
         _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!, true);
         await _mapView1!.Refresh();
     }
+    
+    private async Task SelectSceneStyleMapChanged(ChangeEventArgs obj)
+    {
+        _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!, true);
+        await _sceneView2!.Refresh();
+    }
 
     private async Task SelectPortalMapChanged(ChangeEventArgs obj)
     {
         _basemapId = obj.Value?.ToString() ?? "55ebf90799fa4a3fa57562700a68c405";
-        await _mapView2!.Refresh();
+        await _mapView3!.Refresh();
     }
 
     private MapView? _mapView1;
-    private MapView? _mapView2;
+    private SceneView? _sceneView2;
+    private MapView? _mapView3;
     private int _basemapType;
     private readonly double _latitude = 34.027;
     private readonly double _longitude = -118.805;

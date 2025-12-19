@@ -1,4 +1,5 @@
-﻿@page "/about"
+﻿@page "/{PageRoute:nonfile?}"
+
 <div id="feature-panel">
     <h1>GeoBlazor</h1>
     <p>
@@ -34,3 +35,16 @@
         Go Pro with the <a href="https://docs.geoblazor.com/pages/pro.html">GeoBlazor Pro</a> package!
     </div>
 </div>
+
+@code {
+    [Parameter]
+    public string? PageRoute { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        Console.WriteLine(PageRoute);
+    }
+
+}
