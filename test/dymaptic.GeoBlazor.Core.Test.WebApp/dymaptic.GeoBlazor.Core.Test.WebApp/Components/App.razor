@@ -5,27 +5,12 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <base href="/" />
-        @{
-#if ENABLE_COMPRESSION
-        }
         <link rel="icon" href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/favicon.ico"]" />
         <link href="@Assets[$"_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/css/site.css"]" rel="stylesheet" />
         <link href="@Assets["dymaptic.GeoBlazor.Core.Test.WebApp.styles.css"]" rel="stylesheet" />
         <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]" />
         <link href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared"]" />
         <ImportMap />
-        @{
-#else
-        }
-        <link rel="icon" href="_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/favicon.ico" />
-        <link href="_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/css/site.css" rel="stylesheet" />
-        <link href="dymaptic.GeoBlazor.Core.Test.WebApp.styles.css" rel="stylesheet" />
-        <link href="_content/dymaptic.GeoBlazor.Core" />
-        <link href="_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
-        @{
-#endif
-        }
-        
         <HeadOutlet @rendermode="@_configuredRenderMode" />
         
     </head>
@@ -35,16 +20,12 @@
 #if DEBUG
         // This should always be set to Server mode so that it can toggle on the server.
     }
-        @if (NavigationManager.Uri.EndsWith(NavigationManager.BaseUri, StringComparison.OrdinalIgnoreCase))
-        {
-            // only show on the root page
             <RenderModeSelector @rendermode="@InteractiveServer" />
-        }
     @{
 #endif
     }
         <Routes @rendermode="@_configuredRenderMode" />
-        <script src="_framework/blazor.web.js"></script>
+        <script src="@Assets["_framework/blazor.web.js"]"></script>
     </body>
 </html>
 
@@ -52,9 +33,6 @@
     
     [Inject]
     public required IConfiguration Configuration { get; set; }
-    
-    [Inject]
-    public required NavigationManager NavigationManager { get; set; }
     
 #if DEBUG
     protected override void OnParametersSet()
