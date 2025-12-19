@@ -1,4 +1,4 @@
-﻿@page "/{PageRoute?}"
+﻿@page "/{PageRoute:nonfile?}"
 
 <div id="feature-panel">
     <h1>GeoBlazor</h1>
@@ -43,6 +43,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        
         Console.WriteLine(PageRoute);
     }
 

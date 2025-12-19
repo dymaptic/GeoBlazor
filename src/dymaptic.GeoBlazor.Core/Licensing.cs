@@ -12,7 +12,7 @@ internal static class Licensing
 
                 _isPro = true;
             }
-            catch
+            catch(FileNotFoundException)
             {
                 _isPro = false;
             }    

@@ -143,7 +143,13 @@ export function logUncaughtError(level: string, module: string, viewId: string, 
     }
 
     let dotNetRef = dotNetRefs[viewId] as any;
-    let _ = dotNetRef.invokeMethodAsync('OnJavascriptError', error);
+    if (dotNetRef) {
+        try {
+            let _ = dotNetRef.invokeMethodAsync('OnJavascriptError', error);
+        } catch {
+            console.debug('Could not invoke GeoBlazor dotnet callback for error message.');
+        }
+    }
     setCursor('unset', viewId);
     
     return true;
