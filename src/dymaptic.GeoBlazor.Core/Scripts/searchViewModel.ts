@@ -23,13 +23,13 @@ export async function buildJsSearchViewModel(dotNetObject: any, layerId: string 
                 errors: evt.errors,
                 numResults: evt.numResults,
                 searchTerm: evt.searchTerm,
-                results: evt.results.map(r => {
+                results: evt.results ? await Promise.all(evt.results.map(async r => {
                     return {
-                        results: r.results.map(rr => buildDotNetSearchResult(rr, layerId, viewId)),
+                        results: r.results?.map(rr => buildDotNetSearchResult(rr, layerId, viewId)),
                         sourceIndex: r.sourceIndex,
-                        source: buildDotNetSearchSource(r.source, viewId)
+                        source: r.source ? await buildDotNetSearchSource(r.source, viewId) : null
                     };
-                }),
+                })): null,
             }
             let streamRef = buildJsStreamReference(dotNetEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
@@ -39,8 +39,8 @@ export async function buildJsSearchViewModel(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
         jsSearchViewModel.on('select-result', async (evt: any) => {
             let dotNetEvent = {
-                result: await buildDotNetSearchResult(evt.result, layerId, viewId),
-                source: await buildDotNetSearchSource(evt.source, viewId),
+                result: evt.result ? await buildDotNetSearchResult(evt.result, layerId, viewId) : null,
+                source: evt.source ? await buildDotNetSearchSource(evt.source, viewId) : null,
                 sourceIndex: evt.sourceIndex
             }
             let streamRef = buildJsStreamReference(dotNetEvent ?? {});
