@@ -38,7 +38,7 @@
     <!--    Comment out this section when you uncomment the section above to trigger 
             the public API analyzer warnings/errors -->
     <PropertyGroup>
-        <NoWarn>GeoBlazor_Untested;RS0016;RS0037</NoWarn>
+        <NoWarn>GeoBlazor_Untested;RS0016;RS0037;RS0041</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

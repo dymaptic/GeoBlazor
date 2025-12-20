@@ -29,19 +29,9 @@ if (!app.Environment.IsDevelopment())
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
 
-#if ENABLE_COMPRESSION
+app.UseStaticFiles();
 app.MapStaticAssets();
-#else
-var provider = new FileExtensionContentTypeProvider
-{
-    Mappings = { [".wsv"] = "application/octet-stream" }
-};
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    ContentTypeProvider = provider
-});
-#endif
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
