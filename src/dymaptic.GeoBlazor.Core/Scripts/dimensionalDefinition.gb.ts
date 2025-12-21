@@ -67,11 +67,11 @@ export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any, v
             }
         }
     }
+
     if (hasValue(dotNetDimensionalDefinition.id)) {
         jsObjectRefs[dotNetDimensionalDefinition.id] ??= jsObject;
         arcGisObjectRefs[dotNetDimensionalDefinition.id] ??= jsObject;
     }
-
     return dotNetDimensionalDefinition;
 }
 

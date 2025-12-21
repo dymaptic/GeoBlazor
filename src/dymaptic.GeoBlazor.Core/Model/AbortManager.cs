@@ -30,6 +30,11 @@ public class AbortManager : IAsyncDisposable
     {
         _jsModule = jsModule;
     }
+    
+    /// <summary>
+    ///     Identifies when the AbortManager has been disposed.
+    /// </summary>
+    public bool Disposed { get; private set; }
 
     /// <summary>
     ///     Disposes the full AbortManager, and cancels all queries.
@@ -40,6 +45,8 @@ public class AbortManager : IAsyncDisposable
         {
             await AbortQuery(token);
         }
+        
+        Disposed = true;
     }
 
     /// <summary>

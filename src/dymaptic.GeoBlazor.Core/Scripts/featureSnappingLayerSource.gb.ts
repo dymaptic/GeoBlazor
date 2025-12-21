@@ -46,11 +46,11 @@ export async function buildDotNetFeatureSnappingLayerSourceGenerated(jsObject: a
             }
         }
     }
+
     if (hasValue(dotNetFeatureSnappingLayerSource.id)) {
         jsObjectRefs[dotNetFeatureSnappingLayerSource.id] ??= jsObject;
         arcGisObjectRefs[dotNetFeatureSnappingLayerSource.id] ??= jsObject;
     }
-
     return dotNetFeatureSnappingLayerSource;
 }
 

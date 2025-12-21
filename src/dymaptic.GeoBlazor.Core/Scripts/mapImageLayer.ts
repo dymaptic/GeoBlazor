@@ -57,7 +57,7 @@ export async function buildJsMapImageLayer(dotNetObject: any, layerId: string | 
     return await buildJsMapImageLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMapImageLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetMapImageLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetMapImageLayerGenerated} = await import('./mapImageLayer.gb');
-    return await buildDotNetMapImageLayerGenerated(jsObject, viewId);
+    return await buildDotNetMapImageLayerGenerated(jsObject, layerId, viewId);
 }

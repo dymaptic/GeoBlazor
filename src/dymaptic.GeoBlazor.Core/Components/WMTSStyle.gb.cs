@@ -27,7 +27,7 @@ public partial class WMTSStyle : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendUrl">
-    ///     The URL to the legend which gets used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widget.
+    ///     The URL to the legend which gets used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#legendUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
@@ -68,7 +68,7 @@ public partial class WMTSStyle : MapComponent
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSStyle.html#wmtsstylelegendurl-property">GeoBlazor Docs</a>
-    ///     The URL to the legend which gets used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widget.
+    ///     The URL to the legend which gets used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#legendUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

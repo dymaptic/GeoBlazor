@@ -57,11 +57,11 @@ export async function buildDotNetSizeRampElementGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetSizeRampElement.id)) {
         jsObjectRefs[dotNetSizeRampElement.id] ??= jsObject;
         arcGisObjectRefs[dotNetSizeRampElement.id] ??= jsObject;
     }
-
     return dotNetSizeRampElement;
 }
 

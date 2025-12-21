@@ -1,3 +1,4 @@
+import MeshGenerated from './mesh.gb';
 // override generated code in this file
 import Mesh from "@arcgis/core/geometry/Mesh";
 import {arcGisObjectRefs, hasValue } from './geoBlazorCore';
@@ -91,3 +92,12 @@ export function buildDotNetMesh(jsObject: any): any {
 
     return dotNetMesh;
 }
+
+export default class MeshWrapper extends MeshGenerated {
+
+    constructor(component: Mesh) {
+        super(component);
+    }
+    
+}
+

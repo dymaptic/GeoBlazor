@@ -76,11 +76,11 @@ export async function buildDotNetRasterPresetRendererGenerated(jsObject: any, vi
             }
         }
     }
+
     if (hasValue(dotNetRasterPresetRenderer.id)) {
         jsObjectRefs[dotNetRasterPresetRenderer.id] ??= jsObject;
         arcGisObjectRefs[dotNetRasterPresetRenderer.id] ??= jsObject;
     }
-
     return dotNetRasterPresetRenderer;
 }
 

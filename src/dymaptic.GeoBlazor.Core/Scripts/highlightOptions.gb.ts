@@ -2,7 +2,7 @@
 import HighlightOptions from '@arcgis/core/views/support/HighlightOptions';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './geoBlazorCore';
 
-export async function buildJsHighlightOptionsGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsHighlightOptionsGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -45,7 +45,7 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any, viewId
 }
 
 
-export async function buildDotNetHighlightOptionsGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

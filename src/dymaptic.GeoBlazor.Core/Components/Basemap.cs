@@ -54,10 +54,7 @@ public partial class Basemap : MapComponent, IPortalLayer
         {
             foreach (Layer item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -103,10 +100,7 @@ public partial class Basemap : MapComponent, IPortalLayer
         {
             foreach (Layer item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         

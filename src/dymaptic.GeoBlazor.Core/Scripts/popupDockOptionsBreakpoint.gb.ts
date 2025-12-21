@@ -51,11 +51,11 @@ export async function buildDotNetPopupDockOptionsBreakpointGenerated(jsObject: a
             }
         }
     }
+
     if (hasValue(dotNetPopupDockOptionsBreakpoint.id)) {
         jsObjectRefs[dotNetPopupDockOptionsBreakpoint.id] ??= jsObject;
         arcGisObjectRefs[dotNetPopupDockOptionsBreakpoint.id] ??= jsObject;
     }
-
     return dotNetPopupDockOptionsBreakpoint;
 }
 

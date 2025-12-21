@@ -139,11 +139,11 @@ export async function buildDotNetRasterStretchRendererGenerated(jsObject: any, v
             }
         }
     }
+
     if (hasValue(dotNetRasterStretchRenderer.id)) {
         jsObjectRefs[dotNetRasterStretchRenderer.id] ??= jsObject;
         arcGisObjectRefs[dotNetRasterStretchRenderer.id] ??= jsObject;
     }
-
     return dotNetRasterStretchRenderer;
 }
 

@@ -44,11 +44,11 @@ export async function buildDotNetBasemapToggleVisibleElementsGenerated(jsObject:
             }
         }
     }
+
     if (hasValue(dotNetBasemapToggleVisibleElements.id)) {
         jsObjectRefs[dotNetBasemapToggleVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetBasemapToggleVisibleElements.id] ??= jsObject;
     }
-
     return dotNetBasemapToggleVisibleElements;
 }
 

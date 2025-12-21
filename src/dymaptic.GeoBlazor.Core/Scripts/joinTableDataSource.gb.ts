@@ -80,11 +80,11 @@ export async function buildDotNetJoinTableDataSourceGenerated(jsObject: any, vie
             }
         }
     }
+
     if (hasValue(dotNetJoinTableDataSource.id)) {
         jsObjectRefs[dotNetJoinTableDataSource.id] ??= jsObject;
         arcGisObjectRefs[dotNetJoinTableDataSource.id] ??= jsObject;
     }
-
     return dotNetJoinTableDataSource;
 }
 

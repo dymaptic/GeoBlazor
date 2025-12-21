@@ -239,7 +239,7 @@ export async function clickOnPopupAction(methodName) {
     button.click();
 }
 
-export async function clickOnGraphicPopupAction(methodName) {
+export async function clickOnGraphicPopupAction(methodName, viewId) {
     let view = getView(methodName);
     let layer = view.map.layers.items[0];
     let graphic = layer.graphics.items[0];

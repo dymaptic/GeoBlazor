@@ -57,11 +57,11 @@ export async function buildDotNetColorRampElementGenerated(jsObject: any, viewId
             }
         }
     }
+
     if (hasValue(dotNetColorRampElement.id)) {
         jsObjectRefs[dotNetColorRampElement.id] ??= jsObject;
         arcGisObjectRefs[dotNetColorRampElement.id] ??= jsObject;
     }
-
     return dotNetColorRampElement;
 }
 

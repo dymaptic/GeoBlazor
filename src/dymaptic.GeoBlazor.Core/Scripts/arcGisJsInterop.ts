@@ -203,7 +203,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
                                    zoom: number | null, scale: number, mapType: string, widgets: any[], graphics: any,
                                    spatialReference: any, constraints: any, extent: any, backgroundColor: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                                   isServer: boolean, highlightOptions?: any | null, 
+                                   isServer: boolean, highlightOptions?: any | null, highlights?: any | null, 
                                    popupEnabled?: boolean | null, theme?: string | null, zIndex?: number, tilt?: number,
                                    retry: boolean = false)
     : Promise<void> {
@@ -335,7 +335,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
 
     // 7. Set view properties
     await setupView(abortSignal, view, id, dotNetRef, long, lat, zoom, scale, spatialRef, constraints, extent,
-        backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, popupEnabled, theme);
+        backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, highlights, popupEnabled, theme);
 
     if (abortSignal.aborted) {
         return;
@@ -370,14 +370,14 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
 
     if (!view.ui.view) {
         // this state happens after an internal ArcGIS error, we need to reload everything
-        await resetMapComponent(id);
+        resetMapComponent(id);
         if (retry) {
             throw new Error(`Map component view is in an invalid state. This often occurs after an error on navigation. We suggest catching this exception and re-rendering the MapView.`);
         } else {
             await buildArcGisMapView(abortSignal, id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, 
                 mapType, widgets, graphics, spatialReference, constraints, extent, backgroundColor, 
-                eventRateLimitInMilliseconds, activeEventHandlers, isServer, highlightOptions, popupEnabled, theme, 
-                zIndex, tilt, true);
+                eventRateLimitInMilliseconds, activeEventHandlers, isServer, highlightOptions, highlights, popupEnabled, 
+                theme, zIndex, tilt, true);
         }
     }
 
@@ -461,7 +461,7 @@ async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id
                          long: number | null, lat: number | null, zoom: number | null, scale: number | null,
                          spatialRef: SpatialReference | null, constraints: any, extent: any, backgroundColor: any,
                          eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                         highlightOptions?: any | null, popupEnabled?: boolean | null, theme?: string | null): Promise<void> {
+                         highlightOptions?: any | null, highlights?: any | null, popupEnabled?: boolean | null, theme?: string | null): Promise<void> {
     if (abortSignal.aborted) {
         return;
     }
@@ -491,7 +491,11 @@ async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id
     waitForRender(id, theme, dotNetRef, abortSignal);
 
     if (hasValue(highlightOptions)) {
-        view.highlightOptions = highlightOptions;
+        setHighlightOptions(highlightOptions, id);
+    }
+    
+    if (hasValue(highlights)) {
+        await setHighlights(highlights, id);
     }
 
     if (abortSignal.aborted) {
@@ -699,8 +703,8 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
             const result = {
                 layerObjectRef: layerRef,
                 layerViewObjectRef: layerViewRef,
-                layerView: await buildDotNetLayerView(evt.layerView, viewId),
-                layer: await buildDotNetLayer(evt.layer, viewId),
+                layerView: await buildDotNetLayerView(evt.layerView, layerGeoBlazorId, viewId),
+                layer: await buildDotNetLayer(evt.layer, layerGeoBlazorId, viewId),
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
                 isReferenceLayer: isReferenceLayer
@@ -942,6 +946,12 @@ export function setConstraints(constraintsObject: any, viewId: string) {
 export function setHighlightOptions(highlightOptions: any, viewId: string) {
     const view = arcGisObjectRefs[viewId] as MapView;
     view.highlightOptions = highlightOptions;
+}
+
+export async function setHighlights(highlights: any, viewId: string) {
+    const view = arcGisObjectRefs[viewId] as MapView;
+    let { buildJsHighlightOptions } = await import('./highlightOptions');
+    view.highlights = highlights.map(buildJsHighlightOptions);
 }
 
 export async function setSpatialReference(spatialReferenceObject: any, viewId: string) {

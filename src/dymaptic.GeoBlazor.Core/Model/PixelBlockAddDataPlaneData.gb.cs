@@ -18,6 +18,10 @@ public partial record PixelBlockAddDataPlaneData(
     IReadOnlyCollection<double>? Pixels = null,
     PixelBlockAddDataPlaneDataStatistics? Statistics = null)
 {
+    public PixelBlockAddDataPlaneData(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     A two dimensional array representing the pixels to add.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#addData">ArcGIS Maps SDK for JavaScript</a>

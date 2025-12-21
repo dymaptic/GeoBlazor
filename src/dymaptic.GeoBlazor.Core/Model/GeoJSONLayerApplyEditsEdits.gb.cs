@@ -28,6 +28,10 @@ public partial record GeoJSONLayerApplyEditsEdits(
     IReadOnlyCollection<string>? StringCollectionDeleteFeatures = null,
     IReadOnlyCollection<Graphic>? UpdateFeatures = null)
 {
+    public GeoJSONLayerApplyEditsEdits(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features to be added.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>

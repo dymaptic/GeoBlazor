@@ -5,7 +5,7 @@ import {
     loadProtobuf,
     ProtoGraphicCollection,
     popupTemplateRefs,
-    actionHandlers, 
+    actionHandlers,
     esriConfig,
     resetMapComponent
 } from './arcGisJsInterop';
@@ -33,15 +33,15 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                                    scale: number, mapType: string, widgets: any[], graphics: any,
                                    spatialReference: any, constraints: any, extent: any, backgroundColor: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                                   isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, 
-                                   theme?: string | null, allowDefaultEsriLogin?: boolean | null, apiKey?: string | null,
-                                   appId?: string | null, zIndex?: number, 
-                                   tilt?: number) : Promise<any> {
+                                   isServer: boolean, highlightOptions?: any | null, highlights?: any | null,
+                                   popupEnabled?: boolean | null, theme?: string | null,
+                                   allowDefaultEsriLogin?: boolean | null, apiKey?: string | null,
+                                   appId?: string | null, zIndex?: number, tilt?: number) : Promise<any> {
     try {
         setCursor('wait');
 
         clearError();
-        
+
         if (allowDefaultEsriLogin !== true && !hasValue(apiKey) && !hasValue(appId)) {
             let errorMessage = `Please add an ArcGISApiKey or ArcGISAppId to use the selected resources. See https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication for more information.`;
             globalThis.overflowStyle ??= document.documentElement.style.overflow;
@@ -73,21 +73,21 @@ export async function buildMapView(abortSignal: AbortSignal, id: string, dotNetR
                 });
             });
 
-            observer.observe(document.body, { 
-                childList: true, 
-                subtree: true, 
-                attributes: true, 
-                attributeFilter: ['class', 'style'] 
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['class', 'style']
             });
-            
+
             observers[id] = observer;
         }
-        
+
         addHeadLink('_content/dymaptic.GeoBlazor.Core/css/geoblazor.css');
 
         await buildArcGisMapView(abortSignal, id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, mapType,
             widgets, graphics, spatialReference, constraints, extent, backgroundColor, eventRateLimitInMilliseconds,
-            activeEventHandlers, isServer, highlightOptions, popupEnabled, theme, zIndex, tilt);
+            activeEventHandlers, isServer, highlightOptions, highlights, popupEnabled, theme, zIndex, tilt);
 
     } catch (e) {
         if (abortSignal.aborted) {
@@ -117,9 +117,9 @@ export function logUncaughtError(level: string, module: string, viewId: string, 
     if (level !== 'error') {
         return false;
     }
-    
+
     let error: any = {};
-    
+
     if (args.length === 3) {
         let innerError = args[2];
         error = {
@@ -151,7 +151,7 @@ export function logUncaughtError(level: string, module: string, viewId: string, 
         }
     }
     setCursor('unset', viewId);
-    
+
     return true;
 }
 
@@ -178,7 +178,7 @@ export function showError(viewId: string) {
     }
     errorContainer.style.visibility = 'visible';
     errorDiv = errorContainer?.querySelector('.geoblazor-validation-message') as HTMLDivElement;
-    
+
     if (!errorDiv) {
         errorDiv = document.createElement('div');
         errorContainer?.appendChild(errorDiv);
@@ -187,7 +187,7 @@ export function showError(viewId: string) {
     if (!errorDiv.classList.contains('geoblazor-validation-message')) {
         errorDiv.classList.add('geoblazor-validation-message');
     }
-    
+
     errorDiv.innerHTML = '<p>An error occurred while loading the map.</p>';
 }
 
@@ -213,7 +213,7 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
         if (index >= 0) {
             esriConfig.log.interceptors.splice(index, 1);
         }
-        
+
         const component = arcGisObjectRefs[componentId];
 
         if (!hasValue(component)) {

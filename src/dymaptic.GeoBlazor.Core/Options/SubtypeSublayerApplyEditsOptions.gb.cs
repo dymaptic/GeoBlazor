@@ -23,6 +23,10 @@ public partial record SubtypeSublayerApplyEditsOptions(
     ReturnServiceEditsOption? ReturnServiceEditsOption = null,
     bool? RollbackOnFailureEnabled = null)
 {
+    public SubtypeSublayerApplyEditsOptions(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     
     /// </summary>

@@ -86,11 +86,11 @@ export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenera
             }
         }
     }
+
     if (hasValue(dotNetArcGISImageServiceCapabilitiesMensuration.id)) {
         jsObjectRefs[dotNetArcGISImageServiceCapabilitiesMensuration.id] ??= jsObject;
         arcGisObjectRefs[dotNetArcGISImageServiceCapabilitiesMensuration.id] ??= jsObject;
     }
-
     return dotNetArcGISImageServiceCapabilitiesMensuration;
 }
 

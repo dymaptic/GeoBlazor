@@ -9,9 +9,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Layers">
-///     A collection of
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ElevationLayers</a>
-///     that define the elevation or terrain that makes up the ground surface.
+///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ElevationLayers</a> that define the elevation or terrain
+///     that makes up the ground surface.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#layers">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="NavigationConstraint">
@@ -29,12 +28,22 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     default null
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#surfaceColor">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Loaded">
+///     Indicates whether the instance has loaded.
+///     default false
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#loaded">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record Ground(
     IReadOnlyCollection<Layer>? Layers = null,
     GroundNavigationConstraint? NavigationConstraint = null,
     double? Opacity = null,
-    MapColor? SurfaceColor = null) : IIntersectItem, ILayerParent, IMeshUtilsSource, IInteractiveRecord
+    MapColor? SurfaceColor = null,
+    bool? Loaded = null) : IIntersectItem, ILayerParent, IMeshUtilsSource, IInteractiveRecord
 {
+    public Ground(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>
@@ -55,6 +64,7 @@ public partial record Ground(
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
     
+
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
@@ -96,8 +106,8 @@ public partial record Ground(
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundcreateelevationsampler-method">GeoBlazor Docs</a>
-    ///     Creates an elevation sampler for the given extent by querying the ground layers
-    ///     for elevation data and caching it so values may be sampled quickly afterwards.
+    ///     Creates an elevation sampler for the given extent by querying the ground layers for elevation data and caching it
+    ///     so values may be sampled quickly afterwards.
     ///     param options Additional sampler options.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#createElevationSampler">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -376,18 +386,17 @@ public partial record Ground(
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param errback The function to execute when the promise fails.
+    ///     param onRejected The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="callback">
+    /// <param name="onFulfilled">
     ///     The function to call when the promise resolves.
     /// </param>
-    /// <param name="errback">
-    ///     The function to execute when the promise fails.
+    /// <param name="onRejected">
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task> onFulfilled,
+        Func<Task> onRejected)
     {
         if (CoreJsModule is null)
         {
@@ -412,8 +421,8 @@ public partial record Ground(
         return await JsComponentReference!.InvokeAsync<string?>(
             "when", 
             CancellationTokenSource.Token,
-            callback,
-            errback);
+            onFulfilled,
+            onRejected);
     }
     
 #endregion

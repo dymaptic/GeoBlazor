@@ -109,7 +109,7 @@ public class ESBuildLauncher : IIncrementalGenerator
     private void LaunchESBuild(SourceProductionContext context)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
-        
+        ShowMessageBox("Starting GeoBlazor Core ESBuild process...");
         Notification?.Invoke(this, "Starting Core ESBuild process...");
 
         StringBuilder logBuilder = new StringBuilder(DateTime.Now.ToLongTimeString());
@@ -123,16 +123,17 @@ public class ESBuildLauncher : IIncrementalGenerator
 
             // gets the esBuild.ps1 script from the Core path
             tasks.Add(Task.Run(async () =>
-                buildSuccess = await RunPowerShellScript("Core", "esBuild.ps1", _corePath!, 
+                buildSuccess = await RunPowerShellScript("Core", "esBuild.ps1", _corePath!,
                     $"-c {_configuration}", logBuilder, context.CancellationToken)));
 
             if (_proPath is not null)
             {
+                ShowMessageBox("Starting GeoBlazor Pro ESBuild process...");
                 Notification?.Invoke(this, "Starting Pro ESBuild process...");
                 logBuilder.AppendLine("Starting Pro ESBuild process...");
 
                 tasks.Add(Task.Run(async () =>
-                    proBuildSuccess = await RunPowerShellScript("Pro", "esProBuild.ps1", _proPath, 
+                    proBuildSuccess = await RunPowerShellScript("Pro", "esProBuild.ps1", _proPath,
                         $"-c {_configuration}", logBuilder, context.CancellationToken)));
             }
 
@@ -232,6 +233,10 @@ public class ESBuildLauncher : IIncrementalGenerator
             throw new Exception(
                 $"An error occurred while running ESBuild: {ex.Message}\n\n{logBuilder}\n\n{ex.StackTrace}", ex);
         }
+        finally
+        {
+            CloseMessageBox();
+        }
     }
 
     private void Log(string content, bool isError = false)
@@ -266,7 +271,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
-            CreateNoWindow = true
+            CreateNoWindow = false
         };
 
         using var process = Process.Start(processStartInfo);
@@ -321,8 +326,36 @@ public class ESBuildLauncher : IIncrementalGenerator
         }
     }
 
+    private void ShowMessageBox(string message)
+    {
+        string path = Path.Combine(_corePath!, "..", "..");
+
+        ProcessStartInfo processStartInfo = new()
+        {
+            WorkingDirectory = path,
+            FileName = "pwsh",
+            Arguments =
+                $"-NoProfile -ExecutionPolicy ByPass -File showDialog.ps1 -Message \"{message}\" -Title \"GeoBlazor ESBuild\" -Buttons None",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        
+        _popupProcesses.Add(Process.Start(processStartInfo));
+    }
+    
+    private void CloseMessageBox()
+    {
+        foreach (Process process in _popupProcesses)
+        {
+            process.Kill();
+        }
+    }
+
     private static string? _corePath;
     private static string? _proPath;
     private static string? _configuration;
     private static bool _logESBuildOutput;
+    private List<Process> _popupProcesses = [];
 }

@@ -11,7 +11,7 @@ export default class WMSLayerWrapper extends WMSLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetWMSLayer(result, this.viewId);
+        let dotNetLayer = await buildDotNetWMSLayer(result, this.layerId, this.viewId);
         return buildEncodedJson(dotNetLayer);
     }
 
@@ -85,9 +85,9 @@ export async function buildJsWMSLayer(dotNetObject: any, layerId: string | null,
     return jsWmsLayer;
 }
 
-export async function buildDotNetWMSLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWMSLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetWMSLayerGenerated} = await import('./wMSLayer.gb');
-    return await buildDotNetWMSLayerGenerated(jsObject, viewId);
+    return await buildDotNetWMSLayerGenerated(jsObject, layerId, viewId);
 }
 
 

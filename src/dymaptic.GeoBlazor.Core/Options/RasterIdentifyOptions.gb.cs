@@ -19,6 +19,10 @@ public partial record RasterIdentifyOptions(
     IReadOnlyCollection<DimensionalDefinition>? MultidimensionalDefinition = null,
     string? TransposedVariableName = null)
 {
+    public RasterIdentifyOptions(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     A dimensional definition used for the `identify` operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyOptions">ArcGIS Maps SDK for JavaScript</a>

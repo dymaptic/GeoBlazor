@@ -60,11 +60,11 @@ export async function buildDotNetColorRampStopGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetColorRampStop.id)) {
         jsObjectRefs[dotNetColorRampStop.id] ??= jsObject;
         arcGisObjectRefs[dotNetColorRampStop.id] ??= jsObject;
     }
-
     return dotNetColorRampStop;
 }
 

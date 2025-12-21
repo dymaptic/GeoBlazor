@@ -51,11 +51,11 @@ export async function buildDotNetAreaMeasurement2DViewModelMeasurementLabelGener
             }
         }
     }
+
     if (hasValue(dotNetAreaMeasurement2DViewModelMeasurementLabel.id)) {
         jsObjectRefs[dotNetAreaMeasurement2DViewModelMeasurementLabel.id] ??= jsObject;
         arcGisObjectRefs[dotNetAreaMeasurement2DViewModelMeasurementLabel.id] ??= jsObject;
     }
-
     return dotNetAreaMeasurement2DViewModelMeasurementLabel;
 }
 

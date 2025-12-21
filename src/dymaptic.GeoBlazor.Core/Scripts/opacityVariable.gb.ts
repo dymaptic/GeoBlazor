@@ -2,7 +2,7 @@
 import OpacityVariable from '@arcgis/core/renderers/visualVariables/OpacityVariable';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './geoBlazorCore';
 
-export async function buildJsOpacityVariableGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }

@@ -57,11 +57,11 @@ export async function buildDotNetDynamicDataLayerGenerated(jsObject: any, viewId
             }
         }
     }
+
     if (hasValue(dotNetDynamicDataLayer.id)) {
         jsObjectRefs[dotNetDynamicDataLayer.id] ??= jsObject;
         arcGisObjectRefs[dotNetDynamicDataLayer.id] ??= jsObject;
     }
-
     return dotNetDynamicDataLayer;
 }
 

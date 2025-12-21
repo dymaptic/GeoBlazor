@@ -58,11 +58,11 @@ export async function buildDotNetAttachmentsCapabilitiesOperationsGenerated(jsOb
             }
         }
     }
+
     if (hasValue(dotNetAttachmentsCapabilitiesOperations.id)) {
         jsObjectRefs[dotNetAttachmentsCapabilitiesOperations.id] ??= jsObject;
         arcGisObjectRefs[dotNetAttachmentsCapabilitiesOperations.id] ??= jsObject;
     }
-
     return dotNetAttachmentsCapabilitiesOperations;
 }
 

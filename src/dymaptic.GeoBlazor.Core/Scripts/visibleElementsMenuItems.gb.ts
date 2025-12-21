@@ -93,11 +93,11 @@ export async function buildDotNetVisibleElementsMenuItemsGenerated(jsObject: any
             }
         }
     }
+
     if (hasValue(dotNetVisibleElementsMenuItems.id)) {
         jsObjectRefs[dotNetVisibleElementsMenuItems.id] ??= jsObject;
         arcGisObjectRefs[dotNetVisibleElementsMenuItems.id] ??= jsObject;
     }
-
     return dotNetVisibleElementsMenuItems;
 }
 

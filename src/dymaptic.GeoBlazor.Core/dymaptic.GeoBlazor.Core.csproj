@@ -24,6 +24,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoWarn>GeoBlazor_Untested</NoWarn>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -38,7 +39,7 @@
     <!--    Comment out this section when you uncomment the section above to trigger 
             the public API analyzer warnings/errors -->
     <PropertyGroup>
-        <NoWarn>GeoBlazor_Untested;RS0016;RS0037</NoWarn>
+        <NoWarn>GeoBlazor_Untested;RS0016;RS0037;RS0041</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -116,6 +117,19 @@
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Analyzers\dymaptic.GeoBlazor.Core.Analyzers.csproj"
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Components\DateTimeFieldFormat.cs" />
+      <Compile Remove="Components\FeatureInfo.cs" />
+      <Compile Remove="Options\EditorViewModelStartMergeFeaturesWorkflowOptions.gb.cs" />
+      <Compile Remove="Options\EditorViewModelStartMergeFeaturesWorkflowOptions.cs" />
+      <Compile Remove="Options\FeatureTitleOptions.gb.cs" />
+      <Compile Remove="Options\FeatureTitleOptions.cs" />
+      <Compile Remove="Enums\PortalBasemapsSourceState.cs" />
+      <Compile Remove="Interfaces\IFieldConfigurationFieldFormat.cs" />
+      <Compile Remove="Interfaces\IFieldInfoFieldFormat.cs" />
+      <Compile Remove="Model\CompositeTransformationGeoTransforms1.cs" />
     </ItemGroup>
 
     <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">

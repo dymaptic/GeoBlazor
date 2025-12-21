@@ -71,11 +71,11 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any, viewId: str
             }
         }
     }
+
     if (hasValue(dotNetKMLSublayer.id)) {
         jsObjectRefs[dotNetKMLSublayer.id] ??= jsObject;
         arcGisObjectRefs[dotNetKMLSublayer.id] ??= jsObject;
     }
-
     return dotNetKMLSublayer;
 }
 

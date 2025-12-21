@@ -21,7 +21,7 @@ export async function buildJsLocalBasemapsSource(dotNetObject: any, layerId: str
     return jsLocalBasemapsSource;
 }
 
-export async function buildDotNetLocalBasemapsSource(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLocalBasemapsSource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -32,7 +32,7 @@ export async function buildDotNetLocalBasemapsSource(jsObject: any, viewId: stri
     
     if (hasValue(jsObject.basemaps)) {
         let { buildDotNetBasemap } = await import('./basemap');
-        dotNetLocalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i, viewId)));
+        dotNetLocalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.state)) {

@@ -15,7 +15,7 @@ export async function buildJsFieldsIndex(dotNetObject: any, layerId: string | nu
     return await buildJsFieldsIndexGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFieldsIndex(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetFieldsIndex(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFieldsIndexGenerated} = await import('./fieldsIndex.gb');
-    return await buildDotNetFieldsIndexGenerated(jsObject, viewId);
+    return await buildDotNetFieldsIndexGenerated(jsObject, layerId, viewId);
 }

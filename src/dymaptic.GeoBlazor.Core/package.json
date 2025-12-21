@@ -12,21 +12,21 @@
   "author": "dymaptic",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "4.33.10",
-    "@arcgis/map-components": "4.33.10",
+    "@arcgis/core": "4.33.14",
+    "@arcgis/map-components": "4.33.24",
     "@esri/calcite-components": "3.2.1",
-    "esbuild": "0.25.2",
+    "esbuild": "0.27.1",
     "esbuild-clean-plugin": "^2.0.0",
-    "protobufjs": "7.4.0"
+    "protobufjs": "7.5.4"
   },
   "devDependencies": {
-    "@eslint/js": "9.31.0",
-    "@types/node": "^24.1.0",
+    "@eslint/js": "10.0.0",
+    "@types/node": "^24.10.2",
     "esbuild-plugin-eslint": "^0.3.12",
-    "eslint": "9.31.0",
-    "eslint-plugin-sonarjs": "^3.0.4",
-    "globals": "^16.0.0",
+    "eslint": "9.39.1",
+    "eslint-plugin-sonarjs": "^3.0.5",
+    "globals": "^16.5.0",
     "process": "^0.11.10",
-    "typescript-eslint": "^8.29.0"
+    "typescript-eslint": "^8.49.0"
   }
 }

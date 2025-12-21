@@ -14,7 +14,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
         let { buildJsUniqueValue } = await import('./uniqueValue');
-        properties.values = await Promise.all(dotNetObject.values.map(async i => await buildJsUniqueValue(i))) as any;
+        properties.values = await Promise.all(dotNetObject.values.map(async i => await buildJsUniqueValue(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.label)) {

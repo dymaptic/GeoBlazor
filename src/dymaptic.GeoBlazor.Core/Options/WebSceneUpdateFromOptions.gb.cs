@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.WebSceneUpdateFromOptions.html">GeoBlazor Docs</a>
-///     
+///     Options for updating a web scene from a view.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-types.html#WebSceneUpdateFromOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="EnvironmentExcluded">
 ///     Do not update the initial environment from the view, defaults to false.
@@ -29,10 +30,14 @@ namespace dymaptic.GeoBlazor.Core.Options;
 public partial record WebSceneUpdateFromOptions(
     bool? EnvironmentExcluded = null,
     bool? ThumbnailExcluded = null,
-    WebSceneUpdateFromOptionsThumbnailSize? ThumbnailSize = null,
+    WebSceneThumbnailSize? ThumbnailSize = null,
     bool? ViewpointExcluded = null,
     bool? WidgetsExcluded = null)
 {
+    public WebSceneUpdateFromOptions(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     Do not update the initial environment from the view, defaults to false.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
@@ -49,7 +54,7 @@ public partial record WebSceneUpdateFromOptions(
     ///     The size of the thumbnail.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public WebSceneUpdateFromOptionsThumbnailSize? ThumbnailSize { get; set; } = ThumbnailSize;
+    public WebSceneThumbnailSize? ThumbnailSize { get; set; } = ThumbnailSize;
     
     /// <summary>
     ///     Do not update the initial viewpoint from the view, defaults to false.

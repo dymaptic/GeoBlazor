@@ -88,6 +88,9 @@ let options = {
     format: 'esm',
     outdir: OUTPUT_DIR,
     splitting: true,
+    loader: {
+        ".woff2": "file"
+    },
     metafile: true,
     minify: isRelease,
     plugins: [eslint({

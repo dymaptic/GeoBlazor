@@ -3,7 +3,7 @@ import { getView } from "./testRunner.js";
 export function clickOnAddBookmarkButton(methodName) {
     let view = getView(methodName);
     let widget = view.ui._components
-        .find(c => c.widget.declaredClass === "esri.widgets.Bookmarks")
+        .find(c => c.widget?.declaredClass === "esri.widgets.Bookmarks")
         .widget.container;
     let addButton = widget.querySelector('.esri-bookmarks__add-bookmark-button');
     if (!addButton) {

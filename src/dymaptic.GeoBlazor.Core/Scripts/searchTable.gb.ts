@@ -55,11 +55,11 @@ export async function buildDotNetSearchTableGenerated(jsObject: any, layerId: st
             }
         }
     }
+
     if (hasValue(dotNetSearchTable.id)) {
         jsObjectRefs[dotNetSearchTable.id] ??= jsObject;
         arcGisObjectRefs[dotNetSearchTable.id] ??= jsObject;
     }
-
     return dotNetSearchTable;
 }
 

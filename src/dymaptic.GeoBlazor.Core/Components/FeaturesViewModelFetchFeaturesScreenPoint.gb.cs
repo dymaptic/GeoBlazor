@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModelFetchFeaturesScreenPoint.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
 {
@@ -43,6 +44,7 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModelFetchFeaturesScreenPoint.html#featuresviewmodelfetchfeaturesscreenpointx-property">GeoBlazor Docs</a>
     ///     The x coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#fetchFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -52,6 +54,7 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
     public double? X { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModelFetchFeaturesScreenPoint.html#featuresviewmodelfetchfeaturesscreenpointy-property">GeoBlazor Docs</a>
     ///     The y coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#fetchFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -73,8 +76,17 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         {
             return X;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return X;
@@ -103,8 +115,17 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         {
             return Y;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Y;
@@ -146,8 +167,15 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -176,8 +204,15 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {

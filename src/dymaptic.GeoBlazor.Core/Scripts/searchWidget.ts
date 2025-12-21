@@ -2,9 +2,7 @@ import widgetsSearch from '@arcgis/core/widgets/Search';
 import Search from '@arcgis/core/widgets/Search';
 import SearchWidgetGenerated from './searchWidget.gb';
 import {buildJsGeometry} from './geometry';
-import {buildEncodedJson, buildJsStreamReference, hasValue} from './geoBlazorCore';
-import {buildDotNetSearchResult, buildJsSearchResult} from "./searchResult";
-import {buildDotNetSearchSource, buildJsSearchSource} from "./searchSource";
+import {buildEncodedJson, hasValue} from './geoBlazorCore';
 
 
 export default class SearchWidgetWrapper extends SearchWidgetGenerated {
@@ -143,41 +141,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
 
 export async function buildJsSearchWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsSearchWidgetGenerated} = await import('./searchWidget.gb');
-    let jswidgetsSearch = await buildJsSearchWidgetGenerated(dotNetObject, layerId, viewId);
-
-    if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
-        jswidgetsSearch.on('search-complete', async (evt: any) => {
-            let dotNetEvent = {
-                activeSourceIndex: evt.activeSourceIndex,
-                errors: evt.errors,
-                numResults: evt.numResults,
-                searchTerm: evt.searchTerm,
-                results: evt.results ? await Promise.all(evt.results.map(async r => {
-                    return {
-                        results: r.results?.map(rr => buildDotNetSearchResult(rr, layerId, viewId)),
-                        sourceIndex: r.sourceIndex,
-                        source: r.source ? await buildDotNetSearchSource(r.source, viewId) : null
-                    };
-                })) : null,
-            }
-            let streamRef = buildJsStreamReference(dotNetEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
-        });
-    }
-    
-    if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
-        jswidgetsSearch.on('select-result', async (evt: any) => {
-            let dotNetEvent = {
-                result: evt.result ? await buildDotNetSearchResult(evt.result, layerId, viewId) : null,
-                source: evt.source ? await buildDotNetSearchSource(evt.source, viewId) : null,
-                sourceIndex: evt.sourceIndex
-            }
-            let streamRef = buildJsStreamReference(dotNetEvent ?? {});
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
-        });
-    }
-    
-    return jswidgetsSearch;
+    return await buildJsSearchWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
 export async function buildDotNetSearchWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

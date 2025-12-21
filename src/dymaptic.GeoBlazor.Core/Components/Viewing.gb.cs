@@ -39,6 +39,7 @@ public partial class Viewing : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewing.html#viewingsearch-property">GeoBlazor Docs</a>
     ///     An object specifying the search parameters set within the web scene or web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-Viewing.html#search">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -104,10 +105,7 @@ public partial class Viewing : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
