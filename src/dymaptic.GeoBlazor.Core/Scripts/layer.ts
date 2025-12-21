@@ -87,6 +87,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
             let {buildJsWMTSLayer} = await import('./wMTSLayer');
             return await buildJsWMTSLayer(dotNetObject, layerId, viewId);
         // case 'base-dynamic':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsBaseDynamicLayer} = await import('./baseDynamicLayer');
@@ -95,6 +99,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'base-elevation':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsBaseElevationLayer} = await import('./baseElevationLayer');
@@ -103,6 +111,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'building-scene':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsBuildingSceneLayer} = await import('./buildingSceneLayer');
@@ -111,7 +123,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'catalog-dynamic-group':
-            if (!Pro) return null;
+            if (!Pro) {
+                let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+                return sanitizedLayer;
+            }
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsCatalogDynamicGroupLayer} = await import('./catalogDynamicGroupLayer');
@@ -120,7 +135,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         case 'catalog-footprint':
-            if (!Pro) return null;
+            if (!Pro) {
+                let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+                return sanitizedLayer;
+            }
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsCatalogFootprintLayer} = await import('./catalogFootprintLayer');
@@ -129,7 +147,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         case 'catalog':
-            if (!Pro) return null;
+            if (!Pro) {
+                let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+                return sanitizedLayer;
+            }
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsCatalogLayer} = await import('./catalogLayer');
@@ -138,6 +159,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         // case 'dimension':
+        //     if (!Pro) {
+        //         let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //         return sanitizedLayer;
+        //     }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsDimensionLayer} = await import('./dimensionLayer');
@@ -146,7 +171,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'elevation':
-            if (!Pro) return null;
+            if (!Pro) {
+                let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+                return sanitizedLayer;
+            }
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsElevationLayer} = await import('./elevationLayer');
@@ -155,7 +183,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         case 'group':
-            if (!Pro) return null;
+            if (!Pro) {
+                let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+                return sanitizedLayer;
+            }
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsGroupLayer} = await import('./groupLayer');
@@ -164,6 +195,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         // case 'integrated-mesh':
+        //     if (!Pro) {
+        //         let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //         return sanitizedLayer;
+        //     }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsIntegratedMeshLayer} = await import('./integratedMeshLayer');
@@ -172,6 +207,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'integrated-mesh-3dtiles':
+        //     if (!Pro) {
+        //         let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //         return sanitizedLayer;
+        //     }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsIntegratedMesh3DTilesLayer} = await import('./integratedMesh3DTilesLayer');
@@ -180,6 +219,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'knowledge-graph-sublayer':
+        //     if (!Pro) {
+        //         let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //         return sanitizedLayer;
+        //     }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsKnowledgeGraphSublayer} = await import('./knowledgeGraphSublayer');
@@ -188,6 +231,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'knowledge-graph':
+        //     if (!Pro) {
+        //         let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //         return sanitizedLayer;
+        //     }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsKnowledgeGraphLayer} = await import('./knowledgeGraphLayer');
@@ -196,6 +243,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'line-of-sight':
+        //     if (!Pro) {
+        //         let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //         return sanitizedLayer;
+        //     }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsLineOfSightLayer} = await import('./lineOfSightLayer');
@@ -204,6 +255,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'map-notes':
+        //     if (!Pro) {
+        //         let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //         return sanitizedLayer;
+        //     }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsMapNotesLayer} = await import('./mapNotesLayer');
@@ -212,6 +267,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'media':
+        //     if (!Pro) {
+        //         let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //         return sanitizedLayer;
+        //     }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsMediaLayer} = await import('./mediaLayer');
@@ -220,6 +279,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'ogc-feature':
+            if (!Pro) {
+                let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+                return sanitizedLayer;
+            }
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsOGCFeatureLayer} = await import('./oGCFeatureLayer');
@@ -228,6 +291,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         // case 'oriented-imagery':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsOrientedImageryLayer} = await import('./orientedImageryLayer');
@@ -236,6 +303,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'point-cloud':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsPointCloudLayer} = await import('./pointCloudLayer');
@@ -244,6 +315,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'route':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsRouteLayer} = await import('./routeLayer');
@@ -252,7 +327,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'scene':
-            if (!Pro) return null;
+            if (!Pro) {
+                let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+                return sanitizedLayer;
+            }
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsSceneLayer} = await import('./sceneLayer');
@@ -261,6 +339,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         // case 'stream':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsStreamLayer} = await import('./streamLayer');
@@ -269,6 +351,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'subtype-group':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsSubtypeGroupLayer} = await import('./subtypeGroupLayer');
@@ -277,6 +363,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'video':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsVideoLayer} = await import('./videoLayer');
@@ -285,6 +375,10 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'voxel':
+        //     if (!Pro) {
+        //                 let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
+        //                 return sanitizedLayer;
+        //             }
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildJsVoxelLayer} = await import('./voxelLayer');
@@ -368,6 +462,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
             let {buildDotNetUnsupportedLayer} = await import('./unsupportedLayer');
             return await buildDotNetUnsupportedLayer(jsObject, layerId, viewId);
         // case 'base-dynamic':
+        //    if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetBaseDynamicLayer} = await import('./baseDynamicLayer');
@@ -376,6 +471,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'base-elevation':
+        //    if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetBaseElevationLayer} = await import('./baseElevationLayer');
@@ -384,6 +480,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'building-scene':
+        //    if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetBuildingSceneLayer} = await import('./buildingSceneLayer');
@@ -392,7 +489,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'catalog-dynamic-group':
-            if (!Pro) return null;
+           if (!Pro) return removeCircularReferences(jsObject);
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogDynamicGroupLayer} = await import('./catalogDynamicGroupLayer');
@@ -401,7 +498,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
                 throw e;
             }
         case 'catalog-footprint':
-            if (!Pro) return null;
+            if (!Pro) return removeCircularReferences(jsObject);
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogFootprintLayer} = await import('./catalogFootprintLayer');
@@ -410,7 +507,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
                 throw e;
             }
         case 'catalog':
-            if (!Pro) return null;
+            if (!Pro) return removeCircularReferences(jsObject);
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogLayer} = await import('./catalogLayer');
@@ -419,6 +516,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
                 throw e;
             }
         // case 'dimension':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetDimensionLayer} = await import('./dimensionLayer');
@@ -427,7 +525,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'elevation':
-            if (!Pro) return null;
+            if (!Pro) return removeCircularReferences(jsObject);
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetElevationLayer} = await import('./elevationLayer');
@@ -436,7 +534,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
                 throw e;
             }
         case 'group':
-            if (!Pro) return null;
+            if (!Pro) return removeCircularReferences(jsObject);
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetGroupLayer} = await import('./groupLayer');
@@ -445,6 +543,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
                 throw e;
             }
         // case 'integrated-mesh':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetIntegratedMeshLayer} = await import('./integratedMeshLayer');
@@ -453,6 +552,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'integrated-mesh-3dtiles':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetIntegratedMesh3DTilesLayer} = await import('./integratedMesh3DTilesLayer');
@@ -461,6 +561,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'knowledge-graph-sublayer':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetKnowledgeGraphSublayer} = await import('./knowledgeGraphSublayer');
@@ -469,6 +570,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'knowledge-graph':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetKnowledgeGraphLayer} = await import('./knowledgeGraphLayer');
@@ -477,6 +579,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'line-of-sight':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetLineOfSightLayer} = await import('./lineOfSightLayer');
@@ -485,6 +588,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'map-notes':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetMapNotesLayer} = await import('./mapNotesLayer');
@@ -493,6 +597,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'media':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetMediaLayer} = await import('./mediaLayer');
@@ -501,6 +606,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'ogc-feature':
+            if (!Pro) return removeCircularReferences(jsObject);
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetOGCFeatureLayer} = await import('./oGCFeatureLayer');
@@ -509,6 +615,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
                 throw e;
             }
         // case 'oriented-imagery':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetOrientedImageryLayer} = await import('./orientedImageryLayer');
@@ -517,6 +624,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'point-cloud':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetPointCloudLayer} = await import('./pointCloudLayer');
@@ -525,6 +633,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'route':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetRouteLayer} = await import('./routeLayer');
@@ -533,7 +642,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'scene':
-            if (!Pro) return null;
+            if (!Pro) return removeCircularReferences(jsObject);
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetSceneLayer} = await import('./sceneLayer');
@@ -542,6 +651,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
                 throw e;
             }
         // case 'stream':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetStreamLayer} = await import('./streamLayer');
@@ -550,6 +660,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'subtype-group':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetSubtypeGroupLayer} = await import('./subtypeGroupLayer');
@@ -558,6 +669,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'video':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetVideoLayer} = await import('./videoLayer');
@@ -566,6 +678,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         // case 'voxel':
+        //  if (!Pro) return removeCircularReferences(jsObject);
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {buildDotNetVoxelLayer} = await import('./voxelLayer');
@@ -653,6 +766,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
             let {default: UnsupportedLayerWrapper} = await import('./unsupportedLayer');
             return new UnsupportedLayerWrapper(jsLayer);
         // case 'base-dynamic':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: BaseDynamicLayerWrapper } = await import('./baseDynamicLayer');
@@ -661,6 +775,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'base-elevation':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: BaseElevationLayerWrapper } = await import('./baseElevationLayer');
@@ -669,6 +784,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'building-scene':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: BuildingSceneLayerWrapper } = await import('./buildingSceneLayer');
@@ -677,7 +793,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         case 'catalog-dynamic-group':
-            if (!Pro) return null;
+            if (!Pro) return jsLayer;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {default: CatalogDynamicGroupLayerWrapper} = await import('./catalogDynamicGroupLayer');
@@ -686,7 +802,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
                 throw e;
             }
         case 'catalog-footprint':
-            if (!Pro) return null;
+            if (!Pro) return jsLayer;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {default: CatalogFootprintLayerWrapper} = await import('./catalogFootprintLayer');
@@ -695,7 +811,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
                 throw e;
             }
         case 'catalog':
-            if (!Pro) return null;
+            if (!Pro) return jsLayer;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {default: CatalogLayerWrapper} = await import('./catalogLayer');
@@ -704,6 +820,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
                 throw e;
             }
         // case 'dimension':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: DimensionLayerWrapper } = await import('./dimensionLayer');
@@ -712,7 +829,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         case 'elevation':
-            if (!Pro) return null;
+            if (!Pro) return jsLayer;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {default: ElevationLayerWrapper} = await import('./elevationLayer');
@@ -721,7 +838,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
                 throw e;
             }
         case 'group':
-            if (!Pro) return null;
+            if (!Pro) return jsLayer;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {default: GroupLayerWrapper} = await import('./groupLayer');
@@ -730,6 +847,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
                 throw e;
             }
         // case 'integrated-mesh':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: IntegratedMeshLayerWrapper } = await import('./integratedMeshLayer');
@@ -738,6 +856,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'integrated-mesh-3dtiles':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: IntegratedMesh3DTilesLayerWrapper } = await import('./integratedMesh3DTilesLayer');
@@ -746,6 +865,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'knowledge-graph-sublayer':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: KnowledgeGraphSublayerWrapper } = await import('./knowledgeGraphSublayer');
@@ -754,6 +874,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'knowledge-graph':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: KnowledgeGraphLayerWrapper } = await import('./knowledgeGraphLayer');
@@ -762,6 +883,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'line-of-sight':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: LineOfSightLayerWrapper } = await import('./lineOfSightLayer');
@@ -770,6 +892,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'map-notes':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: MapNotesLayerWrapper } = await import('./mapNotesLayer');
@@ -778,6 +901,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'media':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: MediaLayerWrapper } = await import('./mediaLayer');
@@ -794,6 +918,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
                 throw e;
             }
         // case 'oriented-imagery':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: OrientedImageryLayerWrapper } = await import('./orientedImageryLayer');
@@ -802,6 +927,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'point-cloud':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: PointCloudLayerWrapper } = await import('./pointCloudLayer');
@@ -810,6 +936,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'route':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: RouteLayerWrapper } = await import('./routeLayer');
@@ -818,7 +945,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         case 'scene':
-            if (!Pro) return null;
+            if (!Pro) return jsLayer;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {default: SceneLayerWrapper} = await import('./sceneLayer');
@@ -827,6 +954,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
                 throw e;
             }
         // case 'stream':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: StreamLayerWrapper } = await import('./streamLayer');
@@ -835,6 +963,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'subtype-group':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: SubtypeGroupLayerWrapper } = await import('./subtypeGroupLayer');
@@ -843,6 +972,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'video':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: VideoLayerWrapper } = await import('./videoLayer');
@@ -851,6 +981,7 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         //         throw e;
         //     }
         // case 'voxel':
+        //    if (!Pro) return jsLayer;
         //     try {
         //         // @ts-ignore GeoBlazor Pro only
         //         let {default: VoxelLayerWrapper } = await import('./voxelLayer');

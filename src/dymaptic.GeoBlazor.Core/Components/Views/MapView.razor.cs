@@ -1,4 +1,4 @@
-﻿// ReSharper disable RedundantCast
+// ReSharper disable RedundantCast
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 
@@ -2421,19 +2421,6 @@ public partial class MapView : MapComponent
             Map.Basemap!.BaseLayers = Map.Basemap.BaseLayers?.Where(l => !l.Imported).ToList();
             Map.Basemap!.ReferenceLayers = Map.Basemap!.ReferenceLayers?.Where(l => !l.Imported).ToList();
 #pragma warning restore BL0005 
-        }
-        
-        if (ShowZoomWidget && !Widgets.Any(w => w is ZoomWidget))
-        {
-            ZoomWidget zoom = new(position: OverlayPosition.TopLeft)
-            {
-                Parent = this, 
-                View = this, 
-                CoreJsModule = CoreJsModule
-            };
-            
-            // should be inserted first so it is added at the top of the left corner
-            _widgets.Insert(0, zoom);
         }
         
         if (!Widgets.Any(w => w is PopupWidget))

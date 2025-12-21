@@ -13,6 +13,7 @@
 appsettings.json
 esBuild.*.lock
 esBuild.log
+.esbuild-record.json
 CustomerTests.razor
 .claude/
 

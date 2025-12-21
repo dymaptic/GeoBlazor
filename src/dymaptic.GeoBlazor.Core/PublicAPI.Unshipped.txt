@@ -21,6 +21,9 @@ dymaptic.GeoBlazor.Core.Attributes.ArcGISMethodAttribute
 dymaptic.GeoBlazor.Core.Attributes.ArcGISMethodAttribute.ArcGISMethodAttribute() -> void
 dymaptic.GeoBlazor.Core.Attributes.ArcGISPropertyAttribute
 dymaptic.GeoBlazor.Core.Attributes.ArcGISPropertyAttribute.ArcGISPropertyAttribute() -> void
+dymaptic.GeoBlazor.Core.Attributes.ConditionallyRequiredPropertyAttribute
+dymaptic.GeoBlazor.Core.Attributes.ConditionallyRequiredPropertyAttribute.ConditionallyRequiredPropertyAttribute(string! dependentOn) -> void
+dymaptic.GeoBlazor.Core.Attributes.ConditionallyRequiredPropertyAttribute.DependentOn.get -> string!
 dymaptic.GeoBlazor.Core.Attributes.RequiredPropertyAttribute
 dymaptic.GeoBlazor.Core.Attributes.RequiredPropertyAttribute.OtherOptions.get -> string![]?
 dymaptic.GeoBlazor.Core.Attributes.RequiredPropertyAttribute.RequiredPropertyAttribute(params string![]? otherOptions) -> void
@@ -2751,6 +2754,9 @@ dymaptic.GeoBlazor.Core.Components.ImageryLayerView.PixelData.get -> dymaptic.Ge
 dymaptic.GeoBlazor.Core.Components.ImageryLayerView.PixelData.set -> void
 dymaptic.GeoBlazor.Core.Components.ImageryLayerView.SetHighlightOptions(dymaptic.GeoBlazor.Core.Components.HighlightOptions? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.ImageryLayerView.SetPixelData(dymaptic.GeoBlazor.Core.Components.PixelData? value) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Components.ImageryTileLayerView
+dymaptic.GeoBlazor.Core.Components.ImageryTileLayerView.ImageryTileLayerView() -> void
+dymaptic.GeoBlazor.Core.Components.ImageryTileLayerView.ImageryTileLayerView(bool? visible = null) -> void
 dymaptic.GeoBlazor.Core.Components.InheritedDomain
 dymaptic.GeoBlazor.Core.Components.InheritedDomain.InheritedDomain() -> void
 dymaptic.GeoBlazor.Core.Components.InheritedDomain.InheritedDomain(string? name = null) -> void
@@ -4400,7 +4406,7 @@ dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.Version.get -> double?
 dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.Version.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer
 dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer.OpenStreetMapLayer() -> void
-dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer.OpenStreetMapLayer(dymaptic.GeoBlazor.Core.Components.PortalItem? portalItem = null, string? title = null, dymaptic.GeoBlazor.Core.Enums.BlendMode? blendMode = null, string? copyright = null, double? maxScale = null, double? minScale = null, double? refreshInterval = null, System.Collections.Generic.IReadOnlyList<string!>? subDomains = null, dymaptic.GeoBlazor.Core.Components.TileInfo? tileInfo = null, double? opacity = null, bool? visible = null, dymaptic.GeoBlazor.Core.Enums.ListMode? listMode = null, string? arcGISLayerId = null, dymaptic.GeoBlazor.Core.Model.Effect? effect = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? fullExtent = null, bool? isBasemapReferenceLayer = null, bool? persistenceEnabled = null, string? urlTemplate = null, dymaptic.GeoBlazor.Core.Components.TimeExtent? visibilityTimeExtent = null, bool? excludeApiKey = null) -> void
+dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer.OpenStreetMapLayer(dymaptic.GeoBlazor.Core.Components.PortalItem? portalItem = null, string? title = null, dymaptic.GeoBlazor.Core.Enums.BlendMode? blendMode = null, string? copyright = null, double? maxScale = null, double? minScale = null, double? refreshInterval = null, System.Collections.Generic.IReadOnlyList<string!>? subDomains = null, dymaptic.GeoBlazor.Core.Components.TileInfo? tileInfo = null, double? opacity = null, bool? visible = null, dymaptic.GeoBlazor.Core.Enums.ListMode? listMode = null, string? arcGISLayerId = null, dymaptic.GeoBlazor.Core.Model.Effect? effect = null, bool? isBasemapReferenceLayer = null, bool? persistenceEnabled = null, string? urlTemplate = null, dymaptic.GeoBlazor.Core.Components.TimeExtent? visibilityTimeExtent = null, bool? excludeApiKey = null) -> void
 dymaptic.GeoBlazor.Core.Components.Layers.Sublayer
 dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.AddToLabelingInfo(params dymaptic.GeoBlazor.Core.Components.Label![]! values) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.AddToOrderBy(params dymaptic.GeoBlazor.Core.Components.OrderByInfo![]! values) -> System.Threading.Tasks.Task!
@@ -4870,7 +4876,7 @@ dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.TileServers.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.UrlTemplate.get -> string?
 dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.UrlTemplate.set -> void
 dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.WebTileLayer() -> void
-dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.WebTileLayer(string? arcGISLayerId = null, dymaptic.GeoBlazor.Core.Enums.BlendMode? blendMode = null, string? copyright = null, dymaptic.GeoBlazor.Core.Model.Effect? effect = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? fullExtent = null, bool? isBasemapReferenceLayer = null, dymaptic.GeoBlazor.Core.Enums.ListMode? listMode = null, double? maxScale = null, double? minScale = null, double? opacity = null, bool? persistenceEnabled = null, dymaptic.GeoBlazor.Core.Components.PortalItem? portalItem = null, double? refreshInterval = null, System.Collections.Generic.IReadOnlyList<string!>? subDomains = null, dymaptic.GeoBlazor.Core.Components.TileInfo? tileInfo = null, string? title = null, string? urlTemplate = null, dymaptic.GeoBlazor.Core.Components.TimeExtent? visibilityTimeExtent = null, bool? visible = null, bool? excludeApiKey = null) -> void
+dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.WebTileLayer(string? arcGISLayerId = null, dymaptic.GeoBlazor.Core.Enums.BlendMode? blendMode = null, string? copyright = null, dymaptic.GeoBlazor.Core.Model.Effect? effect = null, bool? isBasemapReferenceLayer = null, dymaptic.GeoBlazor.Core.Enums.ListMode? listMode = null, double? maxScale = null, double? minScale = null, double? opacity = null, bool? persistenceEnabled = null, dymaptic.GeoBlazor.Core.Components.PortalItem? portalItem = null, double? refreshInterval = null, System.Collections.Generic.IReadOnlyList<string!>? subDomains = null, dymaptic.GeoBlazor.Core.Components.TileInfo? tileInfo = null, string? title = null, string? urlTemplate = null, dymaptic.GeoBlazor.Core.Components.TimeExtent? visibilityTimeExtent = null, bool? visible = null, bool? excludeApiKey = null) -> void
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.AddToFields(params dymaptic.GeoBlazor.Core.Components.Field![]! values) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.AddToLabelingInfo(params dymaptic.GeoBlazor.Core.Components.Label![]! values) -> System.Threading.Tasks.Task!
@@ -5494,20 +5500,19 @@ dymaptic.GeoBlazor.Core.Components.LocateViewModel.State.set -> void
 dymaptic.GeoBlazor.Core.Components.LocateViewModel.StringError.get -> string?
 dymaptic.GeoBlazor.Core.Components.LocateViewModel.StringError.set -> void
 dymaptic.GeoBlazor.Core.Components.LocationService
-dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, object! addresses, string? countryCode = null, System.Collections.Generic.List<string!>? categories = null, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference = null, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
-dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses, string? countryCode = null, System.Collections.Generic.List<string!>? categories = null, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference = null, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions = null) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses, string? countryCode) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
+dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<string!>! addresses) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
-dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<string!>! addresses, string? countryCode = null, System.Collections.Generic.List<string!>? categories = null, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference = null, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<string!>! addresses, string? countryCode) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<string!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<string!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<string!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<string!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
+dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(string! url, System.Collections.Generic.List<string!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions, string? addressSearchStringParameterName) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses, string? countryCode) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressesToLocations(System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.Address!>! addresses, string? countryCode, System.Collections.Generic.List<string!>? categories) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
@@ -5534,8 +5539,6 @@ dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(dymaptic.G
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
-dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address, System.Collections.Generic.List<string!>? categories = null, string? countryCode = null, bool? forStorage = null, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location = null, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType = null, string? magicKey = null, int? maxLocations = null, System.Collections.Generic.List<string!>? outFields = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent = null, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions = null) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
-dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address, System.Collections.Generic.List<string!>? categories = null, string? countryCode = null, bool? forStorage = null, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location = null, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType = null, string? magicKey = null, int? maxLocations = null, System.Collections.Generic.List<string!>? outFields = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent = null, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address, System.Collections.Generic.List<string!>? categories) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address, System.Collections.Generic.List<string!>? categories, string? countryCode) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
@@ -5546,8 +5549,8 @@ dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! ad
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
+dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions, string? addressSearchStringParameterName) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, dymaptic.GeoBlazor.Core.Model.Address! address) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
-dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories = null, string? countryCode = null, bool? forStorage = null, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location = null, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType = null, string? magicKey = null, int? maxLocations = null, System.Collections.Generic.List<string!>? outFields = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent = null, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions = null) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories, string? countryCode) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
@@ -5558,8 +5561,8 @@ dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! ur
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
+dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, dymaptic.GeoBlazor.Core.Model.Address! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
-dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address, System.Collections.Generic.List<string!>? categories = null, string? countryCode = null, bool? forStorage = null, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location = null, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType = null, string? magicKey = null, int? maxLocations = null, System.Collections.Generic.List<string!>? outFields = null, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference = null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent = null, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address, System.Collections.Generic.List<string!>? categories) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address, System.Collections.Generic.List<string!>? categories, string? countryCode) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
@@ -5570,6 +5573,8 @@ dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! ur
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
+dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
+dymaptic.GeoBlazor.Core.Components.LocationService.AddressToLocations(string! url, string! address, System.Collections.Generic.List<string!>? categories, string? countryCode, bool? forStorage, dymaptic.GeoBlazor.Core.Components.Geometries.Point? location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType, string? magicKey, int? maxLocations, System.Collections.Generic.List<string!>? outFields, dymaptic.GeoBlazor.Core.Components.SpatialReference? outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? searchExtent, dymaptic.GeoBlazor.Core.Options.RequestOptions? requestOptions, string? addressSearchStringParameterName) -> System.Threading.Tasks.Task<System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.LocationService(dymaptic.GeoBlazor.Core.Model.AuthenticationManager! authenticationManager) -> void
 dymaptic.GeoBlazor.Core.Components.LocationService.LocationToAddress(dymaptic.GeoBlazor.Core.Components.Geometries.Point! location) -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!
 dymaptic.GeoBlazor.Core.Components.LocationService.LocationToAddress(dymaptic.GeoBlazor.Core.Components.Geometries.Point! location, dymaptic.GeoBlazor.Core.Enums.LocationType? locationType) -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Model.AddressCandidate!>!
@@ -5693,7 +5698,6 @@ dymaptic.GeoBlazor.Core.Components.MapComponent.Id.get -> System.Guid
 dymaptic.GeoBlazor.Core.Components.MapComponent.Id.set -> void
 dymaptic.GeoBlazor.Core.Components.MapComponent.IsDisposed.get -> bool
 dymaptic.GeoBlazor.Core.Components.MapComponent.IsRenderedBlazorComponent -> bool
-dymaptic.GeoBlazor.Core.Components.MapComponent.IsValidated -> bool
 dymaptic.GeoBlazor.Core.Components.MapComponent.JsModule.get -> Microsoft.JSInterop.IJSObjectReference?
 dymaptic.GeoBlazor.Core.Components.MapComponent.JsModuleManager.get -> dymaptic.GeoBlazor.Core.JsModuleManager?
 dymaptic.GeoBlazor.Core.Components.MapComponent.JsModuleManager.set -> void
@@ -5705,7 +5709,6 @@ dymaptic.GeoBlazor.Core.Components.MapComponent.MapComponent() -> void
 dymaptic.GeoBlazor.Core.Components.MapComponent.MapComponentType.get -> System.Type!
 dymaptic.GeoBlazor.Core.Components.MapComponent.MapRendered.get -> bool
 dymaptic.GeoBlazor.Core.Components.MapComponent.MapRendered.set -> void
-dymaptic.GeoBlazor.Core.Components.MapComponent.ModifiedParameters -> System.Collections.Generic.Dictionary<string!, object?>!
 dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveListenerTriggered(string! eventName, Microsoft.JSInterop.IJSStreamReference? jsStreamReference) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWaiterTrue(string! waitExpression) -> void
 dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWatcherUpdate(string! watchExpression, Microsoft.JSInterop.IJSStreamReference? jsStreamReference) -> System.Threading.Tasks.Task!
@@ -5713,7 +5716,6 @@ dymaptic.GeoBlazor.Core.Components.MapComponent.Parent.get -> dymaptic.GeoBlazor
 dymaptic.GeoBlazor.Core.Components.MapComponent.Parent.set -> void
 dymaptic.GeoBlazor.Core.Components.MapComponent.PreviousParameters -> System.Collections.Generic.Dictionary<string!, object?>?
 dymaptic.GeoBlazor.Core.Components.MapComponent.ProJsModule.get -> Microsoft.JSInterop.IJSObjectReference?
-dymaptic.GeoBlazor.Core.Components.MapComponent.Props -> System.Reflection.PropertyInfo![]?
 dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveListener(string! eventName) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveWaiter(string! waitExpression) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveWatcher(string! watchExpression) -> System.Threading.Tasks.Task!
@@ -8444,6 +8446,12 @@ dymaptic.GeoBlazor.Core.Components.UniqueValueInfo.UniqueValueInfo() -> void
 dymaptic.GeoBlazor.Core.Components.UniqueValueInfo.UniqueValueInfo(string? label = null, dymaptic.GeoBlazor.Core.Components.Symbols.Symbol? symbol = null, string? value = null) -> void
 dymaptic.GeoBlazor.Core.Components.UniqueValueInfo.Value.get -> string?
 dymaptic.GeoBlazor.Core.Components.UniqueValueInfo.Value.set -> void
+dymaptic.GeoBlazor.Core.Components.VectorTileLayerView
+dymaptic.GeoBlazor.Core.Components.VectorTileLayerView.GetHasVisibleFeatures() -> System.Threading.Tasks.Task<bool?>!
+dymaptic.GeoBlazor.Core.Components.VectorTileLayerView.HasVisibleFeatures.get -> bool?
+dymaptic.GeoBlazor.Core.Components.VectorTileLayerView.HasVisibleFeatures.set -> void
+dymaptic.GeoBlazor.Core.Components.VectorTileLayerView.VectorTileLayerView() -> void
+dymaptic.GeoBlazor.Core.Components.VectorTileLayerView.VectorTileLayerView(bool? visible = null) -> void
 dymaptic.GeoBlazor.Core.Components.Viewing
 dymaptic.GeoBlazor.Core.Components.Viewing.GetSearch() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Search?>!
 dymaptic.GeoBlazor.Core.Components.Viewing.Search.get -> dymaptic.GeoBlazor.Core.Components.Search?
@@ -8555,6 +8563,8 @@ dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDoubleClick.get -> Microsoft.
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDoubleClick.set -> void
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDrag.get -> Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.DragEvent!>
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDrag.set -> void
+dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExceptionHandler.get -> System.Func<System.Exception!, System.Threading.Tasks.Task<bool>!>?
+dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExceptionHandler.set -> void
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExtentChanged.get -> Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Components.Geometries.Extent!>
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExtentChanged.set -> void
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnFocus.get -> Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.FocusEvent!>
@@ -8570,7 +8580,7 @@ dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptBlur(dymaptic.GeoBl
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptClick(dymaptic.GeoBlazor.Core.Events.ClickEvent! clickEvent) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptDoubleClick(dymaptic.GeoBlazor.Core.Events.ClickEvent! clickEvent) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptDrag(dymaptic.GeoBlazor.Core.Events.DragEvent! dragEvent) -> System.Threading.Tasks.Task!
-dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError! error) -> void
+dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError! error) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptErrorHandler.get -> System.Func<dymaptic.GeoBlazor.Core.Exceptions.JavascriptException!, System.Threading.Tasks.Task!>?
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptErrorHandler.set -> void
 dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptFocus(dymaptic.GeoBlazor.Core.Events.FocusEvent! focusEvent) -> System.Threading.Tasks.Task!
@@ -9147,6 +9157,8 @@ dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.UnitOptions.g
 dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.UnitOptions.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.ViewModel.get -> dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel?
 dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.ViewModel.set -> void
+dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.ViewModelChanged.get -> Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel!>
+dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.ViewModelChanged.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget
 dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.ActiveBasemap.get -> dymaptic.GeoBlazor.Core.Components.Basemap?
 dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.ActiveBasemap.set -> void
@@ -9380,6 +9392,8 @@ dymaptic.GeoBlazor.Core.Components.Widgets.DistanceMeasurement2DWidget.UnitOptio
 dymaptic.GeoBlazor.Core.Components.Widgets.DistanceMeasurement2DWidget.UnitOptions.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.DistanceMeasurement2DWidget.ViewModel.get -> dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel?
 dymaptic.GeoBlazor.Core.Components.Widgets.DistanceMeasurement2DWidget.ViewModel.set -> void
+dymaptic.GeoBlazor.Core.Components.Widgets.DistanceMeasurement2DWidget.ViewModelChanged.get -> Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel!>
+dymaptic.GeoBlazor.Core.Components.Widgets.DistanceMeasurement2DWidget.ViewModelChanged.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.AutoCollapse.get -> bool?
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.AutoCollapse.set -> void
@@ -9396,10 +9410,24 @@ dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.ExpandIcon.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.ExpandTooltip.get -> string?
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.ExpandTooltip.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.ExpandWidget() -> void
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.GetCollapseIcon() -> System.Threading.Tasks.Task<string?>!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.GetCollapseTooltip() -> System.Threading.Tasks.Task<string?>!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.GetExpanded() -> System.Threading.Tasks.Task<bool?>!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.GetExpandIcon() -> System.Threading.Tasks.Task<string?>!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.GetExpandTooltip() -> System.Threading.Tasks.Task<string?>!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.GetGroup() -> System.Threading.Tasks.Task<string?>!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.Group.get -> string?
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.Group.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.HtmlContent.get -> string?
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.HtmlContent.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.Mode.get -> dymaptic.GeoBlazor.Core.Enums.ExpandMode
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.Mode.set -> void
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.SetCollapseIcon(string? value) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.SetCollapseTooltip(string? value) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.SetExpanded(bool? value) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.SetExpandIcon(string? value) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.SetExpandTooltip(string? value) -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.SetGroup(string? value) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.WidgetContent.get -> dymaptic.GeoBlazor.Core.Components.Widgets.Widget?
 dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.WidgetContent.set -> void
 dymaptic.GeoBlazor.Core.Components.Widgets.HomeWidget
@@ -11121,11 +11149,15 @@ dymaptic.GeoBlazor.Core.Enums.OutputPixelType.U4 = 11 -> dymaptic.GeoBlazor.Core
 dymaptic.GeoBlazor.Core.Enums.OutputPixelType.U8 = 12 -> dymaptic.GeoBlazor.Core.Enums.OutputPixelType
 dymaptic.GeoBlazor.Core.Enums.OutputPixelType.Unknown = 13 -> dymaptic.GeoBlazor.Core.Enums.OutputPixelType
 dymaptic.GeoBlazor.Core.Enums.OverlayPosition
+dymaptic.GeoBlazor.Core.Enums.OverlayPosition.BottomLeading = 7 -> dymaptic.GeoBlazor.Core.Enums.OverlayPosition
 dymaptic.GeoBlazor.Core.Enums.OverlayPosition.BottomLeft = 2 -> dymaptic.GeoBlazor.Core.Enums.OverlayPosition
 dymaptic.GeoBlazor.Core.Enums.OverlayPosition.BottomRight = 3 -> dymaptic.GeoBlazor.Core.Enums.OverlayPosition
+dymaptic.GeoBlazor.Core.Enums.OverlayPosition.BottomTrailing = 8 -> dymaptic.GeoBlazor.Core.Enums.OverlayPosition
 dymaptic.GeoBlazor.Core.Enums.OverlayPosition.Manual = 4 -> dymaptic.GeoBlazor.Core.Enums.OverlayPosition
+dymaptic.GeoBlazor.Core.Enums.OverlayPosition.TopLeading = 5 -> dymaptic.GeoBlazor.Core.Enums.OverlayPosition
 dymaptic.GeoBlazor.Core.Enums.OverlayPosition.TopLeft = 0 -> dymaptic.GeoBlazor.Core.Enums.OverlayPosition
 dymaptic.GeoBlazor.Core.Enums.OverlayPosition.TopRight = 1 -> dymaptic.GeoBlazor.Core.Enums.OverlayPosition
+dymaptic.GeoBlazor.Core.Enums.OverlayPosition.TopTrailing = 6 -> dymaptic.GeoBlazor.Core.Enums.OverlayPosition
 dymaptic.GeoBlazor.Core.Enums.PixelInterpolation
 dymaptic.GeoBlazor.Core.Enums.PixelInterpolation.Bilinear = 1 -> dymaptic.GeoBlazor.Core.Enums.PixelInterpolation
 dymaptic.GeoBlazor.Core.Enums.PixelInterpolation.Cubic = 2 -> dymaptic.GeoBlazor.Core.Enums.PixelInterpolation
@@ -12299,6 +12331,8 @@ dymaptic.GeoBlazor.Core.Exceptions.JavascriptException
 dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.JavascriptException(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError! error) -> void
 dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.Name.get -> string?
 dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.Stack.get -> string?
+dymaptic.GeoBlazor.Core.Exceptions.MissingConditionallyRequiredChildElementException
+dymaptic.GeoBlazor.Core.Exceptions.MissingConditionallyRequiredChildElementException.MissingConditionallyRequiredChildElementException(string! parentType, string! assignedParameter, string! childType) -> void
 dymaptic.GeoBlazor.Core.Exceptions.MissingMapException
 dymaptic.GeoBlazor.Core.Exceptions.MissingMapException.MissingMapException() -> void
 dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException
@@ -12911,6 +12945,7 @@ dymaptic.GeoBlazor.Core.Interfaces.ITemporalSceneLayer.TimeInfo.get -> dymaptic.
 dymaptic.GeoBlazor.Core.Interfaces.ITemporalSceneLayer.TimeInfo.set -> void
 dymaptic.GeoBlazor.Core.Interfaces.ITemporalSceneLayer.TimeOffset.get -> dymaptic.GeoBlazor.Core.Components.TimeInterval?
 dymaptic.GeoBlazor.Core.Interfaces.ITemporalSceneLayer.TimeOffset.set -> void
+dymaptic.GeoBlazor.Core.Interfaces.ITileLayer
 dymaptic.GeoBlazor.Core.Interfaces.ITimeSliderViewModelDocument
 dymaptic.GeoBlazor.Core.Interfaces.ITimeSliderWidgetDocument
 dymaptic.GeoBlazor.Core.Interfaces.ITimeUtilsDocument
@@ -12938,8 +12973,8 @@ dymaptic.GeoBlazor.Core.Interfaces.IWMSLayerDimensions
 dymaptic.GeoBlazor.Core.Interfaces.IWMSSublayerDimensions
 dymaptic.GeoBlazor.Core.Interfaces.IWorkflowData
 dymaptic.GeoBlazor.Core.JsModuleManager
-dymaptic.GeoBlazor.Core.JsModuleManager.GetArcGisJsCore(Microsoft.JSInterop.IJSRuntime! jsRuntime, Microsoft.JSInterop.IJSObjectReference? proModule, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Microsoft.JSInterop.IJSObjectReference!>
-dymaptic.GeoBlazor.Core.JsModuleManager.GetArcGisJsPro(Microsoft.JSInterop.IJSRuntime! jsRuntime, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Microsoft.JSInterop.IJSObjectReference?>
+dymaptic.GeoBlazor.Core.JsModuleManager.GetCoreJsModule(Microsoft.JSInterop.IJSRuntime! jsRuntime, Microsoft.JSInterop.IJSObjectReference? proModule, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Microsoft.JSInterop.IJSObjectReference!>
+dymaptic.GeoBlazor.Core.JsModuleManager.GetProJsModule(Microsoft.JSInterop.IJSRuntime! jsRuntime, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Microsoft.JSInterop.IJSObjectReference?>
 dymaptic.GeoBlazor.Core.JsModuleManager.JsModuleManager() -> void
 dymaptic.GeoBlazor.Core.Model.AbortManager
 dymaptic.GeoBlazor.Core.Model.AbortManager.AbortManager(Microsoft.JSInterop.IJSObjectReference! jsModule) -> void
@@ -13207,13 +13242,16 @@ dymaptic.GeoBlazor.Core.Model.AuthenticationManager.ExcludeApiKey.get -> bool
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.ExcludeApiKey.set -> void
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.FontsUrl.get -> string?
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.FontsUrl.set -> void
-dymaptic.GeoBlazor.Core.Model.AuthenticationManager.GetArcGisJsInterop() -> System.Threading.Tasks.Task<Microsoft.JSInterop.IJSObjectReference!>!
+dymaptic.GeoBlazor.Core.Model.AuthenticationManager.GetCoreJsModule() -> System.Threading.Tasks.Task<Microsoft.JSInterop.IJSObjectReference!>!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.GetCurrentToken() -> System.Threading.Tasks.Task<string?>!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.GetTokenExpirationDateTime() -> System.Threading.Tasks.Task<System.DateTime?>!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.Initialize() -> System.Threading.Tasks.Task<bool>!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.IsLoggedIn() -> System.Threading.Tasks.Task<bool>!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.Login() -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.Logout() -> System.Threading.Tasks.Task!
+dymaptic.GeoBlazor.Core.Model.AuthenticationManager.OnExceptionHandler.get -> System.Func<System.Exception!, System.Threading.Tasks.Task<bool>!>?
+dymaptic.GeoBlazor.Core.Model.AuthenticationManager.OnExceptionHandler.set -> void
+dymaptic.GeoBlazor.Core.Model.AuthenticationManager.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError! error) -> System.Threading.Tasks.Task!
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.PortalUrl.get -> string?
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.PortalUrl.set -> void
 dymaptic.GeoBlazor.Core.Model.AuthenticationManager.RegisterToken(string! token, System.DateTimeOffset expires) -> System.Threading.Tasks.Task!
@@ -17406,6 +17444,7 @@ override dymaptic.GeoBlazor.Core.Serialization.DrawingToolStringConverter.Read(r
 override dymaptic.GeoBlazor.Core.Serialization.EnumToKebabCaseStringConverter<T>.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> T
 override dymaptic.GeoBlazor.Core.Serialization.EnumToKebabCaseStringConverter<T>.Write(System.Text.Json.Utf8JsonWriter! writer, T value, System.Text.Json.JsonSerializerOptions! options) -> void
 override dymaptic.GeoBlazor.Core.Serialization.LabelPlacementStringConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> dymaptic.GeoBlazor.Core.Enums.LabelPlacement
+readonly dymaptic.GeoBlazor.Core.Components.MapComponent.ModifiedParameters -> System.Collections.Generic.Dictionary<string!, object?>!
 readonly dymaptic.GeoBlazor.Core.Model.FieldsIndex.CancellationTokenSource -> System.Threading.CancellationTokenSource!
 readonly dymaptic.GeoBlazor.Core.Model.Ground.CancellationTokenSource -> System.Threading.CancellationTokenSource!
 readonly dymaptic.GeoBlazor.Core.Model.LogicComponent.AuthenticationManager -> dymaptic.GeoBlazor.Core.Model.AuthenticationManager!
@@ -17469,8 +17508,6 @@ static dymaptic.GeoBlazor.Core.Model.QueryDatumTransformation.implicit operator 
 static dymaptic.GeoBlazor.Core.Model.QueryDatumTransformation.implicit operator dymaptic.GeoBlazor.Core.Model.QueryDatumTransformation!(dymaptic.GeoBlazor.Core.Model.QueryCompositeTransformation! transformation) -> dymaptic.GeoBlazor.Core.Model.QueryDatumTransformation!
 static dymaptic.GeoBlazor.Core.Model.QueryDatumTransformation.implicit operator dymaptic.GeoBlazor.Core.Model.QueryDatumTransformation!(dymaptic.GeoBlazor.Core.Model.QuerySimpleTransformation! transformation) -> dymaptic.GeoBlazor.Core.Model.QueryDatumTransformation!
 static dymaptic.GeoBlazor.Core.Model.QueryDatumTransformation.implicit operator dymaptic.GeoBlazor.Core.Model.QuerySimpleTransformation?(dymaptic.GeoBlazor.Core.Model.QueryDatumTransformation! transformation) -> dymaptic.GeoBlazor.Core.Model.QuerySimpleTransformation?
-static dymaptic.GeoBlazor.Core.Serialization.IJSStreamReferenceHelper.ReadJsStreamReference(this Microsoft.JSInterop.IJSStreamReference! jsStreamReference, System.Type! returnType, long maxAllowedSize = 1000000000) -> System.Threading.Tasks.Task<object?>!
-static dymaptic.GeoBlazor.Core.Serialization.IJSStreamReferenceHelper.ReadJsStreamReference<T>(this Microsoft.JSInterop.IJSStreamReference! jsStreamReference, long maxAllowedSize = 1000000000) -> System.Threading.Tasks.Task<T?>!
 virtual dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.IsSimple.get -> bool?
 virtual dymaptic.GeoBlazor.Core.Components.Label.GetSymbol() -> System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Symbols.Symbol?>!
 virtual dymaptic.GeoBlazor.Core.Components.Label.SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol! symbol) -> System.Threading.Tasks.Task!

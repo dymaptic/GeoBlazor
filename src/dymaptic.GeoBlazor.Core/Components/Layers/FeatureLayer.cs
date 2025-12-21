@@ -595,8 +595,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
-        base.ValidateRequiredChildren();
-
         if (LabelingInfo is not null)
         {
             foreach (Label label in LabelingInfo)

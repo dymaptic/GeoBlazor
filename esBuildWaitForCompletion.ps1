@@ -6,7 +6,7 @@ $ProRootDir = Join-Path -Path $PSScriptRoot "..\src\dymaptic.GeoBlazor.Pro"
 $CoreLockFilePath = Join-Path -Path $CoreRootDir "esBuild.$Configuration.lock"
 $ProLockFilePath = Join-Path -Path $ProRootDir "esBuild.$Configuration.lock"
 
-Write-Host "Waiting for lock file:" $LockFilePath
+Write-Host "Waiting for lock files: $CoreLockFilePath, $ProLockFilePath"
 
 if ((Test-Path -Path $CoreLockFilePath) -or (Test-Path -Path $ProLockFilePath)) {
     Write-Host "Lock file found. Waiting for release."

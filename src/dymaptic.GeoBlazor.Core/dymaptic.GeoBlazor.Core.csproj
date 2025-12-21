@@ -39,7 +39,7 @@
     <!--    Comment out this section when you uncomment the section above to trigger 
             the public API analyzer warnings/errors -->
     <PropertyGroup>
-        <NoWarn>GeoBlazor_Untested;RS0016;RS0037</NoWarn>
+        <NoWarn>GeoBlazor_Untested;RS0016;RS0037;RS0041</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -55,10 +55,10 @@
 
     <ItemGroup>
         <PackageReference Include="DefaultDocumentation" Version="1.2.0" PrivateAssets="all" />
-        <PackageReference Include="protobuf-net" Version="3.2.52" />
+        <PackageReference Include="protobuf-net" Version="3.2.56" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.17" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.22" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
