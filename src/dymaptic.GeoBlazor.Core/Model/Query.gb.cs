@@ -219,6 +219,9 @@ public partial record Query(
     QueryUnits? Units = null,
     string? Where = null) : IQueryMixin
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public Query(): this(null, null)
     {
     }

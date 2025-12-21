@@ -69,6 +69,9 @@ public partial record RequestOptions(
     bool? UseProxy = null,
     bool? WithCredentials = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public RequestOptions(): this(null, null)
     {
     }

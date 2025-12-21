@@ -38,6 +38,9 @@ public partial record FeatureEdits(
     IReadOnlyList<AttachmentEdit>? UpdateAttachments = null,
     IReadOnlyList<Graphic>? UpdateFeatures = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public FeatureEdits(): this(null, null)
     {
     }

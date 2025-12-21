@@ -19,6 +19,9 @@ public partial record WFSCapabilities(
     IReadOnlyCollection<WFSFeatureType>? FeatureTypes = null,
     WFSOperations? Operations = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public WFSCapabilities(): this(null, null)
     {
     }

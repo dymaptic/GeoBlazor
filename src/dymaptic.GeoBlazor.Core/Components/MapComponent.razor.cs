@@ -1151,6 +1151,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
     }
 
+    /// <summary>
+    ///     Retrieves the reflected public and private instance properties of the current type
+    /// </summary>
     protected PropertyInfo[] GetPropertyInfos()
     {
         return MapComponentType

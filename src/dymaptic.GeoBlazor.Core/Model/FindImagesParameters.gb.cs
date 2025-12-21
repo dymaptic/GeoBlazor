@@ -35,6 +35,9 @@ public partial record FindImagesParameters(
     Point? ToGeometry = null,
     string? Where = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public FindImagesParameters(): this(null, null)
     {
     }

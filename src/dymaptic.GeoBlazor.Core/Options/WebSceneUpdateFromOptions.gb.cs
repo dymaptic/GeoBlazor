@@ -34,6 +34,9 @@ public partial record WebSceneUpdateFromOptions(
     bool? ViewpointExcluded = null,
     bool? WidgetsExcluded = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public WebSceneUpdateFromOptions(): this(null, null)
     {
     }

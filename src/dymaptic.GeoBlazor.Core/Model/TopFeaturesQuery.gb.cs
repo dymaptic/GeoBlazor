@@ -112,6 +112,9 @@ public partial record TopFeaturesQuery(
     QueryUnits? Units = null,
     string? Where = null) : IQueryMixin
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public TopFeaturesQuery(): this(null, null)
     {
     }

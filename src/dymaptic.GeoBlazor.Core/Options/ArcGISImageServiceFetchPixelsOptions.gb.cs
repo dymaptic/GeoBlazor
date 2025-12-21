@@ -14,6 +14,9 @@ public partial record ArcGISImageServiceFetchPixelsOptions(
     bool? ApplyRendering = null,
     Interpolation? Interpolation = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public ArcGISImageServiceFetchPixelsOptions(): this(null, null)
     {
     }

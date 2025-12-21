@@ -19,6 +19,9 @@ public partial record RasterIdentifyOptions(
     IReadOnlyCollection<DimensionalDefinition>? MultidimensionalDefinition = null,
     string? TransposedVariableName = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public RasterIdentifyOptions(): this(null, null)
     {
     }

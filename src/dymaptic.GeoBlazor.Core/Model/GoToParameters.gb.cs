@@ -15,6 +15,9 @@ public partial record GoToParameters(
     GoToOptions? Options = null,
     GoToTarget? Target = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public GoToParameters(): this(null, null)
     {
     }

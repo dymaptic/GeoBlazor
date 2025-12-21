@@ -19,6 +19,9 @@ public partial record PortalItemResource(
     string? Path = null,
     PortalItem? PortalItem = null): IInteractiveRecord
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public PortalItemResource(): this(null, null)
     {
     }

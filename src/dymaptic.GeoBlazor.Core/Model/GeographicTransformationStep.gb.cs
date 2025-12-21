@@ -25,6 +25,9 @@ public partial record GeographicTransformationStep(
     double? Wkid = null,
     string? Wkt = null): IInteractiveRecord
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public GeographicTransformationStep(): this(null, null)
     {
     }

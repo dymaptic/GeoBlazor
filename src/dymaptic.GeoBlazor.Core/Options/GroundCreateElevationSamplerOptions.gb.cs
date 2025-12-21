@@ -19,6 +19,9 @@ public partial record GroundCreateElevationSamplerOptions(
     string? DemResolution = null,
     double? NoDataValue = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public GroundCreateElevationSamplerOptions(): this(null, null)
     {
     }

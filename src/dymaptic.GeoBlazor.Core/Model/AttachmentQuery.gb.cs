@@ -78,6 +78,9 @@ public partial record AttachmentQuery(
     double? Start = null,
     string? Where = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public AttachmentQuery(): this(null, null)
     {
     }

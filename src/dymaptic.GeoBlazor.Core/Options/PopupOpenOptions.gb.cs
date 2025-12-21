@@ -68,6 +68,9 @@ public partial record PopupOpenOptions(
     bool? UpdateLocationEnabled = null,
     Widget? WidgetContent = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public PopupOpenOptions(): this(null, null)
     {
     }

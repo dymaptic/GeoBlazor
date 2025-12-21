@@ -61,6 +61,9 @@ public partial record Relationship(
     long? RelationshipTableId = null,
     Role? Role = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public Relationship(): this(null, null)
     {
     }

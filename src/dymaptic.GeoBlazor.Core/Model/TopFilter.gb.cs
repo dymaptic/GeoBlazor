@@ -25,6 +25,9 @@ public partial record TopFilter(
     IReadOnlyCollection<string>? OrderByFields = null,
     int? TopCount = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public TopFilter(): this(null, null)
     {
     }

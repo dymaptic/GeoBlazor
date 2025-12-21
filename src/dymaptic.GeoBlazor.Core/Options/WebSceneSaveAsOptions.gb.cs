@@ -18,6 +18,9 @@ public partial record WebSceneSaveAsOptions(
     PortalFolder? Folder = null,
     bool? IgnoreUnsupported = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public WebSceneSaveAsOptions(): this(null, null)
     {
     }

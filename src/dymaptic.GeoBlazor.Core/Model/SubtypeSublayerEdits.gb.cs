@@ -29,6 +29,9 @@ public partial record SubtypeSublayerEdits(
     IReadOnlyCollection<AttachmentEdit>? UpdateAttachments = null,
     IReadOnlyCollection<Graphic>? UpdateFeatures = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public SubtypeSublayerEdits(): this(null, null)
     {
     }

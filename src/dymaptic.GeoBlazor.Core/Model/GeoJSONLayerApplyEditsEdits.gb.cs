@@ -28,6 +28,9 @@ public partial record GeoJSONLayerApplyEditsEdits(
     IReadOnlyCollection<string>? StringCollectionDeleteFeatures = null,
     IReadOnlyCollection<Graphic>? UpdateFeatures = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public GeoJSONLayerApplyEditsEdits(): this(null, null)
     {
     }

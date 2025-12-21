@@ -91,6 +91,9 @@ public partial record RelationshipQuery(
     int? Start = null,
     string? Where = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public RelationshipQuery(): this(null, null)
     {
     }

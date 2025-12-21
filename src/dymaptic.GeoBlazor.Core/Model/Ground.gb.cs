@@ -40,6 +40,9 @@ public partial record Ground(
     MapColor? SurfaceColor = null,
     bool? Loaded = null) : IIntersectItem, ILayerParent, IMeshUtilsSource, IInteractiveRecord
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public Ground(): this(null, null)
     {
     }

@@ -53,6 +53,9 @@ public partial record PortalQueryParams(
     PortalQuerySortOrder? SortOrder = null,
     double? Start = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public PortalQueryParams(): this(null, null)
     {
     }

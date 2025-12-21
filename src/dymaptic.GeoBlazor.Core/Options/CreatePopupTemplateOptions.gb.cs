@@ -19,6 +19,9 @@ public partial record CreatePopupTemplateOptions(
     IReadOnlyCollection<IgnoreFieldTypes>? IgnoreFieldTypes = null,
     IReadOnlyCollection<string>? VisibleFieldNames = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public CreatePopupTemplateOptions(): this(null, null)
     {
     }

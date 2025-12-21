@@ -23,6 +23,9 @@ public partial record SubtypeSublayerApplyEditsOptions(
     ReturnServiceEditsOption? ReturnServiceEditsOption = null,
     bool? RollbackOnFailureEnabled = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public SubtypeSublayerApplyEditsOptions(): this(null, null)
     {
     }

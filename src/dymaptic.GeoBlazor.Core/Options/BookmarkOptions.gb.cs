@@ -39,6 +39,9 @@ public partial record BookmarkOptions(
     BookmarkOptionsScreenshotSettings? ScreenshotSettings = null,
     bool? TakeScreenshot = null)
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
     public BookmarkOptions(): this(null, null)
     {
     }

@@ -245,15 +245,6 @@ public partial class ImageryLayer : IBlendLayer,
     /// <param name="excludeApiKey">
     ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
-    /// <param name="elevationInfo">
-    ///     Specifies how the imagery is placed on the vertical axis (z).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="screenSizePerspectiveEnabled">
-    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
-    ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     public ImageryLayer(
         string? url = null,
         PortalItem? portalItem = null,
