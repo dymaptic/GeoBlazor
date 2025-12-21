@@ -1040,9 +1040,19 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="depth">
     ///     The depth of properties to copy
     /// </param>
+    /// <param name="visited">
+    ///     Previously updated parent components
+    /// </param>
     protected internal void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
-        MapView? view, MapComponent? parent, Layer? layer, int depth = 0)
+        MapView? view, MapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
     {
+        visited ??= new HashSet<object>();
+
+        if (!visited.Add(this) || depth >= 10)
+        {
+            return;
+        }
+        
         CoreJsModule ??= coreJsModule;
         ProJsModule ??= proJsModule;
 
@@ -1077,11 +1087,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             // set the layer for the child components
             layer = (Layer)this;
         }
-
-        if (depth >= 10)
-        {
-            return;
-        }
         
         _props ??= GetPropertyInfos();
 
@@ -1114,7 +1119,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             else if (value is MapComponent propComponent)
             {
                 propComponent.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, 
-                    this, layer, depth + 1);
+                    this, layer, depth + 1, visited);
             }
             else if (prop.PropertyType.IsArray || prop.PropertyType.IsGenericType)
             {
@@ -1139,7 +1144,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                     foreach (MapComponent? item in itemCollection)
                     {
                         item?.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, 
-                            this, layer, depth + 1);
+                            this, layer, depth + 1, visited);
                     }
                 }
             }
