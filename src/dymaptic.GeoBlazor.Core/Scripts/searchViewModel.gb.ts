@@ -255,7 +255,7 @@ export default class SearchViewModelGenerated extends BaseComponent {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.component.resultGraphic, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.resultGraphic!, this.layerId, this.viewId);
     }
     
     getSearchTerm(): any {
