@@ -1,7 +1,9 @@
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Text.RegularExpressions;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator;
@@ -10,6 +12,7 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 ///     Triggers the ESBuild build process for the GeoBlazor project, so that your JavaScript code is up to date.
 /// </summary>
 [Generator]
+[SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
 public class ESBuildLauncher : IIncrementalGenerator
 {
     // Notifications are only used for the unit tests, source generators are not intended to have logging/output typically.
@@ -106,7 +109,7 @@ public class ESBuildLauncher : IIncrementalGenerator
     private void LaunchESBuild(SourceProductionContext context)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
-        
+        ShowMessageBox("Starting GeoBlazor Core ESBuild process...");
         Notification?.Invoke(this, "Starting Core ESBuild process...");
 
         StringBuilder logBuilder = new StringBuilder(DateTime.Now.ToLongTimeString());
@@ -120,16 +123,17 @@ public class ESBuildLauncher : IIncrementalGenerator
 
             // gets the esBuild.ps1 script from the Core path
             tasks.Add(Task.Run(async () =>
-                buildSuccess = await RunPowerShellScript("Core", "esBuild.ps1", _corePath!, 
+                buildSuccess = await RunPowerShellScript("Core", "esBuild.ps1", _corePath!,
                     $"-c {_configuration}", logBuilder, context.CancellationToken)));
 
             if (_proPath is not null)
             {
+                ShowMessageBox("Starting GeoBlazor Pro ESBuild process...");
                 Notification?.Invoke(this, "Starting Pro ESBuild process...");
                 logBuilder.AppendLine("Starting Pro ESBuild process...");
 
                 tasks.Add(Task.Run(async () =>
-                    proBuildSuccess = await RunPowerShellScript("Pro", "esProBuild.ps1", _proPath, 
+                    proBuildSuccess = await RunPowerShellScript("Pro", "esProBuild.ps1", _proPath,
                         $"-c {_configuration}", logBuilder, context.CancellationToken)));
             }
 
@@ -229,6 +233,10 @@ public class ESBuildLauncher : IIncrementalGenerator
             throw new Exception(
                 $"An error occurred while running ESBuild: {ex.Message}\n\n{logBuilder}\n\n{ex.StackTrace}", ex);
         }
+        finally
+        {
+            CloseMessageBox();
+        }
     }
 
     private void Log(string content, bool isError = false)
@@ -238,28 +246,16 @@ public class ESBuildLauncher : IIncrementalGenerator
             return;
         }
         StringBuilder loggerOutput = new StringBuilder();
-        string[] contentLines = content.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-
-        bool isFinalError = isError;
-        isError = false;
-
-        for (var i = 0; i < contentLines.Length; i++)
+        // Replace multiple consecutive newlines (with optional whitespace) with a single newline
+        content = Regex.Replace(content, @"\r?\n(?:\s*\r?\n)+", "\n");
+        
+        if (!RunPowerShellScript("Logger", "esBuildLogger.ps1", _corePath!,
+                $"-c \"{content}\" -e {isError.ToString().ToLower()}", loggerOutput,
+                CancellationToken.None)
+            .GetAwaiter()
+            .GetResult())
         {
-            string line = contentLines[i];
-
-            if (i == contentLines.Length - 1)
-            {
-                isError = isFinalError;
-            }
-
-            if (!RunPowerShellScript("Logger", "esBuildLogger.ps1", _corePath!,
-                    $"-c \"{line}\" -e {isError.ToString().ToLower()}", loggerOutput,
-                    CancellationToken.None)
-                .GetAwaiter()
-                .GetResult())
-            {
-                throw new Exception($"Failed to run the ESBuild logger script. {loggerOutput}");
-            }
+            throw new Exception($"Failed to run the ESBuild logger script. {loggerOutput}");
         }
     }
 
@@ -275,9 +271,9 @@ public class ESBuildLauncher : IIncrementalGenerator
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
-            CreateNoWindow = true
+            CreateNoWindow = false
         };
-        
+
         using var process = Process.Start(processStartInfo);
 
         if (process == null)
@@ -330,8 +326,36 @@ public class ESBuildLauncher : IIncrementalGenerator
         }
     }
 
+    private void ShowMessageBox(string message)
+    {
+        string path = Path.Combine(_corePath!, "..", "..");
+
+        ProcessStartInfo processStartInfo = new()
+        {
+            WorkingDirectory = path,
+            FileName = "pwsh",
+            Arguments =
+                $"-NoProfile -ExecutionPolicy ByPass -File showDialog.ps1 -Message \"{message}\" -Title \"GeoBlazor ESBuild\" -Buttons None",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        
+        _popupProcesses.Add(Process.Start(processStartInfo));
+    }
+    
+    private void CloseMessageBox()
+    {
+        foreach (Process process in _popupProcesses)
+        {
+            process.Kill();
+        }
+    }
+
     private static string? _corePath;
     private static string? _proPath;
     private static string? _configuration;
     private static bool _logESBuildOutput;
+    private List<Process> _popupProcesses = [];
 }

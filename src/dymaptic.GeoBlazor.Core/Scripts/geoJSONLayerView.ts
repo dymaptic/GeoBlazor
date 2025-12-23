@@ -1,7 +1,7 @@
 // override generated code in this file
 import GeoJSONLayerViewGenerated from './geoJSONLayerView.gb';
 import GeoJSONLayerView from '@arcgis/core/views/layers/GeoJSONLayerView';
-import {hasValue, lookupJsGraphicById, graphicsRefs} from "./arcGisJsInterop";
+import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
 
 export default class GeoJSONLayerViewWrapper extends GeoJSONLayerViewGenerated {
 
@@ -38,7 +38,7 @@ export async function buildJsGeoJSONLayerView(dotNetObject: any, layerId: string
     return await buildJsGeoJSONLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGeoJSONLayerView(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoJSONLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGeoJSONLayerViewGenerated } = await import('./geoJSONLayerView.gb');
-    return await buildDotNetGeoJSONLayerViewGenerated(jsObject, viewId);
+    return await buildDotNetGeoJSONLayerViewGenerated(jsObject, layerId, viewId);
 }

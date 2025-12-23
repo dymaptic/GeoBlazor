@@ -32,7 +32,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-widgets-TimeSlider.html#stopDelay">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="StopInterval">
-///     Defines regularly spaced stops on the time slider from a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a> object.
+///     Defines regularly spaced stops on the time slider from a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a> object.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-widgets-TimeSlider.html#stopInterval">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Stops">

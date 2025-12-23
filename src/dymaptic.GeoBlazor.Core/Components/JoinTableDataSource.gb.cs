@@ -4,10 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The result of an on-the-fly join operation at runtime.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#JoinTableDataSource">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.JoinTableDataSource.html">GeoBlazor Docs</a>
+///     The result of an on-the-fly join operation at runtime.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#JoinTableDataSource">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class JoinTableDataSource : IDynamicDataLayerDataSource
+public partial class JoinTableDataSource
 {
 
     /// <summary>
@@ -62,6 +63,7 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.JoinTableDataSource.html#jointabledatasourcelefttablesource-property">GeoBlazor Docs</a>
     ///     The left table for joining to the right table source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#JoinTableDataSource">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -71,6 +73,7 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
     public DynamicLayer? LeftTableSource { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.JoinTableDataSource.html#jointabledatasourcerighttablesource-property">GeoBlazor Docs</a>
     ///     The right table for joining to the left table source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#JoinTableDataSource">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -92,8 +95,17 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
         {
             return JoinType;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return JoinType;
@@ -122,8 +134,17 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
         {
             return LeftTableKey;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return LeftTableKey;
@@ -152,8 +173,17 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
         {
             return LeftTableSource;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return LeftTableSource;
@@ -182,8 +212,17 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
         {
             return RightTableKey;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return RightTableKey;
@@ -212,8 +251,17 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
         {
             return RightTableSource;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return RightTableSource;
@@ -243,7 +291,7 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetJoinType(DynamicJoinType value)
+    public async Task SetJoinType(DynamicJoinType? value)
     {
 #pragma warning disable BL0005
         JoinType = value;
@@ -255,8 +303,15 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -273,7 +328,7 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLeftTableKey(string value)
+    public async Task SetLeftTableKey(string? value)
     {
 #pragma warning disable BL0005
         LeftTableKey = value;
@@ -285,8 +340,15 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -303,7 +365,7 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLeftTableSource(DynamicLayer value)
+    public async Task SetLeftTableSource(DynamicLayer? value)
     {
 #pragma warning disable BL0005
         LeftTableSource = value;
@@ -315,8 +377,15 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -333,7 +402,7 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRightTableKey(string value)
+    public async Task SetRightTableKey(string? value)
     {
 #pragma warning disable BL0005
         RightTableKey = value;
@@ -345,8 +414,15 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -363,7 +439,7 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRightTableSource(DynamicLayer value)
+    public async Task SetRightTableSource(DynamicLayer? value)
     {
 #pragma warning disable BL0005
         RightTableSource = value;
@@ -375,8 +451,15 @@ public partial class JoinTableDataSource : IDynamicDataLayerDataSource
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {

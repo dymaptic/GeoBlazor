@@ -19,6 +19,13 @@ public partial record WfsUtilsGetWFSLayerInfoOptions(
     string? SpatialReference = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public WfsUtilsGetWFSLayerInfoOptions(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     A list of key-value pairs of parameters to append to the url.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#getWFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

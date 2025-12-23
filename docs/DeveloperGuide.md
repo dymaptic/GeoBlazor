@@ -2,6 +2,22 @@
 This document is intended for developers and maintainers of the GeoBlazor source code. The guidelines are for new 
 development and refactoring of existing code, but may not be adhered to by all existing code.
 
+## TypeScript/ESBuild
+The TypeScript files are compiled as part of the build process using a source generator and ESBuild.
+The source generator, `ESBuildLauncher.cs`, watches the `Scripts` folder for changes, and then runs the ESBuild
+compiler on the TypeScript files. The output is placed in the `wwwroot/js` folder.
+
+If you are making changes to the TypeScript files, you can run the ESBuild compiler manually by running 
+`src/dymaptic.GeoBlazor.Core/esBuild.ps1`. You do not necessarily need to restart the .NET application
+for every change, unless you see an issue after refreshing the browser with the cache disabled.
+
+## **Build Errors!!!**
+This is a known issue with the current setup of GeoBlazor. It is a conflict between the ESBuild compilation
+and the MSBuild static file analysis (trying to read the JS that results from ESBuild). Unfortunately, it does
+not matter _where_ in the build process we kick off the ESBuild compilation, it will routinely cause
+a build error _when building any project that references Core with a project reference_. We have logged this
+with Microsoft [here](https://github.com/dotnet/sdk/issues/49988).
+
 ## General Goals
 - Support end user use of ArcGIS tools without having to write JavaScript
 - Support components as both Razor markup elements and C# code object

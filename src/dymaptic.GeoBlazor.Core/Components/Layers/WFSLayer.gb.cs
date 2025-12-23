@@ -40,8 +40,8 @@ public partial class WFSLayer : Layer,
     /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default normal
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="copyright">
     ///     Copyright information for the layer.
@@ -60,8 +60,14 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="displayFilterEnabled">
+    ///     Indicates whether the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#displayFilterInfo">displayFilterInfo</a> is applied when rendering the layer in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#displayFilterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="displayFilterInfo">
+    ///     Information related to a display filter associated with a layer.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#displayFilterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
@@ -74,7 +80,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureEffect">
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureReduction">
@@ -112,7 +118,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -129,12 +135,12 @@ public partial class WFSLayer : Layer,
     /// <param name="maxScale">
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minScale">
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="name">
     ///     The name of the layer in the WFS service to display, excluding the namespace.
@@ -167,7 +173,7 @@ public partial class WFSLayer : Layer,
     /// <param name="persistenceEnabled">
     ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -185,14 +191,14 @@ public partial class WFSLayer : Layer,
     /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="renderer">
     ///     The renderer assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="screenSizePerspectiveEnabled">
-    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -202,7 +208,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="trackInfo">
@@ -236,7 +242,7 @@ public partial class WFSLayer : Layer,
         bool? displayFilterEnabled = null,
         DisplayFilterInfo? displayFilterInfo = null,
         Effect? effect = null,
-        WFSLayerElevationInfo? elevationInfo = null,
+        ElevationInfo? elevationInfo = null,
         FeatureEffect? featureEffect = null,
         IFeatureReduction? featureReduction = null,
         IReadOnlyList<Field>? fields = null,
@@ -330,8 +336,8 @@ public partial class WFSLayer : Layer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default normal
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -400,7 +406,9 @@ public partial class WFSLayer : Layer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerdisplayfilterenabled-property">GeoBlazor Docs</a>
-    ///     
+    ///     Indicates whether the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#displayFilterInfo">displayFilterInfo</a> is applied when rendering the layer in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#displayFilterEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -409,7 +417,9 @@ public partial class WFSLayer : Layer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerdisplayfilterinfo-property">GeoBlazor Docs</a>
-    ///     
+    ///     Information related to a display filter associated with a layer.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#displayFilterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -436,11 +446,11 @@ public partial class WFSLayer : Layer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public WFSLayerElevationInfo? ElevationInfo { get; set; }
+    public ElevationInfo? ElevationInfo { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerfeatureeffect-property">GeoBlazor Docs</a>
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -484,9 +494,9 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SimpleGeometryType? GeometryType { get; set; }
+    [JsonInclude]
+    public SimpleGeometryType? GeometryType { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerlabelinginfo-property">GeoBlazor Docs</a>
@@ -547,7 +557,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -558,7 +568,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -592,9 +602,9 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ObjectIdField { get; set; }
+    [JsonInclude]
+    public string? ObjectIdField { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerorderby-property">GeoBlazor Docs</a>
@@ -653,7 +663,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerrefreshinterval-property">GeoBlazor Docs</a>
     ///     Refresh interval of the layer in minutes.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -672,7 +682,7 @@ public partial class WFSLayer : Layer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerscreensizeperspectiveenabled-property">GeoBlazor Docs</a>
-    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1119,7 +1129,7 @@ public partial class WFSLayer : Layer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElevationInfo property.
     /// </summary>
-    public async Task<WFSLayerElevationInfo?> GetElevationInfo()
+    public async Task<ElevationInfo?> GetElevationInfo()
     {
         if (CoreJsModule is null)
         {
@@ -1141,7 +1151,7 @@ public partial class WFSLayer : Layer,
             return ElevationInfo;
         }
 
-        WFSLayerElevationInfo? result = await JsComponentReference.InvokeAsync<WFSLayerElevationInfo?>(
+        ElevationInfo? result = await JsComponentReference.InvokeAsync<ElevationInfo?>(
             "getElevationInfo", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -1930,6 +1940,7 @@ public partial class WFSLayer : Layer,
             {
                 result.Id = PortalItem.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             PortalItem = result;
@@ -2449,10 +2460,7 @@ public partial class WFSLayer : Layer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -2527,14 +2535,11 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElevationInfo(WFSLayerElevationInfo? value)
+    public async Task SetElevationInfo(ElevationInfo? value)
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -2576,10 +2581,7 @@ public partial class WFSLayer : Layer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -2660,10 +2662,7 @@ public partial class WFSLayer : Layer,
         {
             foreach (Field item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -2697,43 +2696,6 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the GeometryType property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetGeometryType(SimpleGeometryType? value)
-    {
-#pragma warning disable BL0005
-        GeometryType = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(GeometryType)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "geometryType", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
     /// <param name="value">
@@ -2745,10 +2707,7 @@ public partial class WFSLayer : Layer,
         {
             foreach (Label item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -3078,43 +3037,6 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the ObjectIdField property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetObjectIdField(string? value)
-    {
-#pragma warning disable BL0005
-        ObjectIdField = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ObjectIdField)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "objectIdField", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
     /// <param name="value">
@@ -3126,10 +3048,7 @@ public partial class WFSLayer : Layer,
         {
             foreach (OrderByInfo item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -3283,10 +3202,7 @@ public partial class WFSLayer : Layer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3328,10 +3244,7 @@ public partial class WFSLayer : Layer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3410,10 +3323,7 @@ public partial class WFSLayer : Layer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3492,10 +3402,7 @@ public partial class WFSLayer : Layer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3537,10 +3444,7 @@ public partial class WFSLayer : Layer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3832,7 +3736,7 @@ public partial class WFSLayer : Layer,
                 }
                 
                 return true;
-            case WFSLayerElevationInfo elevationInfo:
+            case ElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
@@ -3969,7 +3873,7 @@ public partial class WFSLayer : Layer,
                 DisplayFilterInfo = null;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
                 return true;
-            case WFSLayerElevationInfo _:
+            case ElevationInfo _:
                 ElevationInfo = null;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 return true;

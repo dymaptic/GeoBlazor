@@ -1,7 +1,8 @@
+import PointGenerated from './point.gb';
 import { buildDotNetExtent } from "./extent";
 import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
 import Point from "@arcgis/core/geometry/Point";
-import { arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs } from "./arcGisJsInterop";
+import { arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs } from './geoBlazorCore';
 
 export function buildDotNetPoint(point: any): any {
     if (point === undefined || point === null) return null;
@@ -35,3 +36,12 @@ export function buildJsPoint(dotNetObject: any): any {
 
     return point;
 }
+
+export default class PointWrapper extends PointGenerated {
+
+    constructor(component: Point) {
+        super(component);
+    }
+    
+}
+

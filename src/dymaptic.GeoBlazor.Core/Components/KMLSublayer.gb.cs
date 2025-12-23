@@ -32,7 +32,7 @@ public partial class KMLSublayer : MapComponent
     /// </param>
     /// <param name="title">
     ///     The title of the KML sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -112,7 +112,7 @@ public partial class KMLSublayer : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayertitle-property">GeoBlazor Docs</a>
     ///     The title of the KML sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

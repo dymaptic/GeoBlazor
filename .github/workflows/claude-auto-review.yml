@@ -28,19 +28,32 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           timeout_minutes: "60"
           direct_prompt: |
-            Please review this pull request and provide comprehensive feedback.
-            If there is a previous Claude review, only review the changes made since that review.
+            Review this PR and provide actionable feedback only. Be concise and direct.
 
-            Focus on:
-            - Code quality and best practices
-            - Potential bugs or issues
-            - Performance considerations
-            - Security implications
-            - Test coverage
-            - Documentation updates if needed
+            CRITICAL RULES:
+            - NEVER repeat comments from previous reviews. Check existing review comments first and skip anything already mentioned.
+            - NO praise or positive commentary. Only point out issues that need fixing.
+            - NO summaries of what the code does. The author already knows.
+            - Only comment on actual problems or improvements, not style preferences.
 
-            Provide constructive feedback with specific suggestions for improvement.
-            Use inline comments to highlight specific areas of concern.
-            Keep the review concise, and focus on actionable feedback, not positive praise.
-            Limit the review to about 5000 words or less.
+            Focus areas (only if issues exist):
+            - Bugs, logic errors, or edge cases
+            - Security vulnerabilities
+            - Performance problems
+            - Missing null checks or error handling that could cause runtime failures
+            - Additional documentation, but be specific
+            - Test coverage, but only if it actually would help prevent future issues
+
+            Skip these unless they cause real problems:
+            - Minor style issues
+            - Suggestions for "better" patterns that are just different, not objectively better
+
+            Context:
+            - This repo uses `GlobalUsings.cs`, so missing using statements are intentional.
+            - If a pattern looks unusual, assume there's a reason before commenting.
+
+            Format:
+            - Use inline comments only for specific issues
+            - Keep total review under 1000 words
+            - If nothing significant needs fixing, just approve with a one-line summary
           allowed_tools: "mcp__github__create_pending_pull_request_review,mcp__github__add_pull_request_review_comment_to_pending_review,mcp__github__submit_pending_pull_request_review,mcp__github__get_pull_request_diff"

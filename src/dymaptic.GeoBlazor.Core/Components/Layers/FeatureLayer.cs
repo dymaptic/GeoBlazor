@@ -51,6 +51,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ConditionallyRequiredProperty(nameof(Source))]
+    [CodeGenerationIgnore]
     public string? ObjectIdField { get; set; }
 
     /// <summary>
@@ -58,6 +60,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ConditionallyRequiredProperty(nameof(Source))]
+    [CodeGenerationIgnore]
     public FeatureGeometryType? GeometryType { get; set; }
     
     /// <summary>
@@ -229,8 +233,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             [],
             [],
             [],
-            [],
-            null);
+            []);
 
         if (cancellationToken.IsCancellationRequested ||
             CancellationTokenSource.Token.IsCancellationRequested)
@@ -364,32 +367,23 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         FeatureEditsResult result;
 
-        try
+        if (View!.IsWebAssembly)
         {
-            if (View!.IsWebAssembly)
-            {
-                result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsSynchronously",
-                    cancellationToken, ms.ToArray(), editType, options, abortSignal);
-                await ms.DisposeAsync();
-                await Task.Delay(1, cancellationToken);
-            }
-            else
-            {
-                using DotNetStreamReference streamRef = new(ms);
-
-                result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsFromStream",
-                    cancellationToken, streamRef, editType, options,
-                    View!.Id, abortSignal);
-            }
-            
-            return result.Concat(currentResults);
+            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsSynchronously",
+                cancellationToken, ms.ToArray(), editType, options, abortSignal);
+            await ms.DisposeAsync();
+            await Task.Delay(1, cancellationToken);
         }
-        catch (Exception ex)
+        else
         {
-            Console.WriteLine(ex);
+            using DotNetStreamReference streamRef = new(ms);
+
+            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsFromStream",
+                cancellationToken, streamRef, editType, options,
+                View!.Id, abortSignal);
         }
 
-        return null;
+        return result.Concat(currentResults);
     }
 
     /// <summary>
@@ -601,8 +595,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
-        base.ValidateRequiredChildren();
-
         if (LabelingInfo is not null)
         {
             foreach (Label label in LabelingInfo)
@@ -617,6 +609,38 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             {
                 graphic.ValidateRequiredChildren();
             }
+
+            if (ObjectIdField is null)
+            {
+                throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
+                    nameof(Source), nameof(ObjectIdField));
+            }
+
+            if (GeometryType is null)
+            {
+                if (Source.Count > 0 
+                    && Source.Select(g => g.Geometry?.Type)
+                            .Where(t => t != null)
+                            .Distinct()
+                            .ToList() is { Count: 1 } geometryTypes)
+                {
+                    GeometryType = geometryTypes[0] switch
+                    {
+                        Enums.GeometryType.Point => FeatureGeometryType.Point,
+                        Enums.GeometryType.Multipoint => FeatureGeometryType.Multipoint,
+                        Enums.GeometryType.Polyline => FeatureGeometryType.Polyline,
+                        Enums.GeometryType.Polygon => FeatureGeometryType.Polygon,
+                        Enums.GeometryType.Mesh => FeatureGeometryType.Mesh,
+                        _ => null
+                    };
+                }
+
+                if (GeometryType is null)
+                {
+                    throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
+                        nameof(Source), nameof(GeometryType));
+                }
+            }
         }
         
         if (Fields is not null)
@@ -629,6 +653,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         
         FeatureReduction?.ValidateRequiredChildren();
         FormTemplate?.ValidateRequiredChildren();
+        
+        // do last because we add GeometryType above if possible
+        base.ValidateRequiredChildren();
     }
 
     /// <summary>
@@ -742,10 +769,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         
         foreach (Graphic graphic in result.Features!)
         {
-            graphic.View = View;
-            graphic.Parent = this;
-            graphic.Layer = this;
-            graphic.CoreJsModule = CoreJsModule;
+            graphic.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, this);
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -1035,41 +1059,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         return result;
     }
 
-
-    /// <inheritdoc />
-    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
-    {
-        await base.UpdateFromJavaScript(renderedLayer);
-        var renderedFeatureLayer = (FeatureLayer)renderedLayer;
-        
-        if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())
-        {
-            Fields = Fields?
-                .Concat(renderedFeatureLayer.Fields)
-                .ToList() 
-                ?? renderedFeatureLayer.Fields;
-        }
-
-        if (renderedFeatureLayer.LabelingInfo is not null && renderedFeatureLayer.LabelingInfo.Any())
-        {
-            if (LabelingInfo is null || !LabelingInfo.Any())
-            {
-                LabelingInfo = renderedFeatureLayer.LabelingInfo;
-            }
-            else
-            {
-                LabelingInfo ??= new List<Label>();
-
-                foreach (Label label in renderedFeatureLayer.LabelingInfo)
-                {
-                    LabelingInfo = LabelingInfo.Append(label).ToList();
-                }
-            }
-        }
-    }
-
-    private Dictionary<Guid, Graphic[]> _activeQueries = new();
-    private Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
+    private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();
+    private readonly Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
 }
 
 /// <summary>

@@ -1,4 +1,4 @@
-import {removeCircularReferences, sanitize} from "./arcGisJsInterop";
+import {removeCircularReferences, sanitize} from './geoBlazorCore';
 
 export async function buildJsILegendElement(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     switch (dotNetObject.type) {

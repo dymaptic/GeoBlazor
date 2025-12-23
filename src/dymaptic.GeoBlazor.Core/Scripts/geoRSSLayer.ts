@@ -1,6 +1,7 @@
 // override generated code in this file
 import GeoRSSLayerGenerated from './geoRSSLayer.gb';
 import GeoRSSLayer from '@arcgis/core/layers/GeoRSSLayer';
+import {buildEncodedJson} from "./geoBlazorCore";
 
 export default class GeoRSSLayerWrapper extends GeoRSSLayerGenerated {
 
@@ -8,8 +9,14 @@ export default class GeoRSSLayerWrapper extends GeoRSSLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetGeoRSSLayer(result, this.layerId, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
+
     async getPointSymbol(): Promise<any> {
-        switch (this.layer.pointSymbol.type) {
+        switch (this.layer.pointSymbol?.type) {
             case 'picture-marker':
                 let {buildDotNetPictureMarkerSymbol} = await import('./pictureMarkerSymbol');
                 return await buildDotNetPictureMarkerSymbol(this.layer.pointSymbol);
@@ -38,7 +45,7 @@ export async function buildJsGeoRSSLayer(dotNetObject: any, layerId: string | nu
     return await buildJsGeoRSSLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGeoRSSLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoRSSLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetGeoRSSLayerGenerated} = await import('./geoRSSLayer.gb');
-    return await buildDotNetGeoRSSLayerGenerated(jsObject, viewId);
+    return await buildDotNetGeoRSSLayerGenerated(jsObject, layerId, viewId);
 }

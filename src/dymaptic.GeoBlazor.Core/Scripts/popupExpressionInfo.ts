@@ -1,5 +1,5 @@
 import popupExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 
 export function buildJsPopupExpressionInfo(dotNetObject: any): any {
     if (!hasValue(dotNetObject)) {

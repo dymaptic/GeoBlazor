@@ -44,8 +44,7 @@ public partial class FieldInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#stringFieldOption">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="format">
-    ///     Class which provides formatting options for numerical or date fields and how they should display within
-    ///     a popup.
+    ///     Class which provides formatting options for numerical or date fields and how they should display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isEditable">
@@ -91,8 +90,7 @@ public partial class FieldInfo
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FieldInfo.html#fieldinfoformat-property">GeoBlazor Docs</a>
-    ///     Class which provides formatting options for numerical or date fields and how they should display within
-    ///     a popup.
+    ///     Class which provides formatting options for numerical or date fields and how they should display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -439,10 +437,7 @@ public partial class FieldInfo
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

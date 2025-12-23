@@ -1,7 +1,7 @@
 // override generated code in this file
 import TileLayerGenerated from './tileLayer.gb';
 import TileLayer from '@arcgis/core/layers/TileLayer';
-import {hasValue} from "./arcGisJsInterop";
+import {buildEncodedJson, hasValue} from "./geoBlazorCore";
 
 export default class TileLayerWrapper extends TileLayerGenerated {
 
@@ -9,6 +9,11 @@ export default class TileLayerWrapper extends TileLayerGenerated {
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetTileLayer(result, this.layerId, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
 }
 
 export async function buildJsTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
@@ -22,7 +27,7 @@ export async function buildJsTileLayer(dotNetObject: any, layerId: string | null
     return jsObject;
 }
 
-export async function buildDotNetTileLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetTileLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetTileLayerGenerated} = await import('./tileLayer.gb');
-    return await buildDotNetTileLayerGenerated(jsObject, viewId);
+    return await buildDotNetTileLayerGenerated(jsObject, layerId, viewId);
 }

@@ -103,6 +103,7 @@ public partial class PixelData : MapComponent
             {
                 result.Id = Extent.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Extent = result;
@@ -147,6 +148,7 @@ public partial class PixelData : MapComponent
             {
                 result.Id = PixelBlock.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             PixelBlock = result;
@@ -171,10 +173,7 @@ public partial class PixelData : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -216,10 +215,7 @@ public partial class PixelData : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

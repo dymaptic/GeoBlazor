@@ -1,12 +1,18 @@
 // override generated code in this file
 import WMSLayerGenerated from './wMSLayer.gb';
 import WMSLayer from '@arcgis/core/layers/WMSLayer';
-import {hasValue} from './arcGisJsInterop';
+import {buildEncodedJson, hasValue} from './geoBlazorCore';
 
 export default class WMSLayerWrapper extends WMSLayerGenerated {
 
     constructor(layer: WMSLayer) {
         super(layer);
+    }
+
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetWMSLayer(result, this.layerId, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 
     async setSpatialReference(spatialReference: any): Promise<void> {
@@ -79,9 +85,9 @@ export async function buildJsWMSLayer(dotNetObject: any, layerId: string | null,
     return jsWmsLayer;
 }
 
-export async function buildDotNetWMSLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWMSLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetWMSLayerGenerated} = await import('./wMSLayer.gb');
-    return await buildDotNetWMSLayerGenerated(jsObject, viewId);
+    return await buildDotNetWMSLayerGenerated(jsObject, layerId, viewId);
 }
 
 

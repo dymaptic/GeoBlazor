@@ -7,5 +7,18 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     This stops when the status has been determined or when the layer is destroyed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PublishingInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+/// <param name="Status">
+///     Layer's publishing status while the layer is being published to the portal.
+///     default "unknown"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PublishingInfo.html#status">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="Updating">
+///     Indicates if the layer's status is still being updated.
+///     default false
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PublishingInfo.html#updating">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record PublishingInfo(
-);
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    Status? Status = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? Updating = null);

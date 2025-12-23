@@ -1,6 +1,6 @@
 // override generated code in this file
 import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 import {buildDotNetLineSymbolMarker, buildJsLineSymbolMarker} from "./lineSymbolMarker";
 

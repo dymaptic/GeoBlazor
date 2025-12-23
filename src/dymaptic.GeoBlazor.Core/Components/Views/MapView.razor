@@ -9,7 +9,18 @@
                     <arcgis-scene class="map-container" id="@($"map-container-{Id}")">
                         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                         {
-                            <div class="validation-message">@((MarkupString)ErrorMessage)</div>
+                            <div class="geoblazor-message-overlay">
+                                <div class="geoblazor-validation-message">@((MarkupString)ErrorMessage)</div>
+                            </div>
+                        }
+                        else if (ShowZoomWidget)
+                        {
+                            // TODO: in V5, use GeoBlazor Components Here, wrapping the ArcGIS components
+                            if (!Widgets.Any(w => w is ZoomWidget))
+                            {
+                                <arcgis-zoom slot="top-left" />
+                            }
+                            <arcgis-navigation-toggle slot="top-left" />
                         }
                         @ChildContent
                     </arcgis-scene>
@@ -19,7 +30,13 @@
                     <arcgis-map class="map-container" id="@($"map-container-{Id}")">
                         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                         {
-                            <div class="validation-message">@((MarkupString)ErrorMessage)</div>
+                            <div class="geoblazor-message-overlay">
+                                <div class="geoblazor-validation-message">@((MarkupString)ErrorMessage)</div>
+                            </div>
+                        }
+                        else if (ShowZoomWidget && !Widgets.Any(w => w is ZoomWidget))
+                        {
+                            <arcgis-zoom slot="top-left" />
                         }
                         @ChildContent
                     </arcgis-map>
@@ -28,11 +45,13 @@
                 {
                     <div class="dymaptic-branding">
                         <a href="https://www.geoblazor.com">
-                            <img alt="GeoBlazor Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/geoblazor-icon-60px.webp"/> GeoBlazor
+                            <img alt="GeoBlazor Logo" height="12"
+                                 src="_content/dymaptic.GeoBlazor.Core/images/geoblazor-icon-60px.webp"/> GeoBlazor
                         </a>
                         by
                         <a href="https://www.dymaptic.com">
-                            <img alt="dymaptic Logo" height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-icon-60px.webp"/> dymaptic
+                            <img alt="dymaptic Logo" height="12"
+                                 src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-icon-60px.webp"/> dymaptic
                         </a>
                     </div>
                 }

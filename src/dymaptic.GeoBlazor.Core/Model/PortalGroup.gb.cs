@@ -66,6 +66,13 @@ public partial record PortalGroup(
     string? Title = null): IInteractiveRecord
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public PortalGroup(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>
     public IJSObjectReference? JsComponentReference { get; set; }
@@ -85,6 +92,7 @@ public partial record PortalGroup(
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
     
+
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
@@ -126,7 +134,7 @@ public partial record PortalGroup(
         string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
             "fetchCategorySchema", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -168,7 +176,7 @@ public partial record PortalGroup(
         Members? result = await JsComponentReference!.InvokeAsync<Members?>(
             "fetchMembers", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -254,7 +262,7 @@ public partial record PortalGroup(
             "queryItems", 
             CancellationTokenSource.Token,
             queryParams,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         

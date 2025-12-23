@@ -14,12 +14,13 @@ import {
     DotNetTopFeaturesQuery
 } from "./definitions";
 import {
+    buildEncodedJson,
     decodeProtobufGraphics,
     getGraphicsFromProtobufStream,
     getProtobufGraphicStream,
     hasValue,
     lookupJsGraphicById
-} from "./arcGisJsInterop";
+} from './geoBlazorCore';
 import Graphic from "@arcgis/core/Graphic";
 import {buildDotNetPopupTemplate} from './popupTemplate';
 import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;
@@ -42,6 +43,12 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     createQuery(): Query {
         return this.layer.createQuery();
+    }
+
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {
@@ -361,13 +368,13 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
         let result = this.layer.clone();
 
-        return await buildDotNetFeatureLayer(result, this.viewId);
+        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
 
     async refresh() {
 
         this.layer.refresh();
-        return await buildDotNetFeatureLayer(this.layer, this.viewId);
+        return await buildDotNetFeatureLayer(this.layer, this.layerId, this.viewId);
     }
 
     async setEffect(dnEffect: any): Promise<void> {
@@ -407,7 +414,7 @@ export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | n
 }
 
 
-export async function buildDotNetFeatureLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureLayerGenerated} = await import('./featureLayer.gb');
-    return await buildDotNetFeatureLayerGenerated(jsObject, viewId);
+    return await buildDotNetFeatureLayerGenerated(jsObject, layerId, viewId);
 }

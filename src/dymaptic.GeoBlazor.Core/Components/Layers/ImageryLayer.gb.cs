@@ -10,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ImageryLayer : IBlendLayer,
+    ICustomParametersMixin,
     IFeatureTableWidgetLayers,
     IOperationalLayer,
     IPortalLayer,
@@ -32,7 +33,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// </summary>
     /// <param name="url">
     ///     The URL to the REST endpoint of the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#url">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
@@ -45,29 +46,29 @@ public partial class ImageryLayer : IBlendLayer,
     /// <param name="bandIds">
     ///     Defines a band combination using 0-based band indexes.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default normal
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="compressionQuality">
     ///     The compression quality value.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#compressionQuality">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#compressionQuality">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="compressionTolerance">
     ///     Controls the tolerance of the lerc compression algorithm.
     ///     default 0.01
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#compressionTolerance">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#compressionTolerance">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="copyright">
     ///     The copyright text as defined by the service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#copyright">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="definitionExpression">
     ///     The SQL where clause used to filter rasters.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
@@ -77,25 +78,21 @@ public partial class ImageryLayer : IBlendLayer,
     /// </param>
     /// <param name="format">
     ///     The format of the exported image.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#format">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="hasMultidimensions">
-    ///     Indicates if the layer has <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalInfo">multidimensionalInfo</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#hasMultidimensions">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="imageMaxHeight">
     ///     Indicates the maximum height of the image exported by the service.
     ///     default 4100
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#imageMaxHeight">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#imageMaxHeight">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="imageMaxWidth">
     ///     Indicates the maximum width of the image exported by the service.
-    ///     default 15000
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#imageMaxWidth">ArcGIS Maps SDK for JavaScript</a>
+    ///     default 4100
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#imageMaxWidth">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="interpolation">
     ///     Defines how to interpolate pixel values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendEnabled">
     ///     Indicates whether the layer will be included in the legend.
@@ -105,33 +102,34 @@ public partial class ImageryLayer : IBlendLayer,
     /// <param name="maxScale">
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minScale">
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="noData">
     ///     The pixel value representing no available information.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#noData">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="noDataInterpretation">
-    ///     Interpretation of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">noData</a> setting.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noDataInterpretation">ArcGIS Maps SDK for JavaScript</a>
+    ///     Interpretation of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#noData">noData</a> setting.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#noDataInterpretation">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="objectIdField">
-    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">field</a> containing a unique value or identifier for each raster in the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#fields">field</a> containing
+    ///     a unique value or identifier for each raster in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
     ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="pixelType">
     ///     Raster source pixel type.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#pixelType">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#pixelType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -141,12 +139,13 @@ public partial class ImageryLayer : IBlendLayer,
     /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useViewTime">
-    ///     Determines if the time enabled layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     Determines if the time enabled layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="tileInfo">
     ///     The tiling scheme information for the layer.
@@ -171,7 +170,7 @@ public partial class ImageryLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
@@ -180,7 +179,7 @@ public partial class ImageryLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -198,6 +197,8 @@ public partial class ImageryLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="activePresetRendererName">
+    ///     The active preset renderer name.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#activePresetRendererName">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="arcGISLayerId">
     ///     The unique ID assigned to the layer.
@@ -216,21 +217,25 @@ public partial class ImageryLayer : IBlendLayer,
     /// </param>
     /// <param name="pixelFilter">
     ///     A function that processes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-ImageryLayerView.html#pixelData">pixelData</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#pixelFilter">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#pixelFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupTemplate">
     ///     The popup template for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="presetRenderers">
+    ///     A list of preset renderers that defines a preferred renderer for a given multidimensional variable, a given raster function template,
+    ///     or an additional generic predefined renderer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#presetRenderers">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="rasterFunction">
     ///     Specifies the rule for how the requested image should be processed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="sourceJSON">
-    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service's metadata JSON</a> exposed by the ArcGIS REST API.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service's metadata JSON</a>
+    ///     exposed by the ArcGIS REST API.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
     ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
@@ -252,7 +257,6 @@ public partial class ImageryLayer : IBlendLayer,
         string? definitionExpression = null,
         Effect? effect = null,
         ImageFormat? format = null,
-        bool? hasMultidimensions = null,
         int? imageMaxHeight = null,
         int? imageMaxWidth = null,
         Interpolation? interpolation = null,
@@ -303,7 +307,6 @@ public partial class ImageryLayer : IBlendLayer,
         DefinitionExpression = definitionExpression;
         Effect = effect;
         Format = format;
-        HasMultidimensions = hasMultidimensions;
         ImageMaxHeight = imageMaxHeight;
         ImageMaxWidth = imageMaxWidth;
         Interpolation = interpolation;
@@ -348,7 +351,8 @@ public partial class ImageryLayer : IBlendLayer,
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayeractivepresetrenderername-property">GeoBlazor Docs</a>
-    ///     
+    ///     The active preset renderer name.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#activePresetRendererName">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -359,7 +363,7 @@ public partial class ImageryLayer : IBlendLayer,
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerbandids-property">GeoBlazor Docs</a>
     ///     Defines a band combination using 0-based band indexes.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -369,7 +373,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -379,7 +383,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercompressionquality-property">GeoBlazor Docs</a>
     ///     The compression quality value.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#compressionQuality">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#compressionQuality">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -389,7 +393,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerdefaultmosaicrule-property">GeoBlazor Docs</a>
     ///     Default mosaic rule of the image service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#defaultMosaicRule">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#defaultMosaicRule">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -399,7 +403,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerfields-property">GeoBlazor Docs</a>
     ///     An array of fields in the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -408,8 +412,8 @@ public partial class ImageryLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerfieldsindex-property">GeoBlazor Docs</a>
-    ///     A convenient property that can be used to make case-insensitive lookups for a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">field</a> by name.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
+    ///     A convenient property that can be used to make case-insensitive lookups for a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#fields">field</a> by name.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -419,7 +423,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerinterpolation-property">GeoBlazor Docs</a>
     ///     Defines how to interpolate pixel values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -438,9 +442,10 @@ public partial class ImageryLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermultidimensionalinfo-property">GeoBlazor Docs</a>
-    ///     The multidimensional information associated with the layer if the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#hasMultidimensions">hasMultidimensions</a> property is `true`.
+    ///     The multidimensional information associated with the layer if the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#hasMultidimensions">hasMultidimensions</a> property
+    ///     is `true`.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#multidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -460,7 +465,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayernodata-property">GeoBlazor Docs</a>
     ///     The pixel value representing no available information.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#noData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -469,8 +474,8 @@ public partial class ImageryLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayernodatainterpretation-property">GeoBlazor Docs</a>
-    ///     Interpretation of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">noData</a> setting.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noDataInterpretation">ArcGIS Maps SDK for JavaScript</a>
+    ///     Interpretation of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#noData">noData</a> setting.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#noDataInterpretation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -480,7 +485,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerpixelfilter-property">GeoBlazor Docs</a>
     ///     A function that processes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-ImageryLayerView.html#pixelData">pixelData</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#pixelFilter">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#pixelFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -534,7 +539,9 @@ public partial class ImageryLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerpresetrenderers-property">GeoBlazor Docs</a>
-    ///     
+    ///     A list of preset renderers that defines a preferred renderer for a given multidimensional variable, a given raster function template,
+    ///     or an additional generic predefined renderer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#presetRenderers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -543,8 +550,9 @@ public partial class ImageryLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerrasterfields-property">GeoBlazor Docs</a>
-    ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value with various server defined function templates, and raster attribute table fields.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFields">ArcGIS Maps SDK for JavaScript</a>
+    ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value with various server
+    ///     defined function templates, and raster attribute table fields.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#rasterFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -563,9 +571,10 @@ public partial class ImageryLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerrasterfunctioninfos-property">GeoBlazor Docs</a>
-    ///     Returns raster function information for the image services, including the name, description, help, function type, and a thumbnail of pre-configured raster function templates.
+    ///     Returns raster function information for the image services,
+    ///     including the name, description, help, function type, and a thumbnail of pre-configured raster function templates.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFunctionInfos">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#rasterFunctionInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -585,7 +594,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerservicerasterinfo-property">GeoBlazor Docs</a>
     ///     Source raster information of the image service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -594,8 +603,9 @@ public partial class ImageryLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayersourcejson-property">GeoBlazor Docs</a>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service's metadata JSON</a> exposed by the ArcGIS REST API.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service's metadata JSON</a>
+    ///     exposed by the ArcGIS REST API.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -605,7 +615,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayersourcetype-property">GeoBlazor Docs</a>
     ///     Image service data source type.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceType">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#sourceType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -615,7 +625,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the image service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -625,7 +635,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerurl-property">GeoBlazor Docs</a>
     ///     The URL to the REST endpoint of the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#url">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -636,7 +646,7 @@ public partial class ImageryLayer : IBlendLayer,
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerversion-property">GeoBlazor Docs</a>
     ///     The version of ArcGIS Server in which the image service is published.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#version">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -1851,6 +1861,7 @@ public partial class ImageryLayer : IBlendLayer,
             {
                 result.Id = PortalItem.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             PortalItem = result;
@@ -2285,6 +2296,7 @@ public partial class ImageryLayer : IBlendLayer,
             {
                 result.Id = TimeExtent.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             TimeExtent = result;
@@ -3133,10 +3145,7 @@ public partial class ImageryLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3363,10 +3372,7 @@ public partial class ImageryLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3408,10 +3414,7 @@ public partial class ImageryLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3455,10 +3458,7 @@ public partial class ImageryLayer : IBlendLayer,
         {
             foreach (RasterPresetRenderer item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -3501,10 +3501,7 @@ public partial class ImageryLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3657,10 +3654,7 @@ public partial class ImageryLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3702,10 +3696,7 @@ public partial class ImageryLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3747,10 +3738,7 @@ public partial class ImageryLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

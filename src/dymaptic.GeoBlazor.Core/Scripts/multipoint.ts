@@ -1,4 +1,5 @@
-import {hasValue} from "./arcGisJsInterop";
+import MultipointGenerated from './multipoint.gb';
+import {hasValue} from './geoBlazorCore';
 import Multipoint from "@arcgis/core/geometry/Multipoint";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {buildDotNetExtent} from "./extent";
@@ -62,3 +63,12 @@ export function buildDotNetMultipoint(jsObject: any): any {
 
     return dotNetMultipoint;
 }
+
+export default class MultipointWrapper extends MultipointGenerated {
+
+    constructor(component: Multipoint) {
+        super(component);
+    }
+    
+}
+

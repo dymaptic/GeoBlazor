@@ -165,34 +165,6 @@ public partial class MapImageLayer : Layer, ISublayersLayer
     {
         await base.UpdateFromJavaScript(renderedLayer);
         var renderedMapLayer = (MapImageLayer)renderedLayer;
-        Url ??= renderedMapLayer.Url;
-        Title ??= renderedMapLayer.Title;
-        Dpi ??= renderedMapLayer.Dpi;
-        Effect ??= renderedMapLayer.Effect;
-        GdbVersion ??= renderedMapLayer.GdbVersion;
-        ImageFormat ??= renderedMapLayer.ImageFormat;
-        ImageMaxHeight ??= renderedMapLayer.ImageMaxHeight;
-        ImageMaxWidth ??= renderedMapLayer.ImageMaxWidth;
-        ImageTransparency ??= renderedMapLayer.ImageTransparency;
-        LegendEnabled ??= renderedMapLayer.LegendEnabled;
-        ListMode ??= renderedMapLayer.ListMode;
-        MaxScale ??= renderedMapLayer.MaxScale;
-        MinScale ??= renderedMapLayer.MinScale;
-        Opacity ??= renderedMapLayer.Opacity;
-        PersistenceEnabled ??= renderedMapLayer.PersistenceEnabled;
-        RefreshInterval ??= renderedMapLayer.RefreshInterval;
-        Capabilities ??= renderedMapLayer.Capabilities;
-        Copyright ??= renderedMapLayer.Copyright;
-        DateFieldsTimeZone ??= renderedMapLayer.DateFieldsTimeZone;
-        DatesInUnknownTimezone ??= renderedMapLayer.DatesInUnknownTimezone;
-        PreferredTimeZone ??= renderedMapLayer.PreferredTimeZone;
-        SourceJSON ??= renderedMapLayer.SourceJSON;
-        SpatialReference ??= renderedMapLayer.SpatialReference;
-        MinScale ??= renderedMapLayer.MinScale;
-        MaxScale ??= renderedMapLayer.MaxScale;
-        PortalItem ??= renderedMapLayer.PortalItem;
-        TimeInfo ??= renderedMapLayer.TimeInfo;
-        Version ??= renderedMapLayer.Version;
         
         Sublayers ??= [];
 
@@ -205,7 +177,7 @@ public partial class MapImageLayer : Layer, ISublayersLayer
 
                 if (matchingLayer is not null)
                 {
-                    matchingLayer.Parent = this;
+                    matchingLayer.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, this);
                     matchingLayer.View = View;
                     matchingLayer.Layer = this;
                     await matchingLayer.UpdateFromJavaScript(renderedSubLayer);

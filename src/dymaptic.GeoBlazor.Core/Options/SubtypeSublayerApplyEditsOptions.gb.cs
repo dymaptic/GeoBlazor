@@ -24,6 +24,13 @@ public partial record SubtypeSublayerApplyEditsOptions(
     bool? RollbackOnFailureEnabled = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public SubtypeSublayerApplyEditsOptions(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     
     /// </summary>
     public string? GdbVersion { get; set; } = GdbVersion;

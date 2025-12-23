@@ -13,6 +13,15 @@ export function initialize(core) {
     Portal = Core.Portal;
     SimpleRenderer = Core.SimpleRenderer;
     esriConfig = Core.esriConfig;
+    setWaitCursor()
+}
+
+export function setWaitCursor(wait) {
+    if (wait) {
+        document.body.style.cursor = 'wait';
+    } else {
+        document.body.style.cursor = 'default';
+    }
 }
 
 export function setJsTimeout(time, methodName) {
@@ -42,7 +51,7 @@ export function assertBasemapHasTwoLayers(methodName) {
 
 export function assertWidgetExists(methodName, widgetClass) {
     let view = getView(methodName);
-    let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass);
+    let widget = view.ui._components.find(c => c.widget?.declaredClass === widgetClass);
     if (!widget) {
         throw new Error(`Widget ${widgetClass} does not exist`);
     }
@@ -182,6 +191,30 @@ export function assertObjectHasPropertyWithValue(methodName, objectId, propertyN
         obj = candidate;
     }
     
+    if (Array.isArray(obj) && Array.isArray(expectedValue)) {
+        if (obj.length !== expectedValue.length) {
+            throw new Error(`Expected ${propertyName} to be array of length ${expectedValue.length} but found length ${obj.length}`);
+        }
+        for (let j = 0; j < obj.length; j++) {
+            if (obj[j] !== expectedValue[j]) {
+                throw new Error(`Expected ${propertyName}[${j}] to be ${expectedValue[j]} but found ${obj[j]}`);
+            }
+        }
+        return;
+    }
+    
+    // if the item is an object, compare properties
+    if (typeof obj === 'object' && typeof expectedValue === 'object') {
+        let expectedProps = Object.getOwnPropertyNames(expectedValue);
+        for (let k = 0; k < expectedProps.length; k++) {
+            let expectedProp = expectedProps[k];
+            if (obj[expectedProp] !== expectedValue[expectedProp]) {
+                throw new Error(`Expected ${propertyName}.${expectedProp} to be ${expectedValue[expectedProp]} but found ${obj[expectedProp]}`);
+            }
+        }
+        return;
+    }
+    
     if (obj !== expectedValue) {
         throw new Error(`Expected ${propertyName} to be ${expectedValue} but found ${obj}`);
     }
@@ -206,7 +239,7 @@ export async function clickOnPopupAction(methodName) {
     button.click();
 }
 
-export async function clickOnGraphicPopupAction(methodName) {
+export async function clickOnGraphicPopupAction(methodName, viewId) {
     let view = getView(methodName);
     let layer = view.map.layers.items[0];
     let graphic = layer.graphics.items[0];
@@ -250,15 +283,22 @@ export async function triggerSearchHandlers() {
     searchInput.dispatchEvent(new Event('input'));
 }
 
-export function assertWidgetPropertyEqual(methodName, widgetClass, propName, expectedValue) {
+export function assertWidgetPosition(methodName, widgetId, position) {
     let view = getView(methodName);
-    let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass).widget;
-    let actualValue = widget[propName];
-    if (actualValue !== expectedValue) {
-        throw new Error(`Expected ${propName} to be ${expectedValue} but found ${actualValue}`);
+    let widget = arcGisObjectRefs[widgetId];
+    
+    let viewComponents = view.ui.getComponents();
+    if (!viewComponents.includes(widget)) {
+        throw new Error(`Expected widget ${widgetId} to be in view container, but was not found.`);
+    }
+    
+    let parentDiv = widget.container.parentElement;
+    
+    if (!parentDiv.className.includes(position)) {
+        throw new Error(`Expected widget ${widgetId} to be in position ${position}, but parent div className was ${parentDiv.className}.`);
     }
 }
-
+ 
 export function scrollToTestClass(id) {
     const element = document.getElementById(id);
     if (element instanceof HTMLElement) {
@@ -318,7 +358,7 @@ export function waitForWidgetToLoad(methodName, widgetClass) {
     return new Promise((resolve, reject) => {
         let view = getView(methodName);
         let interval = setInterval(() => {
-            let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass);
+            let widget = view.ui._components.find(c => c.widget?.declaredClass === widgetClass);
             if (widget) {
                 let innerHTML = widget.node.innerHTML;
                 if (innerHTML.includes("__loader")) {
@@ -331,4 +371,28 @@ export function waitForWidgetToLoad(methodName, widgetClass) {
             }
         }, 100);
     });
+}
+
+export function saveSettings(settings) {
+    sessionStorage.setItem('testSettings', JSON.stringify(settings));
+}
+
+export function loadSettings() {
+    let settings = sessionStorage.getItem('testSettings');
+    if (settings) {
+        return JSON.parse(settings);
+    }
+    return null;
+}
+
+export function saveTestResults(results) {
+    sessionStorage.setItem('testResults', JSON.stringify(results));
+}
+
+export function getTestResults() {
+    let results = sessionStorage.getItem('testResults');
+    if (results) {
+        return JSON.parse(results);
+    }
+    return null;
 }

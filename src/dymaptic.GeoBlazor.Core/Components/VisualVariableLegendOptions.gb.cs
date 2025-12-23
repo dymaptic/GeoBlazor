@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariableLegendOptions.html">GeoBlazor Docs</a>
 ///     An object providing options for displaying the visual variable in
-///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class VisualVariableLegendOptions

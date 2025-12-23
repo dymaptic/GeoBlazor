@@ -1,7 +1,7 @@
 // override generated code in this file
 import WFSLayerViewGenerated from './wFSLayerView.gb';
 import WFSLayerView from '@arcgis/core/views/layers/WFSLayerView';
-import {hasValue, lookupJsGraphicById, graphicsRefs} from "./arcGisJsInterop";
+import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
 
 export default class WFSLayerViewWrapper extends WFSLayerViewGenerated {
 
@@ -38,7 +38,7 @@ export async function buildJsWFSLayerView(dotNetObject: any, layerId: string | n
     return await buildJsWFSLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWFSLayerView(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWFSLayerViewGenerated } = await import('./wFSLayerView.gb');
-    return await buildDotNetWFSLayerViewGenerated(jsObject, viewId);
+    return await buildDotNetWFSLayerViewGenerated(jsObject, layerId, viewId);
 }

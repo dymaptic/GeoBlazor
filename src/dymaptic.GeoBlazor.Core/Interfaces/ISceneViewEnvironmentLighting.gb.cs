@@ -9,6 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#environment">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<ISceneViewEnvironmentLighting>))]
-public partial interface ISceneViewEnvironmentLighting : IMapComponent
+public partial interface ISceneViewEnvironmentLighting 
 {
 }

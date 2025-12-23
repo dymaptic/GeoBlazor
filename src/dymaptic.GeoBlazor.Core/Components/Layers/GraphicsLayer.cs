@@ -106,7 +106,7 @@ public partial class GraphicsLayer : Layer
         BlendMode? blendMode = null,
         string? arcGISLayerId = null,
         Effect? effect = null,
-        GraphicsLayerElevationInfo? elevationInfo = null,
+        ElevationInfo? elevationInfo = null,
         Extent? fullExtent = null,
         bool? isBasemapReferenceLayer = null,
         TimeExtent? visibilityTimeExtent = null,
@@ -573,13 +573,7 @@ public partial class GraphicsLayer : Layer
         }
     }
 
-    /// <inheritdoc />
-    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
-    {
-        await base.UpdateFromJavaScript(renderedLayer);
-    }
-
-    private HashSet<Graphic> _graphics = [];
+    private readonly HashSet<Graphic> _graphics = [];
 }
 
 internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollection<Graphic>>

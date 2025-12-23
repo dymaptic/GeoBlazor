@@ -1,4 +1,4 @@
-﻿// ReSharper disable RedundantCast
+// ReSharper disable RedundantCast
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 
@@ -153,19 +153,26 @@ public partial class MapView : MapComponent
     [Parameter]
     public bool ExcludeApiKey { get; set; }
     
+    /// <summary>
+    ///     Represents a collection of <see cref="HighlightOptions" /> objects which can be used to highlight features throughout an application.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyCollection<HighlightOptions>? Highlights { get; set; }
+    
 #endregion
 
+    // TODO: V5 : Update MapView from ArcGIS, make more properties public parameters
 
 #region Public Properties
 
     /// <summary>
-    ///     The reference to arcGisJsInterop.ts from .NET
+    ///     The reference to geoBlazorCore.ts from .NET
     /// </summary>
     [Obsolete("Use CoreJsModule instead.")]
     public IJSObjectReference? ViewJsModule => CoreJsModule;
 
     /// <summary>
-    ///     The reference to arcGisJsInterop.ts from .NET
+    ///     The reference to geoBlazorPro.ts from .NET
     /// </summary>
     [Obsolete("Use ProJsModule instead.")]
     public IJSObjectReference? ProViewJsModule => ProJsModule;
@@ -236,6 +243,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the shadow of the highlighted feature is displayed in a darker shade.
     /// </summary>
+    [Obsolete("Deprecated since GeoBlazor version 4.4.0. Use the View.Highlights property instead.")]
     protected HighlightOptions? HighlightOptions { get; private set; }
 
     /// <summary>
@@ -271,7 +279,7 @@ public partial class MapView : MapComponent
     ///     Wraps the JS Error and throws a .NET Exception.
     /// </exception>
     [JSInvokable]
-    public void OnJavascriptError(JavascriptError error)
+    public async Task OnJavascriptError(JavascriptError error)
     {
         if (IsDisposed) return;
 #if DEBUG
@@ -279,12 +287,21 @@ public partial class MapView : MapComponent
         StateHasChanged();
 #endif
         var exception = new JavascriptException(error);
+        
+        bool handled = false;
 
         if (OnJavascriptErrorHandler is not null)
         {
-            OnJavascriptErrorHandler?.Invoke(exception);
+            await OnJavascriptErrorHandler(exception);
+            handled = true;
         }
-        else
+
+        if (OnExceptionHandler is not null)
+        {
+            handled = await OnExceptionHandler(exception);
+        }
+        
+        if (!handled)
         {
             throw exception;
         }
@@ -304,6 +321,12 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
+    
+    /// <summary>
+    ///     Handles any runtime exceptions instead of throwing. Return a boolean to indicate if the exception was handled (true) or should still throw (false).
+    /// </summary>
+    [Parameter]
+    public Func<Exception, Task<bool>>? OnExceptionHandler { get; set; }
 
     /// <summary>
     ///     JS-Invokable method to return view clicks.
@@ -837,11 +860,8 @@ public partial class MapView : MapComponent
 
         if (layerView is not null)
         {
-            layerView.View = this;
-            layerView.Parent = this;
-            layerView.CoreJsModule = CoreJsModule;
+            layerView.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, this, this, null);
             layerView.JsComponentReference = layerViewCreateEvent.LayerViewObjectRef;
-            layerView.AbortManager = AbortManager;
         }
 
         Layer? createdLayer = layerViewCreateEvent.IsBasemapLayer
@@ -877,26 +897,14 @@ public partial class MapView : MapComponent
             if (layer is not null)
             {
                 layer.LayerView = layerView;
-                layer.AbortManager = new AbortManager(CoreJsModule!);
+                layer.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, this, this, null);
                 layer.JsComponentReference = layerViewCreateEvent.LayerObjectRef;
-                layer.CoreJsModule = CoreJsModule;
-                layer.ProJsModule = ProJsModule;
                 layer.Imported = true;
                 layer.Loaded = true;
 
                 if (layerView is not null)
                 {
                     layerView.Layer = layer;
-                }
-
-                layer.View = this;
-
-                if (layer is ISublayersLayer { Sublayers: not null} sublayersLayer)
-                {
-                    foreach (Sublayer sublayer in sublayersLayer.Sublayers)
-                    {
-                        sublayer.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, this);
-                    }
                 }
 
                 if (layerViewCreateEvent.IsBasemapLayer)
@@ -1855,6 +1863,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Sets the <see cref="HighlightOptions" /> of the view.
     /// </summary>
+    [Obsolete("Deprecated since GeoBlazor version 4.4.0. Use the View.SetHighlights method instead.")]
     public async Task SetHighlightOptions(HighlightOptions highlightOptions)
     {
         if (!highlightOptions.Equals(HighlightOptions))
@@ -1868,6 +1877,21 @@ public partial class MapView : MapComponent
         }
         
         ModifiedParameters[nameof(HighlightOptions)] = highlightOptions;
+    }
+    
+    /// <summary>
+    ///     Sets the <see cref="Highlights" /> of the view.
+    /// </summary>
+    public async Task SetHighlights(IReadOnlyCollection<HighlightOptions> highlights)
+    {
+        Highlights = highlights;
+
+        if (CoreJsModule is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setHighlights",
+            CancellationTokenSource.Token, (object)Highlights, Id);
+        
+        ModifiedParameters[nameof(Highlights)] = highlights;
     }
 
     /// <summary>
@@ -2128,9 +2152,7 @@ public partial class MapView : MapComponent
         if (!_widgets.Contains(widget))
         {
             _widgets.Add(widget);
-            widget.Parent ??= this;
-            widget.View ??= this;
-            widget.CoreJsModule ??= CoreJsModule;
+            widget.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, null);
         }
 
         if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return Task.CompletedTask;
@@ -2388,26 +2410,9 @@ public partial class MapView : MapComponent
 
         if (!AuthenticationInitialized || Rendering || Map is null || CoreJsModule is null) return;
 
-        if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
-            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId)
-            && !ExcludeApiKey)
-        {
-            var newErrorMessage =
-                "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
-
-            if (ErrorMessage == newErrorMessage)
-            {
-                return;
-            }
-
-            ErrorMessage = newErrorMessage;
-            Debug.WriteLine(ErrorMessage);
-            StateHasChanged();
-
-            return;
-        }
-
         Rendering = true;
+        await CancellationTokenSource.CancelAsync();
+        CancellationTokenSource = new CancellationTokenSource();
         Map.Layers.RemoveAll(l => l.Imported);
 
         if (Map.Basemap is not null)
@@ -2416,19 +2421,6 @@ public partial class MapView : MapComponent
             Map.Basemap!.BaseLayers = Map.Basemap.BaseLayers?.Where(l => !l.Imported).ToList();
             Map.Basemap!.ReferenceLayers = Map.Basemap!.ReferenceLayers?.Where(l => !l.Imported).ToList();
 #pragma warning restore BL0005 
-        }
-        
-        if (ShowZoomWidget && !Widgets.Any(w => w is ZoomWidget))
-        {
-            ZoomWidget zoom = new(position: OverlayPosition.TopLeft)
-            {
-                Parent = this, 
-                View = this, 
-                CoreJsModule = CoreJsModule
-            };
-            
-            // should be inserted first so it is added at the top of the left corner
-            _widgets.Insert(0, zoom);
         }
         
         if (!Widgets.Any(w => w is PopupWidget))
@@ -2459,14 +2451,10 @@ public partial class MapView : MapComponent
             {
                 await Task.Delay(1);
             }
-
-            if (!ExcludeApiKey)
-            {
-                // ensure a basemap is added, but only if the user hasn't removed the API key
-                Map.Basemap ??= new Basemap(style: new BasemapStyle(BasemapStyleName.ArcgisLightGray));
-            }
             
             await SetTheme();
+
+            EnsureBasemap();
 
             await BuildMapView();
 
@@ -2485,23 +2473,40 @@ public partial class MapView : MapComponent
             string mapType = Map is WebMap ? "webmap" : "map";
             IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(CancellationTokenSource.Token);
             CancellationTokenSource.CancelAfter(MapRenderTimeoutInMilliseconds); // timeout for the map view to be built
-
             await CoreJsModule!.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, abortSignal, Id,
                 DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
-                Theme?.ToString().ToLowerInvariant());
+#pragma warning disable CS0618 // Type or member is obsolete
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, Highlights, PopupEnabled,
+#pragma warning restore CS0618 // Type or member is obsolete
+                Theme?.ToString().ToLowerInvariant(), AllowDefaultEsriLogin, 
+                AuthenticationManager.ExcludeApiKey ? null : AuthenticationManager.ApiKey, AuthenticationManager.AppId);
             await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+#if DEBUG
+            ErrorMessage = ex.Message.Replace("\n", "<br>");
+#endif
+            await Console.Error.WriteLineAsync(
+                $"Error building map view: {ex.Message}{System.Environment.NewLine}{ex.StackTrace}");
 
-            throw;
-        }
-        finally
-        {
-            CancellationTokenSource = new CancellationTokenSource();    
+            bool handled = false;
+            if (OnJavascriptErrorHandler is not null)
+            {
+                await OnJavascriptErrorHandler(
+                    new JavascriptException(new JavascriptError(ex.Message, nameof(BuildMapView), ex.StackTrace)));
+                handled = true;
+            }
+            if (OnExceptionHandler is not null)
+            {
+                handled = await OnExceptionHandler(ex);
+            }
+            
+            if (!handled)
+            {
+                throw;
+            }
         }
     }
     
@@ -2524,6 +2529,35 @@ public partial class MapView : MapComponent
             // set these both so they don't cause a render loop
             _lastTheme = newTheme;
             Theme = newTheme;
+        }
+    }
+
+    private void EnsureBasemap()
+    {
+        if (Map!.Basemap?.PortalItem is null
+            && Map.Basemap?.Style is null
+#pragma warning disable CS0618 // Type or member is obsolete
+            && Map.ArcGISDefaultBasemap is null
+#pragma warning restore CS0618 // Type or member is obsolete
+            && !(Map.Basemap?.BaseLayers?.Count > 0)
+            && Map.Layers.All(l => 
+                // these are "image/tile" layers that would fill the map like a basemap, even if not placed in the basemap
+                l is not ITileLayer or ImageryLayer or WMSLayer or WMTSLayer))
+        {
+            // add a default OSM basemap if there are no ArcGIS rendered layers so the map can render
+            Map.Basemap ??= new Basemap();
+
+            OpenStreetMapLayer placeholder = new();
+#pragma warning disable BL0005
+            if (Map.Basemap.BaseLayers is null)
+            {
+                Map.Basemap.BaseLayers = [placeholder];
+            }
+            else
+            {
+                Map.Basemap.BaseLayers = [..Map.Basemap.BaseLayers!, placeholder];
+            }
+#pragma warning restore BL0005
         }
     }
 #endregion
@@ -2605,7 +2639,8 @@ public partial class MapView : MapComponent
 
                 break;
             case HighlightOptions highlightOptions:
-                await SetHighlightOptions(highlightOptions);
+                Highlights ??= [];
+                Highlights = [..Highlights, highlightOptions];
 
                 break;
             default:
@@ -2645,8 +2680,8 @@ public partial class MapView : MapComponent
                 Extent = null;
 
                 break;
-            case HighlightOptions _:
-                HighlightOptions = null;
+            case HighlightOptions highlightOptions:
+                Highlights = Highlights?.Except([highlightOptions]).ToArray();
 
                 break;
             default:
@@ -2673,6 +2708,14 @@ public partial class MapView : MapComponent
         foreach (Widget widget in Widgets)
         {
             widget.ValidateRequiredChildren();
+        }
+
+        if (Highlights is not null)
+        {
+            foreach (HighlightOptions options in Highlights)
+            {
+                options.ValidateRequiredChildren();
+            }
         }
     }
     

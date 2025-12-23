@@ -92,6 +92,13 @@ public partial record RelationshipQuery(
     string? Where = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public RelationshipQuery(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     Indicates if the service should cache the relationship query results.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#cacheHint">ArcGIS Maps SDK for JavaScript</a>

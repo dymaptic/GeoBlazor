@@ -1,7 +1,7 @@
 // override generated code in this file
 import ImageryLayerViewGenerated from './imageryLayerView.gb';
 import ImageryLayerView from '@arcgis/core/views/layers/ImageryLayerView';
-import {hasValue, lookupJsGraphicById, graphicsRefs} from "./arcGisJsInterop";
+import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
 
 export default class ImageryLayerViewWrapper extends ImageryLayerViewGenerated {
 
@@ -38,7 +38,7 @@ export async function buildJsImageryLayerView(dotNetObject: any, layerId: string
     return await buildJsImageryLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetImageryLayerView(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetImageryLayerViewGenerated } = await import('./imageryLayerView.gb');
-    return await buildDotNetImageryLayerViewGenerated(jsObject, viewId);
+    return await buildDotNetImageryLayerViewGenerated(jsObject, layerId, viewId);
 }

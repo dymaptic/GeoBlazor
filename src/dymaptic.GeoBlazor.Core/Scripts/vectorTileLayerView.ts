@@ -1,7 +1,7 @@
 // override generated code in this file
 // @ts-ignore This exists in ArcGIS SDK definition
 import VectorTileLayerView = __esri.VectorTileLayerView;
-import {generateSerializableJson, hasValue} from "./arcGisJsInterop";
+import {generateSerializableJson, hasValue} from './geoBlazorCore';
 import {IPropertyWrapper} from "./definitions";
 
 export default class VectorTileLayerViewWrapper implements IPropertyWrapper {
@@ -56,7 +56,7 @@ export default class VectorTileLayerViewWrapper implements IPropertyWrapper {
         }
 
         let {buildDotNetLayer} = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
 
     getProperty(prop: string): any {
@@ -72,7 +72,7 @@ export async function buildJsVectorTileLayerView(dotNetObject: any, layerId: str
     // not used
 }     
 
-export async function buildDotNetVectorTileLayerView(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetVectorTileLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVectorTileLayerViewGenerated } = await import('./vectorTileLayerView.gb');
-    return await buildDotNetVectorTileLayerViewGenerated(jsObject, viewId);
+    return await buildDotNetVectorTileLayerViewGenerated(jsObject, layerId, viewId);
 }

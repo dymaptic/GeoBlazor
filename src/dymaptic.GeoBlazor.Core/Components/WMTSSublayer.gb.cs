@@ -56,7 +56,7 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     /// <param name="title">
     ///     The title of the WMTS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="wMTSSublayerId">
@@ -186,7 +186,7 @@ public partial class WMTSSublayer : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayertitle-property">GeoBlazor Docs</a>
     ///     The title of the WMTS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -281,6 +281,7 @@ public partial class WMTSSublayer : MapComponent
             {
                 result.Id = FullExtent.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             FullExtent = result;
@@ -693,10 +694,7 @@ public partial class WMTSSublayer : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -851,10 +849,7 @@ public partial class WMTSSublayer : MapComponent
         {
             foreach (WMTSStyle item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -936,10 +931,7 @@ public partial class WMTSSublayer : MapComponent
         {
             foreach (TileMatrixSet item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         

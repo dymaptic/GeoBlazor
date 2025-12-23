@@ -1,4 +1,4 @@
-import {Pro} from './arcGisJsInterop';
+import {Pro} from './geoBlazorCore';
 
 export async function buildJsIFeatureReduction(dotNetObject: any, layerId: string | null, viewId: string | null) {
     if (!Pro) return null;

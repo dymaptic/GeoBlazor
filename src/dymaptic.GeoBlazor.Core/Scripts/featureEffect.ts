@@ -1,4 +1,4 @@
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import {buildJsEffect} from "./effect";
 
 export async function buildJsFeatureEffect(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
@@ -37,7 +37,7 @@ export async function buildJsFeatureEffect(dotNetObject: any, layerId: string | 
     return featureEffect;
 }     
 
-export async function buildDotNetFeatureEffect(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureEffect(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFeatureEffectGenerated } = await import('./featureEffect.gb');
-    return await buildDotNetFeatureEffectGenerated(jsObject, viewId);
+    return await buildDotNetFeatureEffectGenerated(jsObject, layerId, viewId);
 }

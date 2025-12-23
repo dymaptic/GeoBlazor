@@ -47,7 +47,17 @@ internal class GeometryTypeConverter : EnumToKebabCaseStringConverter<GeometryTy
             .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace("Geometry", string.Empty, StringComparison.OrdinalIgnoreCase);
 
-        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default;
+        try
+        {
+            return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
+
+            return default;
+        }
     }
 }
 
@@ -60,7 +70,17 @@ internal class SimpleGeometryTypeConverter : EnumToKebabCaseStringConverter<Simp
             .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace("Geometry", string.Empty, StringComparison.OrdinalIgnoreCase);
 
-        return value is not null ? (SimpleGeometryType)Enum.Parse(typeof(SimpleGeometryType), value, true) : default;
+        try
+        {
+            return value is not null ? (SimpleGeometryType)Enum.Parse(typeof(SimpleGeometryType), value, true) : default;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
+
+            return default;
+        }
     }
 }
 
@@ -73,7 +93,17 @@ internal class SimpleLineSymbolStyleConverter : EnumToKebabCaseStringConverter<S
             .Replace("SLS", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase);
 
-        return value is not null ? (SimpleLineSymbolStyle)Enum.Parse(typeof(SimpleLineSymbolStyle), value, true) : default;
+        try
+        {
+            return value is not null ? (SimpleLineSymbolStyle)Enum.Parse(typeof(SimpleLineSymbolStyle), value, true) : default;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
+
+            return default;
+        }
     }
 }
 
@@ -146,7 +176,17 @@ internal class EnumRelationshipConverter<T> : EnumToKebabCaseStringConverter<T> 
             .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace(nameof(Cardinality), string.Empty);
 
-        return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
+        try
+        {
+            return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
+
+            return default(T)!;
+        }
     }
 }
 
@@ -156,7 +196,7 @@ internal class EnumRelationshipConverter<T> : EnumToKebabCaseStringConverter<T> 
 /// </summary>
 internal class EnumToKebabCaseReadOnlyListConverter<T> : JsonConverter<IReadOnlyList<T>>
 {
-    public override IReadOnlyList<T> Read(ref Utf8JsonReader reader, Type typeToConvert, 
+    public override IReadOnlyList<T> Read(ref Utf8JsonReader reader, Type typeToConvert,
         JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartArray)
@@ -167,13 +207,23 @@ internal class EnumToKebabCaseReadOnlyListConverter<T> : JsonConverter<IReadOnly
                 string? value = reader.GetString();
                 if (value is not null)
                 {
-                    return (List<T>) [(T)Enum.Parse(typeof(T), 
-                        value.Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
-                            .Replace(typeof(T).Name, string.Empty)
-                            .KebabToPascalCase(), true)];
+                    try
+                    {
+                        return (List<T>) [(T)Enum.Parse(typeof(T),
+                            value.Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+                                .Replace(typeof(T).Name, string.Empty)
+                                .KebabToPascalCase(), true)];
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+                        Debug.WriteLine(ex);
+
+                        return [];
+                    }
                 }
             }
-            
+
             throw new JsonException("Expected start of array or a single string value.");
         }
 
@@ -186,10 +236,18 @@ internal class EnumToKebabCaseReadOnlyListConverter<T> : JsonConverter<IReadOnly
                 string? value = reader.GetString();
                 if (value is not null)
                 {
-                    values.Add((T)Enum.Parse(typeof(T), 
-                        value.Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
-                            .Replace(typeof(T).Name, string.Empty)
-                            .KebabToPascalCase(), true));
+                    try
+                    {
+                        values.Add((T)Enum.Parse(typeof(T),
+                            value.Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+                                .Replace(typeof(T).Name, string.Empty)
+                                .KebabToPascalCase(), true));
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+                        Debug.WriteLine(ex);
+                    }
                 }
             }
             else
@@ -234,6 +292,54 @@ internal class TimeUnitConverter : EnumToKebabCaseStringConverter<TemporalTime>
             .KebabToPascalCase()
             .Replace("esriTimeUnits", string.Empty, StringComparison.OrdinalIgnoreCase);
 
-        return value is not null ? (TemporalTime)Enum.Parse(typeof(TemporalTime), value, true) : default;
+        try
+        {
+            return value is not null ? (TemporalTime)Enum.Parse(typeof(TemporalTime), value, true) : default;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
+
+            return default;
+        }
+    }
+}
+
+/// <summary>
+///     Converter with no hyphens
+/// </summary>
+internal class ImageFormatConverter<T> : EnumToKebabCaseStringConverter<T> where T: notnull
+{
+    /// <inheritdoc />
+    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        string? stringVal = Enum.GetName(typeof(T), value);
+        string resultString = stringVal!.ToLowerInvariant();
+        writer.WriteStringValue(resultString);
+    }
+}
+
+internal class ImageFormatReadonlyListConverter<T> : EnumToKebabCaseReadOnlyListConverter<T> where T : notnull
+{
+    public override void Write(Utf8JsonWriter writer, IReadOnlyList<T>? value, JsonSerializerOptions options)
+    {
+        if (value is null || !value.Any())
+        {
+            writer.WriteStartArray();
+            writer.WriteEndArray();
+            return;
+        }
+
+        writer.WriteStartArray();
+        foreach (T item in value)
+        {
+            string? stringVal = Enum.GetName(typeof(T), item);
+            if (stringVal is not null)
+            {
+                writer.WriteStringValue(stringVal.ToLowerInvariant());
+            }
+        }
+        writer.WriteEndArray();
     }
 }

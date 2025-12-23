@@ -1,11 +1,18 @@
 // override generated code in this file
 import CSVLayerGenerated from './cSVLayer.gb';
 import CSVLayer from '@arcgis/core/layers/CSVLayer';
+import {buildEncodedJson} from "./geoBlazorCore";
 
 export default class CSVLayerWrapper extends CSVLayerGenerated {
 
     constructor(layer: CSVLayer) {
         super(layer);
+    }
+
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetCSVLayer(result, this.layerId, this.viewId);
+        return buildEncodedJson(dotNetLayer);
     }
 
     async getFeatureReduction(): Promise<any> {
@@ -35,7 +42,7 @@ export async function buildJsCSVLayer(dotNetObject: any, layerId: string | null,
     return await buildJsCSVLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetCSVLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetCSVLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetCSVLayerGenerated} = await import('./cSVLayer.gb');
-    return await buildDotNetCSVLayerGenerated(jsObject, viewId);
+    return await buildDotNetCSVLayerGenerated(jsObject, layerId, viewId);
 }

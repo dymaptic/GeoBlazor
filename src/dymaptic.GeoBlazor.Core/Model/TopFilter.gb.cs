@@ -8,7 +8,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="GroupByFields">
-///     When one or more field names are provided in this property, the output result will be grouped based on unique values from those fields.
+///     When one or more field names are provided in this property, the output
+///     result will be grouped based on unique values from those fields.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="OrderByFields">
@@ -25,7 +26,15 @@ public partial record TopFilter(
     int? TopCount = null)
 {
     /// <summary>
-    ///     When one or more field names are provided in this property, the output result will be grouped based on unique values from those fields.
+    ///     Parameterless constructor
+    /// </summary>
+    public TopFilter(): this(null, null)
+    {
+    }
+    
+    /// <summary>
+    ///     When one or more field names are provided in this property, the output
+    ///     result will be grouped based on unique values from those fields.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? GroupByFields { get; set; } = GroupByFields;

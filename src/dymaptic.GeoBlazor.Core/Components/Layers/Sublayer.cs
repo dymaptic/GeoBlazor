@@ -144,43 +144,12 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
 
             if (matchingLayer is not null)
             {
-                matchingLayer.Parent = this;
-                matchingLayer.View = View;
-                matchingLayer.Layer = Layer;
                 await matchingLayer.UpdateFromJavaScript(childSublayer);
             }
             else
             {
                 Sublayers ??= [];
                 Sublayers = [..Sublayers, childSublayer];
-            }
-        }
-    }
-
-    /// <summary>
-    ///     For internal use only. Prepares deserialized sublayers for subsequent calls to the ArcGIS JavaScript SDK.
-    /// </summary>
-    /// <param name="coreJsModule">
-    ///     The core JavaScript module reference.
-    /// </param>
-    /// <param name="proJsModule">
-    ///     The Pro JavaScript module reference, if available.
-    /// </param>
-    /// <param name="mapView">
-    ///     The MapView instance that this sublayer is associated with.
-    /// </param>
-    internal void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
-        MapView mapView)
-    {
-        CoreJsModule = coreJsModule;
-        ProJsModule = proJsModule;
-        View = mapView;
-
-        if (Sublayers is not null)
-        {
-            foreach (Sublayer sublayer in Sublayers)
-            {
-                sublayer.UpdateGeoBlazorReferences(coreJsModule, proJsModule, mapView);
             }
         }
     }

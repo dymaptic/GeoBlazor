@@ -28,7 +28,7 @@ public partial class UniqueValueGroup : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#classes">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="heading">
-    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public UniqueValueGroup(
@@ -57,7 +57,7 @@ public partial class UniqueValueGroup : MapComponent
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html#uniquevaluegroupheading-property">GeoBlazor Docs</a>
-    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -163,10 +163,7 @@ public partial class UniqueValueGroup : MapComponent
         {
             foreach (UniqueValueClass item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         

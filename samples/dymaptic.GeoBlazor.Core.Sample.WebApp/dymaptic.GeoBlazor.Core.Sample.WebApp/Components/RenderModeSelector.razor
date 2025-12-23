@@ -33,12 +33,12 @@
     public required IConfiguration Configuration { get; set; }
 
     [Inject]
-    public required IJSRuntime JSRuntime { get; set; }
+    public required IJSRuntime JsRuntime { get; set; }
     
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode") switch
+        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode", "Auto") switch
         {
             "Server" => InteractiveServer,
             "WebAssembly" => InteractiveWebAssembly,
@@ -50,7 +50,7 @@
     private async Task SaveModeAndReload(ChangeEventArgs args)
     {
         Configuration["RenderMode"] = args.Value!.ToString();
-        await JSRuntime.InvokeVoidAsync("location.reload");
+        await JsRuntime.InvokeVoidAsync("location.reload");
     }
     
     private IComponentRenderMode? _configuredRenderMode;

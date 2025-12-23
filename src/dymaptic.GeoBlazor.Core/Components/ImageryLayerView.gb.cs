@@ -45,7 +45,9 @@ public partial class ImageryLayerView : LayerView
     {
         AllowRender = false;
 #pragma warning disable BL0005
+#pragma warning disable CS0618 // Type or member is obsolete
         HighlightOptions = highlightOptions;
+#pragma warning restore CS0618 // Type or member is obsolete
         PixelData = pixelData;
         Visible = visible;
 #pragma warning restore BL0005    
@@ -54,16 +56,6 @@ public partial class ImageryLayerView : LayerView
     
 #region Public Properties / Blazor Parameters
 
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ImageryLayerView.html#imagerylayerviewhighlightoptions-property">GeoBlazor Docs</a>
-    ///     Options for configuring the highlight.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-ImageryLayerView.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HighlightOptions? HighlightOptions { get; set; }
-    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ImageryLayerView.html#imagerylayerviewpixeldata-property">GeoBlazor Docs</a>
     ///     An object that provides the user access to
@@ -79,45 +71,6 @@ public partial class ImageryLayerView : LayerView
 
 #region Property Getters
 
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HighlightOptions property.
-    /// </summary>
-    public async Task<HighlightOptions?> GetHighlightOptions()
-    {
-        if (CoreJsModule is null)
-        {
-            return HighlightOptions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return HighlightOptions;
-        }
-
-        HighlightOptions? result = await JsComponentReference.InvokeAsync<HighlightOptions?>(
-            "getHighlightOptions", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            HighlightOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-        }
-        
-        return HighlightOptions;
-    }
-    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PixelData property.
     /// </summary>
@@ -162,51 +115,6 @@ public partial class ImageryLayerView : LayerView
 #region Property Setters
 
     /// <summary>
-    ///    Asynchronously set the value of the HighlightOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHighlightOptions(HighlightOptions? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        HighlightOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HighlightOptions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setHighlightOptions", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the PixelData property after render.
     /// </summary>
     /// <param name="value">
@@ -216,10 +124,7 @@ public partial class ImageryLayerView : LayerView
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -263,14 +168,6 @@ public partial class ImageryLayerView : LayerView
     {
         switch (child)
         {
-            case HighlightOptions highlightOptions:
-                if (highlightOptions != HighlightOptions)
-                {
-                    HighlightOptions = highlightOptions;
-                    ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-                }
-                
-                return true;
             case PixelData pixelData:
                 if (pixelData != PixelData)
                 {
@@ -289,10 +186,6 @@ public partial class ImageryLayerView : LayerView
     {
         switch (child)
         {
-            case HighlightOptions _:
-                HighlightOptions = null;
-                ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-                return true;
             case PixelData _:
                 PixelData = null;
                 ModifiedParameters[nameof(PixelData)] = PixelData;
@@ -306,7 +199,6 @@ public partial class ImageryLayerView : LayerView
     public override void ValidateRequiredGeneratedChildren()
     {
     
-        HighlightOptions?.ValidateRequiredGeneratedChildren();
         PixelData?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

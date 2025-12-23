@@ -40,161 +40,16 @@ public partial class GraphicsLayerView : LayerView,
     {
         AllowRender = false;
 #pragma warning disable BL0005
+#pragma warning disable CS0618 // Type or member is obsolete
         HighlightOptions = highlightOptions;
+#pragma warning restore CS0618 // Type or member is obsolete
         Visible = visible;
 #pragma warning restore BL0005    
     }
     
     
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GraphicsLayerView.html#graphicslayerviewhighlightoptions-property">GeoBlazor Docs</a>
-    ///     Options for configuring the highlight.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-GraphicsLayerView.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HighlightOptions? HighlightOptions { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HighlightOptions property.
-    /// </summary>
-    public async Task<HighlightOptions?> GetHighlightOptions()
-    {
-        if (CoreJsModule is null)
-        {
-            return HighlightOptions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return HighlightOptions;
-        }
-
-        HighlightOptions? result = await JsComponentReference.InvokeAsync<HighlightOptions?>(
-            "getHighlightOptions", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            HighlightOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-        }
-        
-        return HighlightOptions;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the HighlightOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHighlightOptions(HighlightOptions? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        HighlightOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HighlightOptions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setHighlightOptions", 
-            CancellationTokenSource.Token, value);
-    }
-    
-#endregion
-
 #region Public Methods
 
 #endregion
 
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case HighlightOptions highlightOptions:
-                if (highlightOptions != HighlightOptions)
-                {
-                    HighlightOptions = highlightOptions;
-                    ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case HighlightOptions _:
-                HighlightOptions = null;
-                ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        HighlightOptions?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

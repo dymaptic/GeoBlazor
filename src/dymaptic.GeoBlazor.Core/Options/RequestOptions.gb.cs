@@ -70,6 +70,13 @@ public partial record RequestOptions(
     bool? WithCredentials = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public RequestOptions(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     Indicates if and how requests to ArcGIS Services are authenticated.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

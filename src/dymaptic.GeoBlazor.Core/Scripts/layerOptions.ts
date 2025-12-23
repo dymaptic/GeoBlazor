@@ -1,7 +1,7 @@
 // override generated code in this file
 
 import LayerOptions from "@arcgis/core/popup/LayerOptions";
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 
 export function buildJsLayerOptions(dotNetObject: any): any {
     let properties:any = {};

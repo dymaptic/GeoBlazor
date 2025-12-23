@@ -1,7 +1,7 @@
 // override generated code in this file
 import ExpandWidgetGenerated from './expandWidget.gb';
 import Expand from '@arcgis/core/widgets/Expand';
-import {arcGisObjectRefs, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue} from './geoBlazorCore';
 import {buildJsWidget} from "./widget";
 
 export default class ExpandWidgetWrapper extends ExpandWidgetGenerated {
@@ -75,7 +75,7 @@ export async function buildJsExpandWidget(dotNetObject: any, layerId: string | n
     return jsExpand;
 }
 
-export async function buildDotNetExpandWidget(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetExpandWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
         let {buildDotNetExpandWidgetGenerated} = await import('./expandWidget.gb');
-        return await buildDotNetExpandWidgetGenerated(jsObject, viewId);
+        return await buildDotNetExpandWidgetGenerated(jsObject, layerId, viewId);
     }

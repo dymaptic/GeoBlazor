@@ -1,7 +1,7 @@
 // override generated code in this file
 import LayerListViewModelGenerated from './layerListViewModel.gb';
 import LayerListViewModel from '@arcgis/core/widgets/LayerList/LayerListViewModel';
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import {DotNetListItem} from "./definitions";
 
 export default class LayerListViewModelWrapper extends LayerListViewModelGenerated {
@@ -18,7 +18,7 @@ export async function buildJsLayerListViewModel(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.hasCustomHandler) && dotNetObject.hasCustomHandler) {
         let {buildDotNetListItem} = await import('./listItem');
         jsViewModel.listItemCreatedFunction = async (evt) => {
-            const dotNetListItem = await buildDotNetListItem(evt.item, viewId);
+            const dotNetListItem = await buildDotNetListItem(evt.item, layerId, viewId);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
                 let {updateListItem} = await import('./listItem');
@@ -30,7 +30,7 @@ export async function buildJsLayerListViewModel(dotNetObject: any, layerId: stri
     return jsViewModel;
 }
 
-export async function buildDotNetLayerListViewModel(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerListViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetLayerListViewModelGenerated} = await import('./layerListViewModel.gb');
-    return await buildDotNetLayerListViewModelGenerated(jsObject, viewId);
+    return await buildDotNetLayerListViewModelGenerated(jsObject, layerId, viewId);
 }

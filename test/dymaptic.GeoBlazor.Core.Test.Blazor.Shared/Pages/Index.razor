@@ -1,61 +1,120 @@
 ﻿@page "/"
-@using Environment = System.Environment
-
-@inject IConfiguration Configuration
-@inject IHostApplicationLifetime HostApplicationLifetime
-@inject IJSRuntime JsRuntime
 
 <h1>Unit Tests</h1>
-<button @onclick="() => RunTests(false, _cts.Token)">Run All Tests</button>
-@if (_results.Any(kvp => kvp.Value.Failed.Any()))
-{
-    <button @onclick="() => RunTests(true, _cts.Token)">Rerun Failed Tests</button>
-}
-@if (_running)
-{
-    <button style="background-color: hotpink;" @onclick="CancelRun">Stop</button>
-}
-<button @onclick="ToggleAll">@(_showAll ? "Collapse" : "Expand") All</button>
-<div class="result-section">
-    @if (_running)
-    {
-        <span style="color: orange; font-weight: bold">Running... @Remaining tests pending</span>
-    }
-    else if (_results.Any())
-    {
-        <span style="color: orange; font-weight: bold">Complete</span>
-        <span>, </span>
-        <span style="color: green;">Passed: @Passed</span>
-        <span>, </span>
-        <span style="color: red;">Failed: @Failed</span>
-    }
-    @foreach (KeyValuePair<string, TestResult> result in _results.OrderBy(kvp => kvp.Key))
-    {
-        <p style="cursor: pointer;" @onclick="@(() => ScrollAndOpenClass(result.Key))">
-            <a>
-                <b>@Extensions.CamelCaseToSpaces(result.Key) - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count}</span>, <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
-            </a>
-        </p>
-    }
-</div>
 
-@foreach (Type type in _testClassTypes)
+@if (_results is null)
 {
-    Dictionary<string, object> parameters = new()
+    <p>Loading tests...</p>
+}
+else
+{
+    <div class="row">
+        <label for="stop-on-fail">
+            Stop on first failure
+        </label>
+        <input type="checkbox" 
+               id="stop-on-fail" 
+               disabled="@(_running)"
+               @bind="_settings.StopOnFail"
+               @bind:after="SaveSettings" />
+    </div>
+    <div class="row">
+        <label for="stop-on-fail">
+            Retain test results on page reload
+        </label>
+        <input type="checkbox" 
+               id="stop-on-fail"
+               disabled="@(_running)"
+               @bind="_settings.RetainResultsOnReload"
+               @bind:after="SaveSettings" />
+    </div>
+    if (_running)
     {
-        { "OnTestResults", EventCallback.Factory.Create<TestResult>(this, OnTestResults) }
-    };
-    
-    <DynamicComponent Type="@type" @ref="_testClasses[type.Name]" Parameters="@parameters" />
+        <button style="background-color: hotpink;" @onclick="CancelRun">Stop</button>
+    }
+    else
+    {
+        <button @onclick="() => RunNewTests(false, _cts.Token)">Continue Test Run</button>
+        <button @onclick="() => RunTests(false, _cts.Token)">Run All Tests</button>
+        if (_results.Any(kvp => kvp.Value.Failed.Any()))
+        {
+            <button @onclick="() => RunTests(true, _cts.Token)">Rerun Failed Tests</button>
+        }
+    }
+    <button @onclick="ToggleAll">@(_showAll ? "Collapse" : "Expand") All</button>
+    <div class="result-section">
+        @if (_running)
+        {
+            <span style="color: orange; font-weight: bold">Running... @Remaining tests pending</span>
+        }
+        else if (_results.Any())
+        {
+            <span style="color: orange; font-weight: bold">Complete</span>
+            <span>, </span>
+            <span style="color: green;">Passed: @Passed</span>
+            <span>, </span>
+            <span style="color: red;">Failed: @Failed</span>
+        }
+        @foreach (KeyValuePair<string, TestResult> result in _results.OrderBy(kvp => kvp.Key))
+        {
+            <p style="cursor: pointer;" @onclick="@(() => ScrollAndOpenClass(result.Key))">
+                <a>
+                    <b>@Extensions.CamelCaseToSpaces(result.Key) - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count}</span>, <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
+                </a>
+            </p>
+        }
+    </div>
+
+    foreach (Type type in _testClassTypes)
+    {
+        bool isIsolated = type.GetCustomAttribute<IsolatedTestAttribute>() != null;
+        <TestWrapper TestClassType="type" Isolated="isIsolated" 
+                     OnTestResults="OnTestResults" 
+                     Results="_results[type.Name]"
+                     @key="type.Name"
+                     @ref="_testComponents[type.Name]" />
+    }
 }
 
 @code {
+    [Inject]
+    public required IConfiguration Configuration { get; set; }
+    
+    [Inject]
+    public required IHostApplicationLifetime HostApplicationLifetime { get; set; }
+    
+    [Inject]
+    public required IJSRuntime JsRuntime { get; set; }
+    
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
+    
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        _jsObjectReference ??= await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
         if (firstRender)
         {
+            NavigationManager.RegisterLocationChangingHandler(OnLocationChanging);
+            
+            await LoadSettings();
+            
+            StateHasChanged();
+
+            if (!_settings.RetainResultsOnReload)
+            {
+                return;
+            }
+            
             FindAllTests();
+            
+            Dictionary<string, TestResult>? cachedResults = 
+                await _jsObjectReference.InvokeAsync<Dictionary<string, TestResult>?>("getTestResults");
+
+            if (cachedResults is { Count: > 0 })
+            {
+                _results = cachedResults;
+            }
 
             if (Configuration["runOnStart"] == "true")
             {
@@ -67,13 +126,23 @@
                 }
                 HostApplicationLifetime.StopApplication();
             }
-        }
 
-        _jsObjectReference ??= await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
+            if (_results!.Count > 0)
+            {
+                string? firstUnpassedClass = _testClassNames
+                    .FirstOrDefault(t => !_results.ContainsKey(t) || _results[t].Passed.Count == 0);
+                if (firstUnpassedClass is not null && _testClassNames.IndexOf(firstUnpassedClass) > 0)
+                {
+                    await ScrollAndOpenClass(firstUnpassedClass);
+                }
+            }
+            StateHasChanged();
+        }
     }
 
     private void FindAllTests()
     {
+        _results = [];
         var assembly = Assembly.GetExecutingAssembly();
         Type[] types = assembly.GetTypes();
         try
@@ -91,27 +160,47 @@
             if (type.IsAssignableTo(typeof(TestRunnerBase)) && (type.Name != nameof(TestRunnerBase)))
             {
                 _testClassTypes.Add(type);
-                _testClasses[type.Name] = null;
+                _testComponents[type.Name] = null;
 
                 int testCount = type.GetMethods()
                     .Count(m => m.GetCustomAttribute(typeof(TestMethodAttribute), false) != null);
-                _results[type.Name] = new TestResult(type.Name, testCount, [], []);
+                _results![type.Name] = new TestResult(type.Name, testCount, [], [], false);
             }
         }
-        StateHasChanged();
+
+        // sort alphabetically
+        _testClassTypes.Sort((t1, t2) => string.Compare(t1.Name, t2.Name, StringComparison.Ordinal));
+        _testClassNames = _testClassTypes.Select(t => t.Name).ToList();
+    }
+    
+    private async Task RunNewTests(bool onlyFailedTests = false, CancellationToken token = default)
+    {
+        string? firstUntestedClass = _testClassNames
+            .FirstOrDefault(t => !_results!.ContainsKey(t) || _results[t].Passed.Count == 0);
+
+        if (firstUntestedClass is not null)
+        {
+            int index = _testClassNames.IndexOf(firstUntestedClass);
+            await RunTests(onlyFailedTests, token, index);
+        }
+        else
+        {
+            await RunTests(onlyFailedTests, token);
+        }
     }
 
-    private async Task<bool> RunTests(bool onlyFailedTests = false, CancellationToken token = default)
+    private async Task<bool> RunTests(bool onlyFailedTests = false, CancellationToken token = default,
+        int offset = 0)
     {
         _running = true;
-        foreach (var kvp in _testClasses)
+        foreach (var kvp in _testComponents.OrderBy(k => _testClassNames.IndexOf(k.Key)).Skip(offset))
         {
             if (token.IsCancellationRequested)
             {
                 break;
             }
             
-            if (_results.TryGetValue(kvp.Key, out TestResult? results))
+            if (_results!.TryGetValue(kvp.Key, out TestResult? results))
             {
                 if (onlyFailedTests && results.Failed.Count == 0)
                 {
@@ -120,7 +209,7 @@
             }
             if (kvp.Value != null)
             {
-                await (kvp.Value!.Instance as TestRunnerBase)!.RunTests(onlyFailedTests, true);
+                await kvp.Value!.RunTests(onlyFailedTests, cancellationToken: token);
             }
         }
         
@@ -129,7 +218,7 @@
         var resultBuilder = new StringBuilder($@"
 # GeoBlazor Unit Test Results
 {DateTime.Now}
-Passed: {_results.Values.Select(r => r.Passed.Count).Sum()}
+Passed: {_results!.Values.Select(r => r.Passed.Count).Sum()}
 Failed: {_results.Values.Select(r => r.Failed.Count).Sum()}");
         foreach (KeyValuePair<string, TestResult> result in _results)
         {
@@ -156,42 +245,86 @@ Failed: {result.Value.Failed.Count}");
 
     private async Task OnTestResults(TestResult result)
     {
-        _results[result.ClassName] = result;
+        _results![result.ClassName] = result;
+        await SaveResults();
         await InvokeAsync(StateHasChanged);
+        if (_settings.StopOnFail && result.Failed.Count > 0)
+        {
+            await CancelRun();
+            await ScrollAndOpenClass(result.ClassName);
+        }
     }
 
     private void ToggleAll()
     {
         _showAll = !_showAll;
-        foreach (DynamicComponent? component in _testClasses.Values)
+        foreach (TestWrapper? component in _testComponents.Values)
         {
-            var testClass = (TestRunnerBase)component!.Instance!;
-            testClass.Toggle(_showAll);
+            component?.Toggle(_showAll);
         }
     }
 
     private async Task ScrollAndOpenClass(string className)
     {
         await _jsObjectReference!.InvokeVoidAsync("scrollToTestClass", className);
-        var testClass = (TestRunnerBase)_testClasses[className]!.Instance!;
-        testClass.Toggle(true);
+        TestWrapper? testClass = _testComponents[className];
+        testClass?.Toggle(true);
     }
 
     private async Task CancelRun()
     {
-        await _cts.CancelAsync();
-        _cts = new CancellationTokenSource();
+        await _jsObjectReference!.InvokeVoidAsync("setWaitCursor", false);
+        await Task.Yield();
+
+        await InvokeAsync(async () =>
+        {
+            await _cts.CancelAsync();
+            _cts = new CancellationTokenSource();
+        });
+    }
+    
+    private async ValueTask OnLocationChanging(LocationChangingContext context)
+    {
+        await SaveResults();
     }
 
-    private int Remaining => _results.Sum(r => 
-        r.Value.TestCount - (r.Value.Passed.Count + r.Value.Failed.Count));
-    private int Passed => _results.Sum(r => r.Value.Passed.Count);
-    private int Failed => _results.Sum(r => r.Value.Failed.Count);
+    private async Task SaveResults()
+    {
+        await _jsObjectReference!.InvokeVoidAsync("saveTestResults", _results);
+    }
+
+    private async Task SaveSettings()
+    {
+        await _jsObjectReference!.InvokeVoidAsync("saveSettings", _settings);
+    }
+    
+    private async Task LoadSettings()
+    {
+        TestSettings? settings = await _jsObjectReference!.InvokeAsync<TestSettings?>("loadSettings");
+        if (settings is not null)
+        {
+            _settings = settings;
+        }
+    }
+
+    private int Remaining => _results?.Sum(r => 
+        r.Value.TestCount - (r.Value.Passed.Count + r.Value.Failed.Count)) ?? 0;
+    private int Passed => _results?.Sum(r => r.Value.Passed.Count) ?? 0;
+    private int Failed => _results?.Sum(r => r.Value.Failed.Count) ?? 0;
     private IJSObjectReference? _jsObjectReference;
+    private Dictionary<string, TestResult>? _results;
     private bool _running;
-    private readonly List<Type> _testClassTypes = new();
-    private readonly Dictionary<string, DynamicComponent?> _testClasses = new();
-    private readonly Dictionary<string, TestResult> _results = new();
+    private readonly List<Type> _testClassTypes = [];
+    private List<string> _testClassNames = [];
+    private readonly Dictionary<string, TestWrapper?> _testComponents = new();
     private bool _showAll;
     private CancellationTokenSource _cts = new();
+    private TestSettings _settings = new(true, true);
+    
+    public record TestSettings(bool StopOnFail, bool RetainResultsOnReload)
+    {
+        public bool StopOnFail { get; set; } = StopOnFail;
+        public bool RetainResultsOnReload { get; set; } = RetainResultsOnReload;
+    }
+
 }

@@ -69,7 +69,7 @@ public partial class WMSSublayer : MapComponent
     /// </param>
     /// <param name="title">
     ///     The title of the WMS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -134,7 +134,7 @@ public partial class WMSSublayer : MapComponent
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<Object>? Dimensions { get; protected set; }
+    public IReadOnlyList<IWMSLayerDimension>? Dimensions { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerfullextent-property">GeoBlazor Docs</a>
@@ -244,7 +244,7 @@ public partial class WMSSublayer : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayertitle-property">GeoBlazor Docs</a>
     ///     The title of the WMS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -308,7 +308,7 @@ public partial class WMSSublayer : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
-    public async Task<IReadOnlyList<Object>?> GetDimensions()
+    public async Task<IReadOnlyList<IWMSLayerDimension>?> GetDimensions()
     {
         if (CoreJsModule is null)
         {
@@ -331,7 +331,7 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<Object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Object>?>("getProperty",
+        IReadOnlyList<IWMSLayerDimension>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IWMSLayerDimension>?>("getProperty",
             CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
@@ -378,6 +378,7 @@ public partial class WMSSublayer : MapComponent
             {
                 result.Id = FullExtent.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             FullExtent = result;
@@ -829,10 +830,7 @@ public partial class WMSSublayer : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

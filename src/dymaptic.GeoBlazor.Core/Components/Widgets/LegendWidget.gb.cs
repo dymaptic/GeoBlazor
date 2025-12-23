@@ -56,7 +56,7 @@ public partial class LegendWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="layerInfos">
-    ///     Specifies a subset of the layers to display in the legend.
+    ///     Defines which layers and sublayers are shown in the legend, including any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#basemapLegendVisible">basemap layers</a> you want visible.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendStyle">
@@ -192,7 +192,7 @@ public partial class LegendWidget
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetlayerinfos-property">GeoBlazor Docs</a>
-    ///     Specifies a subset of the layers to display in the legend.
+    ///     Defines which layers and sublayers are shown in the legend, including any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#basemapLegendVisible">basemap layers</a> you want visible.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -667,10 +667,7 @@ public partial class LegendWidget
         {
             foreach (ActiveLayerInfo item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -826,10 +823,7 @@ public partial class LegendWidget
         {
             foreach (LegendLayerInfos item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -872,10 +866,7 @@ public partial class LegendWidget
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -1028,10 +1019,7 @@ public partial class LegendWidget
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

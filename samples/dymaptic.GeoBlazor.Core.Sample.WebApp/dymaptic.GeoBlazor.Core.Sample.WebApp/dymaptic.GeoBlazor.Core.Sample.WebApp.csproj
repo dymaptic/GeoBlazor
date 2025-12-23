@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <UserSecretsId>8fd6e776-4434-4649-b202-09b0c3b479f5</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj" />
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.WebApp.Client\dymaptic.GeoBlazor.Core.Sample.WebApp.Client.csproj" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.1" />
     </ItemGroup>
 
 </Project>

@@ -20,6 +20,13 @@ public partial record PortalItemResource(
     PortalItem? PortalItem = null): IInteractiveRecord
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public PortalItemResource(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     Path of the resource relative to `{ITEM}/resources/`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#path">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -51,6 +58,7 @@ public partial record PortalItemResource(
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
     
+
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
@@ -102,7 +110,8 @@ public partial record PortalItemResource(
             "fetch", 
             CancellationTokenSource.Token,
             responseType,
-            new { cacheBust = options.CacheBust, signal = abortSignal });
+            options,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -154,7 +163,8 @@ public partial record PortalItemResource(
             "update", 
             CancellationTokenSource.Token,
             content,
-            new { access = options.Access, signal = abortSignal });
+            options,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         

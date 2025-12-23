@@ -216,10 +216,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         {
             foreach (VisualVariable item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         

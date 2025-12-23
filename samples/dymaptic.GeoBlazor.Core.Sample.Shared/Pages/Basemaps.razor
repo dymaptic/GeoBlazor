@@ -1,20 +1,33 @@
 ﻿@page "/basemaps"
 
 <PageTitle>Basemaps</PageTitle>
-<h1>BaseMaps</h1>
+<h1>Basemaps</h1>
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-custom-basemap-style/">ArcGIS API for JavaScript Reference</a>
 </div>
-<p class="instructions">Use the radio toggle to explore the 3 different ways to load a Basemap.</p>
+<p class="instructions">
+    By default, GeoBlazor will give you an OpenStreetMap basemap. With your 
+    <a href="https://docs.geoblazor.com/pages/authentication.html#arcgis-authentication">ArcGIS API key or App Id</a>, 
+    you can access the ArcGIS Basemap Style Service as well as hundreds of ArcGIS Online Basemaps and TileLayers.
+</p>
 <div class="flex-column">
     <div class="toggle-row">
         <label class="radio-container">
-            From Style
+            Default Basemap
             <input type="radio" checked
                    name="basemap-type" @onclick="@(() => SetBasemap(0))" />
             <div class="radio-box" />
         </label>
-        @if (_basemapType == 0)
+        <a class="btn btn-secondary" target="_blank" href="https://wiki.openstreetmap.org/wiki/Main_Page">OpenStreetMap.org</a>
+    </div>
+    <div class="toggle-row">
+        <label class="radio-container">
+            2D Map Styles
+            <input type="radio" 
+                   name="basemap-type" @onclick="@(() => SetBasemap(1))" />
+            <div class="radio-box" />
+        </label>
+        @if (_basemapType == 1)
         {
             <select @onchange="SelectStyleMapChanged">
                 @foreach (BasemapStyleName style in Enum.GetValues(typeof(BasemapStyleName)))
@@ -27,12 +40,30 @@
     </div>
     <div class="toggle-row">
         <label class="radio-container">
+            3D Scene Styles
+            <input type="radio" 
+                   name="basemap-type" @onclick="@(() => SetBasemap(2))" />
+            <div class="radio-box" />
+        </label>
+        @if (_basemapType == 2)
+        {
+            <select @onchange="SelectSceneStyleMapChanged">
+                @foreach (BasemapStyleName style in Enum.GetValues(typeof(BasemapStyleName)))
+                {
+                    <option value="@style">@style</option>
+                }
+            </select>
+        }
+        <a class="btn btn-primary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html">Basemap Style Service</a>
+    </div>
+    <div class="toggle-row">
+        <label class="radio-container">
             From Portal Id
             <input type="radio"
-                   name="basemap-type" @onclick="@(() => SetBasemap(1))" />
+                   name="basemap-type" @onclick="@(() => SetBasemap(3))" />
             <div class="radio-box"></div>
         </label>
-        @if (_basemapType == 1)
+        @if (_basemapType == 3)
         {
             <select @onchange="SelectPortalMapChanged">
                 <option value="55ebf90799fa4a3fa57562700a68c405">Default-Street</option>
@@ -53,7 +84,7 @@
         <label class="radio-container">
             From Tile Layers
             <input type="radio"
-                   name="basemap-type" @onclick="@(() => SetBasemap(2))" />
+                   name="basemap-type" @onclick="@(() => SetBasemap(4))" />
             <div class="radio-box" />
         </label>
         <a class="btn btn-secondary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1b243539f4514b6ba35e7d995890db1d">World Hillshade Tile Layer</a>
@@ -61,9 +92,16 @@
         <a class="btn btn-accent" target="_blank" href="https://www.arcgis.com/home/item.html?id=6976148c11bd497d8624206f9ee03e30">Forest and Parks Canvas Tile Layer</a>
     </div>
 </div>
+
 @switch (_basemapType)
 {
     case 0:
+        <MapView Class="map-view" Zoom="14" Latitude="52.5" Longitude="13.5">
+            <Map></Map>
+        </MapView>
+
+        break;
+    case 1:
         <MapView @ref="_mapView1" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
@@ -72,8 +110,17 @@
             </Map>
         </MapView>
         break;
-    case 1:
-        <MapView @ref="_mapView2" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
+    case 2:
+        <SceneView @ref="_sceneView2" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
+            <Map>
+                <Basemap>
+                    <BasemapStyle Name="_basemapStyleName" />
+                </Basemap>
+            </Map>
+        </SceneView>
+        break;
+    case 3:
+        <MapView @ref="_mapView3" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
                     <PortalItem PortalItemId="@_basemapId" />
@@ -81,7 +128,7 @@
             </Map>
         </MapView>
         break;
-    case 2:
+    case 4:
         <MapView Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
@@ -102,6 +149,7 @@
     private void SetBasemap(int val)
     {
         _basemapType = val;
+
     }
     
     private async Task SelectStyleMapChanged(ChangeEventArgs obj)
@@ -109,15 +157,22 @@
         _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!, true);
         await _mapView1!.Refresh();
     }
+    
+    private async Task SelectSceneStyleMapChanged(ChangeEventArgs obj)
+    {
+        _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!, true);
+        await _sceneView2!.Refresh();
+    }
 
     private async Task SelectPortalMapChanged(ChangeEventArgs obj)
     {
         _basemapId = obj.Value?.ToString() ?? "55ebf90799fa4a3fa57562700a68c405";
-        await _mapView2!.Refresh();
+        await _mapView3!.Refresh();
     }
 
     private MapView? _mapView1;
-    private MapView? _mapView2;
+    private SceneView? _sceneView2;
+    private MapView? _mapView3;
     private int _basemapType;
     private readonly double _latitude = 34.027;
     private readonly double _longitude = -118.805;

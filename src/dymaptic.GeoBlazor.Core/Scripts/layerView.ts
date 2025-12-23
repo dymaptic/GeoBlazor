@@ -1,5 +1,5 @@
 import Layer from "@arcgis/core/layers/Layer";
-import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId, sanitize} from "./arcGisJsInterop";
+import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, lookupGeoBlazorId, sanitize} from './geoBlazorCore';
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 
@@ -24,7 +24,7 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
     }
 }
 
-export async function buildDotNetLayerView(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject?.layer)) {
         return null;
     }
@@ -34,39 +34,39 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
     switch (jsObject?.layer?.type) {
         case 'csv':
             let {buildDotNetCSVLayerView} = await import('./cSVLayerView');
-            dnLayerView = await buildDotNetCSVLayerView(jsObject, viewId);
+            dnLayerView = await buildDotNetCSVLayerView(jsObject, layerId, viewId);
             break;
         case 'feature':
             let {buildDotNetFeatureLayerView} = await import('./featureLayerView');
-            dnLayerView = await buildDotNetFeatureLayerView(jsObject, viewId);
+            dnLayerView = await buildDotNetFeatureLayerView(jsObject, layerId, viewId);
             break;
         case 'geojson':
             let {buildDotNetGeoJSONLayerView} = await import('./geoJSONLayerView');
-            dnLayerView = await buildDotNetGeoJSONLayerView(jsObject, viewId);
+            dnLayerView = await buildDotNetGeoJSONLayerView(jsObject, layerId, viewId);
             break;
         case 'geo-rss':
             let {buildDotNetGeoRSSLayerView} = await import('./geoRSSLayerView');
-            dnLayerView = await buildDotNetGeoRSSLayerView(jsObject, viewId);
+            dnLayerView = await buildDotNetGeoRSSLayerView(jsObject, layerId, viewId);
             break;
         case 'graphics':
             let {buildDotNetGraphicsLayerView} = await import('./graphicsLayerView');
-            dnLayerView = await buildDotNetGraphicsLayerView(jsObject, viewId);
+            dnLayerView = await buildDotNetGraphicsLayerView(jsObject, layerId, viewId);
             break;
         case 'imagery':
             let {buildDotNetImageryLayerView} = await import('./imageryLayerView');
-            dnLayerView = await buildDotNetImageryLayerView(jsObject, viewId);
+            dnLayerView = await buildDotNetImageryLayerView(jsObject, layerId, viewId);
             break;
         case 'imagery-tile':
             let {buildDotNetImageryTileLayerView} = await import('./imageryTileLayerView');
-            dnLayerView = await buildDotNetImageryTileLayerView(jsObject, viewId);
+            dnLayerView = await buildDotNetImageryTileLayerView(jsObject, layerId, viewId);
             break;
         case 'kml':
             let {buildDotNetKMLLayerView} = await import('./kMLLayerView');
-            dnLayerView = await buildDotNetKMLLayerView(jsObject, viewId);
+            dnLayerView = await buildDotNetKMLLayerView(jsObject, layerId, viewId);
             break;
         case 'wfs':
             let {buildDotNetWFSLayerView} = await import('./wFSLayerView');
-            dnLayerView = await buildDotNetWFSLayerView(jsObject, viewId);
+            dnLayerView = await buildDotNetWFSLayerView(jsObject, layerId, viewId);
             break;
         // case 'building-scene':
         //     try {
@@ -81,7 +81,7 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
             try {
                 // @ts-ignore GeoBlazor Pro Only
                 let {buildDotNetOGCFeatureLayerView} = await import('./oGCFeatureLayerView');
-                dnLayerView = await buildDotNetOGCFeatureLayerView(jsObject, viewId);
+                dnLayerView = await buildDotNetOGCFeatureLayerView(jsObject, layerId, viewId);
             } catch (e) {
                 throw e;
             }
@@ -90,7 +90,7 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
             try {
                 // @ts-ignore GeoBlazor Pro Only
                 let {buildDotNetCatalogLayerView} = await import('./catalogLayerView');
-                dnLayerView = await buildDotNetCatalogLayerView(jsObject, viewId);
+                dnLayerView = await buildDotNetCatalogLayerView(jsObject, layerId, viewId);
             } catch (e) {
                 throw e;
             }
@@ -99,7 +99,7 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
             try {
                 // @ts-ignore GeoBlazor Pro Only
                 let {buildDotNetCatalogFootprintLayerView} = await import('./catalogFootprintLayerView');
-                dnLayerView = await buildDotNetCatalogFootprintLayerView(jsObject, viewId);
+                dnLayerView = await buildDotNetCatalogFootprintLayerView(jsObject, layerId, viewId);
             } catch (e) {
                 throw e;
             }
@@ -108,7 +108,7 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
             try {
                 // @ts-ignore GeoBlazor Pro Only
                 let {buildDotNetCatalogDynamicGroupLayerView} = await import('./catalogDynamicGroupLayerView');
-                dnLayerView = await buildDotNetCatalogDynamicGroupLayerView(jsObject, viewId);
+                dnLayerView = await buildDotNetCatalogDynamicGroupLayerView(jsObject, layerId, viewId);
             } catch (e) {
                 throw e;
             }
@@ -117,7 +117,7 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
         //     try {
         //         // @ts-ignore GeoBlazor Pro Only
         //         let {buildDotNetPointCloudLayerView} = await import('./pointCloudLayerView');
-        //         dnLayerView = await buildDotNetPointCloudLayerView(jsObject, viewId);
+        //         dnLayerView = await buildDotNetPointCloudLayerView(jsObject, layerId, viewId);
         //     } catch (e) {
         //         throw e;
         //     }
@@ -126,7 +126,7 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
         //     try {
         //         // @ts-ignore GeoBlazor Pro Only
         //         let {buildDotNetSceneLayerView} = await import('./sceneLayerView');
-        //         dnLayerView = await buildDotNetSceneLayerView(jsObject, viewId);
+        //         dnLayerView = await buildDotNetSceneLayerView(jsObject, layerId, viewId);
         //     } catch (e) {
         //         throw e;
         //     }
@@ -135,7 +135,7 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
         //     try {
         //         // @ts-ignore GeoBlazor Pro Only
         //         let {buildDotNetStreamLayerView} = await import('./streamLayerView');
-        //         dnLayerView = await buildDotNetStreamLayerView(jsObject, viewId);
+        //         dnLayerView = await buildDotNetStreamLayerView(jsObject, layerId, viewId);
         //     } catch (e) {
         //         throw e;
         //     }
@@ -144,7 +144,7 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
         //     try {
         //         // @ts-ignore GeoBlazor Pro Only
         //         let {buildDotNetMediaLayerView} = await import('./mediaLayerView');
-        //         dnLayerView = await buildDotNetMediaLayerView(jsObject, viewId);
+        //         dnLayerView = await buildDotNetMediaLayerView(jsObject, layerId, viewId);
         //     } catch (e) {
         //         throw e;
         //     }
@@ -152,7 +152,7 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
         case 'vector-tile':
             try {
                 let {buildDotNetVectorTileLayerView} = await import('./vectorTileLayerView');
-                dnLayerView = await buildDotNetVectorTileLayerView(jsObject, viewId);
+                dnLayerView = await buildDotNetVectorTileLayerView(jsObject, layerId, viewId);
             } catch (e) {
                 throw e;
             }
@@ -175,7 +175,6 @@ export async function buildDotNetLayerView(jsObject: any, viewId: string | null)
                 dnLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
             }
 
-            let layerId = lookupGeoBlazorId(jsObject.layer);
             if (!hasValue(layerId) && hasValue(viewId)) {
                 let dotNetRef = dotNetRefs[viewId!];
                 layerId = await dotNetRef.invokeMethodAsync('GetId');

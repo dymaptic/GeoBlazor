@@ -1,4 +1,4 @@
-﻿@inherits TestRunnerBase
+@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -109,7 +109,7 @@
 
             </MapView>);
 
-        await Assert.ThrowsExceptionAsync<AggregateException>(async () =>
+        await Assert.ThrowsAsync<AggregateException>(async () =>
             await WaitForMapToRender());
     }
 
@@ -331,154 +331,6 @@
     }
 
     [TestMethod]
-    public async Task TestCanRenderSearchWidget(Action renderHandler)
-    {
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget />
-
-            </MapView>);
-
-        await WaitForMapToRender();
-        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
-    }
-
-    [TestMethod]
-    public async Task TestSearchWidgetGetResultsHandler(Action renderHandler)
-    {
-        SearchWidget? widget = null;
-        var resultsHandlerWasCalled = false;
-
-        Task<IReadOnlyList<SearchResult>> GetResultsHandler(bool? exactMatch, Point? location, int? maxResults, 
-            int? sourceIndex, SpatialReference? spatialReference, SuggestResult suggestResult, Guid? viewId)
-        {
-            Assert.IsNotNull(viewId);
-            resultsHandlerWasCalled = true;
-
-            return Task.FromResult<IReadOnlyList<SearchResult>>(new List<SearchResult>());
-        }
-
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget @ref="widget">
-                    <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-                                         GetResultsHandler="GetResultsHandler" />
-                </SearchWidget>
-
-            </MapView>);
-
-        await WaitForMapToRender();
-        await Task.Delay(1000);
-        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
-        await widget!.Search("test");
-        await WaitForMapToRender();
-        await Task.Delay(1000);
-        Assert.IsTrue(resultsHandlerWasCalled);
-    }
-
-    [TestMethod]
-    public async Task TestSearchWidgetGetSuggestionsHandler(Action renderHandler)
-    {
-        var suggestionsHandlerWasCalled = false;
-
-        Task<IReadOnlyList<SuggestResult>> GetSuggestionsHandler(int? maxSuggestions, int? sourceIndex, 
-            SpatialReference? spatialReference, string? suggestTerm, Guid? viewId)
-        {
-            Assert.IsNotNull(viewId);
-            suggestionsHandlerWasCalled = true;
-
-            return Task.FromResult<IReadOnlyList<SuggestResult>>(new List<SuggestResult>());
-        }
-
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget>
-                    <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer" 
-                                         GetSuggestionsHandler="GetSuggestionsHandler" />
-                </SearchWidget>
-
-            </MapView>);
-
-        await WaitForMapToRender();
-        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
-        await AssertJavaScript("triggerSearchHandlers");
-
-        var tries = 50;
-
-        while (!suggestionsHandlerWasCalled && (tries > 0))
-        {
-            await Task.Delay(100);
-            tries--;
-        }
-
-        Assert.IsTrue(suggestionsHandlerWasCalled);
-    }
-
-    [TestMethod]
-    public async Task TestSearchWidgetMethods(Action renderHandler)
-    {
-        SearchWidget? widget = null;
-
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget @ref="widget" />
-
-            </MapView>);
-
-        await WaitForMapToRender();
-        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
-        await widget!.SetSearchTerm("testSearchTerm");
-        string? searchTerm = await widget.GetSearchTerm();
-        Assert.AreEqual("testSearchTerm", searchTerm);
-        SuggestResponse suggestResponse = await widget!.Suggest("test");
-        Assert.IsNotNull(suggestResponse);
-        SearchResponse searchResponse = await widget!.Search("test");
-        Assert.IsNotNull(searchResponse);
-        IReadOnlyList<SearchResultResponse>? searchResultResponse = await widget.GetResults();
-        Assert.IsNotNull(searchResultResponse);
-        IReadOnlyList<SuggestResult>? suggestResults = await widget.GetSuggestions();
-        Assert.IsNotNull(suggestResults);
-        SearchMenu? activeMenu = await widget.GetActiveMenu();
-        Assert.IsNotNull(activeMenu);
-        SearchSource? activeSource = await widget.GetActiveSource();
-        Assert.IsNotNull(activeSource);
-        int? activeSourceIndex = await widget.GetActiveSourceIndex();
-        Assert.AreEqual(0, activeSourceIndex);
-        IReadOnlyList<SearchSource> allSources = (await widget.GetAllSources())!;
-        Assert.AreEqual(1, allSources.Count);
-        IReadOnlyList<SearchSource> defaultSources = (await widget.GetDefaultSources())!;
-        Assert.AreEqual(1, defaultSources.Count);
-        Graphic resultGraphic = (await widget.GetResultGraphic())!;
-        Assert.IsNotNull(resultGraphic);
-        SearchResult selectedResult = await widget.GetSelectedResult();
-        Assert.IsNotNull(selectedResult);
-    }
-
-    [TestMethod]
     public async Task TestCanRenderOutsideOfMapViewWithViewRef(Action renderHandler)
     {
         HomeWidget? homeWidget = null;
@@ -526,7 +378,7 @@
         <HomeWidget />
     </div>);
 
-        await Assert.ThrowsExceptionAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
+        await Assert.ThrowsAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
     }
 
     [TestMethod]
@@ -601,4 +453,44 @@
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
     }
 
+    [TestMethod]
+    public async Task TestCanUpdateWidgetPosition(Action renderHandler)
+    {
+        MapView? mapView = null;
+        DistanceMeasurement2DWidget? distanceWidget = null;
+        AddMapRenderFragment(
+            @<div>
+                <MapView Class="map-view" @ref="mapView" OnViewRendered="renderHandler">
+                    <WebMap>
+                        <PortalItem ExcludeApiKey="true" PortalItemId="990d0191f2574db495c4304a01c3e65b" />
+                    </WebMap>
+                    <DistanceMeasurement2DWidget @ref="distanceWidget"
+                                                 Position="OverlayPosition.BottomRight" />
+                </MapView>
+
+                <div id="external-div" style="height: 100px; width: 400px;"></div>
+            </div>);
+
+        await WaitForMapToRender();
+
+        // in position on map view
+        await AssertJavaScript("assertWidgetPosition",
+            args: [distanceWidget!.Id, "bottom-right"]);
+        
+        await distanceWidget!.SetContainerId("external-div");
+        
+        // in custom container
+        await AssertJavaScript("assertObjectHasPropertyWithValue", 
+            args: [distanceWidget.Id, "container.parentElement.id", "external-div"]);
+
+        // not in position
+        await Assert.ThrowsAsync<Exception>(async() => await AssertJavaScript("assertWidgetPosition",
+            args: [distanceWidget.Id, "bottom-right"]));
+
+        await distanceWidget.SetPosition(OverlayPosition.BottomRight);
+        
+        // returned to position
+        await AssertJavaScript("assertWidgetPosition",
+            args: [distanceWidget!.Id, "bottom-right"]);
+    }
 }

@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IAttributeTableTemplateElements.html">GeoBlazor Docs</a>
-///     An array of attribute table element
+///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-tables-elements-AttributeTableElement.html">attribute table element</a>
 ///     objects that represent an ordered list of table elements.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-tables-AttributeTableTemplate.html#elements">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>

@@ -1,7 +1,7 @@
 // override generated code in this file
 import BasemapLayerListViewModelGenerated from './basemapLayerListViewModel.gb';
 import BasemapLayerListViewModel from '@arcgis/core/widgets/BasemapLayerList/BasemapLayerListViewModel';
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue} from './geoBlazorCore';
 import {DotNetListItem} from "./definitions";
 
 export default class BasemapLayerListViewModelWrapper extends BasemapLayerListViewModelGenerated {
@@ -18,7 +18,7 @@ export async function buildJsBasemapLayerListViewModel(dotNetObject: any, layerI
     if (hasValue(dotNetObject.hasCustomBaseListHandler) && dotNetObject.hasCustomBaseListHandler) {
         let {buildDotNetListItem} = await import('./listItem');
         jsViewModel.baseListItemCreatedFunction = async (evt) => {
-            const dotNetBaseListItem = await buildDotNetListItem(evt.item, viewId);
+            const dotNetBaseListItem = await buildDotNetListItem(evt.item, layerId, viewId);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
                 let {updateListItem} = await import('./listItem');
@@ -29,7 +29,7 @@ export async function buildJsBasemapLayerListViewModel(dotNetObject: any, layerI
     if (hasValue(dotNetObject.hasCustomReferenceListHandler) && dotNetObject.hasCustomReferenceListHandler) {
         let {buildDotNetListItem} = await import('./listItem');
         jsViewModel.referenceListItemCreatedFunction = async (evt) => {
-            const dotNetReferenceListItem = await buildDotNetListItem(evt.item, viewId);
+            const dotNetReferenceListItem = await buildDotNetListItem(evt.item, layerId, viewId);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
                 let {updateListItem} = await import('./listItem');
@@ -41,7 +41,7 @@ export async function buildJsBasemapLayerListViewModel(dotNetObject: any, layerI
     return jsViewModel;
 }
 
-export async function buildDotNetBasemapLayerListViewModel(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapLayerListViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetBasemapLayerListViewModelGenerated} = await import('./basemapLayerListViewModel.gb');
-    return await buildDotNetBasemapLayerListViewModelGenerated(jsObject, viewId);
+    return await buildDotNetBasemapLayerListViewModelGenerated(jsObject, layerId, viewId);
 }

@@ -19,6 +19,13 @@ public partial record WebSceneSaveAsOptions(
     bool? IgnoreUnsupported = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public WebSceneSaveAsOptions(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     the folder in which to save the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

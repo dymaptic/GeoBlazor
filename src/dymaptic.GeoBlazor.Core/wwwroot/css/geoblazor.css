@@ -1,0 +1,43 @@
+.geoblazor-message-overlay {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-wrapper .geoblazor-message-overlay {
+    height: unset;
+    width: unset;
+    bottom: 0;
+    right: 0;
+}
+
+.geoblazor-validation-message {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1rem;
+    color: var(--error);
+    margin: 15px;
+    z-index: 1000;
+    max-width: calc(100% - 30px);
+
+    a {
+        color: var(--error);
+        text-decoration: underline;
+        max-width: 90%;
+        font-size: x-large;
+        font-weight: bold;
+    }
+
+    p {
+        color: var(--error);
+        font-size: large;
+        font-weight: bold;
+    }
+}

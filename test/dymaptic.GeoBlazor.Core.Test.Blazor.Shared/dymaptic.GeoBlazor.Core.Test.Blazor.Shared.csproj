@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <UserSecretsId>13440119-7b63-4d76-a4dc-15f1df7f04ef</UserSecretsId>
     </PropertyGroup>
     
@@ -10,10 +10,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.6" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.6" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.9.3" />
+        <PackageReference Include="BlazorFrame" Version="2.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.1" />
+        <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
     </ItemGroup>
     
     <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'DEBUG' OR $(UseProjectReference) == 'true'">

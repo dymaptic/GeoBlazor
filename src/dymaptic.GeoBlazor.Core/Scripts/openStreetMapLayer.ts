@@ -7,7 +7,7 @@
 
 import OpenStreetMapLayerGenerated from './openStreetMapLayer.gb';
 import OpenStreetMapLayer from '@arcgis/core/layers/OpenStreetMapLayer';
-import { copyValuesIfExists, hasValue } from "./arcGisJsInterop";
+import {buildEncodedJson, copyValuesIfExists, hasValue} from "./geoBlazorCore";
 
 
 export default class OpenStreetMapLayerWrapper extends OpenStreetMapLayerGenerated {
@@ -16,6 +16,11 @@ export default class OpenStreetMapLayerWrapper extends OpenStreetMapLayerGenerat
         super(layer);
     }
 
+    async load(options: any): Promise<any> {
+        let result = await this.layer.load(options);
+        let dotNetLayer = await buildDotNetOpenStreetMapLayer(result, this.viewId);
+        return buildEncodedJson(dotNetLayer);
+    }
 }
 
 
@@ -33,9 +38,9 @@ export async function buildJsOpenStreetMapLayer(dotNetObject: any, layerId: stri
     return osmLayer;
 }
 
-export async function buildDotNetOpenStreetMapLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetOpenStreetMapLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetOpenStreetMapLayerGenerated } = await import('./openStreetMapLayer.gb');
-    return await buildDotNetOpenStreetMapLayerGenerated(jsObject, viewId);
+    return await buildDotNetOpenStreetMapLayerGenerated(jsObject, layerId, viewId);
 }
 
 async function prepareUrlTemplate(dotNetObject: any): Promise<boolean> {

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using System;
-using System.Threading.Tasks;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
@@ -9,7 +7,8 @@ namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 public class ErrorHandler : ErrorBoundary
 {
     [Parameter]
-    public string MethodName { get; set; } = default!;
+    [EditorRequired]
+    public required string MethodName { get; set; }
 
     [Parameter]
     public EventCallback<ErrorEventArgs> OnError { get; set; }
