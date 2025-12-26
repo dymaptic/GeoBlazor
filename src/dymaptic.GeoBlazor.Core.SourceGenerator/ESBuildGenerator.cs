@@ -2,6 +2,7 @@ using dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 
@@ -11,6 +12,7 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 ///     Triggers the ESBuild build process for the GeoBlazor project, so that your JavaScript code is up to date.
 /// </summary>
 [Generator]
+[SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
 public class ESBuildGenerator : IIncrementalGenerator
 {
     public static bool InProcess { get; private set; }
@@ -29,18 +31,18 @@ public class ESBuildGenerator : IIncrementalGenerator
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
                 configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
-                    out var projectDirectory);
+                    out string? projectDirectory);
 
                 configProvider.GlobalOptions.TryGetValue("build_property.Configuration",
-                    out var configuration);
+                    out string? configuration);
 
                 configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
-                    out var pipelineBuild);
+                    out string? pipelineBuild);
 
                 return (projectDirectory, configuration, pipelineBuild);
             });
 
-        var combined =
+        IncrementalValueProvider<((ImmutableArray<AdditionalText> Left, (string?, string?, string?) Right) Left, Compilation Right)> combined =
             tsFilesProvider
                 .Combine(optionsProvider)
                 .Combine(context.CompilationProvider);
@@ -85,7 +87,7 @@ public class ESBuildGenerator : IIncrementalGenerator
         (string? ProjectDirectory, string? Configuration, string? _) options,
         SourceProductionContext context)
     {
-        var projectDirectory = options.ProjectDirectory;
+        string? projectDirectory = options.ProjectDirectory;
 
         if (projectDirectory is not null)
         {
@@ -99,7 +101,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             if (_corePath.Contains("GeoBlazor.Pro"))
             {
                 // we are inside the Pro submodule, we should also set the Pro path to build the Pro JavaScript files
-                var path = _corePath;
+                string path = _corePath;
 
                 while (!path.EndsWith("GeoBlazor.Pro"))
                 {
@@ -138,46 +140,21 @@ public class ESBuildGenerator : IIncrementalGenerator
 
     private void LaunchESBuild(SourceProductionContext context)
     {
-        Stopwatch? sw = null;
-
-        while (InProcess && (sw is null || sw.ElapsedMilliseconds < 5_000))
-        {
-            if (sw is null)
-            {
-                sw = new Stopwatch();
-                sw.Start();
-            }
-            
-            Thread.Sleep(100);
-        }
-
-        if (InProcess)
-        {
-            ProcessHelper.Log(nameof(ESBuildGenerator),
-                "Another instance of the ESBuild process has been running continuously for 5 seconds.",
-                DiagnosticSeverity.Error,
-                context);
-
-            return;
-        }
-        
-        InProcess = true;
-        ClearESBuildLocks(context);
         context.CancellationToken.ThrowIfCancellationRequested();
-
+        ShowMessageBox("Starting GeoBlazor Core ESBuild process...");
         ProcessHelper.Log(nameof(ESBuildGenerator),
             "Starting Core ESBuild process...",
             DiagnosticSeverity.Info,
             context);
 
-        var logBuilder = new StringBuilder(DateTime.Now.ToLongTimeString());
+        StringBuilder logBuilder = new StringBuilder(DateTime.Now.ToLongTimeString());
         logBuilder.AppendLine("Starting Core ESBuild process...");
 
         try
         {
             List<Task> tasks = [];
-            var buildSuccess = false;
-            var proBuildSuccess = false;
+            bool buildSuccess = false;
+            bool proBuildSuccess = false;
 
             // gets the esBuild.ps1 script from the Core path
             tasks.Add(Task.Run(async () =>
@@ -190,6 +167,7 @@ public class ESBuildGenerator : IIncrementalGenerator
 
             if (_proPath is not null)
             {
+                ShowMessageBox("Starting GeoBlazor Pro ESBuild process...");
                 logBuilder.AppendLine("Starting Pro ESBuild process...");
 
                 tasks.Add(Task.Run(async () =>
@@ -249,6 +227,7 @@ public class ESBuildGenerator : IIncrementalGenerator
         finally
         {
             InProcess = false;
+            CloseMessageBox();
         }
     }
 
@@ -265,8 +244,36 @@ public class ESBuildGenerator : IIncrementalGenerator
             DiagnosticSeverity.Info,
             context);
     }
+    
+    private void ShowMessageBox(string message)
+    {
+        string path = Path.Combine(_corePath!, "..", "..");
+
+        ProcessStartInfo processStartInfo = new()
+        {
+            WorkingDirectory = path,
+            FileName = "pwsh",
+            Arguments =
+                $"-NoProfile -ExecutionPolicy ByPass -File showDialog.ps1 -Message \"{message}\" -Title \"GeoBlazor ESBuild\" -Buttons None",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        
+        _popupProcesses.Add(Process.Start(processStartInfo));
+    }
+    
+    private void CloseMessageBox()
+    {
+        foreach (Process process in _popupProcesses)
+        {
+            process.Kill();
+        }
+    }
 
     private static string? _corePath;
     private static string? _proPath;
     private static string? _configuration;
+    private readonly List<Process> _popupProcesses = [];
 }
