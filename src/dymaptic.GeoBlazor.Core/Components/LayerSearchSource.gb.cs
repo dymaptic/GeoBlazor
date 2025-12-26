@@ -72,7 +72,6 @@ public partial class LayerSearchSource
     /// <param name="minSuggestCharacters">
     ///     Indicates the minimum number of characters
     ///     required before querying for a suggestion.
-    ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#minSuggestCharacters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="name">
@@ -370,6 +369,7 @@ public partial class LayerSearchSource
             {
                 result.Id = Layer.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Layer = result;
@@ -663,10 +663,7 @@ public partial class LayerSearchSource
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

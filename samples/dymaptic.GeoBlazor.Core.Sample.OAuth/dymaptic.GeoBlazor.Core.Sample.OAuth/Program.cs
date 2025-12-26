@@ -1,4 +1,3 @@
-using dymaptic.GeoBlazor.Core.Sample.OAuth.Client.Pages;
 using dymaptic.GeoBlazor.Core.Sample.OAuth.Components;
 using dymaptic.GeoBlazor.Core;
 
@@ -25,16 +24,13 @@ else
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 
-#if ENABLE_COMPRESSION
-app.MapStaticAssets();
-#else
 app.UseStaticFiles();
-#endif
+app.MapStaticAssets();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()

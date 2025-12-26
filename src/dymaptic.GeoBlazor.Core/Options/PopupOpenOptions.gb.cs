@@ -69,6 +69,13 @@ public partial record PopupOpenOptions(
     Widget? WidgetContent = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public PopupOpenOptions(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     Since: 4.5    When `true`, indicates that only the popup header will display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

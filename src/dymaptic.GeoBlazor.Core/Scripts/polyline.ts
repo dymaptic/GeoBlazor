@@ -1,3 +1,4 @@
+import PolylineGenerated from './polyline.gb';
 import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -55,3 +56,12 @@ function buildJsPathsOrRings(pathsOrRings: any) {
     }
     return pathsOrRings;
 }
+
+export default class PolylineWrapper extends PolylineGenerated {
+
+    constructor(component: Polyline) {
+        super(component);
+    }
+    
+}
+

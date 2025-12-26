@@ -8,9 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     The web scene is the core element of 3D mapping across ArcGIS.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class WebScene : ITimeSliderViewModelDocument,
-    ITimeSliderWidgetDocument,
-    ITimeUtilsDocument
+public partial class WebScene : IMapComponent
 {
 
     /// <summary>
@@ -84,7 +82,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
         HeightModelInfo? heightModelInfo = null,
         WebsceneInitialViewProperties? initialViewProperties = null,
         PortalItem? portalItem = null,
-        Presentation? presentation = null,
+        IPresentation? presentation = null,
         string? thumbnailUrl = null,
         WebSceneWidgets? widgets = null)
     {
@@ -219,7 +217,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Presentation? Presentation { get; set; }
+    public IPresentation? Presentation { get; set; }
     
     /// <summary>
     ///     The version of the source document from which the WebScene was read.
@@ -689,7 +687,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Presentation property.
     /// </summary>
-    public async Task<Presentation?> GetPresentation()
+    public async Task<IPresentation?> GetPresentation()
     {
         if (CoreJsModule is null)
         {
@@ -711,7 +709,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
             return Presentation;
         }
 
-        Presentation? result = await JsComponentReference.InvokeAsync<Presentation?>(
+        IPresentation? result = await JsComponentReference.InvokeAsync<IPresentation?>(
             "getPresentation", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -854,14 +852,6 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     /// </param>
     public async Task SetApplicationProperties(WebsceneApplicationProperties? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         ApplicationProperties = value;
 #pragma warning restore BL0005
@@ -1129,14 +1119,6 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     /// </param>
     public async Task SetInitialViewProperties(WebsceneInitialViewProperties? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         InitialViewProperties = value;
 #pragma warning restore BL0005
@@ -1172,7 +1154,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPresentation(Presentation? value)
+    public async Task SetPresentation(IPresentation? value)
     {
 #pragma warning disable BL0005
         Presentation = value;
@@ -1479,27 +1461,11 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     {
         switch (child)
         {
-            case WebsceneApplicationProperties applicationProperties:
-                if (applicationProperties != ApplicationProperties)
-                {
-                    ApplicationProperties = applicationProperties;
-                    ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
-                }
-                
-                return true;
             case Extent clippingArea:
                 if (clippingArea != ClippingArea)
                 {
                     ClippingArea = clippingArea;
                     ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
-                }
-                
-                return true;
-            case WebsceneInitialViewProperties initialViewProperties:
-                if (initialViewProperties != InitialViewProperties)
-                {
-                    InitialViewProperties = initialViewProperties;
-                    ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
                 }
                 
                 return true;
@@ -1521,17 +1487,9 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     {
         switch (child)
         {
-            case WebsceneApplicationProperties _:
-                ApplicationProperties = null;
-                ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
-                return true;
             case Extent _:
                 ClippingArea = null;
                 ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
-                return true;
-            case WebsceneInitialViewProperties _:
-                InitialViewProperties = null;
-                ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
                 return true;
             case WebSceneWidgets _:
                 Widgets = null;
@@ -1550,9 +1508,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
         {
             throw new MissingRequiredChildElementException(nameof(WebScene), nameof(PortalItem));
         }
-        ApplicationProperties?.ValidateRequiredGeneratedChildren();
         ClippingArea?.ValidateRequiredGeneratedChildren();
-        InitialViewProperties?.ValidateRequiredGeneratedChildren();
         Widgets?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

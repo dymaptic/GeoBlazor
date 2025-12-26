@@ -4,6 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     The BarcodeScannerInput class defines the desired user interface for a barcode or QR code scanner. This input type will default to the TextBoxInput type as the API does not currently support bar code scanning.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-BarcodeScannerInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public class BarcodeScannerInput : FormInput
 {
     /// <inheritdoc/>

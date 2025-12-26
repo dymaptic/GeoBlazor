@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
     </PropertyGroup>
 
 
@@ -10,11 +10,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Markdig" Version="0.41.3" />
+        <PackageReference Include="Markdig" Version="0.44.0" />
         <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.6" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.6" />
-        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="9.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="10.0.1" />
     </ItemGroup>
 
     <Choose>
@@ -29,6 +29,7 @@
             </ItemGroup>
         </Otherwise>
     </Choose>
+
 
     <ItemGroup>
         <Content Update="wwwroot\images\dymaptic_logo.webp">

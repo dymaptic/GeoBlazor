@@ -39,6 +39,7 @@ public partial class WebSceneWidgets : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebSceneWidgets.html#webscenewidgetstimeslider-property">GeoBlazor Docs</a>
     ///     Time animation is controlled by a configurable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#Widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -127,8 +128,8 @@ public partial class WebSceneWidgets : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeSlider", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeSlider", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

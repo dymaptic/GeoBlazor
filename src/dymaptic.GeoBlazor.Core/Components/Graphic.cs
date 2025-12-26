@@ -370,10 +370,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         }
         
         PopupTemplate = popupTemplate;
-        PopupTemplate.CoreJsModule = CoreJsModule;
-        PopupTemplate.Layer = Layer;
-        PopupTemplate.View = View;
-        PopupTemplate.Parent = this;
+        PopupTemplate.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
         if (CoreJsModule is not null)
         {

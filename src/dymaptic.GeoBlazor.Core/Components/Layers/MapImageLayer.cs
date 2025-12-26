@@ -177,7 +177,7 @@ public partial class MapImageLayer : Layer, ISublayersLayer
 
                 if (matchingLayer is not null)
                 {
-                    matchingLayer.Parent = this;
+                    matchingLayer.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, this);
                     matchingLayer.View = View;
                     matchingLayer.Layer = this;
                     await matchingLayer.UpdateFromJavaScript(renderedSubLayer);

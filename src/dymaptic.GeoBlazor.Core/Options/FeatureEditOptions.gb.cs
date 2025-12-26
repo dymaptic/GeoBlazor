@@ -34,6 +34,13 @@ public partial record FeatureEditOptions(
     bool? RollbackOnFailureEnabled = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public FeatureEditOptions(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     The geodatabase version to apply the edits.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

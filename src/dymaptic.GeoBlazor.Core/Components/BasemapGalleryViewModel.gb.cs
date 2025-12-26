@@ -134,6 +134,7 @@ public partial class BasemapGalleryViewModel : MapComponent
             {
                 result.Id = ActiveBasemap.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             ActiveBasemap = result;
@@ -247,17 +248,23 @@ public partial class BasemapGalleryViewModel : MapComponent
             return Source;
         }
 
-        // get the property value
-        IBasemapGalleryWidgetSource? result = await JsComponentReference!.InvokeAsync<IBasemapGalleryWidgetSource?>("getProperty",
-            CancellationTokenSource.Token, "source");
+        IBasemapGalleryWidgetSource? result = await JsComponentReference.InvokeAsync<IBasemapGalleryWidgetSource?>(
+            "getSource", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Source is not null)
+            {
+                result.Id = Source.Id;
+            }
+            ((MapComponent)result).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
-             Source = result;
+            Source = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Source)] = Source;
+            ModifiedParameters[nameof(Source)] = Source;
         }
-         
+        
         return Source;
     }
     
@@ -314,10 +321,7 @@ public partial class BasemapGalleryViewModel : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -357,6 +361,11 @@ public partial class BasemapGalleryViewModel : MapComponent
     /// </param>
     public async Task SetSource(IBasemapGalleryWidgetSource? value)
     {
+        if (value is not null)
+        {
+            ((MapComponent)value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Source = value;
 #pragma warning restore BL0005
@@ -449,6 +458,14 @@ public partial class BasemapGalleryViewModel : MapComponent
                 }
                 
                 return true;
+            case IBasemapGalleryWidgetSource source:
+                if (source != Source)
+                {
+                    Source = source;
+                    ModifiedParameters[nameof(Source)] = Source;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -463,6 +480,10 @@ public partial class BasemapGalleryViewModel : MapComponent
                 ActiveBasemap = null;
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 return true;
+            case IBasemapGalleryWidgetSource _:
+                Source = null;
+                ModifiedParameters[nameof(Source)] = Source;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -473,6 +494,7 @@ public partial class BasemapGalleryViewModel : MapComponent
     {
     
         ActiveBasemap?.ValidateRequiredGeneratedChildren();
+        Source?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

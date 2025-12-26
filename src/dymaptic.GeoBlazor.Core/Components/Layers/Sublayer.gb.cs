@@ -61,7 +61,7 @@ public partial class Sublayer
     /// </param>
     /// <param name="title">
     ///     The title of the sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -115,6 +115,11 @@ public partial class Sublayer
     ///     This property is used to configure the associated layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html">FeatureTable</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#attributeTableTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="objectIdField">
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#fields">field</a> containing a unique value or identifier for each
+    ///     feature in the Sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public Sublayer(
         long? sublayerId = null,
         bool? labelsVisible = null,
@@ -135,7 +140,8 @@ public partial class Sublayer
         IReadOnlyList<Sublayer>? sublayers = null,
         IReadOnlyList<OrderByInfo>? orderBy = null,
         string? url = null,
-        IAttributeTableTemplate? attributeTableTemplate = null)
+        IAttributeTableTemplate? attributeTableTemplate = null,
+        string? objectIdField = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -159,6 +165,7 @@ public partial class Sublayer
         OrderBy = orderBy;
         Url = url;
         AttributeTableTemplate = attributeTableTemplate;
+        ObjectIdField = objectIdField;
 #pragma warning restore BL0005    
     }
     
@@ -646,6 +653,7 @@ public partial class Sublayer
             {
                 result.Id = FullExtent.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             FullExtent = result;
@@ -1602,10 +1610,7 @@ public partial class Sublayer
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -1649,10 +1654,7 @@ public partial class Sublayer
         {
             foreach (Label item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -1919,10 +1921,7 @@ public partial class Sublayer
         {
             foreach (OrderByInfo item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -2002,10 +2001,7 @@ public partial class Sublayer
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -2047,10 +2043,7 @@ public partial class Sublayer
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -2657,7 +2650,7 @@ public partial class Sublayer
         string? result = await JsComponentReference!.InvokeAsync<string?>(
             "load", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2705,7 +2698,7 @@ public partial class Sublayer
             "queryAttachments", 
             CancellationTokenSource.Token,
             attachmentQuery,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2754,7 +2747,7 @@ public partial class Sublayer
             "queryFeatureCount", 
             CancellationTokenSource.Token,
             query,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2802,7 +2795,7 @@ public partial class Sublayer
             "queryFeatures", 
             CancellationTokenSource.Token,
             query,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2851,7 +2844,7 @@ public partial class Sublayer
             "queryObjectIds", 
             CancellationTokenSource.Token,
             query,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2900,7 +2893,7 @@ public partial class Sublayer
             "queryRelatedFeatures", 
             CancellationTokenSource.Token,
             relationshipQuery,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2949,7 +2942,7 @@ public partial class Sublayer
             "queryRelatedFeaturesCount", 
             CancellationTokenSource.Token,
             relationshipQuery,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2957,20 +2950,57 @@ public partial class Sublayer
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerwhen-method">GeoBlazor Docs</a>
-    ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param errback The function to execute when the promise fails.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#when">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerreload-method">GeoBlazor Docs</a>
+    ///     Reloads the properties for the sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#reload">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="callback">
-    ///     The function to call when the promise resolves.
-    /// </param>
-    /// <param name="errback">
-    ///     The function to execute when the promise fails.
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task Reload(CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        await JsComponentReference!.InvokeVoidAsync(
+            "reload", 
+            CancellationTokenSource.Token,
+            abortSignal);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param onRejected The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="onFulfilled">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="onRejected">
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> onFulfilled,
+        Func<Task> onRejected)
     {
         if (CoreJsModule is null)
         {
@@ -2995,8 +3025,8 @@ public partial class Sublayer
         return await JsComponentReference!.InvokeAsync<string?>(
             "when", 
             CancellationTokenSource.Token,
-            callback,
-            errback);
+            onFulfilled,
+            onRejected);
     }
     
 #endregion

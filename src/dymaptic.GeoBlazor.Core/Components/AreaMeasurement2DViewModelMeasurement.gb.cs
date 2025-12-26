@@ -157,6 +157,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
             {
                 result.Id = Geometry.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Geometry = result;
@@ -257,10 +258,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

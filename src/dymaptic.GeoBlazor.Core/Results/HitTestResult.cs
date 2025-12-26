@@ -7,6 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Results;
 /// <param name="ScreenPoint">
 ///     The screen coordinates (or native mouse event) of the click on the view.
 /// </param>
+[CodeGenerationIgnore]
 public record HitTestResult(ScreenPoint ScreenPoint)
 {
     /// <summary>

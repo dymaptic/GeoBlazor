@@ -362,10 +362,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     /// </param>
     public async Task SetSnappingOptions(SnappingOptions value)
     {
-        value.CoreJsModule  = CoreJsModule;
-        value.Parent = this;
-        value.Layer = Layer;
-        value.View = View;
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
 #pragma warning disable BL0005
         SnappingOptions = value;

@@ -22,12 +22,12 @@ export default class BingMapsLayerWrapper extends BingMapsLayerGenerated {
 
     async getTileInfo() {
         let {buildDotNetTileInfo} = await import('./tileInfo');
-        return buildDotNetTileInfo(this.layer.tileInfo, this.viewId);
+        return buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetBingMapsLayer(result, this.viewId);
+        let dotNetLayer = await buildDotNetBingMapsLayer(result, this.layerId, this.viewId);
         return buildEncodedJson(dotNetLayer);
     }
 }
@@ -37,7 +37,7 @@ export async function buildJsBingMapsLayer(dotNetObject: any, layerId: string | 
     return await buildJsBingMapsLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBingMapsLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetBingMapsLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetBingMapsLayerGenerated} = await import('./bingMapsLayer.gb');
-    return await buildDotNetBingMapsLayerGenerated(jsObject, viewId);
+    return await buildDotNetBingMapsLayerGenerated(jsObject, layerId, viewId);
 }

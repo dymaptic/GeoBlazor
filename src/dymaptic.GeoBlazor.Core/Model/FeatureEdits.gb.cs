@@ -39,6 +39,13 @@ public partial record FeatureEdits(
     IReadOnlyList<Graphic>? UpdateFeatures = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public FeatureEdits(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     An array of attachments to be added.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

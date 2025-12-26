@@ -13,6 +13,15 @@
                                 <div class="geoblazor-validation-message">@((MarkupString)ErrorMessage)</div>
                             </div>
                         }
+                        else if (ShowZoomWidget)
+                        {
+                            // TODO: in V5, use GeoBlazor Components Here, wrapping the ArcGIS components
+                            if (!Widgets.Any(w => w is ZoomWidget))
+                            {
+                                <arcgis-zoom slot="top-left" />
+                            }
+                            <arcgis-navigation-toggle slot="top-left" />
+                        }
                         @ChildContent
                     </arcgis-scene>
                 }
@@ -24,6 +33,10 @@
                             <div class="geoblazor-message-overlay">
                                 <div class="geoblazor-validation-message">@((MarkupString)ErrorMessage)</div>
                             </div>
+                        }
+                        else if (ShowZoomWidget && !Widgets.Any(w => w is ZoomWidget))
+                        {
+                            <arcgis-zoom slot="top-left" />
                         }
                         @ChildContent
                     </arcgis-map>

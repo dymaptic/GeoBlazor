@@ -51,11 +51,11 @@ export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, vi
             }
         }
     }
+
     if (hasValue(dotNetPortalFeaturedGroups.id)) {
         jsObjectRefs[dotNetPortalFeaturedGroups.id] ??= jsObject;
         arcGisObjectRefs[dotNetPortalFeaturedGroups.id] ??= jsObject;
     }
-
     return dotNetPortalFeaturedGroups;
 }
 

@@ -22,7 +22,7 @@ public partial class GraphicsLayer : IBlendLayer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public GraphicsLayerElevationInfo? ElevationInfo { get; set; }
+    public ElevationInfo? ElevationInfo { get; set; }
     
 #endregion
 
@@ -109,7 +109,7 @@ public partial class GraphicsLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElevationInfo property.
     /// </summary>
-    public async Task<GraphicsLayerElevationInfo?> GetElevationInfo()
+    public async Task<ElevationInfo?> GetElevationInfo()
     {
         if (CoreJsModule is null)
         {
@@ -131,7 +131,7 @@ public partial class GraphicsLayer : IBlendLayer,
             return ElevationInfo;
         }
 
-        GraphicsLayerElevationInfo? result = await JsComponentReference.InvokeAsync<GraphicsLayerElevationInfo?>(
+        ElevationInfo? result = await JsComponentReference.InvokeAsync<ElevationInfo?>(
             "getElevationInfo", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -346,14 +346,11 @@ public partial class GraphicsLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElevationInfo(GraphicsLayerElevationInfo? value)
+    public async Task SetElevationInfo(ElevationInfo? value)
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -504,7 +501,7 @@ public partial class GraphicsLayer : IBlendLayer,
     {
         switch (child)
         {
-            case GraphicsLayerElevationInfo elevationInfo:
+            case ElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
@@ -526,7 +523,7 @@ public partial class GraphicsLayer : IBlendLayer,
     {
         switch (child)
         {
-            case GraphicsLayerElevationInfo _:
+            case ElevationInfo _:
                 ElevationInfo = null;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 return true;

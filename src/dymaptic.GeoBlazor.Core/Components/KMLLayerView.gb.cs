@@ -153,6 +153,10 @@ public partial class KMLLayerView : LayerView
         
         if (result is not null)
         {
+            foreach (Graphic item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             AllVisiblePoints = result;
 #pragma warning restore BL0005
@@ -192,6 +196,10 @@ public partial class KMLLayerView : LayerView
         
         if (result is not null)
         {
+            foreach (Graphic item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             AllVisiblePolygons = result;
 #pragma warning restore BL0005
@@ -231,6 +239,10 @@ public partial class KMLLayerView : LayerView
         
         if (result is not null)
         {
+            foreach (Graphic item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             AllVisiblePolylines = result;
 #pragma warning restore BL0005

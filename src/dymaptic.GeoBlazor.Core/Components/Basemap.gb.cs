@@ -23,7 +23,7 @@ public partial class Basemap : ILayerParent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="baseLayers">
-    ///     A collection of tile layers that make up the basemap's features.
+    ///     A collection of layers that make up the basemap's features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="basemapId">
@@ -267,6 +267,7 @@ public partial class Basemap : ILayerParent
             {
                 result.Id = PortalItem.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             PortalItem = result;
@@ -484,10 +485,7 @@ public partial class Basemap : ILayerParent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -529,10 +527,7 @@ public partial class Basemap : ILayerParent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -574,10 +569,7 @@ public partial class Basemap : ILayerParent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -854,7 +846,7 @@ public partial class Basemap : ILayerParent
         string? result = await JsComponentReference!.InvokeAsync<string?>(
             "load", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -897,18 +889,17 @@ public partial class Basemap : ILayerParent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param errback The function to execute when the promise fails.
+    ///     param onRejected The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="callback">
+    /// <param name="onFulfilled">
     ///     The function to call when the promise resolves.
     /// </param>
-    /// <param name="errback">
-    ///     The function to execute when the promise fails.
+    /// <param name="onRejected">
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task> onFulfilled,
+        Func<Task> onRejected)
     {
         if (CoreJsModule is null)
         {
@@ -933,8 +924,8 @@ public partial class Basemap : ILayerParent
         return await JsComponentReference!.InvokeAsync<string?>(
             "when", 
             CancellationTokenSource.Token,
-            callback,
-            errback);
+            onFulfilled,
+            onRejected);
     }
     
 #endregion

@@ -198,6 +198,7 @@ public partial class BasemapGalleryWidget
             {
                 result.Id = ActiveBasemap.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             ActiveBasemap = result;
@@ -311,17 +312,23 @@ public partial class BasemapGalleryWidget
             return Source;
         }
 
-        // get the property value
-        IBasemapGalleryWidgetSource? result = await JsComponentReference!.InvokeAsync<IBasemapGalleryWidgetSource?>("getProperty",
-            CancellationTokenSource.Token, "source");
+        IBasemapGalleryWidgetSource? result = await JsComponentReference.InvokeAsync<IBasemapGalleryWidgetSource?>(
+            "getSource", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Source is not null)
+            {
+                result.Id = Source.Id;
+            }
+            ((MapComponent)result).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
-             Source = result;
+            Source = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Source)] = Source;
+            ModifiedParameters[nameof(Source)] = Source;
         }
-         
+        
         return Source;
     }
     
@@ -359,6 +366,7 @@ public partial class BasemapGalleryWidget
             {
                 result.Id = ViewModel.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             ViewModel = result;
@@ -383,10 +391,7 @@ public partial class BasemapGalleryWidget
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -500,6 +505,11 @@ public partial class BasemapGalleryWidget
     /// </param>
     public async Task SetSource(IBasemapGalleryWidgetSource? value)
     {
+        if (value is not null)
+        {
+            ((MapComponent)value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Source = value;
 #pragma warning restore BL0005
@@ -539,10 +549,7 @@ public partial class BasemapGalleryWidget
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -594,6 +601,18 @@ public partial class BasemapGalleryWidget
                 }
                 
                 return true;
+            case IBasemapGalleryWidgetSource source:
+                if (source != Source)
+                {
+                    Source = source;
+                    ModifiedParameters[nameof(Source)] = Source;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
             case BasemapGalleryViewModel viewModel:
                 if (viewModel != ViewModel)
                 {
@@ -620,6 +639,10 @@ public partial class BasemapGalleryWidget
                 ActiveBasemap = null;
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 return true;
+            case IBasemapGalleryWidgetSource _:
+                Source = null;
+                ModifiedParameters[nameof(Source)] = Source;
+                return true;
             case BasemapGalleryViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
@@ -634,6 +657,7 @@ public partial class BasemapGalleryWidget
     {
     
         ActiveBasemap?.ValidateRequiredGeneratedChildren();
+        Source?.ValidateRequiredGeneratedChildren();
         ViewModel?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

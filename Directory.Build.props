@@ -2,14 +2,15 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <CoreVersion>4.3.0.10</CoreVersion>
+    <CoreVersion>4.4.0.2</CoreVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <CoreProjectPath>$(MSBuildThisFileDirectory)src\dymaptic.GeoBlazor.Core</CoreProjectPath>
+    <!-- https://github.com/dotnet/aspnetcore/issues/64381 -->
     <StaticWebAssetEndpointExclusionPattern>
-            $(StaticWebAssetEndpointExclusionPattern);js/**
-        </StaticWebAssetEndpointExclusionPattern>
+        $(StaticWebAssetEndpointExclusionPattern);js/**
+    </StaticWebAssetEndpointExclusionPattern>
   </PropertyGroup>
   <ItemGroup>
     <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*" />

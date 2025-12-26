@@ -100,11 +100,11 @@ export async function buildDotNetBookmarksVisibleElementsGenerated(jsObject: any
             }
         }
     }
+
     if (hasValue(dotNetBookmarksVisibleElements.id)) {
         jsObjectRefs[dotNetBookmarksVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetBookmarksVisibleElements.id] ??= jsObject;
     }
-
     return dotNetBookmarksVisibleElements;
 }
 

@@ -20,7 +20,7 @@ internal class ComponentConstructorValidator : DiagnosticAnalyzer
             "Usage", DiagnosticSeverity.Error, isEnabledByDefault: true,
             description: "When a Blazor component has multiple constructors, the parameterless constructor must be marked with [ActivatorUtilitiesConstructor] to ensure proper instantiation. Example: [ActivatorUtilitiesConstructor] public YourComponent() { }.");
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [rule];
 
     private void ValidateSymbol(SymbolAnalysisContext context)
     {

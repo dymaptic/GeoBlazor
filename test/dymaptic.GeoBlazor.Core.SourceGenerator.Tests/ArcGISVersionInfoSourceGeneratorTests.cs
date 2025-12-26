@@ -1,8 +1,6 @@
-using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using dymaptic.GeoBlazor.Core.SourceGenerator.Tests.Utils;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator.Tests;
@@ -36,10 +34,10 @@ public class ArcGISVersionInfoSourceGeneratorTests
         // In this case, it is enough to check the file name.
         Assert.IsTrue(generatedFiles.SequenceEqual((string[]) ["ArcGISSDKVersionInfo.g.cs"]));
         string content = newCompilation.SyntaxTrees.First().ToString();
-        Assert.IsTrue(content.Contains("internal static class ArcGISSDKVersionInfo"));
-        Assert.IsTrue(content.Contains("public const string ArcGISVersion = \"4.33.8\";"));
-        Assert.IsTrue(content.Contains("public const string ArcGISMapComponentsVersion = \"4.33.8\";"));
-        Assert.IsTrue(content.Contains("public const string CalciteVersion = \"3.2.1\";"));
+        Assert.Contains("internal static class ArcGISSDKVersionInfo", content);
+        Assert.Contains("public const string ArcGISVersion = \"4.33.8\";", content);
+        Assert.Contains("public const string ArcGISMapComponentsVersion = \"4.33.8\";", content);
+        Assert.Contains("public const string CalciteVersion = \"3.2.1\";", content);
     }
     
     private const string PackageJSONText = """

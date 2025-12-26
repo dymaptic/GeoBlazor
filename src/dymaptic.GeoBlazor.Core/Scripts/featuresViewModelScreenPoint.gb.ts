@@ -51,11 +51,11 @@ export async function buildDotNetFeaturesViewModelScreenPointGenerated(jsObject:
             }
         }
     }
+
     if (hasValue(dotNetFeaturesViewModelScreenPoint.id)) {
         jsObjectRefs[dotNetFeaturesViewModelScreenPoint.id] ??= jsObject;
         arcGisObjectRefs[dotNetFeaturesViewModelScreenPoint.id] ??= jsObject;
     }
-
     return dotNetFeaturesViewModelScreenPoint;
 }
 

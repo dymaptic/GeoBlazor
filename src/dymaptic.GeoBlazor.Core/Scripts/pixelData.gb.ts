@@ -24,7 +24,7 @@ export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetPixelDataGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPixelDataGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -38,7 +38,7 @@ export async function buildDotNetPixelDataGenerated(jsObject: any, viewId: strin
     
     if (hasValue(jsObject.pixelBlock)) {
         let { buildDotNetPixelBlock } = await import('./pixelBlock');
-        dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock, viewId);
+        dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock, layerId, viewId);
     }
     
 
@@ -55,11 +55,11 @@ export async function buildDotNetPixelDataGenerated(jsObject: any, viewId: strin
             }
         }
     }
+
     if (hasValue(dotNetPixelData.id)) {
         jsObjectRefs[dotNetPixelData.id] ??= jsObject;
         arcGisObjectRefs[dotNetPixelData.id] ??= jsObject;
     }
-
     return dotNetPixelData;
 }
 

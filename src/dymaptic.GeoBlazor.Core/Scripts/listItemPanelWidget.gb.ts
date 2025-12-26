@@ -63,11 +63,11 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any, vie
             }
         }
     }
+
     if (hasValue(dotNetListItemPanelWidget.id)) {
         jsObjectRefs[dotNetListItemPanelWidget.id] ??= jsObject;
         arcGisObjectRefs[dotNetListItemPanelWidget.id] ??= jsObject;
     }
-
     return dotNetListItemPanelWidget;
 }
 

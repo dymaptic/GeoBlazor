@@ -15,16 +15,16 @@ export async function buildJsIBasemapGalleryWidgetSource(dotNetObject: any, laye
     return await buildJsLocalBasemapsSource(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetIBasemapGalleryWidgetSource(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetIBasemapGalleryWidgetSource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
     if (jsObject instanceof PortalBasemapsSource) {
         let { buildDotNetPortalBasemapsSource } = await import('./portalBasemapsSource');
-        return await buildDotNetPortalBasemapsSource(jsObject, viewId);
+        return await buildDotNetPortalBasemapsSource(jsObject, layerId, viewId);
     }
     
     let { buildDotNetLocalBasemapsSource } = await import('./localBasemapsSource');
-    return await buildDotNetLocalBasemapsSource(jsObject, viewId);
+    return await buildDotNetLocalBasemapsSource(jsObject, layerId, viewId);
 }

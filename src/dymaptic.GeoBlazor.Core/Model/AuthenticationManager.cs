@@ -212,9 +212,6 @@ public class AuthenticationManager
     /// </returns>
     public async Task<bool> IsLoggedIn()
     {
-        // TODO: In V5, we should remove this line and always throw the exception below, but that would be a breaking change. It is safe to throw below this because the JavaScript is throwing an exception anyways without the AppId being set.
-        if (!string.IsNullOrWhiteSpace(ApiKey)) return true;
-
         if (string.IsNullOrWhiteSpace(AppId))
         {
             // If no AppId is provided, we cannot check if the user is logged in using Esri's logic.

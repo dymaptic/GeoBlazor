@@ -4,22 +4,22 @@
 
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-wfs/">ArcGIS API for JavaScript</a>
-    <a class="btn btn-primary" target="_blank" href="https://geobretagne.fr/geoserver/web">GeoBretagne GeoServer</a>
+    <a class="btn btn-primary" target="_blank" href="https://geoportal.statistics.gov.uk/datasets/ons::counties-may-2023-boundaries-en-buc-2/about">Office for National Statistics (UK)</a>
 </div>
 <p class="instructions">
     To create a WFSLayer, all you need is the URL to a WFS service that supports WFS 2.0.0 and has GeoJSON output format enabled. Optionally, you can set the name to the FeatureType you want to access in the service. If no name is provided, the layer will default to the first FeatureType in the service.
 </p>
 
 <MapView class="map-view"
-         Longitude="-2.9056"
-         Latitude="48.0329"
-         Zoom="7">
+         Longitude="-2"
+         Latitude="53"
+         Zoom="5">
     <Map>
         <Basemap>
             <BasemapStyle Name="BasemapStyleName.ArcgisLightGray" />
         </Basemap>
-        <WFSLayer Url="https://geobretagne.fr/geoserver/ows"
-                  Name="fma:bvme_zhp_vs_culture"
+        <WFSLayer Url="https://dservices1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/services/Counties_May_2023_Boundaries_EN_BUC/WFSServer"
+                  Name="Counties_May_2023_Boundaries_EN_BUC:CTY_MAY_2023_EN_BUC"
                   PopupEnabled="true" />
     </Map>
     <LayerListWidget Position="OverlayPosition.BottomLeft" />

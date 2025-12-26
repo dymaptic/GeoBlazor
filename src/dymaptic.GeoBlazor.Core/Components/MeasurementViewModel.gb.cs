@@ -180,6 +180,7 @@ public partial class MeasurementViewModel : MapComponent
             {
                 result.Id = ActiveViewModel.Id;
             }
+            ((MapComponent)result).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             ActiveViewModel = result;

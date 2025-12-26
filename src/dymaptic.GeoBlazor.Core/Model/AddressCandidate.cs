@@ -3,6 +3,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Represents the result of a geocode service operation as a list of address candidates. This resource provides information about candidates, including the address, location, and match score.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AddressCandidate.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public record AddressCandidate
 {
     /// <summary>

@@ -57,11 +57,11 @@ export async function buildDotNetHeatmapRampElementGenerated(jsObject: any, view
             }
         }
     }
+
     if (hasValue(dotNetHeatmapRampElement.id)) {
         jsObjectRefs[dotNetHeatmapRampElement.id] ??= jsObject;
         arcGisObjectRefs[dotNetHeatmapRampElement.id] ??= jsObject;
     }
-
     return dotNetHeatmapRampElement;
 }
 

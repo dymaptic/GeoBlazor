@@ -218,10 +218,7 @@ public partial class ColorRampElement : MapComponent,
         {
             foreach (ColorRampStop item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         

@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [CodeGenerationIgnore]
-public partial class WebMap : Map, IPortalLayer
+public partial class WebMap : Map, IPortalLayer, IMapComponent
 {
     /// <summary>
     ///     The portal item from which the WebMap is loaded.

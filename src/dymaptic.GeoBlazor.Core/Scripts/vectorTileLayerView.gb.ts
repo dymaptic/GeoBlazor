@@ -2,7 +2,7 @@
 import VectorTileLayerView from '@arcgis/core/views/layers/VectorTileLayerView';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './geoBlazorCore';
 
-export async function buildDotNetVectorTileLayerViewGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetVectorTileLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -51,11 +51,18 @@ export async function buildDotNetVectorTileLayerViewGenerated(jsObject: any, vie
             }
         }
     }
+
     if (hasValue(dotNetVectorTileLayerView.id)) {
-        jsObjectRefs[dotNetVectorTileLayerView.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetVectorTileLayerView.id)) {
+            let { default: VectorTileLayerViewWrapper } = await import('./vectorTileLayerView');
+            let vectorTileLayerViewWrapper = new VectorTileLayerViewWrapper(jsObject);
+            vectorTileLayerViewWrapper.geoBlazorId = dotNetVectorTileLayerView.id;
+            vectorTileLayerViewWrapper.viewId = viewId;
+            vectorTileLayerViewWrapper.layerId = layerId;
+            jsObjectRefs[dotNetVectorTileLayerView.id] = vectorTileLayerViewWrapper;
+        }
         arcGisObjectRefs[dotNetVectorTileLayerView.id] ??= jsObject;
     }
-
     return dotNetVectorTileLayerView;
 }
 

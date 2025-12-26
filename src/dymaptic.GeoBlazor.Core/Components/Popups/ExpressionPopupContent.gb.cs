@@ -31,7 +31,10 @@ public partial class ExpressionPopupContent
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        ExpressionInfo = expressionInfo;
+        if (expressionInfo is not null)
+        {
+            ExpressionInfo = expressionInfo;
+        }
 #pragma warning restore BL0005    
     }
     
@@ -91,10 +94,7 @@ public partial class ExpressionPopupContent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

@@ -2,7 +2,7 @@
 
 export function assertHasLegends(methodName) {
     let view = getView(methodName);
-    let widgetHTML = view.ui._components.find(c => c.widget.declaredClass === 'esri.widgets.LayerList')?.node.innerHTML;
+    let widgetHTML = view.ui._components.find(c => c.widget?.declaredClass === 'esri.widgets.LayerList')?.node.innerHTML;
     if (widgetHTML === undefined || widgetHTML === null) {
         throw new Error(`No widget HTML found for LayerList`);
     }
@@ -15,7 +15,7 @@ export function assertHasLegends(methodName) {
 
 export function assertHasStringContent(methodName) {
     let view = getView(methodName);
-    let widgetHTML = view.ui._components.find(c => c.widget.declaredClass === 'esri.widgets.LayerList')?.node.innerHTML;
+    let widgetHTML = view.ui._components.find(c => c.widget?.declaredClass === 'esri.widgets.LayerList')?.node.innerHTML;
     if (widgetHTML === undefined || widgetHTML === null) {
         throw new Error(`No widget HTML found for LayerList`);
     }
@@ -28,7 +28,7 @@ export function assertHasStringContent(methodName) {
 
 export function assertHasHtmlContent(methodName) {
     let view = getView(methodName);
-    let widgetHTML = view.ui._components.find(c => c.widget.declaredClass === 'esri.widgets.LayerList')?.node.innerHTML;
+    let widgetHTML = view.ui._components.find(c => c.widget?.declaredClass === 'esri.widgets.LayerList')?.node.innerHTML;
     if (widgetHTML === undefined || widgetHTML === null) {
         throw new Error(`No widget HTML found for LayerList`);
     }
@@ -41,7 +41,7 @@ export function assertHasHtmlContent(methodName) {
 
 export function assertHasWidgetContent(methodName) {
     let view = getView(methodName);
-    let widgetHTML = view.ui._components.find(c => c.widget.declaredClass === 'esri.widgets.LayerList')?.node.innerHTML;
+    let widgetHTML = view.ui._components.find(c => c.widget?.declaredClass === 'esri.widgets.LayerList')?.node.innerHTML;
     if (widgetHTML === undefined || widgetHTML === null) {
         throw new Error(`No widget HTML found for LayerList`);
     }

@@ -805,6 +805,7 @@ public partial class PortalItem
             {
                 result.Id = Extent.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Extent = result;
@@ -1434,6 +1435,7 @@ public partial class PortalItem
             {
                 result.Id = Portal.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Portal = result;
@@ -2142,10 +2144,7 @@ public partial class PortalItem
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -2520,10 +2519,7 @@ public partial class PortalItem
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005
@@ -3063,7 +3059,8 @@ public partial class PortalItem
             CancellationTokenSource.Token,
             resource,
             content,
-            new { access = options.Access, signal = abortSignal });
+            options,
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3177,7 +3174,7 @@ public partial class PortalItem
             "fetchData", 
             CancellationTokenSource.Token,
             responseType,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3219,7 +3216,7 @@ public partial class PortalItem
         PortalRating? result = await JsComponentReference!.InvokeAsync<PortalRating?>(
             "fetchRating", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3244,8 +3241,8 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem[]?> FetchRelatedItems(string relationshipType,
-        RelationshipDirection direction,
+    public async Task<PortalItem[]?> FetchRelatedItems(string? relationshipType,
+        RelationshipDirection? direction,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3273,7 +3270,7 @@ public partial class PortalItem
             "fetchRelatedItems", 
             CancellationTokenSource.Token,
             new { relationshipType, direction },
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3306,10 +3303,10 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<FetchResourcesResult?> FetchResources(double num,
-        double start,
-        PortalQuerySortOrder sortOrder,
-        SortField sortField,
+    public async Task<FetchResourcesResult?> FetchResources(double? num,
+        double? start,
+        PortalQuerySortOrder? sortOrder,
+        SortField? sortField,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3337,7 +3334,7 @@ public partial class PortalItem
             "fetchResources", 
             CancellationTokenSource.Token,
             new { num, start, sortOrder, sortField },
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3515,7 +3512,7 @@ public partial class PortalItem
         string? result = await JsComponentReference!.InvokeAsync<string?>(
             "load", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3590,7 +3587,7 @@ public partial class PortalItem
         string? result = await JsComponentReference!.InvokeAsync<string?>(
             "removeAllResources", 
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3638,7 +3635,7 @@ public partial class PortalItem
             "removeResource", 
             CancellationTokenSource.Token,
             resource,
-            new { signal = abortSignal });
+            abortSignal);
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -3655,7 +3652,7 @@ public partial class PortalItem
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> Update(string data)
+    public async Task<PortalItem?> Update(string? data)
     {
         if (CoreJsModule is null)
         {
@@ -3697,8 +3694,8 @@ public partial class PortalItem
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> UpdateThumbnail(Stream thumbnail,
-        string filename)
+    public async Task<PortalItem?> UpdateThumbnail(Stream? thumbnail,
+        string? filename)
     {
         if (CoreJsModule is null)
         {
@@ -3729,18 +3726,17 @@ public partial class PortalItem
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param errback The function to execute when the promise fails.
+    ///     param onRejected The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="callback">
+    /// <param name="onFulfilled">
     ///     The function to call when the promise resolves.
     /// </param>
-    /// <param name="errback">
-    ///     The function to execute when the promise fails.
+    /// <param name="onRejected">
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task> onFulfilled,
+        Func<Task> onRejected)
     {
         if (CoreJsModule is null)
         {
@@ -3765,8 +3761,8 @@ public partial class PortalItem
         return await JsComponentReference!.InvokeAsync<string?>(
             "when", 
             CancellationTokenSource.Token,
-            callback,
-            errback);
+            onFulfilled,
+            onRejected);
     }
     
 #endregion

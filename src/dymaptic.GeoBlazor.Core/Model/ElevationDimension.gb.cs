@@ -13,4 +13,4 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record ElevationDimension(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Name = null) : IWMSLayerDimensions, IWMSSublayerDimensions;
+    string? Name = null) : IWMSLayerDimension;

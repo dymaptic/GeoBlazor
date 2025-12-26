@@ -1,3 +1,4 @@
+import PointGenerated from './point.gb';
 import { buildDotNetExtent } from "./extent";
 import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
 import Point from "@arcgis/core/geometry/Point";
@@ -35,3 +36,12 @@ export function buildJsPoint(dotNetObject: any): any {
 
     return point;
 }
+
+export default class PointWrapper extends PointGenerated {
+
+    constructor(component: Point) {
+        super(component);
+    }
+    
+}
+

@@ -48,11 +48,11 @@ export async function buildDotNetLegendStyleGenerated(jsObject: any, layerId: st
             }
         }
     }
+
     if (hasValue(dotNetLegendStyle.id)) {
         jsObjectRefs[dotNetLegendStyle.id] ??= jsObject;
         arcGisObjectRefs[dotNetLegendStyle.id] ??= jsObject;
     }
-
     return dotNetLegendStyle;
 }
 

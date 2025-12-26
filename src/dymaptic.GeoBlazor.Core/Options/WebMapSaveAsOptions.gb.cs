@@ -15,19 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record WebMapSaveAsOptions(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PortalFolder? Folder = null,
-    bool? IgnoreUnsupported = null)
-{
-    /// <summary>
-    ///     The folder in which to save the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public PortalFolder? Folder { get; set; } = Folder;
-    
-    /// <summary>
-    ///     Allow the webmap to be saved even in the case it contains unsupported content (layers, renderers, symbols).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public bool? IgnoreUnsupported { get; set; } = IgnoreUnsupported;
-    
-}
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? IgnoreUnsupported = null);

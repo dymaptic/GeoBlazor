@@ -38,7 +38,7 @@ export async function buildJsGraphicsLayerView(dotNetObject: any, layerId: strin
     return await buildJsGraphicsLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGraphicsLayerView(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGraphicsLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGraphicsLayerViewGenerated } = await import('./graphicsLayerView.gb');
-    return await buildDotNetGraphicsLayerViewGenerated(jsObject, viewId);
+    return await buildDotNetGraphicsLayerViewGenerated(jsObject, layerId, viewId);
 }

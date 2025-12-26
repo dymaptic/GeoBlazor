@@ -11,7 +11,7 @@ export default class WCSLayerWrapper extends WCSLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetWCSLayer(result, this.viewId);
+        let dotNetLayer = await buildDotNetWCSLayer(result, this.layerId, this.viewId);
         return buildEncodedJson(dotNetLayer);
     }
 }
@@ -28,9 +28,9 @@ export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null,
     return jsObject;
 }
 
-export async function buildDotNetWCSLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWCSLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetWCSLayerGenerated} = await import('./wCSLayer.gb');
-    let dnObject = await buildDotNetWCSLayerGenerated(jsObject, viewId);
+    let dnObject = await buildDotNetWCSLayerGenerated(jsObject, layerId, viewId);
     
     if (hasValue(jsObject.renderer)) {
         let {buildDotNetImageryRenderer} = await import('./imageryRenderer');

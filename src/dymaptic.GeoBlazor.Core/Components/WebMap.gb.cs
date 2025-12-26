@@ -8,10 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     Loads a <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm">WebMap</a> from <a target="_blank" href="https://www.arcgis.com/home/">ArcGIS Online</a> or <a target="_blank" href="https://enterprise.arcgis.com/en/portal/latest/administer/windows/what-is-portal-for-arcgis-.htm">ArcGIS Enterprise portal</a> into a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class WebMap : ITimeSliderViewModelDocument,
-    ITimeSliderWidgetDocument,
-    ITimeUtilsDocument,
-    IVersionManagementUtilsInput
+public partial class WebMap
 {
 
     /// <summary>
@@ -1087,13 +1084,6 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     /// </param>
     public async Task SetInitialViewProperties(InitialViewProperties? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
         
 #pragma warning disable BL0005
         InitialViewProperties = value;
@@ -1559,14 +1549,6 @@ public partial class WebMap : ITimeSliderViewModelDocument,
                 }
                 
                 return true;
-            case InitialViewProperties initialViewProperties:
-                if (initialViewProperties != InitialViewProperties)
-                {
-                    InitialViewProperties = initialViewProperties;
-                    ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
-                }
-                
-                return true;
             case WebMapWidgets widgets:
                 if (widgets != Widgets)
                 {
@@ -1593,10 +1575,6 @@ public partial class WebMap : ITimeSliderViewModelDocument,
                 Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
                 ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 return true;
-            case InitialViewProperties _:
-                InitialViewProperties = null;
-                ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
-                return true;
             case WebMapWidgets _:
                 Widgets = null;
                 ModifiedParameters[nameof(Widgets)] = Widgets;
@@ -1618,7 +1596,6 @@ public partial class WebMap : ITimeSliderViewModelDocument,
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        InitialViewProperties?.ValidateRequiredGeneratedChildren();
         Widgets?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

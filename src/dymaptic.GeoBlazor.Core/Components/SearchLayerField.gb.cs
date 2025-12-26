@@ -45,6 +45,7 @@ public partial class SearchLayerField : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchLayerField.html#searchlayerfieldexactmatch-property">GeoBlazor Docs</a>
     ///     Whether or not the field is an exact match.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchLayerField.html#exactMatch">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class SearchLayerField : MapComponent
     public bool? ExactMatch { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchLayerField.html#searchlayerfieldname-property">GeoBlazor Docs</a>
     ///     The name of the field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchLayerField.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -40,6 +40,13 @@ public partial record BookmarkOptions(
     bool? TakeScreenshot = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public BookmarkOptions(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     _Since 4.17_ Indicates whether the rotation of the current view will be saved in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#viewpoint">viewpoint</a> of a newly created or modified bookmark.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

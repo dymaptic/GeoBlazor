@@ -51,11 +51,11 @@ export async function buildDotNetDotDensityTitleGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetDotDensityTitle.id)) {
         jsObjectRefs[dotNetDotDensityTitle.id] ??= jsObject;
         arcGisObjectRefs[dotNetDotDensityTitle.id] ??= jsObject;
     }
-
     return dotNetDotDensityTitle;
 }
 

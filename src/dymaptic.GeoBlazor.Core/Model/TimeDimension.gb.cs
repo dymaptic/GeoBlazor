@@ -55,4 +55,4 @@ public partial record TimeDimension(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<TimeDimensionInterval>? TimeDimensionIntervalCollectionExtent = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Units = null) : IWMSLayerDimensions, IWMSSublayerDimensions;
+    string? Units = null) : IWMSLayerDimension;

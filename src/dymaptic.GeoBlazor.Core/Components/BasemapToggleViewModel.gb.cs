@@ -107,6 +107,7 @@ public partial class BasemapToggleViewModel : MapComponent
             {
                 result.Id = ActiveBasemap.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             ActiveBasemap = result;
@@ -151,6 +152,7 @@ public partial class BasemapToggleViewModel : MapComponent
             {
                 result.Id = NextBasemap.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             NextBasemap = result;
@@ -214,10 +216,7 @@ public partial class BasemapToggleViewModel : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

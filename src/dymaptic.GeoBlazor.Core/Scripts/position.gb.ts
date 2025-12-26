@@ -53,11 +53,11 @@ export async function buildDotNetPositionGenerated(jsObject: any, viewId: string
             }
         }
     }
+
     if (hasValue(dotNetPosition.id)) {
         jsObjectRefs[dotNetPosition.id] ??= jsObject;
         arcGisObjectRefs[dotNetPosition.id] ??= jsObject;
     }
-
     return dotNetPosition;
 }
 

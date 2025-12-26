@@ -54,7 +54,7 @@ export async function buildJsTrackInfoGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetTrackInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetTrackInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -68,7 +68,7 @@ export async function buildDotNetTrackInfoGenerated(jsObject: any, viewId: strin
     
     if (hasValue(jsObject.latestObservations)) {
         let { buildDotNetTrackPartInfo } = await import('./trackPartInfo');
-        dotNetTrackInfo.latestObservations = await buildDotNetTrackPartInfo(jsObject.latestObservations, viewId);
+        dotNetTrackInfo.latestObservations = await buildDotNetTrackPartInfo(jsObject.latestObservations, layerId, viewId);
     }
     
     if (hasValue(jsObject.maxDisplayDuration)) {
@@ -83,12 +83,12 @@ export async function buildDotNetTrackInfoGenerated(jsObject: any, viewId: strin
     
     if (hasValue(jsObject.previousObservations)) {
         let { buildDotNetTrackPartInfo } = await import('./trackPartInfo');
-        dotNetTrackInfo.previousObservations = await buildDotNetTrackPartInfo(jsObject.previousObservations, viewId);
+        dotNetTrackInfo.previousObservations = await buildDotNetTrackPartInfo(jsObject.previousObservations, layerId, viewId);
     }
     
     if (hasValue(jsObject.trackLines)) {
         let { buildDotNetTrackPartInfo } = await import('./trackPartInfo');
-        dotNetTrackInfo.trackLines = await buildDotNetTrackPartInfo(jsObject.trackLines, viewId);
+        dotNetTrackInfo.trackLines = await buildDotNetTrackPartInfo(jsObject.trackLines, layerId, viewId);
     }
     
     if (hasValue(jsObject.enabled)) {

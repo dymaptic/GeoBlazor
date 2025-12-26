@@ -7,5 +7,24 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The height model info defines the characteristics of a vertical coordinate system.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-HeightModelInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+/// <param name="HeightModel">
+///     The surface type or height model of the vertical coordinate system (VCS).
+///     default "gravity-related-height"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-HeightModelInfo.html#heightModel">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="HeightUnit">
+///     The unit of the vertical coordinate system.
+///     default "meters"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-HeightModelInfo.html#heightUnit">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="VertCRS">
+///     The datum realization of the vertical coordinate system.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-HeightModelInfo.html#vertCRS">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record HeightModelInfo(
-);
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    HeightModel? HeightModel = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    HeightUnit? HeightUnit = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? VertCRS = null);

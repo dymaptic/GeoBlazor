@@ -38,7 +38,7 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetLegendViewModelGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLegendViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -47,7 +47,7 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any, viewId:
     
     if (hasValue(jsObject.activeLayerInfos)) {
         let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-        dotNetLegendViewModel.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i, viewId)));
+        dotNetLegendViewModel.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.layerInfos)) {
@@ -85,11 +85,11 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetLegendViewModel.id)) {
         jsObjectRefs[dotNetLegendViewModel.id] ??= jsObject;
         arcGisObjectRefs[dotNetLegendViewModel.id] ??= jsObject;
     }
-
     return dotNetLegendViewModel;
 }
 

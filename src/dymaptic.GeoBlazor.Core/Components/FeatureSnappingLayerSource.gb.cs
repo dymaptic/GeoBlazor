@@ -128,6 +128,7 @@ public partial class FeatureSnappingLayerSource
             {
                 result.Id = Layer.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Layer = result;

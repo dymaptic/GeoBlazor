@@ -4,7 +4,7 @@ export async function buildJsTrackPartInfo(dotNetObject: any, layerId: string | 
     return await buildJsTrackPartInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTrackPartInfo(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetTrackPartInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetTrackPartInfoGenerated } = await import('./trackPartInfo.gb');
-    return await buildDotNetTrackPartInfoGenerated(jsObject, viewId);
+    return await buildDotNetTrackPartInfoGenerated(jsObject, layerId, viewId);
 }

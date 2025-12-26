@@ -7,5 +7,22 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The `GeometryFieldsInfo` class returns information about the system maintained geometry information associated with a specific feature in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-GeometryFieldsInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+/// <param name="ShapeAreaField">
+///     The name of the field that stores the feature's area, e.g.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-GeometryFieldsInfo.html#shapeAreaField">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="ShapeLengthField">
+///     The name of the field that stores the feature's length, e.g.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-GeometryFieldsInfo.html#shapeLengthField">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="Units">
+///     The units of measure for the area and length field values.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-GeometryFieldsInfo.html#units">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record GeometryFieldsInfo(
-);
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? ShapeAreaField = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? ShapeLengthField = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? Units = null);

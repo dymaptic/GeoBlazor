@@ -60,11 +60,11 @@ export async function buildDotNetOpacityRampStopGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetOpacityRampStop.id)) {
         jsObjectRefs[dotNetOpacityRampStop.id] ??= jsObject;
         arcGisObjectRefs[dotNetOpacityRampStop.id] ??= jsObject;
     }
-
     return dotNetOpacityRampStop;
 }
 

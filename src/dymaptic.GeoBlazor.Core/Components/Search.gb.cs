@@ -63,6 +63,7 @@ public partial class Search : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html#searchaddresssearchenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the place finder is enabled in the web scene or the web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-Search.html#addressSearchEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -72,6 +73,7 @@ public partial class Search : MapComponent
     public bool? AddressSearchEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html#searchenabled-property">GeoBlazor Docs</a>
     ///     Whether search functionality is enabled in the web scene or the web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-Search.html#enabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -81,6 +83,7 @@ public partial class Search : MapComponent
     public bool? Enabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html#searchhinttext-property">GeoBlazor Docs</a>
     ///     The hint provided with the search dialog.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-Search.html#hintText">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -90,6 +93,7 @@ public partial class Search : MapComponent
     public string? HintText { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html#searchlayers-property">GeoBlazor Docs</a>
     ///     A collection of layers to be included in search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-Search.html#layers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -99,6 +103,7 @@ public partial class Search : MapComponent
     public IReadOnlyList<SearchLayer>? Layers { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html#searchtables-property">GeoBlazor Docs</a>
     ///     A collection of tables to be included in search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-Search.html#tables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -433,10 +438,7 @@ public partial class Search : MapComponent
         {
             foreach (SearchLayer item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -481,10 +483,7 @@ public partial class Search : MapComponent
         {
             foreach (SearchTable item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         

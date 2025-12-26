@@ -24,15 +24,15 @@ public partial class ImageMediaInfo
     /// </summary>
     /// <param name="title">
     ///     The title of the media element.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-MediaInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="caption">
     ///     Defines a caption for the media.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-MediaInfo.html#caption">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html#caption">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="altText">
     ///     Provides an alternate text for an image if the image cannot be displayed.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-MediaInfo.html#altText">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html#altText">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="value">
     ///     Defines the value format of the image media element and how the images should be retrieved.
@@ -205,10 +205,7 @@ public partial class ImageMediaInfo
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

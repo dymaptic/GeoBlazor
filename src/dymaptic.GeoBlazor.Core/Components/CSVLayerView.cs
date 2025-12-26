@@ -8,6 +8,17 @@ public partial class CSVLayerView
    public override LayerType? Type => LayerType.CSV;
    
    /// <summary>
+   ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhighlightoptions-property">GeoBlazor Docs</a>
+   ///     Options for configuring the highlight.
+   ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
+   /// </summary>
+   [ArcGISProperty]
+   [Parameter]
+   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+   [Obsolete($"Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
+   public HighlightOptions? HighlightOptions { get; set; }
+   
+   /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
     /// <param name="objectId">

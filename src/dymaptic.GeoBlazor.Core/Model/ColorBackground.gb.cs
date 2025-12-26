@@ -4,12 +4,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ColorBackground.html">GeoBlazor Docs</a>
-///     Represents the background color of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> when displayed in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     Represents the background color of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a>
+///     when displayed in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-background-ColorBackground.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Color">
 ///     The color of the background.
-///     default black
+///     default "black"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-background-ColorBackground.html#color">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ColorBackground(

@@ -25,6 +25,13 @@ public partial record GroundQueryElevationOptions(
     bool? ReturnSampleInfo = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public GroundQueryElevationOptions(): this(null, null)
+    {
+    }
+    
+    /// <summary>
     ///     Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`).
     ///     default auto
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>

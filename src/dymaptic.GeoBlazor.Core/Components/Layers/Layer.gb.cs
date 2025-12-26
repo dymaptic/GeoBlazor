@@ -220,6 +220,7 @@ public abstract partial class Layer : IHitTestItem,
             {
                 result.Id = VisibilityTimeExtent.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             VisibilityTimeExtent = result;
@@ -355,10 +356,7 @@ public abstract partial class Layer : IHitTestItem,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         } 
         
 #pragma warning disable BL0005

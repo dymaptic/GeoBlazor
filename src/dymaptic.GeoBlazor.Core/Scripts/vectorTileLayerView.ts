@@ -56,7 +56,7 @@ export default class VectorTileLayerViewWrapper implements IPropertyWrapper {
         }
 
         let {buildDotNetLayer} = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.viewId);
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
 
     getProperty(prop: string): any {
@@ -72,7 +72,7 @@ export async function buildJsVectorTileLayerView(dotNetObject: any, layerId: str
     // not used
 }     
 
-export async function buildDotNetVectorTileLayerView(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetVectorTileLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVectorTileLayerViewGenerated } = await import('./vectorTileLayerView.gb');
-    return await buildDotNetVectorTileLayerViewGenerated(jsObject, viewId);
+    return await buildDotNetVectorTileLayerViewGenerated(jsObject, layerId, viewId);
 }

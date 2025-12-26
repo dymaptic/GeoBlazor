@@ -192,7 +192,9 @@ public class SceneView : MapView
                 CancellationTokenSource.Token, abortSignal, Id, DotNetComponentReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
+#pragma warning disable CS0618 // Type or member is obsolete
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
+#pragma warning restore CS0618 // Type or member is obsolete
                 PopupEnabled, Theme?.ToString().ToLowerInvariant(), AllowDefaultEsriLogin, 
                 AuthenticationManager.ExcludeApiKey ? null : AuthenticationManager.ApiKey, AuthenticationManager.AppId, 
                 ZIndex, Tilt);

@@ -15,11 +15,6 @@ public enum CoverageInfoVersion
     One_1_0,
     One_1_1,
     One_1_2,
-    Two_0_1,
-    OnePointZeroPointZero,
-    OnePointOnePointZero,
-    OnePointOnePointOne,
-    OnePointOnePointTwo,
-    TwoPointZeroPointOne
+    Two_0_1
 #pragma warning restore CS1591
 }

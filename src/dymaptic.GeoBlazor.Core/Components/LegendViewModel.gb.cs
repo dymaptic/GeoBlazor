@@ -31,7 +31,7 @@ public partial class LegendViewModel : MapComponent
     /// </param>
     /// <param name="basemapLegendVisible">
     ///     Indicates whether to show the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> layers in the Legend.
-    ///     default filterBasemaps
+    ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="hideLayersNotInCurrentView">
@@ -41,7 +41,7 @@ public partial class LegendViewModel : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#hideLayersNotInCurrentView">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="layerInfos">
-    ///     Specifies a subset of the layers in the map to display in the legend.
+    ///     Defines which layers and sublayers are shown in the legend, including any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">basemap layers</a> you want visible.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="respectLayerVisibility">
@@ -54,7 +54,7 @@ public partial class LegendViewModel : MapComponent
         IReadOnlyList<ActiveLayerInfo>? activeLayerInfos = null,
         bool? basemapLegendVisible = null,
         bool? hideLayersNotInCurrentView = null,
-        IReadOnlyList<LegendViewModelLayerInfos>? layerInfos = null,
+        IReadOnlyList<LegendViewModelLayerInfo>? layerInfos = null,
         bool? respectLayerVisibility = null)
     {
         AllowRender = false;
@@ -84,7 +84,7 @@ public partial class LegendViewModel : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelbasemaplegendvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to show the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> layers in the Legend.
-    ///     default filterBasemaps
+    ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -106,13 +106,13 @@ public partial class LegendViewModel : MapComponent
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodellayerinfos-property">GeoBlazor Docs</a>
-    ///     Specifies a subset of the layers in the map to display in the legend.
+    ///     Defines which layers and sublayers are shown in the legend, including any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">basemap layers</a> you want visible.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<LegendViewModelLayerInfos>? LayerInfos { get; set; }
+    public IReadOnlyList<LegendViewModelLayerInfo>? LayerInfos { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelrespectlayervisibility-property">GeoBlazor Docs</a>
@@ -261,7 +261,7 @@ public partial class LegendViewModel : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerInfos property.
     /// </summary>
-    public async Task<IReadOnlyList<LegendViewModelLayerInfos>?> GetLayerInfos()
+    public async Task<IReadOnlyList<LegendViewModelLayerInfo>?> GetLayerInfos()
     {
         if (CoreJsModule is null)
         {
@@ -283,7 +283,7 @@ public partial class LegendViewModel : MapComponent
             return LayerInfos;
         }
 
-        IReadOnlyList<LegendViewModelLayerInfos>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<LegendViewModelLayerInfos>?>(
+        IReadOnlyList<LegendViewModelLayerInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<LegendViewModelLayerInfo>?>(
             "getLayerInfos", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -391,10 +391,7 @@ public partial class LegendViewModel : MapComponent
         {
             foreach (ActiveLayerInfo item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -507,16 +504,13 @@ public partial class LegendViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayerInfos(IReadOnlyList<LegendViewModelLayerInfos>? value)
+    public async Task SetLayerInfos(IReadOnlyList<LegendViewModelLayerInfo>? value)
     {
         if (value is not null)
         {
-            foreach (LegendViewModelLayerInfos item in value)
+            foreach (LegendViewModelLayerInfo item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
         
@@ -610,9 +604,9 @@ public partial class LegendViewModel : MapComponent
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToLayerInfos(params LegendViewModelLayerInfos[] values)
+    public async Task AddToLayerInfos(params LegendViewModelLayerInfo[] values)
     {
-        LegendViewModelLayerInfos[] join = LayerInfos is null
+        LegendViewModelLayerInfo[] join = LayerInfos is null
             ? values
             : [..LayerInfos, ..values];
         await SetLayerInfos(join);
@@ -645,7 +639,7 @@ public partial class LegendViewModel : MapComponent
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromLayerInfos(params LegendViewModelLayerInfos[] values)
+    public async Task RemoveFromLayerInfos(params LegendViewModelLayerInfo[] values)
     {
         if (LayerInfos is null)
         {
@@ -671,7 +665,7 @@ public partial class LegendViewModel : MapComponent
                 }
                 
                 return true;
-            case LegendViewModelLayerInfos layerInfos:
+            case LegendViewModelLayerInfo layerInfos:
                 LayerInfos ??= [];
                 if (!LayerInfos.Contains(layerInfos))
                 {
@@ -694,7 +688,7 @@ public partial class LegendViewModel : MapComponent
                 ActiveLayerInfos = ActiveLayerInfos?.Where(a => a != activeLayerInfos).ToList();
                 ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
                 return true;
-            case LegendViewModelLayerInfos layerInfos:
+            case LegendViewModelLayerInfo layerInfos:
                 LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
                 ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
                 return true;
@@ -716,7 +710,7 @@ public partial class LegendViewModel : MapComponent
         }
         if (LayerInfos is not null)
         {
-            foreach (LegendViewModelLayerInfos child in LayerInfos)
+            foreach (LegendViewModelLayerInfo child in LayerInfos)
             {
                 child.ValidateRequiredGeneratedChildren();
             }

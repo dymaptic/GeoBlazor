@@ -1,5 +1,6 @@
 ﻿<Router AppAssembly="@typeof(Program).Assembly"
-        AdditionalAssemblies="@(new [] {typeof(TestRunnerBase).Assembly})">
+        AdditionalAssemblies="@(new [] {typeof(TestRunnerBase).Assembly})"
+        NotFoundPage="@typeof(NotFound)">
     <Found Context="routeData">
         <CascadingValue Name="PageRouteData" Value="routeData">
             <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />

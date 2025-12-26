@@ -75,6 +75,7 @@ public partial class WebMapFloorFilter : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the FloorFilter is active and filtering the displayed content according to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FloorFilter.html">FloorFilter</a> selection.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#FloorFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +85,7 @@ public partial class WebMapFloorFilter : MapComponent
     public bool? Enabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterfacility-property">GeoBlazor Docs</a>
     ///     Contains the facility ID for the initially selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FloorFilter.html#facility">facility</a> in the floor filter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#FloorFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -93,6 +95,7 @@ public partial class WebMapFloorFilter : MapComponent
     public string? Facility { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterlevel-property">GeoBlazor Docs</a>
     ///     Contains the level ID for the initially selected floor, which is used when filtering layers by their configured floor-aware properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#FloorFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -102,6 +105,7 @@ public partial class WebMapFloorFilter : MapComponent
     public string? Level { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterlongnames-property">GeoBlazor Docs</a>
     ///     Indicates whether the levels list is showing the long names from longNameField.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#FloorFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -111,6 +115,7 @@ public partial class WebMapFloorFilter : MapComponent
     public bool? LongNames { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterminimized-property">GeoBlazor Docs</a>
     ///     Indicates whether the floor filter has been minimized to show only the levels list.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#FloorFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -120,6 +125,7 @@ public partial class WebMapFloorFilter : MapComponent
     public bool? Minimized { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterpinnedlevels-property">GeoBlazor Docs</a>
     ///     Indicates whether the levels portion of the floor filter has been pinned to show the levels list.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#FloorFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -129,6 +135,7 @@ public partial class WebMapFloorFilter : MapComponent
     public bool? PinnedLevels { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfiltersite-property">GeoBlazor Docs</a>
     ///     Contains the site ID for the initially selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FloorFilter.html#site">site</a> in the floor filter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#FloorFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

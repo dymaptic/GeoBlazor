@@ -17,6 +17,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record CoverageDescriptionV110Resolution(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    object? X = null,
+    double? X = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    object? Y = null);
+    double? Y = null);

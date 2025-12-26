@@ -81,6 +81,7 @@ public partial class Extent
             {
                 result.Id = Center.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Center = result;
