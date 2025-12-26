@@ -3,8 +3,16 @@
         NotFoundPage="@typeof(NotFound)">
     <Found Context="routeData">
         <CascadingValue Name="PageRouteData" Value="routeData">
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            <CascadingValue Name="@nameof(RunOnStart)" Value="RunOnStart">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            </CascadingValue>
         </CascadingValue>
     </Found>
 </Router>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public required bool RunOnStart { get; set; }
+}

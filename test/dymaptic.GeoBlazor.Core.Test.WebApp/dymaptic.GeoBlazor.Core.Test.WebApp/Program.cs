@@ -1,8 +1,9 @@
 using dymaptic.GeoBlazor.Core.Test.WebApp.Components;
 using dymaptic.GeoBlazor.Core;
 using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
+using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Logging;
+using dymaptic.GeoBlazor.Core.Test.WebApp;
 using dymaptic.GeoBlazor.Core.Test.WebApp.Client;
-using Microsoft.AspNetCore.StaticFiles;
 using System.Text.Json;
 
 
@@ -16,6 +17,7 @@ try
         .AddInteractiveWebAssemblyComponents();
 
     builder.Services.AddGeoBlazor(builder.Configuration);
+    builder.Services.AddScoped<ITestLogger, ServerTestLogger>();
 
     WebApplication app = builder.Build();
 
@@ -44,6 +46,8 @@ try
         .AddInteractiveWebAssemblyRenderMode()
         .AddAdditionalAssemblies(typeof(Routes).Assembly,
             typeof(TestRunnerBase).Assembly);
+    
+    app.MapTestLogger();
 
     app.Run();
 

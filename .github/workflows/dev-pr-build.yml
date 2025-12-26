@@ -8,7 +8,8 @@ on:
     branches: [ "develop" ]
   push:
     branches: [ "develop" ]
-
+  workflow_dispatch:
+    
 concurrency:
   group: dev-pr-build
   cancel-in-progress: true
@@ -28,7 +29,10 @@ jobs:
   build: 
     needs: actor-check
     if: needs.actor-check.outputs.was-bot != 'true'
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted, Windows, X64 ]
+    outputs:
+      app-token: ${{ steps.app-token.outputs.token }}
+    timeout-minutes: 30
     steps:
     - name: Generate Github App token
       uses: actions/create-github-app-token@v2
@@ -69,7 +73,21 @@ jobs:
       with:
         name: .core-nuget
         retention-days: 4
-        path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
+        path: ./dymaptic.GeoBlazor.Core.*.nupkg
+        
+      # xmllint is a dependency of the copy steps below
+    - name: Install xmllint
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt install -y libxml2-utils
+
+      # This step will copy the version number from the Directory.Build.props file to an environment variable
+    - name: Copy Build Version
+      id: copy-version
+      run: |
+        CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
+        echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
 
     - name: Get GitHub App User ID
       if: github.event_name == 'pull_request'
@@ -78,11 +96,66 @@ jobs:
       env:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
-    - name: Add & Commit
+    # This step will commit the updated version number back to the develop branch
+    - name: Add Changes to Git
       if: github.event_name == 'pull_request'
       run: |
         git config --global user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
         git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
         git add .
-        git commit -m "Pipeline Build Commit of Version Bump"
+        git commit -m "Pipeline Build Commit of Version and Docs"
         git push
+          
+  test:
+    runs-on: [self-hosted, Windows, X64]
+    needs: build
+    steps:
+        # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ needs.build.outputs.app-token }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.x
+
+      - name: Update NPM
+        uses: actions/setup-node@v4
+        with:
+          node-version: '>=22.11.0'
+          check-latest: 'true'
+          
+      - name: Download Core artifact from build job
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: .core-nuget
+          path: ./GeoBlazor
+
+        # Add appsettings.json to apps
+      - name: Add appsettings.json
+        shell: pwsh
+        run: |
+          $appSettings = "{`n  `"ArcGISApiKey`": `"${{ secrets.ARCGISAPIKEY }}`",`n  `"GeoBlazor`": {`n    `"LicenseKey`": `"${{ secrets.SAMPLES_GEOBLAZOR_DEV_LICENSE_KEY }}`"`n  },`n  `"DocsUrl`": `"https://docs.geoblazor.com`",`n  `"ByPassApiKey`": `"${{ secrets.SAMPLES_API_BYPASS_KEY }}`",`n  ${{ secrets.WFS_SERVERS }}`n}"
+          if (!(Test-Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json)) { New-Item -ItemType File -Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json -Force }
+          $appSettings | Out-File -FilePath ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json -Encoding utf8
+          if (!(Test-Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json)) { New-Item -ItemType File -Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json -Force }
+          $appSettings | Out-File -FilePath ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json -Encoding utf8
+          if (!(Test-Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json)) { New-Item -ItemType File -Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json -Force }
+          $appSettings | Out-File -FilePath ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json -Encoding utf8
+          if (!(Test-Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json)) { New-Item -ItemType File -Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json -Force }
+          $appSettings | Out-File -FilePath ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json -Encoding utf8
+
+        # Prepare the tests
+      - name: Restore Tests
+        run: dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj
+        
+        # Builds the Tests project 
+      - name: Build Tests
+        run: dotnet build ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj -c Release --no-restore /p:GeneratePackage=false /p:GenerateDocs=false /p:PipelineBuild=true /p:UsePackageReferences=true
+      
+      - name: Run Tests
+        run: dotnet run ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj -c Release /p:RunOnStart=true /p:RenderMode=WebAssembly

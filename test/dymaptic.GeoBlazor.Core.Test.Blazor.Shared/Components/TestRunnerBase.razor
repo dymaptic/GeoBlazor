@@ -1,4 +1,5 @@
-﻿@attribute [TestClass]
+﻿@using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Logging
+@attribute [TestClass]
 <div class="result-section" id="@ClassName">
     <h2>@Extensions.CamelCaseToSpaces(ClassName)</h2>
     @if (_type?.GetCustomAttribute<IsolatedTestAttribute>() != null)
@@ -70,19 +71,25 @@
 @code {
     
     [Inject]
-    public IJSRuntime JsRuntime { get; set; } = null!;
-
-    [Inject]
-    public JsModuleManager JsModuleManager { get; set; } = null!;
+    public required IJSRuntime JsRuntime { get; set; }
     
     [Inject]
-    public NavigationManager NavigationManager { get; set; } = null!;
+    public required NavigationManager NavigationManager { get; set; }
+    
+    [Inject]
+    public required JsModuleManager JsModuleManager { get; set; }
+    
+    [Inject]
+    public required ITestLogger TestLogger { get; set; }
 
     [Parameter]
     public EventCallback<TestResult> OnTestResults { get; set; }
     
     [Parameter]
     public TestResult? Results { get; set; }
+    
+    [Parameter]
+    public IJSObjectReference? JsTestRunner { get; set; }
 
     public async Task RunTests(bool onlyFailedTests = false, int skip = 0, 
         CancellationToken cancellationToken = default)
@@ -92,7 +99,11 @@
         try
         {
             _resultBuilder = new StringBuilder();
-            _passed.Clear();
+
+            if (!onlyFailedTests)
+            {
+                _passed.Clear();
+            }
 
             List<MethodInfo> methodsToRun = [];
 
@@ -161,16 +172,6 @@
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (_jsObjectReference is null)
-        {
-            IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, default);
-            IJSObjectReference coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, default);
-
-            _jsObjectReference = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
-                "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
-            await _jsObjectReference.InvokeVoidAsync("initialize", coreJs);
-        }
-
         if (firstRender && Results is not null)
         {
             _passed = Results.Passed;
@@ -205,6 +206,11 @@
         {
             if (_mapRenderingExceptions.Remove(methodName, out Exception? ex))
             {
+                if (_running && _retryTests.All(mi => mi.Name != methodName))
+                {
+                    // Sometimes running multiple tests causes timeouts, give this another chance.
+                    _retryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
+                }
                 ExceptionDispatchInfo.Capture(ex).Throw();
             }
 
@@ -218,6 +224,8 @@
             {
                 // Sometimes running multiple tests causes timeouts, give this another chance.
                 _retryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
+
+                throw new TimeoutException("Map did not render in allotted time. Will re-attempt shortly...");
             }
 
             throw new TimeoutException("Map did not render in allotted time.");
@@ -333,7 +341,7 @@
             }
             else
             {
-                await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());
+                await JsTestRunner!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());
             }
         }
         catch (Exception)
@@ -352,9 +360,9 @@
 
     protected async Task WaitForJsTimeout(long time, [CallerMemberName] string methodName = "")
     {
-        await _jsObjectReference!.InvokeVoidAsync("setJsTimeout", time, methodName);
+        await JsTestRunner!.InvokeVoidAsync("setJsTimeout", time, methodName);
 
-        while (!await _jsObjectReference!.InvokeAsync<bool>("timeoutComplete", methodName))
+        while (!await JsTestRunner!.InvokeAsync<bool>("timeoutComplete", methodName))
         {
             await Task.Delay(100);
         }
@@ -362,6 +370,11 @@
 
     private async Task RunTest(MethodInfo methodInfo)
     {
+        if (JsTestRunner is null)
+        {
+            await GetJsTestRunner();
+        }
+        
         _currentTest = methodInfo.Name;
         _testResults[methodInfo.Name] = "<p style=\"color: orange; font-weight: bold\">Running...</p>";
         _resultBuilder = new StringBuilder();
@@ -372,7 +385,7 @@
         methodsWithRenderedMaps.Remove(methodInfo.Name);
         layerViewCreatedEvents.Remove(methodInfo.Name);
         listItems.Remove(methodInfo.Name);
-        Console.WriteLine($"Running test {methodInfo.Name}");
+        await TestLogger.Log($"Running test {methodInfo.Name}");
 
         try
         {
@@ -424,13 +437,6 @@
             {
                 _failed[methodInfo.Name] = $"{_resultBuilder}{Environment.NewLine}{ex.StackTrace}";
                 _resultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
-            }
-            
-            if (ex.Message.Contains("Map component view is in an invalid state"))
-            {
-                await Task.Delay(1000);
-                // force a full reload to recover from this error
-                NavigationManager.NavigateTo("/", true);
             }
         }
 
@@ -494,9 +500,21 @@
         _mapRenderingExceptions[arg.MethodName] = arg.Exception;
     }
 
+    private async Task GetJsTestRunner()
+    {
+        JsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
+            "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
+        IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, CancellationToken.None);
+        IJSObjectReference coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, CancellationToken.None);
+        await JsTestRunner.InvokeVoidAsync("initialize", coreJs);
+    }
+
+    private static readonly List<string> methodsWithRenderedMaps = new();
+    private static readonly Dictionary<string, List<LayerViewCreateEvent>> layerViewCreatedEvents = new();
+    private static readonly Dictionary<string, List<ListItem>> listItems = new();
+    
     private string ClassName => GetType().Name;
     private int Remaining => _methodInfos is null ? 0 : _methodInfos.Length - (_passed.Count + _failed.Count);
-    private IJSObjectReference? _jsObjectReference;
     private StringBuilder _resultBuilder = new();
     private Type? _type;
     private MethodInfo[]? _methodInfos;
@@ -504,9 +522,6 @@
     private bool _collapsed = true;
     private bool _running;
     private readonly Dictionary<string, RenderFragment> _testRenderFragments = new();
-    private static readonly List<string> methodsWithRenderedMaps = new();
-    private static readonly Dictionary<string, List<LayerViewCreateEvent>> layerViewCreatedEvents = new();
-    private static readonly Dictionary<string, List<ListItem>> listItems = new();
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
     private Dictionary<string, string?> _passed = new();
     private Dictionary<string, string?> _failed = new();

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Logging
 
 <h1>Unit Tests</h1>
 
@@ -71,15 +72,13 @@ else
         <TestWrapper TestClassType="type" Isolated="isIsolated" 
                      OnTestResults="OnTestResults" 
                      Results="_results[type.Name]"
+                     JsTestRunner="_jsTestRunner"
                      @key="type.Name"
                      @ref="_testComponents[type.Name]" />
     }
 }
 
 @code {
-    [Inject]
-    public required IConfiguration Configuration { get; set; }
-    
     [Inject]
     public required IHostApplicationLifetime HostApplicationLifetime { get; set; }
     
@@ -89,17 +88,30 @@ else
     [Inject]
     public required NavigationManager NavigationManager { get; set; }
     
+    [Inject]
+    public required JsModuleManager JsModuleManager { get; set; }
+    
+    [Inject]
+    public required ITestLogger TestLogger { get; set; }
+    
+    [CascadingParameter(Name = nameof(RunOnStart))]
+    public required bool RunOnStart { get; set; }
+    
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        _jsObjectReference ??= await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
         if (firstRender)
         {
+            _jsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
+                "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
+            IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, CancellationToken.None);
+            IJSObjectReference coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, CancellationToken.None);
+
+            await _jsTestRunner.InvokeVoidAsync("initialize", coreJs);
+            
             NavigationManager.RegisterLocationChangingHandler(OnLocationChanging);
             
             await LoadSettings();
-            
-            StateHasChanged();
 
             if (!_settings.RetainResultsOnReload)
             {
@@ -109,22 +121,11 @@ else
             FindAllTests();
             
             Dictionary<string, TestResult>? cachedResults = 
-                await _jsObjectReference.InvokeAsync<Dictionary<string, TestResult>?>("getTestResults");
+                await _jsTestRunner.InvokeAsync<Dictionary<string, TestResult>?>("getTestResults");
 
             if (cachedResults is { Count: > 0 })
             {
                 _results = cachedResults;
-            }
-
-            if (Configuration["runOnStart"] == "true")
-            {
-                bool passed = await RunTests(false, _cts.Token);
-
-                if (!passed)
-                {
-                    Environment.ExitCode = 1;
-                }
-                HostApplicationLifetime.StopApplication();
             }
 
             if (_results!.Count > 0)
@@ -136,7 +137,51 @@ else
                     await ScrollAndOpenClass(firstUnpassedClass);
                 }
             }
+            
+            // need an extra render cycle to register the `_testComponents` dictionary
             StateHasChanged();
+        }
+        else
+        {
+            // Auto-run configuration
+            if (RunOnStart && !_running)
+            {
+                _running = true;
+                await TestLogger.Log("Starting Test Auto-Run:");
+                string? attempts = await JsRuntime.InvokeAsync<string?>("localStorage.getItem", "runAttempts");
+
+                int attemptCount = 0;
+
+                if (attempts is not null && int.TryParse(attempts, out attemptCount))
+                {
+                    if (attemptCount > 5)
+                    {
+                        Environment.ExitCode = 1;
+                        HostApplicationLifetime.StopApplication();
+
+                        return;
+                    }
+                    
+                    await TestLogger.Log($"Attempt #{attemptCount}");
+                }
+                
+                await TestLogger.Log("----------");
+                
+                bool passed = await RunTests(false, _cts.Token);
+
+                if (!passed)
+                {
+                    await TestLogger.Log("Test Run Failed or Errors Encountered, will reload and make an attempt to continue.");
+                    attemptCount++;
+                    await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", attemptCount);
+                    await Task.Delay(1000);
+                    NavigationManager.NavigateTo("/", true);
+                }
+                else
+                {
+                    HostApplicationLifetime.StopApplication();
+                }
+            }
         }
     }
 
@@ -238,7 +283,7 @@ Failed: {result.Value.Failed.Count}");
 {methodResult.Value}");
             }
         }
-        Console.WriteLine(resultBuilder.ToString());
+        await TestLogger.Log(resultBuilder.ToString());
 
         return _results.Values.All(r => r.Failed.Count == 0);
     }
@@ -266,14 +311,14 @@ Failed: {result.Value.Failed.Count}");
 
     private async Task ScrollAndOpenClass(string className)
     {
-        await _jsObjectReference!.InvokeVoidAsync("scrollToTestClass", className);
+        await _jsTestRunner!.InvokeVoidAsync("scrollToTestClass", className);
         TestWrapper? testClass = _testComponents[className];
         testClass?.Toggle(true);
     }
 
     private async Task CancelRun()
     {
-        await _jsObjectReference!.InvokeVoidAsync("setWaitCursor", false);
+        await _jsTestRunner!.InvokeVoidAsync("setWaitCursor", false);
         await Task.Yield();
 
         await InvokeAsync(async () =>
@@ -290,17 +335,17 @@ Failed: {result.Value.Failed.Count}");
 
     private async Task SaveResults()
     {
-        await _jsObjectReference!.InvokeVoidAsync("saveTestResults", _results);
+        await _jsTestRunner!.InvokeVoidAsync("saveTestResults", _results);
     }
 
     private async Task SaveSettings()
     {
-        await _jsObjectReference!.InvokeVoidAsync("saveSettings", _settings);
+        await _jsTestRunner!.InvokeVoidAsync("saveSettings", _settings);
     }
     
     private async Task LoadSettings()
     {
-        TestSettings? settings = await _jsObjectReference!.InvokeAsync<TestSettings?>("loadSettings");
+        TestSettings? settings = await _jsTestRunner!.InvokeAsync<TestSettings?>("loadSettings");
         if (settings is not null)
         {
             _settings = settings;
@@ -311,7 +356,7 @@ Failed: {result.Value.Failed.Count}");
         r.Value.TestCount - (r.Value.Passed.Count + r.Value.Failed.Count)) ?? 0;
     private int Passed => _results?.Sum(r => r.Value.Passed.Count) ?? 0;
     private int Failed => _results?.Sum(r => r.Value.Failed.Count) ?? 0;
-    private IJSObjectReference? _jsObjectReference;
+    private IJSObjectReference? _jsTestRunner;
     private Dictionary<string, TestResult>? _results;
     private bool _running;
     private readonly List<Type> _testClassTypes = [];
@@ -319,7 +364,7 @@ Failed: {result.Value.Failed.Count}");
     private readonly Dictionary<string, TestWrapper?> _testComponents = new();
     private bool _showAll;
     private CancellationTokenSource _cts = new();
-    private TestSettings _settings = new(true, true);
+    private TestSettings _settings = new(false, true);
     
     public record TestSettings(bool StopOnFail, bool RetainResultsOnReload)
     {
