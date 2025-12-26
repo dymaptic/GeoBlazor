@@ -109,7 +109,7 @@
 
             foreach (MethodInfo method in _methodInfos!.Skip(skip))
             {
-                if (onlyFailedTests && !_failed.ContainsKey(method.Name))
+                if (onlyFailedTests && _passed.ContainsKey(method.Name))
                 {
                     continue;
                 }

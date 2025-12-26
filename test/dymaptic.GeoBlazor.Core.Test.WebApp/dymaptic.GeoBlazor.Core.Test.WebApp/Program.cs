@@ -48,6 +48,7 @@ try
             typeof(TestRunnerBase).Assembly);
     
     app.MapTestLogger();
+    app.MapApplicationManagement();
 
     app.Run();
 

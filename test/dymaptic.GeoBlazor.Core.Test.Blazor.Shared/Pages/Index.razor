@@ -60,7 +60,7 @@ else
         {
             <p style="cursor: pointer;" @onclick="@(() => ScrollAndOpenClass(result.Key))">
                 <a>
-                    <b>@Extensions.CamelCaseToSpaces(result.Key) - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count}</span>, <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
+                    <b>@Extensions.CamelCaseToSpaces(result.Key) - @((MarkupString)$"<span style=\"color: yellow;\">Pending: {result.Value.Pending}</span> | <span style=\"color: green;\">Passed: {result.Value.Passed.Count}</span> | <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
                 </a>
             </p>
         }
@@ -97,9 +97,24 @@ else
     [CascadingParameter(Name = nameof(RunOnStart))]
     public required bool RunOnStart { get; set; }
     
+    /// <summary>
+    ///     Only run Pro Tests
+    /// </summary>
+    [CascadingParameter(Name = nameof(ProOnly))]
+    public required bool ProOnly { get; set; }
+    
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (_allPassed)
+        {
+            if (RunOnStart)
+            {
+                HostApplicationLifetime.StopApplication();
+            }
+            return;
+        }
+        
         if (firstRender)
         {
             _jsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
@@ -141,46 +156,45 @@ else
             // need an extra render cycle to register the `_testComponents` dictionary
             StateHasChanged();
         }
-        else
+        else if (RunOnStart && !_running)
         {
             // Auto-run configuration
-            if (RunOnStart && !_running)
+            _running = true;
+            await TestLogger.Log("Starting Test Auto-Run:");
+            string? attempts = await JsRuntime.InvokeAsync<string?>("localStorage.getItem", "runAttempts");
+
+            int attemptCount = 0;
+
+            if (attempts is not null && int.TryParse(attempts, out attemptCount))
             {
-                _running = true;
-                await TestLogger.Log("Starting Test Auto-Run:");
-                string? attempts = await JsRuntime.InvokeAsync<string?>("localStorage.getItem", "runAttempts");
-
-                int attemptCount = 0;
-
-                if (attempts is not null && int.TryParse(attempts, out attemptCount))
+                if (attemptCount > 5)
                 {
-                    if (attemptCount > 5)
-                    {
-                        Environment.ExitCode = 1;
-                        HostApplicationLifetime.StopApplication();
-
-                        return;
-                    }
-                    
-                    await TestLogger.Log($"Attempt #{attemptCount}");
-                }
-                
-                await TestLogger.Log("----------");
-                
-                bool passed = await RunTests(false, _cts.Token);
-
-                if (!passed)
-                {
-                    await TestLogger.Log("Test Run Failed or Errors Encountered, will reload and make an attempt to continue.");
-                    attemptCount++;
-                    await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", attemptCount);
-                    await Task.Delay(1000);
-                    NavigationManager.NavigateTo("/", true);
-                }
-                else
-                {
+                    await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", 0);
+                    Console.WriteLine("Surpassed 5 reload attempts, exiting.");
+                    Environment.ExitCode = 1;
                     HostApplicationLifetime.StopApplication();
+
+                    return;
                 }
+                
+                await TestLogger.Log($"Attempt #{attemptCount}");
+            }
+            
+            await TestLogger.Log("----------");
+            
+            _allPassed = await RunTests(true, _cts.Token);
+
+            if (!_allPassed)
+            {
+                await TestLogger.Log("Test Run Failed or Errors Encountered, will reload and make an attempt to continue.");
+                attemptCount++;
+                await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", attemptCount);
+                await Task.Delay(1000);
+                NavigationManager.NavigateTo("/", true);
+            }
+            else
+            {
+                HostApplicationLifetime.StopApplication();
             }
         }
     }
@@ -188,19 +202,31 @@ else
     private void FindAllTests()
     {
         _results = [];
-        var assembly = Assembly.GetExecutingAssembly();
-        Type[] types = assembly.GetTypes();
-        try
+        Type[] types;
+
+        if (ProOnly)
         {
             var proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
-            types = types.Concat(proAssembly.GetTypes()
-                .Where(t => t.Name != "ProTestRunnerBase")).ToArray();
+            types = proAssembly.GetTypes()
+                .Where(t => t.Name != "ProTestRunnerBase").ToArray();
         }
-        catch
+        else
         {
-            //ignore if not running pro
+            var assembly = Assembly.Load("dymaptic.GeoBlazor.Core.Test.Blazor.Shared");
+            types = assembly.GetTypes();
+            try
+            {
+                var proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
+                types = types.Concat(proAssembly.GetTypes()
+                    .Where(t => t.Name != "ProTestRunnerBase")).ToArray();
+            }
+            catch
+            {
+                //ignore if not running pro
+            }
         }
-        foreach (Type type in types.Where(t => !t.Name.EndsWith("GeneratedTests")))
+        
+        foreach (Type type in types)
         {
             if (type.IsAssignableTo(typeof(TestRunnerBase)) && (type.Name != nameof(TestRunnerBase)))
             {
@@ -247,7 +273,7 @@ else
             
             if (_results!.TryGetValue(kvp.Key, out TestResult? results))
             {
-                if (onlyFailedTests && results.Failed.Count == 0)
+                if (onlyFailedTests && results.Failed.Count == 0 && results.Passed.Count > 0)
                 {
                     break;
                 }
@@ -258,8 +284,6 @@ else
             }
         }
         
-        _running = false;
-        await InvokeAsync(StateHasChanged);
         var resultBuilder = new StringBuilder($@"
 # GeoBlazor Unit Test Results
 {DateTime.Now}
@@ -285,6 +309,12 @@ Failed: {result.Value.Failed.Count}");
         }
         await TestLogger.Log(resultBuilder.ToString());
 
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+            await Task.Delay(1000, token);
+            _running = false;
+        });
         return _results.Values.All(r => r.Failed.Count == 0);
     }
 
@@ -325,6 +355,7 @@ Failed: {result.Value.Failed.Count}");
         {
             await _cts.CancelAsync();
             _cts = new CancellationTokenSource();
+            _running = false;
         });
     }
     
@@ -365,7 +396,8 @@ Failed: {result.Value.Failed.Count}");
     private bool _showAll;
     private CancellationTokenSource _cts = new();
     private TestSettings _settings = new(false, true);
-    
+    private bool _allPassed;
+
     public record TestSettings(bool StopOnFail, bool RetainResultsOnReload)
     {
         public bool StopOnFail { get; set; } = StopOnFail;

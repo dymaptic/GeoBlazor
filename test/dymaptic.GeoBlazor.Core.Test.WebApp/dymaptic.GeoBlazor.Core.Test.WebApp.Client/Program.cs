@@ -10,6 +10,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Configuration.AddInMemoryCollection();
 builder.Services.AddGeoBlazor(builder.Configuration);
 builder.Services.AddScoped<IHostApplicationLifetime, WasmApplicationLifetime>();
+builder.Services.AddHttpClient<WasmApplicationLifetime>(client => 
+    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 builder.Services.AddScoped<ITestLogger, ClientTestLogger>();
 builder.Services.AddHttpClient<ClientTestLogger>(client => 
     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
