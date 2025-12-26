@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Logging
+@using System.Text.RegularExpressions
 
 <h1>Unit Tests</h1>
 
@@ -103,6 +104,9 @@ else
     [CascadingParameter(Name = nameof(ProOnly))]
     public required bool ProOnly { get; set; }
     
+    [CascadingParameter(Name = nameof(TestFilter))]
+    public string? TestFilter { get; set; }
+    
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -190,7 +194,7 @@ else
                 attemptCount++;
                 await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", attemptCount);
                 await Task.Delay(1000);
-                NavigationManager.NavigateTo("/", true);
+                NavigationManager.NavigateTo("/");
             }
             else
             {
@@ -228,6 +232,11 @@ else
         
         foreach (Type type in types)
         {
+            if (!string.IsNullOrWhiteSpace(TestFilter) && !Regex.IsMatch(type.Name, TestFilter))
+            {
+                continue;
+            }
+            
             if (type.IsAssignableTo(typeof(TestRunnerBase)) && (type.Name != nameof(TestRunnerBase)))
             {
                 _testClassTypes.Add(type);
