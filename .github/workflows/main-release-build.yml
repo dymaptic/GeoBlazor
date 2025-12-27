@@ -16,7 +16,7 @@ jobs:
       token: ${{ steps.app-token.outputs.token }}
       app-slug: ${{ steps.app-token.outputs.app-slug }}
       user-id: ${{ steps.get-user-id.outputs.user-id }}
-      version: ${{ env.PRO_VERSION }}
+      version: ${{ env.CORE_VERSION }}
     steps:
     - name: Generate Github App token
       uses: actions/create-github-app-token@v2
