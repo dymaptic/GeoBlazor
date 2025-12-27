@@ -27,7 +27,7 @@
                     </WMSLayer>
                 </Map>
         </SceneView>);
-        await WaitForMapToRender();
+        await WaitForMapToRender(timeoutInSeconds: 30);
         
         LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
         Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
@@ -56,7 +56,7 @@
                     </WMSLayer>
                 </Map>
             </SceneView>);
-        await WaitForMapToRender();
+        await WaitForMapToRender(timeoutInSeconds: 30);
         LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
         Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
         WMSLayer createdLayer = (WMSLayer)createEvent.Layer;

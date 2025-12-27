@@ -3,7 +3,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class Portal : MapComponent
 {
     /// <summary>
-    ///     The URL to the portal instance.
+    ///     The URL to the portal instance. Typically ends with "/portal".
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

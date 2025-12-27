@@ -3,16 +3,18 @@
 
 namespace dymaptic.GeoBlazor.Core.Test.WebApp.Client;
 
-public class WasmApplicationLifetime: IHostApplicationLifetime
+public class WasmApplicationLifetime(IHttpClientFactory httpClientFactory) : IHostApplicationLifetime
 {
-    public CancellationToken ApplicationStarted => CancellationToken.None;
+    private readonly CancellationTokenSource _stoppingCts = new();
+    private readonly CancellationTokenSource _stoppedCts = new();
 
-    public CancellationToken ApplicationStopping => CancellationToken.None;
-
-    public CancellationToken ApplicationStopped => CancellationToken.None;
+    public CancellationToken ApplicationStarted => CancellationToken.None; // Already started in WASM
+    public CancellationToken ApplicationStopping => _stoppingCts.Token;
+    public CancellationToken ApplicationStopped => _stoppedCts.Token;
 
     public void StopApplication()
     {
-        throw new NotImplementedException();
+        using HttpClient httpClient = httpClientFactory.CreateClient(nameof(WasmApplicationLifetime));
+        _ = httpClient.PostAsync($"exit?exitCode={Environment.ExitCode}", null);
     }
 }

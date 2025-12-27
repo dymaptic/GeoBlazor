@@ -24,7 +24,7 @@
     @{
 #endif
     }
-        <Routes @rendermode="@_configuredRenderMode" />
+        <Routes RunOnStart="@(Configuration["RunOnStart"] == "true")" @rendermode="@_configuredRenderMode" />
         <script src="@Assets["_framework/blazor.web.js"]"></script>
     </body>
 </html>

@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <UserSecretsId>aspnet-dymaptic.GeoBlazor.Core.Test.WebApp-881b5a42-0b71-4c8c-9901-8d12693bd109</UserSecretsId>
+      <StaticWebAssetEndpointExclusionPattern>
+          $(StaticWebAssetEndpointExclusionPattern);appsettings*
+      </StaticWebAssetEndpointExclusionPattern>
   </PropertyGroup>
 
 

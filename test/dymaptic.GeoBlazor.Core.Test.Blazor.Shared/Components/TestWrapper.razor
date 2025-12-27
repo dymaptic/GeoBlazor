@@ -37,6 +37,10 @@
     [Parameter]
     [EditorRequired]
     public TestResult? Results { get; set; }
+    
+    [Parameter]
+    [EditorRequired]
+    public required IJSObjectReference JsTestRunner { get; set; }
 
     public async Task RunTests(bool onlyFailedTests = false, int skip = 0, CancellationToken cancellationToken = default)
     {
@@ -113,7 +117,8 @@
     private Dictionary<string, object?> Parameters => new() 
     { 
         { nameof(OnTestResults), OnTestResults }, 
-        { nameof(Results), Results } 
+        { nameof(Results), Results },
+        { nameof(JsTestRunner), JsTestRunner }
     };
 
     private BlazorFrame.BlazorFrame? _isolatedFrame;
