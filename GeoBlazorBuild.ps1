@@ -319,10 +319,6 @@ try {
         if ($CoreNupkg) {
             Copy-Item -Path $CoreNupkg.FullName -Destination $CoreRepoRoot -Force
             Write-Host "Copied $($CoreNupkg.Name) to $CoreRepoRoot"
-            if ($Pro -eq $true) {
-                Copy-Item -Path $CoreNupkg.FullName -Destination $ProRepoRoot -Force
-                Write-Host "Copied $($CoreNupkg.Name) to $ProRepoRoot"
-            }
         }
     }
 
@@ -492,8 +488,8 @@ try {
             # Copy generated NuGet package to script root
             $ProNupkg = Get-ChildItem -Path "bin/$Configuration" -Filter "*.nupkg" -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
             if ($ProNupkg) {
-                Copy-Item -Path $ProNupkg.FullName -Destination $ProRepoRoot -Force
-                Write-Host "Copied $($ProNupkg.Name) to $ProRepoRoot"
+                Copy-Item -Path $ProNupkg.FullName -Destination $CoreRepoRoot -Force
+                Write-Host "Copied $($ProNupkg.Name) to $CoreRepoRoot"
             }
         }
         

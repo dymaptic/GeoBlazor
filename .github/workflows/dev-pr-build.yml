@@ -139,15 +139,17 @@ jobs:
       - name: Add appsettings.json
         shell: pwsh
         run: |
-          $appSettings = "{`n  `"ArcGISApiKey`": `"${{ secrets.ARCGISAPIKEY }}`",`n  `"GeoBlazor`": {`n    `"LicenseKey`": `"${{ secrets.SAMPLES_GEOBLAZOR_DEV_LICENSE_KEY }}`"`n  },`n  `"DocsUrl`": `"https://docs.geoblazor.com`",`n  `"ByPassApiKey`": `"${{ secrets.SAMPLES_API_BYPASS_KEY }}`",`n  ${{ secrets.WFS_SERVERS }}`n}"
-          if (!(Test-Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json)) { New-Item -ItemType File -Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json -Force }
-          $appSettings | Out-File -FilePath ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json -Encoding utf8
-          if (!(Test-Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json)) { New-Item -ItemType File -Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json -Force }
-          $appSettings | Out-File -FilePath ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json -Encoding utf8
-          if (!(Test-Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json)) { New-Item -ItemType File -Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json -Force }
-          $appSettings | Out-File -FilePath ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json -Encoding utf8
-          if (!(Test-Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json)) { New-Item -ItemType File -Path ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json -Force }
-          $appSettings | Out-File -FilePath ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json -Encoding utf8
+          ./buildAppSettings.ps1 `
+            -ArcGISApiKey "${{ secrets.ARCGISAPIKEY }}" `
+            -LicenseKey "${{ secrets.SAMPLES_GEOBLAZOR_DEV_LICENSE_KEY }}" `
+            -ByPassApiKey "${{ secrets.SAMPLES_API_BYPASS_KEY }}" `
+            -WfsServers "${{ secrets.WFS_SERVERS }}" `
+            -OutputPaths @(
+              "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json",
+              "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json",
+              "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json",
+              "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json"
+            )
 
         # Prepare the tests
       - name: Restore Tests

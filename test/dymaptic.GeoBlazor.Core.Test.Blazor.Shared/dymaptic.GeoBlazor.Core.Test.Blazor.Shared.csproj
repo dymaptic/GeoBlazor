@@ -18,16 +18,17 @@
         <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
     </ItemGroup>
     
-    <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'DEBUG' OR $(UseProjectReference) == 'true'">
+    <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'DEBUG' OR $(UsePackageReference) != 'true'">
         <Message Importance="high" Text="Using GeoBlazor Core Project Reference" />
     </Target>
-    <ItemGroup Condition="$(Configuration) == 'DEBUG' OR $(UseProjectReference) == 'true'">
+    <ItemGroup Condition="$(Configuration) == 'DEBUG' OR $(UsePackageReference) != 'true'">
         <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
     </ItemGroup>
-    <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'RELEASE' AND $(UseProjectReference) != 'true'">
+    
+    <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'RELEASE' AND $(UsePackageReference) == 'true'">
         <Message Importance="high" Text="Using GeoBlazor Core Nuget Package" />
     </Target>
-    <ItemGroup Condition="$(Configuration) == 'RELEASE' AND $(UseProjectReference) != 'true'">
+    <ItemGroup Condition="$(Configuration) == 'RELEASE' AND $(UsePackageReference) == 'true'">
         <PackageReference Include="dymaptic.GeoBlazor.Core" Version="$(CoreVersion)" />
     </ItemGroup>
     
