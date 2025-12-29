@@ -107,7 +107,7 @@ jobs:
         git push
           
   test:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows, X64]
     needs: build
     steps:
         # Checkout the repository to the GitHub Actions runner
@@ -129,11 +129,11 @@ jobs:
           node-version: '>=22.11.0'
           check-latest: 'true'
           
-      - name: Download Core artifact from build job
-        uses: actions/download-artifact@v4.1.8
-        with:
-          name: .core-nuget
-          path: ./GeoBlazor
+      - name: Run Tests
+        shell: pwsh
+        run: |
+          cd ./test/Playwright/
+          npm test
 
         # Add appsettings.json to apps
       - name: Add appsettings.json

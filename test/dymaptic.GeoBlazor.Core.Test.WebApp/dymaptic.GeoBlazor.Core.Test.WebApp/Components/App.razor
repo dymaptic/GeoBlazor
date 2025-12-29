@@ -6,11 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <base href="/" />
         <link rel="icon" href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/favicon.ico"]" />
-        <link href="@Assets[$"_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/css/site.css"]" rel="stylesheet" />
+        <link href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/css/site.css"]" rel="stylesheet" />
         <link href="@Assets["dymaptic.GeoBlazor.Core.Test.WebApp.styles.css"]" rel="stylesheet" />
         <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]" />
         <link href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared"]" />
         <ImportMap />
+        
         <HeadOutlet @rendermode="@_configuredRenderMode" />
         
     </head>
@@ -24,7 +25,9 @@
     @{
 #endif
     }
-        <Routes RunOnStart="@(Configuration["RunOnStart"] == "true")" @rendermode="@_configuredRenderMode" />
+    <Routes RunOnStart="@_runOnStart"
+            TestFilter="@_testFilter"
+            @rendermode="@_configuredRenderMode" />
         <script src="@Assets["_framework/blazor.web.js"]"></script>
     </body>
 </html>
@@ -34,10 +37,13 @@
     [Inject]
     public required IConfiguration Configuration { get; set; }
     
-#if DEBUG
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
+    
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+#if DEBUG
         IComponentRenderMode oldRenderMode = _configuredRenderMode;
         _configuredRenderMode = Configuration.GetValue<string?>("RenderMode", "Auto") switch
         {
@@ -50,8 +56,53 @@
         {
             StateHasChanged();
         }
-    }
 #endif
+        _runOnStart = Configuration.GetValue("RunOnStart", false);
+        _testFilter = Configuration.GetValue<string?>("TestFilter");
+        
+        Uri uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        Dictionary<string, StringValues> queryDict = QueryHelpers.ParseQuery(uri.Query);
+
+        foreach (string key in queryDict.Keys)
+        {
+            switch (key.ToLowerInvariant())
+            {
+                case "runonstart":
+                    if (bool.TryParse(queryDict[key].ToString(), out bool queryRunValue))
+                    {
+                        _runOnStart = queryRunValue;
+                        Configuration["RunOnStart"] = queryRunValue.ToString();
+                    }
+
+                    break;
+                case "testfilter":
+                    if (queryDict[key].ToString() is { Length: > 0 } queryFilterValue)
+                    {
+                        _testFilter = queryFilterValue;
+                        Configuration["TestFilter"] = queryFilterValue;
+                    }
+
+                    break;
+                case "rendermode":
+                    if (queryDict[key].ToString() is { Length: > 0 } queryRenderModeValue)
+                    {
+                        _configuredRenderMode = queryRenderModeValue.ToLowerInvariant() switch
+                        {
+                            "server" => InteractiveServer,
+                            "webassembly" => InteractiveWebAssembly,
+                            "wasm" => InteractiveWebAssembly,
+                            _ => InteractiveAuto
+                        };
+                        Configuration["RenderMode"] = queryRenderModeValue;
+                    }
+
+                    break;
+            }
+        }
+    }
+    
+    private bool _runOnStart;
+    private string? _testFilter;
 
     private IComponentRenderMode _configuredRenderMode = InteractiveAuto;
 }
