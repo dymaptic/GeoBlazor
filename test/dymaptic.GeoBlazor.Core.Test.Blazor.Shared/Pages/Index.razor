@@ -163,6 +163,9 @@ else
         {
             // Auto-run configuration
             _running = true;
+            
+            // give everything time to load correctly
+            await Task.Delay(1000);
             await TestLogger.Log("Starting Test Auto-Run:");
             string? attempts = await JsRuntime.InvokeAsync<string?>("localStorage.getItem", "runAttempts");
 

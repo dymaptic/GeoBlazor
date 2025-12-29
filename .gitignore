@@ -16,6 +16,7 @@ esBuild.log
 .esbuild-record.json
 CustomerTests.razor
 .claude/
+.env
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

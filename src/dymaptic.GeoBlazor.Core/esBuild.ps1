@@ -19,6 +19,16 @@ $DebugLockFilePath = Join-Path -Path $PSScriptRoot "esBuild.Debug.lock"
 $ReleaseLockFilePath = Join-Path -Path $PSScriptRoot "esBuild.Release.lock"
 $LockFilePath = if ($Configuration.ToLowerInvariant() -eq "release") { $ReleaseLockFilePath } else { $DebugLockFilePath }
 
+$ShowDialogPath = Join-Path -Path $PSScriptRoot ".." ".." "showDialog.ps1"
+$DialogArgs = "-Message `"Starting GeoBlazor Core ESBuild process...`" -Title `"GeoBlazor Core ESBuild`" -Buttons None -ListenForInput"
+$DialogStartInfo = New-Object System.Diagnostics.ProcessStartInfo
+$DialogStartInfo.FileName = "pwsh"
+$DialogStartInfo.Arguments = "-NoProfile -ExecutionPolicy ByPass -File `"$ShowDialogPath`" $DialogArgs"
+$DialogStartInfo.RedirectStandardInput = $true
+$DialogStartInfo.UseShellExecute = $false
+$DialogStartInfo.CreateNoWindow = $true
+$DialogProcess = [System.Diagnostics.Process]::Start($DialogStartInfo)
+
 # Check if the process is locked for the current configuration
 $Locked = (($Configuration.ToLowerInvariant() -eq "debug") -and ($null -ne (Get-Item -Path $DebugLockFilePath -EA 0))) `
         -or (($Configuration.ToLowerInvariant() -eq "release") -and ($null -ne (Get-Item -Path $ReleaseLockFilePath -EA 0)))
@@ -39,6 +49,7 @@ if ($Locked)
         Write-Host "Cleared esBuild lock files"
     } else {
         Write-Output "Another instance of the script is already running. Exiting."
+        $DialogProcess.Kill()
         Exit 1   
     }
 }
@@ -65,12 +76,18 @@ try
     
     $Install = npm install 2>&1
     Write-Output $Install
+    foreach ($line in $Install)
+    {
+        $DialogProcess.StandardInput.WriteLine($line)
+    }
     $HasError = ($Install -like "*Error*")
     $HasWarning = ($Install -like "*Warning*")
     Write-Output "-----"
+    $DialogProcess.StandardInput.WriteLine("-----")
     if ($HasError -ne $null -or $HasWarning -ne $null)
     {
         Write-Output "NPM Install failed"
+        $DialogProcess.StandardInput.WriteLine("NPM Install failed")
         exit 1
     }
     
@@ -78,9 +95,14 @@ try
     {
         $Build = npm run releaseBuild 2>&1
         Write-Output $Build
+        foreach ($line in $Build)
+        {
+            $DialogProcess.StandardInput.WriteLine($line)
+        }
         $HasError = ($Build -like "*Error*")
         $HasWarning = ($Build -like "*Warning*")
         Write-Output "-----"
+        $DialogProcess.StandardInput.WriteLine("-----")
         if ($HasError -ne $null -or $HasWarning -ne $null)
         {
             exit 1
@@ -90,20 +112,31 @@ try
     {
         $Build = npm run debugBuild 2>&1
         Write-Output $Build
+        foreach ($line in $Build)
+        {
+            $DialogProcess.StandardInput.WriteLine($line)
+        }
         $HasError = ($Build -like "*Error*")
         $HasWarning = ($Build -like "*Warning*")
         Write-Output "-----"
+        $DialogProcess.StandardInput.WriteLine("-----")
         if ($HasError -ne $null -or $HasWarning -ne $null)
         {
             exit 1
         }
     }
     Write-Output "NPM Build Complete"
+    $DialogProcess.StandardInput.WriteLine("NPM Build Complete")
+    Start-Sleep -Seconds 5
+    $DialogProcess.Kill()
     exit 0
 }
 catch
 {
+    Write-Output "An error occurred in esBuild.ps1"
+    $DialogProcess.StandardInput.WriteLine("An error occurred in esBuild.ps1")
     Write-Output $_
+    $DialogProcess.StandardInput.WriteLine($_)
     exit 1
 }
 finally

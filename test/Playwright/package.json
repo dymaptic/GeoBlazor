@@ -1,0 +1,19 @@
+{
+  "name": "geoblazor-playwright-tests",
+  "version": "1.0.0",
+  "description": "Playwright test runner for GeoBlazor browser tests",
+  "main": "runBrowserTests.js",
+  "scripts": {
+    "test": "node runBrowserTests.js",
+    "test:build": "docker compose build",
+    "test:up": "docker compose up -d",
+    "test:down": "docker compose down",
+    "test:logs": "docker compose logs -f"
+  },
+  "dependencies": {
+    "playwright": "^1.49.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

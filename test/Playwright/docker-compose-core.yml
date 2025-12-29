@@ -1,0 +1,21 @@
+name: geoblazor-core-tests
+
+services:
+  test-app:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+      args:
+        ARCGIS_API_KEY: ${ARCGIS_API_KEY}
+        GEOBLAZOR_LICENSE_KEY: ${GEOBLAZOR_LICENSE_KEY}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider --no-check-certificate https://localhost:8443 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s

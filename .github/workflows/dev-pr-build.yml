@@ -134,30 +134,3 @@ jobs:
         run: |
           cd ./test/Playwright/
           npm test
-
-        # Add appsettings.json to apps
-      - name: Add appsettings.json
-        shell: pwsh
-        run: |
-          ./buildAppSettings.ps1 `
-            -ArcGISApiKey "${{ secrets.ARCGISAPIKEY }}" `
-            -LicenseKey "${{ secrets.SAMPLES_GEOBLAZOR_DEV_LICENSE_KEY }}" `
-            -ByPassApiKey "${{ secrets.SAMPLES_API_BYPASS_KEY }}" `
-            -WfsServers "${{ secrets.WFS_SERVERS }}" `
-            -OutputPaths @(
-              "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json",
-              "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json",
-              "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json",
-              "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json"
-            )
-
-        # Prepare the tests
-      - name: Restore Tests
-        run: dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj
-        
-        # Builds the Tests project 
-      - name: Build Tests
-        run: dotnet build ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj -c Release --no-restore /p:GeneratePackage=false /p:GenerateDocs=false /p:PipelineBuild=true /p:UsePackageReferences=true
-      
-      - name: Run Tests
-        run: dotnet run ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj -c Release /p:RunOnStart=true /p:RenderMode=WebAssembly

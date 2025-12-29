@@ -4,8 +4,10 @@
     <Found Context="routeData">
         <CascadingValue Name="PageRouteData" Value="routeData">
             <CascadingValue Name="@nameof(RunOnStart)" Value="RunOnStart">
-                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                <CascadingValue Name="@nameof(TestFilter)" Value="TestFilter">
+                    <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                    <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                </CascadingValue>
             </CascadingValue>
         </CascadingValue>
     </Found>
@@ -15,4 +17,7 @@
     [Parameter]
     [EditorRequired]
     public required bool RunOnStart { get; set; }
+    
+    [Parameter]
+    public string? TestFilter { get; set; }
 }
