@@ -1,4 +1,4 @@
-﻿param([string][Alias("c")]$Configuration = "Debug",
+param([string][Alias("c")]$Configuration = "Debug",
       [switch][Alias("f")]$Force,
       [switch][Alias("h")]$Help)
 
@@ -19,6 +19,91 @@ $DebugLockFilePath = Join-Path -Path $PSScriptRoot "esBuild.Debug.lock"
 $ReleaseLockFilePath = Join-Path -Path $PSScriptRoot "esBuild.Release.lock"
 $LockFilePath = if ($Configuration.ToLowerInvariant() -eq "release") { $ReleaseLockFilePath } else { $DebugLockFilePath }
 
+# Check for changes before starting the dialog
+$RecordFilePath = Join-Path -Path $PSScriptRoot ".." ".." ".esbuild-record.json"
+$ScriptsDir = Join-Path -Path $PSScriptRoot "Scripts"
+$OutputDir = Join-Path -Path $PSScriptRoot "wwwroot" "js"
+
+# Handle --force flag: delete record file
+if ($Force) {
+    if (Test-Path $RecordFilePath) {
+        Write-Host "Force rebuild: Deleting existing record file."
+        Remove-Item -Path $RecordFilePath -Force
+    }
+}
+
+function Get-CurrentGitBranch {
+    try {
+        $branch = git rev-parse --abbrev-ref HEAD 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            return $branch.Trim()
+        }
+        return "unknown"
+    } catch {
+        return "unknown"
+    }
+}
+
+function Get-LastBuildRecord {
+    if (-not (Test-Path $RecordFilePath)) {
+        return @{ timestamp = 0; branch = "unknown" }
+    }
+    try {
+        $data = Get-Content -Path $RecordFilePath -Raw | ConvertFrom-Json
+        return @{
+            timestamp = if ($data.timestamp) { $data.timestamp } else { 0 }
+            branch = if ($data.branch) { $data.branch } else { "unknown" }
+        }
+    } catch {
+        return @{ timestamp = 0; branch = "unknown" }
+    }
+}
+
+function Get-ScriptsModifiedSince {
+    param([long]$LastTimestamp)
+
+    # Convert JavaScript timestamp (milliseconds) to DateTime
+    $lastBuildTime = [DateTimeOffset]::FromUnixTimeMilliseconds($LastTimestamp).DateTime
+
+    $files = Get-ChildItem -Path $ScriptsDir -Recurse -File
+    foreach ($file in $files) {
+        if ($file.LastWriteTime -gt $lastBuildTime) {
+            return $true
+        }
+    }
+    return $false
+}
+
+# Check if build is needed
+$lastBuild = Get-LastBuildRecord
+$currentBranch = Get-CurrentGitBranch
+$branchChanged = $currentBranch -ne $lastBuild.branch
+
+$needsBuild = $false
+if ($branchChanged) {
+    Write-Host "Git branch changed from `"$($lastBuild.branch)`" to `"$currentBranch`". Rebuilding..."
+    $needsBuild = $true
+} elseif (-not (Get-ScriptsModifiedSince -LastTimestamp $lastBuild.timestamp)) {
+    Write-Host "No changes in Scripts folder since last build."
+
+    # Check output directory for existing files
+    if ((Test-Path $OutputDir) -and ((Get-ChildItem -Path $OutputDir -File).Count -gt 0)) {
+        Write-Host "Output directory is not empty. Skipping build."
+        exit 0
+    } else {
+        Write-Host "Output directory is empty. Proceeding with build."
+        $needsBuild = $true
+    }
+} else {
+    Write-Host "Changes detected in Scripts folder. Proceeding with build."
+    $needsBuild = $true
+}
+
+if (-not $needsBuild) {
+    exit 0
+}
+
+# Start dialog process only if we're actually going to build
 $ShowDialogPath = Join-Path -Path $PSScriptRoot ".." ".." "showDialog.ps1"
 $DialogArgs = "-Message `"Starting GeoBlazor Core ESBuild process...`" -Title `"GeoBlazor Core ESBuild`" -Buttons None -ListenForInput"
 $DialogStartInfo = New-Object System.Diagnostics.ProcessStartInfo
@@ -127,7 +212,7 @@ try
     }
     Write-Output "NPM Build Complete"
     $DialogProcess.StandardInput.WriteLine("NPM Build Complete")
-    Start-Sleep -Seconds 5
+    Start-Sleep -Seconds 4
     $DialogProcess.Kill()
     exit 0
 }

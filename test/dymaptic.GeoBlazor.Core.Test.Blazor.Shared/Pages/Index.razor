@@ -95,6 +95,12 @@ else
     [Inject]
     public required ITestLogger TestLogger { get; set; }
     
+    [Inject]
+    public required IAppValidator AppValidator { get; set; }
+    
+    [Inject]
+    public required IConfiguration Configuration { get; set; }
+    
     [CascadingParameter(Name = nameof(RunOnStart))]
     public required bool RunOnStart { get; set; }
     
@@ -120,6 +126,16 @@ else
         
         if (firstRender)
         {
+            try
+            {
+                await AppValidator.ValidateLicense();
+            }
+            catch (Exception)
+            {
+                IConfigurationSection geoblazorConfig = Configuration.GetSection("GeoBlazor");
+                throw new InvalidRegistrationException($"Failed to validate GeoBlazor License Key: {geoblazorConfig.GetValue("LicenseKey", geoblazorConfig.GetValue("RegistrationKey", "No Key Found"))}");
+            }
+            
             _jsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
                 "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
             IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, CancellationToken.None);

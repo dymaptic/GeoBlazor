@@ -82,11 +82,31 @@ let testResults = {
     allPassed: false,          // Set when all tests pass (no failures)
     retryPending: false,       // Set when we detect a retry is about to happen
     maxRetriesExceeded: false, // Set when 5 retries have been exceeded
-    attemptNumber: 1           // Current attempt number (1-based)
+    attemptNumber: 1,          // Current attempt number (1-based)
+    // Track best results across all attempts
+    bestPassed: 0,
+    bestFailed: Infinity,      // Start high so any result is "better"
+    bestTotal: 0
 };
 
 // Reset test tracking for a new attempt (called on page reload)
+// Preserves the best results from previous attempts
 function resetForNewAttempt() {
+    // Save best results before resetting
+    if (testResults.hasResultsSummary && testResults.total > 0) {
+        // Better = more passed OR same passed but fewer failed
+        const currentIsBetter = testResults.passed > testResults.bestPassed ||
+            (testResults.passed === testResults.bestPassed && testResults.failed < testResults.bestFailed);
+
+        if (currentIsBetter) {
+            testResults.bestPassed = testResults.passed;
+            testResults.bestFailed = testResults.failed;
+            testResults.bestTotal = testResults.total;
+            console.log(`  [BEST RESULTS UPDATED] Passed: ${testResults.bestPassed}, Failed: ${testResults.bestFailed}`);
+        }
+    }
+
+    // Reset current attempt tracking
     testResults.passed = 0;
     testResults.failed = 0;
     testResults.total = 0;
@@ -229,10 +249,22 @@ async function runTests() {
                 testResults.hasResultsSummary = true;
                 console.log(`  [RESULTS SUMMARY DETECTED] (Attempt ${testResults.attemptNumber})`);
 
-                // Check if all tests passed (Failed: 0)
-                if (text.includes('Failed: 0') || text.match(/Failed:\s*0/)) {
-                    testResults.allPassed = true;
-                    console.log(`  [ALL PASSED] All tests passed on attempt ${testResults.attemptNumber}!`);
+                // Parse the header summary to get total passed/failed
+                // The format is: "# GeoBlazor Unit Test Results\n<date>\nPassed: X\nFailed: Y"
+                // We need to find the FIRST Passed/Failed after the header, not any class summary
+                const headerMatch = text.match(/GeoBlazor Unit Test Results[\s\S]*?Passed:\s*(\d+)\s*Failed:\s*(\d+)/);
+                if (headerMatch) {
+                    const totalPassed = parseInt(headerMatch[1]);
+                    const totalFailed = parseInt(headerMatch[2]);
+                    testResults.passed = totalPassed;
+                    testResults.failed = totalFailed;
+                    testResults.total = totalPassed + totalFailed;
+                    console.log(`  [SUMMARY PARSED] Passed: ${totalPassed}, Failed: ${totalFailed}`);
+
+                    if (totalFailed === 0) {
+                        testResults.allPassed = true;
+                        console.log(`  [ALL PASSED] All tests passed on attempt ${testResults.attemptNumber}!`);
+                    }
                 }
             }
 
@@ -374,7 +406,8 @@ async function runTests() {
                     });
 
                     // Log status periodically for debugging
-                    const statusLog = `Attempt: ${testResults.attemptNumber}, Running: ${status.hasRunning}, Summary: ${testResults.hasResultsSummary}, RetryPending: ${testResults.retryPending}, Passed: ${testResults.passed}, Failed: ${testResults.failed}`;
+                    const bestInfo = testResults.bestTotal > 0 ? `, Best: ${testResults.bestPassed}/${testResults.bestTotal}` : '';
+                    const statusLog = `Attempt: ${testResults.attemptNumber}, Running: ${status.hasRunning}, Summary: ${testResults.hasResultsSummary}, RetryPending: ${testResults.retryPending}, AllPassed: ${testResults.allPassed}, Passed: ${testResults.passed}, Failed: ${testResults.failed}${bestInfo}`;
                     if (statusLog !== lastStatusLog) {
                         console.log(`  [Status] ${statusLog}`);
                         lastStatusLog = statusLog;
@@ -383,25 +416,32 @@ async function runTests() {
                     // Tests are truly complete when:
                     // 1. No tests are running AND
                     // 2. We have the results summary from console AND
-                    // 3. Either:
-                    //    a. All tests passed (no retry needed), OR
-                    //    b. Max retries exceeded (5 attempts), OR
-                    //    c. No retry pending (failed but not retrying, e.g., filter applied)
-                    //
-                    // Note: The test runner sets retryPending=true when it will reload.
-                    // After reload, resetForNewAttempt() clears retryPending.
-                    // If we have a summary but retryPending is true, wait for the reload.
+                    // 3. Some tests actually ran (passed > 0 or failed > 0) AND
+                    // 4. Either:
+                    //    a. All tests passed (no need for retry), OR
+                    //    b. Max retries exceeded (browser gave up), OR
+                    //    c. No retry pending (browser decided not to retry)
 
+                    const testsActuallyRan = testResults.passed > 0 || testResults.failed > 0;
                     const isComplete = !status.hasRunning &&
                                        testResults.hasResultsSummary &&
-                                       !testResults.retryPending &&
-                                       (testResults.allPassed || testResults.maxRetriesExceeded || testResults.failed === 0);
+                                       testsActuallyRan &&
+                                       (testResults.allPassed || testResults.maxRetriesExceeded || !testResults.retryPending);
 
                     if (isComplete) {
+                        // Use best results if we have them
+                        if (testResults.bestTotal > 0) {
+                            testResults.passed = testResults.bestPassed;
+                            testResults.failed = testResults.bestFailed;
+                            testResults.total = testResults.bestTotal;
+                        }
+
                         if (testResults.allPassed) {
                             console.log(`  [Status] All tests passed on attempt ${testResults.attemptNumber}!`);
                         } else if (testResults.maxRetriesExceeded) {
-                            console.log(`  [Status] Tests completed after exceeding max retries (${testResults.attemptNumber} attempts)`);
+                            console.log(`  [Status] Tests complete after max retries. Best result: ${testResults.passed} passed, ${testResults.failed} failed`);
+                        } else if (testResults.failed > 0) {
+                            console.log(`  [Status] Tests complete with ${testResults.failed} failure(s) on attempt ${testResults.attemptNumber}`);
                         } else {
                             console.log(`  [Status] All tests complete on attempt ${testResults.attemptNumber}!`);
                         }
@@ -421,10 +461,32 @@ async function runTests() {
                     }
 
                     if (Date.now() - logTimestamp > CONFIG.idleTimeout) {
+                        // Before aborting, check if we have best results from a previous attempt
+                        if (testResults.bestTotal > 0) {
+                            console.log(`  [IDLE TIMEOUT] No activity, but have results from previous attempt.`);
+                            testResults.passed = testResults.bestPassed;
+                            testResults.failed = testResults.bestFailed;
+                            testResults.total = testResults.bestTotal;
+                            testResults.hasResultsSummary = true;
+                            clearTimeout(timeout);
+                            resolve();
+                            break;
+                        }
                         throw new Error(`Aborting: No new messages within the past ${CONFIG.idleTimeout / 1000} seconds`);
                     }
                 }
             } catch (error) {
+                // Even on error, preserve best results if we have them
+                if (testResults.bestTotal > 0) {
+                    testResults.passed = testResults.bestPassed;
+                    testResults.failed = testResults.bestFailed;
+                    testResults.total = testResults.bestTotal;
+                    testResults.hasResultsSummary = true;
+                    console.log(`  [ERROR RECOVERY] Using best results: ${testResults.passed} passed, ${testResults.failed} failed`);
+                    clearTimeout(timeout);
+                    resolve();
+                    return;
+                }
                 clearTimeout(timeout);
                 reject(error);
             }

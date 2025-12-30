@@ -130,14 +130,19 @@
                 await RunTest(method);
             }
 
-            if (_retryTests.Any() && !cancellationToken.IsCancellationRequested)
+            for (int i = 1; i < 2; i++)
             {
-                await Task.Delay(1000, cancellationToken);
-
-                foreach (MethodInfo retryMethod in _retryTests)
+                if (_retryTests.Any() && !cancellationToken.IsCancellationRequested)
                 {
-                    _failed.Remove(retryMethod.Name);
-                    await RunTest(retryMethod);
+                    List<MethodInfo> retryTests = _retryTests.ToList();
+                    _retryTests.Clear();
+                    _retry = i;
+                    await Task.Delay(1000, cancellationToken);
+
+                    foreach (MethodInfo retryMethod in retryTests)
+                    {
+                        await RunTest(retryMethod);
+                    }
                 }
             }
         }
@@ -145,6 +150,7 @@
         {
             _retryTests.Clear();
             _running = false;
+            _retry = 0;
             await OnTestResults.InvokeAsync(new TestResult(ClassName, _methodInfos!.Length, _passed, _failed, _running));
             StateHasChanged();
         }
@@ -206,11 +212,29 @@
         {
             if (_mapRenderingExceptions.Remove(methodName, out Exception? ex))
             {
-                if (_running && _retryTests.All(mi => mi.Name != methodName))
+                if (_running && _retry < 2 && _retryTests.All(mi => mi.Name != methodName)
+                    && !ex.Message.Contains("Invalid GeoBlazor registration key")
+                    && !ex.Message.Contains("Invalid GeoBlazor Pro license key")
+                    && !ex.Message.Contains("No GeoBlazor Registration key provided")
+                    && !ex.Message.Contains("No GeoBlazor Pro license key provided")
+                    && !ex.Message.Contains("Map component view is in an invalid state"))
                 {
+                    switch (_retry)
+                    {
+                        case 0:
+                            _resultBuilder.AppendLine("First failure: will retry 2 more times");
+
+                            break;
+                        case 1:
+                            _resultBuilder.AppendLine("Second failure: will retry 1 more times");
+
+                            break;
+                    }
+                    
                     // Sometimes running multiple tests causes timeouts, give this another chance.
                     _retryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
                 }
+                
                 ExceptionDispatchInfo.Capture(ex).Throw();
             }
 
@@ -433,11 +457,8 @@
                 return;
             }
 
-            if (!_retryTests.Contains(methodInfo))
-            {
-                _failed[methodInfo.Name] = $"{_resultBuilder}{Environment.NewLine}{ex.StackTrace}";
-                _resultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
-            }
+            _failed[methodInfo.Name] = $"{_resultBuilder}{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}";
+            _resultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
         }
 
         if (!_interactionToggles[methodInfo.Name])
@@ -528,4 +549,5 @@
     private Dictionary<string, bool> _interactionToggles = [];
     private string? _currentTest;
     private readonly List<MethodInfo> _retryTests = [];
+    private int _retry;
 }

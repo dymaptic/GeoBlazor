@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
       args:
         ARCGIS_API_KEY: ${ARCGIS_API_KEY}
-        GEOBLAZOR_LICENSE_KEY: ${GEOBLAZOR_LICENSE_KEY}
+        GEOBLAZOR_LICENSE_KEY: ${GEOBLAZOR_PRO_LICENSE_KEY}
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     ports:

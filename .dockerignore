@@ -23,5 +23,6 @@ obj
 **/wwwroot/js/*.js
 **/secrets.dev.yaml
 **/values.dev.yaml
+test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json
 LICENSE
 README.md

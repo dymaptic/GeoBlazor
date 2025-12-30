@@ -189,15 +189,97 @@ function Show-WindowsDialog {
 
         $form.Size = New-Object System.Drawing.Size($formWidth, $formHeight)
 
-        # Center on primary screen
+        # Center on primary screen, with offset for other dialog instances
         $monitor = [System.Windows.Forms.Screen]::PrimaryScreen
         $monitorWidth = $monitor.WorkingArea.Width
         $monitorHeight = $monitor.WorkingArea.Height
+
+        # Calculate base center position
+        $baseCenterX = [int](($monitorWidth / 2) - ($form.Width / 2))
+        $baseCenterY = [int](($monitorHeight / 2) - ($form.Height / 2))
+
+        # Find other PowerShell-hosted forms by checking for windows at similar positions
+        # Use a simple offset based on existing windows at the center position
+        $offset = 0
+        $offsetStep = 30
+
+        # Get all visible top-level windows and check for overlaps
+        Add-Type @"
+            using System;
+            using System.Collections.Generic;
+            using System.Runtime.InteropServices;
+            using System.Text;
+
+            public class WindowFinder {
+                [DllImport("user32.dll")]
+                private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+                [DllImport("user32.dll")]
+                private static extern bool IsWindowVisible(IntPtr hWnd);
+
+                [DllImport("user32.dll")]
+                private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+                [DllImport("user32.dll", CharSet = CharSet.Auto)]
+                private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+                [StructLayout(LayoutKind.Sequential)]
+                public struct RECT {
+                    public int Left, Top, Right, Bottom;
+                }
+
+                private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+                public static List<RECT> GetVisibleWindowRects() {
+                    List<RECT> rects = new List<RECT>();
+                    EnumWindows((hWnd, lParam) => {
+                        if (IsWindowVisible(hWnd)) {
+                            RECT rect;
+                            if (GetWindowRect(hWnd, out rect)) {
+                                // Only include reasonably sized windows (not tiny or huge)
+                                int width = rect.Right - rect.Left;
+                                int height = rect.Bottom - rect.Top;
+                                if (width > 100 && width < 800 && height > 100 && height < 800) {
+                                    rects.Add(rect);
+                                }
+                            }
+                        }
+                        return true;
+                    }, IntPtr.Zero);
+                    return rects;
+                }
+            }
+"@
+
+        # Check for windows near the center position and calculate offset
+        $existingRects = [WindowFinder]::GetVisibleWindowRects()
+        $tolerance = 50
+
+        foreach ($rect in $existingRects) {
+            $windowX = $rect.Left
+            $windowY = $rect.Top
+
+            # Check if this window is near our intended position (with current offset)
+            $targetX = $baseCenterX + $offset
+            $targetY = $baseCenterY + $offset
+
+            if ([Math]::Abs($windowX - $targetX) -lt $tolerance -and [Math]::Abs($windowY - $targetY) -lt $tolerance) {
+                $offset += $offsetStep
+            }
+        }
+
+        # Apply offset (cascade down and right)
+        $finalX = $baseCenterX + $offset
+        $finalY = $baseCenterY + $offset
+
+        # Make sure we stay on screen
+        $finalX = [Math]::Min($finalX, $monitorWidth - $form.Width - 10)
+        $finalY = [Math]::Min($finalY, $monitorHeight - $form.Height - 10)
+        $finalX = [Math]::Max($finalX, 10)
+        $finalY = [Math]::Max($finalY, 10)
+
         $form.StartPosition = "Manual"
-        $form.Location = New-Object System.Drawing.Point(
-            (($monitorWidth / 2) - ($form.Width / 2)),
-            (($monitorHeight / 2) - ($form.Height / 2))
-        )
+        $form.Location = New-Object System.Drawing.Point($finalX, $finalY)
 
         # Add message control - use TextBox for scrolling when listening for input
         $marginX = 30

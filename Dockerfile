@@ -26,19 +26,17 @@ COPY ./nuget.config ./nuget.config
 
 RUN pwsh -Command "./GeoBlazorBuild.ps1 -pkg"
 
-RUN pwsh -Command "./buildAppSettings.ps1 \
-    -ArcGISApiKey '$env:ARCGIS_API_KEY' \
-    -LicenseKey '$env:GEOBLAZOR_LICENSE_KEY' \
-    -OutputPaths @( \
-       './test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json', \
-       './test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json', \
-       './test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json', \
-       './test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json')"
-
-WORKDIR /work
-
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
+
+RUN pwsh -Command './buildAppSettings.ps1 \
+    -ArcGISApiKey $env:ARCGIS_API_KEY \
+    -LicenseKey $env:GEOBLAZOR_LICENSE_KEY \
+    -OutputPaths @( \
+       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json", \
+       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json", \
+       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json", \
+       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json")'
 
 RUN dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:UsePackageReference=true
 
