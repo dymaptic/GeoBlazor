@@ -19,13 +19,23 @@
         @if (_running)
         {
             <span style="color: orange; font-weight: bold">Running... @Remaining tests pending</span>
-            <span>, </span>
+
+            if (_passed.Any() || _failed.Any())
+            {
+                <span> | </span>
+            }
         }
         @if (_passed.Any() || _failed.Any())
         {
-            <span style="color: green;">Passed: @_passed.Count</span>
-            <span>, </span>
-            <span style="color: red;">Failed: @_failed.Count</span>
+            <span class="passed">Passed: @_passed.Count</span>
+            <span> | </span>
+            <span class="failed">Failed: @_failed.Count</span>
+
+            if (_inconclusive.Any())
+            {
+                <span> | </span>
+                <span class="inconclusive">Inconclusive: @_inconclusive.Count</span>
+            }
         }
     </p>
     <div class="detail-results @(_collapsed ? "collapsed" : "")">
@@ -103,13 +113,15 @@
             if (!onlyFailedTests)
             {
                 _passed.Clear();
+                _inconclusive.Clear();
             }
 
             List<MethodInfo> methodsToRun = [];
 
             foreach (MethodInfo method in _methodInfos!.Skip(skip))
             {
-                if (onlyFailedTests && _passed.ContainsKey(method.Name))
+                if (onlyFailedTests 
+                    && (_passed.ContainsKey(method.Name) || _inconclusive.ContainsKey(method.Name)))
                 {
                     continue;
                 }
@@ -151,7 +163,7 @@
             _retryTests.Clear();
             _running = false;
             _retry = 0;
-            await OnTestResults.InvokeAsync(new TestResult(ClassName, _methodInfos!.Length, _passed, _failed, _running));
+            await OnTestResults.InvokeAsync(new TestResult(ClassName, _methodInfos!.Length, _passed, _failed, _inconclusive, _running));
             StateHasChanged();
         }
     }
@@ -182,13 +194,19 @@
         {
             _passed = Results.Passed;
             _failed = Results.Failed;
+            _inconclusive = Results.Inconclusive;
             foreach (string passedTest in _passed.Keys)
             {
-                _testResults[passedTest] = "<p style=\"color: green; font-weight: bold\">Passed</p>";
+                _testResults[passedTest] = "<p class=\"passed bold\">Passed</p>";
             }
             foreach (string failedTest in _failed.Keys)
             {
-                _testResults[failedTest] = "<p style=\"color: red; font-weight: bold\">Failed</p>";
+                _testResults[failedTest] = "<p class=\"failed bold\">Failed</p>";
+            }
+
+            foreach (string inconclusiveTest in _inconclusive.Keys)
+            {
+                _testResults[inconclusiveTest] = "<p class=\"inconclusive bold\">Inconclusive</p>";
             }
             
             StateHasChanged();
@@ -404,6 +422,7 @@
         _resultBuilder = new StringBuilder();
         _passed.Remove(methodInfo.Name);
         _failed.Remove(methodInfo.Name);
+        _inconclusive.Remove(methodInfo.Name);
         _testRenderFragments.Remove(methodInfo.Name);
         _mapRenderingExceptions.Remove(methodInfo.Name);
         methodsWithRenderedMaps.Remove(methodInfo.Name);
@@ -456,9 +475,22 @@
             {
                 return;
             }
+            
+            string textResult = $"{_resultBuilder}{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}";
+            string displayColor;
 
-            _failed[methodInfo.Name] = $"{_resultBuilder}{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}";
-            _resultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
+            if (ex is AssertInconclusiveException)
+            {
+                _inconclusive[methodInfo.Name] = textResult;
+                displayColor = "white";
+            }
+            else
+            {
+                _failed[methodInfo.Name] = textResult;
+                displayColor = "red";
+            }
+            
+            _resultBuilder.AppendLine($"<p style=\"color: {displayColor}; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
         }
 
         if (!_interactionToggles[methodInfo.Name])
@@ -483,7 +515,8 @@
         await InvokeAsync(async () =>
         {
             StateHasChanged();
-            await OnTestResults.InvokeAsync(new TestResult(ClassName, _methodInfos!.Length, _passed, _failed, _running));
+            await OnTestResults.InvokeAsync(
+                new TestResult(ClassName, _methodInfos!.Length, _passed, _failed, _inconclusive, _running));
         });
         _interactionToggles[testName] = false;
         _currentTest = null;
@@ -535,7 +568,9 @@
     private static readonly Dictionary<string, List<ListItem>> listItems = new();
     
     private string ClassName => GetType().Name;
-    private int Remaining => _methodInfos is null ? 0 : _methodInfos.Length - (_passed.Count + _failed.Count);
+    private int Remaining => _methodInfos is null 
+        ? 0 
+        : _methodInfos.Length - (_passed.Count + _failed.Count + _inconclusive.Count);
     private StringBuilder _resultBuilder = new();
     private Type? _type;
     private MethodInfo[]? _methodInfos;
@@ -546,6 +581,7 @@
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
     private Dictionary<string, string?> _passed = new();
     private Dictionary<string, string?> _failed = new();
+    private Dictionary<string, string?> _inconclusive = new();
     private Dictionary<string, bool> _interactionToggles = [];
     private string? _currentTest;
     private readonly List<MethodInfo> _retryTests = [];

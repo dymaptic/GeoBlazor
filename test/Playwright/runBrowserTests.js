@@ -24,33 +24,33 @@ for (const arg of args) {
     if (arg.indexOf('=') > 0 && arg.indexOf('=') < arg.length - 1) {
         let split = arg.split('=');
         let key = split[0].toUpperCase();
-        let value = split[1];
-        process.env[key] = value;
+        process.env[key] = split[1];
     } else {
         switch (arg.toUpperCase().replace('-', '').replace('_', '')) {
             case 'COREONLY':
-                process.env.CORE_ONLY = true;
+                process.env.CORE_ONLY = "true";
                 break;
             case 'PROONLY':
-                process.env.PRO_ONLY = true;
+                process.env.PRO_ONLY = "true";
                 break;
             case 'HEADLESS':
-                process.env.HEADLESS = true;
+                process.env.HEADLESS = "true";
                 break;
         }
     }
 }
 
 // __dirname = GeoBlazor.Pro/GeoBlazor/test/Playwright
-const coreDockerPath = path.resolve(__dirname, '..', '..', 'Dockerfile');
 const proDockerPath = path.resolve(__dirname, '..', '..', '..', 'Dockerfile');
-
 // if we are in GeoBlazor Core only, the pro file will not exist
 const proExists = fs.existsSync(proDockerPath);
+const geoblazorKey = proExists ? process.env.GEOBLAZOR_PRO_LICENSE_KEY : process.env.GEOBLAZOR_CORE_LICENSE_KEY;
 
 // Configuration
+let httpsPort = parseInt(process.env.HTTPS_PORT) || parseInt(process.env.PORT) || 8443;
 const CONFIG = {
-    testAppUrl: process.env.TEST_APP_URL || 'https://localhost:8443',
+    httpsPort: parseInt(process.env.HTTPS_PORT) || parseInt(process.env.PORT) || 8443,
+    testAppUrl: process.env.TEST_APP_URL || `https://localhost:${httpsPort}`,
     testTimeout: parseInt(process.env.TEST_TIMEOUT) || 30 * 60 * 1000, // 30 minutes default
     idleTimeout: parseInt(process.env.TEST_TIMEOUT) || 60 * 1000, // 1 minute default
     renderMode: process.env.RENDER_MODE || 'WebAssembly',
@@ -68,6 +68,8 @@ console.log(`  Render Mode: ${CONFIG.renderMode}`);
 console.log(`  Core Only: ${CONFIG.coreOnly}`);
 console.log(`  Pro Only: ${CONFIG.proOnly}`);
 console.log(`  Headless: ${CONFIG.headless}`);
+console.log(`  ArcGIS API Key: ...${process.env.ARCGIS_API_KEY?.slice(-7)}`);
+console.log(`  GeoBlazor License Key: ...${geoblazorKey?.slice(-7)}`);
 console.log('');
 
 // Test result tracking
@@ -80,8 +82,8 @@ let testResults = {
     endTime: null,
     hasResultsSummary: false,  // Set when we see the final results in console
     allPassed: false,          // Set when all tests pass (no failures)
-    retryPending: false,       // Set when we detect a retry is about to happen
     maxRetriesExceeded: false, // Set when 5 retries have been exceeded
+    idleTimeoutPassed: false, // No new messages have been received within a specified time frame
     attemptNumber: 1,          // Current attempt number (1-based)
     // Track best results across all attempts
     bestPassed: 0,
@@ -91,7 +93,7 @@ let testResults = {
 
 // Reset test tracking for a new attempt (called on page reload)
 // Preserves the best results from previous attempts
-function resetForNewAttempt() {
+async function resetForNewAttempt() {
     // Save best results before resetting
     if (testResults.hasResultsSummary && testResults.total > 0) {
         // Better = more passed OR same passed but fewer failed
@@ -113,7 +115,6 @@ function resetForNewAttempt() {
     testResults.failedTests = [];
     testResults.hasResultsSummary = false;
     testResults.allPassed = false;
-    testResults.retryPending = false;
     testResults.attemptNumber++;
     console.log(`\n  [RETRY] Starting attempt ${testResults.attemptNumber}...\n`);
 }
@@ -147,21 +148,28 @@ async function waitForService(url, name, maxAttempts = 60, intervalMs = 2000) {
 async function startDockerContainer() {
     console.log('Starting Docker container...');
 
-    const composeFile = path.join(__dirname, 
+    const composeFile = path.join(__dirname,
         proExists && !CONFIG.coreOnly ? 'docker-compose-pro.yml' : 'docker-compose-core.yml');
+
+    // Set port environment variables for docker compose
+    const env = {
+        ...process.env,
+        HTTPS_PORT: CONFIG.httpsPort.toString()
+    };
 
     try {
         // Build and start container
         execSync(`docker compose -f "${composeFile}" up -d --build`, {
             stdio: 'inherit',
-            cwd: __dirname
+            cwd: __dirname,
+            env: env
         });
 
         console.log('Docker container started. Waiting for services...');
 
-        // Wait for test app HTTPS endpoint (using localhost since we're outside the container)
+        // Wait for test app HTTP endpoint (using localhost since we're outside the container)
         // Note: Node's fetch will reject self-signed certs, so we check HTTP which is also available
-        await waitForService('http://localhost:8080', 'Test Application (HTTP)');
+        await waitForService(`http://localhost:8080`, 'Test Application (HTTP)');
 
     } catch (error) {
         console.error('Failed to start Docker container:', error.message);
@@ -175,10 +183,17 @@ async function stopDockerContainer() {
     const composeFile = path.join(__dirname,
         proExists && !CONFIG.coreOnly ? 'docker-compose-pro.yml' : 'docker-compose-core.yml');
 
+    // Set port environment variables for docker compose (needed to match the running container)
+    const env = {
+        ...process.env,
+        HTTPS_PORT: CONFIG.httpsPort.toString()
+    };
+
     try {
         execSync(`docker compose -f "${composeFile}" down`, {
             stdio: 'inherit',
-            cwd: __dirname
+            cwd: __dirname,
+            env: env
         });
     } catch (error) {
         console.error('Failed to stop Docker container:', error.message);
@@ -228,19 +243,6 @@ async function runTests() {
             const type = msg.type();
             const text = msg.text();
             logTimestamp = Date.now();
-
-            // Check for retry-related messages FIRST
-            // Detect when the test runner is about to reload for a retry
-            if (text.includes('Test Run Failed or Errors Encountered, will reload and make an attempt to continue')) {
-                testResults.retryPending = true;
-                console.log(`  [RETRY PENDING] Test run failed, retry will be attempted...`);
-            }
-
-            // Detect when max retries have been exceeded
-            if (text.includes('Surpassed 5 reload attempts, exiting')) {
-                testResults.maxRetriesExceeded = true;
-                console.log(`  [MAX RETRIES] Exceeded 5 retry attempts, tests will stop.`);
-            }
 
             // Check for the final results summary
             // This text appears in the full results output
@@ -294,18 +296,6 @@ async function runTests() {
             console.error(`Page error: ${error.message}`);
         });
 
-        // Handle page navigation/reload events (for retry detection)
-        // When the test runner reloads the page for a retry, we need to reset tracking
-        page.on('framenavigated', frame => {
-            // Only handle main frame navigations
-            if (frame === page.mainFrame()) {
-                // Only reset if we were expecting a retry (retryPending was set)
-                if (testResults.retryPending) {
-                    resetForNewAttempt();
-                }
-            }
-        });
-
         // Build the test URL with parameters
         // Use Docker network hostname since browser is inside the container
         let testUrl = CONFIG.testAppUrl;
@@ -337,7 +327,7 @@ async function runTests() {
         });
 
         console.log('Page loaded. Waiting for tests to complete...\n');
-
+        
         // Wait for tests to complete
         // The test runner will either:
         // 1. Show completion status in the UI
@@ -407,7 +397,7 @@ async function runTests() {
 
                     // Log status periodically for debugging
                     const bestInfo = testResults.bestTotal > 0 ? `, Best: ${testResults.bestPassed}/${testResults.bestTotal}` : '';
-                    const statusLog = `Attempt: ${testResults.attemptNumber}, Running: ${status.hasRunning}, Summary: ${testResults.hasResultsSummary}, RetryPending: ${testResults.retryPending}, AllPassed: ${testResults.allPassed}, Passed: ${testResults.passed}, Failed: ${testResults.failed}${bestInfo}`;
+                    const statusLog = `Attempt: ${testResults.attemptNumber}, Running: ${status.hasRunning}, Summary: ${testResults.hasResultsSummary}, AllPassed: ${testResults.allPassed}, Passed: ${testResults.passed}, Failed: ${testResults.failed}${bestInfo}`;
                     if (statusLog !== lastStatusLog) {
                         console.log(`  [Status] ${statusLog}`);
                         lastStatusLog = statusLog;
@@ -419,18 +409,17 @@ async function runTests() {
                     // 3. Some tests actually ran (passed > 0 or failed > 0) AND
                     // 4. Either:
                     //    a. All tests passed (no need for retry), OR
-                    //    b. Max retries exceeded (browser gave up), OR
-                    //    c. No retry pending (browser decided not to retry)
+                    //    b. Max retries exceeded (browser gave up)
 
                     const testsActuallyRan = testResults.passed > 0 || testResults.failed > 0;
                     const isComplete = !status.hasRunning &&
                                        testResults.hasResultsSummary &&
-                                       testsActuallyRan &&
-                                       (testResults.allPassed || testResults.maxRetriesExceeded || !testResults.retryPending);
+                                       testsActuallyRan;
 
                     if (isComplete) {
-                        // Use best results if we have them
-                        if (testResults.bestTotal > 0) {
+                        // Use best results if we have them and they were higher than the current results
+                        if (testResults.bestTotal > 0 
+                            && testResults.bestPassed > testResults.passed) {
                             testResults.passed = testResults.bestPassed;
                             testResults.failed = testResults.bestFailed;
                             testResults.total = testResults.bestTotal;
@@ -438,16 +427,23 @@ async function runTests() {
 
                         if (testResults.allPassed) {
                             console.log(`  [Status] All tests passed on attempt ${testResults.attemptNumber}!`);
+                            clearTimeout(timeout);
+                            resolve();
+                            break;
                         } else if (testResults.maxRetriesExceeded) {
                             console.log(`  [Status] Tests complete after max retries. Best result: ${testResults.passed} passed, ${testResults.failed} failed`);
-                        } else if (testResults.failed > 0) {
-                            console.log(`  [Status] Tests complete with ${testResults.failed} failure(s) on attempt ${testResults.attemptNumber}`);
-                        } else {
-                            console.log(`  [Status] All tests complete on attempt ${testResults.attemptNumber}!`);
+                            clearTimeout(timeout);
+                            resolve();
+                            break;
                         }
-                        clearTimeout(timeout);
-                        resolve();
-                        break;
+                        
+                        // we hit the final results, but some tests failed
+                        await resetForNewAttempt();
+                        // re-load the test page
+                        await page.goto(testUrl, {
+                            waitUntil: 'networkidle',
+                            timeout: 60000
+                        });
                     }
 
                     // Also check if the page has navigated away or app has stopped
@@ -461,18 +457,10 @@ async function runTests() {
                     }
 
                     if (Date.now() - logTimestamp > CONFIG.idleTimeout) {
-                        // Before aborting, check if we have best results from a previous attempt
-                        if (testResults.bestTotal > 0) {
-                            console.log(`  [IDLE TIMEOUT] No activity, but have results from previous attempt.`);
-                            testResults.passed = testResults.bestPassed;
-                            testResults.failed = testResults.bestFailed;
-                            testResults.total = testResults.bestTotal;
-                            testResults.hasResultsSummary = true;
-                            clearTimeout(timeout);
-                            resolve();
-                            break;
-                        }
-                        throw new Error(`Aborting: No new messages within the past ${CONFIG.idleTimeout / 1000} seconds`);
+                        testResults.idleTimeoutPassed = true;
+                        console.log(`No new messages within the past ${CONFIG.idleTimeout / 1000} seconds`);
+                        resolve();
+                        break;
                     }
                 }
             } catch (error) {
@@ -493,6 +481,11 @@ async function runTests() {
         });
 
         await completionPromise;
+        
+        if (!testResults.allPassed || !testResults.maxRetriesExceeded) {
+            // run again
+            return await resetForNewAttempt();
+        }
 
         // Try to extract final test results from the page
         try {

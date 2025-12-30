@@ -72,11 +72,23 @@ public class AuthenticationManagerTests: TestRunnerBase
     [TestMethod]
     public async Task TestRegisterOAuthWithArcGISPortal()
     {
-        AuthenticationManager.ExcludeApiKey = true;
-        AuthenticationManager.AppId = Configuration["TestPortalAppId"];
-        AuthenticationManager.PortalUrl = Configuration["TestPortalUrl"];
+        // Skip if OAuth credentials are not configured (e.g., in Docker/CI environments)
+        string? appId = Configuration["TestPortalAppId"];
+        string? portalUrl = Configuration["TestPortalUrl"];
+        string? clientSecret = Configuration["TestPortalClientSecret"];
 
-        TokenResponse tokenResponse = await RequestTokenAsync(Configuration["TestPortalClientSecret"]!);
+        if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(portalUrl) || string.IsNullOrEmpty(clientSecret))
+        {
+            Assert.Inconclusive("Skipping: TestPortalAppId, TestPortalUrl, or TestPortalClientSecret not configured. " +
+                "These OAuth tests require credentials that are not available in Docker/CI environments.");
+            return;
+        }
+
+        AuthenticationManager.ExcludeApiKey = true;
+        AuthenticationManager.AppId = appId;
+        AuthenticationManager.PortalUrl = portalUrl;
+
+        TokenResponse tokenResponse = await RequestTokenAsync(clientSecret);
         Assert.IsTrue(tokenResponse.Success, tokenResponse.ErrorMessage);
 
         await AuthenticationManager.RegisterToken(tokenResponse.AccessToken!, tokenResponse.Expires!.Value);
@@ -93,11 +105,23 @@ public class AuthenticationManagerTests: TestRunnerBase
     [TestMethod]
     public async Task TestRegisterOAuthWithArcGISOnline()
     {
-        AuthenticationManager.ExcludeApiKey = true;
-        AuthenticationManager.AppId = Configuration["TestAGOAppId"];
-        AuthenticationManager.PortalUrl = Configuration["TestAGOUrl"];
+        // Skip if OAuth credentials are not configured (e.g., in Docker/CI environments)
+        string? appId = Configuration["TestAGOAppId"];
+        string? portalUrl = Configuration["TestAGOUrl"];
+        string? clientSecret = Configuration["TestAGOClientSecret"];
 
-        TokenResponse tokenResponse = await RequestTokenAsync(Configuration["TestAGOClientSecret"]!);
+        if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(portalUrl) || string.IsNullOrEmpty(clientSecret))
+        {
+            Assert.Inconclusive("Skipping: TestAGOAppId, TestAGOUrl, or TestAGOClientSecret not configured. " +
+                "These OAuth tests require credentials that are not available in Docker/CI environments.");
+            return;
+        }
+
+        AuthenticationManager.ExcludeApiKey = true;
+        AuthenticationManager.AppId = appId;
+        AuthenticationManager.PortalUrl = portalUrl;
+
+        TokenResponse tokenResponse = await RequestTokenAsync(clientSecret);
         Assert.IsTrue(tokenResponse.Success, tokenResponse.ErrorMessage);
 
         await AuthenticationManager.RegisterToken(tokenResponse.AccessToken!, tokenResponse.Expires!.Value);

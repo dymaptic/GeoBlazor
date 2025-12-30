@@ -1,8 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG ARCGIS_API_KEY
 ARG GEOBLAZOR_LICENSE_KEY
+ARG WFS_SERVERS
 ENV ARCGIS_API_KEY=${ARCGIS_API_KEY}
 ENV GEOBLAZOR_LICENSE_KEY=${GEOBLAZOR_LICENSE_KEY}
+ENV WFS_SERVERS=${WFS_SERVERS}
 
 RUN apt-get update \
     && apt-get install -y ca-certificates curl gnupg \
@@ -36,7 +38,8 @@ RUN pwsh -Command './buildAppSettings.ps1 \
        "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json", \
        "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json", \
        "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json", \
-       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json")'
+       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json") \
+    -WfsServers $env:WFS_SERVERS'
 
 RUN dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:UsePackageReference=true
 

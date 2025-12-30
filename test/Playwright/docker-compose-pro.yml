@@ -8,11 +8,12 @@ services:
       args:
         ARCGIS_API_KEY: ${ARCGIS_API_KEY}
         GEOBLAZOR_LICENSE_KEY: ${GEOBLAZOR_PRO_LICENSE_KEY}
+        WFS_SERVERS: ${WFS_SERVERS}
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     ports:
       - "8080:8080"
-      - "8443:8443"
+      - "${HTTPS_PORT:-8443}:8443"
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider --no-check-certificate https://localhost:8443 || exit 1"]
       interval: 10s

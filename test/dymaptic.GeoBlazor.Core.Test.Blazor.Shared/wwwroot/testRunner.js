@@ -6,7 +6,7 @@ export let SimpleRenderer;
 
 let esriConfig;
 
-export function initialize(core) {
+export function initialize(core, wfsServers) {
     Core = core;
     arcGisObjectRefs = Core.arcGisObjectRefs;
     Color = Core.Color;
@@ -14,6 +14,31 @@ export function initialize(core) {
     SimpleRenderer = Core.SimpleRenderer;
     esriConfig = Core.esriConfig;
     setWaitCursor()
+
+    if (!wfsServers) {
+        return;
+    }
+    
+    core.esriConfig.request.interceptors.push({
+        before: (params) => {
+            if (wfsServers) {
+                for (let server of wfsServers) {
+                    let serverUrl = server.url;
+                    if (params.url.includes(serverUrl)) {
+                        let serverOutputFormat = server.outputFormat;
+                        let requestType = getCaseInsensitive(params.requestOptions.query, 'request');
+                        let outputFormat = getCaseInsensitive(params.requestOptions.query, 'outputFormat');
+
+                        if (requestType.toLowerCase() === 'getfeature' && !outputFormat) {
+                            params.requestOptions.query.outputFormat = serverOutputFormat;
+                        }
+                        let path = params.url.replace('https://', '');
+                        params.url = params.url.replace(serverUrl, `https://${location.host}/sample/wfs/url?url=${path}`);
+                    }
+                }
+            }
+        }
+    })
 }
 
 export function setWaitCursor(wait) {

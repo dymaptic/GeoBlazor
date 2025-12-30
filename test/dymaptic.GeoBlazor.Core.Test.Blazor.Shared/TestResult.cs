@@ -7,6 +7,7 @@ public record TestResult(
     int TestCount,
     Dictionary<string, string?> Passed,
     Dictionary<string, string?> Failed,
+    Dictionary<string, string?> Inconclusive,
     bool InProgress)
 {
     public int Pending => TestCount - (Passed.Count + Failed.Count);

@@ -91,3 +91,31 @@ button {
 .blazor-error-boundary::after {
     content: "An error has occurred."
 }
+
+.passed {
+    color: green;
+}
+
+.failed {
+    color: red;
+}
+
+.pending {
+    color: orange;
+}
+
+.completed {
+    color: blue;
+}
+
+.inconclusive {
+    color: gray;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.stop-btn {
+    background-color: hotpink;
+}

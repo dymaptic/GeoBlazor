@@ -51,7 +51,7 @@ param(
 )
 
 # Build the appsettings JSON content
-$appSettingsContent = @"
+$appSettingsContent = @"    
 {
   "ArcGISApiKey": "$ArcGISApiKey",
   "GeoBlazor": {
