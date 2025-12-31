@@ -40,7 +40,7 @@ for (const arg of args) {
     }
 }
 
-// __dirname = GeoBlazor.Pro/GeoBlazor/test/Playwright
+// __dirname = GeoBlazor.Pro/GeoBlazor/test/Automation
 const proDockerPath = path.resolve(__dirname, '..', '..', '..', 'Dockerfile');
 // if we are in GeoBlazor Core only, the pro file will not exist
 const proExists = fs.existsSync(proDockerPath);
@@ -52,12 +52,13 @@ const CONFIG = {
     httpsPort: parseInt(process.env.HTTPS_PORT) || parseInt(process.env.PORT) || 9443,
     testAppUrl: process.env.TEST_APP_URL || `https://localhost:${httpsPort}`,
     testTimeout: parseInt(process.env.TEST_TIMEOUT) || 30 * 60 * 1000, // 30 minutes default
-    idleTimeout: parseInt(process.env.TEST_TIMEOUT) || 60 * 1000, // 1 minute default
+    idleTimeout: parseInt(process.env.IDLE_TIMEOUT) || 60 * 1000, // 1 minute default
     renderMode: process.env.RENDER_MODE || 'WebAssembly',
     coreOnly: process.env.CORE_ONLY || !proExists,
     proOnly: proExists && process.env.PRO_ONLY?.toLowerCase() === 'true',
     testFilter: process.env.TEST_FILTER || '',
     headless: process.env.HEADLESS?.toLowerCase() !== 'false',
+    maxRetries: parseInt(process.env.MAX_RETRIES) || 5
 };
 
 // Log configuration at startup
@@ -68,6 +69,7 @@ console.log(`  Render Mode: ${CONFIG.renderMode}`);
 console.log(`  Core Only: ${CONFIG.coreOnly}`);
 console.log(`  Pro Only: ${CONFIG.proOnly}`);
 console.log(`  Headless: ${CONFIG.headless}`);
+console.log(`  Max Retries: ${CONFIG.maxRetries}`);
 console.log(`  ArcGIS API Key: ...${process.env.ARCGIS_API_KEY?.slice(-7)}`);
 console.log(`  GeoBlazor License Key: ...${geoblazorKey?.slice(-7)}`);
 console.log('');
@@ -108,6 +110,13 @@ async function resetForNewAttempt() {
         }
     }
 
+    // Check if max retries exceeded
+    if (testResults.attemptNumber >= CONFIG.maxRetries) {
+        testResults.maxRetriesExceeded = true;
+        console.log(`  [MAX RETRIES] Exceeded ${CONFIG.maxRetries} attempts, stopping retries.`);
+        return;
+    }
+
     // Reset current attempt tracking
     testResults.passed = 0;
     testResults.failed = 0;
@@ -116,7 +125,7 @@ async function resetForNewAttempt() {
     testResults.hasResultsSummary = false;
     testResults.allPassed = false;
     testResults.attemptNumber++;
-    console.log(`\n  [RETRY] Starting attempt ${testResults.attemptNumber}...\n`);
+    console.log(`\n  [RETRY] Starting attempt ${testResults.attemptNumber} of ${CONFIG.maxRetries}...\n`);
 }
 
 async function waitForService(url, name, maxAttempts = 60, intervalMs = 2000) {
@@ -207,6 +216,8 @@ async function runTests() {
     testResults.startTime = new Date();
 
     try {
+        // stop the container first to make sure it is rebuilt
+        await stopDockerContainer();
         await startDockerContainer();
 
         console.log('\nLaunching local Chrome with GPU support...');
@@ -235,8 +246,8 @@ async function runTests() {
         // Get the default context or create a new one
         const context = browser.contexts()[0] || await browser.newContext();
         const page = await context.newPage();
-        
-        let logTimestamp;
+
+        let logTimestamp = Date.now();
 
         // Set up console message logging
         page.on('console', msg => {
@@ -430,16 +441,20 @@ async function runTests() {
                             clearTimeout(timeout);
                             resolve();
                             break;
-                        } else if (testResults.maxRetriesExceeded) {
+                        }
+                        
+                        // we hit the final results, but some tests failed
+                        await resetForNewAttempt();
+
+                        // Check if max retries was exceeded during resetForNewAttempt
+                        if (testResults.maxRetriesExceeded) {
                             console.log(`  [Status] Tests complete after max retries. Best result: ${testResults.passed} passed, ${testResults.failed} failed`);
                             clearTimeout(timeout);
                             resolve();
                             break;
                         }
-                        
-                        // we hit the final results, but some tests failed
-                        await resetForNewAttempt();
-                        // re-load the test page
+
+                        // if we did not hit the max retries, re-load the test page
                         await page.goto(testUrl, {
                             waitUntil: 'networkidle',
                             timeout: 60000
@@ -481,11 +496,6 @@ async function runTests() {
         });
 
         await completionPromise;
-        
-        if (!testResults.allPassed || !testResults.maxRetriesExceeded) {
-            // run again
-            return await resetForNewAttempt();
-        }
 
         // Try to extract final test results from the page
         try {

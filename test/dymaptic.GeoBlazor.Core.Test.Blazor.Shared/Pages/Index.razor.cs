@@ -120,16 +120,6 @@ public partial class Index
 
             if (attempts is not null && int.TryParse(attempts, out attemptCount))
             {
-                if (attemptCount > 5)
-                {
-                    await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", 0);
-                    Console.WriteLine("Surpassed 5 reload attempts, exiting.");
-                    Environment.ExitCode = 1;
-                    HostApplicationLifetime.StopApplication();
-
-                    return;
-                }
-
                 await TestLogger.Log($"Attempt #{attemptCount}");
             }
 
@@ -140,11 +130,9 @@ public partial class Index
             if (!_allPassed)
             {
                 await TestLogger.Log(
-                    "Test Run Failed or Errors Encountered, will reload and make an attempt to continue.");
+                    "Test Run Failed or Errors Encountered. Reload the page to re-run failed tests.");
                 attemptCount++;
                 await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", attemptCount);
-                await Task.Delay(1000);
-                NavigationManager.NavigateTo("/");
             }
             else
             {
