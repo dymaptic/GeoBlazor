@@ -67,10 +67,10 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Configure Kestrel for HTTPS
-ENV ASPNETCORE_URLS="https://+:8443;http://+:8080"
+ENV ASPNETCORE_URLS="https://+:9443;http://+:8080"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password=password
 
 USER info
-EXPOSE 8080 8443
+EXPOSE 8080 9443
 ENTRYPOINT ["dotnet", "dymaptic.GeoBlazor.Core.Test.WebApp.dll"]

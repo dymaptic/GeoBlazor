@@ -47,9 +47,9 @@ const proExists = fs.existsSync(proDockerPath);
 const geoblazorKey = proExists ? process.env.GEOBLAZOR_PRO_LICENSE_KEY : process.env.GEOBLAZOR_CORE_LICENSE_KEY;
 
 // Configuration
-let httpsPort = parseInt(process.env.HTTPS_PORT) || parseInt(process.env.PORT) || 8443;
+let httpsPort = parseInt(process.env.HTTPS_PORT) || parseInt(process.env.PORT) || 9443;
 const CONFIG = {
-    httpsPort: parseInt(process.env.HTTPS_PORT) || parseInt(process.env.PORT) || 8443,
+    httpsPort: parseInt(process.env.HTTPS_PORT) || parseInt(process.env.PORT) || 9443,
     testAppUrl: process.env.TEST_APP_URL || `https://localhost:${httpsPort}`,
     testTimeout: parseInt(process.env.TEST_TIMEOUT) || 30 * 60 * 1000, // 30 minutes default
     idleTimeout: parseInt(process.env.TEST_TIMEOUT) || 60 * 1000, // 1 minute default
