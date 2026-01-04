@@ -52,6 +52,13 @@ jobs:
       run: |
         ./GeoBlazorBuild.ps1 -pkg -pub -c "Release"
         
+    - name: Run Tests
+      shell: pwsh
+      run: |
+        cd ./test/Automation/
+        npm test CORE_ONLY=true
+        cd ../../
+    
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint
       shell: bash

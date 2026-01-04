@@ -4,17 +4,6 @@ public partial class BasemapToggleWidget : Widget
 {
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.BasemapToggle;
-
-    /// <summary>
-    ///     The name of the next basemap for toggling.
-    /// </summary>
-    /// <remarks>
-    ///     Set either <see cref="NextBasemapName" /> or <see cref="NextBasemap" />
-    /// </remarks>
-    [Parameter]
-    [Obsolete("Use NextBasemapStyle instead")]
-    [CodeGenerationIgnore]
-    public string? NextBasemapName { get; set; }
     
     /// <summary>
     ///     The next <see cref="BasemapStyleName" /> for toggling.
@@ -76,9 +65,9 @@ public partial class BasemapToggleWidget : Widget
     public override void ValidateRequiredChildren()
     {
 #pragma warning disable CS0618 // Type or member is obsolete
-        if (NextBasemap is null && NextBasemapName is null && NextBasemapStyle is null)
+        if (NextBasemap is null && NextBasemapStyle is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(BasemapToggleWidget), [nameof(NextBasemap), nameof(NextBasemapName), nameof(NextBasemapStyle)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(BasemapToggleWidget), [nameof(NextBasemap), nameof(NextBasemapStyle)]);
         }
 #pragma warning restore CS0618 // Type or member is obsolete
         

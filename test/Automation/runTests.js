@@ -381,20 +381,20 @@ async function runTests() {
 
                         // Count test classes and sum up results
                         // Each test class section has "Passed: X" and "Failed: Y"
-                        const bodyText = document.body.innerText || '';
+                        const bodyHtml = document.body.innerHTML || '';
 
                         // Check for the final results summary header "# GeoBlazor Unit Test Results"
-                        if (bodyText.includes('GeoBlazor Unit Test Results')) {
+                        if (bodyHtml.includes('GeoBlazor Unit Test Results')) {
                             result.hasResultsSummary = true;
                         }
 
                         // Count how many test class sections we have (look for pattern like "## ClassName")
-                        const classMatches = bodyText.match(/## \w+Tests/g);
+                        const classMatches = bodyHtml.match(/<h2>\w+Tests<\/h2>/g);
                         result.testClassCount = classMatches ? classMatches.length : 0;
 
                         // Sum up all Passed/Failed counts
-                        const passMatches = [...bodyText.matchAll(/Passed:\s*(\d+)/g)];
-                        const failMatches = [...bodyText.matchAll(/Failed:\s*(\d+)/g)];
+                        const passMatches = [...bodyHtml.matchAll(/<span class="passed">Passed:\s*(\d+)<\/span>/g)];
+                        const failMatches = [...bodyHtml.matchAll(/<span class="failed">Failed:\s*(\d+)<\/span>/g)];
 
                         for (const match of passMatches) {
                             result.totalPassed += parseInt(match[1]);
@@ -508,11 +508,11 @@ async function runTests() {
 
                 // Parse passed/failed counts from the page text
                 // Format: "Passed: X" and "Failed: X"
-                const bodyText = document.body.innerText || '';
+                const bodyHtml = document.body.innerHTML || '';
 
                 // Sum up all Passed/Failed counts from all test classes
-                const passMatches = bodyText.matchAll(/Passed:\s*(\d+)/g);
-                const failMatches = bodyText.matchAll(/Failed:\s*(\d+)/g);
+                const passMatches = bodyHtml.matchAll(/<span class="passed">Passed:\s*(\d+)<\/span>/g);
+                const failMatches = bodyHtml.matchAll(/<span class="failed">Failed:\s*(\d+)<\/span>/g);
 
                 for (const match of passMatches) {
                     results.passed += parseInt(match[1]);
@@ -523,7 +523,7 @@ async function runTests() {
 
                 // Look for failed test details in the test result paragraphs
                 // Failed tests have red-colored error messages
-                const errorParagraphs = document.querySelectorAll('p[style*="color: red"]');
+                const errorParagraphs = document.querySelectorAll('p[class*="failed"]');
                 errorParagraphs.forEach(el => {
                     const text = el.textContent?.trim();
                     if (text && !text.startsWith('Failed:')) {

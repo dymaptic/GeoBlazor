@@ -73,7 +73,8 @@ else
 
     foreach (Type type in _testClassTypes)
     {
-        bool isIsolated = type.GetCustomAttribute<IsolatedTestAttribute>() != null;
+        bool isIsolated = _testClassTypes.Count > 1
+            && type.GetCustomAttribute<IsolatedTestAttribute>() != null;
         <TestWrapper TestClassType="type" Isolated="isIsolated" 
                      OnTestResults="OnTestResults" 
                      Results="_results[type.Name]"

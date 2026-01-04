@@ -3,7 +3,6 @@ using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Logging;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.JSInterop;
 using System.Reflection;
 using System.Text;
@@ -14,8 +13,6 @@ namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Pages;
 
 public partial class Index
 {
-    [Inject]
-    public required IHostApplicationLifetime HostApplicationLifetime { get; set; }
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
     [Inject]
@@ -35,6 +32,7 @@ public partial class Index
     /// </summary>
     [CascadingParameter(Name = nameof(ProOnly))]
     public required bool ProOnly { get; set; }
+    
     [CascadingParameter(Name = nameof(TestFilter))]
     public string? TestFilter { get; set; }
 
@@ -42,11 +40,6 @@ public partial class Index
     {
         if (_allPassed)
         {
-            if (RunOnStart)
-            {
-                HostApplicationLifetime.StopApplication();
-            }
-
             return;
         }
 
@@ -134,10 +127,6 @@ public partial class Index
                 attemptCount++;
                 await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", attemptCount);
             }
-            else
-            {
-                HostApplicationLifetime.StopApplication();
-            }
         }
     }
 
@@ -175,9 +164,13 @@ public partial class Index
 
         foreach (Type type in types)
         {
-            if (!string.IsNullOrWhiteSpace(TestFilter) && !Regex.IsMatch(type.Name, TestFilter))
+            if (!string.IsNullOrWhiteSpace(TestFilter))
             {
-                continue;
+                string filter = TestFilter.Split('.')[0];
+                if (!Regex.IsMatch(type.Name, $"^{filter}$", RegexOptions.IgnoreCase))
+                {
+                    continue;
+                }
             }
 
             if (type.IsAssignableTo(typeof(TestRunnerBase)) && (type.Name != nameof(TestRunnerBase)))

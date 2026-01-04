@@ -132,5 +132,4 @@ jobs:
       - name: Run Tests
         shell: pwsh
         run: |
-          cd ./test/Playwright/
-          npm test
+          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj /p:CORE_ONLY=true /p:USE_CONTAINER=true

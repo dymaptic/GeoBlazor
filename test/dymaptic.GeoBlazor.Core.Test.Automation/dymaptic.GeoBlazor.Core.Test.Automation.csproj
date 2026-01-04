@@ -1,0 +1,34 @@
+<Project Sdk="MSTest.Sdk/4.0.2">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <EnablePlaywright>true</EnablePlaywright>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    </PropertyGroup>
+    
+    <!-- AdditionalFiles for source generator are defined in a separate .targets file to avoid Rider IDE issues -->
+    <Import Project="SourceGeneratorInputs.targets" />
+
+    <ItemGroup>
+      <PackageReference Include="CliWrap" Version="3.10.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.1" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" /><PackageReference Update="MSTest.TestFramework" Version="4.0.2" />
+      <PackageReference Update="MSTest.TestAdapter" Version="4.0.2" />
+      <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.0.2" />
+      <PackageReference Update="Microsoft.Playwright.MSTest.v4" Version="1.57.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
+      <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Test.Automation.SourceGeneration\dymaptic.GeoBlazor.Core.Test.Automation.SourceGeneration.csproj" 
+                        ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+    </ItemGroup>
+
+</Project>

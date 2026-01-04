@@ -265,7 +265,7 @@ public class ESBuildLauncher : IIncrementalGenerator
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
-            CreateNoWindow = false
+            CreateNoWindow = true
         };
 
         using var process = Process.Start(processStartInfo);
