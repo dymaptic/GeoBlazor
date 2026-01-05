@@ -1,8 +1,10 @@
 <Project>
+  <!-- Import parent Directory.Build.props if it exists (e.g., when running as submodule of Pro) -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(`Directory.Build.props`, `$(MSBuildThisFileDirectory)../`))')" />
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <CoreVersion>4.4.0.4</CoreVersion>
+    <CoreVersion>4.4.0.6</CoreVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CoreProjectPath>$(MSBuildThisFileDirectory)src\dymaptic.GeoBlazor.Core</CoreProjectPath>
     <!-- https://github.com/dotnet/aspnetcore/issues/64381 -->

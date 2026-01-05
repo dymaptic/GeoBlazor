@@ -28,6 +28,12 @@ COPY ./nuget.config ./nuget.config
 
 RUN pwsh -Command "./GeoBlazorBuild.ps1 -pkg"
 
+COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj
+COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj
+COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj
+
+RUN dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:UsePackageReference=true
+
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
 
@@ -41,9 +47,7 @@ RUN pwsh -Command './buildAppSettings.ps1 \
        "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json") \
     -WfsServers $env:WFS_SERVERS'
 
-RUN dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:UsePackageReference=true
-
-RUN dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj -c Release /p:UsePackageReference=true -o /app/publish
+RUN dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj -c Release /p:UsePackageReference=true /p:PipelineBuild=true -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 

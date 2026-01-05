@@ -32,7 +32,11 @@ public class TestConfig
     {
         Trace.Listeners.Add(new ConsoleTraceListener());
         Trace.AutoFlush = true;
-        await KillOrphanedTestRuns();
+        
+        // kill old running test apps and containers
+        await StopContainer();
+        await StopTestApp();
+        
         SetupConfiguration();
 
         if (_useContainer)
@@ -48,7 +52,14 @@ public class TestConfig
     [AssemblyCleanup]
     public static async Task AssemblyCleanup()
     {
-        await StopTestAppOrContainer();
+        if (_useContainer)
+        {
+            await StopContainer();
+        }
+        else
+        {
+            await StopTestApp();
+        }
         await cts.CancelAsync();
     }
 
@@ -68,8 +79,6 @@ public class TestConfig
         _proAvailable = File.Exists(proDockerPath);
 
         _configuration = new ConfigurationBuilder()
-            .AddEnvironmentVariables()
-            .AddDotEnvFile(true, true)
             .AddJsonFile("appsettings.json", true)
 #if DEBUG
             .AddJsonFile("appsettings.Development.json", true)
@@ -77,6 +86,9 @@ public class TestConfig
             .AddJsonFile("appsettings.Production.json", true)
 #endif
             .AddUserSecrets<TestConfig>()
+            .AddEnvironmentVariables()
+            .AddDotEnvFile(true, true)
+            .AddCommandLine(Environment.GetCommandLineArgs())
             .Build();
 
         _httpsPort = _configuration.GetValue("HTTPS_PORT", 9443);
@@ -122,9 +134,10 @@ public class TestConfig
     private static async Task StartTestApp()
     {
         ProcessStartInfo startInfo = new("dotnet",
-            $"run --project \"{TestAppPath}\" -lp https --urls \"{TestAppUrl};{TestAppHttpUrl}\"")
+            $"run --project \"{TestAppPath}\" --urls \"{TestAppUrl};{TestAppHttpUrl}\" -- -c Release /p:GenerateXmlComments=false /p:GeneratePackage=false")
         {
-            CreateNoWindow = false, WorkingDirectory = _projectFolder!
+            CreateNoWindow = false, 
+            WorkingDirectory = _projectFolder!
         };
         var process = Process.Start(startInfo);
         Assert.IsNotNull(process);
@@ -133,21 +146,49 @@ public class TestConfig
         await WaitForHttpResponse();
     }
 
-    private static async Task StopTestAppOrContainer()
+    private static async Task StopTestApp()
     {
-        if (_useContainer)
+        if (_testProcessId.HasValue)
         {
+            Process? process = null;
+
             try
             {
-                await Cli.Wrap("docker")
-                    .WithArguments($"compose -f {ComposeFilePath} down")
-                    .ExecuteAsync(cts.Token);
+                process = Process.GetProcessById(_testProcessId.Value);
+
+                if (_useContainer)
+                {
+                    await process.StandardInput.WriteLineAsync("exit");
+                    await Task.Delay(5000);
+                }
             }
             catch (Exception ex)
             {
                 Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}",
-                    _useContainer ? "ERROR_CONTAINER" : "ERROR_TEST_APP");
+                    "ERROR_TEST_APP");
             }
+
+            if (process is not null && !process.HasExited)
+            {
+                process.Kill();
+            }
+
+            await KillOrphanedTestRuns();
+        }
+    }
+    
+    private static async Task StopContainer()
+    {
+        try
+        {
+            await Cli.Wrap("docker")
+                .WithArguments($"compose -f {ComposeFilePath} down")
+                .ExecuteAsync(cts.Token);
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}",
+                _useContainer ? "ERROR_CONTAINER" : "ERROR_TEST_APP");
         }
 
         if (_testProcessId.HasValue)
@@ -166,8 +207,7 @@ public class TestConfig
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}",
-                    _useContainer ? "ERROR_CONTAINER" : "ERROR_TEST_APP");
+                Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}", "ERROR_CONTAINER");
             }
 
             if (process is not null && !process.HasExited)
@@ -183,7 +223,9 @@ public class TestConfig
     {
         using HttpClient httpClient = new();
 
-        var maxAttempts = 60;
+        // worst-case scenario for docker build is ~ 6 minutes
+        // set this to 60 seconds * 8 = 8 minutes
+        var maxAttempts = 60 * 8;
 
         for (var i = 1; i <= maxAttempts; i++)
         {
@@ -204,12 +246,12 @@ public class TestConfig
                 // ignore, service not ready
             }
 
-            if (i % 5 == 0)
+            if (i % 10 == 0)
             {
                 Trace.WriteLine($"Waiting for Test Site. Attempt {i} out of {maxAttempts}...", "TEST_SETUP");
             }
 
-            await Task.Delay(2000, cts.Token);
+            await Task.Delay(1000, cts.Token);
         }
 
         throw new ProcessExitedException("Test page was not reachable within the allotted time frame");
@@ -223,8 +265,7 @@ public class TestConfig
             {
                 // Use PowerShell for more reliable Windows port killing
                 await Cli.Wrap("pwsh")
-                    .WithArguments($"Get-NetTCPConnection -LocalPort {_httpsPort
-                    } -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object {{ Stop-Process -Id $_ -Force }}")
+                    .WithArguments($"Get-NetTCPConnection -LocalPort {_httpsPort} -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object {{ Stop-Process -Id $_ -Force }}")
                     .ExecuteAsync();
             }
             else
@@ -248,7 +289,6 @@ public class TestConfig
     private static bool _proAvailable;
     private static int _httpsPort;
     private static int _httpPort;
-
     private static string? _projectFolder;
     private static int? _testProcessId;
     private static bool _useContainer;

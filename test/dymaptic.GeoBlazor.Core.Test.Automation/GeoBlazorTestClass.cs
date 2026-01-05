@@ -217,17 +217,17 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
     private readonly PageGotoOptions _pageGotoOptions = new()
     {
-        WaitUntil = WaitUntilState.NetworkIdle, 
+        WaitUntil = WaitUntilState.DOMContentLoaded, 
         Timeout = 60_000
     };
 
     private readonly LocatorClickOptions _clickOptions = new()
     {
-        Timeout = 300_000
+        Timeout = 120_000
     };
     
     private readonly LocatorAssertionsToBeVisibleOptions _visibleOptions = new()
     {
-        Timeout = 300_000
+        Timeout = 120_000
     };
 }

@@ -63,7 +63,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     </ItemGroup>
-    <PropertyGroup Condition="$(Configuration) == 'RELEASE'">
+    <PropertyGroup Condition="$(Configuration) == 'RELEASE' AND $(GenerateXmlComments) != 'false'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DisableDefaultDocumentation Condition="$(GenerateDocs) != 'true'">true</DisableDefaultDocumentation>
         <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>

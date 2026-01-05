@@ -1,6 +1,5 @@
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 
@@ -20,7 +19,9 @@ public class GenerateTests: IIncrementalGenerator
     {
         foreach (AdditionalText testClass in testClasses)
         {
-            string className = testClass.Path.Split('/', '\\').Last().Split('.').First();
+            string testClassName = testClass.Path.Split('/', '\\').Last().Split('.').First();
+            bool isPro = testClass.Path.Contains("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
+            string className = isPro ? $"PRO_{testClassName}" : $"CORE_{testClassName}";
 
             List<string> testMethods = [];
             
@@ -34,17 +35,25 @@ public class GenerateTests: IIncrementalGenerator
                     if (testMethodRegex.Match(line) is { Success: true } match)
                     {
                         string methodName = match.Groups["testName"].Value;
-                        testMethods.Add($"{className}.{methodName}");
+                        testMethods.Add($"{testClassName}.{methodName}");
+                        attributeFound = false;
+
+                        continue;
+                    }
+
+                    if (line.Trim().StartsWith("//"))
+                    {
+                        // commented out test
                         attributeFound = false;
 
                         continue;
                     }
 
                     throw new FormatException($"Line after [TestMethod] should be a method signature: Line {lineNumber
-                    } in test class {className}");
+                    } in test class {testClassName}");
                 }
             
-                if (line.Contains("[TestMethod]"))
+                if (line.Contains("[TestMethod]") && !line.Trim().StartsWith("//"))
                 {
                     attributeFound = true;
                 }

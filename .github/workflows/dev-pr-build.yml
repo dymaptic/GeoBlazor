@@ -65,7 +65,7 @@ jobs:
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        ./GeoBlazorBuild.ps1 -pkg -docs -c "Release"
+        ./GeoBlazorBuild.ps1 -xml -pkg -docs -c "Release"
         
       # Copies the nuget package to the artifacts directory
     - name: Upload nuget artifact
@@ -131,5 +131,7 @@ jobs:
           
       - name: Run Tests
         shell: pwsh
+        env:
+          USE_CONTAINER: true
         run: |
-          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj /p:CORE_ONLY=true /p:USE_CONTAINER=true
+          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_

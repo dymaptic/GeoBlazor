@@ -4,6 +4,7 @@ param(
     [switch][Alias("pub")]$PublishVersion,
     [switch][Alias("obf")]$Obfuscate,
     [switch][Alias("docs")]$GenerateDocs,
+    [switch][Alias("xml")]$GenerateXmlComments,
     [switch][Alias("pkg")]$Package,
     [switch][Alias("bl")]$Binlog,
     [switch][Alias("h")]$Help,
@@ -21,6 +22,7 @@ if ($Help) {
     Write-Host "  -PublishVersion (-pub)         Truncate the build version to 3 digits for NuGet (default is false)"
     Write-Host "  -Obfuscate (-obf)              Obfuscate the Pro license validation logic (default is false)"
     Write-Host "  -GenerateDocs (-docs)          Generate documentation files for the docs site (default is false)"
+    Write-Host "  -GenerateXmlComments (-xml)    Generate the XML comments that provide intellisense when using the library in an IDE"
     Write-Host "  -Package (-pkg)                Create NuGet packages (default is false)"
     Write-Host "  -Binlog (-bl)                  Generate MSBuild binary log files (default is false)"
     Write-Host "  -Version (-v) <string>         Specify a custom version number (default is to auto-increment the current build version)"
@@ -32,11 +34,16 @@ if ($Help) {
     exit 0
 }
 
+if ($GenerateDocs) {
+    $GenerateXmlComments = $true
+}
+
 Write-Host "Starting GeoBlazor Build Script"
 Write-Host "Pro Build: $Pro"
 Write-Host "Set Nuget Publish Version Build: $PublishVersion"
 Write-Host "Obfuscate Pro Build: $Obfuscate"
-Write-Host "Generate XML Documentation: $GenerateDocs"
+Write-Host "Generate Documentation Files: $GenerateDocs"
+Write-Host "Generate XML Documentation: $GenerateXmlComments"
 Write-Host "Build Package: $($Package -eq $true)"
 Write-Host "Version: $Version"
 Write-Host "Configuration: $Configuration"
@@ -273,8 +280,12 @@ try {
     Write-Host ""
 
     # double-escape line breaks
-    $CoreBuild = "dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore /p:PipelineBuild=true ``
-                /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration ``
+    $CoreBuild = "dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore ``
+                -c $Configuration ``
+                /p:PipelineBuild=true ``
+                /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) ``
+                /p:GenerateXmlComments=$($GenerateXmlComments.ToString().ToLower()) ``
+                /p:CoreVersion=$Version ``
                 /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
     Write-Host "Executing '$CoreBuild'"
 
@@ -444,9 +455,14 @@ try {
 
         # double-escape line breaks
         $ProBuild = "dotnet build dymaptic.GeoBlazor.Pro.csproj --no-restore ``
-                            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version ``
-                            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c ``
-                            $Configuration /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
+                            -c $Configuration ``
+                            /p:PipelineBuild=true ``
+                            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) ``
+                            /p:GenerateXmlComments=$($GenerateXmlComments.ToString().ToLower()) ``
+                            /p:CoreVersion=$Version ``
+                            /p:ProVersion=$Version ``
+                            /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) ``
+                            /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
         Write-Host "Executing '$ProBuild'"
 
         # sometimes the build fails due to a Microsoft bug, retry a few times
