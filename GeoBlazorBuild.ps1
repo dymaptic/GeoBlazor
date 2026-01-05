@@ -240,7 +240,7 @@ try {
     Write-Host "$Step. Building Core JavaScript" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
     Write-Host ""
     Write-Host ""
-    $CoreProjectPath/esBuild.ps1 -c $Configuration
+    ./esBuild.ps1 -c $Configuration
     if ($LASTEXITCODE -ne 0) {
         Write-Host "ERROR: esBuild.ps1 failed with exit code $LASTEXITCODE. Exiting." -ForegroundColor Red
         exit 1
