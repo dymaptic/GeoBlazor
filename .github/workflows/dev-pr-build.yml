@@ -27,12 +27,9 @@ jobs:
           echo "was-bot=true" >> "$GITHUB_OUTPUT"
           echo "Skipping build for bot commit"
   
-  get-token:
-    needs: actor-check
-    if: needs.actor-check.outputs.was-bot != 'true'
-    runs-on: ubuntu-latest
-    outputs:
-      app-token: ${{ steps.app-token.outputs.token }}
+  test:
+    runs-on: [ self-hosted, Windows, X64 ]
+    needs: [actor-check]
     steps:
       - name: Generate Github App token
         uses: actions/create-github-app-token@v2
@@ -42,16 +39,12 @@ jobs:
           private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: 'GeoBlazor'
-  
-  test:
-    runs-on: [ self-hosted, Windows, X64 ]
-    needs: [actor-check, get-token]
-    steps:
+    
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ needs.get-token.outputs.app-token }}
+          token: ${{ steps.app-token.outputs.token }}
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.ref || github.ref }}
 
@@ -74,15 +67,24 @@ jobs:
           dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_
   
   build: 
-    needs: [actor-check, get-token]
+    needs: [actor-check]
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+    - name: Generate Github App token
+      uses: actions/create-github-app-token@v2
+      id: app-token
+      with:
+        app-id: ${{ secrets.SUBMODULE_APP_ID }}
+        private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        repositories: 'GeoBlazor'
+        
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        token: ${{ needs.get-token.outputs.app-token }}
+        token: ${{ steps.app-token.outputs.token }}
         repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
         ref: ${{ github.event.pull_request.head.ref || github.ref }}
     
