@@ -12,7 +12,7 @@ on:
     
 concurrency:
   group: dev-pr-build
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' }}
 
 jobs:
   actor-check:
@@ -30,6 +30,8 @@ jobs:
   test:
     runs-on: [ self-hosted, Windows, X64 ]
     needs: [actor-check]
+    timeout-minutes: 30
+    if: needs.actor-check.outputs.was-bot != 'true'
     steps:
       - name: Generate Github App token
         uses: actions/create-github-app-token@v2
@@ -57,9 +59,10 @@ jobs:
         run: |
           dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_
   
-  build: 
-    needs: [actor-check]
+  build:
     runs-on: ubuntu-latest
+    needs: [actor-check]
+    if: needs.actor-check.outputs.was-bot != 'true'
     timeout-minutes: 30
     steps:
     - name: Generate Github App token

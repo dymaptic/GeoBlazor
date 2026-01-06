@@ -2,6 +2,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG ARCGIS_API_KEY
 ARG GEOBLAZOR_LICENSE_KEY
 ARG WFS_SERVERS
+ARG HTTP_PORT
+ARG HTTPS_PORT
 ENV ARCGIS_API_KEY=${ARCGIS_API_KEY}
 ENV GEOBLAZOR_LICENSE_KEY=${GEOBLAZOR_LICENSE_KEY}
 ENV WFS_SERVERS=${WFS_SERVERS}
@@ -51,6 +53,10 @@ RUN dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 
+# Re-declare ARGs for this stage (ARGs don't persist across stages)
+ARG HTTP_PORT=8080
+ARG HTTPS_PORT=9443
+
 # Generate a self-signed certificate for HTTPS
 RUN apk add --no-cache openssl \
     && mkdir -p /https \
@@ -71,10 +77,10 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Configure Kestrel for HTTPS
-ENV ASPNETCORE_URLS="https://+:9443;http://+:8080"
+ENV ASPNETCORE_URLS="https://+:${HTTPS_PORT};http://+:${HTTP_PORT}"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password=password
 
 USER info
-EXPOSE 8080 9443
+EXPOSE ${HTTP_PORT} ${HTTPS_PORT}
 ENTRYPOINT ["dotnet", "dymaptic.GeoBlazor.Core.Test.WebApp.dll"]
