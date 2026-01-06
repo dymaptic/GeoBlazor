@@ -27,6 +27,7 @@ jobs:
         private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
         owner: ${{ github.repository_owner }}
         repositories: 'GeoBlazor'
+    
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
@@ -34,21 +35,12 @@ jobs:
         token: ${{ steps.app-token.outputs.token }}
         repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
         ref: ${{ github.event.pull_request.head.ref || github.ref }}
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 10.x
-
-    - name: Update NPM
-      uses: actions/setup-node@v4
-      with:
-        node-version: '>=22.11.0'
-        check-latest: 'true'
           
     - name: Run Tests
       shell: pwsh
       env:
         USE_CONTAINER: true
+        ARCGIS_API_KEY: ${{ secrets.ARCGISAPIKEY }}
+        GEOBLAZOR_CORE_LICENSE_KEY: ${{ secrets.GEOBLAZOR_CORE_LICENSE_KEY }}
       run: |
         dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_
