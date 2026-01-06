@@ -20,7 +20,7 @@ public class TestConfig
     public static bool ProOnly { get; private set; }
 
     private static string ComposeFilePath => Path.Combine(_projectFolder!,
-        _proAvailable && !CoreOnly ? "docker-compose-pro.yml" : "docker-compose.core.yml");
+        _proAvailable && !CoreOnly ? "docker-compose-pro.yml" : "docker-compose-core.yml");
     private static string TestAppPath => _proAvailable
         ? Path.Combine(_projectFolder!, "..", "..", "..", "test", "dymaptic.GeoBlazor.Pro.Test.WebApp",
             "dymaptic.GeoBlazor.Pro.Test.WebApp", "dymaptic.GeoBlazor.Pro.Test.WebApp.csproj")
