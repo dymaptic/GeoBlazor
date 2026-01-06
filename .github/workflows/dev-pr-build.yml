@@ -26,27 +26,63 @@ jobs:
         run: |
           echo "was-bot=true" >> "$GITHUB_OUTPUT"
           echo "Skipping build for bot commit"
-  build: 
+  
+  get-token:
     needs: actor-check
     if: needs.actor-check.outputs.was-bot != 'true'
     runs-on: ubuntu-latest
     outputs:
       app-token: ${{ steps.app-token.outputs.token }}
+    steps:
+      - name: Generate Github App token
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.SUBMODULE_APP_ID }}
+          private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: 'GeoBlazor'
+  
+  test:
+    runs-on: [ self-hosted, Windows, X64 ]
+    needs: [actor-check, get-token]
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ needs.get-token.outputs.app-token }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.x
+
+      - name: Update NPM
+        uses: actions/setup-node@v4
+        with:
+          node-version: '>=22.11.0'
+          check-latest: 'true'
+
+      - name: Run Tests
+        shell: pwsh
+        env:
+          USE_CONTAINER: true
+        run: |
+          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_
+  
+  build: 
+    needs: [actor-check, get-token]
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-    - name: Generate Github App token
-      uses: actions/create-github-app-token@v2
-      id: app-token
-      with:
-        app-id: ${{ secrets.SUBMODULE_APP_ID }}
-        private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
-        owner: ${{ github.repository_owner }}
-        repositories: 'GeoBlazor'
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        token: ${{ steps.app-token.outputs.token }}
+        token: ${{ needs.get-token.outputs.app-token }}
         repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
         ref: ${{ github.event.pull_request.head.ref || github.ref }}
     
@@ -105,33 +141,3 @@ jobs:
         git add .
         git commit -m "Pipeline Build Commit of Version and Docs"
         git push
-          
-  test:
-    runs-on: [self-hosted, Windows, X64]
-    needs: build
-    steps:
-        # Checkout the repository to the GitHub Actions runner
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ needs.build.outputs.app-token }}
-          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
-          ref: ${{ github.event.pull_request.head.ref || github.ref }}
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 10.x
-
-      - name: Update NPM
-        uses: actions/setup-node@v4
-        with:
-          node-version: '>=22.11.0'
-          check-latest: 'true'
-          
-      - name: Run Tests
-        shell: pwsh
-        env:
-          USE_CONTAINER: true
-        run: |
-          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_

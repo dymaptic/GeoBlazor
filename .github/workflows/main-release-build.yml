@@ -46,18 +46,18 @@ jobs:
         node-version: '>=22.11.0'
         check-latest: 'true'
       
-      # This runs the main GeoBlazor build script
-    - name: Build GeoBlazor
-      shell: pwsh
-      run: |
-        ./GeoBlazorBuild.ps1 -xml -pkg -pub -c "Release"
-        
     - name: Run Tests
       shell: pwsh
       env:
         USE_CONTAINER: true
       run: |
         dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_
+      
+      # This runs the main GeoBlazor build script
+    - name: Build GeoBlazor
+      shell: pwsh
+      run: |
+        ./GeoBlazorBuild.ps1 -xml -pkg -pub -c "Release"
     
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint

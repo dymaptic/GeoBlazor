@@ -124,8 +124,7 @@ public partial class Index
             {
                 await TestLogger.Log(
                     "Test Run Failed or Errors Encountered. Reload the page to re-run failed tests.");
-                attemptCount++;
-                await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", attemptCount);
+                await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", ++attemptCount);
             }
         }
     }
