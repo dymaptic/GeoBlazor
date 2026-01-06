@@ -49,12 +49,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.ref || github.ref }}
-
-      - name: Install Playwright Browsers
-        shell: pwsh
-        run: |
-          ./test/dymaptic.GeoBlazor.Core.Test.Automation/bin/Release/
-
+          
       - name: Run Tests
         shell: pwsh
         env:
