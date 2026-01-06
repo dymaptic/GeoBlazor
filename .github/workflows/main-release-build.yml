@@ -10,7 +10,7 @@ on:
 
 jobs:
   build: 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows, X64]
     timeout-minutes: 90
     outputs:
       token: ${{ steps.app-token.outputs.token }}
@@ -34,17 +34,6 @@ jobs:
         token: ${{ steps.app-token.outputs.token }}
         repository: ${{ github.repository }}
         ref: ${{ github.ref }}
-        
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 10.x
-
-    - name: Update NPM
-      uses: actions/setup-node@v4
-      with:
-        node-version: '>=22.11.0'
-        check-latest: 'true'
       
     - name: Run Tests
       shell: pwsh
