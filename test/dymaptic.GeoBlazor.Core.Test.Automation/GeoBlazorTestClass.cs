@@ -152,7 +152,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     {
         return new BrowserNewContextOptions
         {
-            BaseURL = TestConfig.TestAppUrl, Locale = "en-US", ColorScheme = ColorScheme.Light
+            BaseURL = TestConfig.TestAppUrl, Locale = "en-US", ColorScheme = ColorScheme.Light,
+            IgnoreHTTPSErrors = true
         };
     }
 

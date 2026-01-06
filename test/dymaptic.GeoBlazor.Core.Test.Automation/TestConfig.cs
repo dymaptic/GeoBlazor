@@ -2,6 +2,7 @@ using CliWrap;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using System.Diagnostics;
+using System.Net;
 using System.Reflection;
 
 
@@ -121,12 +122,43 @@ public class TestConfig
         ProcessStartInfo startInfo = new("docker",
             $"compose -f \"{ComposeFilePath}\" up -d --build")
         {
-            CreateNoWindow = false, WorkingDirectory = _projectFolder!
+            CreateNoWindow = true,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            WorkingDirectory = _projectFolder!
         };
+
+        Trace.WriteLine($"Starting container with: docker {startInfo.Arguments}", "TEST_SETUP");
+        Trace.WriteLine($"Working directory: {_projectFolder}", "TEST_SETUP");
 
         var process = Process.Start(startInfo);
         Assert.IsNotNull(process);
         _testProcessId = process.Id;
+
+        // Capture output asynchronously to prevent deadlocks
+        var outputTask = process.StandardOutput.ReadToEndAsync();
+        var errorTask = process.StandardError.ReadToEndAsync();
+
+        await process.WaitForExitAsync();
+
+        var output = await outputTask;
+        var error = await errorTask;
+
+        if (!string.IsNullOrWhiteSpace(output))
+        {
+            Trace.WriteLine($"Docker output: {output}", "TEST_SETUP");
+        }
+
+        if (!string.IsNullOrWhiteSpace(error))
+        {
+            Trace.WriteLine($"Docker error: {error}", "TEST_SETUP");
+        }
+
+        if (process.ExitCode != 0)
+        {
+            throw new Exception($"Docker compose failed with exit code {process.ExitCode}. Error: {error}");
+        }
 
         await WaitForHttpResponse();
     }
@@ -136,9 +168,13 @@ public class TestConfig
         ProcessStartInfo startInfo = new("dotnet",
             $"run --project \"{TestAppPath}\" --urls \"{TestAppUrl};{TestAppHttpUrl}\" -- -c Release /p:GenerateXmlComments=false /p:GeneratePackage=false")
         {
-            CreateNoWindow = false, 
+            CreateNoWindow = true,
+            UseShellExecute = false,
             WorkingDirectory = _projectFolder!
         };
+
+        Trace.WriteLine($"Starting test app: dotnet {startInfo.Arguments}", "TEST_SETUP");
+
         var process = Process.Start(startInfo);
         Assert.IsNotNull(process);
         _testProcessId = process.Id;
@@ -181,9 +217,11 @@ public class TestConfig
     {
         try
         {
+            Trace.WriteLine($"Stopping container with: docker compose -f {ComposeFilePath} down", "TEST_CLEANUP");
             await Cli.Wrap("docker")
-                .WithArguments($"compose -f {ComposeFilePath} down")
+                .WithArguments($"compose -f \"{ComposeFilePath}\" down")
                 .ExecuteAsync(cts.Token);
+            Trace.WriteLine("Container stopped successfully", "TEST_CLEANUP");
         }
         catch (Exception ex)
         {
@@ -191,37 +229,17 @@ public class TestConfig
                 _useContainer ? "ERROR_CONTAINER" : "ERROR_TEST_APP");
         }
 
-        if (_testProcessId.HasValue)
-        {
-            Process? process = null;
-
-            try
-            {
-                process = Process.GetProcessById(_testProcessId.Value);
-
-                if (_useContainer)
-                {
-                    await process.StandardInput.WriteLineAsync("exit");
-                    await Task.Delay(5000);
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}", "ERROR_CONTAINER");
-            }
-
-            if (process is not null && !process.HasExited)
-            {
-                process.Kill();
-            }
-
-            await KillOrphanedTestRuns();
-        }
+        await KillOrphanedTestRuns();
     }
 
     private static async Task WaitForHttpResponse()
     {
-        using HttpClient httpClient = new();
+        // Configure HttpClient to ignore SSL certificate errors (for self-signed certs in Docker)
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+        using HttpClient httpClient = new(handler);
 
         // worst-case scenario for docker build is ~ 6 minutes
         // set this to 60 seconds * 8 = 8 minutes
@@ -234,21 +252,25 @@ public class TestConfig
                 var response =
                     await httpClient.GetAsync(TestAppHttpUrl, cts.Token);
 
-                if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode || response.StatusCode is >= (HttpStatusCode)300 and < (HttpStatusCode)400)
                 {
                     Trace.WriteLine($"Test Site is ready! Status: {response.StatusCode}", "TEST_SETUP");
 
                     return;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // ignore, service not ready
+                // Log the exception for debugging SSL/connection issues
+                if (i % 10 == 0)
+                {
+                    Trace.WriteLine($"Connection attempt {i} failed: {ex.Message}", "TEST_SETUP");
+                }
             }
 
             if (i % 10 == 0)
             {
-                Trace.WriteLine($"Waiting for Test Site. Attempt {i} out of {maxAttempts}...", "TEST_SETUP");
+                Trace.WriteLine($"Waiting for Test Site at {TestAppHttpUrl}. Attempt {i} out of {maxAttempts}...", "TEST_SETUP");
             }
 
             await Task.Delay(1000, cts.Token);
@@ -289,7 +311,7 @@ public class TestConfig
     private static bool _proAvailable;
     private static int _httpsPort;
     private static int _httpPort;
-    private static string? _projectFolder;
+    private static string _projectFolder = string.Empty;
     private static int? _testProcessId;
     private static bool _useContainer;
 }
