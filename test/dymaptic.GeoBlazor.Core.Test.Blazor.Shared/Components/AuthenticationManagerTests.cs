@@ -8,54 +8,55 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 
-    /*
-     * -------------------------------------------------------------------------
-     *  CONFIGURATION SETUP (appsettings.json / user-secrets / CI env vars)
-     * -------------------------------------------------------------------------
-     * These tests read the following keys from IConfiguration:
-     *
-     *   TestPortalAppId          -> App ID registered in your Enterprise Portal
-     *   TestPortalUrl            -> Your Portal base URL (either https://host OR https://host/portal)
-     *   TestPortalClientSecret   -> Client secret for the Portal app registration
-     *
-     *   TestAGOAppId             -> App ID registered in ArcGIS Online
-     *   TestAGOUrl               -> ArcGIS Online base URL (use https://www.arcgis.com)
-     *   TestAGOClientSecret      -> Client secret for the AGOL app registration
-     *
-     *   TestApplicationBaseUrl   -> (Optional) Base address for local HTTP calls if needed
-     *
-     * NOTES:
-     * - You need SEPARATE app registrations for AGOL and for Enterprise Portal if you test both.
-     * - For AGOL, use TestAGOUrl = https://www.arcgis.com   (do NOT append /portal)
-     * - For Enterprise, TestPortalUrl should be https://yourserver/portal
-     *
-     * Recommended: keep secrets out of source control using .NET user-secrets:
-     *
-     *   dotnet user-secrets init
-     *   dotnet user-secrets set "TestPortalAppId" "<your-portal-app-id>"
-     *   dotnet user-secrets set "TestPortalUrl" "https://yourserver/portal"
-     *   dotnet user-secrets set "TestPortalClientSecret" "<your-portal-secret>"
-     *
-     *   dotnet user-secrets set "TestAGOAppId" "<your-agol-app-id>"
-     *   dotnet user-secrets set "TestAGOUrl" "https://www.arcgis.com"
-     *   dotnet user-secrets set "TestAGOClientSecret" "<your-agol-secret>"
-     *
-     * Example appsettings.Development.json (non-secret values only):
-     * {
-     *   "TestPortalUrl": "https://yourserver/portal",
-     *   "TestAGOUrl": "https://www.arcgis.com",
-     *   "TestApplicationBaseUrl": "https://localhost:7143"
-     * }
-     *
-     * In CI, set these as environment variables instead:
-     *   TestPortalAppId, TestPortalUrl, TestPortalClientSecret,
-     *   TestAGOAppId, TestAGOUrl, TestAGOClientSecret, TestApplicationBaseUrl
-     *
-     * -------------------------------------------------------------------------
-     */
+/*
+ * -------------------------------------------------------------------------
+ *  CONFIGURATION SETUP (appsettings.json / user-secrets / CI env vars)
+ * -------------------------------------------------------------------------
+ * These tests read the following keys from IConfiguration:
+ *
+ *   TestPortalAppId          -> App ID registered in your Enterprise Portal
+ *   TestPortalUrl            -> Your Portal base URL (either https://host OR https://host/portal)
+ *   TestPortalClientSecret   -> Client secret for the Portal app registration
+ *
+ *   TestAGOAppId             -> App ID registered in ArcGIS Online
+ *   TestAGOUrl               -> ArcGIS Online base URL (use https://www.arcgis.com)
+ *   TestAGOClientSecret      -> Client secret for the AGOL app registration
+ *
+ *   TestApplicationBaseUrl   -> (Optional) Base address for local HTTP calls if needed
+ *
+ * NOTES:
+ * - You need SEPARATE app registrations for AGOL and for Enterprise Portal if you test both.
+ * - For AGOL, use TestAGOUrl = https://www.arcgis.com   (do NOT append /portal)
+ * - For Enterprise, TestPortalUrl should be https://yourserver/portal
+ *
+ * Recommended: keep secrets out of source control using .NET user-secrets:
+ *
+ *   dotnet user-secrets init
+ *   dotnet user-secrets set "TestPortalAppId" "<your-portal-app-id>"
+ *   dotnet user-secrets set "TestPortalUrl" "https://yourserver/portal"
+ *   dotnet user-secrets set "TestPortalClientSecret" "<your-portal-secret>"
+ *
+ *   dotnet user-secrets set "TestAGOAppId" "<your-agol-app-id>"
+ *   dotnet user-secrets set "TestAGOUrl" "https://www.arcgis.com"
+ *   dotnet user-secrets set "TestAGOClientSecret" "<your-agol-secret>"
+ *
+ * Example appsettings.Development.json (non-secret values only):
+ * {
+ *   "TestPortalUrl": "https://yourserver/portal",
+ *   "TestAGOUrl": "https://www.arcgis.com",
+ *   "TestApplicationBaseUrl": "https://localhost:7143"
+ * }
+ *
+ * In CI, set these as environment variables instead:
+ *   TestPortalAppId, TestPortalUrl, TestPortalClientSecret,
+ *   TestAGOAppId, TestAGOUrl, TestAGOClientSecret, TestApplicationBaseUrl
+ *
+ * -------------------------------------------------------------------------
+ */
 [IsolatedTest]
+[CICondition(ConditionMode.Exclude)]
 [TestClass]
-public class AuthenticationManagerTests: TestRunnerBase
+public class AuthenticationManagerTests : TestRunnerBase
 {
     [Inject]
     public required AuthenticationManager AuthenticationManager { get; set; }
@@ -81,6 +82,7 @@ public class AuthenticationManagerTests: TestRunnerBase
         {
             Assert.Inconclusive("Skipping: TestPortalAppId, TestPortalUrl, or TestPortalClientSecret not configured. " +
                 "These OAuth tests require credentials that are not available in Docker/CI environments.");
+
             return;
         }
 
@@ -102,6 +104,7 @@ public class AuthenticationManagerTests: TestRunnerBase
         Assert.AreEqual(tokenResponse.Expires, expired);
     }
 
+    [CICondition(ConditionMode.Exclude)]
     [TestMethod]
     public async Task TestRegisterOAuthWithArcGISOnline()
     {
@@ -114,6 +117,7 @@ public class AuthenticationManagerTests: TestRunnerBase
         {
             Assert.Inconclusive("Skipping: TestAGOAppId, TestAGOUrl, or TestAGOClientSecret not configured. " +
                 "These OAuth tests require credentials that are not available in Docker/CI environments.");
+
             return;
         }
 
@@ -171,6 +175,7 @@ public class AuthenticationManagerTests: TestRunnerBase
         }
 
         ArcGisError? errorCheck = JsonSerializer.Deserialize<ArcGisError>(content);
+
         if (errorCheck?.Error != null)
         {
             return new TokenResponse(false, null, null,
@@ -178,13 +183,16 @@ public class AuthenticationManagerTests: TestRunnerBase
         }
 
         ArcGISTokenResponse? token = JsonSerializer.Deserialize<ArcGISTokenResponse>(content);
+
         if (token?.AccessToken == null)
         {
-            return new TokenResponse(false, null, null, "Please verify your ArcGISAppId, ArcGISClientSecret, and ArcGISPortalUrl values.");
+            return new TokenResponse(false, null, null,
+                "Please verify your ArcGISAppId, ArcGISClientSecret, and ArcGISPortalUrl values.");
         }
 
         TokenResponse tokenResponse = new TokenResponse(true, token.AccessToken,
             DateTimeOffset.FromUnixTimeSeconds(token.ExpiresIn).UtcDateTime);
+
         return tokenResponse;
     }
 
@@ -196,7 +204,9 @@ public class AuthenticationManagerTests: TestRunnerBase
         t.GetField("_appId", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(AuthenticationManager, null);
         t.GetField("_portalUrl", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(AuthenticationManager, null);
         t.GetField("_apiKey", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(AuthenticationManager, null);
-        t.GetField("_trustedServers", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(AuthenticationManager, null);
+
+        t.GetField("_trustedServers", BindingFlags.Instance | BindingFlags.NonPublic)
+            ?.SetValue(AuthenticationManager, null);
         t.GetField("_fontsUrl", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(AuthenticationManager, null);
 
         // drop the JS interop module so Initialize() recreates it with fresh values

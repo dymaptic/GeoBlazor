@@ -1,6 +1,7 @@
 using CliWrap;
 using CliWrap.EventStream;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using System.Diagnostics;
 using System.Net;
@@ -32,10 +33,14 @@ public class TestConfig
     private static string ComposeFilePath => Path.Combine(_projectFolder,
         _proAvailable && !CoreOnly ? "docker-compose-pro.yml" : "docker-compose-core.yml");
     private static string TestAppPath => _proAvailable
-        ? Path.Combine(_projectFolder, "..", "..", "..", "test", "dymaptic.GeoBlazor.Pro.Test.WebApp",
-            "dymaptic.GeoBlazor.Pro.Test.WebApp", "dymaptic.GeoBlazor.Pro.Test.WebApp.csproj")
-        : Path.Combine(_projectFolder, "..", "dymaptic.GeoBlazor.Core.Test.WebApp",
-            "dymaptic.GeoBlazor.Core.Test.WebApp.csproj");
+        ? Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "test",
+            "dymaptic.GeoBlazor.Pro.Test.WebApp",
+            "dymaptic.GeoBlazor.Pro.Test.WebApp",
+            "dymaptic.GeoBlazor.Pro.Test.WebApp.csproj"))
+        : Path.GetFullPath(Path.Combine(_projectFolder, "..",
+            "dymaptic.GeoBlazor.Core.Test.WebApp",
+            "dymaptic.GeoBlazor.Core.Test.WebApp",
+            "dymaptic.GeoBlazor.Core.Test.WebApp.csproj"));
     private static string TestAppHttpUrl => $"http://localhost:{_httpPort}";
 
     [AssemblyInitialize]
@@ -43,11 +48,11 @@ public class TestConfig
     {
         Trace.Listeners.Add(new ConsoleTraceListener());
         Trace.AutoFlush = true;
-        
+
         // kill old running test apps and containers
         await StopContainer();
         await StopTestApp();
-        
+
         SetupConfiguration();
         await EnsurePlaywrightBrowsersAreInstalled();
 
@@ -80,6 +85,7 @@ public class TestConfig
         {
             await StopTestApp();
         }
+
         await cts.CancelAsync();
     }
 
@@ -99,12 +105,12 @@ public class TestConfig
             .Replace(" ", "")
             .TrimStart('.')
             .ToLowerInvariant();
-        
+
         _outputFolder = Path.Combine(_projectFolder, "bin", "Release", targetFramework);
 
         // assemblyLocation = GeoBlazor.Pro/GeoBlazor/test/dymaptic.GeoBlazor.Core.Test.Automation
         // this pulls us up to GeoBlazor.Pro then finds the Dockerfile
-        var proDockerPath = Path.Combine(_projectFolder, "..", "..", "..", "Dockerfile");
+        var proDockerPath = Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "Dockerfile"));
         _proAvailable = File.Exists(proDockerPath);
 
         _configuration = new ConfigurationBuilder()
@@ -157,11 +163,13 @@ public class TestConfig
         {
             // Use Playwright's built-in installation via Program.Main
             // This is more reliable cross-platform than calling pwsh
-            var exitCode = Microsoft.Playwright.Program.Main(["install"]);
+            var exitCode = Program.Main(["install"]);
+
             if (exitCode != 0)
             {
                 Trace.WriteLine($"Playwright browser installation returned exit code: {exitCode}", "TEST_SETUP");
             }
+
             await Task.CompletedTask; // Keep method async for consistency
         }
         catch (Exception ex)
@@ -178,13 +186,12 @@ public class TestConfig
         StringBuilder output = new();
         StringBuilder error = new();
         int? exitCode = null;
-        
+
         Command command = Cli.Wrap("docker")
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
-                ["HTTP_PORT"] = _httpPort.ToString(),
-                ["HTTPS_PORT"] = _httpsPort.ToString()
+                ["HTTP_PORT"] = _httpPort.ToString(), ["HTTPS_PORT"] = _httpsPort.ToString()
             })
             .WithWorkingDirectory(_projectFolder);
 
@@ -195,20 +202,24 @@ public class TestConfig
                 case StartedCommandEvent started:
                     output.AppendLine($"Process started; ID: {started.ProcessId}");
                     _testProcessId = started.ProcessId;
+
                     break;
                 case StandardOutputCommandEvent stdOut:
                     output.AppendLine($"Out> {stdOut.Text}");
+
                     break;
                 case StandardErrorCommandEvent stdErr:
                     error.AppendLine($"Err> {stdErr.Text}");
+
                     break;
                 case ExitedCommandEvent exited:
                     exitCode = exited.ExitCode;
                     output.AppendLine($"Process exited; Code: {exited.ExitCode}");
+
                     break;
             }
         }
-        
+
         Trace.WriteLine($"Docker output: {output}", "TEST_SETUP");
 
         if (exitCode != 0)
@@ -223,11 +234,13 @@ public class TestConfig
 
     private static async Task StartTestApp()
     {
-        string args = $"run --project \"{TestAppPath}\" --urls \"{TestAppUrl};{TestAppHttpUrl}\" -- -c Release /p:GenerateXmlComments=false /p:GeneratePackage=false";
+        var args = $"run --project \"{TestAppPath}\" --urls \"{TestAppUrl};{TestAppHttpUrl
+        }\" -- -c Release /p:GenerateXmlComments=false /p:GeneratePackage=false";
         Trace.WriteLine($"Starting test app: dotnet {args}", "TEST_SETUP");
         StringBuilder output = new();
         StringBuilder error = new();
         int? exitCode = null;
+
         Command command = Cli.Wrap("dotnet")
             .WithArguments(args)
             .WithWorkingDirectory(_projectFolder);
@@ -258,7 +271,7 @@ public class TestConfig
                         break;
                 }
             }
-            
+
             Trace.WriteLine($"Test App output: {output}", "TEST_SETUP");
 
             if (exitCode != 0)
@@ -301,12 +314,13 @@ public class TestConfig
             await KillOrphanedTestRuns();
         }
     }
-    
+
     private static async Task StopContainer()
     {
         try
         {
             Trace.WriteLine($"Stopping container with: docker compose -f {ComposeFilePath} down", "TEST_CLEANUP");
+
             await Cli.Wrap("docker")
                 .WithArguments($"compose -f \"{ComposeFilePath}\" down")
                 .WithValidation(CommandResultValidation.None)
@@ -326,7 +340,8 @@ public class TestConfig
         // Configure HttpClient to ignore SSL certificate errors (for self-signed certs in Docker)
         var handler = new HttpClientHandler
         {
-            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         };
         using HttpClient httpClient = new(handler);
 
@@ -341,7 +356,8 @@ public class TestConfig
                 var response =
                     await httpClient.GetAsync(TestAppHttpUrl, cts.Token);
 
-                if (response.IsSuccessStatusCode || response.StatusCode is >= (HttpStatusCode)300 and < (HttpStatusCode)400)
+                if (response.IsSuccessStatusCode ||
+                    response.StatusCode is >= (HttpStatusCode)300 and < (HttpStatusCode)400)
                 {
                     Trace.WriteLine($"Test Site is ready! Status: {response.StatusCode}", "TEST_SETUP");
 
@@ -359,7 +375,8 @@ public class TestConfig
 
             if (i % 10 == 0)
             {
-                Trace.WriteLine($"Waiting for Test Site at {TestAppHttpUrl}. Attempt {i} out of {maxAttempts}...", "TEST_SETUP");
+                Trace.WriteLine($"Waiting for Test Site at {TestAppHttpUrl}. Attempt {i} out of {maxAttempts}...",
+                    "TEST_SETUP");
             }
 
             await Task.Delay(1000, cts.Token);
@@ -376,7 +393,8 @@ public class TestConfig
             {
                 // Use PowerShell for more reliable Windows port killing
                 await Cli.Wrap("pwsh")
-                    .WithArguments($"Get-NetTCPConnection -LocalPort {_httpsPort} -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object {{ Stop-Process -Id $_ -Force }}")
+                    .WithArguments($"Get-NetTCPConnection -LocalPort {_httpsPort
+                    } -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object {{ Stop-Process -Id $_ -Force }}")
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync();
             }

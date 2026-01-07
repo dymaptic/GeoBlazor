@@ -1,7 +1,5 @@
 using Microsoft.Playwright;
 using System.Diagnostics;
-using System.Net;
-using System.Reflection;
 using System.Web;
 
 
@@ -9,18 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Test.Automation;
 
 public abstract class GeoBlazorTestClass : PlaywrightTest
 {
-    private PooledBrowser? _pooledBrowser;
     private IBrowserContext Context { get; set; } = null!;
-    
-    public static string? GenerateTestName(MethodInfo? _, object?[]? data)
-    {
-        if (data is null || (data.Length == 0))
-        {
-            return null;
-        }
-
-        return data[0]?.ToString()?.Split('.').Last();
-    }
 
     [TestInitialize]
     public Task TestSetup()
@@ -74,12 +61,15 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         page.Console += HandleConsoleMessage;
         page.PageError += HandlePageError;
         string testMethodName = testName.Split('.').Last();
-        
+
         try
         {
             string testUrl = BuildTestUrl(testName);
+
             Trace.WriteLine($"Navigating to {testUrl}", "TEST")
-;            await page.GotoAsync(testUrl,
+                ;
+
+            await page.GotoAsync(testUrl,
                 _pageGotoOptions);
             Trace.WriteLine($"Page loaded for {testName}", "TEST");
             ILocator sectionToggle = page.GetByTestId("section-toggle");
@@ -95,7 +85,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
                 return;
             }
-            
+
             await Expect(passedSpan).ToBeVisibleAsync(_visibleOptions);
             await Expect(passedSpan).ToHaveTextAsync("Passed: 1");
             Trace.WriteLine($"{testName} Passed", "TEST");
@@ -121,12 +111,12 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             {
                 Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}", "ERROR");
             }
-            
+
             if (retries > 2)
             {
                 Assert.Fail($"{testName} Failed");
             }
-            
+
             await RunTestImplementation(testName, retries + 1);
         }
         finally
@@ -136,7 +126,11 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         }
     }
 
-    private string BuildTestUrl(string testName) => $"{TestConfig.TestAppUrl}?testFilter={testName}&renderMode={TestConfig.RenderMode}{(TestConfig.ProOnly ? "&proOnly": "")}{(TestConfig.CoreOnly ? "&coreOnly" : "")}";
+    private string BuildTestUrl(string testName)
+    {
+        return $"{TestConfig.TestAppUrl}?testFilter={testName}&renderMode={
+            TestConfig.RenderMode}{(TestConfig.ProOnly ? "&proOnly" : "")}{(TestConfig.CoreOnly ? "&coreOnly" : "")}";
+    }
 
     private async Task Setup(int retries)
     {
@@ -145,8 +139,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         try
         {
             // Get pool instance and checkout a browser
-            var pool = BrowserPool.GetInstance(
-                BrowserType,
+            var pool = BrowserPool.GetInstance(BrowserType,
                 _launchOptions!,
                 TestConfig.BrowserPoolSize);
 
@@ -185,7 +178,9 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     {
         return new BrowserNewContextOptions
         {
-            BaseURL = TestConfig.TestAppUrl, Locale = "en-US", ColorScheme = ColorScheme.Light,
+            BaseURL = TestConfig.TestAppUrl,
+            Locale = "en-US",
+            ColorScheme = ColorScheme.Light,
             IgnoreHTTPSErrors = true
         };
     }
@@ -196,13 +191,14 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         IPage page = (IPage)pageObject!;
         Uri uri = new(page.Url);
         string testName = HttpUtility.ParseQueryString(uri.Query)["testFilter"]!.Split('.').Last();
+
         if (message.Type == "error" || message.Text.Contains("error"))
         {
             if (!_errorMessages.ContainsKey(testName))
             {
                 _errorMessages[testName] = [];
             }
-            
+
             _errorMessages[testName].Add(message.Text);
         }
         else
@@ -211,7 +207,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             {
                 _consoleMessages[testName] = [];
             }
-            
+
             _consoleMessages[testName].Add(message.Text);
         }
     }
@@ -221,16 +217,15 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         IPage page = (IPage)pageObject!;
         Uri uri = new(page.Url);
         string testName = HttpUtility.ParseQueryString(uri.Query)["testFilter"]!.Split('.').Last();
+
         if (!_errorMessages.ContainsKey(testName))
         {
             _errorMessages[testName] = [];
         }
-            
+
         _errorMessages[testName].Add(message);
     }
 
-    private Dictionary<string, List<string>> _consoleMessages = [];
-    private Dictionary<string, List<string>> _errorMessages = [];
     private readonly List<IBrowserContext> _contexts = new();
     private readonly BrowserTypeLaunchOptions? _launchOptions = new()
     {
@@ -251,17 +246,14 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
     private readonly PageGotoOptions _pageGotoOptions = new()
     {
-        WaitUntil = WaitUntilState.DOMContentLoaded, 
-        Timeout = 60_000
+        WaitUntil = WaitUntilState.DOMContentLoaded, Timeout = 60_000
     };
 
-    private readonly LocatorClickOptions _clickOptions = new()
-    {
-        Timeout = 120_000
-    };
-    
-    private readonly LocatorAssertionsToBeVisibleOptions _visibleOptions = new()
-    {
-        Timeout = 120_000
-    };
+    private readonly LocatorClickOptions _clickOptions = new() { Timeout = 120_000 };
+
+    private readonly LocatorAssertionsToBeVisibleOptions _visibleOptions = new() { Timeout = 120_000 };
+    private PooledBrowser? _pooledBrowser;
+
+    private readonly Dictionary<string, List<string>> _consoleMessages = [];
+    private readonly Dictionary<string, List<string>> _errorMessages = [];
 }
