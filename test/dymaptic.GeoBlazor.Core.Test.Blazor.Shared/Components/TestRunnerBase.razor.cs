@@ -30,9 +30,15 @@ public partial class TestRunnerBase
     public TestResult? Results { get; set; }
     [Parameter]
     public IJSObjectReference? JsTestRunner { get; set; }
-    
+
     [CascadingParameter(Name = nameof(TestFilter))]
     public string? TestFilter { get; set; }
+
+    private string? FilterValue => TestFilter?.Contains('.') == true ? TestFilter.Split('.')[1] : null;
+    private string ClassName => GetType().Name;
+    private int Remaining => _methodInfos is null
+        ? 0
+        : _methodInfos.Length - (_passed.Count + _failed.Count + _inconclusive.Count);
 
     public async Task RunTests(bool onlyFailedTests = false, int skip = 0,
         CancellationToken cancellationToken = default)
@@ -60,7 +66,7 @@ public partial class TestRunnerBase
                     continue;
                 }
 
-                if (FilterMatch(method.Name))
+                if (!FilterMatch(method.Name))
                 {
                     // skip filtered out test
                     continue;
@@ -126,7 +132,7 @@ public partial class TestRunnerBase
             .Where(m => m.GetCustomAttribute(typeof(TestMethodAttribute), false) != null
                 && FilterMatch(m.Name))
             .ToArray();
-        
+
         _testResults = _methodInfos
             .ToDictionary(m => m.Name, _ => string.Empty);
         _interactionToggles = _methodInfos.ToDictionary(m => m.Name, _ => false);
@@ -200,7 +206,7 @@ public partial class TestRunnerBase
                     // Sometimes running multiple tests causes timeouts, give this another chance.
                     _retryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
                 }
-                
+
                 await TestLogger.LogError("Test Failed", ex);
 
                 ExceptionDispatchInfo.Capture(ex).Throw();
@@ -361,105 +367,11 @@ public partial class TestRunnerBase
         }
     }
 
-    private async Task RunTest(MethodInfo methodInfo)
-    {
-        if (JsTestRunner is null)
-        {
-            await GetJsTestRunner();
-        }
-
-        _currentTest = methodInfo.Name;
-        _testResults[methodInfo.Name] = "<p style=\"color: orange; font-weight: bold\">Running...</p>";
-        _resultBuilder = new StringBuilder();
-        _passed.Remove(methodInfo.Name);
-        _failed.Remove(methodInfo.Name);
-        _inconclusive.Remove(methodInfo.Name);
-        _testRenderFragments.Remove(methodInfo.Name);
-        _mapRenderingExceptions.Remove(methodInfo.Name);
-        methodsWithRenderedMaps.Remove(methodInfo.Name);
-        layerViewCreatedEvents.Remove(methodInfo.Name);
-        listItems.Remove(methodInfo.Name);
-        await TestLogger.Log($"Running test {methodInfo.Name}");
-
-        try
-        {
-            object[] actions = methodInfo.GetParameters()
-                .Select<ParameterInfo, object>(pi =>
-                {
-                    Type paramType = pi.ParameterType;
-
-                    if (paramType == typeof(Action<LayerViewCreateEvent>))
-                    {
-                        return (Action<LayerViewCreateEvent>)(createEvent =>
-                            LayerViewCreatedHandler(createEvent, methodInfo.Name));
-                    }
-
-                    if (paramType == typeof(Func<ListItem, Task<ListItem>>))
-                    {
-                        return (Func<ListItem, Task<ListItem>>)(item => ListItemCreatedHandler(item, methodInfo.Name));
-                    }
-
-                    return (Action)(() => RenderHandler(methodInfo.Name));
-                })
-                .ToArray();
-
-            try
-            {
-                if (methodInfo.ReturnType == typeof(Task))
-                {
-                    await (Task)methodInfo.Invoke(this, actions)!;
-                }
-                else
-                {
-                    methodInfo.Invoke(this, actions);
-                }
-            }
-            catch (TargetInvocationException tie) when (tie.InnerException is not null)
-            {
-                throw tie.InnerException;
-            }
-
-            _passed[methodInfo.Name] = _resultBuilder.ToString();
-            _resultBuilder.AppendLine("<p style=\"color: green; font-weight: bold\">Passed</p>");
-        }
-        catch (Exception ex)
-        {
-            if (_currentTest is null)
-            {
-                return;
-            }
-
-            string textResult = $"{_resultBuilder}{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace
-            }";
-            string displayColor;
-
-            if (ex is AssertInconclusiveException)
-            {
-                _inconclusive[methodInfo.Name] = textResult;
-                displayColor = "white";
-            }
-            else
-            {
-                _failed[methodInfo.Name] = textResult;
-                displayColor = "red";
-            }
-
-            _resultBuilder.AppendLine($"<p style=\"color: {displayColor}; font-weight: bold\">{
-                ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{
-                    ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
-        }
-
-        if (!_interactionToggles[methodInfo.Name])
-        {
-            await CleanupTest(methodInfo.Name);
-        }
-    }
-
     protected void Log(string message)
     {
         _resultBuilder.AppendLine($"<p>{message}</p>");
     }
-    
+
     protected async Task CleanupTest(string testName)
     {
         methodsWithRenderedMaps.Remove(testName);
@@ -505,6 +417,100 @@ public partial class TestRunnerBase
         return Task.FromResult(item);
     }
 
+    private async Task RunTest(MethodInfo methodInfo)
+    {
+        if (JsTestRunner is null)
+        {
+            await GetJsTestRunner();
+        }
+
+        _currentTest = methodInfo.Name;
+        _testResults[methodInfo.Name] = "<p style=\"color: orange; font-weight: bold\">Running...</p>";
+        _resultBuilder = new StringBuilder();
+        _passed.Remove(methodInfo.Name);
+        _failed.Remove(methodInfo.Name);
+        _inconclusive.Remove(methodInfo.Name);
+        _testRenderFragments.Remove(methodInfo.Name);
+        _mapRenderingExceptions.Remove(methodInfo.Name);
+        methodsWithRenderedMaps.Remove(methodInfo.Name);
+        layerViewCreatedEvents.Remove(methodInfo.Name);
+        listItems.Remove(methodInfo.Name);
+        await TestLogger.Log($"Running test {methodInfo.Name}");
+
+        try
+        {
+            var actions = methodInfo.GetParameters()
+                .Select<ParameterInfo, object>(pi =>
+                {
+                    var paramType = pi.ParameterType;
+
+                    if (paramType == typeof(Action<LayerViewCreateEvent>))
+                    {
+                        return (Action<LayerViewCreateEvent>)(createEvent =>
+                            LayerViewCreatedHandler(createEvent, methodInfo.Name));
+                    }
+
+                    if (paramType == typeof(Func<ListItem, Task<ListItem>>))
+                    {
+                        return (Func<ListItem, Task<ListItem>>)(item => ListItemCreatedHandler(item, methodInfo.Name));
+                    }
+
+                    return (Action)(() => RenderHandler(methodInfo.Name));
+                })
+                .ToArray();
+
+            try
+            {
+                if (methodInfo.ReturnType == typeof(Task))
+                {
+                    await (Task)methodInfo.Invoke(this, actions)!;
+                }
+                else
+                {
+                    methodInfo.Invoke(this, actions);
+                }
+            }
+            catch (TargetInvocationException tie) when (tie.InnerException is not null)
+            {
+                throw tie.InnerException;
+            }
+
+            _passed[methodInfo.Name] = _resultBuilder.ToString();
+            _resultBuilder.AppendLine("<p style=\"color: green; font-weight: bold\">Passed</p>");
+        }
+        catch (Exception ex)
+        {
+            if (_currentTest is null)
+            {
+                return;
+            }
+
+            var textResult = $"{_resultBuilder}{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace
+            }";
+            string displayColor;
+
+            if (ex is AssertInconclusiveException)
+            {
+                _inconclusive[methodInfo.Name] = textResult;
+                displayColor = "white";
+            }
+            else
+            {
+                _failed[methodInfo.Name] = textResult;
+                displayColor = "red";
+            }
+
+            _resultBuilder.AppendLine($"<p style=\"color: {displayColor}; font-weight: bold\">{
+                ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{
+                    ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
+        }
+
+        if (!_interactionToggles[methodInfo.Name])
+        {
+            await CleanupTest(methodInfo.Name);
+        }
+    }
+
     private void OnRenderError(ErrorEventArgs arg)
     {
         _mapRenderingExceptions[arg.MethodName] = arg.Exception;
@@ -521,33 +527,27 @@ public partial class TestRunnerBase
 
     private bool FilterMatch(string testName)
     {
-        return FilterValue is null 
+        return FilterValue is null
             || Regex.IsMatch(testName, $"^{FilterValue}$", RegexOptions.IgnoreCase);
     }
-
-    private string? FilterValue => TestFilter?.Contains('.') == true ? TestFilter.Split('.')[1] : null;
 
     private static readonly List<string> methodsWithRenderedMaps = new();
     private static readonly Dictionary<string, List<LayerViewCreateEvent>> layerViewCreatedEvents = new();
     private static readonly Dictionary<string, List<ListItem>> listItems = new();
-    private string ClassName => GetType().Name;
-    private int Remaining => _methodInfos is null
-        ? 0
-        : _methodInfos.Length - (_passed.Count + _failed.Count + _inconclusive.Count);
+    private readonly Dictionary<string, RenderFragment> _testRenderFragments = new();
+    private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
+    private readonly List<MethodInfo> _retryTests = [];
     private StringBuilder _resultBuilder = new();
     private Type? _type;
     private MethodInfo[]? _methodInfos;
     private Dictionary<string, string> _testResults = new();
     private bool _collapsed = true;
     private bool _running;
-    private readonly Dictionary<string, RenderFragment> _testRenderFragments = new();
-    private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
     private Dictionary<string, string?> _passed = new();
     private Dictionary<string, string?> _failed = new();
     private Dictionary<string, string?> _inconclusive = new();
     private int _filteredTestCount;
     private Dictionary<string, bool> _interactionToggles = [];
     private string? _currentTest;
-    private readonly List<MethodInfo> _retryTests = [];
     private int _retry;
 }

@@ -310,9 +310,9 @@ public class TestConfig
             {
                 process.Kill();
             }
-
-            await KillOrphanedTestRuns();
         }
+
+        await KillOrphanedTestRuns();
     }
 
     private static async Task StopContainer()

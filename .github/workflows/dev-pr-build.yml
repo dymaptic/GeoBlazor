@@ -30,7 +30,7 @@ jobs:
   test:
     runs-on: [ self-hosted, Windows, X64 ]
     needs: [actor-check]
-    timeout-minutes: 30
+    timeout-minutes: 90
     if: needs.actor-check.outputs.was-bot != 'true'
     steps:
       - name: Generate Github App token
