@@ -1,0 +1,13 @@
+<Project>
+    <!--
+        This file defines AdditionalFiles for the source generator.
+        Uses a Target to add files only during actual compilation, not IDE analysis.
+    -->
+    <Target Name="AddSourceGeneratorInputs" BeforeTargets="CoreCompile" Condition="'$(DesignTimeBuild)' != 'true' AND '$(BuildingProject)' == 'true'">
+        <ItemGroup>
+            <AdditionalFiles Include="$(MSBuildThisFileDirectory)../dymaptic.GeoBlazor.Core.Test.Blazor.Shared/Components/*.*" />
+            <AdditionalFiles Condition="'$(ProAvailable)' == 'true'"
+                             Include="$(MSBuildThisFileDirectory)../../../test/dymaptic.GeoBlazor.Pro.Test.Blazor.Shared/Components/*.*" />
+        </ItemGroup>
+    </Target>
+</Project>

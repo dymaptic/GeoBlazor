@@ -1694,51 +1694,45 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
 function waitForRender(viewId: string, theme: string | null | undefined, dotNetRef: any, abortSignal: AbortSignal): void {
     const view = arcGisObjectRefs[viewId] as View;
 
-    try {
-        view.when().then(_ => {
-            if (hasValue(theme)) {
-                setViewTheme(theme, viewId);
-            }
-            let isRendered = false;
-            let rendering = false;
-            const interval = setInterval(async () => {
-                if (view === undefined || view === null || abortSignal.aborted) {
-                    clearInterval(interval);
-                    return;
-                }
-                if (!view.updating && !isRendered && !rendering) {
-                    notifyExtentChanged = true;
-                    // listen for click on zoom widget
-                    if (!widgetListenerAdded) {
-                        let widgetQuery = '[title="Zoom in"], [title="Zoom out"], [title="Find my location"], [class="esri-bookmarks__list"], [title="Default map view"], [title="Reset map orientation"]';
-                        let widgetButtons = document.querySelectorAll(widgetQuery);
-                        for (let i = 0; i < widgetButtons.length; i++) {
-                            widgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
-                            widgetButtons[i].addEventListener('click', setUserChangedViewExtent);
-                        }
-                        widgetListenerAdded = true;
-                    }
-
-                    try {
-                        rendering = true;
-                        requestAnimationFrame(async () => {
-                            await dotNetRef.invokeMethodAsync('OnJsViewRendered')
-                        });
-                    } catch {
-                        // we must be disconnected
-                    }
-                    rendering = false;
-                    isRendered = true;
-                } else if (isRendered && view.updating) {
-                    isRendered = false;
-                }
-            }, 100);
-        }).catch((error) => !promiseUtils.isAbortError(error) && console.error(error));
-    } catch (error: any) {
-        if (!promiseUtils.isAbortError(error) && !abortSignal.aborted) {
-            console.error(error);
+    view.when().then(_ => {
+        if (hasValue(theme)) {
+            setViewTheme(theme, viewId);
         }
-    }
+        let isRendered = false;
+        let rendering = false;
+        const interval = setInterval(async () => {
+            if (view === undefined || view === null || abortSignal.aborted) {
+                clearInterval(interval);
+                return;
+            }
+            if (!view.updating && !isRendered && !rendering) {
+                notifyExtentChanged = true;
+                // listen for click on zoom widget
+                if (!widgetListenerAdded) {
+                    let widgetQuery = '[title="Zoom in"], [title="Zoom out"], [title="Find my location"], [class="esri-bookmarks__list"], [title="Default map view"], [title="Reset map orientation"]';
+                    let widgetButtons = document.querySelectorAll(widgetQuery);
+                    for (let i = 0; i < widgetButtons.length; i++) {
+                        widgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
+                        widgetButtons[i].addEventListener('click', setUserChangedViewExtent);
+                    }
+                    widgetListenerAdded = true;
+                }
+
+                try {
+                    rendering = true;
+                    requestAnimationFrame(async () => {
+                        await dotNetRef.invokeMethodAsync('OnJsViewRendered')
+                    });
+                } catch {
+                    // we must be disconnected
+                }
+                rendering = false;
+                isRendered = true;
+            } else if (isRendered && view.updating) {
+                isRendered = false;
+            }
+        }, 100);
+    });
 }
 
 let widgetListenerAdded = false;

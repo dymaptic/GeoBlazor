@@ -124,7 +124,10 @@
     
     private Dictionary<string, object?> Parameters => new()
     {
-        { nameof(OnTestResults), EventCallback.Factory.Create<TestResult>(this, OnTestResults) },
+        { 
+            nameof(OnTestResults), 
+            EventCallback.Factory.Create<TestResult>(this, OnTestResults) 
+        },
         { nameof(Results), _results }
     };
 

@@ -4,9 +4,9 @@
   "main": "geoBlazorCore.js",
   "type": "module",
   "scripts": {
-    "debugBuild": "node ./esbuild.js --debug",
-    "watchBuild": "node ./esbuild.js --watch",
-    "releaseBuild": "node ./esbuild.js --release"
+    "debugBuild": "node ./esBuild.js --debug",
+    "watchBuild": "node ./esBuild.js --watch",
+    "releaseBuild": "node ./esBuild.js --release"
   },
   "keywords": [],
   "author": "dymaptic",

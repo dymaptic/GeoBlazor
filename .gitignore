@@ -10,12 +10,12 @@
 *.userosscache
 *.sln.docstates
 .DS_Store
-appsettings.json
 esBuild.*.lock
 esBuild.log
 .esbuild-record.json
 CustomerTests.razor
 .claude/
+.env
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -381,7 +381,8 @@ package-lock.json
 **/wwwroot/appsettings.Development.json
 DefaultDocsLinks
 .esbuild-bundled-assets-record.json
-
+**/*.Maui/appsettings.json
+**/wwwroot/appsettings.json
 !/samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth.Client/wwwroot/appsettings.json
 !/samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth/appsettings.json
 /src/dymaptic.GeoBlazor.Core/.esbuild-timestamp.json
