@@ -12,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Test.Automation;
 public sealed class BrowserPool : IAsyncDisposable
 {
     private static BrowserPool? _instance;
-    private static readonly object _instanceLock = new();
+    private static readonly Lock _instanceLock = new();
 
     private readonly ConcurrentQueue<PooledBrowser> _availableBrowsers = new();
     private readonly ConcurrentDictionary<Guid, PooledBrowser> _checkedOutBrowsers = new();
@@ -25,9 +25,9 @@ public sealed class BrowserPool : IAsyncDisposable
     private bool _disposed;
 
     /// <summary>
-    /// Maximum time to wait for a browser from the pool (3 minutes)
+    /// Maximum time to wait for a browser from the pool (5 minutes)
     /// </summary>
-    private static readonly TimeSpan CheckoutTimeout = TimeSpan.FromMinutes(3);
+    private static readonly TimeSpan CheckoutTimeout = TimeSpan.FromMinutes(5);
 
     private BrowserPool(IBrowserType browserType, BrowserTypeLaunchOptions launchOptions, int maxPoolSize)
     {

@@ -24,7 +24,7 @@
                 <span> | </span>
             }
         }
-        @if (_passed.Any() || _failed.Any())
+        @if (_passed.Any() || _failed.Any() || _inconclusive.Any())
         {
             <span class="passed" data-testid="passed">Passed: @_passed.Count</span>
             <span> | </span>

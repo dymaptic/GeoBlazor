@@ -57,7 +57,7 @@ jobs:
           ARCGIS_API_KEY: ${{ secrets.ARCGISAPIKEY }}
           GEOBLAZOR_CORE_LICENSE_KEY: ${{ secrets.GEOBLAZOR_CORE_LICENSE_KEY }}
         run: |
-          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_
+          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_ --max-parallel-test-modules 2
   
   build:
     runs-on: ubuntu-latest
