@@ -12,7 +12,7 @@ on:
     
 concurrency:
   group: dev-pr-build
-  cancel-in-progress: ${{ github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]' }}
+  cancel-in-progress: ${{ !contains(github.actor, '[bot]') }}
 
 jobs:
   actor-check:

@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Test.Automation;
 
 public abstract class GeoBlazorTestClass : PlaywrightTest
 {
-    private IBrowser Browser { get; set; } = null!;
+    private PooledBrowser? _pooledBrowser;
     private IBrowserContext Context { get; set; } = null!;
     
     public static string? GenerateTestName(MethodInfo? _, object?[]? data)
@@ -40,7 +40,25 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         }
 
         _contexts.Clear();
-        Browser = null!;
+
+        // Return browser to pool instead of abandoning it
+        if (_pooledBrowser is not null)
+        {
+            try
+            {
+                await BrowserPool.GetInstance(BrowserType, _launchOptions!, TestConfig.BrowserPoolSize)
+                    .ReturnAsync(_pooledBrowser)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"Error returning browser to pool: {ex.Message}", "TEST");
+            }
+            finally
+            {
+                _pooledBrowser = null;
+            }
+        }
     }
 
     protected virtual Task<(string, BrowserTypeConnectOptions?)?> ConnectOptionsAsync()
@@ -126,23 +144,38 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
         try
         {
-            var service = await BrowserService.Register(this, BrowserType, await ConnectOptionsAsync())
-                .ConfigureAwait(false);
-            var baseBrowser = service.Browser;
-            Browser = await baseBrowser.BrowserType.LaunchAsync(_launchOptions);
+            // Get pool instance and checkout a browser
+            var pool = BrowserPool.GetInstance(
+                BrowserType,
+                _launchOptions!,
+                TestConfig.BrowserPoolSize);
+
+            _pooledBrowser = await pool.CheckoutAsync().ConfigureAwait(false);
+
+            // Create context on the pooled browser
             Context = await NewContextAsync(ContextOptions()).ConfigureAwait(false);
         }
         catch (Exception e)
         {
             // transient error on setup found, seems to be very rare, so we will just retry
             Trace.WriteLine($"{e.Message}{Environment.NewLine}{e.StackTrace}", "ERROR");
+
+            // If browser failed during setup, report it to the pool
+            if (_pooledBrowser is not null)
+            {
+                await BrowserPool.GetInstance(BrowserType, _launchOptions!, TestConfig.BrowserPoolSize)
+                    .ReportFailedAsync(_pooledBrowser)
+                    .ConfigureAwait(false);
+                _pooledBrowser = null;
+            }
+
             await Setup(retries + 1);
         }
     }
 
     private async Task<IBrowserContext> NewContextAsync(BrowserNewContextOptions? options)
     {
-        var context = await Browser.NewContextAsync(options).ConfigureAwait(false);
+        var context = await _pooledBrowser!.Browser.NewContextAsync(options).ConfigureAwait(false);
         _contexts.Add(context);
 
         return context;

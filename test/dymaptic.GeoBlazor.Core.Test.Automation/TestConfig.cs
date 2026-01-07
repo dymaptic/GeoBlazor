@@ -22,6 +22,13 @@ public class TestConfig
     public static bool CoreOnly { get; private set; }
     public static bool ProOnly { get; private set; }
 
+    /// <summary>
+    /// Maximum number of concurrent browser instances in the pool.
+    /// Configurable via BROWSER_POOL_SIZE environment variable.
+    /// Default: 2 for CI environments, 4 for local development.
+    /// </summary>
+    public static int BrowserPoolSize { get; private set; } = 2;
+
     private static string ComposeFilePath => Path.Combine(_projectFolder,
         _proAvailable && !CoreOnly ? "docker-compose-pro.yml" : "docker-compose-core.yml");
     private static string TestAppPath => _proAvailable
@@ -57,6 +64,14 @@ public class TestConfig
     [AssemblyCleanup]
     public static async Task AssemblyCleanup()
     {
+        // Dispose browser pool first
+        if (BrowserPool.TryGetInstance(out var pool) && pool is not null)
+        {
+            Trace.WriteLine("Disposing browser pool...", "TEST_CLEANUP");
+            await pool.DisposeAsync().ConfigureAwait(false);
+            Trace.WriteLine("Browser pool disposed", "TEST_CLEANUP");
+        }
+
         if (_useContainer)
         {
             await StopContainer();
@@ -128,6 +143,12 @@ public class TestConfig
         }
 
         _useContainer = _configuration.GetValue("USE_CONTAINER", false);
+
+        // Configure browser pool size - smaller for CI, larger for local development
+        var isCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"));
+        var defaultPoolSize = isCI ? 2 : 4;
+        BrowserPoolSize = _configuration.GetValue("BROWSER_POOL_SIZE", defaultPoolSize);
+        Trace.WriteLine($"Browser pool size set to: {BrowserPoolSize} (CI: {isCI})", "TEST_SETUP");
     }
 
     private static async Task EnsurePlaywrightBrowsersAreInstalled()
