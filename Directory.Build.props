@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <CoreVersion>4.4.0.2</CoreVersion>
+      <CoreVersion>4.4.1</CoreVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CoreProjectPath>$(MSBuildThisFileDirectory)src\dymaptic.GeoBlazor.Core</CoreProjectPath>
     <!-- https://github.com/dotnet/aspnetcore/issues/64381 -->
