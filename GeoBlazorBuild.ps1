@@ -116,7 +116,7 @@ try {
         Get-ChildItem -Path (Join-Path $ProProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
-        if (Test-Path Join-Path $ProProjectPath "build/resources") {
+        if (Test-Path (Join-Path $ProProjectPath "build/resources")) {
             Get-ChildItem -Path (Join-Path $ProProjectPath "build/resources") -Recurse -Force | Remove-Item -Recurse -Force
         }
         if (Test-Path (Join-Path $ProProjectPath "wwwroot/js")) {
