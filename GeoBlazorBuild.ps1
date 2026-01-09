@@ -349,7 +349,10 @@ try {
         Write-Host ""
 
         $Step++
-        
+
+        # Set OptOutFromObfuscation before building Validator or Pro (needed for both)
+        $OptOutFromObfuscation = $Obfuscate -eq $false
+
         if (Test-Path $ValidatorProjectPath) {
             ## Build the Validator MSBuild task
             $StepStartTime = Get-Date
@@ -358,7 +361,7 @@ try {
             Write-Host "$Step. Building Validator project in configuration $ValidatorConfig" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
             Write-Host ""
             Write-Host ""
-            
+
             # Set the ServerUrls in the Validator project
             $ServerUrl = $ServerUrl.TrimEnd('/')
             Write-Host "Setting License Server Url to $ServerUrl"
@@ -384,8 +387,6 @@ try {
             if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";")) {
                 throw "Failed to set ServerUrl in PublishTaskValidator.cs"
             }
-            
-            $OptOutFromObfuscation = $Obfuscate -eq $false
             
             dotnet build dymaptic.GeoBlazor.Pro.V.csproj /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) `
                 /p:ProVersion=$Version -c $ValidatorConfig $BinlogFlag 2>&1 | Tee-Object -Variable Build
