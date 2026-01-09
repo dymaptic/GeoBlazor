@@ -16,6 +16,9 @@ esBuild.log
 CustomerTests.razor
 .claude/
 .env
+test.txt
+coverage.xml
+coverage.coverage
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

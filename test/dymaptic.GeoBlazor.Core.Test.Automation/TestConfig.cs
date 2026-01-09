@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using System.Diagnostics;
 using System.Net;
 using System.Reflection;
-using System.Runtime.Versioning;
 using System.Text;
 
 
@@ -24,9 +23,9 @@ public class TestConfig
     public static bool ProOnly { get; private set; }
 
     /// <summary>
-    /// Maximum number of concurrent browser instances in the pool.
-    /// Configurable via BROWSER_POOL_SIZE environment variable.
-    /// Default: 2 for CI environments, 4 for local development.
+    ///     Maximum number of concurrent browser instances in the pool.
+    ///     Configurable via BROWSER_POOL_SIZE environment variable.
+    ///     Default: 2 for CI environments, 4 for local development.
     /// </summary>
     public static int BrowserPoolSize { get; private set; } = 2;
 
@@ -42,11 +41,13 @@ public class TestConfig
             "dymaptic.GeoBlazor.Core.Test.WebApp",
             "dymaptic.GeoBlazor.Core.Test.WebApp.csproj"));
     private static string TestAppHttpUrl => $"http://localhost:{_httpPort}";
+    private static string CoverageSessionFilePath => Path.Combine(_projectFolder, "CoverageSessionId.txt");
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
     {
         Trace.Listeners.Add(new ConsoleTraceListener());
+        Trace.Listeners.Add(new StringBuilderTraceListener(_logBuilder));
         Trace.AutoFlush = true;
 
         // kill old running test apps and containers
@@ -54,6 +55,18 @@ public class TestConfig
         await StopTestApp();
 
         SetupConfiguration();
+
+        if (File.Exists(CoverageSessionFilePath))
+        {
+            var oldSessionId = await File.ReadAllTextAsync(CoverageSessionFilePath);
+            await EndCodeCoverageSession(oldSessionId);
+        }
+
+        if (_cover)
+        {
+            await StartCodeCoverage();
+        }
+
         await EnsurePlaywrightBrowsersAreInstalled();
 
         if (_useContainer)
@@ -86,27 +99,31 @@ public class TestConfig
             await StopTestApp();
         }
 
+        await EndCodeCoverageSession(codeCoverageSessionId);
+        await KillProcessById(_coverageProcessId);
+        KillProcessByName("dotnet-coverage");
         await cts.CancelAsync();
+
+        await File.WriteAllTextAsync(Path.Combine(_projectFolder, "test.txt"),
+            _logBuilder.ToString());
     }
 
     private static void SetupConfiguration()
     {
         _projectFolder = Assembly.GetAssembly(typeof(TestConfig))!.Location;
 
+        if (_projectFolder.Contains("bin"))
+        {
+            var parts = _projectFolder.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);
+            _runConfig = parts[^3];
+            _targetFramework = parts[^2];
+        }
+
         while (_projectFolder.Contains("bin"))
         {
             // get test project folder
             _projectFolder = Path.GetDirectoryName(_projectFolder)!;
         }
-
-        string targetFramework = Assembly.GetAssembly(typeof(object))!
-            .GetCustomAttribute<TargetFrameworkAttribute>()!
-            .FrameworkDisplayName!
-            .Replace(" ", "")
-            .TrimStart('.')
-            .ToLowerInvariant();
-
-        _outputFolder = Path.Combine(_projectFolder, "bin", "Release", targetFramework);
 
         // assemblyLocation = GeoBlazor.Pro/GeoBlazor/test/dymaptic.GeoBlazor.Core.Test.Automation
         // this pulls us up to GeoBlazor.Pro then finds the Dockerfile
@@ -155,6 +172,130 @@ public class TestConfig
         var defaultPoolSize = isCI ? 2 : 4;
         BrowserPoolSize = _configuration.GetValue("BROWSER_POOL_SIZE", defaultPoolSize);
         Trace.WriteLine($"Browser pool size set to: {BrowserPoolSize} (CI: {isCI})", "TEST_SETUP");
+        _cover = _configuration.GetValue("COVER", false);
+        _coverageFormat = _configuration.GetValue("COVERAGE_FORMAT", "xml");
+
+        var config = _configuration["CONFIGURATION"];
+
+        if (!string.IsNullOrEmpty(config))
+        {
+            _runConfig = config;
+        }
+
+        if (_runConfig is null)
+        {
+#if DEBUG
+            _runConfig = "Debug";
+#else
+            _runConfig = "Release";
+#endif
+        }
+
+        _targetFramework ??= _configuration.GetValue("TARGET_FRAMEWORK", "net10.0");
+
+        if (_cover)
+        {
+            var testOutputPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(TestAppPath)!,
+                "bin", _runConfig, _targetFramework));
+            _coreProjectDllPath = Path.Combine(testOutputPath, "dymaptic.GeoBlazor.Core.dll");
+            _proProjectDllPath = Path.Combine(testOutputPath, "dymaptic.GeoBlazor.Pro.dll");
+        }
+    }
+
+    private static async Task StartCodeCoverage()
+    {
+        await Cli.Wrap("dotnet")
+            .WithArguments([
+                "tool",
+                "install",
+                "--global",
+                "dotnet-coverage"
+            ])
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION")))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
+                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION_ERROR: TOOL INSTALLATION")))
+            .ExecuteAsync();
+
+        // Instrument Core Assembly
+        await Cli.Wrap("dotnet-coverage")
+            .WithArguments([
+                "instrument",
+                "--session-id",
+                codeCoverageSessionId,
+                _coreProjectDllPath
+            ])
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+                Trace.WriteLine(output, "CODE_COVERAGE_INSTRUMENTATION")))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
+                Trace.WriteLine(output, "CODE_COVERAGE_INSTRUMENTATION_ERROR")))
+            .ExecuteAsync();
+
+        // Instrument Pro Assembly
+        await Cli.Wrap("dotnet-coverage")
+            .WithArguments([
+                "instrument",
+                "--session-id",
+                codeCoverageSessionId,
+                _proProjectDllPath
+            ])
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+                Trace.WriteLine(output, "CODE_COVERAGE_INSTRUMENTATION")))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
+                Trace.WriteLine(output, "CODE_COVERAGE_INSTRUMENTATION_ERROR")))
+            .ExecuteAsync();
+
+        await File.WriteAllTextAsync(CoverageSessionFilePath, codeCoverageSessionId);
+
+        // Start Coverage Collection Server
+        var command = Cli.Wrap("dotnet-coverage")
+            .WithArguments([
+                "collect",
+                "-o",
+                Path.Combine(_projectFolder, "coverage"),
+                "--session-id",
+                codeCoverageSessionId,
+                "--server-mode",
+                "-f",
+                _coverageFormat,
+                "-o",
+                $"coverage.{_coverageFormat}"
+            ]);
+
+        var exitCode = -1;
+
+        _ = Task.Run(async () =>
+        {
+            await foreach (var cmdEvent in command.ListenAsync())
+            {
+                switch (cmdEvent)
+                {
+                    case StartedCommandEvent started:
+                        Trace.WriteLine($"Process started; ID: {started.ProcessId}", "CODE_COVERAGE_SERVER");
+                        _coverageProcessId = started.ProcessId;
+
+                        break;
+                    case StandardOutputCommandEvent stdOut:
+                        Trace.WriteLine($"Out> {stdOut.Text}", "CODE_COVERAGE_SERVER");
+
+                        break;
+                    case StandardErrorCommandEvent stdErr:
+                        Trace.WriteLine($"Err> {stdErr.Text}", "CODE_COVERAGE_SERVER_ERROR");
+
+                        break;
+                    case ExitedCommandEvent exited:
+                        exitCode = exited.ExitCode;
+                        Trace.WriteLine($"Process exited; Code: {exited.ExitCode}", "CODE_COVERAGE_SERVER");
+
+                        break;
+                }
+            }
+
+            if (exitCode != 0)
+            {
+                throw new Exception($"Code Coverage Server failed with exit code {exitCode}");
+            }
+        });
     }
 
     private static async Task EnsurePlaywrightBrowsersAreInstalled()
@@ -180,14 +321,14 @@ public class TestConfig
 
     private static async Task StartContainer()
     {
-        string args = $"compose -f \"{ComposeFilePath}\" up -d --build";
+        var args = $"compose -f \"{ComposeFilePath}\" up -d --build";
         Trace.WriteLine($"Starting container with: docker {args}", "TEST_SETUP");
         Trace.WriteLine($"Working directory: {_projectFolder}", "TEST_SETUP");
         StringBuilder output = new();
         StringBuilder error = new();
         int? exitCode = null;
 
-        Command command = Cli.Wrap("docker")
+        var command = Cli.Wrap("docker")
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
@@ -241,7 +382,7 @@ public class TestConfig
         StringBuilder error = new();
         int? exitCode = null;
 
-        Command command = Cli.Wrap("dotnet")
+        var command = Cli.Wrap("dotnet")
             .WithArguments(args)
             .WithWorkingDirectory(_projectFolder);
 
@@ -287,32 +428,9 @@ public class TestConfig
 
     private static async Task StopTestApp()
     {
-        if (_testProcessId.HasValue)
-        {
-            Process? process = null;
+        await KillProcessById(_testProcessId);
 
-            try
-            {
-                process = Process.GetProcessById(_testProcessId.Value);
-
-                if (_useContainer)
-                {
-                    await process.StandardInput.WriteLineAsync("exit");
-                    await Task.Delay(5000);
-                }
-            }
-            catch
-            {
-                // ignore, these just clutter the output
-            }
-
-            if (process is not null && !process.HasExited)
-            {
-                process.Kill();
-            }
-        }
-
-        await KillOrphanedTestRuns();
+        await KillProcessesByTestPorts();
     }
 
     private static async Task StopContainer()
@@ -332,7 +450,7 @@ public class TestConfig
             // ignore, these just clutter the output
         }
 
-        await KillOrphanedTestRuns();
+        await KillProcessesByTestPorts();
     }
 
     private static async Task WaitForHttpResponse()
@@ -385,7 +503,35 @@ public class TestConfig
         throw new ProcessExitedException("Test page was not reachable within the allotted time frame");
     }
 
-    private static async Task KillOrphanedTestRuns()
+    private static async Task KillProcessById(int? processId)
+    {
+        if (processId.HasValue)
+        {
+            Process? process = null;
+
+            try
+            {
+                process = Process.GetProcessById(processId.Value);
+
+                if (_useContainer)
+                {
+                    await process.StandardInput.WriteLineAsync("exit");
+                    await Task.Delay(5000);
+                }
+            }
+            catch
+            {
+                // ignore, these just clutter the output
+            }
+
+            if (process is not null && !process.HasExited)
+            {
+                process.Kill();
+            }
+        }
+    }
+
+    private static async Task KillProcessesByTestPorts()
     {
         try
         {
@@ -412,14 +558,89 @@ public class TestConfig
         }
     }
 
+    private static void KillProcessByName(string processName)
+    {
+        Process.GetProcessesByName(processName)
+            .ToList()
+            .ForEach(p => p.Kill());
+    }
+
+    private static async Task EndCodeCoverageSession(string sessionId)
+    {
+        try
+        {
+            await Cli.Wrap("dotnet-coverage")
+                .WithArguments([
+                    "shutdown",
+                    sessionId
+                ])
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+                    Trace.WriteLine(output, "CODE_COVERAGE: SHUTDOWN")))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
+                    Trace.WriteLine(output, "CODE_COVERAGE_ERROR: SHUTDOWN")))
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync();
+        }
+        catch
+        {
+            // ignore, these just clutter the test output
+        }
+
+        try
+        {
+            await Cli.Wrap("dotnet-coverage")
+                .WithArguments([
+                    "uninstrument",
+                    _coreProjectDllPath
+                ])
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+                    Trace.WriteLine(output, "CODE_COVERAGE: UN-INSTRUMENTATION")))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
+                    Trace.WriteLine(output, "CODE_COVERAGE_ERROR: UN-INSTRUMENTATION")))
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync();
+        }
+        catch
+        {
+            // ignore, these just clutter the test output
+        }
+
+        try
+        {
+            await Cli.Wrap("dotnet-coverage")
+                .WithArguments([
+                    "uninstrument",
+                    _proProjectDllPath
+                ])
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+                    Trace.WriteLine(output, "CODE_COVERAGE: UN-INSTRUMENTATION")))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
+                    Trace.WriteLine(output, "CODE_COVERAGE_ERROR: UN-INSTRUMENTATION")))
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync();
+        }
+        catch
+        {
+            // ignore, these just clutter the test output
+        }
+    }
+
     private static readonly CancellationTokenSource cts = new();
+    private static readonly string codeCoverageSessionId = Guid.NewGuid().ToString();
+    private static readonly StringBuilder _logBuilder = new();
 
     private static IConfiguration? _configuration;
+    private static string? _runConfig;
+    private static string? _targetFramework;
     private static bool _proAvailable;
     private static int _httpsPort;
     private static int _httpPort;
     private static string _projectFolder = string.Empty;
-    private static string _outputFolder = string.Empty;
     private static int? _testProcessId;
     private static bool _useContainer;
+    private static bool _cover;
+    private static int? _coverageProcessId;
+    private static string _coverageFormat = string.Empty;
+    private static string _coreProjectDllPath = string.Empty;
+    private static string _proProjectDllPath = string.Empty;
 }
