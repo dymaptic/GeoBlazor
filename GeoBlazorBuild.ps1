@@ -116,14 +116,18 @@ try {
         Get-ChildItem -Path (Join-Path $ProProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
-        Get-ChildItem -Path (Join-Path $ProProjectPath "build/resources") -Recurse -Force | Remove-Item -Recurse -Force
+        if (Test-Path Join-Path $ProProjectPath "build/resources") {
+            Get-ChildItem -Path (Join-Path $ProProjectPath "build/resources") -Recurse -Force | Remove-Item -Recurse -Force
+        }
         if (Test-Path (Join-Path $ProProjectPath "wwwroot/js")) {
             Get-ChildItem -Path (Join-Path $ProProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
         }
         if (Test-Path (Join-Path $ProProjectPath "node_modules")) {
             Get-ChildItem -Path (Join-Path $ProProjectPath "node_modules") -Recurse -Force | Remove-Item -Recurse -Force
         }
-        dotnet clean (Join-Path $ValidatorProjectPath dymaptic.GeoBlazor.Pro.V.csproj)
+        if (Test-Path $ValidatorProjectPath) {
+            dotnet clean (Join-Path $ValidatorProjectPath dymaptic.GeoBlazor.Pro.V.csproj)
+        }
         Get-ChildItem -Path (Join-Path $ValidatorProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
@@ -345,60 +349,62 @@ try {
 
         $Step++
         
-        ## Build the Validator MSBuild task
-        $StepStartTime = Get-Date
-        Set-Location $ValidatorProjectPath
-        Write-Host ""
-        Write-Host "$Step. Building Validator project in configuration $ValidatorConfig" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
-        Write-Host ""
-        Write-Host ""
-        
-        # Set the ServerUrls in the Validator project
-        $ServerUrl = $ServerUrl.TrimEnd('/')
-        Write-Host "Setting License Server Url to $ServerUrl"
-        $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
-        $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";"
-        Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
-        if ($IsMacOS) {
-            & sync
+        if (Test-Path $ValidatorProjectPath) {
+            ## Build the Validator MSBuild task
+            $StepStartTime = Get-Date
+            Set-Location $ValidatorProjectPath
+            Write-Host ""
+            Write-Host "$Step. Building Validator project in configuration $ValidatorConfig" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
+            Write-Host ""
+            Write-Host ""
+            
+            # Set the ServerUrls in the Validator project
+            $ServerUrl = $ServerUrl.TrimEnd('/')
+            Write-Host "Setting License Server Url to $ServerUrl"
+            $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
+            $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";"
+            Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
+            if ($IsMacOS) {
+                & sync
+            }
+            Start-Sleep -Milliseconds 500
+            $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
+            if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";")) {
+                throw "Failed to set ServerUrl in DevBuildValidator.cs"
+            }
+            $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
+            $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";"
+            Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
+            if ($IsMacOS) {
+                & sync
+            }
+            Start-Sleep -Milliseconds 500
+            $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
+            if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";")) {
+                throw "Failed to set ServerUrl in PublishTaskValidator.cs"
+            }
+            
+            $OptOutFromObfuscation = $Obfuscate -eq $false
+            
+            dotnet build dymaptic.GeoBlazor.Pro.V.csproj /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) `
+                /p:ProVersion=$Version -c $ValidatorConfig $BinlogFlag 2>&1 | Tee-Object -Variable Build
+            
+            # Restore the ServerUrls in the Validator project
+            $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
+            $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = ".*";', 'public string SU { get; set; } = null!;'
+            Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline
+            $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
+            $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = ".*";', 'public string SU { get; set; } = null!;'
+            Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline
+            $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
+            if ($HasError -eq $true) {
+                exit 1
+            }
+            Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
+            Write-Host ""
+    
+            $Step++
         }
-        Start-Sleep -Milliseconds 500
-        $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
-        if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";")) {
-            throw "Failed to set ServerUrl in DevBuildValidator.cs"
-        }
-        $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
-        $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";"
-        Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
-        if ($IsMacOS) {
-            & sync
-        }
-        Start-Sleep -Milliseconds 500
-        $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
-        if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";")) {
-            throw "Failed to set ServerUrl in PublishTaskValidator.cs"
-        }
-        
-        $OptOutFromObfuscation = $Obfuscate -eq $false
-        
-        dotnet build dymaptic.GeoBlazor.Pro.V.csproj /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) `
-            /p:ProVersion=$Version -c $ValidatorConfig $BinlogFlag 2>&1 | Tee-Object -Variable Build
-        
-        # Restore the ServerUrls in the Validator project
-        $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
-        $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = ".*";', 'public string SU { get; set; } = null!;'
-        Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline
-        $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
-        $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = ".*";', 'public string SU { get; set; } = null!;'
-        Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline
-        $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
-        if ($HasError -eq $true) {
-            exit 1
-        }
-        Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
-        Write-Host ""
-
-        $Step++
 
         Set-Location $ProProjectPath
 
