@@ -127,10 +127,11 @@ try {
         }
         if (Test-Path $ValidatorProjectPath) {
             dotnet clean (Join-Path $ValidatorProjectPath dymaptic.GeoBlazor.Pro.V.csproj)
+            Get-ChildItem -Path (Join-Path $ValidatorProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
+            Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
+            Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
         }
-        Get-ChildItem -Path (Join-Path $ValidatorProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
-        Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
-        Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
+        
     }
     Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
     Write-Host ""
