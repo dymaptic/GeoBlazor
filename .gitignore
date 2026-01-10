@@ -16,9 +16,10 @@ esBuild.log
 CustomerTests.razor
 .claude/
 .env
-test.txt
-coverage.xml
-coverage.coverage
+test/dymaptic.GeoBlazor.Core.Test.Automation/test.txt
+test/dymaptic.GeoBlazor.Core.Test.Automation/coverage.*
+test/dymaptic.GeoBlazor.Core.Test.Automation/Summary.txt
+test/dymaptic.GeoBlazor.Core.Test.Automation/coverage-report/index.html
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

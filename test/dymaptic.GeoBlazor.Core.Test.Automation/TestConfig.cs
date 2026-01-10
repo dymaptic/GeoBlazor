@@ -97,8 +97,64 @@ public class TestConfig
             await StopTestApp();
         }
 
+        if (_cover)
+        {
+            await GenerateCoverageReport();
+        }
+
         await File.WriteAllTextAsync(Path.Combine(_projectFolder, "test.txt"),
             _logBuilder.ToString());
+    }
+
+    private static async Task GenerateCoverageReport()
+    {
+        var coverageFile = Path.Combine(_projectFolder, $"coverage.{_coverageFormat}");
+        var reportDir = Path.Combine(_projectFolder, "coverage-report");
+
+        if (!File.Exists(coverageFile))
+        {
+            Trace.WriteLine($"Coverage file not found: {coverageFile}", "CODE_COVERAGE_ERROR");
+
+            return;
+        }
+
+        try
+        {
+            Trace.WriteLine("Generating coverage report...", "CODE_COVERAGE");
+
+            await Cli.Wrap("reportgenerator")
+                .WithArguments([
+                    $"-reports:{coverageFile}",
+                    $"-targetdir:{reportDir}",
+                    "-reporttypes:Html;HtmlSummary;TextSummary"
+                ])
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                    Trace.WriteLine(line, "CODE_COVERAGE_REPORT")))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+                    Trace.WriteLine(line, "CODE_COVERAGE_REPORT_ERROR")))
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync();
+
+            var indexPath = Path.Combine(reportDir, "index.html");
+
+            if (File.Exists(indexPath))
+            {
+                Trace.WriteLine($"Coverage report generated: {indexPath}", "CODE_COVERAGE");
+            }
+
+            // Output text summary to console
+            var summaryPath = Path.Combine(reportDir, "Summary.txt");
+
+            if (File.Exists(summaryPath))
+            {
+                var summary = await File.ReadAllTextAsync(summaryPath);
+                Trace.WriteLine($"Coverage Summary:\n{summary}", "CODE_COVERAGE");
+            }
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"Failed to generate coverage report: {ex.Message}", "CODE_COVERAGE_ERROR");
+        }
     }
 
     private static void SetupConfiguration()
