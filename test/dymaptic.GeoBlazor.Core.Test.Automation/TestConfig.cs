@@ -1,5 +1,4 @@
 using CliWrap;
-using CliWrap.EventStream;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
@@ -83,6 +82,12 @@ public class TestConfig
             Trace.WriteLine("Browser pool disposed", "TEST_CLEANUP");
         }
 
+        cts.CancelAfter(5000);
+
+        await gracefulCts.CancelAsync();
+
+        await Task.Delay(5000);
+
         if (_useContainer)
         {
             await StopContainer();
@@ -91,8 +96,6 @@ public class TestConfig
         {
             await StopTestApp();
         }
-
-        await cts.CancelAsync();
 
         await File.WriteAllTextAsync(Path.Combine(_projectFolder, "test.txt"),
             _logBuilder.ToString());
@@ -241,51 +244,19 @@ public class TestConfig
         var args = $"compose -f \"{ComposeFilePath}\" up -d --build";
         Trace.WriteLine($"Starting container with: docker {args}", "TEST_SETUP");
         Trace.WriteLine($"Working directory: {_projectFolder}", "TEST_SETUP");
-        StringBuilder output = new();
-        StringBuilder error = new();
-        int? exitCode = null;
 
-        var command = Cli.Wrap("docker")
+        CommandTask<CommandResult> commandTask = Cli.Wrap("docker")
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
                 ["HTTP_PORT"] = _httpPort.ToString(), ["HTTPS_PORT"] = _httpsPort.ToString()
             })
-            .WithWorkingDirectory(_projectFolder);
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER")))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER_ERROR")))
+            .WithWorkingDirectory(_projectFolder)
+            .ExecuteAsync(cts.Token, gracefulCts.Token);
 
-        await foreach (var cmdEvent in command.ListenAsync())
-        {
-            switch (cmdEvent)
-            {
-                case StartedCommandEvent started:
-                    output.AppendLine($"Process started; ID: {started.ProcessId}");
-                    _testProcessId = started.ProcessId;
-
-                    break;
-                case StandardOutputCommandEvent stdOut:
-                    output.AppendLine($"Out> {stdOut.Text}");
-
-                    break;
-                case StandardErrorCommandEvent stdErr:
-                    error.AppendLine($"Err> {stdErr.Text}");
-
-                    break;
-                case ExitedCommandEvent exited:
-                    exitCode = exited.ExitCode;
-                    output.AppendLine($"Process exited; Code: {exited.ExitCode}");
-
-                    break;
-            }
-        }
-
-        Trace.WriteLine($"Docker output: {output}", "TEST_SETUP");
-
-        if (exitCode != 0)
-        {
-            throw new Exception($"Docker compose failed with exit code {exitCode}. Error: {error}");
-        }
-
-        Trace.WriteLine($"Docker error output: {error}", "TEST_SETUP");
+        _testProcessId = commandTask.ProcessId;
 
         await WaitForHttpResponse();
     }
@@ -294,60 +265,43 @@ public class TestConfig
     {
         var cmdLineApp = _cover ? "dotnet-coverage" : "dotnet";
 
-        string args = $"run --project \"{TestAppPath}\" --urls \"{TestAppUrl};{TestAppHttpUrl
-        }\" -- -c Release /p:GenerateXmlComments=false /p:GeneratePackage=false";
+        string[] args =
+        [
+            "run", "--project", $"\"{TestAppPath}\"",
+            "--urls", $"{TestAppUrl};{TestAppHttpUrl}",
+            "--", "-c", "Release",
+            "/p:GenerateXmlComments=false", "/p:GeneratePackage=false"
+        ];
 
         if (_cover)
         {
             var coverageOutputPath = Path.Combine(_projectFolder, $"coverage.{_coverageFormat}");
-            args = $"collect -o \"{coverageOutputPath}\" -f {_coverageFormat} \"dotnet {args}\"";
+
+            // Join the dotnet run command into a single string for dotnet-coverage
+            var dotnetCommand = "dotnet " + string.Join(" ", args);
+
+            // Include GeoBlazor assemblies for coverage
+            args =
+            [
+                "collect",
+                "-o", coverageOutputPath,
+                "-f", _coverageFormat,
+                "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
+                dotnetCommand
+            ];
         }
 
-        Trace.WriteLine($"Starting test app: {cmdLineApp} {args}", "TEST_SETUP");
-        StringBuilder output = new();
-        StringBuilder error = new();
-        int? exitCode = null;
+        Trace.WriteLine($"Starting test app: {cmdLineApp} {string.Join(" ", args)}", "TEST_SETUP");
 
-        var command = Cli.Wrap(cmdLineApp)
+        CommandTask<CommandResult> commandTask = Cli.Wrap(cmdLineApp)
             .WithArguments(args)
-            .WithWorkingDirectory(_projectFolder);
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_APP")))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_APP_ERROR")))
+            .WithWorkingDirectory(_projectFolder)
+            .ExecuteAsync(cts.Token, gracefulCts.Token);
 
-        _ = Task.Run(async () =>
-        {
-            await foreach (var cmdEvent in command.ListenAsync())
-            {
-                switch (cmdEvent)
-                {
-                    case StartedCommandEvent started:
-                        output.AppendLine($"Process started; ID: {started.ProcessId}");
-                        _testProcessId = started.ProcessId;
-
-                        break;
-                    case StandardOutputCommandEvent stdOut:
-                        output.AppendLine($"Out> {stdOut.Text}");
-
-                        break;
-                    case StandardErrorCommandEvent stdErr:
-                        error.AppendLine($"Err> {stdErr.Text}");
-
-                        break;
-                    case ExitedCommandEvent exited:
-                        exitCode = exited.ExitCode;
-                        output.AppendLine($"Process exited; Code: {exited.ExitCode}");
-
-                        break;
-                }
-            }
-
-            Trace.WriteLine($"Test App output: {output}", "TEST_SETUP");
-
-            if (exitCode != 0)
-            {
-                throw new Exception($"Test app failed with exit code {exitCode}. Error: {error}");
-            }
-
-            Trace.WriteLine($"Test app error output: {error}", "TEST_SETUP");
-        });
+        _testProcessId = commandTask.ProcessId;
 
         await WaitForHttpResponse();
     }
@@ -355,7 +309,6 @@ public class TestConfig
     private static async Task StopTestApp()
     {
         await KillProcessById(_testProcessId);
-
         await KillProcessesByTestPorts();
     }
 
@@ -485,6 +438,7 @@ public class TestConfig
     }
 
     private static readonly CancellationTokenSource cts = new();
+    private static readonly CancellationTokenSource gracefulCts = new();
     private static readonly StringBuilder _logBuilder = new();
 
     private static IConfiguration? _configuration;
@@ -498,4 +452,5 @@ public class TestConfig
     private static bool _useContainer;
     private static bool _cover;
     private static string _coverageFormat = string.Empty;
+    private static Stream _testAppInputStream = new MemoryStream();
 }
