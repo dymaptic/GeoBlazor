@@ -13,6 +13,6 @@ public class StringBuilderTraceListener(StringBuilder builder) : TraceListener
 
     public override void WriteLine(string? message)
     {
-        builder.AppendLine(message);
+        builder.AppendLine($"{DateTime.Now:u} {message}");
     }
 }

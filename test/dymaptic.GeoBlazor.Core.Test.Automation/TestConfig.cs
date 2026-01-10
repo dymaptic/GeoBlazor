@@ -41,7 +41,6 @@ public class TestConfig
             "dymaptic.GeoBlazor.Core.Test.WebApp",
             "dymaptic.GeoBlazor.Core.Test.WebApp.csproj"));
     private static string TestAppHttpUrl => $"http://localhost:{_httpPort}";
-    private static string CoverageSessionFilePath => Path.Combine(_projectFolder, "CoverageSessionId.txt");
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
@@ -56,15 +55,9 @@ public class TestConfig
 
         SetupConfiguration();
 
-        if (File.Exists(CoverageSessionFilePath))
-        {
-            var oldSessionId = await File.ReadAllTextAsync(CoverageSessionFilePath);
-            await EndCodeCoverageSession(oldSessionId);
-        }
-
         if (_cover)
         {
-            await StartCodeCoverage();
+            await InstallCodeCoverageTools();
         }
 
         await EnsurePlaywrightBrowsersAreInstalled();
@@ -99,9 +92,6 @@ public class TestConfig
             await StopTestApp();
         }
 
-        await EndCodeCoverageSession(codeCoverageSessionId);
-        await KillProcessById(_coverageProcessId);
-        KillProcessByName("dotnet-coverage");
         await cts.CancelAsync();
 
         await File.WriteAllTextAsync(Path.Combine(_projectFolder, "test.txt"),
@@ -192,17 +182,9 @@ public class TestConfig
         }
 
         _targetFramework ??= _configuration.GetValue("TARGET_FRAMEWORK", "net10.0");
-
-        if (_cover)
-        {
-            var testOutputPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(TestAppPath)!,
-                "bin", _runConfig, _targetFramework));
-            _coreProjectDllPath = Path.Combine(testOutputPath, "dymaptic.GeoBlazor.Core.dll");
-            _proProjectDllPath = Path.Combine(testOutputPath, "dymaptic.GeoBlazor.Pro.dll");
-        }
     }
 
-    private static async Task StartCodeCoverage()
+    private static async Task InstallCodeCoverageTools()
     {
         await Cli.Wrap("dotnet")
             .WithArguments([
@@ -214,88 +196,23 @@ public class TestConfig
             .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
                 Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION")))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
-                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION_ERROR: TOOL INSTALLATION")))
+                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION_ERROR")))
+            .WithValidation(CommandResultValidation.None)
             .ExecuteAsync();
 
-        // Instrument Core Assembly
-        await Cli.Wrap("dotnet-coverage")
+        await Cli.Wrap("dotnet")
             .WithArguments([
-                "instrument",
-                "--session-id",
-                codeCoverageSessionId,
-                _coreProjectDllPath
+                "tool",
+                "install",
+                "--global",
+                "dotnet-reportgenerator-globaltool"
             ])
             .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
-                Trace.WriteLine(output, "CODE_COVERAGE_INSTRUMENTATION")))
+                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION")))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
-                Trace.WriteLine(output, "CODE_COVERAGE_INSTRUMENTATION_ERROR")))
+                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION_ERROR")))
+            .WithValidation(CommandResultValidation.None)
             .ExecuteAsync();
-
-        // Instrument Pro Assembly
-        await Cli.Wrap("dotnet-coverage")
-            .WithArguments([
-                "instrument",
-                "--session-id",
-                codeCoverageSessionId,
-                _proProjectDllPath
-            ])
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
-                Trace.WriteLine(output, "CODE_COVERAGE_INSTRUMENTATION")))
-            .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
-                Trace.WriteLine(output, "CODE_COVERAGE_INSTRUMENTATION_ERROR")))
-            .ExecuteAsync();
-
-        await File.WriteAllTextAsync(CoverageSessionFilePath, codeCoverageSessionId);
-
-        // Start Coverage Collection Server
-        var command = Cli.Wrap("dotnet-coverage")
-            .WithArguments([
-                "collect",
-                "-o",
-                Path.Combine(_projectFolder, "coverage"),
-                "--session-id",
-                codeCoverageSessionId,
-                "--server-mode",
-                "-f",
-                _coverageFormat,
-                "-o",
-                $"coverage.{_coverageFormat}"
-            ]);
-
-        var exitCode = -1;
-
-        _ = Task.Run(async () =>
-        {
-            await foreach (var cmdEvent in command.ListenAsync())
-            {
-                switch (cmdEvent)
-                {
-                    case StartedCommandEvent started:
-                        Trace.WriteLine($"Process started; ID: {started.ProcessId}", "CODE_COVERAGE_SERVER");
-                        _coverageProcessId = started.ProcessId;
-
-                        break;
-                    case StandardOutputCommandEvent stdOut:
-                        Trace.WriteLine($"Out> {stdOut.Text}", "CODE_COVERAGE_SERVER");
-
-                        break;
-                    case StandardErrorCommandEvent stdErr:
-                        Trace.WriteLine($"Err> {stdErr.Text}", "CODE_COVERAGE_SERVER_ERROR");
-
-                        break;
-                    case ExitedCommandEvent exited:
-                        exitCode = exited.ExitCode;
-                        Trace.WriteLine($"Process exited; Code: {exited.ExitCode}", "CODE_COVERAGE_SERVER");
-
-                        break;
-                }
-            }
-
-            if (exitCode != 0)
-            {
-                throw new Exception($"Code Coverage Server failed with exit code {exitCode}");
-            }
-        });
     }
 
     private static async Task EnsurePlaywrightBrowsersAreInstalled()
@@ -375,14 +292,23 @@ public class TestConfig
 
     private static async Task StartTestApp()
     {
-        var args = $"run --project \"{TestAppPath}\" --urls \"{TestAppUrl};{TestAppHttpUrl
+        var cmdLineApp = _cover ? "dotnet-coverage" : "dotnet";
+
+        string args = $"run --project \"{TestAppPath}\" --urls \"{TestAppUrl};{TestAppHttpUrl
         }\" -- -c Release /p:GenerateXmlComments=false /p:GeneratePackage=false";
-        Trace.WriteLine($"Starting test app: dotnet {args}", "TEST_SETUP");
+
+        if (_cover)
+        {
+            var coverageOutputPath = Path.Combine(_projectFolder, $"coverage.{_coverageFormat}");
+            args = $"collect -o \"{coverageOutputPath}\" -f {_coverageFormat} \"dotnet {args}\"";
+        }
+
+        Trace.WriteLine($"Starting test app: {cmdLineApp} {args}", "TEST_SETUP");
         StringBuilder output = new();
         StringBuilder error = new();
         int? exitCode = null;
 
-        var command = Cli.Wrap("dotnet")
+        var command = Cli.Wrap(cmdLineApp)
             .WithArguments(args)
             .WithWorkingDirectory(_projectFolder);
 
@@ -558,75 +484,7 @@ public class TestConfig
         }
     }
 
-    private static void KillProcessByName(string processName)
-    {
-        Process.GetProcessesByName(processName)
-            .ToList()
-            .ForEach(p => p.Kill());
-    }
-
-    private static async Task EndCodeCoverageSession(string sessionId)
-    {
-        try
-        {
-            await Cli.Wrap("dotnet-coverage")
-                .WithArguments([
-                    "shutdown",
-                    sessionId
-                ])
-                .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
-                    Trace.WriteLine(output, "CODE_COVERAGE: SHUTDOWN")))
-                .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
-                    Trace.WriteLine(output, "CODE_COVERAGE_ERROR: SHUTDOWN")))
-                .WithValidation(CommandResultValidation.None)
-                .ExecuteAsync();
-        }
-        catch
-        {
-            // ignore, these just clutter the test output
-        }
-
-        try
-        {
-            await Cli.Wrap("dotnet-coverage")
-                .WithArguments([
-                    "uninstrument",
-                    _coreProjectDllPath
-                ])
-                .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
-                    Trace.WriteLine(output, "CODE_COVERAGE: UN-INSTRUMENTATION")))
-                .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
-                    Trace.WriteLine(output, "CODE_COVERAGE_ERROR: UN-INSTRUMENTATION")))
-                .WithValidation(CommandResultValidation.None)
-                .ExecuteAsync();
-        }
-        catch
-        {
-            // ignore, these just clutter the test output
-        }
-
-        try
-        {
-            await Cli.Wrap("dotnet-coverage")
-                .WithArguments([
-                    "uninstrument",
-                    _proProjectDllPath
-                ])
-                .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
-                    Trace.WriteLine(output, "CODE_COVERAGE: UN-INSTRUMENTATION")))
-                .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
-                    Trace.WriteLine(output, "CODE_COVERAGE_ERROR: UN-INSTRUMENTATION")))
-                .WithValidation(CommandResultValidation.None)
-                .ExecuteAsync();
-        }
-        catch
-        {
-            // ignore, these just clutter the test output
-        }
-    }
-
     private static readonly CancellationTokenSource cts = new();
-    private static readonly string codeCoverageSessionId = Guid.NewGuid().ToString();
     private static readonly StringBuilder _logBuilder = new();
 
     private static IConfiguration? _configuration;
@@ -639,8 +497,5 @@ public class TestConfig
     private static int? _testProcessId;
     private static bool _useContainer;
     private static bool _cover;
-    private static int? _coverageProcessId;
     private static string _coverageFormat = string.Empty;
-    private static string _coreProjectDllPath = string.Empty;
-    private static string _proProjectDllPath = string.Empty;
 }
