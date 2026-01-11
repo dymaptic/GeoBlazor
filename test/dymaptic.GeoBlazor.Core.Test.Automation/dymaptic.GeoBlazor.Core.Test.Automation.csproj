@@ -32,4 +32,9 @@
                         ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="coverage-report\"/>
+        <Folder Include="coverage\"/>
+    </ItemGroup>
+
 </Project>

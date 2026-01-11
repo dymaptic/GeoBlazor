@@ -40,6 +40,7 @@ public class TestConfig
             "dymaptic.GeoBlazor.Core.Test.WebApp",
             "dymaptic.GeoBlazor.Core.Test.WebApp.csproj"));
     private static string TestAppHttpUrl => $"http://localhost:{_httpPort}";
+    private static string CoverageFilePath => Path.Combine(_projectFolder, "coverage", $"coverage.{_coverageFormat}");
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
@@ -108,12 +109,11 @@ public class TestConfig
 
     private static async Task GenerateCoverageReport()
     {
-        var coverageFile = Path.Combine(_projectFolder, "coverage", $"coverage.{_coverageFormat}");
         var reportDir = Path.Combine(_projectFolder, "coverage-report");
 
-        if (!File.Exists(coverageFile))
+        if (!File.Exists(CoverageFilePath))
         {
-            Trace.WriteLine($"Coverage file not found: {coverageFile}", "CODE_COVERAGE_ERROR");
+            Trace.WriteLine($"Coverage file not found: {CoverageFilePath}", "CODE_COVERAGE_ERROR");
 
             return;
         }
@@ -124,12 +124,12 @@ public class TestConfig
 
             await Cli.Wrap("reportgenerator")
                 .WithArguments([
-                    $"-reports:{coverageFile}",
+                    $"-reports:{CoverageFilePath}",
                     $"-targetdir:{reportDir}",
-                    "-reporttypes:Html",
+                    "-reporttypes:Html;HtmlSummary;TextSummary",
 
                     // Include only GeoBlazor Core and Pro assemblies, exclude everything else
-                    "-assemblyfilters:+dymaptic.GeoBlazor.Core;+dymaptic.GeoBlazor.Pro"
+                    "-assemblyfilters:+dymaptic.GeoBlazor.Core.dll;+dymaptic.GeoBlazor.Pro.dll"
                 ])
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
                     Trace.WriteLine(line, "CODE_COVERAGE_REPORT")))
@@ -197,7 +197,7 @@ public class TestConfig
         // Default to Server Mode for compatibility with Code Coverage Tools
         var renderMode = _configuration.GetValue("RENDER_MODE", nameof(BlazorMode.Server));
 
-        if (Enum.TryParse<BlazorMode>(renderMode, true, out var blazorMode))
+        if (Enum.TryParse(renderMode, true, out BlazorMode blazorMode))
         {
             RenderMode = blazorMode;
         }
@@ -271,6 +271,9 @@ public class TestConfig
                 Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION_ERROR")))
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync();
+
+        // ensure output directory exists
+        Directory.CreateDirectory(Path.Combine(_projectFolder, "coverage"));
     }
 
     private static async Task EnsurePlaywrightBrowsersAreInstalled()
@@ -296,14 +299,6 @@ public class TestConfig
 
     private static async Task StartContainer()
     {
-        // Create coverage directory if coverage is enabled
-        if (_cover)
-        {
-            var coverageDir = Path.Combine(_projectFolder, "coverage");
-            Directory.CreateDirectory(coverageDir);
-            Trace.WriteLine($"Created coverage directory: {coverageDir}", "TEST_SETUP");
-        }
-
         var args = $"compose -f \"{ComposeFilePath}\" up -d --build";
         Trace.WriteLine($"Starting container with: docker {args}", "TEST_SETUP");
         Trace.WriteLine($"Working directory: {_projectFolder}", "TEST_SETUP");
@@ -341,11 +336,6 @@ public class TestConfig
 
         if (_cover)
         {
-            var coverageDir = Path.Combine(_projectFolder, "coverage");
-            Directory.CreateDirectory(coverageDir);
-            Trace.WriteLine($"Created coverage directory: {coverageDir}", "TEST_SETUP");
-            var coverageOutputPath = Path.Combine(coverageDir, $"coverage.{_coverageFormat}");
-
             // Join the dotnet run command into a single string for dotnet-coverage
             var dotnetCommand = "dotnet " + string.Join(" ", args);
 
@@ -353,7 +343,7 @@ public class TestConfig
             args =
             [
                 "collect",
-                "-o", coverageOutputPath,
+                "-o", CoverageFilePath,
                 "-f", _coverageFormat,
                 "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
@@ -429,7 +419,7 @@ public class TestConfig
         try
         {
             // Get the container name from the compose file
-            var containerName = _proAvailable && !CoreOnly
+            string containerName = _proAvailable && !CoreOnly
                 ? "geoblazor-pro-tests-test-app-1"
                 : "geoblazor-core-tests-test-app-1";
 
@@ -458,7 +448,7 @@ public class TestConfig
     private static async Task WaitForHttpResponse()
     {
         // Configure HttpClient to ignore SSL certificate errors (for self-signed certs in Docker)
-        var handler = new HttpClientHandler
+        HttpClientHandler handler = new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
@@ -473,7 +463,7 @@ public class TestConfig
         {
             try
             {
-                var response =
+                HttpResponseMessage response =
                     await httpClient.GetAsync(TestAppHttpUrl, cts.Token);
 
                 if (response.IsSuccessStatusCode ||
@@ -575,5 +565,4 @@ public class TestConfig
     private static bool _useContainer;
     private static bool _cover;
     private static string _coverageFormat = string.Empty;
-    private static Stream _testAppInputStream = new MemoryStream();
 }
