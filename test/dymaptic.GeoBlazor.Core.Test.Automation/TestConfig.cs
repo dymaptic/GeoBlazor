@@ -126,7 +126,10 @@ public class TestConfig
                 .WithArguments([
                     $"-reports:{coverageFile}",
                     $"-targetdir:{reportDir}",
-                    "-reporttypes:Html;HtmlSummary;TextSummary"
+                    "-reporttypes:Html",
+
+                    // Include only GeoBlazor Core and Pro assemblies, exclude everything else
+                    "-assemblyfilters:+dymaptic.GeoBlazor.Core;+dymaptic.GeoBlazor.Pro"
                 ])
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
                     Trace.WriteLine(line, "CODE_COVERAGE_REPORT")))
@@ -141,14 +144,9 @@ public class TestConfig
             {
                 Trace.WriteLine($"Coverage report generated: {indexPath}", "CODE_COVERAGE");
             }
-
-            // Output text summary to console
-            var summaryPath = Path.Combine(reportDir, "Summary.txt");
-
-            if (File.Exists(summaryPath))
+            else
             {
-                var summary = await File.ReadAllTextAsync(summaryPath);
-                Trace.WriteLine($"Coverage Summary:\n{summary}", "CODE_COVERAGE");
+                Trace.WriteLine("Coverage report index.html was not generated", "CODE_COVERAGE_ERROR");
             }
         }
         catch (Exception ex)
@@ -297,6 +295,14 @@ public class TestConfig
 
     private static async Task StartContainer()
     {
+        // Create coverage directory if coverage is enabled
+        if (_cover)
+        {
+            var coverageDir = Path.Combine(_projectFolder, "coverage");
+            Directory.CreateDirectory(coverageDir);
+            Trace.WriteLine($"Created coverage directory: {coverageDir}", "TEST_SETUP");
+        }
+
         var args = $"compose -f \"{ComposeFilePath}\" up -d --build";
         Trace.WriteLine($"Starting container with: docker {args}", "TEST_SETUP");
         Trace.WriteLine($"Working directory: {_projectFolder}", "TEST_SETUP");
@@ -305,7 +311,9 @@ public class TestConfig
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
-                ["HTTP_PORT"] = _httpPort.ToString(), ["HTTPS_PORT"] = _httpsPort.ToString()
+                ["HTTP_PORT"] = _httpPort.ToString(),
+                ["HTTPS_PORT"] = _httpsPort.ToString(),
+                ["COVERAGE_ENABLED"] = _cover.ToString().ToLower()
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER")))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER_ERROR")))
@@ -370,6 +378,12 @@ public class TestConfig
 
     private static async Task StopContainer()
     {
+        // If coverage is enabled, gracefully shutdown dotnet-coverage before stopping the container
+        if (_cover)
+        {
+            await ShutdownCoverageCollection();
+        }
+
         try
         {
             Trace.WriteLine($"Stopping container with: docker compose -f {ComposeFilePath} down", "TEST_CLEANUP");
@@ -385,7 +399,55 @@ public class TestConfig
             // ignore, these just clutter the output
         }
 
+        // If coverage was enabled, copy the coverage file from the volume mount directory
+        if (_cover)
+        {
+            var containerCoverageFile = Path.Combine(_projectFolder, "coverage", "coverage.xml");
+            var targetCoverageFile = Path.Combine(_projectFolder, $"coverage.{_coverageFormat}");
+
+            if (File.Exists(containerCoverageFile))
+            {
+                File.Copy(containerCoverageFile, targetCoverageFile, true);
+                Trace.WriteLine($"Coverage file copied from container: {targetCoverageFile}", "TEST_CLEANUP");
+            }
+            else
+            {
+                Trace.WriteLine($"Container coverage file not found: {containerCoverageFile}", "TEST_CLEANUP");
+            }
+        }
+
         await KillProcessesByTestPorts();
+    }
+
+    private static async Task ShutdownCoverageCollection()
+    {
+        try
+        {
+            // Get the container name from the compose file
+            var containerName = _proAvailable && !CoreOnly
+                ? "geoblazor-pro-tests-test-app-1"
+                : "geoblazor-core-tests-test-app-1";
+
+            Trace.WriteLine($"Shutting down coverage collection in container: {containerName}", "CODE_COVERAGE");
+
+            // Call dotnet-coverage shutdown inside the container to gracefully write coverage data
+            await Cli.Wrap("docker")
+                .WithArguments($"exec {containerName} /tools/dotnet-coverage shutdown geoblazor-coverage")
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                    Trace.WriteLine(line, "CODE_COVERAGE")))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+                    Trace.WriteLine(line, "CODE_COVERAGE_ERROR")))
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync();
+
+            // Give time for coverage file to be written
+            await Task.Delay(3000);
+            Trace.WriteLine("Coverage shutdown command completed", "CODE_COVERAGE");
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"Failed to shutdown coverage collection: {ex.Message}", "CODE_COVERAGE_ERROR");
+        }
     }
 
     private static async Task WaitForHttpResponse()

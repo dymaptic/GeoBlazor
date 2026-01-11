@@ -51,15 +51,17 @@ RUN pwsh -Command './buildAppSettings.ps1 \
 
 RUN dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj -c Release /p:UsePackageReference=true /p:PipelineBuild=true -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 
 # Re-declare ARGs for this stage (ARGs don't persist across stages)
 ARG HTTP_PORT=8080
 ARG HTTPS_PORT=9443
 
-# Generate a self-signed certificate for HTTPS
-RUN apk add --no-cache openssl \
-    && mkdir -p /https \
+# Generate a self-signed certificate for HTTPS and install bash for entrypoint script
+# Also install libxml2 which is required for dotnet-coverage profiler
+RUN apt-get update && apt-get install -y --no-install-recommends openssl bash libxml2 \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /https /coverage \
     && openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
         -keyout /https/aspnetapp.key \
         -out /https/aspnetapp.crt \
@@ -71,8 +73,19 @@ RUN apk add --no-cache openssl \
         -password pass:password \
     && chmod 644 /https/aspnetapp.pfx
 
+# Install .NET SDK for dotnet-coverage tool (in runtime image)
+COPY --from=build /usr/share/dotnet /usr/share/dotnet
+ENV PATH="/usr/share/dotnet:/tools:$PATH"
+ENV DOTNET_ROOT=/usr/share/dotnet
+
+# Install dotnet-coverage tool to a shared location accessible by all users
+RUN mkdir -p /tools && \
+    /usr/share/dotnet/dotnet tool install --tool-path /tools dotnet-coverage && \
+    chmod -R 755 /tools
+
 # Create user and set working directory
-RUN addgroup -S info && adduser -S info -G info
+RUN groupadd -r info && useradd -r -g info info \
+    && chown -R info:info /coverage
 WORKDIR /app
 COPY --from=build /app/publish .
 
@@ -81,6 +94,15 @@ ENV ASPNETCORE_URLS="https://+:${HTTPS_PORT};http://+:${HTTP_PORT}"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password=password
 
+# Coverage configuration (can be overridden via environment)
+ENV COVERAGE_ENABLED=false
+ENV COVERAGE_OUTPUT=/coverage/coverage.xml
+
+# Copy entrypoint script
+COPY ./test/dymaptic.GeoBlazor.Core.Test.Automation/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 USER info
 EXPOSE ${HTTP_PORT} ${HTTPS_PORT}
-ENTRYPOINT ["dotnet", "dymaptic.GeoBlazor.Core.Test.WebApp.dll"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["dotnet", "dymaptic.GeoBlazor.Core.Test.WebApp.dll"]
