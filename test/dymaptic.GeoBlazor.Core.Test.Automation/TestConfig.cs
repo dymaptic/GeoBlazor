@@ -40,13 +40,19 @@ public class TestConfig
             "dymaptic.GeoBlazor.Core.Test.WebApp",
             "dymaptic.GeoBlazor.Core.Test.WebApp.csproj"));
     private static string TestAppHttpUrl => $"http://localhost:{_httpPort}";
-    private static string CoverageFilePath => Path.Combine(_projectFolder, "coverage", $"coverage.{_coverageFormat}");
+    private static string CoverageFolderPath => Path.Combine(_projectFolder, "coverage");
+    private static string CoverageFilePath =>
+        Path.Combine(CoverageFolderPath, $"coverage.{_coverageFileVersion}.{_coverageFormat}");
+    private static string CoreProjectPath =>
+        Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "src", "dymaptic.GeoBlazor.Core"));
+    private static string ProProjectPath =>
+        Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro"));
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
     {
         Trace.Listeners.Add(new ConsoleTraceListener());
-        Trace.Listeners.Add(new StringBuilderTraceListener(_logBuilder));
+        Trace.Listeners.Add(new StringBuilderTraceListener(logBuilder));
         Trace.AutoFlush = true;
 
         // kill old running test apps and containers
@@ -103,56 +109,8 @@ public class TestConfig
             await GenerateCoverageReport();
         }
 
-        await File.WriteAllTextAsync(Path.Combine(_projectFolder, "test.txt"),
-            _logBuilder.ToString());
-    }
-
-    private static async Task GenerateCoverageReport()
-    {
-        var reportDir = Path.Combine(_projectFolder, "coverage-report");
-
-        if (!File.Exists(CoverageFilePath))
-        {
-            Trace.WriteLine($"Coverage file not found: {CoverageFilePath}", "CODE_COVERAGE_ERROR");
-
-            return;
-        }
-
-        try
-        {
-            Trace.WriteLine("Generating coverage report...", "CODE_COVERAGE");
-
-            await Cli.Wrap("reportgenerator")
-                .WithArguments([
-                    $"-reports:{CoverageFilePath}",
-                    $"-targetdir:{reportDir}",
-                    "-reporttypes:Html;HtmlSummary;TextSummary",
-
-                    // Include only GeoBlazor Core and Pro assemblies, exclude everything else
-                    "-assemblyfilters:+dymaptic.GeoBlazor.Core.dll;+dymaptic.GeoBlazor.Pro.dll"
-                ])
-                .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "CODE_COVERAGE_REPORT")))
-                .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "CODE_COVERAGE_REPORT_ERROR")))
-                .WithValidation(CommandResultValidation.None)
-                .ExecuteAsync();
-
-            var indexPath = Path.Combine(reportDir, "index.html");
-
-            if (File.Exists(indexPath))
-            {
-                Trace.WriteLine($"Coverage report generated: {indexPath}", "CODE_COVERAGE");
-            }
-            else
-            {
-                Trace.WriteLine("Coverage report index.html was not generated", "CODE_COVERAGE_ERROR");
-            }
-        }
-        catch (Exception ex)
-        {
-            Trace.WriteLine($"Failed to generate coverage report: {ex.Message}", "CODE_COVERAGE_ERROR");
-        }
+        await File.WriteAllTextAsync(Path.Combine(_projectFolder, "test-run.log"),
+            logBuilder.ToString());
     }
 
     private static void SetupConfiguration()
@@ -168,7 +126,7 @@ public class TestConfig
 
         while (_projectFolder.Contains("bin"))
         {
-            // get test project folder
+            // get the test project folder
             _projectFolder = Path.GetDirectoryName(_projectFolder)!;
         }
 
@@ -216,12 +174,22 @@ public class TestConfig
         _useContainer = _configuration.GetValue("USE_CONTAINER", false);
 
         // Configure browser pool size - smaller for CI, larger for local development
-        var isCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"));
-        var defaultPoolSize = isCI ? 2 : 4;
+        _isCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"));
+        var defaultPoolSize = _isCI ? 2 : 4;
         BrowserPoolSize = _configuration.GetValue("BROWSER_POOL_SIZE", defaultPoolSize);
-        Trace.WriteLine($"Browser pool size set to: {BrowserPoolSize} (CI: {isCI})", "TEST_SETUP");
-        _cover = _configuration.GetValue("COVER", false);
-        _coverageFormat = _configuration.GetValue("COVERAGE_FORMAT", "xml");
+        Trace.WriteLine($"Browser pool size set to: {BrowserPoolSize} (CI: {_isCI})", "TEST_SETUP");
+
+        _cover = _configuration.GetValue("COVER", false)
+
+            // only run coverage on a full test run
+            && !Environment.GetCommandLineArgs().Contains("--filter");
+
+        if (_cover)
+        {
+            _coverageFormat = _configuration.GetValue("COVERAGE_FORMAT", "xml");
+            _coverageFileVersion = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+            _reportGenLicenseKey = _configuration["REPORT_GEN_LICENSE_KEY"];
+        }
 
         var config = _configuration["CONFIGURATION"];
 
@@ -299,17 +267,42 @@ public class TestConfig
 
     private static async Task StartContainer()
     {
-        var args = $"compose -f \"{ComposeFilePath}\" up -d --build";
-        Trace.WriteLine($"Starting container with: docker {args}", "TEST_SETUP");
+        var cmdLineApp = "docker";
+
+        string[] args =
+        [
+            "compose", "-f", ComposeFilePath, "up", "-d", "--build"
+        ];
+        Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", "TEST_SETUP");
         Trace.WriteLine($"Working directory: {_projectFolder}", "TEST_SETUP");
 
-        CommandTask<CommandResult> commandTask = Cli.Wrap("docker")
+        var sessionId = "geoblazor-cover";
+
+        if (_cover)
+        {
+            cmdLineApp = "dotnet-coverage";
+            var dockerCommand = $"docker {string.Join(" ", args)}";
+
+            args =
+            [
+                "collect",
+                "--session-id", sessionId,
+                "-o", CoverageFilePath,
+                "-f", _coverageFormat,
+                dockerCommand
+            ];
+        }
+
+        CommandTask<CommandResult> commandTask = Cli.Wrap(cmdLineApp)
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
                 ["HTTP_PORT"] = _httpPort.ToString(),
                 ["HTTPS_PORT"] = _httpsPort.ToString(),
-                ["COVERAGE_ENABLED"] = _cover.ToString().ToLower()
+                ["COVERAGE_ENABLED"] = _cover.ToString().ToLower(),
+                ["SESSION_ID"] = sessionId,
+                ["COVERAGE_FORMAT"] = _coverageFormat,
+                ["COVERAGE_FILE_VERSION"] = _coverageFileVersion
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER")))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER_ERROR")))
@@ -323,7 +316,7 @@ public class TestConfig
 
     private static async Task StartTestApp()
     {
-        var cmdLineApp = _cover ? "dotnet-coverage" : "dotnet";
+        var cmdLineApp = "dotnet";
 
         string[] args =
         [
@@ -336,8 +329,10 @@ public class TestConfig
 
         if (_cover)
         {
+            cmdLineApp = "dotnet-coverage";
+
             // Join the dotnet run command into a single string for dotnet-coverage
-            var dotnetCommand = "dotnet " + string.Join(" ", args);
+            var dotnetCommand = $"dotnet {string.Join(" ", args)}";
 
             // Include GeoBlazor assemblies for coverage
             args =
@@ -345,8 +340,6 @@ public class TestConfig
                 "collect",
                 "-o", CoverageFilePath,
                 "-f", _coverageFormat,
-                "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
-                "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
                 dotnetCommand
             ];
         }
@@ -363,12 +356,6 @@ public class TestConfig
         _testProcessId = commandTask.ProcessId;
 
         await WaitForHttpResponse();
-    }
-
-    private static async Task StopTestApp()
-    {
-        await KillProcessById(_testProcessId);
-        await KillProcessesByTestPorts();
     }
 
     private static async Task StopContainer()
@@ -414,6 +401,12 @@ public class TestConfig
         await KillProcessesByTestPorts();
     }
 
+    private static async Task StopTestApp()
+    {
+        await KillProcessById(_testProcessId);
+        await KillProcessesByTestPorts();
+    }
+
     private static async Task ShutdownCoverageCollection()
     {
         try
@@ -432,7 +425,6 @@ public class TestConfig
                     Trace.WriteLine(line, "CODE_COVERAGE")))
                 .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
                     Trace.WriteLine(line, "CODE_COVERAGE_ERROR")))
-                .WithValidation(CommandResultValidation.None)
                 .ExecuteAsync();
 
             // Give time for coverage file to be written
@@ -550,9 +542,93 @@ public class TestConfig
         }
     }
 
+    private static async Task GenerateCoverageReport()
+    {
+        var reportDir = Path.Combine(_projectFolder, "coverage-report");
+
+        if (!File.Exists(CoverageFilePath))
+        {
+            Trace.WriteLine($"Coverage file not found: {CoverageFilePath}", "CODE_COVERAGE_ERROR");
+
+            return;
+        }
+
+        try
+        {
+            Trace.WriteLine("Generating coverage report...", "CODE_COVERAGE");
+
+            List<string> args =
+            [
+                $"-reports:{CoverageFilePath}",
+                $"-targetdir:{reportDir}",
+                "-reporttypes:Html;HtmlSummary;TextSummary",
+
+                // Include only GeoBlazor Core and Pro assemblies, exclude everything else
+                "-assemblyfilters:+dymaptic.GeoBlazor.Core.dll;+dymaptic.GeoBlazor.Pro.dll",
+                $"-sourcedirs:{CoreProjectPath};{ProProjectPath}"
+            ];
+
+            if (!string.IsNullOrEmpty(_reportGenLicenseKey))
+            {
+                args.Add($"-license:{_reportGenLicenseKey}");
+            }
+
+            await Cli.Wrap("reportgenerator")
+                .WithArguments(args)
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                    Trace.WriteLine(line, "CODE_COVERAGE_REPORT")))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+                    Trace.WriteLine(line, "CODE_COVERAGE_REPORT_ERROR")))
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync();
+
+            var indexPath = Path.Combine(reportDir, "index.html");
+
+            if (File.Exists(indexPath))
+            {
+                Trace.WriteLine($"Coverage report generated: {indexPath}", "CODE_COVERAGE");
+
+                // Open report in browser for local development (not CI)
+                if (!_isCI)
+                {
+                    try
+                    {
+                        OpenInBrowser(indexPath);
+                        Trace.WriteLine("Coverage report opened in browser", "CODE_COVERAGE");
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine($"Failed to open browser: {ex.Message}", "CODE_COVERAGE");
+                    }
+                }
+            }
+            else
+            {
+                Trace.WriteLine("Coverage report index.html was not generated", "CODE_COVERAGE_ERROR");
+            }
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"Failed to generate coverage report: {ex.Message}", "CODE_COVERAGE_ERROR");
+        }
+    }
+
+    private static void OpenInBrowser(string path)
+    {
+        var cmdLineApp = OperatingSystem.IsWindows()
+            ? "start"
+            : OperatingSystem.IsMacOS()
+                ? "open"
+                : "xdg-open";
+
+        Cli.Wrap(cmdLineApp)
+            .WithArguments(path)
+            .ExecuteAsync();
+    }
+
     private static readonly CancellationTokenSource cts = new();
     private static readonly CancellationTokenSource gracefulCts = new();
-    private static readonly StringBuilder _logBuilder = new();
+    private static readonly StringBuilder logBuilder = new();
 
     private static IConfiguration? _configuration;
     private static string? _runConfig;
@@ -565,4 +641,7 @@ public class TestConfig
     private static bool _useContainer;
     private static bool _cover;
     private static string _coverageFormat = string.Empty;
+    private static string _coverageFileVersion = string.Empty;
+    private static string? _reportGenLicenseKey;
+    private static bool _isCI;
 }

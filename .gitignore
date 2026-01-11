@@ -17,6 +17,7 @@ CustomerTests.razor
 .claude/
 .env
 test/dymaptic.GeoBlazor.Core.Test.Automation/test.txt
+test/dymaptic.GeoBlazor.Core.Test.Automation/test-run.log
 test/dymaptic.GeoBlazor.Core.Test.Automation/coverage*
 test/dymaptic.GeoBlazor.Core.Test.Automation/Summary.txt
 

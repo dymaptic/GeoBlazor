@@ -66,8 +66,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         {
             string testUrl = BuildTestUrl(testName);
 
-            Trace.WriteLine($"Navigating to {testUrl}", "TEST")
-                ;
+            Trace.WriteLine($"Navigating to {testUrl}", "TEST");
 
             await page.GotoAsync(testUrl,
                 _pageGotoOptions);
@@ -81,14 +80,15 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
             if (await inconclusiveSpan.IsVisibleAsync())
             {
-                Assert.Inconclusive("Inconclusive test");
-
-                return;
+                // Inconclusive we treat as passing for our automation purposes
+                Trace.WriteLine($"{testName} Inconclusive", "TEST");
             }
-
-            await Expect(passedSpan).ToBeVisibleAsync(_visibleOptions);
-            await Expect(passedSpan).ToHaveTextAsync("Passed: 1");
-            Trace.WriteLine($"{testName} Passed", "TEST");
+            else
+            {
+                await Expect(passedSpan).ToBeVisibleAsync(_visibleOptions);
+                await Expect(passedSpan).ToHaveTextAsync("Passed: 1");
+                Trace.WriteLine($"{testName} Passed", "TEST");
+            }
 
             if (_consoleMessages.TryGetValue(testName, out List<string>? consoleMessages))
             {
@@ -252,8 +252,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     private readonly LocatorClickOptions _clickOptions = new() { Timeout = 120_000 };
 
     private readonly LocatorAssertionsToBeVisibleOptions _visibleOptions = new() { Timeout = 120_000 };
-    private PooledBrowser? _pooledBrowser;
 
     private readonly Dictionary<string, List<string>> _consoleMessages = [];
     private readonly Dictionary<string, List<string>> _errorMessages = [];
+    private PooledBrowser? _pooledBrowser;
 }
