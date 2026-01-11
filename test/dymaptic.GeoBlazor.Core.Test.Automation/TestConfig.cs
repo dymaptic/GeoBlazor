@@ -108,7 +108,7 @@ public class TestConfig
 
     private static async Task GenerateCoverageReport()
     {
-        var coverageFile = Path.Combine(_projectFolder, $"coverage.{_coverageFormat}");
+        var coverageFile = Path.Combine(_projectFolder, "coverage", $"coverage.{_coverageFormat}");
         var reportDir = Path.Combine(_projectFolder, "coverage-report");
 
         if (!File.Exists(coverageFile))
@@ -194,7 +194,8 @@ public class TestConfig
         _httpPort = _configuration.GetValue("HTTP_PORT", 8080);
         TestAppUrl = _configuration.GetValue("TEST_APP_URL", $"https://localhost:{_httpsPort}");
 
-        var renderMode = _configuration.GetValue("RENDER_MODE", nameof(BlazorMode.WebAssembly));
+        // Default to Server Mode for compatibility with Code Coverage Tools
+        var renderMode = _configuration.GetValue("RENDER_MODE", nameof(BlazorMode.Server));
 
         if (Enum.TryParse<BlazorMode>(renderMode, true, out var blazorMode))
         {
@@ -334,12 +335,16 @@ public class TestConfig
             "run", "--project", $"\"{TestAppPath}\"",
             "--urls", $"{TestAppUrl};{TestAppHttpUrl}",
             "--", "-c", "Release",
-            "/p:GenerateXmlComments=false", "/p:GeneratePackage=false"
+            "/p:GenerateXmlComments=false", "/p:GeneratePackage=false",
+            "/p:DebugSymbols=true", "/p:DebugType=portable"
         ];
 
         if (_cover)
         {
-            var coverageOutputPath = Path.Combine(_projectFolder, $"coverage.{_coverageFormat}");
+            var coverageDir = Path.Combine(_projectFolder, "coverage");
+            Directory.CreateDirectory(coverageDir);
+            Trace.WriteLine($"Created coverage directory: {coverageDir}", "TEST_SETUP");
+            var coverageOutputPath = Path.Combine(coverageDir, $"coverage.{_coverageFormat}");
 
             // Join the dotnet run command into a single string for dotnet-coverage
             var dotnetCommand = "dotnet " + string.Join(" ", args);

@@ -25,12 +25,17 @@ if [ "$COVERAGE_ENABLED" = "true" ]; then
     echo "Coverage output: $COVERAGE_OUTPUT"
 
     # Start dotnet-coverage in server mode with session ID
+    # Note: We collect ALL assemblies (no --include-files filter) to capture
+    # GeoBlazor code that executes through test assemblies and the web app.
+    # The GeoBlazor Core and Pro DLLs are still in the report but may show low
+    # coverage because most component logic runs in JavaScript (ArcGIS SDK).
+    echo "Starting dotnet-coverage with verbose logging..."
     /tools/dotnet-coverage collect \
         --session-id "$SESSION_ID" \
         -o "$COVERAGE_OUTPUT" \
         -f xml \
-        --include-files "**/dymaptic.GeoBlazor.Core.dll" \
-        --include-files "**/dymaptic.GeoBlazor.Pro.dll" \
+        -l "$COVERAGE_OUTPUT.log" \
+        -ll Verbose \
         -- "$@"
 else
     echo "Starting without code coverage..."
