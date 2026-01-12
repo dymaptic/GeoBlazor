@@ -28,7 +28,7 @@ COPY ./Directory.Build.* ./
 COPY ./.gitignore ./.gitignore
 COPY ./nuget.config ./nuget.config
 
-RUN pwsh -Command "./GeoBlazorBuild.ps1 -pkg"
+RUN pwsh -Command "./GeoBlazorBuild.ps1"
 
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj

@@ -43,10 +43,12 @@ public class TestConfig
     private static string CoverageFolderPath => Path.Combine(_projectFolder, "coverage");
     private static string CoverageFilePath =>
         Path.Combine(CoverageFolderPath, $"coverage.{_coverageFileVersion}.{_coverageFormat}");
+    private static string CoreRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", ".."));
+    private static string ProRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", ".."));
     private static string CoreProjectPath =>
-        Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "src", "dymaptic.GeoBlazor.Core"));
+        Path.GetFullPath(Path.Combine(CoreRepoRoot, "src", "dymaptic.GeoBlazor.Core"));
     private static string ProProjectPath =>
-        Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro"));
+        Path.GetFullPath(Path.Combine(ProRepoRoot, "src", "dymaptic.GeoBlazor.Pro"));
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
@@ -160,10 +162,15 @@ public class TestConfig
             RenderMode = blazorMode;
         }
 
+        var envArgs = Environment.GetCommandLineArgs();
+
         if (_proAvailable)
         {
-            CoreOnly = _configuration.GetValue("CORE_ONLY", false);
-            ProOnly = _configuration.GetValue("PRO_ONLY", false);
+            CoreOnly = _configuration.GetValue("CORE_ONLY", false)
+                || (envArgs.Contains("--filter") && (envArgs[envArgs.IndexOf("--filter") + 1] == "CORE_"));
+
+            ProOnly = _configuration.GetValue("PRO_ONLY", false)
+                || (envArgs.Contains("--filter") && (envArgs[envArgs.IndexOf("--filter") + 1] == "PRO_"));
         }
         else
         {
@@ -181,8 +188,9 @@ public class TestConfig
 
         _cover = _configuration.GetValue("COVER", false)
 
-            // only run coverage on a full test run
-            && !Environment.GetCommandLineArgs().Contains("--filter");
+            // only run coverage on a full test run or a full CORE or full PRO test
+            && (!envArgs.Contains("--filter") || (envArgs[envArgs.IndexOf("--filter") + 1] == "CORE_")
+                || (envArgs[envArgs.IndexOf("--filter") + 1] == "PRO_"));
 
         if (_cover)
         {
@@ -557,15 +565,27 @@ public class TestConfig
         {
             Trace.WriteLine("Generating coverage report...", "CODE_COVERAGE");
 
+            List<string> assemblyFilters = CoreOnly
+                ? ["+dymaptic.GeoBlazor.Core.dll"]
+                : ProOnly
+                    ? ["+dymaptic.GeoBlazor.Pro.dll"]
+                    : ["+dymaptic.GeoBlazor.Core.dll", "+dymaptic.GeoBlazor.Pro.dll"];
+
+            List<string> sourceDirs = CoreOnly
+                ? [CoreProjectPath]
+                : ProOnly
+                    ? [ProProjectPath]
+                    : [CoreProjectPath, ProProjectPath];
+
             List<string> args =
             [
                 $"-reports:{CoverageFilePath}",
                 $"-targetdir:{reportDir}",
-                "-reporttypes:Html;HtmlSummary;TextSummary",
+                "-reporttypes:Html;HtmlSummary;TextSummary;Badges",
 
                 // Include only GeoBlazor Core and Pro assemblies, exclude everything else
-                "-assemblyfilters:+dymaptic.GeoBlazor.Core.dll;+dymaptic.GeoBlazor.Pro.dll",
-                $"-sourcedirs:{CoreProjectPath};{ProProjectPath}"
+                $"-assemblyfilters:{string.Join(";", assemblyFilters)}",
+                $"-sourcedirs:{string.Join(";", sourceDirs)}"
             ];
 
             if (!string.IsNullOrEmpty(_reportGenLicenseKey))
@@ -605,6 +625,31 @@ public class TestConfig
             else
             {
                 Trace.WriteLine("Coverage report index.html was not generated", "CODE_COVERAGE_ERROR");
+            }
+
+            // copy the badge image to the repo root
+            var lineBadgePath = Path.Combine(reportDir, "badge_linecoverage.svg");
+            var methodBadgePath = Path.Combine(reportDir, "badge_methodcoverage.svg");
+            var fullMethodBadgePath = Path.Combine(_projectFolder, "badge_fullmethodcoverage.svg");
+
+            if (!ProOnly)
+            {
+                File.Copy(lineBadgePath, Path.Combine(CoreRepoRoot, "badge_linecoverage.svg"), true);
+                File.Copy(methodBadgePath, Path.Combine(CoreRepoRoot, "badge_methodcoverage.svg"), true);
+                File.Copy(fullMethodBadgePath, Path.Combine(CoreRepoRoot, "badge_fullmethodcoverage.svg"), true);
+                File.Copy(lineBadgePath, Path.Combine(CoreProjectPath, "badge_linecoverage.svg"), true);
+                File.Copy(methodBadgePath, Path.Combine(CoreProjectPath, "badge_methodcoverage.svg"), true);
+                File.Copy(fullMethodBadgePath, Path.Combine(CoreProjectPath, "badge_fullmethodcoverage.svg"), true);
+            }
+
+            if (!CoreOnly)
+            {
+                File.Copy(lineBadgePath, Path.Combine(ProRepoRoot, "badge_linecoverage.svg"), true);
+                File.Copy(methodBadgePath, Path.Combine(ProRepoRoot, "badge_methodcoverage.svg"), true);
+                File.Copy(fullMethodBadgePath, Path.Combine(ProRepoRoot, "badge_fullmethodcoverage.svg"), true);
+                File.Copy(lineBadgePath, Path.Combine(ProProjectPath, "badge_linecoverage.svg"), true);
+                File.Copy(methodBadgePath, Path.Combine(ProProjectPath, "badge_methodcoverage.svg"), true);
+                File.Copy(fullMethodBadgePath, Path.Combine(ProProjectPath, "badge_fullmethodcoverage.svg"), true);
             }
         }
         catch (Exception ex)
