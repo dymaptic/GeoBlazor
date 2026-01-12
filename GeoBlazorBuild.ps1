@@ -174,20 +174,21 @@ try {
         }
 
         if ($Pro -eq $true) {
+            [xml]$ProProps = [xml](Get-Content $ProPropsPath)
+            $CurrentProVersion = $ProProps.Project.PropertyGroup.ProVersion
+            
             if ($PublishVersion) {
                 $Version = ./bumpVersion.ps1 -publish -pro
             } else {
                 $Version = ./bumpVersion.ps1 -pro
             }
 
-            if ($NewCoreVersion -gt $Version) {
+            if ($NewCoreVersion -gt $Version -and $CurrentCoreVersion -gt $CurrentProVersion) {
                 $Version = $NewCoreVersion
             } elseif ($NewCoreVersion -lt $Version) {
                 "Core version ($NewCoreVersion) and Pro version ($Version) do not match after bumping. Please ensure both versions are the same in Directory.Build.props."
             }
-
-            [xml]$ProProps = [xml](Get-Content $ProPropsPath)
-            $CurrentProVersion = $ProProps.Project.PropertyGroup.ProVersion
+            
             if ($CurrentProVersion -eq $Version) {
                 Write-Host "Pro Version is already set to $Version, no update needed."
             }
