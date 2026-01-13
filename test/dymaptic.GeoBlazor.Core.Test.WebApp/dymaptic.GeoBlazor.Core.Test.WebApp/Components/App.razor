@@ -71,7 +71,6 @@
                     if (bool.TryParse(queryDict[key].ToString(), out bool queryRunValue))
                     {
                         _runOnStart = queryRunValue;
-                        Configuration["RunOnStart"] = queryRunValue.ToString();
                     }
 
                     break;
@@ -79,7 +78,6 @@
                     if (queryDict[key].ToString() is { Length: > 0 } queryFilterValue)
                     {
                         _testFilter = queryFilterValue;
-                        Configuration["TestFilter"] = queryFilterValue;
                     }
 
                     break;
@@ -93,7 +91,6 @@
                             "wasm" => InteractiveWebAssembly,
                             _ => InteractiveAuto
                         };
-                        Configuration["RenderMode"] = queryRenderModeValue;
                     }
 
                     break;
