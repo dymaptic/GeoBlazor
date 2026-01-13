@@ -297,6 +297,115 @@ export async function clickOnMap(methodName) {
     mapContainer.dispatchEvent(clickEvent);
 }
 
+export async function clickOnElementBySelector(methodName, selector) {
+    let element = document.querySelector(selector);
+    if (element === null) {
+        throw new Error(`Element with id ${elementName} does not exist`);
+    }
+
+    let rect = element.getBoundingClientRect();
+    let clickEvent = new MouseEvent('click', {
+        clientX: rect.left + (rect.width / 2),
+        clientY: rect.top + (rect.height / 2),
+    });
+    element.dispatchEvent(clickEvent);
+}
+
+export async function doubleClickOnMap(methodName) {
+    let view = getView(methodName);
+    let mapContainer = view.container;
+    if (mapContainer === null) {
+        throw new Error(`Map container for view ${view.id} not found`);
+    }
+
+    let rect = mapContainer.getBoundingClientRect();
+    let clickEvent = new MouseEvent('dblclick', {
+        clientX: rect.left + (rect.width / 2),
+        clientY: rect.top + (rect.height / 2),
+        bubbles: true,
+        cancelable: true
+    });
+
+    mapContainer.dispatchEvent(clickEvent);
+}
+
+
+export async function dragMap(methodName, durationInMilliseconds) {
+    const view = getView(methodName);
+    const mapContainer = view.container;
+    if (!mapContainer) throw new Error(`Map container for view ${view.id} not found`);
+
+    // If the map uses a canvas or specific interaction node, target it instead:
+    const target =
+        mapContainer.querySelector('canvas, [data-interaction-layer], .mapboxgl-canvas') || mapContainer;
+
+    const rect = target.getBoundingClientRect();
+    const startX = rect.left + rect.width / 6;
+    const startY = rect.top + rect.height / 6;
+    const endX = rect.left + rect.width * (5 / 6);
+    const endY = rect.top + rect.height * (5 / 6);
+
+    // Use PointerEvent and include button/buttons
+    const pointerId = 1;
+
+    const pd = new PointerEvent('pointerdown', {
+        pointerId,
+        pointerType: 'mouse',
+        clientX: startX,
+        clientY: startY,
+        button: 0,        // left button pressed
+        buttons: 1,       // indicates left button is down
+        bubbles: true,
+        cancelable: true
+    });
+    target.dispatchEvent(pd);
+
+    // Try to emulate pointer capture (some libraries call this internally)
+    if (typeof target.setPointerCapture === 'function') {
+        try {
+            target.setPointerCapture(pointerId);
+        } catch {
+        }
+    }
+
+    const steps = Math.max(1, Math.floor(durationInMilliseconds / 16)); // ~60fps
+    for (let i = 1; i <= steps; i++) {
+        await new Promise(r => setTimeout(r, durationInMilliseconds / steps));
+        const t = i / steps;
+        const pm = new PointerEvent('pointermove', {
+            pointerId,
+            pointerType: 'mouse',
+            clientX: startX + t * (endX - startX),
+            clientY: startY + t * (endY - startY),
+            buttons: 1,       // keep left button held
+            bubbles: true,
+            cancelable: true
+        });
+        target.dispatchEvent(pm);
+    }
+
+    const pu = new PointerEvent('pointerup', {
+        pointerId,
+        pointerType: 'mouse',
+        clientX: endX,
+        clientY: endY,
+        button: 0,
+        buttons: 0,
+        bubbles: true,
+        cancelable: true
+    });
+    target.dispatchEvent(pu);
+
+    // Optional: release capture
+    if (typeof target.releasePointerCapture === 'function') {
+        try {
+            target.releasePointerCapture(pointerId);
+        } catch {
+        }
+    }
+}
+
+
 export async function triggerSearchHandlers() {
     let searchInput = document.querySelector('.esri-search__autocomplete')
         .shadowRoot.querySelector('calcite-input')
