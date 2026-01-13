@@ -1,7 +1,6 @@
 using dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
@@ -16,13 +15,13 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 public class ESBuildGenerator : IIncrementalGenerator
 {
     public static bool InProcess { get; private set; }
-    
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Tracks all TypeScript source files in the Scripts directories of Core and Pro.
         // This will trigger the build any time a TypeScript file is added, removed, or changed.
         IncrementalValueProvider<ImmutableArray<AdditionalText>> tsFilesProvider = context.AdditionalTextsProvider
-            .Where(static text => text.Path.Contains("Scripts") 
+            .Where(static text => text.Path.Contains("Scripts")
                 && text.Path.EndsWith(".ts"))
             .Collect();
 
@@ -42,7 +41,8 @@ public class ESBuildGenerator : IIncrementalGenerator
                 return (projectDirectory, configuration, pipelineBuild);
             });
 
-        IncrementalValueProvider<((ImmutableArray<AdditionalText> Left, (string?, string?, string?) Right) Left, Compilation Right)> combined =
+        IncrementalValueProvider<((ImmutableArray<AdditionalText> Left, (string?, string?, string?) Right) Left,
+            Compilation Right)> combined =
             tsFilesProvider
                 .Combine(optionsProvider)
                 .Combine(context.CompilationProvider);
@@ -79,7 +79,7 @@ public class ESBuildGenerator : IIncrementalGenerator
 
         if (pipeline.Data.Files.Length > 0)
         {
-            LaunchESBuild(context);   
+            LaunchESBuild(context);
         }
     }
 
@@ -141,7 +141,7 @@ public class ESBuildGenerator : IIncrementalGenerator
     private void LaunchESBuild(SourceProductionContext context)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
-        ShowMessageBox("Starting GeoBlazor Core ESBuild process...");
+
         ProcessHelper.Log(nameof(ESBuildGenerator),
             "Starting Core ESBuild process...",
             DiagnosticSeverity.Info,
@@ -167,7 +167,6 @@ public class ESBuildGenerator : IIncrementalGenerator
 
             if (_proPath is not null)
             {
-                ShowMessageBox("Starting GeoBlazor Pro ESBuild process...");
                 logBuilder.AppendLine("Starting Pro ESBuild process...");
 
                 tasks.Add(Task.Run(async () =>
@@ -221,13 +220,8 @@ public class ESBuildGenerator : IIncrementalGenerator
                 $"An error occurred while running ESBuild: {ex.Message}\r\n{ex.StackTrace}",
                 DiagnosticSeverity.Error,
                 context);
-            
+
             ClearESBuildLocks(context);
-        }
-        finally
-        {
-            InProcess = false;
-            CloseMessageBox();
         }
     }
 
@@ -235,45 +229,18 @@ public class ESBuildGenerator : IIncrementalGenerator
     {
         StringBuilder logBuilder = new();
         string rootCorePath = Path.Combine(_corePath!, "..", "..");
+
         _ = Task.Run(async () => await ProcessHelper.RunPowerShellScript("Clear Locks",
-            rootCorePath, "esBuildClearLocks.ps1", "", 
+            rootCorePath, "esBuildClearLocks.ps1", "",
             logBuilder, context.CancellationToken));
-        
+
         ProcessHelper.Log(nameof(ESBuildGenerator),
             "Cleared ESBuild Process Locks",
             DiagnosticSeverity.Info,
             context);
     }
-    
-    private void ShowMessageBox(string message)
-    {
-        string path = Path.Combine(_corePath!, "..", "..");
-
-        ProcessStartInfo processStartInfo = new()
-        {
-            WorkingDirectory = path,
-            FileName = "pwsh",
-            Arguments =
-                $"-NoProfile -ExecutionPolicy ByPass -File showDialog.ps1 -Message \"{message}\" -Title \"GeoBlazor ESBuild\" -Buttons None",
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-        
-        _popupProcesses.Add(Process.Start(processStartInfo));
-    }
-    
-    private void CloseMessageBox()
-    {
-        foreach (Process process in _popupProcesses)
-        {
-            process.Kill();
-        }
-    }
 
     private static string? _corePath;
     private static string? _proPath;
     private static string? _configuration;
-    private readonly List<Process> _popupProcesses = [];
 }
