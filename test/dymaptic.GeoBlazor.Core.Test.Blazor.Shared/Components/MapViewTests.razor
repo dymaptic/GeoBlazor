@@ -133,4 +133,83 @@
         await Task.Delay(1);
         await AssertJavaScript("assertImageExists", args: ["screenshot2"]);
     }
+
+    [TestMethod]
+    public async Task TestCancellationTokenIsResetAfterRender(Action renderHandler)
+    {
+        MapView? view = null;
+        var changeCount = 0;
+
+        async Task OnExtentChanged(Extent extent)
+        {
+            try
+            {
+                Log("Extent changed");
+                Assert.IsNotNull(extent);
+                Task<Point?> centerTask = view!.GetCenter();
+                Task<double?> scaleTask = view.GetScale();
+                Task<Extent?> extentTask = view.GetExtent();
+                Task<double?> zoomTask = view.GetZoom();
+                await Task.WhenAll(centerTask, scaleTask, extentTask, zoomTask);
+                Point? center = centerTask.Result;
+                extent = extentTask.Result!;
+                double? zoom = zoomTask.Result;
+                double? scale = scaleTask.Result;
+                Assert.IsNotNull(center);
+                Assert.IsNotNull(extent);
+                Assert.IsNotNull(zoom);
+                Assert.IsNotNull(scale);
+                Log($"Center: {center}, Extent: {extent}, Zoom: {zoom}, Scale: {scale}");
+                changeCount++;
+            }
+            catch (Exception ex)
+            {
+                Log($"Error in Extent Changed Handler: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
+
+                throw;
+            }
+        }
+
+        AddMapRenderFragment(@<MapView @ref="view" class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnExtentChanged="OnExtentChanged"
+                                       EventRateLimitInMilliseconds="500"
+                                       MapRenderTimeoutInMilliseconds="2000">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation"/>
+                                     </Basemap>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender();
+
+        for (var i = 0; i < 10; i++)
+        {
+            // drag map for 1 second
+            await AssertJavaScript("dragMap", args: [1000]);
+
+            await Task.Delay(100);
+
+            await view!.SetCenter(new Point(0, 0));
+
+            await Task.Delay(100);
+
+            await AssertJavaScript("doubleClickOnMap");
+
+            await Task.Delay(100);
+
+            await AssertJavaScript("clickOnElementBySelector", args: [".arcgis-zoom__zoom-in"]);
+
+            await Task.Delay(100);
+
+            await AssertJavaScript("clickOnElementBySelector", args: [".arcgis-zoom__zoom-out"]);
+
+            await Task.Delay(100);
+        }
+
+        await Task.Delay(2000);
+
+        Assert.IsGreaterThan(0, changeCount, "No extent changes detected");
+    }
 }

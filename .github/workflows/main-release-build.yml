@@ -6,10 +6,17 @@ name: Main Branch Release Build
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build: 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows, X64]
+    timeout-minutes: 90
+    outputs:
+      token: ${{ steps.app-token.outputs.token }}
+      app-slug: ${{ steps.app-token.outputs.app-slug }}
+      user-id: ${{ steps.get-user-id.outputs.user-id }}
+      version: ${{ env.CORE_VERSION }}
     steps:
     - name: Generate Github App token
       uses: actions/create-github-app-token@v2
@@ -27,24 +34,22 @@ jobs:
         token: ${{ steps.app-token.outputs.token }}
         repository: ${{ github.repository }}
         ref: ${{ github.ref }}
-        
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 10.x
-
-    - name: Update NPM
-      uses: actions/setup-node@v4
-      with:
-        node-version: '>=22.11.0'
-        check-latest: 'true'
+      
+    - name: Run Tests
+      shell: pwsh
+      env:
+        USE_CONTAINER: true
+        ARCGIS_API_KEY: ${{ secrets.ARCGISAPIKEY }}
+        GEOBLAZOR_CORE_LICENSE_KEY: ${{ secrets.GEOBLAZOR_CORE_LICENSE_KEY }}
+      run: |
+        dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_ --max-parallel-test-modules 2
       
       # This runs the main GeoBlazor build script
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        ./GeoBlazorBuild.ps1 -pkg -pub -c "Release"
-        
+        ./GeoBlazorBuild.ps1 -xml -pkg -pub -c "Release"
+    
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint
       shell: bash
@@ -58,6 +63,13 @@ jobs:
         CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
         echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
         
+      # Copies the nuget package to the artifacts directory
+    - name: Upload nuget artifact
+      uses: actions/upload-artifact@v4.6.0
+      with:
+        name: .core-nuget
+        path: ./dymaptic.GeoBlazor.Core.*.nupkg
+        
       # This step will copy the PR description to an environment variable
     - name: Copy PR Release Notes
       run: |
@@ -68,13 +80,6 @@ jobs:
         echo "PR_DESCRIPTION<<EOF" >> $GITHUB_ENV
         echo "$DESC_PLUS_EOF" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
-    
-      # Copies the nuget package to the artifacts directory
-    - name: Upload nuget artifact
-      uses: actions/upload-artifact@v4.6.0
-      with:
-        name: .core-nuget
-        path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
     
       # Creates a GitHub Release based on the Version and the PR description
     - name: Create Release

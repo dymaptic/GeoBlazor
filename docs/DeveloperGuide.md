@@ -190,3 +190,49 @@ that normal Blazor components do not have.
 - Create a new Widget samples page in `dymaptic.GeoBlazor.Core.Samples.Shared/Pages`. Also add to the `NavMenu.razor`.
 - Alternatively, for simple widgets, you can add them to the `Widgets.razor` sample.
 - Create a new unit test in `dymaptic.GeoBlazor.Core.Tests.Blazor.Shared/Components/WidgetTests.razor`.
+## Automated Browser Testing
+
+GeoBlazor includes a comprehensive automated testing framework using Playwright and MSTest. For detailed documentation, see the [Test Automation README](../test/dymaptic.GeoBlazor.Core.Test.Automation/README.md).
+
+### Quick Start
+
+```bash
+# Run all automated tests
+dotnet test test/dymaptic.GeoBlazor.Core.Test.Automation
+
+# Run with specific test filter
+dotnet test --filter "FullyQualifiedName~FeatureLayerTests"
+
+# Run in container mode for CI
+dotnet test -e USE_CONTAINER=true
+```
+
+### Key Features
+
+- **Auto-generated tests**: A source generator scans test components in `dymaptic.GeoBlazor.Core.Test.Blazor.Shared` and generates MSTest classes
+- **Browser pooling**: Limits concurrent browser instances to prevent resource exhaustion in CI environments
+- **Docker support**: Can run test applications in Docker containers for consistent CI/CD environments
+- **Parallel execution**: Tests run in parallel at the method level with browser pool management
+
+### Writing Tests
+
+Create test components in `dymaptic.GeoBlazor.Core.Test.Blazor.Shared/Components/`:
+
+```razor
+@inherits TestRunnerBase
+
+[TestMethod]
+public async Task MyNewTest()
+{
+    // Test implementation using GeoBlazor components
+    await PassTest();
+}
+```
+
+### Configuration
+
+Set environment variables for test configuration:
+- `ARCGIS_API_KEY`: Required ArcGIS API key
+- `GEOBLAZOR_CORE_LICENSE_KEY`: Core license key
+- `USE_CONTAINER`: Set to `true` for container mode
+- `BROWSER_POOL_SIZE`: Maximum concurrent browsers (default: 2 in CI, 4 locally)

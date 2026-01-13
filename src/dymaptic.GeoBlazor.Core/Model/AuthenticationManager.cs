@@ -1,7 +1,4 @@
-﻿using Environment = System.Environment;
-
-
-namespace dymaptic.GeoBlazor.Core.Model;
+﻿namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Manager for all authentication-related tasks, tokens, and keys
@@ -52,6 +49,9 @@ public class AuthenticationManager
     /// <summary>
     ///     The ArcGIS Enterprise Portal URL, only required if using Enterprise authentication.
     /// </summary>
+    /// <remarks>
+    ///     Typically ends with "/portal".
+    /// </remarks>
     public string? PortalUrl
     {
         get

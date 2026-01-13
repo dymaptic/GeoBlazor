@@ -8,10 +8,11 @@ on:
     branches: [ "develop" ]
   push:
     branches: [ "develop" ]
-
+  workflow_dispatch:
+    
 concurrency:
   group: dev-pr-build
-  cancel-in-progress: true
+  cancel-in-progress: ${{ !contains(github.actor, '[bot]') }}
 
 jobs:
   actor-check:
@@ -25,10 +26,44 @@ jobs:
         run: |
           echo "was-bot=true" >> "$GITHUB_OUTPUT"
           echo "Skipping build for bot commit"
-  build: 
-    needs: actor-check
+  
+  test:
+    runs-on: [ self-hosted, Windows, X64 ]
+    needs: [actor-check]
+    timeout-minutes: 90
     if: needs.actor-check.outputs.was-bot != 'true'
+    steps:
+      - name: Generate Github App token
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.SUBMODULE_APP_ID }}
+          private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: 'GeoBlazor'
+    
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+          
+      - name: Run Tests
+        shell: pwsh
+        env:
+          USE_CONTAINER: true
+          ARCGIS_API_KEY: ${{ secrets.ARCGISAPIKEY }}
+          GEOBLAZOR_CORE_LICENSE_KEY: ${{ secrets.GEOBLAZOR_CORE_LICENSE_KEY }}
+        run: |
+          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_ --max-parallel-test-modules 2
+  
+  build:
     runs-on: ubuntu-latest
+    needs: [actor-check]
+    if: needs.actor-check.outputs.was-bot != 'true'
+    timeout-minutes: 30
     steps:
     - name: Generate Github App token
       uses: actions/create-github-app-token@v2
@@ -38,6 +73,7 @@ jobs:
         private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
         owner: ${{ github.repository_owner }}
         repositories: 'GeoBlazor'
+        
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
@@ -61,7 +97,7 @@ jobs:
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        ./GeoBlazorBuild.ps1 -pkg -docs -c "Release"
+        ./GeoBlazorBuild.ps1 -xml -pkg -docs -c "Release"
         
       # Copies the nuget package to the artifacts directory
     - name: Upload nuget artifact
@@ -69,7 +105,21 @@ jobs:
       with:
         name: .core-nuget
         retention-days: 4
-        path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
+        path: ./dymaptic.GeoBlazor.Core.*.nupkg
+        
+      # xmllint is a dependency of the copy steps below
+    - name: Install xmllint
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt install -y libxml2-utils
+
+      # This step will copy the version number from the Directory.Build.props file to an environment variable
+    - name: Copy Build Version
+      id: copy-version
+      run: |
+        CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
+        echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
 
     - name: Get GitHub App User ID
       if: github.event_name == 'pull_request'
@@ -78,11 +128,12 @@ jobs:
       env:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
-    - name: Add & Commit
+    # This step will commit the updated version number back to the develop branch
+    - name: Add Changes to Git
       if: github.event_name == 'pull_request'
       run: |
         git config --global user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
         git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
         git add .
-        git commit -m "Pipeline Build Commit of Version Bump"
+        git commit -m "Pipeline Build Commit of Version and Docs"
         git push

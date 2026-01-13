@@ -42,6 +42,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Analyzers", "dymaptic.GeoBlazor.Core.Analyzers\dymaptic.GeoBlazor.Core.Analyzers.csproj", "{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Test.Automation", "..\test\dymaptic.GeoBlazor.Core.Test.Automation\dymaptic.GeoBlazor.Core.Test.Automation.csproj", "{679E2D83-C4D8-4350-83DC-9780364A0815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Test.Automation.SourceGeneration", "..\test\dymaptic.GeoBlazor.Core.Test.Automation.SourceGeneration\dymaptic.GeoBlazor.Core.Test.Automation.SourceGeneration.csproj", "{B70AE99D-782B-48E7-8713-DFAEB57809FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -258,6 +262,30 @@ Global
 		{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}.Release|x64.Build.0 = Release|Any CPU
 		{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}.Release|x86.ActiveCfg = Release|Any CPU
 		{468F9CE4-A24F-4EE0-9C5B-2AF88A369C30}.Release|x86.Build.0 = Release|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Debug|x64.Build.0 = Debug|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Debug|x86.Build.0 = Debug|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Release|Any CPU.Build.0 = Release|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Release|x64.ActiveCfg = Release|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Release|x64.Build.0 = Release|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Release|x86.ActiveCfg = Release|Any CPU
+		{679E2D83-C4D8-4350-83DC-9780364A0815}.Release|x86.Build.0 = Release|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Debug|x64.Build.0 = Debug|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Debug|x86.Build.0 = Debug|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Release|x64.ActiveCfg = Release|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Release|x64.Build.0 = Release|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Release|x86.ActiveCfg = Release|Any CPU
+		{B70AE99D-782B-48E7-8713-DFAEB57809FF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
