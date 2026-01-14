@@ -15,8 +15,6 @@ concurrency:
 jobs:
   test:
     runs-on: [self-hosted, Windows, X64]
-    outputs:
-      app-token: ${{ steps.app-token.outputs.token }}
     timeout-minutes: 90
     steps:
     - name: Generate Github App token

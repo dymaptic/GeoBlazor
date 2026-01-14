@@ -6,6 +6,7 @@ name: Develop Branch PR Build
 on:
   pull_request:
     branches: [ "develop" ]
+    types: [ opened, reopened, ready_for_review, edited ]
   push:
     branches: [ "develop" ]
   workflow_dispatch:
