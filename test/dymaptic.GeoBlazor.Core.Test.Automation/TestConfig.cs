@@ -318,6 +318,12 @@ public class TestConfig
             .ExecuteAsync(cts.Token, gracefulCts.Token);
 
         _testProcessId = commandTask.ProcessId;
+        var result = await commandTask;
+
+        if (result.ExitCode != 0)
+        {
+            throw new ProcessExitedException($"Container failed to start: {result.ExitCode}");
+        }
 
         await WaitForHttpResponse();
     }
