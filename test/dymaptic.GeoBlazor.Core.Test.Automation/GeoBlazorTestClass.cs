@@ -114,7 +114,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
             if (retries > 2)
             {
-                Assert.Fail($"{testName} Failed");
+                Assert.Fail($"{testName} Exceeded the maximum number of retries.");
             }
 
             await RunTestImplementation(testName, retries + 1);

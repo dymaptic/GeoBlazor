@@ -26,8 +26,6 @@ public partial class Index
     [Inject]
     public required GeoBlazorSettings GeoBlazorSettings { get; set; }
     [Inject]
-    public required Version GeoBlazorVersion { get; set; }
-    [Inject]
     public required IConfiguration Configuration { get; set; }
     [CascadingParameter(Name = nameof(RunOnStart))]
     public required bool RunOnStart { get; set; }
@@ -61,9 +59,11 @@ public partial class Index
             }
             catch (Exception)
             {
+                var version = AppValidator.GetType().Assembly.GetName().Version;
+
                 throw new InvalidRegistrationException($"Failed to validate GeoBlazor License Key: {
                     GeoBlazorSettings.RegistrationKey ?? GeoBlazorSettings.LicenseKey}{Environment.NewLine}URL: {
-                        NavigationManager.Uri}{Environment.NewLine}GeoBlazor Version: {GeoBlazorVersion}");
+                        NavigationManager.Uri}{Environment.NewLine}GeoBlazor Version: {version}");
             }
 
             _jsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
