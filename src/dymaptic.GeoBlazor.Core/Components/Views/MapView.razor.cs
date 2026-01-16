@@ -2415,7 +2415,13 @@ public partial class MapView : MapComponent
             }
 
             StateHasChanged();
+            _firstRenderComplete = true;
 
+            return;
+        }
+
+        if (!_firstRenderComplete)
+        {
             return;
         }
 
@@ -2972,6 +2978,7 @@ public partial class MapView : MapComponent
     private string? _customAssetsPath;
     private readonly Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _waitingForRender;
+    private bool _firstRenderComplete;
     private ArcGISTheme? _lastTheme;
 
 #endregion

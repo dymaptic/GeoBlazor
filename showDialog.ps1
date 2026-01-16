@@ -24,6 +24,11 @@
 .PARAMETER DefaultButtonIndex
     Zero-based index of the default button.
 
+.PARAMETER ListenForInput
+    When specified, the dialog will listen for standard input and append each line received to the message.
+    This allows external processes to update the dialog message dynamically while it's open.
+    (Windows only)
+
 .EXAMPLE
     .\showDialog.ps1 -Message "Operation completed successfully" -Title "Success" -Type success
 
@@ -39,6 +44,11 @@
     $job = Start-Job { .\showDialog.ps1 -Message "Processing..." -Title "Please Wait" -Buttons None -Type information }
     # ... do work ...
     Stop-Job $job; Remove-Job $job
+
+.EXAMPLE
+    # Use -ListenForInput to dynamically update the dialog message from stdin
+    # Pipe output to the dialog to update its message in real-time
+    & { Write-Output "Step 1 complete"; Start-Sleep 1; Write-Output "Step 2 complete" } | .\showDialog.ps1 -Message "Starting..." -Title "Progress" -Buttons None -ListenForInput
 #>
 
 param(
@@ -60,7 +70,9 @@ param(
 
     [int]$Duration = 0,
 
-    [switch]$Async
+    [switch]$Async,
+
+    [switch]$ListenForInput
 )
 
 $buttonMap = @{
@@ -82,14 +94,23 @@ function Show-WindowsDialog {
         [int]$DefaultIndex,
         [int]$CancelIndex,
         [int]$Duration,
-        [bool]$Async
+        [bool]$Async,
+        [bool]$ListenForInput
     )
+
+    # Create synchronized hashtable for cross-runspace communication
+    $syncHash = [hashtable]::Synchronized(@{
+        Message = $Message
+        DialogClosed = $false
+        Result = $null
+    })
 
     $runspace = [runspacefactory]::CreateRunspace()
     $runspace.Open()
+    $runspace.SessionStateProxy.SetVariable('syncHash', $syncHash)
 
     $PowerShell = [PowerShell]::Create().AddScript({
-        param ($message, $title, $type, $buttonList, $defaultButtonIndex, $cancelButtonIndex, $duration)
+        param ($message, $title, $type, $buttonList, $defaultButtonIndex, $cancelButtonIndex, $duration, $syncHash)
 
         Add-Type -AssemblyName System.Windows.Forms
         Add-Type -AssemblyName System.Drawing
@@ -153,7 +174,9 @@ function Show-WindowsDialog {
         $form.Text = $title
         $form.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($fore)
         $form.BackColor = [System.Drawing.ColorTranslator]::FromHtml($back)
-        $form.ControlBox = $false
+        $form.ControlBox = $true
+        $form.MinimizeBox = $false
+        $form.MaximizeBox = $false
         $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
 
         # Calculate dimensions
@@ -162,35 +185,155 @@ function Show-WindowsDialog {
         $hasButtons = $buttonList.Count -gt 0
         $totalButtonHeight = if ($hasButtons) { $buttonHeight + ($buttonMargin * 2) } else { 0 }
         $formWidth = 400
-        $formHeight = 180 + $totalButtonHeight
+        $formHeight = 480 + $totalButtonHeight
 
         $form.Size = New-Object System.Drawing.Size($formWidth, $formHeight)
 
-        # Center on primary screen
+        # Center on primary screen, with offset for other dialog instances
         $monitor = [System.Windows.Forms.Screen]::PrimaryScreen
         $monitorWidth = $monitor.WorkingArea.Width
         $monitorHeight = $monitor.WorkingArea.Height
-        $form.StartPosition = "Manual"
-        $form.Location = New-Object System.Drawing.Point(
-            (($monitorWidth / 2) - ($form.Width / 2)),
-            (($monitorHeight / 2) - ($form.Height / 2))
-        )
 
-        # Add message label
+        # Calculate base center position
+        $baseCenterX = [int](($monitorWidth / 2) - ($form.Width / 2))
+        $baseCenterY = [int](($monitorHeight / 2) - ($form.Height / 2))
+
+        # Find other PowerShell-hosted forms by checking for windows at similar positions
+        # Use a simple offset based on existing windows at the center position
+        $offset = 0
+        $offsetStep = 30
+
+        # Get all visible top-level windows and check for overlaps
+        Add-Type @"
+            using System;
+            using System.Collections.Generic;
+            using System.Runtime.InteropServices;
+            using System.Text;
+
+            public class WindowFinder {
+                [DllImport("user32.dll")]
+                private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+                [DllImport("user32.dll")]
+                private static extern bool IsWindowVisible(IntPtr hWnd);
+
+                [DllImport("user32.dll")]
+                private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+                [DllImport("user32.dll", CharSet = CharSet.Auto)]
+                private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+                [StructLayout(LayoutKind.Sequential)]
+                public struct RECT {
+                    public int Left, Top, Right, Bottom;
+                }
+
+                private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+                public static List<RECT> GetVisibleWindowRects() {
+                    List<RECT> rects = new List<RECT>();
+                    EnumWindows((hWnd, lParam) => {
+                        if (IsWindowVisible(hWnd)) {
+                            RECT rect;
+                            if (GetWindowRect(hWnd, out rect)) {
+                                // Only include reasonably sized windows (not tiny or huge)
+                                int width = rect.Right - rect.Left;
+                                int height = rect.Bottom - rect.Top;
+                                if (width > 100 && width < 800 && height > 100 && height < 800) {
+                                    rects.Add(rect);
+                                }
+                            }
+                        }
+                        return true;
+                    }, IntPtr.Zero);
+                    return rects;
+                }
+            }
+"@
+
+        # Check for windows near the center position and calculate offset
+        $existingRects = [WindowFinder]::GetVisibleWindowRects()
+        $tolerance = 50
+
+        foreach ($rect in $existingRects) {
+            $windowX = $rect.Left
+            $windowY = $rect.Top
+
+            # Check if this window is near our intended position (with current offset)
+            $targetX = $baseCenterX + $offset
+            $targetY = $baseCenterY + $offset
+
+            if ([Math]::Abs($windowX - $targetX) -lt $tolerance -and [Math]::Abs($windowY - $targetY) -lt $tolerance) {
+                $offset += $offsetStep
+            }
+        }
+
+        # Apply offset (cascade down and right)
+        $finalX = $baseCenterX + $offset
+        $finalY = $baseCenterY + $offset
+
+        # Make sure we stay on screen
+        $finalX = [Math]::Min($finalX, $monitorWidth - $form.Width - 10)
+        $finalY = [Math]::Min($finalY, $monitorHeight - $form.Height - 10)
+        $finalX = [Math]::Max($finalX, 10)
+        $finalY = [Math]::Max($finalY, 10)
+
+        $form.StartPosition = "Manual"
+        $form.Location = New-Object System.Drawing.Point($finalX, $finalY)
+
+        # Add message control - use TextBox for scrolling when listening for input
         $marginX = 30
         $marginY = 30
         $labelWidth = $formWidth - ($marginX * 2) - 16  # Account for form border
         $labelHeight = $formHeight - ($marginY * 2) - $totalButtonHeight - 40
 
-        $label = New-Object System.Windows.Forms.Label
-        $label.Location = New-Object System.Drawing.Size($marginX, $marginY)
-        $label.Size = New-Object System.Drawing.Size($labelWidth, $labelHeight)
-        $label.Font = New-Object System.Drawing.Font("Segoe UI", 11, [System.Drawing.FontStyle]::Regular)
-        $label.Text = $message
-        $label.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($fore)
-        $label.BackColor = [System.Drawing.ColorTranslator]::FromHtml($back)
-        $label.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
-        $form.Controls.Add($label)
+        # Use a TextBox with scrolling capability
+        $textBox = New-Object System.Windows.Forms.TextBox
+        $textBox.Location = New-Object System.Drawing.Size($marginX, $marginY)
+        $textBox.Size = New-Object System.Drawing.Size($labelWidth, $labelHeight)
+        $textBox.Font = New-Object System.Drawing.Font("Segoe UI", 11, [System.Drawing.FontStyle]::Regular)
+        $textBox.Text = $message
+        $textBox.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($fore)
+        $textBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml($back)
+        $textBox.Multiline = $true
+        $textBox.ReadOnly = $true
+        $textBox.ScrollBars = [System.Windows.Forms.ScrollBars]::Vertical
+        $textBox.BorderStyle = [System.Windows.Forms.BorderStyle]::None
+        $textBox.TabStop = $false
+        $form.Controls.Add($textBox)
+
+        # Timer to check for message updates from syncHash
+        $MessageTimer = New-Object System.Windows.Forms.Timer
+        $MessageTimer.Interval = 100
+        $MessageTimer.Add_Tick({
+            if ($null -ne $syncHash -and $syncHash.Message -ne $textBox.Text) {
+                $textBox.Text = $syncHash.Message
+                # Auto-scroll to the bottom
+                $textBox.SelectionStart = $textBox.Text.Length
+                $textBox.ScrollToCaret()
+            }
+        }.GetNewClosure())
+        $MessageTimer.Start()
+
+        # Handle form closing via X button
+        $form.Add_FormClosing({
+            $MessageTimer.Stop()
+            $MessageTimer.Dispose()
+            $Timer.Stop()
+            $Timer.Dispose()
+            if ($null -ne $syncHash) {
+                # Set result to Cancel or first button if closed via X
+                $script:result = if ($null -ne $cancelButtonIndex -and $cancelButtonIndex -lt $buttonList.Count) {
+                    $buttonList[$cancelButtonIndex]
+                } elseif ($buttonList.Count -gt 0) {
+                    $buttonList[0]
+                } else {
+                    $null
+                }
+                $syncHash.Result = $script:result
+                $syncHash.DialogClosed = $true
+            }
+        }.GetNewClosure())
 
         # Create buttons (only if there are any)
         if ($hasButtons) {
@@ -228,6 +371,12 @@ function Show-WindowsDialog {
                     $script:result = $this.Text
                     $Timer.Stop()
                     $Timer.Dispose()
+                    $MessageTimer.Stop()
+                    $MessageTimer.Dispose()
+                    if ($null -ne $syncHash) {
+                        $syncHash.Result = $script:result
+                        $syncHash.DialogClosed = $true
+                    }
                     $form.Close()
                 }.GetNewClosure())
 
@@ -246,6 +395,12 @@ function Show-WindowsDialog {
                 }
                 $Timer.Stop()
                 $Timer.Dispose()
+                $MessageTimer.Stop()
+                $MessageTimer.Dispose()
+                if ($null -ne $syncHash) {
+                    $syncHash.Result = $script:result
+                    $syncHash.DialogClosed = $true
+                }
                 $form.Close()
             }
         })
@@ -288,6 +443,7 @@ function Show-WindowsDialog {
         })
 
         $form.ShowDialog() | Out-Null
+        
         return $script:result
 
     }).AddArgument($Message).
@@ -296,11 +452,21 @@ function Show-WindowsDialog {
        AddArgument($ButtonList).
        AddArgument($DefaultIndex).
        AddArgument($CancelIndex).
-       AddArgument($Duration)
+       AddArgument($Duration).
+       AddArgument($syncHash)
 
     $PowerShell.Runspace = $runspace
 
-    if ($Async) {
+    if ($ListenForInput) {
+        # Start dialog asynchronously and return syncHash for stdin listening
+        $handle = $PowerShell.BeginInvoke()
+        return @{
+            SyncHash = $syncHash
+            PowerShell = $PowerShell
+            Handle = $handle
+        }
+    }
+    elseif ($Async) {
         $handle = $PowerShell.BeginInvoke()
 
         $null = Register-ObjectEvent -InputObject $PowerShell -MessageData $handle -EventName InvocationStateChanged -Action {
@@ -521,7 +687,74 @@ elseif ($IsMacOS) {
 }
 else {
     # Windows
-    $result = Show-WindowsDialog -Message $Message -Title $Title -Type $Type -ButtonList $buttonList -DefaultIndex $defaultIndex -CancelIndex $cancelIndex -Duration $Duration -Async $Async
+    if ($ListenForInput) {
+        # Start dialog and listen for stdin input to append to message
+        $dialogInfo = Show-WindowsDialog -Message $Message -Title $Title -Type $Type -ButtonList $buttonList -DefaultIndex $defaultIndex -CancelIndex $cancelIndex -Duration $Duration -Async $false -ListenForInput $true
+
+        $syncHash = $dialogInfo.SyncHash
+        $ps = $dialogInfo.PowerShell
+        $handle = $dialogInfo.Handle
+
+        try {
+            # Read from stdin and append to message until dialog closes or EOF
+            # Use a background runspace to read stdin without blocking the main thread
+            $stdinRunspace = [runspacefactory]::CreateRunspace()
+            $stdinRunspace.Open()
+            $stdinRunspace.SessionStateProxy.SetVariable('syncHash', $syncHash)
+
+            $stdinPS = [PowerShell]::Create().AddScript({
+                param($syncHash)
+                $stdinStream = [System.Console]::OpenStandardInput()
+                $reader = New-Object System.IO.StreamReader($stdinStream)
+
+                try {
+                    while (-not $syncHash.DialogClosed) {
+                        $line = $reader.ReadLine()
+                        if ($null -eq $line) {
+                            # EOF reached
+                            break
+                        }
+                        # Append line to message (use CRLF for Windows TextBox)
+                        $syncHash.Message = $syncHash.Message + "`r`n" + $line
+                    }
+                }
+                finally {
+                    $reader.Dispose()
+                    $stdinStream.Dispose()
+                }
+            }).AddArgument($syncHash)
+
+            $stdinPS.Runspace = $stdinRunspace
+            $stdinHandle = $stdinPS.BeginInvoke()
+
+            # Wait for dialog to close
+            while (-not $syncHash.DialogClosed) {
+                Start-Sleep -Milliseconds 100
+            }
+
+            # Clean up stdin reader
+            if (-not $stdinHandle.IsCompleted) {
+                $stdinPS.Stop()
+            }
+            $stdinRunspace.Close()
+            $stdinRunspace.Dispose()
+            $stdinPS.Dispose()
+        }
+        finally {
+            # Wait for dialog to complete if still running
+            if (-not $handle.IsCompleted) {
+                $null = $ps.EndInvoke($handle)
+            }
+            $ps.Runspace.Close()
+            $ps.Runspace.Dispose()
+            $ps.Dispose()
+        }
+
+        $result = $syncHash.Result
+    }
+    else {
+        $result = Show-WindowsDialog -Message $Message -Title $Title -Type $Type -ButtonList $buttonList -DefaultIndex $defaultIndex -CancelIndex $cancelIndex -Duration $Duration -Async $Async -ListenForInput $false
+    }
 }
 
 return $result

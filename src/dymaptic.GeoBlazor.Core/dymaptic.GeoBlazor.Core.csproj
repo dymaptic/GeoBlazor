@@ -63,7 +63,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     </ItemGroup>
-    <PropertyGroup Condition="$(Configuration) == 'RELEASE'">
+    <PropertyGroup Condition="$(Configuration) == 'RELEASE' AND $(GenerateXmlComments) != 'false'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DisableDefaultDocumentation Condition="$(GenerateDocs) != 'true'">true</DisableDefaultDocumentation>
         <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
@@ -77,6 +77,10 @@
         <None Include="GeoBlazor-Icon-500px.png" Pack="true" PackagePath="" />
         <None Include="gb_white_text_300px.png" Pack="true" PackagePath="" />
         <None Include="Go-GeoBlazor-Pro.png" Pack="true" PackagePath="" />
+        <None Include="badge_linecoverage.svg" Pack="true" PackagePath=""/>
+        <None Include="badge_methodcoverage.svg" Pack="true" PackagePath=""/>
+        <None Include="badge_fullmethodcoverage.svg" Pack="true" PackagePath=""/>
+
         <Content Remove="package.json" />
         <Content Remove="package-lock.json" />
         <Content Remove="tsconfig.json" />

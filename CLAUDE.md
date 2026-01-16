@@ -1,10 +1,22 @@
-# CLAUDE.md
+# CLAUDE.md - GeoBlazor Core
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+> **IMPORTANT:** This repository is a git submodule of the GeoBlazor CodeGen repository.
+> For complete context including environment notes, available agents, and cross-repo coordination,
+> see the parent CLAUDE.md at: `../../CLAUDE.md` (`dymaptic.GeoBlazor.CodeGen/Claude.md`)
 
 ## Project Overview
 
 GeoBlazor is a Blazor component library that brings ArcGIS Maps SDK for JavaScript capabilities to .NET applications. It enables developers to create interactive maps using pure C# code without writing JavaScript.
+
+## Repository Context
+
+| Repository             | Path                                                  | Purpose                               |
+|------------------------|-------------------------------------------------------|---------------------------------------|
+| **This Repo (Core)**   | `dymaptic.GeoBlazor.CodeGen/GeoBlazor.Pro/GeoBlazor`  | Open-source Blazor mapping library    |
+| Parent (Pro)           | `dymaptic.GeoBlazor.CodeGen/GeoBlazor.Pro`            | Commercial extension with 3D support  |
+| Root (CodeGen)         | `dymaptic.GeoBlazor.CodeGen`                          | Code generator from ArcGIS TypeScript |
 
 ## Architecture
 
@@ -25,6 +37,11 @@ GeoBlazor is a Blazor component library that brings ArcGIS Maps SDK for JavaScri
 
 ### Build
 ```bash
+# Clean build of the Core project
+pwsh GeoBlazorBuild.ps1
+
+# GeoBlazorBuild.ps1 includes lots of options, use -h to see options
+
 # Build entire solution
 dotnet build src/dymaptic.GeoBlazor.Core.sln
 
@@ -35,24 +52,18 @@ dotnet build src/dymaptic.GeoBlazor.Core.sln -c Debug
 # Build TypeScript/JavaScript (from src/dymaptic.GeoBlazor.Core/)
 pwsh esBuild.ps1 -c Debug
 pwsh esBuild.ps1 -c Release
-
-# NPM scripts for TypeScript compilation
-npm run debugBuild
-npm run releaseBuild
-npm run watchBuild
 ```
 
 ### Test
 ```bash
-# Run all tests
-dotnet test src/dymaptic.GeoBlazor.Core.sln
+# Run all tests automatically in the GeoBlazor browser test runner
+dotnet run test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:RunOnStart=true /p:RenderMode=WebAssembly
 
-# Run specific test project
+# Run non-browser unit tests
 dotnet test test/dymaptic.GeoBlazor.Core.Test.Unit/dymaptic.GeoBlazor.Core.Test.Unit.csproj
-dotnet test test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj
 
-# Run with specific verbosity
-dotnet test --verbosity normal
+# Run source-generation tests
+dotnet test test/dymaptic.GeoBlazor.Core.SourceGenerator.Tests/dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj
 ```
 
 ### Version Management
@@ -72,22 +83,22 @@ pwsh esBuildClearLocks.ps1
 npm run watchBuild
 
 # Install npm dependencies
-npm install
+npm install (from src/dymaptic.GeoBlazor.Core/)
 ```
 
 ## Test Projects
 - **dymaptic.GeoBlazor.Core.Test.Unit**: Unit tests
-- **dymaptic.GeoBlazor.Core.Test.Blazor.Shared**: Blazor component tests
-- **dymaptic.GeoBlazor.Core.Test.WebApp**: WebApp integration tests
+- **dymaptic.GeoBlazor.Core.Test.Blazor.Shared**: GeoBlazor component tests and test runner logic
+- **dymaptic.GeoBlazor.Core.Test.WebApp**: Test running application for the GeoBlazor component tests (`Core.Test.Blazor.Shared`)
 - **dymaptic.GeoBlazor.Core.SourceGenerator.Tests**: Source generator tests
 
 ## Sample Projects
-- **Sample.Wasm**: WebAssembly sample
-- **Sample.WebApp**: Server-side Blazor sample
-- **Sample.Maui**: MAUI hybrid sample
+- **Sample.Wasm**: Standalone WebAssembly sample runner
+- **Sample.WebApp**: Blazor Web App sample runner with render mode selector
+- **Sample.Maui**: MAUI hybrid sample runner
 - **Sample.OAuth**: OAuth authentication sample
 - **Sample.TokenRefresh**: Token refresh sample
-- **Sample.Shared**: Shared components and pages for samples
+- **Sample.Shared**: Shared components and pages for samples (used by Wasm, WebApp, and Maui runners)
 
 ## Important Notes
 
@@ -95,10 +106,10 @@ npm install
 Known issue: ESBuild compilation conflicts with MSBuild static file analysis may cause intermittent build errors when building projects with project references to Core. This is tracked with Microsoft.
 
 ### Development Workflow
-1. Changes to TypeScript require running ESBuild (automatic via source generator or manual via `esBuild.ps1`)
+1. Changes to TypeScript require running ESBuild (automatic via source generator or manual via `esBuild.ps1`). You should see a popup dialog when this is happening automatically from the source generator.
 2. Browser cache should be disabled when testing JavaScript changes
-3. Generated code (`.gb.*` files) should never be edited directly
-4. When adding new components, contact the GeoBlazor team for code generation setup
+3. Generated code (`.gb.*` files) should never be edited directly. Instead, move code into the matching hand-editable file to "override" the generated code.
+4. When adding new components, use the Code Generator in the parent CodeGen repository
 
 ### Component Development
 - Components must have `[ActivatorUtilitiesConstructor]` on parameterless constructor
@@ -115,5 +126,13 @@ Known issue: ESBuild compilation conflicts with MSBuild static file analysis may
 ## Dependencies
 - .NET 8.0+ SDK
 - Node.js (for TypeScript compilation)
-- ArcGIS Maps SDK for JavaScript (v4.33.10)
+- ArcGIS Maps SDK for JavaScript (v4.33)
 - ESBuild for TypeScript compilation
+
+## Environment Notes
+
+**See parent CLAUDE.md for full environment details.** Key points:
+- **Platform:** When on Windows, use the Windows version (not WSL)
+- **Shell:** Bash (Git Bash/MSYS2) - Use Unix-style commands
+- **CRITICAL:** NEVER use 'nul' in Bash commands - use `/dev/null` instead
+- **Commands:** Use Unix/Bash commands (`ls`, `cat`, `grep`), NOT Windows commands (`dir`, `type`, `findstr`)

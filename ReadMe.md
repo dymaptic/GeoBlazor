@@ -17,6 +17,9 @@ GeoBlazor brings the power of the ArcGIS Maps SDK for JavaScript into your Blazo
 [![Build](https://img.shields.io/github/actions/workflow/status/dymaptic/GeoBlazor/main-release-build.yml?logo=github)](https://github.com/dymaptic/GeoBlazor/actions/workflows/main-release-build.yml)
 [![Issues](https://img.shields.io/github/issues/dymaptic/GeoBlazor?logo=github)](https://github.com/dymaptic/GeoBlazor/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/dymaptic/GeoBlazor?logo=github&color=)](https://github.com/dymaptic/GeoBlazor/pulls)
+[![Line Code Coverage](badge_linecoverage.svg)]
+[![Method Coverage](badge_methodcoverage.svg)]
+[![Full Method Coverage](badge_fullmethodcoverage.svg)]
 
 **CORE**
 
