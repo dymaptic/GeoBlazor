@@ -9,6 +9,17 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 {
     private IBrowserContext Context { get; set; } = null!;
 
+    // Optimized navigation: WaitUntil.Commit is faster - element waits handle actual readiness
+    private PageGotoOptions PageGotoOptions => new()
+    {
+        WaitUntil = WaitUntilState.Commit, Timeout = TestConfig.IsCI ? 45_000 : 30_000 // Reduced from 60_000
+    };
+
+    // Reduced timeouts: 90s/60s instead of 120s - still generous but faster failure detection
+    private LocatorClickOptions ClickOptions => new() { Timeout = TestConfig.IsCI ? 90_000 : 60_000 };
+
+    private LocatorAssertionsToBeVisibleOptions VisibleOptions => new() { Timeout = TestConfig.IsCI ? 90_000 : 60_000 };
+
     [TestInitialize]
     public Task TestSetup()
     {
@@ -68,13 +79,20 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
             Trace.WriteLine($"Navigating to {testUrl}", "TEST");
 
-            await page.GotoAsync(testUrl,
-                _pageGotoOptions);
+            await page.GotoAsync(testUrl, PageGotoOptions);
             Trace.WriteLine($"Page loaded for {testName}", "TEST");
+
+            // Skip section toggle click if already expanded (optimization)
             ILocator sectionToggle = page.GetByTestId("section-toggle");
-            await sectionToggle.ClickAsync(_clickOptions);
+            var isExpanded = await sectionToggle.GetAttributeAsync("aria-expanded");
+
+            if (isExpanded != "true")
+            {
+                await sectionToggle.ClickAsync(ClickOptions);
+            }
+
             ILocator testBtn = page.GetByText("Run Test");
-            await testBtn.ClickAsync(_clickOptions);
+            await testBtn.ClickAsync(ClickOptions);
             ILocator passedSpan = page.GetByTestId("passed");
             ILocator inconclusiveSpan = page.GetByTestId("inconclusive");
 
@@ -85,7 +103,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             }
             else
             {
-                await Expect(passedSpan).ToBeVisibleAsync(_visibleOptions);
+                await Expect(passedSpan).ToBeVisibleAsync(VisibleOptions);
                 await Expect(passedSpan).ToHaveTextAsync("Passed: 1");
                 Trace.WriteLine($"{testName} Passed", "TEST");
             }
@@ -112,10 +130,15 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}", "ERROR");
             }
 
-            if (retries > 2)
+            if (retries > 1) // Reduced from 2 to 1 (max 2 retries instead of 3)
             {
                 Assert.Fail($"{testName} Exceeded the maximum number of retries.");
             }
+
+            // Exponential backoff: 1s, 2s between retries
+            var backoffMs = 1000 * (retries + 1);
+            Trace.WriteLine($"Retrying {testName} in {backoffMs}ms (attempt {retries + 2}/3)", "TEST");
+            await Task.Delay(backoffMs);
 
             await RunTestImplementation(testName, retries + 1);
         }
@@ -243,15 +266,6 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             "--enable-unsafe-webgpu"
         ]
     };
-
-    private readonly PageGotoOptions _pageGotoOptions = new()
-    {
-        WaitUntil = WaitUntilState.DOMContentLoaded, Timeout = 60_000
-    };
-
-    private readonly LocatorClickOptions _clickOptions = new() { Timeout = 120_000 };
-
-    private readonly LocatorAssertionsToBeVisibleOptions _visibleOptions = new() { Timeout = 120_000 };
 
     private readonly Dictionary<string, List<string>> _consoleMessages = [];
     private readonly Dictionary<string, List<string>> _errorMessages = [];

@@ -24,9 +24,15 @@ public class TestConfig
     /// <summary>
     ///     Maximum number of concurrent browser instances in the pool.
     ///     Configurable via BROWSER_POOL_SIZE environment variable.
-    ///     Default: 2 for CI environments, 4 for local development.
+    ///     Default: 4 for CI environments, 8 for local development.
     /// </summary>
-    public static int BrowserPoolSize { get; private set; } = 2;
+    public static int BrowserPoolSize { get; private set; } = 4;
+
+    /// <summary>
+    ///     Indicates whether the tests are running in a CI environment.
+    ///     Used for timeout and pool size configuration.
+    /// </summary>
+    public static bool IsCI { get; private set; }
 
     private static string ComposeFilePath => Path.Combine(_projectFolder,
         _proAvailable && !CoreOnly ? "docker-compose-pro.yml" : "docker-compose-core.yml");
@@ -180,11 +186,11 @@ public class TestConfig
 
         _useContainer = _configuration.GetValue("USE_CONTAINER", false);
 
-        // Configure browser pool size - smaller for CI, larger for local development
-        _isCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"));
-        var defaultPoolSize = _isCI ? 2 : 4;
+        // Configure browser pool size - larger pools improve parallelism
+        IsCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"));
+        var defaultPoolSize = IsCI ? 4 : 8; // Doubled from 2/4 to 4/8 for better parallelization
         BrowserPoolSize = _configuration.GetValue("BROWSER_POOL_SIZE", defaultPoolSize);
-        Trace.WriteLine($"Browser pool size set to: {BrowserPoolSize} (CI: {_isCI})", "TEST_SETUP");
+        Trace.WriteLine($"Browser pool size set to: {BrowserPoolSize} (CI: {IsCI})", "TEST_SETUP");
 
         _cover = _configuration.GetValue("COVER", false)
 
@@ -615,7 +621,7 @@ public class TestConfig
                 Trace.WriteLine($"Coverage report generated: {indexPath}", "CODE_COVERAGE");
 
                 // Open report in browser for local development (not CI)
-                if (!_isCI)
+                if (!IsCI)
                 {
                     try
                     {
@@ -694,5 +700,4 @@ public class TestConfig
     private static string _coverageFormat = string.Empty;
     private static string _coverageFileVersion = string.Empty;
     private static string? _reportGenLicenseKey;
-    private static bool _isCI;
 }
