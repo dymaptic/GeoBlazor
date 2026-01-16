@@ -59,6 +59,7 @@ RUN dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor
     /p:PipelineBuild=true \
     /p:DebugSymbols=true \
     /p:DebugType=portable \
+    /p:GeneratePack=false \
     -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0

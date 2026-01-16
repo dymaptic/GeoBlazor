@@ -24,6 +24,8 @@ public partial class Index
     [Inject]
     public required IAppValidator AppValidator { get; set; }
     [Inject]
+    public required GeoBlazorSettings GeoBlazorSettings { get; set; }
+    [Inject]
     public required IConfiguration Configuration { get; set; }
     [CascadingParameter(Name = nameof(RunOnStart))]
     public required bool RunOnStart { get; set; }
@@ -32,9 +34,15 @@ public partial class Index
     /// </summary>
     [CascadingParameter(Name = nameof(ProOnly))]
     public required bool ProOnly { get; set; }
-    
+
     [CascadingParameter(Name = nameof(TestFilter))]
     public string? TestFilter { get; set; }
+
+    private int Remaining => _results?.Sum(r =>
+        r.Value.TestCount - (r.Value.Passed.Count + r.Value.Failed.Count + r.Value.Inconclusive.Count)) ?? 0;
+    private int Passed => _results?.Sum(r => r.Value.Passed.Count) ?? 0;
+    private int Failed => _results?.Sum(r => r.Value.Failed.Count) ?? 0;
+    private int Inconclusive => _results?.Sum(r => r.Value.Inconclusive.Count) ?? 0;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -51,11 +59,11 @@ public partial class Index
             }
             catch (Exception)
             {
-                IConfigurationSection geoblazorConfig = Configuration.GetSection("GeoBlazor");
+                var version = AppValidator.GetType().Assembly.GetName().Version;
 
                 throw new InvalidRegistrationException($"Failed to validate GeoBlazor License Key: {
-                    geoblazorConfig.GetValue("LicenseKey", geoblazorConfig.GetValue("RegistrationKey", "No Key Found"))
-                }");
+                    GeoBlazorSettings.RegistrationKey ?? GeoBlazorSettings.LicenseKey}{Environment.NewLine}URL: {
+                        NavigationManager.Uri}{Environment.NewLine}GeoBlazor Version: {version}");
             }
 
             _jsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
@@ -122,8 +130,7 @@ public partial class Index
 
             if (!_allPassed)
             {
-                await TestLogger.Log(
-                    "Test Run Failed or Errors Encountered. Reload the page to re-run failed tests.");
+                await TestLogger.Log("Test Run Failed or Errors Encountered. Reload the page to re-run failed tests.");
                 await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", ++attemptCount);
             }
         }
@@ -166,6 +173,7 @@ public partial class Index
             if (!string.IsNullOrWhiteSpace(TestFilter))
             {
                 string filter = TestFilter.Split('.')[0];
+
                 if (!Regex.IsMatch(type.Name, $"^{filter}$", RegexOptions.IgnoreCase))
                 {
                     continue;
@@ -372,9 +380,11 @@ public partial class Index
             {
                 builder.Append(" | ");
             }
+
             builder.Append($"<span class=\"passed\">Passed: {result.Passed.Count}</span>");
             builder.Append(" | ");
             builder.Append($"<span class=\"failed\">Failed: {result.Failed.Count}</span>");
+
             if (result.Inconclusive.Count > 0)
             {
                 builder.Append(" | ");
@@ -385,17 +395,12 @@ public partial class Index
         return new MarkupString(builder.ToString());
     }
 
-    private int Remaining => _results?.Sum(r =>
-        r.Value.TestCount - (r.Value.Passed.Count + r.Value.Failed.Count + r.Value.Inconclusive.Count)) ?? 0;
-    private int Passed => _results?.Sum(r => r.Value.Passed.Count) ?? 0;
-    private int Failed => _results?.Sum(r => r.Value.Failed.Count) ?? 0;
-    private int Inconclusive => _results?.Sum(r => r.Value.Inconclusive.Count) ?? 0;
+    private readonly List<Type> _testClassTypes = [];
+    private readonly Dictionary<string, TestWrapper?> _testComponents = new();
     private IJSObjectReference? _jsTestRunner;
     private Dictionary<string, TestResult>? _results;
     private bool _running;
-    private readonly List<Type> _testClassTypes = [];
     private List<string> _testClassNames = [];
-    private readonly Dictionary<string, TestWrapper?> _testComponents = new();
     private bool _showAll;
     private CancellationTokenSource _cts = new();
     private TestSettings _settings = new(false, true);
@@ -406,6 +411,6 @@ public partial class Index
         public bool StopOnFail { get; set; } = StopOnFail;
         public bool RetainResultsOnReload { get; set; } = RetainResultsOnReload;
     }
-    
+
     private record WFSServer(string Url, string OutputFormat);
 }
