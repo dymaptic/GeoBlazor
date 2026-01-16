@@ -334,7 +334,7 @@ public class TestConfig
 
         string[] args =
         [
-            "run", "--project", $"\"{TestAppPath}\"",
+            "run", "--project", TestAppPath,
             "--urls", $"{TestAppUrl};{TestAppHttpUrl}",
             "--", "-c", "Release",
             "/p:GenerateXmlComments=false", "/p:GeneratePackage=false",
