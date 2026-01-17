@@ -34,8 +34,9 @@ public class TestConfig
     /// </summary>
     public static bool IsCI { get; private set; }
 
-    private static string ComposeFilePath => Path.Combine(_projectFolder,
-        _proAvailable && !CoreOnly ? "docker-compose-pro.yml" : "docker-compose-core.yml");
+    private static string ComposeFilePath => _proAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
+    private static string CoreComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core.yml");
+    private static string ProComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro.yml");
     private static string TestAppPath => _proAvailable
         ? Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "test",
             "dymaptic.GeoBlazor.Pro.Test.WebApp",
@@ -63,11 +64,12 @@ public class TestConfig
         Trace.Listeners.Add(new StringBuilderTraceListener(logBuilder));
         Trace.AutoFlush = true;
 
-        // kill old running test apps and containers
-        await StopContainer();
-        await StopTestApp();
-
         SetupConfiguration();
+
+        // kill old running test apps and containers
+        await StopContainer(CoreComposeFilePath);
+        await StopContainer(ProComposeFilePath);
+        await StopTestApp();
 
         if (_cover)
         {
@@ -105,7 +107,12 @@ public class TestConfig
 
         if (_useContainer)
         {
-            await StopContainer();
+            await StopContainer(ComposeFilePath);
+
+            if (_cover)
+            {
+                CopyCoverageFromContainer();
+            }
         }
         else
         {
@@ -343,8 +350,12 @@ public class TestConfig
             "run", "--project", $"\"{TestAppPath}\"",
             "--urls", $"{TestAppUrl};{TestAppHttpUrl}",
             "--", "-c", "Release",
-            "/p:GenerateXmlComments=false", "/p:GeneratePackage=false",
-            "/p:DebugSymbols=true", "/p:DebugType=portable"
+            "/p:GenerateXmlComments=false",
+            "/p:GeneratePackage=false",
+            "/p:GenerateDocs=false",
+            "/p:DebugSymbols=true",
+            "/p:DebugType=portable",
+            "/p:UsePackageReference=false"
         ];
 
         if (_cover)
@@ -360,6 +371,8 @@ public class TestConfig
                 "collect",
                 "-o", CoverageFilePath,
                 "-f", _coverageFormat,
+                "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
                 dotnetCommand
             ];
         }
@@ -378,7 +391,7 @@ public class TestConfig
         await WaitForHttpResponse();
     }
 
-    private static async Task StopContainer()
+    private static async Task StopContainer(string composeFilePath)
     {
         // If coverage is enabled, gracefully shutdown dotnet-coverage before stopping the container
         if (_cover)
@@ -388,34 +401,18 @@ public class TestConfig
 
         try
         {
-            Trace.WriteLine($"Stopping container with: docker compose -f {ComposeFilePath} down", "TEST_CLEANUP");
+            Trace.WriteLine($"Stopping container with: docker compose -f {composeFilePath} down", "TEST_CLEANUP");
 
             await Cli.Wrap("docker")
-                .WithArguments($"compose -f \"{ComposeFilePath}\" down")
+                .WithArguments($"compose -f \"{composeFilePath}\" down")
                 .WithValidation(CommandResultValidation.None)
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER_CLEANUP")))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER_ERROR")))
                 .ExecuteAsync(cts.Token);
-            Trace.WriteLine("Container stopped successfully", "TEST_CLEANUP");
         }
         catch
         {
             // ignore, these just clutter the output
-        }
-
-        // If coverage was enabled, copy the coverage file from the volume mount directory
-        if (_cover)
-        {
-            var containerCoverageFile = Path.Combine(_projectFolder, "coverage", "coverage.xml");
-            var targetCoverageFile = Path.Combine(_projectFolder, $"coverage.{_coverageFormat}");
-
-            if (File.Exists(containerCoverageFile))
-            {
-                File.Copy(containerCoverageFile, targetCoverageFile, true);
-                Trace.WriteLine($"Coverage file copied from container: {targetCoverageFile}", "TEST_CLEANUP");
-            }
-            else
-            {
-                Trace.WriteLine($"Container coverage file not found: {containerCoverageFile}", "TEST_CLEANUP");
-            }
         }
 
         await KillProcessesByTestPorts();
@@ -442,9 +439,9 @@ public class TestConfig
             await Cli.Wrap("docker")
                 .WithArguments($"exec {containerName} /tools/dotnet-coverage shutdown geoblazor-coverage")
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "CODE_COVERAGE")))
+                    Trace.WriteLine(line, "CODE_COVERAGE_SHUTDOWN")))
                 .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "CODE_COVERAGE_ERROR")))
+                    Trace.WriteLine(line, "CODE_COVERAGE_SHUTDOWN_ERROR")))
                 .ExecuteAsync();
 
             // Give time for coverage file to be written
@@ -454,6 +451,23 @@ public class TestConfig
         catch (Exception ex)
         {
             Trace.WriteLine($"Failed to shutdown coverage collection: {ex.Message}", "CODE_COVERAGE_ERROR");
+        }
+    }
+
+    private static void CopyCoverageFromContainer()
+    {
+        // If coverage was enabled, copy the coverage file from the volume mount directory
+        var containerCoverageFile = Path.Combine(_projectFolder, "coverage", "coverage.xml");
+        var targetCoverageFile = Path.Combine(_projectFolder, $"coverage.{_coverageFormat}");
+
+        if (File.Exists(containerCoverageFile))
+        {
+            File.Copy(containerCoverageFile, targetCoverageFile, true);
+            Trace.WriteLine($"Coverage file copied from container: {targetCoverageFile}", "TEST_CLEANUP");
+        }
+        else
+        {
+            Trace.WriteLine($"Container coverage file not found: {containerCoverageFile}", "TEST_CLEANUP");
         }
     }
 
@@ -575,7 +589,7 @@ public class TestConfig
 
         try
         {
-            Trace.WriteLine("Generating coverage report...", "CODE_COVERAGE");
+            Trace.WriteLine("Generating coverage report...", "CODE_COVERAGE_REPORT");
 
             List<string> assemblyFilters = CoreOnly
                 ? ["+dymaptic.GeoBlazor.Core.dll"]
@@ -614,35 +628,20 @@ public class TestConfig
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteAsync();
 
-            var indexPath = Path.Combine(reportDir, "index.html");
+            string textSummaryPath = Path.Combine(reportDir, "Summary.txt");
+            string webReportPath = Path.Combine(reportDir, "index.html");
 
-            if (File.Exists(indexPath))
+            if (File.Exists(textSummaryPath))
             {
-                Trace.WriteLine($"Coverage report generated: {indexPath}", "CODE_COVERAGE");
-
-                // Open report in browser for local development (not CI)
-                if (!IsCI)
-                {
-                    try
-                    {
-                        OpenInBrowser(indexPath);
-                        Trace.WriteLine("Coverage report opened in browser", "CODE_COVERAGE");
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine($"Failed to open browser: {ex.Message}", "CODE_COVERAGE");
-                    }
-                }
-            }
-            else
-            {
-                Trace.WriteLine("Coverage report index.html was not generated", "CODE_COVERAGE_ERROR");
+                Trace.WriteLine(await File.ReadAllTextAsync(textSummaryPath),
+                    "CODE_COVERAGE_SUCCESS");
+                Trace.WriteLine($"Full report at [Coverage Report]({webReportPath})", "CODE_COVERAGE_SUCCESS");
             }
 
             // copy the badge image to the repo root
             var lineBadgePath = Path.Combine(reportDir, "badge_linecoverage.svg");
             var methodBadgePath = Path.Combine(reportDir, "badge_methodcoverage.svg");
-            var fullMethodBadgePath = Path.Combine(_projectFolder, "badge_fullmethodcoverage.svg");
+            var fullMethodBadgePath = Path.Combine(reportDir, "badge_fullmethodcoverage.svg");
 
             if (!ProOnly)
             {
@@ -668,19 +667,6 @@ public class TestConfig
         {
             Trace.WriteLine($"Failed to generate coverage report: {ex.Message}", "CODE_COVERAGE_ERROR");
         }
-    }
-
-    private static void OpenInBrowser(string path)
-    {
-        var cmdLineApp = OperatingSystem.IsWindows()
-            ? "start"
-            : OperatingSystem.IsMacOS()
-                ? "open"
-                : "xdg-open";
-
-        Cli.Wrap(cmdLineApp)
-            .WithArguments(path)
-            .ExecuteAsync();
     }
 
     private static readonly CancellationTokenSource cts = new();

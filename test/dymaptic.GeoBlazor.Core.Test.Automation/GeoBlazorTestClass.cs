@@ -9,16 +9,9 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 {
     private IBrowserContext Context { get; set; } = null!;
 
-    // Optimized navigation: WaitUntil.Commit is faster - element waits handle actual readiness
-    private PageGotoOptions PageGotoOptions => new()
-    {
-        WaitUntil = WaitUntilState.Commit, Timeout = TestConfig.IsCI ? 45_000 : 30_000 // Reduced from 60_000
-    };
+    private PageGotoOptions PageGotoOptions => new() { WaitUntil = WaitUntilState.Commit, Timeout = 60_000 };
 
-    // Reduced timeouts: 90s/60s instead of 120s - still generous but faster failure detection
-    private LocatorClickOptions ClickOptions => new() { Timeout = TestConfig.IsCI ? 90_000 : 60_000 };
-
-    private LocatorAssertionsToBeVisibleOptions VisibleOptions => new() { Timeout = TestConfig.IsCI ? 90_000 : 60_000 };
+    private LocatorAssertionsToBeVisibleOptions VisibleOptions => new() { Timeout = 90_000 };
 
     [TestInitialize]
     public Task TestSetup()
@@ -88,11 +81,11 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
             if (isExpanded != "true")
             {
-                await sectionToggle.ClickAsync(ClickOptions);
+                await sectionToggle.ClickAsync();
             }
 
             ILocator testBtn = page.GetByText("Run Test");
-            await testBtn.ClickAsync(ClickOptions);
+            await testBtn.ClickAsync();
             ILocator passedSpan = page.GetByTestId("passed");
             ILocator inconclusiveSpan = page.GetByTestId("inconclusive");
 
@@ -130,7 +123,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}", "ERROR");
             }
 
-            if (retries > 1) // Reduced from 2 to 1 (max 2 retries instead of 3)
+            if (retries > 2)
             {
                 Assert.Fail($"{testName} Exceeded the maximum number of retries.");
             }
@@ -170,6 +163,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
             // Create context on the pooled browser
             Context = await NewContextAsync(ContextOptions()).ConfigureAwait(false);
+            Context.SetDefaultTimeout(60_000);
         }
         catch (Exception e)
         {

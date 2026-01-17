@@ -7,9 +7,11 @@
         <IsPackable>false</IsPackable>
 
         <RootNamespace>dymaptic.GeoBlazor.Core.SourceGenerator.Tests</RootNamespace>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CliWrap" Version="3.9.0"/>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing.MSTest" Version="1.1.2" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
@@ -19,10 +21,14 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="protobuf-net.Core" Version="3.2.52"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" />
+        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj"
+                          OutputItemType="Analyzer"
+                          ReferenceOutputAssembly="true"/>
+        <Reference Include="..\..\src\dymaptic.GeoBlazor.Core\bin\Debug\net8.0\dymaptic.GeoBlazor.Core.dll"/>
     </ItemGroup>
 
 

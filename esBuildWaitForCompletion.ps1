@@ -15,9 +15,27 @@ if ((Test-Path -Path $CoreLockFilePath) -or (Test-Path -Path $ProLockFilePath)) 
     return 0
 }
 
+$timeout = 30
+$elapsed = 0
+
 while ((Test-Path -Path $CoreLockFilePath) -or (Test-Path -Path $ProLockFilePath)) {
     Start-Sleep -Seconds 1
     Write-Host -NoNewline "."
+    $elapsed++
+
+    if ($elapsed -ge $timeout) {
+        Write-Host ""
+        Write-Host "Timeout reached ($timeout seconds). Deleting lock files."
+        if (Test-Path -Path $CoreLockFilePath) {
+            Remove-Item -Path $CoreLockFilePath -Force
+            Write-Host "Deleted: $CoreLockFilePath"
+        }
+        if (Test-Path -Path $ProLockFilePath) {
+            Remove-Item -Path $ProLockFilePath -Force
+            Write-Host "Deleted: $ProLockFilePath"
+        }
+        break
+    }
 }
 
 Write-Host "Lock file removed. Exiting."
