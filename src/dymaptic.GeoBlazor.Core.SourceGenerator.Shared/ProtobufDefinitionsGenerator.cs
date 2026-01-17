@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
 using System.Text;
+using System.Text.RegularExpressions;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
@@ -11,52 +12,56 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 /// </summary>
 public static class ProtobufDefinitionsGenerator
 {
-    public static Dictionary<string, ProtoMessageDefinition>? ProtoDefinitions;
-    
-    public static Dictionary<string, ProtoMessageDefinition> UpdateProtobufDefinitions(SourceProductionContext context, 
+    public static Dictionary<string, ProtoMessageDefinition> UpdateProtobufDefinitions(SourceProductionContext context,
         ImmutableArray<BaseTypeDeclarationSyntax> types, string corePath)
     {
-        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator), 
-            "Updating Protobuf definitions...", 
+        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+            "Updating Protobuf definitions...",
             DiagnosticSeverity.Info,
             context);
-        
-        // fetch protobuf definitions
-        string protoTypeContent = Generate(context, types);
 
-        string typescriptContent = $"""
-                                    export let protoTypeDefinitions: string = `
-                                    {protoTypeContent}
-                                    `;
-                                    """;
-        string encoded = typescriptContent
-            .Replace("\"", "\\\"")
-            .Replace("\r\n", "\\r\\n")
-            .Replace("\n", "\\n");
+        // fetch protobuf definitions
+        var protoTypeContent = Generate(context, types);
+
+        var typescriptContent = $"""
+                                 export let protoTypeDefinitions: string = `
+                                 {protoTypeContent}
+                                 `;
+                                 """;
+
+        var encoded = escapeRegex.Replace(typescriptContent, match => match.Value switch
+        {
+            "\"" => "\\\"",
+            "\r" => "\\r",
+            "\n" => "\\n",
+            _ => match.Value
+        });
         StringBuilder logBuilder = new();
-        
-        string scriptPath = Path.Combine(corePath, "copyProtobuf.ps1");
-        
+
+        var scriptPath = Path.Combine(corePath, "copyProtobuf.ps1");
+
         // write protobuf definitions to geoblazorProto.ts
         // must use GetAwaiter().GetResult(), since Source Generator is not Async
         ProcessHelper.RunPowerShellScript("Copy Protobuf Definitions",
-            corePath, scriptPath,
-            $"-Content \"{encoded}\"",
-            logBuilder, context.CancellationToken).GetAwaiter().GetResult();
-        
+                corePath, scriptPath,
+                $"-Content \"{encoded}\"",
+                logBuilder, context.CancellationToken)
+            .GetAwaiter()
+            .GetResult();
+
         ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-            logBuilder.ToString(), 
+            logBuilder.ToString(),
             DiagnosticSeverity.Info,
             context);
-        
-        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator), 
-            $"Protobuf definitions updated successfully.", 
+
+        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+            "Protobuf definitions updated successfully.",
             DiagnosticSeverity.Info,
             context);
-        
-        return ProtoDefinitions ?? [];
+
+        return _protoDefinitions ?? [];
     }
-    
+
     private static string Generate(SourceProductionContext context,
         ImmutableArray<BaseTypeDeclarationSyntax> types)
     {
@@ -68,15 +73,15 @@ public static class ProtobufDefinitionsGenerator
                 context);
 
             // Extract protobuf definitions from syntax nodes
-            ProtoDefinitions ??= ExtractProtobufDefinitions(types, context);
-            
+            _protoDefinitions ??= ExtractProtobufDefinitions(types, context);
+
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-                $"Extracted {ProtoDefinitions.Count} Protobuf message definitions.",
+                $"Extracted {_protoDefinitions.Count} Protobuf message definitions.",
                 DiagnosticSeverity.Info,
                 context);
 
             // Generate new proto file content
-            string newProtoContent = GenerateProtoFileContent(ProtoDefinitions);
+            var newProtoContent = GenerateProtoFileContent(_protoDefinitions);
 
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
                 "Protobuf schema generation complete",
@@ -91,31 +96,36 @@ public static class ProtobufDefinitionsGenerator
                 $"Error generating Protobuf definitions: {ex.Message}",
                 DiagnosticSeverity.Error,
                 context);
+
             return string.Empty;
         }
     }
 
-    public static Dictionary<string, ProtoMessageDefinition> ExtractProtobufDefinitions(
+    private static Dictionary<string, ProtoMessageDefinition> ExtractProtobufDefinitions(
         ImmutableArray<BaseTypeDeclarationSyntax> types, SourceProductionContext context)
     {
         var definitions = new Dictionary<string, ProtoMessageDefinition>();
         const string protoContractAttribute = "ProtoContract";
 
-        foreach (BaseTypeDeclarationSyntax type in types)
+        foreach (var type in types)
         {
             if (type.AttributeLists.SelectMany(a => a.Attributes)
                 .All(a => a.Name.ToString() != protoContractAttribute))
             {
                 if (type.Identifier.Text.EndsWith("SerializationRecord")
-                    && type.Identifier.Text != "MapComponentSerializationRecord"
-                    && type.Identifier.Text != "MapComponentCollectionSerializationRecord")
+                    && (type.Identifier.Text != "MapComponentSerializationRecord")
+                    && (type.Identifier.Text != "MapComponentCollectionSerializationRecord"))
                 {
-                    ProcessHelper.Log(
-                        nameof(ProtobufDefinitionsGenerator),
-                        $"Processing syntax node: {type.Identifier.Text}, which is a SerializationRecord without ProtoContract attribute. Attributes: {string.Join(", ", type.AttributeLists.SelectMany(al => al.Attributes.SelectMany(a => a.ToString())))}",
+                    ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+                        $"Processing syntax node: {type.Identifier.Text
+                        }, which is a SerializationRecord without ProtoContract attribute. Attributes: {
+                            string.Join(", ",
+                                type.AttributeLists.SelectMany(al => al.Attributes.SelectMany(a => a.ToString())))
+                        }",
                         DiagnosticSeverity.Warning,
                         context);
                 }
+
                 continue;
             }
 
@@ -153,7 +163,8 @@ public static class ProtobufDefinitionsGenerator
         }
 
         // Extract the Name parameter from ProtoContract attribute
-        string messageName = syntaxNode.Identifier.Text;
+        var messageName = syntaxNode.Identifier.Text;
+
         var nameArg = protoContractAttr.ArgumentList?.Arguments
             .FirstOrDefault(arg => arg.NameEquals?.Name.Identifier.Text == "Name");
 
@@ -169,17 +180,19 @@ public static class ProtobufDefinitionsGenerator
         var protoIncludeAttrs = syntaxNode.AttributeLists
             .SelectMany(al => al.Attributes)
             .Where(a => a.Name.ToString().Contains("ProtoInclude"));
-        
-        BaseTypeSyntax? baseType = syntaxNode.BaseList?.Types.FirstOrDefault();
-        bool geoBlazorTypeIsInterface = false;
+
+        var baseType = syntaxNode.BaseList?.Types.FirstOrDefault();
+        var geoBlazorTypeIsInterface = false;
 
         if (!messageName.EndsWith("Collection") && baseType is not null)
         {
-            string baseTypeName = baseType.Type.ToString();
-            int innerTypeIndex = baseTypeName.IndexOf("<", StringComparison.OrdinalIgnoreCase) + 1;
-            string geoBlazorTypeName = baseTypeName.Substring(innerTypeIndex, baseTypeName.Length - innerTypeIndex - 1);
+            var baseTypeName = baseType.Type.ToString();
+            var innerTypeIndex = baseTypeName.IndexOf("<", StringComparison.OrdinalIgnoreCase) + 1;
 
-            if (geoBlazorTypeName[0] == 'I' && char.IsUpper(geoBlazorTypeName[1]))
+            var geoBlazorTypeName =
+                baseTypeName.Substring(innerTypeIndex, baseTypeName.Length - innerTypeIndex - 1);
+
+            if ((geoBlazorTypeName[0] == 'I') && char.IsUpper(geoBlazorTypeName[1]))
             {
                 geoBlazorTypeIsInterface = true;
             }
@@ -193,14 +206,10 @@ public static class ProtobufDefinitionsGenerator
                 var typeArg = includeAttr.ArgumentList.Arguments[1].Expression;
 
                 if (tagArg is LiteralExpressionSyntax tagLiteral &&
-                    int.TryParse(tagLiteral.Token.ValueText, out int tag))
+                    int.TryParse(tagLiteral.Token.ValueText, out var tag))
                 {
-                    string typeName = ExtractTypeFromExpression(typeArg);
-                    protoIncludeFields.Add(new ProtoIncludeDefinition
-                    {
-                        Tag = tag,
-                        TypeName = typeName
-                    });
+                    var typeName = ExtractTypeFromExpression(typeArg);
+                    protoIncludeFields.Add(new ProtoIncludeDefinition { Tag = tag, TypeName = typeName });
                 }
             }
         }
@@ -217,15 +226,15 @@ public static class ProtobufDefinitionsGenerator
                 if (protoMemberAttr is { ArgumentList.Arguments.Count: > 0 })
                 {
                     var fieldNumber = protoMemberAttr.ArgumentList.Arguments[0].Expression;
+
                     if (fieldNumber is LiteralExpressionSyntax fieldNumLiteral &&
-                        int.TryParse(fieldNumLiteral.Token.ValueText, out int num))
+                        int.TryParse(fieldNumLiteral.Token.ValueText, out var num))
                     {
                         var fieldType = ConvertCSharpTypeToProtoType(property.Type.ToString());
+
                         fields.Add(new ProtoFieldDefinition
                         {
-                            Type = fieldType,
-                            Name = property.Identifier.Text.ToLowerFirstChar(),
-                            Number = num
+                            Type = fieldType, Name = property.Identifier.Text.ToLowerFirstChar(), Number = num
                         });
                     }
                 }
@@ -255,12 +264,12 @@ public static class ProtobufDefinitionsGenerator
     private static string ConvertCSharpTypeToProtoType(string csharpType)
     {
         // Check if it's an array type (need repeated keyword)
-        bool isRepeated = (csharpType.Contains("[]") && csharpType != "byte[]" && csharpType != "byte[]?")
+        var isRepeated = (csharpType.Contains("[]") && (csharpType != "byte[]") && (csharpType != "byte[]?"))
             || csharpType.Contains("IEnumerable")
             || csharpType.Contains("List<");
-        
+
         // Remove nullable markers and array indicators
-        string cleanType = csharpType.Replace("?", "").Trim();
+        var cleanType = csharpType.Replace("?", "").Trim();
 
         if (isRepeated)
         {
@@ -273,7 +282,7 @@ public static class ProtobufDefinitionsGenerator
         }
 
         // Map C# types to proto types
-        string protoType = cleanType switch
+        var protoType = cleanType switch
         {
             "string" => "string",
             "int" => "int32",
@@ -302,7 +311,7 @@ public static class ProtobufDefinitionsGenerator
         // First, generate regular message definitions (those without ProtoIncludes or with both fields and includes)
         foreach (var def in definitions.Values.OrderBy(d => d.Name))
         {
-            if (def.Name == "MapComponent" || def.Name == "MapComponentCollection")
+            if ((def.Name == "MapComponent") || (def.Name == "MapComponentCollection"))
             {
                 continue; // Handle these special cases separately
             }
@@ -326,7 +335,7 @@ public static class ProtobufDefinitionsGenerator
 
             foreach (var include in mapComponentDef.ProtoIncludes)
             {
-                string typeName = include.TypeName.Replace("SerializationRecord", "");
+                var typeName = include.TypeName.Replace("SerializationRecord", "");
                 sb.AppendLine($"      {typeName} {typeName} = {include.Tag};");
             }
 
@@ -335,14 +344,15 @@ public static class ProtobufDefinitionsGenerator
         }
 
         // Generate MapComponentCollection with oneof for all the collection types
-        if (definitions.TryGetValue("MapComponentCollection", out var collectionDef) && collectionDef.ProtoIncludes.Any())
+        if (definitions.TryGetValue("MapComponentCollection", out var collectionDef) &&
+            collectionDef.ProtoIncludes.Any())
         {
             sb.AppendLine("message MapComponentCollection {");
             sb.AppendLine("   oneof subtype {");
 
             foreach (var include in collectionDef.ProtoIncludes)
             {
-                string typeName = include.TypeName.Replace("SerializationRecord", "");
+                var typeName = include.TypeName.Replace("SerializationRecord", "");
                 sb.AppendLine($"      {typeName} {typeName} = {include.Tag};");
             }
 
@@ -352,26 +362,70 @@ public static class ProtobufDefinitionsGenerator
 
         return sb.ToString();
     }
+
+    private static readonly Regex escapeRegex = new(@"[""\r\n]", RegexOptions.Compiled);
+    private static Dictionary<string, ProtoMessageDefinition>? _protoDefinitions;
 }
 
+/// <summary>
+///     Represents a Protobuf message definition extracted from a C# type with ProtoContract attribute.
+/// </summary>
 public class ProtoMessageDefinition
 {
+    /// <summary>
+    ///     The name of the Protobuf message, derived from the ProtoContract Name parameter or the type identifier.
+    /// </summary>
     public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     The list of fields in this message, extracted from properties with ProtoMember attributes.
+    /// </summary>
     public List<ProtoFieldDefinition> Fields { get; set; } = new();
+
+    /// <summary>
+    ///     The list of ProtoInclude definitions for polymorphic serialization (oneof fields).
+    /// </summary>
     public List<ProtoIncludeDefinition> ProtoIncludes { get; set; } = new();
-    
+
+    /// <summary>
+    ///     Indicates whether the corresponding GeoBlazor type is an interface.
+    /// </summary>
     public bool GeoBlazorTypeIsInterface { get; set; }
 }
 
+/// <summary>
+///     Represents a field within a Protobuf message definition.
+/// </summary>
 public class ProtoFieldDefinition
 {
+    /// <summary>
+    ///     The Protobuf type of the field (e.g., "string", "int32", "repeated Message").
+    /// </summary>
     public string Type { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     The name of the field in camelCase format.
+    /// </summary>
     public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     The field number from the ProtoMember attribute, used for wire format encoding.
+    /// </summary>
     public int Number { get; set; }
 }
 
+/// <summary>
+///     Represents a ProtoInclude attribute definition for polymorphic type hierarchies.
+/// </summary>
 public class ProtoIncludeDefinition
 {
+    /// <summary>
+    ///     The tag number used to identify this subtype in the Protobuf oneof field.
+    /// </summary>
     public int Tag { get; set; }
+
+    /// <summary>
+    ///     The name of the included subtype.
+    /// </summary>
     public string TypeName { get; set; } = string.Empty;
 }

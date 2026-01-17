@@ -14,8 +14,12 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 [SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
 public class ESBuildGenerator : IIncrementalGenerator
 {
+    /// <summary>
+    ///     Gets a value indicating whether an ESBuild process is currently running.
+    /// </summary>
     public static bool InProcess { get; private set; }
 
+    /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Tracks all TypeScript source files in the Scripts directories of Core and Pro.

@@ -14,6 +14,7 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 [Generator]
 public class ProtobufSourceGenerator : IIncrementalGenerator
 {
+    /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Finds all class, struct, and record declarations marked with protobuf attributes.
@@ -21,7 +22,7 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
             context.SyntaxProvider.CreateSyntaxProvider(static (syntaxNode, _) =>
                         syntaxNode is ClassDeclarationSyntax or StructDeclarationSyntax or RecordDeclarationSyntax
                         && (((BaseTypeDeclarationSyntax)syntaxNode).AttributeLists.SelectMany(a => a.Attributes)
-                        .Any(a => a.Name.ToString() is ProtoContractAttribute or ProtoSerializableAttribute)
+                            .Any(a => a.Name.ToString() is ProtoContractAttribute or ProtoSerializableAttribute)
                             || syntaxNode.ChildNodes()
                                 .OfType<MethodDeclarationSyntax>()
                                 .Any(m => m.AttributeLists
@@ -64,6 +65,7 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
                 "CoreProjectPath not set. Skipping protobuf source generation.",
                 DiagnosticSeverity.Warning,
                 context);
+
             return;
         }
 

@@ -50,6 +50,12 @@ public class TestConfig
     private static string CoverageFolderPath => Path.Combine(_projectFolder, "coverage");
     private static string CoverageFilePath =>
         Path.Combine(CoverageFolderPath, $"coverage.{_coverageFileVersion}.{_coverageFormat}");
+    private static string UnitCoverageFolderPath => Path.Combine(_projectFolder, "unit-coverage");
+    private static string UnitCoverageFilePath =>
+        Path.Combine(UnitCoverageFolderPath, $"coverage.{_coverageFileVersion}.{_coverageFormat}");
+    private static string SgenCoverageFolderPath => Path.Combine(_projectFolder, "sgen-coverage");
+    private static string SgenCoverageFilePath =>
+        Path.Combine(SgenCoverageFolderPath, $"coverage.{_coverageFileVersion}.{_coverageFormat}");
     private static string CoreRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", ".."));
     private static string ProRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", ".."));
     private static string CoreProjectPath =>
@@ -67,25 +73,31 @@ public class TestConfig
         SetupConfiguration();
 
         // kill old running test apps and containers
-        await StopContainer(CoreComposeFilePath);
-        await StopContainer(ProComposeFilePath);
-        await StopTestApp();
+        Task[] cleanupTasks =
+        [
+            StopContainer(CoreComposeFilePath),
+            StopContainer(ProComposeFilePath),
+            StopTestApp()
+        ];
 
-        if (_cover)
-        {
-            await InstallCodeCoverageTools();
-        }
+        await Task.WhenAll(cleanupTasks);
 
-        await EnsurePlaywrightBrowsersAreInstalled();
+        Task[] setupTasks =
+        [
+            InstallCodeCoverageTools(),
+            EnsurePlaywrightBrowsersAreInstalled()
+        ];
 
-        if (_useContainer)
-        {
-            await StartContainer();
-        }
-        else
-        {
-            await StartTestApp();
-        }
+        await Task.WhenAll(setupTasks);
+
+        Task[] runTasks =
+        [
+            RunUnitTests(),
+            RunSourceGeneratorTests(),
+            LaunchWebTests()
+        ];
+
+        await Task.WhenAll(runTasks);
     }
 
     [AssemblyCleanup]
@@ -231,8 +243,123 @@ public class TestConfig
         _targetFramework ??= _configuration.GetValue("TARGET_FRAMEWORK", "net10.0");
     }
 
+    private static async Task RunUnitTests()
+    {
+        var unitTestPath = Path.Combine(_projectFolder, "..",
+            "dymaptic.GeoBlazor.Core.Test.Unit",
+            "dymaptic.GeoBlazor.Core.Test.Unit.csproj");
+        var cmdLineApp = "dotnet";
+
+        string[] args =
+        [
+            "test",
+            "--project",
+            unitTestPath,
+            "-c",
+            "Release",
+            "--output",
+            "Detailed"
+        ];
+
+        if (_cover)
+        {
+            Directory.CreateDirectory(UnitCoverageFolderPath);
+            cmdLineApp = "dotnet-coverage";
+            var dotnetCommand = $"dotnet {string.Join(" ", args)}";
+
+            args =
+            [
+                "collect",
+                "-o", UnitCoverageFilePath,
+                "-f", _coverageFormat,
+                "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
+                dotnetCommand
+            ];
+        }
+
+        var result = await Cli.Wrap(cmdLineApp)
+            .WithArguments(args)
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "UNIT_TEST")))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "UNIT_TEST_ERROR")))
+            .ExecuteAsync();
+
+        if (result.ExitCode != 0)
+        {
+            throw new ProcessExitedException($"Unit test process exited with code {result.ExitCode}");
+        }
+    }
+
+    private static async Task RunSourceGeneratorTests()
+    {
+        var sgenFilePath = Path.Combine(_projectFolder, "..",
+            "dymaptic.GeoBlazor.Core.SourceGenerator.Tests",
+            "dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj");
+        var cmdLineApp = "dotnet";
+
+        string[] args =
+        [
+            "test",
+            "--project",
+            sgenFilePath,
+            "-c",
+            "Release",
+            "--output",
+            "Detailed"
+        ];
+
+        if (_cover)
+        {
+            Directory.CreateDirectory(SgenCoverageFolderPath);
+            cmdLineApp = "dotnet-coverage";
+            var dotnetCommand = $"dotnet {string.Join(" ", args)}";
+
+            args =
+            [
+                "collect",
+                "-o", SgenCoverageFilePath,
+                "-f", _coverageFormat,
+                "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Pro.SourceGenerator.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Core.Analyzers.dll",
+                dotnetCommand
+            ];
+        }
+
+        var result = await Cli.Wrap(cmdLineApp)
+            .WithArguments(args)
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "SGEN_TEST")))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "SGEN_TEST_ERROR")))
+            .ExecuteAsync();
+
+        if (result.ExitCode != 0)
+        {
+            throw new ProcessExitedException($"Source Generator test process exited with code {result.ExitCode}");
+        }
+    }
+
+    private static async Task LaunchWebTests()
+    {
+        if (_useContainer)
+        {
+            await StartContainer();
+        }
+        else
+        {
+            await StartTestApp();
+        }
+    }
+
     private static async Task InstallCodeCoverageTools()
     {
+        if (!_cover)
+        {
+            return;
+        }
+
         await Cli.Wrap("dotnet")
             .WithArguments([
                 "tool",
@@ -331,12 +458,6 @@ public class TestConfig
             .ExecuteAsync(cts.Token, gracefulCts.Token);
 
         _testProcessId = commandTask.ProcessId;
-        var result = await commandTask;
-
-        if (result.ExitCode != 0)
-        {
-            throw new ProcessExitedException($"Container failed to start: {result.ExitCode}");
-        }
 
         await WaitForHttpResponse();
     }
@@ -347,7 +468,7 @@ public class TestConfig
 
         string[] args =
         [
-            "run", "--project", $"\"{TestAppPath}\"",
+            "run", "--project", TestAppPath,
             "--urls", $"{TestAppUrl};{TestAppHttpUrl}",
             "--", "-c", "Release",
             "/p:GenerateXmlComments=false",
@@ -407,7 +528,6 @@ public class TestConfig
                 .WithArguments($"compose -f \"{composeFilePath}\" down")
                 .WithValidation(CommandResultValidation.None)
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER_CLEANUP")))
-                .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER_ERROR")))
                 .ExecuteAsync(cts.Token);
         }
         catch
@@ -591,11 +711,21 @@ public class TestConfig
         {
             Trace.WriteLine("Generating coverage report...", "CODE_COVERAGE_REPORT");
 
-            List<string> assemblyFilters = CoreOnly
-                ? ["+dymaptic.GeoBlazor.Core.dll"]
+            List<string> assemblyFilters =
+            [
+                "+dymaptic.GeoBlazor.Core.dll",
+                "+dymaptic.GeoBlazor.Core.SourceGenerator.dll",
+                "+dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll",
+                "+dymaptic.GeoBlazor.Core.Analyzers.dll",
+                "+dymaptic.GeoBlazor.Pro.dll",
+                "+dymaptic.GeoBlazor.Pro.SourceGenerator.dll"
+            ];
+
+            assemblyFilters = CoreOnly
+                ? assemblyFilters.Where(a => a.Contains("Core")).ToList()
                 : ProOnly
-                    ? ["+dymaptic.GeoBlazor.Pro.dll"]
-                    : ["+dymaptic.GeoBlazor.Core.dll", "+dymaptic.GeoBlazor.Pro.dll"];
+                    ? assemblyFilters.Where(a => a.Contains("Pro")).ToList()
+                    : assemblyFilters;
 
             List<string> sourceDirs = CoreOnly
                 ? [CoreProjectPath]
@@ -605,7 +735,7 @@ public class TestConfig
 
             List<string> args =
             [
-                $"-reports:{CoverageFilePath}",
+                $"-reports:{CoverageFilePath};{UnitCoverageFilePath};{SgenCoverageFilePath}",
                 $"-targetdir:{reportDir}",
                 "-reporttypes:Html;HtmlSummary;TextSummary;Badges",
 
