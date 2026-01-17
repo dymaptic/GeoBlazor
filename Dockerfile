@@ -107,7 +107,7 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Password=password
 
 # Coverage configuration (can be overridden via environment)
 ENV COVERAGE_ENABLED=false
-ENV COVERAGE_OUTPUT=/coverage/coverage.xml
+ENV COVERAGE_FORMAT=xml
 
 # Copy entrypoint script
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Automation/docker-entrypoint.sh /docker-entrypoint.sh
