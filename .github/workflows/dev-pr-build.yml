@@ -56,8 +56,10 @@ jobs:
           USE_CONTAINER: true
           ARCGIS_API_KEY: ${{ secrets.ARCGIS_TESTING_API_KEY }}
           GEOBLAZOR_CORE_LICENSE_KEY: ${{ secrets.GEOBLAZOR_CORE_LICENSE_KEY }}
+          HTTP_PORT: 8082
+          HTTPS_PORT: 9445
         run: |
-          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_ -l "console;verbosity=detailed"
+          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_ --output Detailed
   
   build:
     runs-on: ubuntu-latest
