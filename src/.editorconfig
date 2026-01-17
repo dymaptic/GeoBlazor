@@ -130,7 +130,7 @@ csharp_style_prefer_readonly_struct_member = true
 csharp_prefer_braces = true
 csharp_prefer_simple_using_statement = true
 csharp_prefer_system_threading_lock = true
-csharp_style_namespace_declarations = block_scoped
+csharp_style_namespace_declarations = file_scoped
 csharp_style_prefer_method_group_conversion = true
 csharp_style_prefer_primary_constructors = true
 csharp_style_prefer_simple_property_accessors = true
@@ -239,10 +239,6 @@ dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
-
-dotnet_naming_rule.private_constants_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.private_constants_should_be_pascal_case.symbols = private_constants
-dotnet_naming_rule.private_constants_should_be_pascal_case.style = pascal_case
 
 dotnet_naming_rule.private_static_readonly_should_be_camel_case.severity = suggestion
 dotnet_naming_rule.private_static_readonly_should_be_camel_case.symbols = private_static_readonly

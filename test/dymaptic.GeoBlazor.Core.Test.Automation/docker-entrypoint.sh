@@ -2,6 +2,8 @@
 set -e
 
 SESSION_ID="geoblazor-coverage"
+COVERAGE_FILE_VERSION="$(date +%Y-%m-%d-%H-%M-%S)"
+COVERAGE_OUTPUT="/coverage/coverage.$COVERAGE_FILE_VERSION.$COVERAGE_FORMAT"
 
 # Trap SIGTERM to gracefully shutdown coverage collection
 _term() {
@@ -34,6 +36,8 @@ if [ "$COVERAGE_ENABLED" = "true" ]; then
         --session-id "$SESSION_ID" \
         -o "$COVERAGE_OUTPUT" \
         -f xml \
+        --include-files "**/dymaptic.GeoBlazor.Core.dll" \
+        --include-files "**/dymaptic.GeoBlazor.Pro.dll" \
         -l "$COVERAGE_OUTPUT.log" \
         -ll Verbose \
         -- "$@"

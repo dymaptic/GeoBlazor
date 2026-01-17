@@ -1990,5 +1990,3 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
             GeoBlazorSerialization.JsonSerializerOptions));
     }
 }
-
-internal record MapComponentSerializationRecord;

@@ -20,15 +20,15 @@ public class SerializationUnitTests
     [TestMethod]
     public void SerializeGraphicToJson()
     {
-        var graphic = new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
-                _random.NextDouble() * 10 + 50.0),
+        var graphic = new Graphic(new Point((_random.NextDouble() * 10) + 11.0,
+                (_random.NextDouble() * 10) + 50.0),
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
             new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", ["*"]),
             new AttributesDictionary(
                 new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
         var sw = Stopwatch.StartNew();
-        string json = JsonSerializer.Serialize(graphic.ToSerializationRecord());
-        byte[] data = Encoding.UTF8.GetBytes(json);
+        var json = JsonSerializer.Serialize(graphic.ToSerializationRecord());
+        var data = Encoding.UTF8.GetBytes(json);
         sw.Stop();
         Console.WriteLine($"SerializeGraphicToJson: {sw.ElapsedMilliseconds}ms");
         Console.WriteLine($"Size: {data.Length} bytes");
@@ -37,38 +37,51 @@ public class SerializationUnitTests
     [TestMethod]
     public void RoundTripSerializeGraphicToJson()
     {
-        var graphic = new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
-                _random.Next() * 10 + 50.0),
+        var graphic = new Graphic(new Point((_random.NextDouble() * 10) + 11.0,
+                (_random.Next() * 10) + 50.0),
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
             new PopupTemplate("Test",
-                "Test Content<br/>{testString}<br/>{testNumber}", 
-                outFields: [ "*" ]),
+                "Test Content<br/>{testString}<br/>{testNumber}",
+                ["*"]),
             new AttributesDictionary(
                 new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
+
         JsonSerializerOptions options = new()
         {
             ReferenceHandler = ReferenceHandler.Preserve,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true
         };
-        string json = JsonSerializer.Serialize(graphic, options);
-        Graphic deserialized = JsonSerializer.Deserialize<Graphic>(json, options)!;
-        Assert.AreEqual(((Point)graphic.Geometry!).Latitude, ((Point)deserialized.Geometry!).Latitude);
-        Assert.AreEqual(((Point)graphic.Geometry!).Longitude, ((Point)deserialized.Geometry!).Longitude);
-        Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Color);
-        Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Outline!.Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Outline!.Color);
-        Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Size, ((SimpleMarkerSymbol)deserialized.Symbol!).Size);
+        var json = JsonSerializer.Serialize(graphic, options);
+        var deserialized = JsonSerializer.Deserialize<Graphic>(json, options)!;
+        var graphicPoint = graphic.Geometry as Point;
+        var deserializedPoint = deserialized.Geometry as Point;
+        Assert.IsNotNull(graphicPoint);
+        Assert.IsNotNull(deserializedPoint);
+        Assert.AreEqual(graphicPoint.Latitude, deserializedPoint.Latitude);
+        Assert.AreEqual(graphicPoint.Longitude, deserializedPoint.Longitude);
+        var graphicSymbol = deserialized.Symbol as SimpleMarkerSymbol;
+        var deserializedSymbol = deserialized.Symbol as SimpleMarkerSymbol;
+        Assert.IsNotNull(graphicSymbol);
+        Assert.IsNotNull(deserializedSymbol);
+
+        Assert.AreEqual(graphicSymbol.Color, deserializedSymbol.Color,
+            $"Color {graphicSymbol.Color} does not match {deserializedSymbol.Color}");
+
+        Assert.AreEqual(graphicSymbol.Outline!.Color, deserializedSymbol.Outline!.Color,
+            $"Color {graphicSymbol.Outline} does not match {deserializedSymbol.Outline}");
+        Assert.AreEqual(graphicSymbol.Size, deserializedSymbol.Size);
         Assert.AreEqual(graphic.PopupTemplate!.Title, deserialized.PopupTemplate!.Title);
         Assert.AreEqual(graphic.Attributes.Count, deserialized.Attributes.Count);
         Assert.AreEqual(graphic.Attributes["testString"], deserialized.Attributes["testString"]);
         Assert.AreEqual(graphic.Attributes["testNumber"], deserialized.Attributes["testNumber"]);
-   }
+    }
 
     [TestMethod]
     public void SerializeToProtobuf()
     {
-        var graphic = new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
-                _random.NextDouble() * 10 + 50.0),
+        var graphic = new Graphic(new Point((_random.NextDouble() * 10) + 11.0,
+                (_random.NextDouble() * 10) + 50.0),
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
             new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", ["*"]),
             new AttributesDictionary(
@@ -77,17 +90,17 @@ public class SerializationUnitTests
         ProtoGraphicCollection collection = new([graphic.ToSerializationRecord()]);
         using MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
-        byte[] data = ms.ToArray();
+        var data = ms.ToArray();
         sw.Stop();
         Console.WriteLine($"SerializeGraphicToJson: {sw.ElapsedMilliseconds}ms");
         Console.WriteLine($"Size: {data.Length} bytes");
     }
-    
+
     [TestMethod]
     public void RoundTripSerializeToProtobuf()
     {
-        var graphic = new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
-                _random.NextDouble() * 10 + 50.0),
+        var graphic = new Graphic(new Point((_random.NextDouble() * 10) + 11.0,
+                (_random.NextDouble() * 10) + 50.0),
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
             new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", ["*"]),
             new AttributesDictionary(
@@ -95,14 +108,17 @@ public class SerializationUnitTests
         ProtoGraphicCollection collection = new([graphic.ToSerializationRecord()]);
         using MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
-        byte[] data = ms.ToArray();
-        ProtoGraphicCollection deserializedCollection =
+        var data = ms.ToArray();
+
+        var deserializedCollection =
             Serializer.Deserialize<ProtoGraphicCollection>((ReadOnlyMemory<byte>)data);
-        Graphic deserialized = deserializedCollection.Graphics[0].FromSerializationRecord();
+        var deserialized = deserializedCollection.Graphics[0].FromSerializationRecord();
         Assert.AreEqual(((Point)graphic.Geometry!).Latitude, ((Point)deserialized.Geometry!).Latitude);
         Assert.AreEqual(((Point)graphic.Geometry!).Longitude, ((Point)deserialized.Geometry!).Longitude);
         Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Color);
-        Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Outline!.Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Outline!.Color);
+
+        Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Outline!.Color,
+            ((SimpleMarkerSymbol)deserialized.Symbol!).Outline!.Color);
         Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Size, ((SimpleMarkerSymbol)deserialized.Symbol!).Size);
         Assert.AreEqual(graphic.PopupTemplate!.Title, deserialized.PopupTemplate!.Title);
         Assert.AreEqual(graphic.Attributes.Count, deserialized.Attributes.Count);
@@ -113,60 +129,61 @@ public class SerializationUnitTests
     [TestMethod]
     public void DeserializePortal()
     {
-        string portalJson = File.ReadAllText("Portal.json");
-        Portal portal = JsonSerializer.Deserialize<Portal>(portalJson)!;
+        var portalJson = File.ReadAllText("Portal.json");
+        var portal = JsonSerializer.Deserialize<Portal>(portalJson)!;
         Assert.IsNotNull(portal);
     }
 
     [TestMethod]
     public void DeserializePortalWithInvalidRotatorPanels()
     {
-        string invalidJson =
-          """
-          {
-              "rotatorPanels": {
-                "id": "this is one object not an array"
-              }
-          }
-          """;
-        Portal portal = JsonSerializer.Deserialize<Portal>(invalidJson)!;
+        var invalidJson =
+            """
+            {
+                "rotatorPanels": {
+                  "id": "this is one object not an array"
+                }
+            }
+            """;
+        var portal = JsonSerializer.Deserialize<Portal>(invalidJson)!;
         Assert.IsNotNull(portal);
         Assert.IsNull(portal.RotatorPanels);
     }
-    
+
     [TestMethod]
     public void DeserializePortalWithEmptyRotatorPanels()
     {
-      string invalidJson =
-        """
-        {
-            "rotatorPanels": []
-        }
-        """;
-      Portal portal = JsonSerializer.Deserialize<Portal>(invalidJson)!;
-      Assert.IsNotNull(portal);
-      Assert.IsNull(portal.RotatorPanels);
+        var invalidJson =
+            """
+            {
+                "rotatorPanels": []
+            }
+            """;
+        var portal = JsonSerializer.Deserialize<Portal>(invalidJson)!;
+        Assert.IsNotNull(portal);
+        Assert.IsNull(portal.RotatorPanels);
     }
-    
+
     [TestMethod]
     public void DeserializePortalWithEmptyStringAsRotatorPanels()
     {
-      string invalidJson =
-        """
-        {
-            "rotatorPanels": ""
-        }
-        """;
-      Portal portal = JsonSerializer.Deserialize<Portal>(invalidJson)!;
-      Assert.IsNotNull(portal);
-      Assert.IsNull(portal.RotatorPanels);
+        var invalidJson =
+            """
+            {
+                "rotatorPanels": ""
+            }
+            """;
+        var portal = JsonSerializer.Deserialize<Portal>(invalidJson)!;
+        Assert.IsNotNull(portal);
+        Assert.IsNull(portal.RotatorPanels);
     }
 
     [TestMethod]
     public void DeserializeWFSCapabilities()
     {
-        string json = File.ReadAllText("WFSCapabilities.json");
-        WFSCapabilities capabilities = JsonSerializer.Deserialize<WFSCapabilities>(json, 
+        var json = File.ReadAllText("WFSCapabilities.json");
+
+        var capabilities = JsonSerializer.Deserialize<WFSCapabilities>(json,
             GeoBlazorSerialization.JsonSerializerOptions)!;
         Assert.IsNotNull(capabilities.FeatureTypes);
         Assert.IsNotEmpty(capabilities.FeatureTypes);

@@ -1,15 +1,16 @@
-using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
+using System.Collections.Immutable;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 
 /// <summary>
-/// Copies the JavaScript NPM Package Versions from the package.json file into the C# source code.
+///     Copies the JavaScript NPM Package Versions from the package.json file into the C# source code.
 /// </summary>
 [Generator]
 public class ArcGISVersionInfoSourceGenerator : IIncrementalGenerator
 {
+    /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         IncrementalValueProvider<ImmutableArray<AdditionalText>> provider = context.AdditionalTextsProvider
@@ -22,7 +23,7 @@ public class ArcGISVersionInfoSourceGenerator : IIncrementalGenerator
     private void GenerateCode(SourceProductionContext context, ImmutableArray<AdditionalText> files)
     {
         AdditionalText? file = files.FirstOrDefault();
-        
+
         // Get the text of the file.
         string[]? lines = file?.GetText(context.CancellationToken)?.ToString().Split('\n');
 
@@ -30,7 +31,7 @@ public class ArcGISVersionInfoSourceGenerator : IIncrementalGenerator
         {
             return;
         }
-        
+
         string arcGisVersion = string.Empty;
         string arcGisMapComponentsVersion = string.Empty;
         string calciteVersion = string.Empty;

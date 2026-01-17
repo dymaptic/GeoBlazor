@@ -11,24 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Test.Automation;
 /// </summary>
 public sealed class BrowserPool : IAsyncDisposable
 {
-    private static BrowserPool? _instance;
-    private static readonly Lock _instanceLock = new();
-
-    private readonly ConcurrentQueue<PooledBrowser> _availableBrowsers = new();
-    private readonly ConcurrentDictionary<Guid, PooledBrowser> _checkedOutBrowsers = new();
-    private readonly SemaphoreSlim _poolSemaphore;
-    private readonly SemaphoreSlim _creationLock = new(1, 1);
-    private readonly BrowserTypeLaunchOptions _launchOptions;
-    private readonly IBrowserType _browserType;
-    private readonly int _maxPoolSize;
-    private int _currentPoolSize;
-    private bool _disposed;
-
-    /// <summary>
-    /// Maximum time to wait for a browser from the pool (5 minutes)
-    /// </summary>
-    private static readonly TimeSpan CheckoutTimeout = TimeSpan.FromMinutes(5);
-
     private BrowserPool(IBrowserType browserType, BrowserTypeLaunchOptions launchOptions, int maxPoolSize)
     {
         _browserType = browserType;
@@ -37,10 +19,41 @@ public sealed class BrowserPool : IAsyncDisposable
         _poolSemaphore = new SemaphoreSlim(maxPoolSize, maxPoolSize);
     }
 
+    public async ValueTask DisposeAsync()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+
+        // Dispose all available browsers
+        while (_availableBrowsers.TryDequeue(out var browser))
+        {
+            await browser.DisposeAsync().ConfigureAwait(false);
+        }
+
+        // Dispose all checked out browsers
+        foreach (var browser in _checkedOutBrowsers.Values)
+        {
+            await browser.DisposeAsync().ConfigureAwait(false);
+        }
+
+        _checkedOutBrowsers.Clear();
+
+        _poolSemaphore.Dispose();
+        _creationLock.Dispose();
+
+        _instance = null;
+        Trace.WriteLine("Browser pool disposed", "BROWSER_POOL");
+    }
+
     /// <summary>
     /// Gets or creates the singleton browser pool instance.
     /// </summary>
-    public static BrowserPool GetInstance(IBrowserType browserType, BrowserTypeLaunchOptions launchOptions, int maxPoolSize = 2)
+    public static BrowserPool GetInstance(IBrowserType browserType, BrowserTypeLaunchOptions launchOptions,
+        int maxPoolSize = 2)
     {
         if (_instance is null)
         {
@@ -113,9 +126,13 @@ public sealed class BrowserPool : IAsyncDisposable
                 newPooledBrowser.MarkCheckedOut();
                 _checkedOutBrowsers[newPooledBrowser.Id] = newPooledBrowser;
                 Interlocked.Increment(ref _currentPoolSize);
+
                 Trace.WriteLine(
                     $"Created new browser {newPooledBrowser.Id}, pool size: {_currentPoolSize}/{_maxPoolSize}",
                     "BROWSER_POOL");
+
+                // Trigger pre-warming of additional browsers on first checkout
+                TriggerPreWarm();
 
                 return newPooledBrowser;
             }
@@ -196,38 +213,122 @@ public sealed class BrowserPool : IAsyncDisposable
         Trace.WriteLine($"Removed failed browser {pooledBrowser.Id} from pool", "BROWSER_POOL");
     }
 
-    public async ValueTask DisposeAsync()
-    {
-        if (_disposed) return;
-
-        _disposed = true;
-
-        // Dispose all available browsers
-        while (_availableBrowsers.TryDequeue(out var browser))
-        {
-            await browser.DisposeAsync().ConfigureAwait(false);
-        }
-
-        // Dispose all checked out browsers
-        foreach (var browser in _checkedOutBrowsers.Values)
-        {
-            await browser.DisposeAsync().ConfigureAwait(false);
-        }
-
-        _checkedOutBrowsers.Clear();
-
-        _poolSemaphore.Dispose();
-        _creationLock.Dispose();
-
-        _instance = null;
-        Trace.WriteLine("Browser pool disposed", "BROWSER_POOL");
-    }
-
     /// <summary>
     /// Gets pool statistics for diagnostics
     /// </summary>
     public (int Available, int CheckedOut, int TotalCreated) GetStats() =>
         (_availableBrowsers.Count, _checkedOutBrowsers.Count, _currentPoolSize);
+
+    /// <summary>
+    ///     Triggers background pre-warming of additional browser instances.
+    ///     Called once after the first browser is created.
+    /// </summary>
+    private void TriggerPreWarm()
+    {
+        if (_preWarmStarted || _disposed)
+        {
+            return;
+        }
+
+        _preWarmStarted = true;
+
+        // Calculate how many additional browsers to pre-warm
+        // Leave at least 1 slot for the current checkout
+        var browsersToCreate = _maxPoolSize - 1;
+
+        if (browsersToCreate <= 0)
+        {
+            return;
+        }
+
+        Trace.WriteLine($"Pre-warming {browsersToCreate} additional browser(s) in background", "BROWSER_POOL");
+
+        // Fire and forget - pre-warm in background
+        _ = PreWarmAsync(browsersToCreate);
+    }
+
+    /// <summary>
+    ///     Pre-warms the pool by creating additional browser instances in the background.
+    /// </summary>
+    private async Task PreWarmAsync(int count)
+    {
+        var tasks = new List<Task>();
+
+        for (var i = 0; i < count; i++)
+        {
+            tasks.Add(CreatePreWarmBrowserAsync());
+        }
+
+        await Task.WhenAll(tasks).ConfigureAwait(false);
+
+        var stats = GetStats();
+
+        Trace.WriteLine($"Pre-warm complete. Pool stats: {stats.Available} available, {stats.CheckedOut} checked out, {
+            stats.TotalCreated} total", "BROWSER_POOL");
+    }
+
+    /// <summary>
+    ///     Creates a single browser for pre-warming and adds it to the available queue.
+    ///     Pre-warmed browsers do NOT hold semaphore slots - slots are acquired on checkout.
+    /// </summary>
+    private async Task CreatePreWarmBrowserAsync()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        try
+        {
+            await _creationLock.WaitAsync().ConfigureAwait(false);
+
+            try
+            {
+                // Check if we've already hit the max pool size
+                if (_currentPoolSize >= _maxPoolSize)
+                {
+                    return;
+                }
+
+                var browser = await _browserType.LaunchAsync(_launchOptions).ConfigureAwait(false);
+                var pooledBrowser = new PooledBrowser(browser, this);
+                Interlocked.Increment(ref _currentPoolSize);
+
+                // Add directly to available queue (not checked out, no semaphore slot held)
+                _availableBrowsers.Enqueue(pooledBrowser);
+
+                Trace.WriteLine($"Pre-warmed browser {pooledBrowser.Id}, pool size: {_currentPoolSize}/{_maxPoolSize}",
+                    "BROWSER_POOL");
+            }
+            finally
+            {
+                _creationLock.Release();
+            }
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"Failed to pre-warm browser: {ex.Message}", "BROWSER_POOL");
+        }
+    }
+
+    private static readonly Lock _instanceLock = new();
+
+    /// <summary>
+    ///     Maximum time to wait for a browser from the pool (5 minutes)
+    /// </summary>
+    private static readonly TimeSpan CheckoutTimeout = TimeSpan.FromMinutes(5);
+    private static BrowserPool? _instance;
+
+    private readonly ConcurrentQueue<PooledBrowser> _availableBrowsers = new();
+    private readonly ConcurrentDictionary<Guid, PooledBrowser> _checkedOutBrowsers = new();
+    private readonly SemaphoreSlim _poolSemaphore;
+    private readonly SemaphoreSlim _creationLock = new(1, 1);
+    private readonly BrowserTypeLaunchOptions _launchOptions;
+    private readonly IBrowserType _browserType;
+    private readonly int _maxPoolSize;
+    private int _currentPoolSize;
+    private bool _disposed;
+    private bool _preWarmStarted;
 }
 
 /// <summary>
@@ -235,16 +336,6 @@ public sealed class BrowserPool : IAsyncDisposable
 /// </summary>
 public sealed class PooledBrowser : IAsyncDisposable
 {
-    private readonly BrowserPool _pool;
-    private bool _disposed;
-
-    public Guid Id { get; } = Guid.NewGuid();
-    public IBrowser Browser { get; }
-    public DateTime CreatedAt { get; } = DateTime.UtcNow;
-    public DateTime? CheckedOutAt { get; private set; }
-    public DateTime? ReturnedAt { get; private set; }
-    public int UseCount { get; private set; }
-
     internal PooledBrowser(IBrowser browser, BrowserPool pool)
     {
         Browser = browser;
@@ -254,21 +345,32 @@ public sealed class PooledBrowser : IAsyncDisposable
         browser.Disconnected += OnBrowserDisconnected;
     }
 
-    private async void OnBrowserDisconnected(object? sender, IBrowser browser)
-    {
-        Trace.WriteLine($"Browser {Id} disconnected unexpectedly", "BROWSER_POOL");
-        await _pool.ReportFailedAsync(this).ConfigureAwait(false);
-    }
+    public Guid Id { get; } = Guid.NewGuid();
+    public IBrowser Browser { get; }
+    public DateTime CreatedAt { get; } = DateTime.UtcNow;
+    public DateTime? CheckedOutAt { get; private set; }
+    public DateTime? ReturnedAt { get; private set; }
+    public int UseCount { get; private set; }
 
-    internal void MarkCheckedOut()
+    public async ValueTask DisposeAsync()
     {
-        CheckedOutAt = DateTime.UtcNow;
-        UseCount++;
-    }
+        if (_disposed)
+        {
+            return;
+        }
 
-    internal void MarkReturned()
-    {
-        ReturnedAt = DateTime.UtcNow;
+        _disposed = true;
+
+        Browser.Disconnected -= OnBrowserDisconnected;
+
+        try
+        {
+            await Browser.CloseAsync().ConfigureAwait(false);
+        }
+        catch
+        {
+            // Ignore errors during browser close
+        }
     }
 
     /// <summary>
@@ -309,21 +411,23 @@ public sealed class PooledBrowser : IAsyncDisposable
         }
     }
 
-    public async ValueTask DisposeAsync()
+    private async void OnBrowserDisconnected(object? sender, IBrowser browser)
     {
-        if (_disposed) return;
-
-        _disposed = true;
-
-        Browser.Disconnected -= OnBrowserDisconnected;
-
-        try
-        {
-            await Browser.CloseAsync().ConfigureAwait(false);
-        }
-        catch
-        {
-            // Ignore errors during browser close
-        }
+        Trace.WriteLine($"Browser {Id} disconnected unexpectedly", "BROWSER_POOL");
+        await _pool.ReportFailedAsync(this).ConfigureAwait(false);
     }
+
+    internal void MarkCheckedOut()
+    {
+        CheckedOutAt = DateTime.UtcNow;
+        UseCount++;
+    }
+
+    internal void MarkReturned()
+    {
+        ReturnedAt = DateTime.UtcNow;
+    }
+
+    private readonly BrowserPool _pool;
+    private bool _disposed;
 }
