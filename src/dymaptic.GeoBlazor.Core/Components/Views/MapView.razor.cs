@@ -2414,8 +2414,8 @@ public partial class MapView : MapComponent
                     }/map-components/main.css");
             }
 
-            StateHasChanged();
             _firstRenderComplete = true;
+            StateHasChanged();
 
             return;
         }
