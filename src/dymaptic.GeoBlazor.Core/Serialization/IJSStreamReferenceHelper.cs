@@ -5,20 +5,27 @@ namespace dymaptic.GeoBlazor.Core.Serialization;
 /// </summary>
 public static class IJSStreamReferenceHelper
 {
+    public static async Task<Stream?> ReadJsStreamReferenceAsStream(this IJSStreamReference jsStreamReference,
+        long maxAllowedSize = 1_000_000_000L)
+    {
+        return await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
+    }
+
     /// <summary>
     ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific .NET type.
     /// </summary>
-    public static async Task<T?> ReadJsStreamReferenceAsJSON<T>(this IJSStreamReference jsStreamReference,
+    internal static async Task<T?> ReadJsStreamReferenceAsJSON<T>(this IJSStreamReference jsStreamReference,
         long maxAllowedSize = 1_000_000_000L)
     {
-        return (T?)await ReadJsStreamReferenceAsJSON(jsStreamReference, typeof(T), maxAllowedSize);
+        return (T?)await jsStreamReference.ReadJsStreamReferenceAsJSON(typeof(T), maxAllowedSize);
     }
 
     /// <summary>
     ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific .NET type.
     ///     This overload returns an <see cref="object" />, so the type does not need to be known at compile time.
     /// </summary>
-    public static async Task<object?> ReadJsStreamReferenceAsJSON(this IJSStreamReference jsStreamReference, Type returnType,
+    internal static async Task<object?> ReadJsStreamReferenceAsJSON(this IJSStreamReference jsStreamReference,
+        Type returnType,
         long maxAllowedSize = 1_000_000_000)
     {
         await using Stream stream = await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
@@ -32,11 +39,5 @@ public static class IJSStreamReferenceHelper
         }
 
         return JsonSerializer.Deserialize(json, returnType, GeoBlazorSerialization.JsonSerializerOptions);
-    }
-
-    public static async Task<Stream?> ReadJsStreamReferenceAsStream(this IJSStreamReference jsStreamReference,
-        long maxAllowedSize = 1_000_000_000L)
-    {
-        return await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
     }
 }

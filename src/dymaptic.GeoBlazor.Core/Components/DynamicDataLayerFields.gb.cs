@@ -2,14 +2,13 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
-///    Controls field visibility in the layer.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#DynamicDataLayer">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DynamicDataLayerFields.html">GeoBlazor Docs</a>
+///     Controls field visibility in the layer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#DynamicDataLayer">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class DynamicDataLayerFields : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -29,21 +28,21 @@ public partial class DynamicDataLayerFields : MapComponent
     ///     The name of the field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#DynamicDataLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public DynamicDataLayerFields(
-        string? alias = null,
+    public DynamicDataLayerFields(string? alias = null,
         string? name = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Alias = alias;
         Name = name;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DynamicDataLayerFields.html#dynamicdatalayerfieldsalias-property">GeoBlazor Docs</a>
     ///     The alias of the field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#DynamicDataLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -51,8 +50,9 @@ public partial class DynamicDataLayerFields : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Alias { get; set; }
-    
+
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DynamicDataLayerFields.html#dynamicdatalayerfieldsname-property">GeoBlazor Docs</a>
     ///     The name of the field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#DynamicDataLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,8 +60,9 @@ public partial class DynamicDataLayerFields : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -74,8 +75,17 @@ public partial class DynamicDataLayerFields : MapComponent
         {
             return Alias;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return Alias;
@@ -84,17 +94,18 @@ public partial class DynamicDataLayerFields : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "alias");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Alias = result;
+            Alias = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Alias)] = Alias;
+            ModifiedParameters[nameof(Alias)] = Alias;
         }
-         
+
         return Alias;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -104,8 +115,17 @@ public partial class DynamicDataLayerFields : MapComponent
         {
             return Name;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return Name;
@@ -114,18 +134,20 @@ public partial class DynamicDataLayerFields : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Name = result;
+            Name = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Name)] = Name;
+            ModifiedParameters[nameof(Name)] = Name;
         }
-         
+
         return Name;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -135,60 +157,73 @@ public partial class DynamicDataLayerFields : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAlias(string value)
+    public async Task SetAlias(string? value)
     {
 #pragma warning disable BL0005
         Alias = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Alias)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alias", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string value)
+    public async Task SetName(string? value)
     {
 #pragma warning disable BL0005
         Name = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Name)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
     }
-    
-#endregion
 
+#endregion
 }

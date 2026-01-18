@@ -227,11 +227,11 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any, vie
             }
         }
     }
+
     if (hasValue(dotNetLocatorSearchSource.id)) {
         jsObjectRefs[dotNetLocatorSearchSource.id] ??= jsObject;
         arcGisObjectRefs[dotNetLocatorSearchSource.id] ??= jsObject;
     }
-
     return dotNetLocatorSearchSource;
 }
 

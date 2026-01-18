@@ -5,22 +5,17 @@ import PortalWrapper from './portal';
 import { buildJsPortalProperties } from './portalProperties';
 import { buildJsPortalFeaturedGroups } from './portalFeaturedGroups';
 import { buildJsExtent } from './extent';
-import {IPropertyWrapper} from './definitions';
+import BaseComponent from "./baseComponent";
 
-export default class PortalGenerated implements IPropertyWrapper {
+export default class PortalGenerated extends BaseComponent {
     public component: Portal;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
     constructor(component: Portal) {
+        super(component);
         this.component = component;
-    }
-    
-    // region methods
-   
-    unwrap() {
-        return this.component;
     }
     
 
@@ -216,7 +211,8 @@ export default class PortalGenerated implements IPropertyWrapper {
             this.component.vectorBasemapGalleryGroupQuery = dotNetObject.vectorBasemapGalleryGroupQuery;
         }
     }
-    
+
+    // region methods
     async cancelLoad(): Promise<void> {
         this.component.cancelLoad();
     }
@@ -226,43 +222,47 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
 
     async fetchBasemaps(basemapGalleryGroupQuery: any,
-        options: any): Promise<any> {
+                        options: any,
+                        signal: AbortSignal): Promise<any> {
+        options.signal = signal;
         let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
             options);
         let { buildDotNetBasemap } = await import('./basemap');
-        return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.viewId)));
+        return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.layerId, this.viewId)));
     }
 
-    async fetchCategorySchema(options: any): Promise<any> {
+    async fetchCategorySchema(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.component.fetchCategorySchema(options);
     }
 
-    async fetchClassificationSchema(options: any): Promise<any> {
-        let result = await this.component.fetchClassificationSchema(options);
-        
-        return generateSerializableJson(result);
+    async fetchClassificationSchema(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
+        return await this.component.fetchClassificationSchema(options);
     }
 
-    async fetchDefault3DBasemap(options: any): Promise<any> {
+    async fetchDefault3DBasemap(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.component.fetchDefault3DBasemap(options);
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(result, this.viewId);
+        return await buildDotNetBasemap(result, this.layerId, this.viewId);
     }
 
-    async fetchFeaturedGroups(options: any): Promise<any> {
+    async fetchFeaturedGroups(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.component.fetchFeaturedGroups(options);
         let { buildDotNetPortalGroup } = await import('./portalGroup');
         return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
 
-    async fetchRegions(options: any): Promise<any> {
+    async fetchRegions(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.component.fetchRegions(options);
     }
 
-    async fetchSettings(options: any): Promise<any> {
-        let result = await this.component.fetchSettings(options);
-        
-        return generateSerializableJson(result);
+    async fetchSettings(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
+        return await this.component.fetchSettings(options);
     }
 
     async isFulfilled(): Promise<any> {
@@ -277,14 +277,14 @@ export default class PortalGenerated implements IPropertyWrapper {
         return this.component.isResolved();
     }
 
-    async load(options: any): Promise<any> {
-        let result = await this.component.load(options);
-        
-        return generateSerializableJson(result);
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
+        return await this.component.load(options);
     }
 
     async queryGroups(queryParams: any,
-        options: any): Promise<any> {
+                      signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryGroups(jsQueryParams,
@@ -292,7 +292,8 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
 
     async queryItems(queryParams: any,
-        options: any): Promise<any> {
+                     signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryItems(jsQueryParams,
@@ -300,7 +301,8 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
 
     async queryUsers(queryParams: any,
-        options: any): Promise<any> {
+                     signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryUsers(jsQueryParams,
@@ -309,15 +311,17 @@ export default class PortalGenerated implements IPropertyWrapper {
 
     async when(callback: any,
         errback: any): Promise<any> {
-        let result = await this.component.when(callback,
+        return await this.component.when(callback,
             errback);
-        
-        return generateSerializableJson(result);
     }
 
     // region properties
-    
-    getBasemapGalleryGroupQuery(): any {
+
+    async getBasemapGalleryGroupQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.basemapGalleryGroupQuery)) {
             return null;
         }
@@ -328,8 +332,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setBasemapGalleryGroupQuery(value: any): void {
         this.component.basemapGalleryGroupQuery = JSON.parse(value);
     }
-    
-    getBasemapGalleryGroupQuery3D(): any {
+
+    async getBasemapGalleryGroupQuery3D(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.basemapGalleryGroupQuery3D)) {
             return null;
         }
@@ -340,8 +348,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setBasemapGalleryGroupQuery3D(value: any): void {
         this.component.basemapGalleryGroupQuery3D = JSON.parse(value);
     }
-    
-    getBingKey(): any {
+
+    async getBingKey(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.bingKey)) {
             return null;
         }
@@ -352,8 +364,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setBingKey(value: any): void {
         this.component.bingKey = JSON.parse(value);
     }
-    
-    getColorSetsGroupQuery(): any {
+
+    async getColorSetsGroupQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.colorSetsGroupQuery)) {
             return null;
         }
@@ -364,8 +380,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setColorSetsGroupQuery(value: any): void {
         this.component.colorSetsGroupQuery = JSON.parse(value);
     }
-    
-    getCulture(): any {
+
+    async getCulture(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.culture)) {
             return null;
         }
@@ -376,8 +396,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setCulture(value: any): void {
         this.component.culture = JSON.parse(value);
     }
-    
-    getCustomBaseUrl(): any {
+
+    async getCustomBaseUrl(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.customBaseUrl)) {
             return null;
         }
@@ -388,8 +412,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setCustomBaseUrl(value: any): void {
         this.component.customBaseUrl = JSON.parse(value);
     }
-    
-    getDefault3DBasemapQuery(): any {
+
+    async getDefault3DBasemapQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.default3DBasemapQuery)) {
             return null;
         }
@@ -402,12 +430,16 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
     
     async getDefaultBasemap(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.defaultBasemap)) {
             return null;
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultBasemap, this.viewId);
+        return await buildDotNetBasemap(this.component.defaultBasemap, this.layerId, this.viewId);
     }
     
     async setDefaultBasemap(value: any): Promise<void> {
@@ -416,12 +448,16 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
     
     async getDefaultDevBasemap(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.defaultDevBasemap)) {
             return null;
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultDevBasemap, this.viewId);
+        return await buildDotNetBasemap(this.component.defaultDevBasemap, this.layerId, this.viewId);
     }
     
     async setDefaultDevBasemap(value: any): Promise<void> {
@@ -430,6 +466,10 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
     
     async getDefaultExtent(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.defaultExtent)) {
             return null;
         }
@@ -444,20 +484,28 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
     
     async getDefaultVectorBasemap(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.defaultVectorBasemap)) {
             return null;
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultVectorBasemap, this.viewId);
+        return await buildDotNetBasemap(this.component.defaultVectorBasemap, this.layerId, this.viewId);
     }
     
     async setDefaultVectorBasemap(value: any): Promise<void> {
         let { buildJsBasemap } = await import('./basemap');
         this.component.defaultVectorBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
-    
-    getDescription(): any {
+
+    async getDescription(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.description)) {
             return null;
         }
@@ -468,8 +516,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setDescription(value: any): void {
         this.component.description = JSON.parse(value);
     }
-    
-    getDevBasemapGalleryGroupQuery(): any {
+
+    async getDevBasemapGalleryGroupQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.devBasemapGalleryGroupQuery)) {
             return null;
         }
@@ -482,6 +534,10 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
     
     async getFeaturedGroups(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.featuredGroups)) {
             return null;
         }
@@ -497,8 +553,12 @@ export default class PortalGenerated implements IPropertyWrapper {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
         this.component.featuredGroups = await Promise.all(value.map(async i => await buildJsPortalFeaturedGroups(i))) as any;
     }
-    
-    getFeaturedItemsGroupQuery(): any {
+
+    async getFeaturedItemsGroupQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.featuredItemsGroupQuery)) {
             return null;
         }
@@ -509,8 +569,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setFeaturedItemsGroupQuery(value: any): void {
         this.component.featuredItemsGroupQuery = JSON.parse(value);
     }
-    
-    getGalleryTemplatesGroupQuery(): any {
+
+    async getGalleryTemplatesGroupQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.galleryTemplatesGroupQuery)) {
             return null;
         }
@@ -521,8 +585,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setGalleryTemplatesGroupQuery(value: any): void {
         this.component.galleryTemplatesGroupQuery = JSON.parse(value);
     }
-    
-    getHomePageFeaturedContent(): any {
+
+    async getHomePageFeaturedContent(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.homePageFeaturedContent)) {
             return null;
         }
@@ -533,8 +601,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setHomePageFeaturedContent(value: any): void {
         this.component.homePageFeaturedContent = JSON.parse(value);
     }
-    
-    getIpCntryCode(): any {
+
+    async getIpCntryCode(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.ipCntryCode)) {
             return null;
         }
@@ -545,8 +617,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setIpCntryCode(value: any): void {
         this.component.ipCntryCode = JSON.parse(value);
     }
-    
-    getLayerTemplatesGroupQuery(): any {
+
+    async getLayerTemplatesGroupQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.layerTemplatesGroupQuery)) {
             return null;
         }
@@ -557,8 +633,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setLayerTemplatesGroupQuery(value: any): void {
         this.component.layerTemplatesGroupQuery = JSON.parse(value);
     }
-    
-    getName(): any {
+
+    async getName(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.name)) {
             return null;
         }
@@ -569,8 +649,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setName(value: any): void {
         this.component.name = JSON.parse(value);
     }
-    
-    getPortalHostname(): any {
+
+    async getPortalHostname(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.portalHostname)) {
             return null;
         }
@@ -581,8 +665,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setPortalHostname(value: any): void {
         this.component.portalHostname = JSON.parse(value);
     }
-    
-    getPortalId(): any {
+
+    async getPortalId(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.id)) {
             return null;
         }
@@ -595,6 +683,10 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
     
     async getPortalProperties(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.portalProperties)) {
             return null;
         }
@@ -607,8 +699,12 @@ export default class PortalGenerated implements IPropertyWrapper {
         let { buildJsPortalProperties } = await import('./portalProperties');
         this.component.portalProperties =  buildJsPortalProperties(value);
     }
-    
-    getRegion(): any {
+
+    async getRegion(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.region)) {
             return null;
         }
@@ -619,24 +715,36 @@ export default class PortalGenerated implements IPropertyWrapper {
     setRegion(value: any): void {
         this.component.region = JSON.parse(value);
     }
-    
-    getRestUrl(): any {
+
+    async getRestUrl(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.restUrl)) {
             return null;
         }
         
         return generateSerializableJson(this.component.restUrl);
     }
-    
-    getSourceJSON(): any {
+
+    async getSourceJSON(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.sourceJSON)) {
             return null;
         }
         
         return generateSerializableJson(this.component.sourceJSON);
     }
-    
-    getSymbolSetsGroupQuery(): any {
+
+    async getSymbolSetsGroupQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.symbolSetsGroupQuery)) {
             return null;
         }
@@ -647,8 +755,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setSymbolSetsGroupQuery(value: any): void {
         this.component.symbolSetsGroupQuery = JSON.parse(value);
     }
-    
-    getTemplatesGroupQuery(): any {
+
+    async getTemplatesGroupQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.templatesGroupQuery)) {
             return null;
         }
@@ -659,16 +771,24 @@ export default class PortalGenerated implements IPropertyWrapper {
     setTemplatesGroupQuery(value: any): void {
         this.component.templatesGroupQuery = JSON.parse(value);
     }
-    
-    getThumbnailUrl(): any {
+
+    async getThumbnailUrl(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.thumbnailUrl)) {
             return null;
         }
         
         return generateSerializableJson(this.component.thumbnailUrl);
     }
-    
-    getUrl(): any {
+
+    async getUrl(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.url)) {
             return null;
         }
@@ -679,8 +799,12 @@ export default class PortalGenerated implements IPropertyWrapper {
     setUrl(value: any): void {
         this.component.url = JSON.parse(value);
     }
-    
-    getUrlKey(): any {
+
+    async getUrlKey(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.urlKey)) {
             return null;
         }
@@ -693,6 +817,10 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
     
     async getUser(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.user)) {
             return null;
         }
@@ -705,8 +833,12 @@ export default class PortalGenerated implements IPropertyWrapper {
         let { buildJsPortalUser } = await import('./portalUser');
         this.component.user = await  buildJsPortalUser(value, this.layerId, this.viewId);
     }
-    
-    getVectorBasemapGalleryGroupQuery(): any {
+
+    async getVectorBasemapGalleryGroupQuery(): Promise<any> {
+        if (this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
         if (!hasValue(this.component.vectorBasemapGalleryGroupQuery)) {
             return null;
         }
@@ -718,13 +850,6 @@ export default class PortalGenerated implements IPropertyWrapper {
         this.component.vectorBasemapGalleryGroupQuery = JSON.parse(value);
     }
     
-    getProperty(prop: string): any {
-        return this.component[prop];
-    }
-    
-    setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
-    }
 }
 
 
@@ -935,7 +1060,7 @@ export function buildJsPortalGenerated(dotNetObject: any, layerId: string | null
 }
 
 
-export async function buildDotNetPortalGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -1223,11 +1348,18 @@ export async function buildDotNetPortalGenerated(jsObject: any, viewId: string |
             }
         }
     }
+
     if (hasValue(dotNetPortal.id)) {
-        jsObjectRefs[dotNetPortal.id] ??= jsObject;
+        if (!jsObjectRefs.hasOwnProperty(dotNetPortal.id)) {
+            let {default: PortalWrapper} = await import('./portal');
+            let portalWrapper = new PortalWrapper(jsObject);
+            portalWrapper.geoBlazorId = dotNetPortal.id;
+            portalWrapper.viewId = viewId;
+            portalWrapper.layerId = layerId;
+            jsObjectRefs[dotNetPortal.id] = portalWrapper;
+        }
         arcGisObjectRefs[dotNetPortal.id] ??= jsObject;
     }
-
     return dotNetPortal;
 }
 

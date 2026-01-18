@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html">GeoBlazor Docs</a>
 ///     Describes the schema of the SizeRampStop element.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class SizeRampStop : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -46,8 +44,7 @@ public partial class SizeRampStop : MapComponent
     ///     The value of the size visual variable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#stops">stop</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SizeRampStop(
-        string? label = null,
+    public SizeRampStop(string? label = null,
         int? outlineSize = null,
         ElementReference? preview = null,
         double? size = null,
@@ -62,10 +59,50 @@ public partial class SizeRampStop : MapComponent
         Size = size;
         Symbol = symbol;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Symbol?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Symbol symbol:
+                if (symbol != Symbol)
+                {
+                    Symbol = symbol;
+                    ModifiedParameters[nameof(Symbol)] = Symbol;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Symbol _:
+                Symbol = null;
+                ModifiedParameters[nameof(Symbol)] = Symbol;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -77,7 +114,7 @@ public partial class SizeRampStop : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstopoutlinesize-property">GeoBlazor Docs</a>
     ///     The width of the outline in points.
@@ -87,7 +124,7 @@ public partial class SizeRampStop : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? OutlineSize { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstoppreview-property">GeoBlazor Docs</a>
     ///     The HTML element rendered in the legend representing features with the given value.
@@ -97,7 +134,7 @@ public partial class SizeRampStop : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElementReference? Preview { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstopsize-property">GeoBlazor Docs</a>
     ///     The size of the visual variable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-ColorVariable.html#stops">stop</a> in points.
@@ -107,7 +144,7 @@ public partial class SizeRampStop : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Size { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstopsymbol-property">GeoBlazor Docs</a>
     ///     The symbol corresponding to the value of the stop in the renderer.
@@ -117,7 +154,7 @@ public partial class SizeRampStop : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? Symbol { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstopvalue-property">GeoBlazor Docs</a>
     ///     The value of the size visual variable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#stops">stop</a>.
@@ -127,8 +164,9 @@ public partial class SizeRampStop : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Value { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -141,8 +179,8 @@ public partial class SizeRampStop : MapComponent
         {
             return Label;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -151,7 +189,7 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Label;
@@ -160,17 +198,18 @@ public partial class SizeRampStop : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "label");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Label = result;
+            Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
+            ModifiedParameters[nameof(Label)] = Label;
         }
-         
+
         return Label;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutlineSize property.
     /// </summary>
@@ -180,8 +219,8 @@ public partial class SizeRampStop : MapComponent
         {
             return OutlineSize;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -190,26 +229,28 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return OutlineSize;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "outlineSize");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             OutlineSize = result.Value.Value;
+            OutlineSize = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(OutlineSize)] = OutlineSize;
+            ModifiedParameters[nameof(OutlineSize)] = OutlineSize;
         }
-         
+
         return OutlineSize;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Preview property.
     /// </summary>
@@ -219,8 +260,8 @@ public partial class SizeRampStop : MapComponent
         {
             return Preview;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -229,26 +270,28 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Preview;
         }
 
         // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "preview");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Preview = result.Value.Value;
+            Preview = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Preview)] = Preview;
+            ModifiedParameters[nameof(Preview)] = Preview;
         }
-         
+
         return Preview;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -258,8 +301,8 @@ public partial class SizeRampStop : MapComponent
         {
             return Size;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -268,26 +311,28 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Size;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "size");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Size = result.Value.Value;
+            Size = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Size)] = Size;
+            ModifiedParameters[nameof(Size)] = Size;
         }
-         
+
         return Size;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Symbol property.
     /// </summary>
@@ -297,8 +342,8 @@ public partial class SizeRampStop : MapComponent
         {
             return Symbol;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -307,15 +352,14 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Symbol;
         }
 
-        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
-            "getSymbol", CancellationTokenSource.Token);
-        
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>("getSymbol", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -323,10 +367,10 @@ public partial class SizeRampStop : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Symbol)] = Symbol;
         }
-        
+
         return Symbol;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -336,8 +380,8 @@ public partial class SizeRampStop : MapComponent
         {
             return Value;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -346,7 +390,7 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Value;
@@ -355,18 +399,20 @@ public partial class SizeRampStop : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "value");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result;
+            Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+            ModifiedParameters[nameof(Value)] = Value;
         }
-         
+
         return Value;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -382,13 +428,13 @@ public partial class SizeRampStop : MapComponent
         Label = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Label)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -397,16 +443,16 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OutlineSize property after render.
     /// </summary>
@@ -419,13 +465,13 @@ public partial class SizeRampStop : MapComponent
         OutlineSize = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OutlineSize)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -434,16 +480,16 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outlineSize", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Preview property after render.
     /// </summary>
@@ -456,13 +502,13 @@ public partial class SizeRampStop : MapComponent
         Preview = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Preview)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -471,16 +517,16 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "preview", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -493,13 +539,13 @@ public partial class SizeRampStop : MapComponent
         Size = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Size)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -508,16 +554,16 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Symbol property after render.
     /// </summary>
@@ -528,23 +574,20 @@ public partial class SizeRampStop : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Symbol = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Symbol)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -553,16 +596,16 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "symbol", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -575,13 +618,13 @@ public partial class SizeRampStop : MapComponent
         Value = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Value)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -590,57 +633,15 @@ public partial class SizeRampStop : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Symbol symbol:
-                if (symbol != Symbol)
-                {
-                    Symbol = symbol;
-                    ModifiedParameters[nameof(Symbol)] = Symbol;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Symbol _:
-                Symbol = null;
-                ModifiedParameters[nameof(Symbol)] = Symbol;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Symbol?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

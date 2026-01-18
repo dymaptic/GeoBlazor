@@ -93,11 +93,11 @@ export async function buildDotNetPopupVisibleElementsGenerated(jsObject: any, la
             }
         }
     }
+
     if (hasValue(dotNetPopupVisibleElements.id)) {
         jsObjectRefs[dotNetPopupVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetPopupVisibleElements.id] ??= jsObject;
     }
-
     return dotNetPopupVisibleElements;
 }
 

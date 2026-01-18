@@ -62,11 +62,11 @@ export async function buildDotNetSearchLayerGenerated(jsObject: any, layerId: st
             }
         }
     }
+
     if (hasValue(dotNetSearchLayer.id)) {
         jsObjectRefs[dotNetSearchLayer.id] ??= jsObject;
         arcGisObjectRefs[dotNetSearchLayer.id] ??= jsObject;
     }
-
     return dotNetSearchLayer;
 }
 

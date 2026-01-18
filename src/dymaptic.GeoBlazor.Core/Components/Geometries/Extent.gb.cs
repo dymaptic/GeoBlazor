@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html">GeoBlazor Docs</a>
 ///     The minimum and maximum X and Y coordinates of a bounding box.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 /// </summary>
 public partial class Extent
 {
-
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -22,7 +20,7 @@ public partial class Extent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Point? Center { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentheight-property">GeoBlazor Docs</a>
     ///     The height of the extent in map units (the distance between <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#ymin">ymin</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#ymax">ymax</a>).
@@ -32,7 +30,7 @@ public partial class Extent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public double? Height { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentwidth-property">GeoBlazor Docs</a>
     ///     The width of the extent in map units (the distance between <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#xmin">xmin</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html#xmax">xmax</a>).
@@ -42,8 +40,9 @@ public partial class Extent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public double? Width { get; protected set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -56,8 +55,8 @@ public partial class Extent
         {
             return Center;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -66,31 +65,32 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Center;
         }
 
-        Point? result = await JsComponentReference.InvokeAsync<Point?>(
-            "getCenter", CancellationTokenSource.Token);
-        
+        Point? result = await JsComponentReference.InvokeAsync<Point?>("getCenter", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Center is not null)
             {
                 result.Id = Center.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             Center = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Center)] = Center;
         }
-        
+
         return Center;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Height property.
     /// </summary>
@@ -100,8 +100,8 @@ public partial class Extent
         {
             return Height;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -110,26 +110,28 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Height;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "height");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Height = result.Value.Value;
+            Height = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Height)] = Height;
+            ModifiedParameters[nameof(Height)] = Height;
         }
-         
+
         return Height;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mmax property.
     /// </summary>
@@ -139,8 +141,8 @@ public partial class Extent
         {
             return Mmax;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -149,26 +151,28 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Mmax;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "mmax");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Mmax = result.Value.Value;
+            Mmax = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Mmax)] = Mmax;
+            ModifiedParameters[nameof(Mmax)] = Mmax;
         }
-         
+
         return Mmax;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mmin property.
     /// </summary>
@@ -178,8 +182,8 @@ public partial class Extent
         {
             return Mmin;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -188,26 +192,28 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Mmin;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "mmin");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Mmin = result.Value.Value;
+            Mmin = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Mmin)] = Mmin;
+            ModifiedParameters[nameof(Mmin)] = Mmin;
         }
-         
+
         return Mmin;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -217,8 +223,8 @@ public partial class Extent
         {
             return Width;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -227,26 +233,28 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Width;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "width");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Width = result.Value.Value;
+            Width = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Width)] = Width;
+            ModifiedParameters[nameof(Width)] = Width;
         }
-         
+
         return Width;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Zmax property.
     /// </summary>
@@ -256,8 +264,8 @@ public partial class Extent
         {
             return Zmax;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -266,26 +274,28 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Zmax;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "zmax");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Zmax = result.Value.Value;
+            Zmax = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Zmax)] = Zmax;
+            ModifiedParameters[nameof(Zmax)] = Zmax;
         }
-         
+
         return Zmax;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Zmin property.
     /// </summary>
@@ -295,8 +305,8 @@ public partial class Extent
         {
             return Zmin;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -305,27 +315,30 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Zmin;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "zmin");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Zmin = result.Value.Value;
+            Zmin = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Zmin)] = Zmin;
+            ModifiedParameters[nameof(Zmin)] = Zmin;
         }
-         
+
         return Zmin;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -341,13 +354,13 @@ public partial class Extent
         Mmax = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Mmax)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -356,16 +369,16 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mmax", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Mmin property after render.
     /// </summary>
@@ -378,13 +391,13 @@ public partial class Extent
         Mmin = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Mmin)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -393,16 +406,16 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mmin", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Zmax property after render.
     /// </summary>
@@ -415,13 +428,13 @@ public partial class Extent
         Zmax = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Zmax)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -430,16 +443,16 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zmax", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Zmin property after render.
     /// </summary>
@@ -452,13 +465,13 @@ public partial class Extent
         Zmin = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Zmin)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -467,17 +480,18 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zmin", value);
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
@@ -496,7 +510,7 @@ public partial class Extent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -506,18 +520,17 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "centerAt", 
+
+        return await JsComponentReference!.InvokeAsync<Extent?>("centerAt",
             CancellationTokenSource.Token,
             point);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentcontains-method">GeoBlazor Docs</a>
     ///     Checks if the input geometry is contained within the extent.
@@ -533,7 +546,7 @@ public partial class Extent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -543,18 +556,17 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "contains", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("contains",
             CancellationTokenSource.Token,
             geometry);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentexpand-method">GeoBlazor Docs</a>
     ///     Expands the extent by the given factor.
@@ -570,7 +582,7 @@ public partial class Extent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -580,18 +592,17 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "expand", 
+
+        return await JsComponentReference!.InvokeAsync<Extent?>("expand",
             CancellationTokenSource.Token,
             factor);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentintersection-method">GeoBlazor Docs</a>
     ///     Shrinks the original extent to the intersection with the input extent.
@@ -607,7 +618,7 @@ public partial class Extent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -617,18 +628,17 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "intersection", 
+
+        return await JsComponentReference!.InvokeAsync<Extent?>("intersection",
             CancellationTokenSource.Token,
             extent);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentintersects-method">GeoBlazor Docs</a>
     ///     Tests to validate if the input geometry intersects the extent and returns a Boolean value.
@@ -644,7 +654,7 @@ public partial class Extent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -654,18 +664,17 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "intersects", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("intersects",
             CancellationTokenSource.Token,
             geometry);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentnormalize-method">GeoBlazor Docs</a>
     ///     Returns an array with either one Extent that's been shifted to within +/- 180 or two Extents
@@ -679,7 +688,7 @@ public partial class Extent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -689,17 +698,16 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Extent[]?>(
-            "normalize", 
+
+        return await JsComponentReference!.InvokeAsync<Extent[]?>("normalize",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentoffset-method">GeoBlazor Docs</a>
     ///     Modifies the extent geometry in-place with X and Y offsets in map units.
@@ -724,7 +732,7 @@ public partial class Extent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -734,20 +742,19 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "offset", 
+
+        return await JsComponentReference!.InvokeAsync<Extent?>("offset",
             CancellationTokenSource.Token,
             dx,
             dy,
             dz);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html#extentunion-method">GeoBlazor Docs</a>
     ///     Expands the original extent to include the extent of the input Extent.
@@ -763,7 +770,7 @@ public partial class Extent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -773,18 +780,16 @@ public partial class Extent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Extent?>(
-            "union", 
+
+        return await JsComponentReference!.InvokeAsync<Extent?>("union",
             CancellationTokenSource.Token,
             extent);
     }
-    
-#endregion
 
+#endregion
 }

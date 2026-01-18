@@ -1,6 +1,4 @@
-﻿
-
-// ReSharper disable RedundantCast
+﻿// ReSharper disable RedundantCast
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 
@@ -172,13 +170,15 @@ public class SceneView : MapView
                 Tilt,
                 ZIndex
             });
+
         if (change is not null)
         {
             Extent = change.Extent;
         }
+
         ShouldUpdate = true;
     }
-    
+
     /// <inheritdoc />
     protected override async Task BuildMapView()
     {
@@ -192,17 +192,40 @@ public class SceneView : MapView
                 CancellationTokenSource.Token, abortSignal, Id, DotNetComponentReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
+#pragma warning disable CS0618 // Type or member is obsolete
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
-                PopupEnabled, Theme?.ToString().ToLowerInvariant(), AllowDefaultEsriLogin, 
-                AuthenticationManager.ExcludeApiKey ? null : AuthenticationManager.ApiKey, AuthenticationManager.AppId, 
+#pragma warning restore CS0618 // Type or member is obsolete
+                PopupEnabled, Theme?.ToString().ToLowerInvariant(), AllowDefaultEsriLogin,
+                AuthenticationManager.ExcludeApiKey ? null : AuthenticationManager.ApiKey, AuthenticationManager.AppId,
                 ZIndex, Tilt);
             await AbortManager.DisposeAbortController(CancellationTokenSource.Token);
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+#if DEBUG
+            ErrorMessage = ex.Message.Replace("\n", "<br>");
+#endif
+            await Console.Error.WriteLineAsync($"Error building map view: {ex.Message}{Environment.NewLine}{
+                ex.StackTrace}");
 
-            throw;
+            var handled = false;
+
+            if (OnJavascriptErrorHandler is not null)
+            {
+                await OnJavascriptErrorHandler(
+                    new JavascriptException(new JavascriptError(ex.Message, nameof(BuildMapView), ex.StackTrace)));
+                handled = true;
+            }
+
+            if (OnExceptionHandler is not null)
+            {
+                handled = await OnExceptionHandler(ex);
+            }
+
+            if (!handled)
+            {
+                throw;
+            }
         }
         finally
         {

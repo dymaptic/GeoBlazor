@@ -78,11 +78,11 @@ export async function buildDotNetQueryTableDataSourceGenerated(jsObject: any, la
             }
         }
     }
+
     if (hasValue(dotNetQueryTableDataSource.id)) {
         jsObjectRefs[dotNetQueryTableDataSource.id] ??= jsObject;
         arcGisObjectRefs[dotNetQueryTableDataSource.id] ??= jsObject;
     }
-
     return dotNetQueryTableDataSource;
 }
 

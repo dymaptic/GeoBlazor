@@ -1,8 +1,21 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
+/// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IHighlightLayerViewMixin.html">GeoBlazor Docs</a>
+///     Interface for types CatalogFootprintLayerView, CSVLayerView, FeatureLayerView, GeoJSONLayerView, GraphicsLayerView, OGCFeatureLayerView, ParquetLayerView, StreamLayerView, WFSLayerView
+/// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IHighlightLayerViewMixin>))]
-public partial interface IHighlightLayerViewMixin
+[CodeGenerationIgnore]
+public interface IHighlightLayerViewMixin
 {
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IHighlightLayerViewMixin.html#ihighlightlayerviewmixinhighlightoptions-property">GeoBlazor Docs</a>
+    ///     Options for configuring the highlight.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-HighlightLayerViewMixin.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Obsolete($"Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
+    HighlightOptions? HighlightOptions { get; set; }
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
@@ -14,7 +27,7 @@ public partial interface IHighlightLayerViewMixin
     /// </returns>
     [CodeGenerationIgnore]
     Task<Handle> Highlight(ObjectId objectId);
-    
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
@@ -29,7 +42,7 @@ public partial interface IHighlightLayerViewMixin
     /// </exception>
     [CodeGenerationIgnore]
     Task<Handle> Highlight(IReadOnlyCollection<ObjectId> objectIds);
-    
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
@@ -44,7 +57,7 @@ public partial interface IHighlightLayerViewMixin
     /// </exception>
     [CodeGenerationIgnore]
     Task<Handle> Highlight(Graphic graphic);
-    
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>

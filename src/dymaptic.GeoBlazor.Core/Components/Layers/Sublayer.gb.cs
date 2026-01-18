@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html">GeoBlazor Docs</a>
 ///     Represents a sublayer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">MapImageLayer</a> or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">TileLayer</a>.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public partial class Sublayer
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -61,7 +59,7 @@ public partial class Sublayer
     /// </param>
     /// <param name="title">
     ///     The title of the sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -115,8 +113,12 @@ public partial class Sublayer
     ///     This property is used to configure the associated layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html">FeatureTable</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#attributeTableTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Sublayer(
-        long? sublayerId = null,
+    /// <param name="objectIdField">
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#fields">field</a> containing a unique value or identifier for each
+    ///     feature in the Sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public Sublayer(long? sublayerId = null,
         bool? labelsVisible = null,
         bool? legendEnabled = null,
         ListMode? listMode = null,
@@ -135,7 +137,8 @@ public partial class Sublayer
         IReadOnlyList<Sublayer>? sublayers = null,
         IReadOnlyList<OrderByInfo>? orderBy = null,
         string? url = null,
-        IAttributeTableTemplate? attributeTableTemplate = null)
+        IAttributeTableTemplate? attributeTableTemplate = null,
+        string? objectIdField = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -159,10 +162,149 @@ public partial class Sublayer
         OrderBy = orderBy;
         Url = url;
         AttributeTableTemplate = attributeTableTemplate;
-#pragma warning restore BL0005    
+        ObjectIdField = objectIdField;
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (LabelingInfo is not null)
+        {
+            foreach (Label child in LabelingInfo)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        if (OrderBy is not null)
+        {
+            foreach (OrderByInfo child in OrderBy)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        PopupTemplate?.ValidateRequiredGeneratedChildren();
+        Renderer?.ValidateRequiredGeneratedChildren();
+        Source?.ValidateRequiredGeneratedChildren();
+
+        if (Sublayers is not null)
+        {
+            foreach (Sublayer child in Sublayers)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Label labelingInfo:
+                LabelingInfo ??= [];
+
+                if (!LabelingInfo.Contains(labelingInfo))
+                {
+                    LabelingInfo = [..LabelingInfo, labelingInfo];
+                    ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                }
+
+                return true;
+            case OrderByInfo orderBy:
+                OrderBy ??= [];
+
+                if (!OrderBy.Contains(orderBy))
+                {
+                    OrderBy = [..OrderBy, orderBy];
+                    ModifiedParameters[nameof(OrderBy)] = OrderBy;
+                }
+
+                return true;
+            case PopupTemplate popupTemplate:
+                if (popupTemplate != PopupTemplate)
+                {
+                    PopupTemplate = popupTemplate;
+                    ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                }
+
+                return true;
+            case Renderer renderer:
+                if (renderer != Renderer)
+                {
+                    Renderer = renderer;
+                    ModifiedParameters[nameof(Renderer)] = Renderer;
+                }
+
+                return true;
+            case DynamicLayer source:
+                if (source != Source)
+                {
+                    Source = source;
+                    ModifiedParameters[nameof(Source)] = Source;
+                }
+
+                return true;
+            case Sublayer sublayers:
+                Sublayers ??= [];
+
+                if (!Sublayers.Contains(sublayers))
+                {
+                    Sublayers = [..Sublayers, sublayers];
+                    ModifiedParameters[nameof(Sublayers)] = Sublayers;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Label labelingInfo:
+                LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
+                ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+
+                return true;
+            case OrderByInfo orderBy:
+                OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
+                ModifiedParameters[nameof(OrderBy)] = OrderBy;
+
+                return true;
+            case PopupTemplate _:
+                PopupTemplate = null;
+                ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+
+                return true;
+            case Renderer _:
+                Renderer = null;
+                ModifiedParameters[nameof(Renderer)] = Renderer;
+
+                return true;
+            case DynamicLayer _:
+                Source = null;
+                ModifiedParameters[nameof(Source)] = Source;
+
+                return true;
+            case Sublayer sublayers:
+                Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
+                ModifiedParameters[nameof(Sublayers)] = Sublayers;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -174,7 +316,7 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IAttributeTableTemplate? AttributeTableTemplate { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
@@ -184,7 +326,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public SublayerCapabilities? Capabilities { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerfields-property">GeoBlazor Docs</a>
     ///     An array of fields in the Sublayer.
@@ -194,7 +336,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<Field>? Fields { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerfieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#field">field</a> by name.
@@ -204,7 +346,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public FieldsIndex? FieldsIndex { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerfullextent-property">GeoBlazor Docs</a>
     ///     The full extent of the Sublayer.
@@ -214,7 +356,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Extent? FullExtent { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayeristable-property">GeoBlazor Docs</a>
     ///     Returns `true` if the sublayer is a non-spatial table in a map service.
@@ -225,7 +367,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? IsTable { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerlabelinginfo-property">GeoBlazor Docs</a>
     ///     The label definition for this layer,
@@ -236,7 +378,7 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Label>? LabelingInfo { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerobjectidfield-property">GeoBlazor Docs</a>
     ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#fields">field</a> containing a unique value or identifier for each
@@ -247,7 +389,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? ObjectIdField { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerorderby-property">GeoBlazor Docs</a>
     ///     Determines the order in which features are drawn in the view.
@@ -258,7 +400,7 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<OrderByInfo>? OrderBy { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerpopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template for the sublayer.
@@ -268,7 +410,7 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PopupTemplate? PopupTemplate { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerrelationships-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">relationships</a> associated with the sublayer.
@@ -278,7 +420,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<Relationship>? Relationships { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerrenderer-property">GeoBlazor Docs</a>
     ///     The renderer to apply to the sublayer.
@@ -288,7 +430,7 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Renderer? Renderer { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayersource-property">GeoBlazor Docs</a>
     ///     An object that allows you to create a dynamic layer with data
@@ -299,7 +441,7 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DynamicLayer? Source { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayersourcejson-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/map-service.htm">map service's metadata JSON</a>
@@ -310,7 +452,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? SourceJSON { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerspatialreference-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">spatial reference</a> of the sublayer as defined by the service.
@@ -320,7 +462,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public SpatialReference? SpatialReference { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayersublayerid-property">GeoBlazor Docs</a>
     ///     The sublayer's layer ID.
@@ -330,7 +472,7 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public long? SublayerId { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayersublayers-property">GeoBlazor Docs</a>
     ///     If a sublayer contains sublayers, this
@@ -343,7 +485,7 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Sublayer>? Sublayers { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayertypeidfield-property">GeoBlazor Docs</a>
     ///     The name of the field holding the type ID or subtypes for the features.
@@ -353,7 +495,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? TypeIdField { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayertypes-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureType.html">types</a> defined in the feature service exposed by ArcGIS REST API.
@@ -363,7 +505,7 @@ public partial class Sublayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<FeatureType>? Types { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerurl-property">GeoBlazor Docs</a>
     ///     The URL to the REST endpoint of the sublayer.
@@ -373,8 +515,9 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -387,8 +530,8 @@ public partial class Sublayer
         {
             return AttributeTableTemplate;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -397,26 +540,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AttributeTableTemplate;
         }
 
         // get the property value
-        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>("getProperty",
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>(
+            "getProperty",
             CancellationTokenSource.Token, "attributeTableTemplate");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AttributeTableTemplate = result;
+            AttributeTableTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+            ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
         }
-         
+
         return AttributeTableTemplate;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -426,8 +571,8 @@ public partial class Sublayer
         {
             return Capabilities;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -436,7 +581,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Capabilities;
@@ -445,17 +590,18 @@ public partial class Sublayer
         // get the property value
         SublayerCapabilities? result = await JsComponentReference!.InvokeAsync<SublayerCapabilities?>("getProperty",
             CancellationTokenSource.Token, "capabilities");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Capabilities = result;
+            Capabilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+            ModifiedParameters[nameof(Capabilities)] = Capabilities;
         }
-         
+
         return Capabilities;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefinitionExpression property.
     /// </summary>
@@ -465,8 +611,8 @@ public partial class Sublayer
         {
             return DefinitionExpression;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -475,7 +621,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return DefinitionExpression;
@@ -484,17 +630,18 @@ public partial class Sublayer
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "definitionExpression");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefinitionExpression = result;
+            DefinitionExpression = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+            ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
         }
-         
+
         return DefinitionExpression;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -504,8 +651,8 @@ public partial class Sublayer
         {
             return Fields;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -514,15 +661,15 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Fields;
         }
 
-        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
-            "getFields", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Field>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>("getFields", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -530,10 +677,10 @@ public partial class Sublayer
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Fields)] = Fields;
         }
-        
+
         return Fields;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsIndex property.
     /// </summary>
@@ -543,8 +690,8 @@ public partial class Sublayer
         {
             return FieldsIndex;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -553,7 +700,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FieldsIndex;
@@ -561,7 +708,7 @@ public partial class Sublayer
 
         FieldsIndex? result = await JsComponentReference.InvokeAsync<FieldsIndex?>(
             "getFieldsIndex", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -569,10 +716,10 @@ public partial class Sublayer
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
         }
-        
+
         return FieldsIndex;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FloorInfo property.
     /// </summary>
@@ -582,8 +729,8 @@ public partial class Sublayer
         {
             return FloorInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -592,7 +739,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FloorInfo;
@@ -600,7 +747,7 @@ public partial class Sublayer
 
         LayerFloorInfo? result = await JsComponentReference.InvokeAsync<LayerFloorInfo?>(
             "getFloorInfo", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -608,10 +755,10 @@ public partial class Sublayer
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
         }
-        
+
         return FloorInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullExtent property.
     /// </summary>
@@ -621,8 +768,8 @@ public partial class Sublayer
         {
             return FullExtent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -631,31 +778,33 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FullExtent;
         }
 
-        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
-            "getFullExtent", CancellationTokenSource.Token);
-        
+        Extent? result =
+            await JsComponentReference.InvokeAsync<Extent?>("getFullExtent", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (FullExtent is not null)
             {
                 result.Id = FullExtent.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             FullExtent = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FullExtent)] = FullExtent;
         }
-        
+
         return FullExtent;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsTable property.
     /// </summary>
@@ -665,8 +814,8 @@ public partial class Sublayer
         {
             return IsTable;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -675,26 +824,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return IsTable;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isTable");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsTable = result.Value.Value;
+            IsTable = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsTable)] = IsTable;
+            ModifiedParameters[nameof(IsTable)] = IsTable;
         }
-         
+
         return IsTable;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelingInfo property.
     /// </summary>
@@ -704,8 +855,8 @@ public partial class Sublayer
         {
             return LabelingInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -714,15 +865,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LabelingInfo;
         }
 
-        IReadOnlyList<Label>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>(
-            "getLabelingInfo", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Label>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>("getLabelingInfo",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -730,10 +882,10 @@ public partial class Sublayer
 #pragma warning restore BL0005
             ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
         }
-        
+
         return LabelingInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -743,8 +895,8 @@ public partial class Sublayer
         {
             return LabelsVisible;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -753,26 +905,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LabelsVisible;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LabelsVisible = result.Value.Value;
+            LabelsVisible = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+            ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
-         
+
         return LabelsVisible;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -782,8 +936,8 @@ public partial class Sublayer
         {
             return LegendEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -792,26 +946,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LegendEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value.Value;
+            LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+            ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
-         
+
         return LegendEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListMode property.
     /// </summary>
@@ -821,8 +977,8 @@ public partial class Sublayer
         {
             return ListMode;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -831,26 +987,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ListMode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ListMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ListMode>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<ListMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ListMode>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "listMode");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ListMode = (ListMode)result.Value.Value!;
+            ListMode = (ListMode)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ListMode)] = ListMode;
+            ModifiedParameters[nameof(ListMode)] = ListMode;
         }
-         
+
         return ListMode;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -860,8 +1018,8 @@ public partial class Sublayer
         {
             return MaxScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -870,26 +1028,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MaxScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+            MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+            ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
-         
+
         return MaxScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -899,8 +1059,8 @@ public partial class Sublayer
         {
             return MinScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -909,26 +1069,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MinScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+            MinScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+            ModifiedParameters[nameof(MinScale)] = MinScale;
         }
-         
+
         return MinScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIdField property.
     /// </summary>
@@ -938,8 +1100,8 @@ public partial class Sublayer
         {
             return ObjectIdField;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -948,7 +1110,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ObjectIdField;
@@ -957,17 +1119,18 @@ public partial class Sublayer
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "objectIdField");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ObjectIdField = result;
+            ObjectIdField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+            ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
         }
-         
+
         return ObjectIdField;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Opacity property.
     /// </summary>
@@ -977,8 +1140,8 @@ public partial class Sublayer
         {
             return Opacity;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -987,26 +1150,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Opacity;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "opacity");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Opacity = result.Value.Value;
+            Opacity = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Opacity)] = Opacity;
+            ModifiedParameters[nameof(Opacity)] = Opacity;
         }
-         
+
         return Opacity;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
@@ -1016,8 +1181,8 @@ public partial class Sublayer
         {
             return OrderBy;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1026,15 +1191,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return OrderBy;
         }
 
-        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>(
-            "getOrderBy", CancellationTokenSource.Token);
-        
+        IReadOnlyList<OrderByInfo>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>("getOrderBy",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1042,10 +1208,10 @@ public partial class Sublayer
 #pragma warning restore BL0005
             ModifiedParameters[nameof(OrderBy)] = OrderBy;
         }
-        
+
         return OrderBy;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -1055,8 +1221,8 @@ public partial class Sublayer
         {
             return PopupEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1065,26 +1231,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PopupEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value.Value;
+            PopupEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+            ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
-         
+
         return PopupEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -1094,8 +1262,8 @@ public partial class Sublayer
         {
             return PopupTemplate;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1104,7 +1272,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PopupTemplate;
@@ -1112,7 +1280,7 @@ public partial class Sublayer
 
         PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
             "getPopupTemplate", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1120,10 +1288,10 @@ public partial class Sublayer
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-        
+
         return PopupTemplate;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Relationships property.
     /// </summary>
@@ -1133,8 +1301,8 @@ public partial class Sublayer
         {
             return Relationships;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1143,26 +1311,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Relationships;
         }
 
         // get the property value
-        IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
+        IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Relationship>?>(
+            "getProperty",
             CancellationTokenSource.Token, "relationships");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Relationships = result;
+            Relationships = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Relationships)] = Relationships;
+            ModifiedParameters[nameof(Relationships)] = Relationships;
         }
-         
+
         return Relationships;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -1172,8 +1342,8 @@ public partial class Sublayer
         {
             return Renderer;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1182,15 +1352,15 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Renderer;
         }
 
-        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
-            "getRenderer", CancellationTokenSource.Token);
-        
+        Renderer? result =
+            await JsComponentReference.InvokeAsync<Renderer?>("getRenderer", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1198,10 +1368,10 @@ public partial class Sublayer
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Renderer)] = Renderer;
         }
-        
+
         return Renderer;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Source property.
     /// </summary>
@@ -1211,8 +1381,8 @@ public partial class Sublayer
         {
             return Source;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1221,7 +1391,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Source;
@@ -1230,17 +1400,18 @@ public partial class Sublayer
         // get the property value
         DynamicLayer? result = await JsComponentReference!.InvokeAsync<DynamicLayer?>("getProperty",
             CancellationTokenSource.Token, "source");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Source = result;
+            Source = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Source)] = Source;
+            ModifiedParameters[nameof(Source)] = Source;
         }
-         
+
         return Source;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1250,8 +1421,8 @@ public partial class Sublayer
         {
             return SourceJSON;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1260,7 +1431,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SourceJSON;
@@ -1269,17 +1440,18 @@ public partial class Sublayer
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SourceJSON = result;
+            SourceJSON = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+            ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
         }
-         
+
         return SourceJSON;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1289,8 +1461,8 @@ public partial class Sublayer
         {
             return SpatialReference;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1299,7 +1471,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SpatialReference;
@@ -1307,7 +1479,7 @@ public partial class Sublayer
 
         SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
             "getSpatialReference", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1315,10 +1487,10 @@ public partial class Sublayer
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-        
+
         return SpatialReference;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SublayerId property.
     /// </summary>
@@ -1328,8 +1500,8 @@ public partial class Sublayer
         {
             return SublayerId;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1338,26 +1510,28 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SublayerId;
         }
 
         // get the property value
-        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
+        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "sublayerId");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SublayerId = result.Value.Value;
+            SublayerId = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SublayerId)] = SublayerId;
+            ModifiedParameters[nameof(SublayerId)] = SublayerId;
         }
-         
+
         return SublayerId;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -1367,8 +1541,8 @@ public partial class Sublayer
         {
             return Title;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1377,7 +1551,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Title;
@@ -1386,17 +1560,18 @@ public partial class Sublayer
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+            Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+            ModifiedParameters[nameof(Title)] = Title;
         }
-         
+
         return Title;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TypeIdField property.
     /// </summary>
@@ -1406,8 +1581,8 @@ public partial class Sublayer
         {
             return TypeIdField;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1416,7 +1591,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TypeIdField;
@@ -1425,17 +1600,18 @@ public partial class Sublayer
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "typeIdField");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TypeIdField = result;
+            TypeIdField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
+            ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
         }
-         
+
         return TypeIdField;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Types property.
     /// </summary>
@@ -1445,8 +1621,8 @@ public partial class Sublayer
         {
             return Types;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1455,15 +1631,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Types;
         }
 
-        IReadOnlyList<FeatureType>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FeatureType>?>(
-            "getTypes", CancellationTokenSource.Token);
-        
+        IReadOnlyList<FeatureType>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<FeatureType>?>("getTypes",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1471,10 +1648,10 @@ public partial class Sublayer
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Types)] = Types;
         }
-        
+
         return Types;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1484,8 +1661,8 @@ public partial class Sublayer
         {
             return Url;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1494,7 +1671,7 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Url;
@@ -1503,18 +1680,20 @@ public partial class Sublayer
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Url = result;
+            Url = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
+            ModifiedParameters[nameof(Url)] = Url;
         }
-         
+
         return Url;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -1530,13 +1709,13 @@ public partial class Sublayer
         AttributeTableTemplate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AttributeTableTemplate)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1545,16 +1724,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributeTableTemplate", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
@@ -1567,13 +1746,13 @@ public partial class Sublayer
         DefinitionExpression = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DefinitionExpression)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1582,16 +1761,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "definitionExpression", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FloorInfo property after render.
     /// </summary>
@@ -1602,23 +1781,20 @@ public partial class Sublayer
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         FloorInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FloorInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1627,16 +1803,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
+
+        await JsComponentReference.InvokeVoidAsync("setFloorInfo",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
@@ -1649,24 +1825,21 @@ public partial class Sublayer
         {
             foreach (Label item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         LabelingInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelingInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1675,16 +1848,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
+
+        await JsComponentReference.InvokeVoidAsync("setLabelingInfo",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -1697,13 +1870,13 @@ public partial class Sublayer
         LabelsVisible = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelsVisible)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1712,16 +1885,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -1734,13 +1907,13 @@ public partial class Sublayer
         LegendEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LegendEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1749,16 +1922,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListMode property after render.
     /// </summary>
@@ -1771,13 +1944,13 @@ public partial class Sublayer
         ListMode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ListMode)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1786,16 +1959,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listMode", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1808,13 +1981,13 @@ public partial class Sublayer
         MaxScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1823,16 +1996,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -1845,13 +2018,13 @@ public partial class Sublayer
         MinScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1860,16 +2033,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Opacity property after render.
     /// </summary>
@@ -1882,13 +2055,13 @@ public partial class Sublayer
         Opacity = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Opacity)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1897,16 +2070,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "opacity", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
@@ -1919,24 +2092,21 @@ public partial class Sublayer
         {
             foreach (OrderByInfo item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         OrderBy = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OrderBy)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1945,16 +2115,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
+
+        await JsComponentReference.InvokeVoidAsync("setOrderBy",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -1967,13 +2137,13 @@ public partial class Sublayer
         PopupEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PopupEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1982,16 +2152,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -2002,23 +2172,20 @@ public partial class Sublayer
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PopupTemplate)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2027,16 +2194,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -2047,23 +2214,20 @@ public partial class Sublayer
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Renderer)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2072,16 +2236,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setRenderer", 
+
+        await JsComponentReference.InvokeVoidAsync("setRenderer",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
@@ -2094,13 +2258,13 @@ public partial class Sublayer
         Source = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Source)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2109,16 +2273,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "source", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SublayerId property after render.
     /// </summary>
@@ -2131,13 +2295,13 @@ public partial class Sublayer
         SublayerId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SublayerId)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2146,16 +2310,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -2168,13 +2332,13 @@ public partial class Sublayer
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2183,16 +2347,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2205,13 +2369,13 @@ public partial class Sublayer
         Url = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Url)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2220,17 +2384,18 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -2247,7 +2412,7 @@ public partial class Sublayer
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the OrderBy property.
     /// </summary>
@@ -2261,12 +2426,12 @@ public partial class Sublayer
             : [..OrderBy, ..values];
         await SetOrderBy(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the LabelingInfo property.
     /// </summary>
@@ -2279,10 +2444,10 @@ public partial class Sublayer
         {
             return;
         }
+
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the OrderBy property.
     /// </summary>
@@ -2295,10 +2460,12 @@ public partial class Sublayer
         {
             return;
         }
+
         await SetOrderBy(OrderBy.Except(values).ToArray());
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
@@ -2314,8 +2481,8 @@ public partial class Sublayer
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2324,17 +2491,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "cancelLoad", 
+
+        await JsComponentReference!.InvokeVoidAsync("cancelLoad",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercreatefeaturelayer-method">GeoBlazor Docs</a>
     ///     A convenient method for creating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> instance
@@ -2349,7 +2515,7 @@ public partial class Sublayer
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2359,17 +2525,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<FeatureLayer?>(
-            "createFeatureLayer", 
+
+        return await JsComponentReference!.InvokeAsync<FeatureLayer?>("createFeatureLayer",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercreatepopuptemplate-method">GeoBlazor Docs</a>
     ///     Creates a popup template for the sublayer, populated with all the fields of the sublayer.
@@ -2385,7 +2550,7 @@ public partial class Sublayer
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2395,18 +2560,17 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
-            "createPopupTemplate", 
+
+        return await JsComponentReference!.InvokeAsync<PopupTemplate?>("createPopupTemplate",
             CancellationTokenSource.Token,
             options);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayercreatequery-method">GeoBlazor Docs</a>
     ///     Creates a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> object with
@@ -2421,7 +2585,7 @@ public partial class Sublayer
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2431,17 +2595,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Query?>(
-            "createQuery", 
+
+        return await JsComponentReference!.InvokeAsync<Query?>("createQuery",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayergetfeaturetype-method">GeoBlazor Docs</a>
     ///     Returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureType.html">FeatureType</a> describing the feature's type.
@@ -2457,7 +2620,7 @@ public partial class Sublayer
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2467,18 +2630,17 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<FeatureType?>(
-            "getFeatureType", 
+
+        return await JsComponentReference!.InvokeAsync<FeatureType?>("getFeatureType",
             CancellationTokenSource.Token,
             feature);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayergetfielddomain-method">GeoBlazor Docs</a>
     ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> associated with the given field name.
@@ -2500,7 +2662,7 @@ public partial class Sublayer
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2510,19 +2672,18 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Domain?>(
-            "getFieldDomain", 
+
+        return await JsComponentReference!.InvokeAsync<Domain?>("getFieldDomain",
             CancellationTokenSource.Token,
             fieldName,
             options);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerisfulfilled-method">GeoBlazor Docs</a>
     ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
@@ -2535,7 +2696,7 @@ public partial class Sublayer
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2545,17 +2706,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isFulfilled",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerisrejected-method">GeoBlazor Docs</a>
     ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
@@ -2568,7 +2728,7 @@ public partial class Sublayer
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2578,17 +2738,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isRejected",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerisresolved-method">GeoBlazor Docs</a>
     ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
@@ -2601,7 +2760,7 @@ public partial class Sublayer
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2611,17 +2770,16 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isResolved",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerload-method">GeoBlazor Docs</a>
     ///     Loads the resources referenced by this class.
@@ -2637,8 +2795,8 @@ public partial class Sublayer
         {
             return null;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2647,23 +2805,23 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
+
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "load", 
+
+        string? result = await JsComponentReference!.InvokeAsync<string?>("load",
             CancellationTokenSource.Token,
-            new { signal = abortSignal });
-                
+            abortSignal);
+
         await AbortManager.DisposeAbortController(cancellationToken);
-        
+
         return result;
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryattachments-method">GeoBlazor Docs</a>
     ///     Query information about attachments associated with features.
@@ -2684,8 +2842,8 @@ public partial class Sublayer
         {
             return null;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2694,24 +2852,25 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
+
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+
         AttachmentsQueryResult? result = await JsComponentReference!.InvokeAsync<AttachmentsQueryResult?>(
-            "queryAttachments", 
+            "queryAttachments",
             CancellationTokenSource.Token,
             attachmentQuery,
-            new { signal = abortSignal });
-                
+            abortSignal);
+
         await AbortManager.DisposeAbortController(cancellationToken);
-        
+
         return result;
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryfeaturecount-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the sublayer and returns the number of features that
@@ -2733,8 +2892,8 @@ public partial class Sublayer
         {
             return null;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2743,24 +2902,24 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
+
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int? result = await JsComponentReference!.InvokeAsync<int?>(
-            "queryFeatureCount", 
+
+        int? result = await JsComponentReference!.InvokeAsync<int?>("queryFeatureCount",
             CancellationTokenSource.Token,
             query,
-            new { signal = abortSignal });
-                
+            abortSignal);
+
         await AbortManager.DisposeAbortController(cancellationToken);
-        
+
         return result;
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryfeatures-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query.html">query</a> against features in the sublayer.
@@ -2781,8 +2940,8 @@ public partial class Sublayer
         {
             return null;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2791,24 +2950,24 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
+
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
-            "queryFeatures", 
+
+        FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>("queryFeatures",
             CancellationTokenSource.Token,
             query,
-            new { signal = abortSignal });
-                
+            abortSignal);
+
         await AbortManager.DisposeAbortController(cancellationToken);
-        
+
         return result;
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryobjectids-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the sublayer and returns an array of Object IDs for
@@ -2830,8 +2989,8 @@ public partial class Sublayer
         {
             return null;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2840,24 +2999,24 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
+
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ObjectId[]? result = await JsComponentReference!.InvokeAsync<ObjectId[]?>(
-            "queryObjectIds", 
+
+        ObjectId[]? result = await JsComponentReference!.InvokeAsync<ObjectId[]?>("queryObjectIds",
             CancellationTokenSource.Token,
             query,
-            new { signal = abortSignal });
-                
+            abortSignal);
+
         await AbortManager.DisposeAbortController(cancellationToken);
-        
+
         return result;
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryrelatedfeatures-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html">RelationshipQuery</a> against the sublayer and returns
@@ -2879,8 +3038,8 @@ public partial class Sublayer
         {
             return null;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2889,24 +3048,25 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
+
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+
         RelatedFeaturesQueryResult? result = await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
-            "queryRelatedFeatures", 
+            "queryRelatedFeatures",
             CancellationTokenSource.Token,
             relationshipQuery,
-            new { signal = abortSignal });
-                
+            abortSignal);
+
         await AbortManager.DisposeAbortController(cancellationToken);
-        
+
         return result;
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerqueryrelatedfeaturescount-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html">RelationshipQuery</a> against the sublayer and when resolved, it returns
@@ -2928,55 +3088,7 @@ public partial class Sublayer
         {
             return null;
         }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        RelatedFeaturesCountQueryResult? result = await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult?>(
-            "queryRelatedFeaturesCount", 
-            CancellationTokenSource.Token,
-            relationshipQuery,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerwhen-method">GeoBlazor Docs</a>
-    ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param errback The function to execute when the promise fails.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#when">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="callback">
-    ///     The function to call when the promise resolves.
-    /// </param>
-    /// <param name="errback">
-    ///     The function to execute when the promise fails.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2986,146 +3098,103 @@ public partial class Sublayer
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
+
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+
+        RelatedFeaturesCountQueryResult? result =
+            await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult?>("queryRelatedFeaturesCount",
+                CancellationTokenSource.Token,
+                relationshipQuery,
+                abortSignal);
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerreload-method">GeoBlazor Docs</a>
+    ///     Reloads the properties for the sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#reload">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task Reload(CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+
+        await JsComponentReference!.InvokeVoidAsync("reload",
             CancellationTokenSource.Token,
-            callback,
-            errback);
+            abortSignal);
     }
-    
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param onRejected The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="onFulfilled">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="onRejected">
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> onFulfilled,
+        Func<Task> onRejected)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+
+        return await JsComponentReference!.InvokeAsync<string?>("when",
+            CancellationTokenSource.Token,
+            onFulfilled,
+            onRejected);
+    }
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Label labelingInfo:
-                LabelingInfo ??= [];
-                if (!LabelingInfo.Contains(labelingInfo))
-                {
-                    LabelingInfo = [..LabelingInfo, labelingInfo];
-                    ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
-                }
-                
-                return true;
-            case OrderByInfo orderBy:
-                OrderBy ??= [];
-                if (!OrderBy.Contains(orderBy))
-                {
-                    OrderBy = [..OrderBy, orderBy];
-                    ModifiedParameters[nameof(OrderBy)] = OrderBy;
-                }
-                
-                return true;
-            case PopupTemplate popupTemplate:
-                if (popupTemplate != PopupTemplate)
-                {
-                    PopupTemplate = popupTemplate;
-                    ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-                }
-                
-                return true;
-            case Renderer renderer:
-                if (renderer != Renderer)
-                {
-                    Renderer = renderer;
-                    ModifiedParameters[nameof(Renderer)] = Renderer;
-                }
-                
-                return true;
-            case DynamicLayer source:
-                if (source != Source)
-                {
-                    Source = source;
-                    ModifiedParameters[nameof(Source)] = Source;
-                }
-                
-                return true;
-            case Sublayer sublayers:
-                Sublayers ??= [];
-                if (!Sublayers.Contains(sublayers))
-                {
-                    Sublayers = [..Sublayers, sublayers];
-                    ModifiedParameters[nameof(Sublayers)] = Sublayers;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Label labelingInfo:
-                LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
-                return true;
-            case OrderByInfo orderBy:
-                OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
-                ModifiedParameters[nameof(OrderBy)] = OrderBy;
-                return true;
-            case PopupTemplate _:
-                PopupTemplate = null;
-                ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-                return true;
-            case Renderer _:
-                Renderer = null;
-                ModifiedParameters[nameof(Renderer)] = Renderer;
-                return true;
-            case DynamicLayer _:
-                Source = null;
-                ModifiedParameters[nameof(Source)] = Source;
-                return true;
-            case Sublayer sublayers:
-                Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
-                ModifiedParameters[nameof(Sublayers)] = Sublayers;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (LabelingInfo is not null)
-        {
-            foreach (Label child in LabelingInfo)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        if (OrderBy is not null)
-        {
-            foreach (OrderByInfo child in OrderBy)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        PopupTemplate?.ValidateRequiredGeneratedChildren();
-        Renderer?.ValidateRequiredGeneratedChildren();
-        Source?.ValidateRequiredGeneratedChildren();
-        if (Sublayers is not null)
-        {
-            foreach (Sublayer child in Sublayers)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

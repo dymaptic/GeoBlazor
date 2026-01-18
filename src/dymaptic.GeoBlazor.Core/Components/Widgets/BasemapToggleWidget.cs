@@ -6,17 +6,6 @@ public partial class BasemapToggleWidget : Widget
     public override WidgetType Type => WidgetType.BasemapToggle;
 
     /// <summary>
-    ///     The name of the next basemap for toggling.
-    /// </summary>
-    /// <remarks>
-    ///     Set either <see cref="NextBasemapName" /> or <see cref="NextBasemap" />
-    /// </remarks>
-    [Parameter]
-    [Obsolete("Use NextBasemapStyle instead")]
-    [CodeGenerationIgnore]
-    public string? NextBasemapName { get; set; }
-    
-    /// <summary>
     ///     The next <see cref="BasemapStyleName" /> for toggling.
     /// </summary>
     [Parameter]
@@ -25,7 +14,7 @@ public partial class BasemapToggleWidget : Widget
 #pragma warning restore CS0618 // Type or member is obsolete
     [CodeGenerationIgnore]
     public BasemapStyleName? NextBasemapStyle { get; set; }
-    
+
     /// <summary>
     ///     The next basemap for toggling.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#nextBasemap">ArcGIS Maps SDK for JavaScript</a>
@@ -38,7 +27,6 @@ public partial class BasemapToggleWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [CodeGenerationIgnore]
     public Basemap? NextBasemap { get; set; }
-
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -76,13 +64,13 @@ public partial class BasemapToggleWidget : Widget
     public override void ValidateRequiredChildren()
     {
 #pragma warning disable CS0618 // Type or member is obsolete
-        if (NextBasemap is null && NextBasemapName is null && NextBasemapStyle is null)
+        if (NextBasemap is null && NextBasemapStyle is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(BasemapToggleWidget), [nameof(NextBasemap), nameof(NextBasemapName), nameof(NextBasemapStyle)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(BasemapToggleWidget),
+                [nameof(NextBasemap), nameof(NextBasemapStyle)]);
         }
 #pragma warning restore CS0618 // Type or member is obsolete
-        
+
         base.ValidateRequiredChildren();
     }
-
 }

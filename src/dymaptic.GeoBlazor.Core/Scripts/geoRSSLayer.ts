@@ -11,7 +11,7 @@ export default class GeoRSSLayerWrapper extends GeoRSSLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetGeoRSSLayer(result, this.viewId);
+        let dotNetLayer = await buildDotNetGeoRSSLayer(result, this.layerId, this.viewId);
         return buildEncodedJson(dotNetLayer);
     }
 
@@ -45,7 +45,7 @@ export async function buildJsGeoRSSLayer(dotNetObject: any, layerId: string | nu
     return await buildJsGeoRSSLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGeoRSSLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoRSSLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetGeoRSSLayerGenerated} = await import('./geoRSSLayer.gb');
-    return await buildDotNetGeoRSSLayerGenerated(jsObject, viewId);
+    return await buildDotNetGeoRSSLayerGenerated(jsObject, layerId, viewId);
 }

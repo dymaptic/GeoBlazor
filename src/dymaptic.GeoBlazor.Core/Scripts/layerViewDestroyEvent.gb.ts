@@ -32,7 +32,7 @@ export async function buildDotNetLayerViewDestroyEventGenerated(jsObject: any, l
     
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetLayerViewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView, viewId);
+        dotNetLayerViewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView, layerId, viewId);
     }
     
 

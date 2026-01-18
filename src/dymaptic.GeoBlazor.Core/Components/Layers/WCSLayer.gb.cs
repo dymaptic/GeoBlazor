@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html">GeoBlazor Docs</a>
 ///     WCS presents raster data from a <a target="_blank" href="https://www.ogc.org/standards/wcs">OGC Web Coverage Service</a>.
@@ -13,7 +12,6 @@ public partial class WCSLayer : IBlendLayer,
     IPortalLayer,
     IScaleRangeLayer
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -31,7 +29,7 @@ public partial class WCSLayer : IBlendLayer,
     /// </param>
     /// <param name="multidimensionalDefinition">
     ///     The multidimensional definitions associated with the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalDefinition">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#multidimensionalDefinition">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="renderer">
     ///     The renderer assigned to the layer.
@@ -43,7 +41,7 @@ public partial class WCSLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="portalItem">
@@ -56,16 +54,16 @@ public partial class WCSLayer : IBlendLayer,
     /// </param>
     /// <param name="bandIds">
     ///     Defines a band combination using 0-based band indexes.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default normal
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="copyright">
     ///     The copyright text as defined by the service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#copyright">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="coverageId">
     ///     The coverage identifier for the layer.
@@ -90,6 +88,8 @@ public partial class WCSLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="interpolation">
+    ///     Defines how to interpolate pixel values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isBasemapReferenceLayer">
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
@@ -97,22 +97,22 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="legendEnabled">
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxScale">
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minScale">
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="multidimensionalSubset">
     ///     Represents a multidimensional subset of raster data.
@@ -126,7 +126,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="persistenceEnabled">
     ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -157,9 +157,10 @@ public partial class WCSLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useViewTime">
-    ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     Determines if the layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="version">
     ///     The version of Web Coverage Service currently being used.
@@ -178,8 +179,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="excludeApiKey">
     ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
-    public WCSLayer(
-        string? url = null,
+    public WCSLayer(string? url = null,
         IReadOnlyList<DimensionalDefinition>? multidimensionalDefinition = null,
         IImageryRenderer? renderer = null,
         double? opacity = null,
@@ -250,43 +250,216 @@ public partial class WCSLayer : IBlendLayer,
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
         ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (PortalItem is null && Url is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(WCSLayer), [nameof(PortalItem), nameof(Url)]);
+        }
+
+        if (MultidimensionalDefinition is not null)
+        {
+            foreach (DimensionalDefinition child in MultidimensionalDefinition)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
+        PopupTemplate?.ValidateRequiredGeneratedChildren();
+        TimeExtent?.ValidateRequiredGeneratedChildren();
+        TimeInfo?.ValidateRequiredGeneratedChildren();
+        TimeOffset?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case DimensionalDefinition multidimensionalDefinition:
+                MultidimensionalDefinition ??= [];
+
+                if (!MultidimensionalDefinition.Contains(multidimensionalDefinition))
+                {
+                    MultidimensionalDefinition = [..MultidimensionalDefinition, multidimensionalDefinition];
+                    ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case MultidimensionalSubset multidimensionalSubset:
+                if (multidimensionalSubset != MultidimensionalSubset)
+                {
+                    MultidimensionalSubset = multidimensionalSubset;
+                    ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case PopupTemplate popupTemplate:
+                if (popupTemplate != PopupTemplate)
+                {
+                    PopupTemplate = popupTemplate;
+                    ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case PortalItem portalItem:
+                if (portalItem != PortalItem)
+                {
+                    PortalItem = portalItem;
+                    ModifiedParameters[nameof(PortalItem)] = PortalItem;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case TimeExtent timeExtent:
+                if (timeExtent != TimeExtent)
+                {
+                    TimeExtent = timeExtent;
+                    ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case TimeInfo timeInfo:
+                if (timeInfo != TimeInfo)
+                {
+                    TimeInfo = timeInfo;
+                    ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case TimeInterval timeOffset:
+                if (timeOffset != TimeOffset)
+                {
+                    TimeOffset = timeOffset;
+                    ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case DimensionalDefinition multidimensionalDefinition:
+                MultidimensionalDefinition =
+                    MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
+                ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
+
+                return true;
+            case MultidimensionalSubset _:
+                MultidimensionalSubset = null;
+                ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+
+                return true;
+            case PopupTemplate _:
+                PopupTemplate = null;
+                ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+
+                return true;
+            case PortalItem _:
+                PortalItem = null;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+
+                return true;
+            case TimeExtent _:
+                TimeExtent = null;
+                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+
+                return true;
+            case TimeInfo _:
+                TimeInfo = null;
+                ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+
+                return true;
+            case TimeInterval _:
+                TimeOffset = null;
+                ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerbandids-property">GeoBlazor Docs</a>
     ///     Defines a band combination using 0-based band indexes.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<long>? BandIds { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default normal
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BlendMode? BlendMode { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayercopyright-property">GeoBlazor Docs</a>
     ///     The copyright text as defined by the service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#copyright">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Copyright { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayercoverageid-property">GeoBlazor Docs</a>
     ///     The coverage identifier for the layer.
@@ -296,7 +469,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? CoverageId { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayercoverageinfo-property">GeoBlazor Docs</a>
     ///     Coverage information retrieved from the WCS Server.
@@ -306,7 +479,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CoverageInfo? CoverageInfo { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayercustomparameters-property">GeoBlazor Docs</a>
     ///     Use this property to append custom parameters to all WCS requests.
@@ -316,7 +489,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, object>? CustomParameters { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayereffect-property">GeoBlazor Docs</a>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
@@ -328,59 +501,60 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Effect? Effect { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerinterpolation-property">GeoBlazor Docs</a>
-    ///     
+    ///     Defines how to interpolate pixel values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Interpolation? Interpolation { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? LegendEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxScale { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MinScale { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayermultidimensionaldefinition-property">GeoBlazor Docs</a>
     ///     The multidimensional definitions associated with the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalDefinition">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#multidimensionalDefinition">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayermultidimensionalsubset-property">GeoBlazor Docs</a>
     ///     Represents a multidimensional subset of raster data.
@@ -390,7 +564,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MultidimensionalSubset? MultidimensionalSubset { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayernodata-property">GeoBlazor Docs</a>
     ///     The specified noData value applies when neither the service metadata nor the coverage contains noData information.
@@ -401,7 +575,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NoData { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerpopupenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -412,7 +586,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? PopupEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerpopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template for the layer.
@@ -422,7 +596,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PopupTemplate? PopupTemplate { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
@@ -433,7 +607,7 @@ public partial class WCSLayer : IBlendLayer,
     [RequiredProperty(nameof(Url))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PortalItem? PortalItem { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerrasterfields-property">GeoBlazor Docs</a>
     ///     An array of raster fields in the layer that consists of service pixel value.
@@ -443,7 +617,7 @@ public partial class WCSLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<Field>? RasterFields { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerrenderer-property">GeoBlazor Docs</a>
     ///     The renderer assigned to the layer.
@@ -453,26 +627,27 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IImageryRenderer? Renderer { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerservicerasterinfo-property">GeoBlazor Docs</a>
     ///     Raster information retrieved from tiled imagery data source.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public RasterInfo? ServiceRasterInfo { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerspatialreference-property">GeoBlazor Docs</a>
-    ///     
+    ///     The spatial reference of the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public SpatialReference? SpatialReference { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayertimeextent-property">GeoBlazor Docs</a>
     ///     The layer's time extent.
@@ -483,7 +658,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeExtent? TimeExtent { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayertimeinfo-property">GeoBlazor Docs</a>
     ///     TimeInfo provides information such as date fields that store
@@ -498,7 +673,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeInfo? TimeInfo { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayertimeoffset-property">GeoBlazor Docs</a>
     ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
@@ -509,7 +684,7 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeInterval? TimeOffset { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerurl-property">GeoBlazor Docs</a>
     ///     The URL of the WCS service endpoint of the layer.
@@ -520,18 +695,19 @@ public partial class WCSLayer : IBlendLayer,
     [RequiredProperty(nameof(PortalItem))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayeruseviewtime-property">GeoBlazor Docs</a>
-    ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
+    ///     Determines if the layer will update its temporal data based on the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UseViewTime { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerversion-property">GeoBlazor Docs</a>
     ///     The version of Web Coverage Service currently being used.
@@ -541,8 +717,9 @@ public partial class WCSLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Version { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -555,8 +732,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return BandIds;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -565,7 +742,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BandIds;
@@ -574,17 +751,18 @@ public partial class WCSLayer : IBlendLayer,
         // get the property value
         IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
             CancellationTokenSource.Token, "bandIds");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             BandIds = result;
+            BandIds = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BandIds)] = BandIds;
+            ModifiedParameters[nameof(BandIds)] = BandIds;
         }
-         
+
         return BandIds;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -594,8 +772,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return BlendMode;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -604,26 +782,28 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BlendMode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = (BlendMode)result.Value.Value!;
+            BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+            ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
-         
+
         return BlendMode;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -633,8 +813,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return Copyright;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -643,7 +823,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Copyright;
@@ -652,17 +832,18 @@ public partial class WCSLayer : IBlendLayer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "copyright");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Copyright = result;
+            Copyright = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Copyright)] = Copyright;
+            ModifiedParameters[nameof(Copyright)] = Copyright;
         }
-         
+
         return Copyright;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CoverageId property.
     /// </summary>
@@ -672,8 +853,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return CoverageId;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -682,7 +863,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return CoverageId;
@@ -691,17 +872,18 @@ public partial class WCSLayer : IBlendLayer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "coverageId");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CoverageId = result;
+            CoverageId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CoverageId)] = CoverageId;
+            ModifiedParameters[nameof(CoverageId)] = CoverageId;
         }
-         
+
         return CoverageId;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CoverageInfo property.
     /// </summary>
@@ -711,8 +893,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return CoverageInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -721,7 +903,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return CoverageInfo;
@@ -729,7 +911,7 @@ public partial class WCSLayer : IBlendLayer,
 
         CoverageInfo? result = await JsComponentReference.InvokeAsync<CoverageInfo?>(
             "getCoverageInfo", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -737,10 +919,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(CoverageInfo)] = CoverageInfo;
         }
-        
+
         return CoverageInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -750,8 +932,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return CustomParameters;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -760,26 +942,28 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return CustomParameters;
         }
 
         // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>(
+            "getProperty",
             CancellationTokenSource.Token, "customParameters");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CustomParameters = result;
+            CustomParameters = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+            ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
         }
-         
+
         return CustomParameters;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -789,8 +973,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return Effect;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -799,15 +983,14 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
-            "getEffect", CancellationTokenSource.Token);
-        
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>("getEffect", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -815,10 +998,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Effect)] = Effect;
         }
-        
+
         return Effect;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Interpolation property.
     /// </summary>
@@ -828,8 +1011,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return Interpolation;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -838,26 +1021,28 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Interpolation;
         }
 
         // get the property value
-        JsNullableEnumWrapper<Interpolation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Interpolation>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "interpolation");
+        JsNullableEnumWrapper<Interpolation>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Interpolation>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "interpolation");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Interpolation = (Interpolation)result.Value.Value!;
+            Interpolation = (Interpolation)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Interpolation)] = Interpolation;
+            ModifiedParameters[nameof(Interpolation)] = Interpolation;
         }
-         
+
         return Interpolation;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -867,8 +1052,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return LegendEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -877,26 +1062,28 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LegendEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value.Value;
+            LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+            ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
-         
+
         return LegendEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -906,8 +1093,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return MaxScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -916,26 +1103,28 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MaxScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+            MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+            ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
-         
+
         return MaxScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -945,8 +1134,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return MinScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -955,26 +1144,28 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MinScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+            MinScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+            ModifiedParameters[nameof(MinScale)] = MinScale;
         }
-         
+
         return MinScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MultidimensionalDefinition property.
     /// </summary>
@@ -984,8 +1175,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return MultidimensionalDefinition;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -994,15 +1185,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MultidimensionalDefinition;
         }
 
-        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>(
-            "getMultidimensionalDefinition", CancellationTokenSource.Token);
-        
+        IReadOnlyList<DimensionalDefinition>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>(
+                "getMultidimensionalDefinition", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1010,10 +1202,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
         }
-        
+
         return MultidimensionalDefinition;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MultidimensionalSubset property.
     /// </summary>
@@ -1023,8 +1215,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return MultidimensionalSubset;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1033,7 +1225,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MultidimensionalSubset;
@@ -1041,7 +1233,7 @@ public partial class WCSLayer : IBlendLayer,
 
         MultidimensionalSubset? result = await JsComponentReference.InvokeAsync<MultidimensionalSubset?>(
             "getMultidimensionalSubset", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1049,10 +1241,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
         }
-        
+
         return MultidimensionalSubset;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NoData property.
     /// </summary>
@@ -1062,8 +1254,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return NoData;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1072,26 +1264,28 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return NoData;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "noData");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             NoData = result.Value.Value;
+            NoData = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(NoData)] = NoData;
+            ModifiedParameters[nameof(NoData)] = NoData;
         }
-         
+
         return NoData;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -1101,8 +1295,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return PopupEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1111,26 +1305,28 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PopupEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value.Value;
+            PopupEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+            ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
-         
+
         return PopupEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -1140,8 +1336,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return PopupTemplate;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1150,7 +1346,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PopupTemplate;
@@ -1158,7 +1354,7 @@ public partial class WCSLayer : IBlendLayer,
 
         PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
             "getPopupTemplate", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1166,10 +1362,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-        
+
         return PopupTemplate;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -1179,8 +1375,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return PortalItem;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1189,7 +1385,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PortalItem;
@@ -1197,23 +1393,25 @@ public partial class WCSLayer : IBlendLayer,
 
         PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
             "getPortalItem", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (PortalItem is not null)
             {
                 result.Id = PortalItem.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             PortalItem = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PortalItem)] = PortalItem;
         }
-        
+
         return PortalItem;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFields property.
     /// </summary>
@@ -1223,8 +1421,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return RasterFields;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1233,15 +1431,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return RasterFields;
         }
 
-        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
-            "getRasterFields", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Field>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>("getRasterFields",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1249,10 +1448,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(RasterFields)] = RasterFields;
         }
-        
+
         return RasterFields;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -1262,8 +1461,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return Renderer;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1272,7 +1471,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Renderer;
@@ -1281,17 +1480,18 @@ public partial class WCSLayer : IBlendLayer,
         // get the property value
         IImageryRenderer? result = await JsComponentReference!.InvokeAsync<IImageryRenderer?>("getProperty",
             CancellationTokenSource.Token, "renderer");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Renderer = result;
+            Renderer = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Renderer)] = Renderer;
+            ModifiedParameters[nameof(Renderer)] = Renderer;
         }
-         
+
         return Renderer;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceRasterInfo property.
     /// </summary>
@@ -1301,8 +1501,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return ServiceRasterInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1311,7 +1511,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ServiceRasterInfo;
@@ -1319,7 +1519,7 @@ public partial class WCSLayer : IBlendLayer,
 
         RasterInfo? result = await JsComponentReference.InvokeAsync<RasterInfo?>(
             "getServiceRasterInfo", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1327,10 +1527,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ServiceRasterInfo)] = ServiceRasterInfo;
         }
-        
+
         return ServiceRasterInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1340,8 +1540,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return SpatialReference;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1350,7 +1550,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SpatialReference;
@@ -1358,7 +1558,7 @@ public partial class WCSLayer : IBlendLayer,
 
         SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
             "getSpatialReference", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1366,10 +1566,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-        
+
         return SpatialReference;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -1379,8 +1579,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return TimeExtent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1389,7 +1589,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TimeExtent;
@@ -1397,23 +1597,25 @@ public partial class WCSLayer : IBlendLayer,
 
         TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
             "getTimeExtent", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (TimeExtent is not null)
             {
                 result.Id = TimeExtent.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
         }
-        
+
         return TimeExtent;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -1423,8 +1625,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return TimeInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1433,15 +1635,15 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TimeInfo;
         }
 
-        TimeInfo? result = await JsComponentReference.InvokeAsync<TimeInfo?>(
-            "getTimeInfo", CancellationTokenSource.Token);
-        
+        TimeInfo? result =
+            await JsComponentReference.InvokeAsync<TimeInfo?>("getTimeInfo", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1449,10 +1651,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
         }
-        
+
         return TimeInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -1462,8 +1664,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return TimeOffset;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1472,7 +1674,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TimeOffset;
@@ -1480,7 +1682,7 @@ public partial class WCSLayer : IBlendLayer,
 
         TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
             "getTimeOffset", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1488,10 +1690,10 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
         }
-        
+
         return TimeOffset;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1501,8 +1703,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return Url;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1511,7 +1713,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Url;
@@ -1520,17 +1722,18 @@ public partial class WCSLayer : IBlendLayer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Url = result;
+            Url = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
+            ModifiedParameters[nameof(Url)] = Url;
         }
-         
+
         return Url;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -1540,8 +1743,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return UseViewTime;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1550,26 +1753,28 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return UseViewTime;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useViewTime");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UseViewTime = result.Value.Value;
+            UseViewTime = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+            ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }
-         
+
         return UseViewTime;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -1579,8 +1784,8 @@ public partial class WCSLayer : IBlendLayer,
         {
             return Version;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1589,7 +1794,7 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Version;
@@ -1598,18 +1803,20 @@ public partial class WCSLayer : IBlendLayer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "version");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Version = result;
+            Version = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Version)] = Version;
+            ModifiedParameters[nameof(Version)] = Version;
         }
-         
+
         return Version;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -1625,13 +1832,13 @@ public partial class WCSLayer : IBlendLayer,
         BandIds = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BandIds)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1640,16 +1847,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "bandIds", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -1662,13 +1869,13 @@ public partial class WCSLayer : IBlendLayer,
         BlendMode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BlendMode)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1677,16 +1884,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -1699,13 +1906,13 @@ public partial class WCSLayer : IBlendLayer,
         Copyright = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Copyright)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1714,16 +1921,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CoverageId property after render.
     /// </summary>
@@ -1736,13 +1943,13 @@ public partial class WCSLayer : IBlendLayer,
         CoverageId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(CoverageId)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1751,16 +1958,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "coverageId", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CoverageInfo property after render.
     /// </summary>
@@ -1773,13 +1980,13 @@ public partial class WCSLayer : IBlendLayer,
         CoverageInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(CoverageInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1788,16 +1995,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setCoverageInfo", 
+
+        await JsComponentReference.InvokeVoidAsync("setCoverageInfo",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1810,13 +2017,13 @@ public partial class WCSLayer : IBlendLayer,
         CustomParameters = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(CustomParameters)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1825,16 +2032,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -1847,13 +2054,13 @@ public partial class WCSLayer : IBlendLayer,
         Effect = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Effect)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1862,16 +2069,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setEffect", 
+
+        await JsComponentReference.InvokeVoidAsync("setEffect",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Interpolation property after render.
     /// </summary>
@@ -1884,13 +2091,13 @@ public partial class WCSLayer : IBlendLayer,
         Interpolation = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Interpolation)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1899,16 +2106,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "interpolation", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -1921,13 +2128,13 @@ public partial class WCSLayer : IBlendLayer,
         LegendEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LegendEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1936,16 +2143,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1958,13 +2165,13 @@ public partial class WCSLayer : IBlendLayer,
         MaxScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1973,16 +2180,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -1995,13 +2202,13 @@ public partial class WCSLayer : IBlendLayer,
         MinScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2010,16 +2217,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalDefinition property after render.
     /// </summary>
@@ -2032,24 +2239,21 @@ public partial class WCSLayer : IBlendLayer,
         {
             foreach (DimensionalDefinition item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         MultidimensionalDefinition = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MultidimensionalDefinition)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2058,16 +2262,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setMultidimensionalDefinition", 
+
+        await JsComponentReference.InvokeVoidAsync("setMultidimensionalDefinition",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalSubset property after render.
     /// </summary>
@@ -2078,23 +2282,20 @@ public partial class WCSLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         MultidimensionalSubset = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MultidimensionalSubset)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2103,16 +2304,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset", 
+
+        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NoData property after render.
     /// </summary>
@@ -2125,13 +2326,13 @@ public partial class WCSLayer : IBlendLayer,
         NoData = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NoData)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2140,16 +2341,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "noData", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -2162,13 +2363,13 @@ public partial class WCSLayer : IBlendLayer,
         PersistenceEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PersistenceEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2177,16 +2378,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -2199,13 +2400,13 @@ public partial class WCSLayer : IBlendLayer,
         PopupEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PopupEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2214,16 +2415,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -2234,23 +2435,20 @@ public partial class WCSLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PopupTemplate)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2259,16 +2457,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -2279,23 +2477,20 @@ public partial class WCSLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PortalItem)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2304,16 +2499,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+
+        await JsComponentReference.InvokeVoidAsync("setPortalItem",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -2326,13 +2521,13 @@ public partial class WCSLayer : IBlendLayer,
         Renderer = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Renderer)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2341,16 +2536,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "renderer", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -2361,23 +2556,20 @@ public partial class WCSLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeExtent)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2386,16 +2578,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
+
+        await JsComponentReference.InvokeVoidAsync("setTimeExtent",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -2406,23 +2598,20 @@ public partial class WCSLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2431,16 +2620,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -2451,23 +2640,20 @@ public partial class WCSLayer : IBlendLayer,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeOffset)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2476,16 +2662,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2498,13 +2684,13 @@ public partial class WCSLayer : IBlendLayer,
         Url = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Url)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2513,16 +2699,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -2535,13 +2721,13 @@ public partial class WCSLayer : IBlendLayer,
         UseViewTime = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(UseViewTime)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2550,16 +2736,16 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Version property after render.
     /// </summary>
@@ -2572,13 +2758,13 @@ public partial class WCSLayer : IBlendLayer,
         Version = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Version)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2587,17 +2773,18 @@ public partial class WCSLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "version", value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -2614,7 +2801,7 @@ public partial class WCSLayer : IBlendLayer,
             : [..BandIds, ..values];
         await SetBandIds(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the MultidimensionalDefinition property.
     /// </summary>
@@ -2628,12 +2815,12 @@ public partial class WCSLayer : IBlendLayer,
             : [..MultidimensionalDefinition, ..values];
         await SetMultidimensionalDefinition(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the BandIds property.
     /// </summary>
@@ -2646,10 +2833,10 @@ public partial class WCSLayer : IBlendLayer,
         {
             return;
         }
+
         await SetBandIds(BandIds.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the MultidimensionalDefinition property.
     /// </summary>
@@ -2662,170 +2849,14 @@ public partial class WCSLayer : IBlendLayer,
         {
             return;
         }
+
         await SetMultidimensionalDefinition(MultidimensionalDefinition.Except(values).ToArray());
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case DimensionalDefinition multidimensionalDefinition:
-                MultidimensionalDefinition ??= [];
-                if (!MultidimensionalDefinition.Contains(multidimensionalDefinition))
-                {
-                    MultidimensionalDefinition = [..MultidimensionalDefinition, multidimensionalDefinition];
-                    ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case MultidimensionalSubset multidimensionalSubset:
-                if (multidimensionalSubset != MultidimensionalSubset)
-                {
-                    MultidimensionalSubset = multidimensionalSubset;
-                    ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case PopupTemplate popupTemplate:
-                if (popupTemplate != PopupTemplate)
-                {
-                    PopupTemplate = popupTemplate;
-                    ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case PortalItem portalItem:
-                if (portalItem != PortalItem)
-                {
-                    PortalItem = portalItem;
-                    ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case TimeExtent timeExtent:
-                if (timeExtent != TimeExtent)
-                {
-                    TimeExtent = timeExtent;
-                    ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case TimeInfo timeInfo:
-                if (timeInfo != TimeInfo)
-                {
-                    TimeInfo = timeInfo;
-                    ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case TimeInterval timeOffset:
-                if (timeOffset != TimeOffset)
-                {
-                    TimeOffset = timeOffset;
-                    ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case DimensionalDefinition multidimensionalDefinition:
-                MultidimensionalDefinition = MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
-                ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
-                return true;
-            case MultidimensionalSubset _:
-                MultidimensionalSubset = null;
-                ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
-                return true;
-            case PopupTemplate _:
-                PopupTemplate = null;
-                ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-                return true;
-            case PortalItem _:
-                PortalItem = null;
-                ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                return true;
-            case TimeExtent _:
-                TimeExtent = null;
-                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-                return true;
-            case TimeInfo _:
-                TimeInfo = null;
-                ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
-                return true;
-            case TimeInterval _:
-                TimeOffset = null;
-                ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (PortalItem is null && Url is null)
-        {
-            throw new MissingRequiredOptionsChildElementException(nameof(WCSLayer), [nameof(PortalItem), nameof(Url)]);
-        }
-        if (MultidimensionalDefinition is not null)
-        {
-            foreach (DimensionalDefinition child in MultidimensionalDefinition)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
-        PopupTemplate?.ValidateRequiredGeneratedChildren();
-        TimeExtent?.ValidateRequiredGeneratedChildren();
-        TimeInfo?.ValidateRequiredGeneratedChildren();
-        TimeOffset?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

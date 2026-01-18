@@ -20,17 +20,23 @@ public partial record GroundCreateElevationSamplerOptions(
     double? NoDataValue = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public GroundCreateElevationSamplerOptions() : this(null, null)
+    {
+    }
+
+    /// <summary>
     ///     Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`).
     ///     default auto
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#createElevationSampler">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [JsonConverter(typeof(NumberToStringConverter))]
     public string? DemResolution { get; set; } = DemResolution;
-    
+
     /// <summary>
     ///     The value to use when there is no data available.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#createElevationSampler">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? NoDataValue { get; set; } = NoDataValue;
-    
 }

@@ -67,11 +67,11 @@ export async function buildDotNetCameraLayoutGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetCameraLayout.id)) {
         jsObjectRefs[dotNetCameraLayout.id] ??= jsObject;
         arcGisObjectRefs[dotNetCameraLayout.id] ??= jsObject;
     }
-
     return dotNetCameraLayout;
 }
 

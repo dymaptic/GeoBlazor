@@ -25,9 +25,9 @@ export async function buildJsSizeVariable(dotNetObject: any, layerId: string | n
     return await buildJsSizeVariableGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSizeVariable(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetSizeVariable(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSizeVariableGenerated} = await import('./sizeVariable.gb');
-    let dotNetSizeVariable = await buildDotNetSizeVariableGenerated(jsObject);
+    let dotNetSizeVariable = await buildDotNetSizeVariableGenerated(jsObject, layerId, viewId);
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {

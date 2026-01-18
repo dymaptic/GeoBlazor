@@ -11,7 +11,7 @@ export default class GraphicsLayerWrapper extends GraphicsLayerGenerated {
 
     async load(options: any): Promise<any> {
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetGraphicsLayer(result, this.viewId);
+        let dotNetLayer = await buildDotNetGraphicsLayer(result, this.layerId, this.viewId);
         return buildEncodedJson(dotNetLayer);
     }
     async remove(graphic: any): Promise<void> {
@@ -48,7 +48,7 @@ export async function buildJsGraphicsLayer(dotNetObject: any, layerId: string | 
     return jsObject;
 }
 
-export async function buildDotNetGraphicsLayer(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetGraphicsLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetGraphicsLayerGenerated} = await import('./graphicsLayer.gb');
-    return await buildDotNetGraphicsLayerGenerated(jsObject, viewId);
+    return await buildDotNetGraphicsLayerGenerated(jsObject, layerId, viewId);
 }

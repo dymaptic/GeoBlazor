@@ -9,9 +9,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Layers">
-///     A collection of
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ElevationLayers</a>
-///     that define the elevation or terrain that makes up the ground surface.
+///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ElevationLayers</a> that define the elevation or terrain
+///     that makes up the ground surface.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#layers">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="NavigationConstraint">
@@ -29,41 +28,56 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     default null
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#surfaceColor">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Loaded">
+///     Indicates whether the instance has loaded.
+///     default false
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#loaded">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record Ground(
     IReadOnlyCollection<Layer>? Layers = null,
     GroundNavigationConstraint? NavigationConstraint = null,
     double? Opacity = null,
-    MapColor? SurfaceColor = null) : IIntersectItem, ILayerParent, IMeshUtilsSource, IInteractiveRecord
+    MapColor? SurfaceColor = null,
+    bool? Loaded = null) : IIntersectItem, ILayerParent, IMeshUtilsSource, IInteractiveRecord
 {
+    /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public Ground() : this(null, null)
+    {
+    }
+
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>
     public IJSObjectReference? JsComponentReference { get; set; }
-    
+
     /// <summary>
     ///     Allows for transmitting CancellationToken cancel signals to JavaScript.
     /// </summary>
     public AbortManager? AbortManager { get; set; }
-    
+
     /// <summary>
     ///     A unique Id to identify this record in JavaScript.
     /// </summary>
     public Guid Id { get; set; } = Guid.NewGuid();
-    
+
     /// <summary>
     ///     Reference to the Core JavaScript module.
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
-    
+
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
     public bool IsServer { get; set; }
-    
+
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();
+
+
 #region Public Methods
 
     /// <summary>
@@ -78,8 +92,8 @@ public partial record Ground(
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -88,21 +102,20 @@ public partial record Ground(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "cancelLoad", 
+
+        await JsComponentReference!.InvokeVoidAsync("cancelLoad",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundcreateelevationsampler-method">GeoBlazor Docs</a>
-    ///     Creates an elevation sampler for the given extent by querying the ground layers
-    ///     for elevation data and caching it so values may be sampled quickly afterwards.
+    ///     Creates an elevation sampler for the given extent by querying the ground layers for elevation data and caching it
+    ///     so values may be sampled quickly afterwards.
     ///     param options Additional sampler options.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#createElevationSampler">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -124,8 +137,8 @@ public partial record Ground(
         {
             return null;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -134,24 +147,25 @@ public partial record Ground(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
+
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+
         IElevationSampler? result = await JsComponentReference!.InvokeAsync<IElevationSampler?>(
-            "createElevationSampler", 
+            "createElevationSampler",
             CancellationTokenSource.Token,
             extent,
             new { demResolution = options.DemResolution, noDataValue = options.NoDataValue, signal = abortSignal });
-                
+
         await AbortManager.DisposeAbortController(cancellationToken);
-        
+
         return result;
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundisfulfilled-method">GeoBlazor Docs</a>
     ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
@@ -164,7 +178,7 @@ public partial record Ground(
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -174,17 +188,16 @@ public partial record Ground(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isFulfilled",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundisrejected-method">GeoBlazor Docs</a>
     ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
@@ -197,7 +210,7 @@ public partial record Ground(
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -207,17 +220,16 @@ public partial record Ground(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isRejected",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundisresolved-method">GeoBlazor Docs</a>
     ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
@@ -230,7 +242,7 @@ public partial record Ground(
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -240,17 +252,16 @@ public partial record Ground(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isResolved",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundload-method">GeoBlazor Docs</a>
     ///     Loads the resources referenced by this class.
@@ -266,8 +277,8 @@ public partial record Ground(
         {
             return null;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -276,23 +287,23 @@ public partial record Ground(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
+
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "load", 
+
+        string? result = await JsComponentReference!.InvokeAsync<string?>("load",
             CancellationTokenSource.Token,
             new { signal = abortSignal });
-                
+
         await AbortManager.DisposeAbortController(cancellationToken);
-        
+
         return result;
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundloadall-method">GeoBlazor Docs</a>
     ///     Loads all the externally loadable resources associated with the ground.
@@ -305,7 +316,7 @@ public partial record Ground(
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -315,17 +326,16 @@ public partial record Ground(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Ground?>(
-            "loadAll", 
+
+        return await JsComponentReference!.InvokeAsync<Ground?>("loadAll",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundqueryelevation-method">GeoBlazor Docs</a>
     ///     Query the ground layer services for elevation values for the given geometry.
@@ -350,55 +360,7 @@ public partial record Ground(
         {
             return null;
         }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ElevationQueryResult? result = await JsComponentReference!.InvokeAsync<ElevationQueryResult?>(
-            "queryElevation", 
-            CancellationTokenSource.Token,
-            geometry,
-            new { demResolution = options.DemResolution, returnSampleInfo = options.ReturnSampleInfo, noDataValue = options.NoDataValue, signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundwhen-method">GeoBlazor Docs</a>
-    ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param errback The function to execute when the promise fails.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#when">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="callback">
-    ///     The function to call when the promise resolves.
-    /// </param>
-    /// <param name="errback">
-    ///     The function to execute when the promise fails.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -408,19 +370,70 @@ public partial record Ground(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
-            CancellationTokenSource.Token,
-            callback,
-            errback);
-    }
-    
-#endregion
 
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+
+        ElevationQueryResult? result = await JsComponentReference!.InvokeAsync<ElevationQueryResult?>("queryElevation",
+            CancellationTokenSource.Token,
+            geometry,
+            new
+            {
+                demResolution = options.DemResolution,
+                returnSampleInfo = options.ReturnSampleInfo,
+                noDataValue = options.NoDataValue,
+                signal = abortSignal
+            });
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param onRejected The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="onFulfilled">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="onRejected">
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> onFulfilled,
+        Func<Task> onRejected)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+
+        return await JsComponentReference!.InvokeAsync<string?>("when",
+            CancellationTokenSource.Token,
+            onFulfilled,
+            onRejected);
+    }
+
+#endregion
 }

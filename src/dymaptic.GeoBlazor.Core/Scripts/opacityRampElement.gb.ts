@@ -57,11 +57,11 @@ export async function buildDotNetOpacityRampElementGenerated(jsObject: any, view
             }
         }
     }
+
     if (hasValue(dotNetOpacityRampElement.id)) {
         jsObjectRefs[dotNetOpacityRampElement.id] ??= jsObject;
         arcGisObjectRefs[dotNetOpacityRampElement.id] ??= jsObject;
     }
-
     return dotNetOpacityRampElement;
 }
 

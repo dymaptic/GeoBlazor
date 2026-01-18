@@ -4,6 +4,7 @@ param(
     [switch][Alias("pub")]$PublishVersion,
     [switch][Alias("obf")]$Obfuscate,
     [switch][Alias("docs")]$GenerateDocs,
+    [switch][Alias("xml")]$GenerateXmlComments,
     [switch][Alias("pkg")]$Package,
     [switch][Alias("bl")]$Binlog,
     [switch][Alias("h")]$Help,
@@ -21,6 +22,7 @@ if ($Help) {
     Write-Host "  -PublishVersion (-pub)         Truncate the build version to 3 digits for NuGet (default is false)"
     Write-Host "  -Obfuscate (-obf)              Obfuscate the Pro license validation logic (default is false)"
     Write-Host "  -GenerateDocs (-docs)          Generate documentation files for the docs site (default is false)"
+    Write-Host "  -GenerateXmlComments (-xml)    Generate the XML comments that provide intellisense when using the library in an IDE"
     Write-Host "  -Package (-pkg)                Create NuGet packages (default is false)"
     Write-Host "  -Binlog (-bl)                  Generate MSBuild binary log files (default is false)"
     Write-Host "  -Version (-v) <string>         Specify a custom version number (default is to auto-increment the current build version)"
@@ -32,11 +34,16 @@ if ($Help) {
     exit 0
 }
 
+if ($GenerateDocs) {
+    $GenerateXmlComments = $true
+}
+
 Write-Host "Starting GeoBlazor Build Script"
 Write-Host "Pro Build: $Pro"
 Write-Host "Set Nuget Publish Version Build: $PublishVersion"
 Write-Host "Obfuscate Pro Build: $Obfuscate"
-Write-Host "Generate XML Documentation: $GenerateDocs"
+Write-Host "Generate Documentation Files: $GenerateDocs"
+Write-Host "Generate XML Documentation: $GenerateXmlComments"
 Write-Host "Build Package: $($Package -eq $true)"
 Write-Host "Version: $Version"
 Write-Host "Configuration: $Configuration"
@@ -116,17 +123,22 @@ try {
         Get-ChildItem -Path (Join-Path $ProProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
-        Get-ChildItem -Path (Join-Path $ProProjectPath "build/resources") -Recurse -Force | Remove-Item -Recurse -Force
+        if (Test-Path (Join-Path $ProProjectPath "build/resources")) {
+            Get-ChildItem -Path (Join-Path $ProProjectPath "build/resources") -Recurse -Force | Remove-Item -Recurse -Force
+        }
         if (Test-Path (Join-Path $ProProjectPath "wwwroot/js")) {
             Get-ChildItem -Path (Join-Path $ProProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
         }
         if (Test-Path (Join-Path $ProProjectPath "node_modules")) {
             Get-ChildItem -Path (Join-Path $ProProjectPath "node_modules") -Recurse -Force | Remove-Item -Recurse -Force
         }
-        dotnet clean (Join-Path $ValidatorProjectPath dymaptic.GeoBlazor.Pro.V.csproj)
-        Get-ChildItem -Path (Join-Path $ValidatorProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
-        Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
-        Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
+        if (Test-Path $ValidatorProjectPath) {
+            dotnet clean (Join-Path $ValidatorProjectPath dymaptic.GeoBlazor.Pro.V.csproj)
+            Get-ChildItem -Path (Join-Path $ValidatorProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
+            Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
+            Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
+        }
+        
     }
     Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
     Write-Host ""
@@ -169,20 +181,21 @@ try {
         }
 
         if ($Pro -eq $true) {
+            [xml]$ProProps = [xml](Get-Content $ProPropsPath)
+            $CurrentProVersion = $ProProps.Project.PropertyGroup.ProVersion
+            
             if ($PublishVersion) {
                 $Version = ./bumpVersion.ps1 -publish -pro
             } else {
                 $Version = ./bumpVersion.ps1 -pro
             }
 
-            if ($NewCoreVersion -gt $Version) {
+            if ($NewCoreVersion -gt $Version -and $CurrentCoreVersion -gt $CurrentProVersion) {
                 $Version = $NewCoreVersion
             } elseif ($NewCoreVersion -lt $Version) {
                 "Core version ($NewCoreVersion) and Pro version ($Version) do not match after bumping. Please ensure both versions are the same in Directory.Build.props."
             }
-
-            [xml]$ProProps = [xml](Get-Content $ProPropsPath)
-            $CurrentProVersion = $ProProps.Project.PropertyGroup.ProVersion
+            
             if ($CurrentProVersion -eq $Version) {
                 Write-Host "Pro Version is already set to $Version, no update needed."
             }
@@ -273,8 +286,12 @@ try {
     Write-Host ""
 
     # double-escape line breaks
-    $CoreBuild = "dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore /p:PipelineBuild=true ``
-                /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:CoreVersion=$Version -c $Configuration ``
+    $CoreBuild = "dotnet build dymaptic.GeoBlazor.Core.csproj --no-restore ``
+                -c $Configuration ``
+                /p:PipelineBuild=true ``
+                /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) ``
+                /p:GenerateXmlComments=$($GenerateXmlComments.ToString().ToLower()) ``
+                /p:CoreVersion=$Version ``
                 /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
     Write-Host "Executing '$CoreBuild'"
 
@@ -319,10 +336,6 @@ try {
         if ($CoreNupkg) {
             Copy-Item -Path $CoreNupkg.FullName -Destination $CoreRepoRoot -Force
             Write-Host "Copied $($CoreNupkg.Name) to $CoreRepoRoot"
-            if ($Pro -eq $true) {
-                Copy-Item -Path $CoreNupkg.FullName -Destination $ProRepoRoot -Force
-                Write-Host "Copied $($CoreNupkg.Name) to $ProRepoRoot"
-            }
         }
     }
 
@@ -344,61 +357,64 @@ try {
         Write-Host ""
 
         $Step++
-        
-        ## Build the Validator MSBuild task
-        $StepStartTime = Get-Date
-        Set-Location $ValidatorProjectPath
-        Write-Host ""
-        Write-Host "$Step. Building Validator project in configuration $ValidatorConfig" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
-        Write-Host ""
-        Write-Host ""
-        
-        # Set the ServerUrls in the Validator project
-        $ServerUrl = $ServerUrl.TrimEnd('/')
-        Write-Host "Setting License Server Url to $ServerUrl"
-        $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
-        $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";"
-        Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
-        if ($IsMacOS) {
-            & sync
-        }
-        Start-Sleep -Milliseconds 500
-        $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
-        if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";")) {
-            throw "Failed to set ServerUrl in DevBuildValidator.cs"
-        }
-        $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
-        $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";"
-        Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
-        if ($IsMacOS) {
-            & sync
-        }
-        Start-Sleep -Milliseconds 500
-        $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
-        if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";")) {
-            throw "Failed to set ServerUrl in PublishTaskValidator.cs"
-        }
-        
-        $OptOutFromObfuscation = $Obfuscate -eq $false
-        
-        dotnet build dymaptic.GeoBlazor.Pro.V.csproj /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) `
-            /p:ProVersion=$Version -c $ValidatorConfig $BinlogFlag 2>&1 | Tee-Object -Variable Build
-        
-        # Restore the ServerUrls in the Validator project
-        $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
-        $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = ".*";', 'public string SU { get; set; } = null!;'
-        Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline
-        $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
-        $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = ".*";', 'public string SU { get; set; } = null!;'
-        Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline
-        $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
-        if ($HasError -eq $true) {
-            exit 1
-        }
-        Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
-        Write-Host ""
 
-        $Step++
+        # Set OptOutFromObfuscation before building Validator or Pro (needed for both)
+        $OptOutFromObfuscation = $Obfuscate -eq $false
+
+        if (Test-Path $ValidatorProjectPath) {
+            ## Build the Validator MSBuild task
+            $StepStartTime = Get-Date
+            Set-Location $ValidatorProjectPath
+            Write-Host ""
+            Write-Host "$Step. Building Validator project in configuration $ValidatorConfig" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
+            Write-Host ""
+            Write-Host ""
+
+            # Set the ServerUrls in the Validator project
+            $ServerUrl = $ServerUrl.TrimEnd('/')
+            Write-Host "Setting License Server Url to $ServerUrl"
+            $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
+            $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";"
+            Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
+            if ($IsMacOS) {
+                & sync
+            }
+            Start-Sleep -Milliseconds 500
+            $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
+            if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4`";")) {
+                throw "Failed to set ServerUrl in DevBuildValidator.cs"
+            }
+            $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
+            $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = null!;', "public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";"
+            Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline -Force -Encoding UTF8
+            if ($IsMacOS) {
+                & sync
+            }
+            Start-Sleep -Milliseconds 500
+            $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
+            if ($ValidatorContent -notmatch [regex]::Escape("public string SU { get; set; } = `"$ServerUrl/api/validate/v4/publish`";")) {
+                throw "Failed to set ServerUrl in PublishTaskValidator.cs"
+            }
+            
+            dotnet build dymaptic.GeoBlazor.Pro.V.csproj /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) `
+                /p:ProVersion=$Version -c $ValidatorConfig $BinlogFlag 2>&1 | Tee-Object -Variable Build
+            
+            # Restore the ServerUrls in the Validator project
+            $ValidatorContent = Get-Content 'DevBuildValidator.cs' -Raw;
+            $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = ".*";', 'public string SU { get; set; } = null!;'
+            Set-Content 'DevBuildValidator.cs' -Value $ValidatorContent -NoNewline
+            $ValidatorContent = Get-Content 'PublishTaskValidator.cs' -Raw;
+            $ValidatorContent = $ValidatorContent -replace 'public string SU \{ get; set; \} = ".*";', 'public string SU { get; set; } = null!;'
+            Set-Content 'PublishTaskValidator.cs' -Value $ValidatorContent -NoNewline
+            $HasError = (($Build -match "[1-9][0-9]* [Ee]rror(s)") -or ($Build -match "Build FAILED"))
+            if ($HasError -eq $true) {
+                exit 1
+            }
+            Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
+            Write-Host ""
+    
+            $Step++
+        }
 
         Set-Location $ProProjectPath
 
@@ -448,9 +464,14 @@ try {
 
         # double-escape line breaks
         $ProBuild = "dotnet build dymaptic.GeoBlazor.Pro.csproj --no-restore ``
-                            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) /p:PipelineBuild=true  /p:CoreVersion=$Version ``
-                            /p:ProVersion=$Version /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) -c ``
-                            $Configuration /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
+                            -c $Configuration ``
+                            /p:PipelineBuild=true ``
+                            /p:GenerateDocs=$($GenerateDocs.ToString().ToLower()) ``
+                            /p:GenerateXmlComments=$($GenerateXmlComments.ToString().ToLower()) ``
+                            /p:CoreVersion=$Version ``
+                            /p:ProVersion=$Version ``
+                            /p:OptOutFromObfuscation=$($OptOutFromObfuscation.ToString().ToLower()) ``
+                            /p:GeneratePackage=$($Package.ToString().ToLower()) $BinlogFlag 2>&1"
         Write-Host "Executing '$ProBuild'"
 
         # sometimes the build fails due to a Microsoft bug, retry a few times
@@ -492,8 +513,8 @@ try {
             # Copy generated NuGet package to script root
             $ProNupkg = Get-ChildItem -Path "bin/$Configuration" -Filter "*.nupkg" -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
             if ($ProNupkg) {
-                Copy-Item -Path $ProNupkg.FullName -Destination $ProRepoRoot -Force
-                Write-Host "Copied $($ProNupkg.Name) to $ProRepoRoot"
+                Copy-Item -Path $ProNupkg.FullName -Destination $CoreRepoRoot -Force
+                Write-Host "Copied $($ProNupkg.Name) to $CoreRepoRoot"
             }
         }
         

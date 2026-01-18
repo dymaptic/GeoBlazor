@@ -2,15 +2,13 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
-///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">Expand</a> widget.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand-ExpandViewModel.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ExpandViewModel.html">GeoBlazor Docs</a>
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">Expand</a> widget and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-expand/">component</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand-ExpandViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class ExpandViewModel : MapComponent,
-    IViewModel
+public partial class ExpandViewModel : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -23,21 +21,22 @@ public partial class ExpandViewModel : MapComponent,
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="autoCollapse">
-    ///     Automatically collapses the expand widget instance when the view's viewpoint updates.
+    ///     Automatically collapses the Expand instance when the view's
+    ///     viewpoint updates.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand-ExpandViewModel.html#autoCollapse">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="expanded">
-    ///     Whether the widget is currently expanded or not.
+    ///     Whether the element is currently expanded or not.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand-ExpandViewModel.html#expanded">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="group">
-    ///     This value associates two or more Expand widget instances with each other, allowing one instance to auto collapse when another instance in the same group is expanded.
+    ///     This value associates two or more Expand instances with each other, allowing one
+    ///     instance to auto collapse when another instance in the same group is expanded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand-ExpandViewModel.html#group">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public ExpandViewModel(
-        bool? autoCollapse = null,
+    public ExpandViewModel(bool? autoCollapse = null,
         bool? expanded = null,
         string? group = null)
     {
@@ -46,14 +45,16 @@ public partial class ExpandViewModel : MapComponent,
         AutoCollapse = autoCollapse;
         Expanded = expanded;
         Group = group;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Automatically collapses the expand widget instance when the view's viewpoint updates.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ExpandViewModel.html#expandviewmodelautocollapse-property">GeoBlazor Docs</a>
+    ///     Automatically collapses the Expand instance when the view's
+    ///     viewpoint updates.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand-ExpandViewModel.html#autoCollapse">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -61,9 +62,10 @@ public partial class ExpandViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? AutoCollapse { get; set; }
-    
+
     /// <summary>
-    ///     Whether the widget is currently expanded or not.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ExpandViewModel.html#expandviewmodelexpanded-property">GeoBlazor Docs</a>
+    ///     Whether the element is currently expanded or not.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand-ExpandViewModel.html#expanded">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -71,27 +73,31 @@ public partial class ExpandViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Expanded { get; set; }
-    
+
     /// <summary>
-    ///     This value associates two or more Expand widget instances with each other, allowing one instance to auto collapse when another instance in the same group is expanded.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ExpandViewModel.html#expandviewmodelgroup-property">GeoBlazor Docs</a>
+    ///     This value associates two or more Expand instances with each other, allowing one
+    ///     instance to auto collapse when another instance in the same group is expanded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand-ExpandViewModel.html#group">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Group { get; set; }
-    
+
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ExpandViewModel.html#expandviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand-ExpandViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public ViewModelState? State { get; protected set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -104,27 +110,38 @@ public partial class ExpandViewModel : MapComponent,
         {
             return AutoCollapse;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return AutoCollapse;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "autoCollapse");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AutoCollapse = result.Value.Value;
+            AutoCollapse = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AutoCollapse)] = AutoCollapse;
+            ModifiedParameters[nameof(AutoCollapse)] = AutoCollapse;
         }
-         
+
         return AutoCollapse;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Expanded property.
     /// </summary>
@@ -134,27 +151,38 @@ public partial class ExpandViewModel : MapComponent,
         {
             return Expanded;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return Expanded;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "expanded");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Expanded = result.Value.Value;
+            Expanded = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Expanded)] = Expanded;
+            ModifiedParameters[nameof(Expanded)] = Expanded;
         }
-         
+
         return Expanded;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Group property.
     /// </summary>
@@ -164,8 +192,17 @@ public partial class ExpandViewModel : MapComponent,
         {
             return Group;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return Group;
@@ -174,17 +211,18 @@ public partial class ExpandViewModel : MapComponent,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "group");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Group = result;
+            Group = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Group)] = Group;
+            ModifiedParameters[nameof(Group)] = Group;
         }
-         
+
         return Group;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -194,58 +232,40 @@ public partial class ExpandViewModel : MapComponent,
         {
             return State;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return State;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
+        JsNullableEnumWrapper<ViewModelState>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "state");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (ViewModelState)result.Value.Value!;
+            State = (ViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
-        }
-         
-        return State;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
+            ModifiedParameters[nameof(State)] = State;
         }
 
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
+        return State;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -261,24 +281,31 @@ public partial class ExpandViewModel : MapComponent,
         AutoCollapse = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AutoCollapse)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoCollapse", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Expanded property after render.
     /// </summary>
@@ -291,24 +318,31 @@ public partial class ExpandViewModel : MapComponent,
         Expanded = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Expanded)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expanded", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Group property after render.
     /// </summary>
@@ -321,54 +355,30 @@ public partial class ExpandViewModel : MapComponent,
         Group = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Group)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "group", value);
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-#endregion
 
+#endregion
 }

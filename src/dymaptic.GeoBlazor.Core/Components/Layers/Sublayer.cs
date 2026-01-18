@@ -1,16 +1,14 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class Sublayer: MapComponent, IPopupTemplateLayer
+public partial class Sublayer : MapComponent, IPopupTemplateLayer
 {
-
-    
     /// <summary>
     ///     A SQL where clause used to filter features in the image. Only the features that satisfy the definition expression are displayed in the View. Definition expressions may be set when a Sublayer is constructed prior to it loading in the view or after it has been added to the MapImageLayer. To see if you can use this property, check the supportsSublayerDefinitionExpression property of MapImageLayer.capabilities.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DefinitionExpression { get; set; }
-    
+
     /// <summary>
     ///     If a map image layer contains a sublayer which is meant to be floor-aware, then that sublayer must have a floorInfo property, containing a LayerFloorInfo object which has a string property to represent the floorField.
     /// </summary>
@@ -18,7 +16,6 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LayerFloorInfo? FloorInfo { get; set; }
 
-    
     /// <summary>
     ///     Indicates if labels for the sublayer will be visible in the view.
     ///     Default Value: true
@@ -26,7 +23,7 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? LabelsVisible { get; set; }
-    
+
     /// <summary>
     ///     Indicates whether the layer will be included in the legend. When false, the layer will be excluded from the legend.
     ///     Default Value: true
@@ -34,35 +31,35 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? LegendEnabled { get; set; }
-    
+
     /// <summary>
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ListMode? ListMode { get; set; }
-    
+
     /// <summary>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view. If the map is zoomed in beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a maximum scale. The maxScale value should always be smaller than the minScale value, and greater than or equal to the service specification.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxScale { get; set; }
-    
+
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view. If the map is zoomed out beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a minimum scale. The minScale value should always be larger than the maxScale value, and less than or equal to the service specification.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MinScale { get; set; }
-    
+
     /// <summary>
     ///     The level of opacity to set on the sublayer on a scale from 0.0 - 1.0 where 0 is fully transparent and 1.0 is fully opaque. If the MapImageLayer.opacity is set, the actual opacity value of the sublayer will be the value of MapImageLayer.opacity multiplied by the sublayer's opacity.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Opacity { get; set; }
-    
+
     /// <summary>
     ///     Indicates whether to display popups when features in the layer are clicked. The layer needs to have a popupTemplate to define what information should be displayed in the popup. Alternatively, a default popup template may be automatically used if Popup.defaultPopupTemplateEnabled is set to true.
     ///     Default Value: true
@@ -70,7 +67,7 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? PopupEnabled { get; set; }
-    
+
     /// <summary>
     ///     The title of the sublayer used to identify it in places such as the LayerList and Legend widgets. This value can be defined in the map service or programmatically by the developer. It can also be useful for finding a specific sublayer.
     /// </summary>
@@ -78,6 +75,14 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? Title { get; set; }
 
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        FloorInfo?.ValidateRequiredChildren();
+
+
+        base.ValidateRequiredChildren();
+    }
 
     /// <summary>
     ///     Returns a flattened list of sublayers
@@ -137,16 +142,13 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
         {
             return;
         }
-        
+
         foreach (Sublayer childSublayer in renderedSublayer.Sublayers)
         {
             Sublayer? matchingLayer = Sublayers?.FirstOrDefault(l => l.Id == childSublayer.Id);
 
             if (matchingLayer is not null)
             {
-                matchingLayer.Parent = this;
-                matchingLayer.View = View;
-                matchingLayer.Layer = Layer;
                 await matchingLayer.UpdateFromJavaScript(childSublayer);
             }
             else
@@ -157,34 +159,6 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
         }
     }
 
-    /// <summary>
-    ///     For internal use only. Prepares deserialized sublayers for subsequent calls to the ArcGIS JavaScript SDK.
-    /// </summary>
-    /// <param name="coreJsModule">
-    ///     The core JavaScript module reference.
-    /// </param>
-    /// <param name="proJsModule">
-    ///     The Pro JavaScript module reference, if available.
-    /// </param>
-    /// <param name="mapView">
-    ///     The MapView instance that this sublayer is associated with.
-    /// </param>
-    internal void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
-        MapView mapView)
-    {
-        CoreJsModule = coreJsModule;
-        ProJsModule = proJsModule;
-        View = mapView;
-
-        if (Sublayers is not null)
-        {
-            foreach (Sublayer sublayer in Sublayers)
-            {
-                sublayer.UpdateGeoBlazorReferences(coreJsModule, proJsModule, mapView);
-            }
-        }
-    }
-    
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -192,7 +166,7 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
         {
             case LayerFloorInfo floorInfo:
                 FloorInfo = floorInfo;
-                
+
                 break;
             case Label label:
                 LabelingInfo ??= [];
@@ -215,7 +189,7 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
                 break;
         }
     }
-    
+
     /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
@@ -223,7 +197,7 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
         {
             case LayerFloorInfo:
                 FloorInfo = null;
-                
+
                 break;
             case Label label:
                 LabelingInfo = LabelingInfo?.Except([label]).ToList();
@@ -244,14 +218,5 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
 
                 break;
         }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredChildren()
-    {
-        FloorInfo?.ValidateRequiredChildren();
-
-
-        base.ValidateRequiredChildren();
     }
 }

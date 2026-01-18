@@ -1,7 +1,7 @@
 using dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
-using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 
@@ -11,16 +11,21 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 ///     Triggers the ESBuild build process for the GeoBlazor project, so that your JavaScript code is up to date.
 /// </summary>
 [Generator]
+[SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
 public class ESBuildGenerator : IIncrementalGenerator
 {
+    /// <summary>
+    ///     Gets a value indicating whether an ESBuild process is currently running.
+    /// </summary>
     public static bool InProcess { get; private set; }
-    
+
+    /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Tracks all TypeScript source files in the Scripts directories of Core and Pro.
         // This will trigger the build any time a TypeScript file is added, removed, or changed.
         IncrementalValueProvider<ImmutableArray<AdditionalText>> tsFilesProvider = context.AdditionalTextsProvider
-            .Where(static text => text.Path.Contains("Scripts") 
+            .Where(static text => text.Path.Contains("Scripts")
                 && text.Path.EndsWith(".ts"))
             .Collect();
 
@@ -29,18 +34,19 @@ public class ESBuildGenerator : IIncrementalGenerator
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
                 configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
-                    out var projectDirectory);
+                    out string? projectDirectory);
 
                 configProvider.GlobalOptions.TryGetValue("build_property.Configuration",
-                    out var configuration);
+                    out string? configuration);
 
                 configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
-                    out var pipelineBuild);
+                    out string? pipelineBuild);
 
                 return (projectDirectory, configuration, pipelineBuild);
             });
 
-        var combined =
+        IncrementalValueProvider<((ImmutableArray<AdditionalText> Left, (string?, string?, string?) Right) Left,
+            Compilation Right)> combined =
             tsFilesProvider
                 .Combine(optionsProvider)
                 .Combine(context.CompilationProvider);
@@ -77,7 +83,7 @@ public class ESBuildGenerator : IIncrementalGenerator
 
         if (pipeline.Data.Files.Length > 0)
         {
-            LaunchESBuild(context);   
+            LaunchESBuild(context);
         }
     }
 
@@ -85,7 +91,7 @@ public class ESBuildGenerator : IIncrementalGenerator
         (string? ProjectDirectory, string? Configuration, string? _) options,
         SourceProductionContext context)
     {
-        var projectDirectory = options.ProjectDirectory;
+        string? projectDirectory = options.ProjectDirectory;
 
         if (projectDirectory is not null)
         {
@@ -99,7 +105,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             if (_corePath.Contains("GeoBlazor.Pro"))
             {
                 // we are inside the Pro submodule, we should also set the Pro path to build the Pro JavaScript files
-                var path = _corePath;
+                string path = _corePath;
 
                 while (!path.EndsWith("GeoBlazor.Pro"))
                 {
@@ -138,31 +144,6 @@ public class ESBuildGenerator : IIncrementalGenerator
 
     private void LaunchESBuild(SourceProductionContext context)
     {
-        Stopwatch? sw = null;
-
-        while (InProcess && (sw is null || sw.ElapsedMilliseconds < 5_000))
-        {
-            if (sw is null)
-            {
-                sw = new Stopwatch();
-                sw.Start();
-            }
-            
-            Thread.Sleep(100);
-        }
-
-        if (InProcess)
-        {
-            ProcessHelper.Log(nameof(ESBuildGenerator),
-                "Another instance of the ESBuild process has been running continuously for 5 seconds.",
-                DiagnosticSeverity.Error,
-                context);
-
-            return;
-        }
-        
-        InProcess = true;
-        ClearESBuildLocks(context);
         context.CancellationToken.ThrowIfCancellationRequested();
 
         ProcessHelper.Log(nameof(ESBuildGenerator),
@@ -170,14 +151,14 @@ public class ESBuildGenerator : IIncrementalGenerator
             DiagnosticSeverity.Info,
             context);
 
-        var logBuilder = new StringBuilder(DateTime.Now.ToLongTimeString());
+        StringBuilder logBuilder = new StringBuilder(DateTime.Now.ToLongTimeString());
         logBuilder.AppendLine("Starting Core ESBuild process...");
 
         try
         {
             List<Task> tasks = [];
-            var buildSuccess = false;
-            var proBuildSuccess = false;
+            bool buildSuccess = false;
+            bool proBuildSuccess = false;
 
             // gets the esBuild.ps1 script from the Core path
             tasks.Add(Task.Run(async () =>
@@ -243,12 +224,8 @@ public class ESBuildGenerator : IIncrementalGenerator
                 $"An error occurred while running ESBuild: {ex.Message}\r\n{ex.StackTrace}",
                 DiagnosticSeverity.Error,
                 context);
-            
+
             ClearESBuildLocks(context);
-        }
-        finally
-        {
-            InProcess = false;
         }
     }
 
@@ -256,10 +233,11 @@ public class ESBuildGenerator : IIncrementalGenerator
     {
         StringBuilder logBuilder = new();
         string rootCorePath = Path.Combine(_corePath!, "..", "..");
+
         _ = Task.Run(async () => await ProcessHelper.RunPowerShellScript("Clear Locks",
-            rootCorePath, "esBuildClearLocks.ps1", "", 
+            rootCorePath, "esBuildClearLocks.ps1", "",
             logBuilder, context.CancellationToken));
-        
+
         ProcessHelper.Log(nameof(ESBuildGenerator),
             "Cleared ESBuild Process Locks",
             DiagnosticSeverity.Info,

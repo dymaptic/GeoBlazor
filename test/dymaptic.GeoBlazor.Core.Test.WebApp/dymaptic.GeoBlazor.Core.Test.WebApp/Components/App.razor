@@ -21,16 +21,14 @@
 #if DEBUG
         // This should always be set to Server mode so that it can toggle on the server.
     }
-        @if (NavigationManager.Uri.EndsWith(NavigationManager.BaseUri, StringComparison.OrdinalIgnoreCase))
-        {
-            // only show on the root page
             <RenderModeSelector @rendermode="@InteractiveServer" />
-        }
     @{
 #endif
     }
-        <Routes @rendermode="@_configuredRenderMode" />
-        <script src="_framework/blazor.web.js"></script>
+        <Routes RunOnStart="@_runOnStart"
+                TestFilter="@_testFilter"
+                @rendermode="@_configuredRenderMode"/>
+        <script src="@Assets["_framework/blazor.web.js"]"></script>
     </body>
 </html>
 
@@ -42,10 +40,10 @@
     [Inject]
     public required NavigationManager NavigationManager { get; set; }
     
-#if DEBUG
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+#if DEBUG
         IComponentRenderMode oldRenderMode = _configuredRenderMode;
         _configuredRenderMode = Configuration.GetValue<string?>("RenderMode", "Auto") switch
         {
@@ -58,8 +56,50 @@
         {
             StateHasChanged();
         }
-    }
 #endif
+        _runOnStart = Configuration.GetValue("RunOnStart", false);
+        _testFilter = Configuration.GetValue<string?>("TestFilter");
+
+        Uri uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        Dictionary<string, StringValues> queryDict = QueryHelpers.ParseQuery(uri.Query);
+
+        foreach (string key in queryDict.Keys)
+        {
+            switch (key.ToLowerInvariant())
+            {
+                case "runonstart":
+                    if (bool.TryParse(queryDict[key].ToString(), out bool queryRunValue))
+                    {
+                        _runOnStart = queryRunValue;
+                    }
+
+                    break;
+                case "testfilter":
+                    if (queryDict[key].ToString() is { Length: > 0 } queryFilterValue)
+                    {
+                        _testFilter = queryFilterValue;
+                    }
+
+                    break;
+                case "rendermode":
+                    if (queryDict[key].ToString() is { Length: > 0 } queryRenderModeValue)
+                    {
+                        _configuredRenderMode = queryRenderModeValue.ToLowerInvariant() switch
+                        {
+                                "server" => InteractiveServer,
+                                "webassembly" => InteractiveWebAssembly,
+                                "wasm" => InteractiveWebAssembly,
+                                _ => InteractiveAuto
+                        };
+                    }
+
+                    break;
+            }
+        }
+    }
+
+    private bool _runOnStart;
+    private string? _testFilter;
 
     private IComponentRenderMode _configuredRenderMode = InteractiveAuto;
 }

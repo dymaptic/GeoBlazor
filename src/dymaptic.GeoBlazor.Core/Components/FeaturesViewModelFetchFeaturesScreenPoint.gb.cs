@@ -2,13 +2,12 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModelFetchFeaturesScreenPoint.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -28,21 +27,21 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
     ///     The y coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#fetchFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public FeaturesViewModelFetchFeaturesScreenPoint(
-        double? x = null,
+    public FeaturesViewModelFetchFeaturesScreenPoint(double? x = null,
         double? y = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         X = x;
         Y = y;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModelFetchFeaturesScreenPoint.html#featuresviewmodelfetchfeaturesscreenpointx-property">GeoBlazor Docs</a>
     ///     The x coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#fetchFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -50,8 +49,9 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? X { get; set; }
-    
+
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModelFetchFeaturesScreenPoint.html#featuresviewmodelfetchfeaturesscreenpointy-property">GeoBlazor Docs</a>
     ///     The y coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#fetchFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -59,8 +59,9 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Y { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -73,27 +74,38 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         {
             return X;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return X;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "x");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             X = result.Value.Value;
+            X = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(X)] = X;
+            ModifiedParameters[nameof(X)] = X;
         }
-         
+
         return X;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Y property.
     /// </summary>
@@ -103,28 +115,40 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         {
             return Y;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return Y;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "y");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Y = result.Value.Value;
+            Y = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Y)] = Y;
+            ModifiedParameters[nameof(Y)] = Y;
         }
-         
+
         return Y;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -140,24 +164,31 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         X = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(X)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "x", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Y property after render.
     /// </summary>
@@ -170,24 +201,30 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         Y = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Y)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "y", value);
     }
-    
-#endregion
 
+#endregion
 }

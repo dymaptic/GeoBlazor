@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ICustomParametersMixin.html">GeoBlazor Docs</a>
-///     Interface for types CatalogLayer, FeatureLayer, MapImageLayer, OGCFeatureLayer, SceneLayer, TileLayer
+///     Interface for types CatalogLayer, FeatureLayer, ImageryLayer, ImageryTileLayer, MapImageLayer, OGCFeatureLayer, SceneLayer, TileLayer, VectorTileLayer
 /// </summary>
 public partial interface ICustomParametersMixin : IMapComponent
 {
@@ -16,8 +16,9 @@ public partial interface ICustomParametersMixin : IMapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-CustomParametersMixin.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     Dictionary<string, object>? CustomParameters { get; set; }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -25,8 +26,9 @@ public partial interface ICustomParametersMixin : IMapComponent
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
     Task SetCustomParameters(Dictionary<string, object>? value);
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -36,5 +38,4 @@ public partial interface ICustomParametersMixin : IMapComponent
     Task<Dictionary<string, object>?> GetCustomParameters();
 
 #endregion
-
 }

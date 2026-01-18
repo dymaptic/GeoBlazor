@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D.html">DistanceMeasurement2D</a> widget and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-distance-measurement-2d/">component</a>.
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class DistanceMeasurement2DViewModel : MapComponent,
     IMeasurementViewModelActiveViewModel
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -35,8 +33,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
     ///     List of available units and unit systems (imperial, metric) for displaying the distance values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#unitOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public DistanceMeasurement2DViewModel(
-        SnappingOptions? snappingOptions = null,
+    public DistanceMeasurement2DViewModel(SnappingOptions? snappingOptions = null,
         SystemOrLengthUnit? unit = null,
         IReadOnlyList<SystemOrLengthUnit>? unitOptions = null)
     {
@@ -45,435 +42,16 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         SnappingOptions = snappingOptions;
         Unit = unit;
         UnitOptions = unitOptions;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelmeasurement-property">GeoBlazor Docs</a>
-    ///     The length and geometry of the measurement polyline in meters.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public DistanceMeasurement2DViewModelMeasurement? Measurement { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelmeasurementlabel-property">GeoBlazor Docs</a>
-    ///     This property returns the locale specific representation of the length.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurementLabel">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public string? MeasurementLabel { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelsnappingoptions-property">GeoBlazor Docs</a>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html">SnappingOptions</a> for sketching.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#snappingOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SnappingOptions? SnappingOptions { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelstate-property">GeoBlazor Docs</a>
-    ///     The view model's state.
-    ///     default "disabled"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public MeasurementViewModelState? State { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelunit-property">GeoBlazor Docs</a>
-    ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#unit">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SystemOrLengthUnit? Unit { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelunitoptions-property">GeoBlazor Docs</a>
-    ///     List of available units and unit systems (imperial, metric) for displaying the distance values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#unitOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<SystemOrLengthUnit>? UnitOptions { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Measurement property.
-    /// </summary>
-    public async Task<DistanceMeasurement2DViewModelMeasurement?> GetMeasurement()
-    {
-        if (CoreJsModule is null)
-        {
-            return Measurement;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Measurement;
-        }
-
-        DistanceMeasurement2DViewModelMeasurement? result = await JsComponentReference.InvokeAsync<DistanceMeasurement2DViewModelMeasurement?>(
-            "getMeasurement", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Measurement = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Measurement)] = Measurement;
-        }
-        
-        return Measurement;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MeasurementLabel property.
-    /// </summary>
-    public async Task<string?> GetMeasurementLabel()
-    {
-        if (CoreJsModule is null)
-        {
-            return MeasurementLabel;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return MeasurementLabel;
-        }
 
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "measurementLabel");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             MeasurementLabel = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(MeasurementLabel)] = MeasurementLabel;
-        }
-         
-        return MeasurementLabel;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SnappingOptions property.
-    /// </summary>
-    public async Task<SnappingOptions?> GetSnappingOptions()
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return SnappingOptions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return SnappingOptions;
-        }
+        SnappingOptions?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
 
-        SnappingOptions? result = await JsComponentReference.InvokeAsync<SnappingOptions?>(
-            "getSnappingOptions", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            SnappingOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
-        }
-        
-        return SnappingOptions;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the State property.
-    /// </summary>
-    public async Task<MeasurementViewModelState?> GetState()
-    {
-        if (CoreJsModule is null)
-        {
-            return State;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return State;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<MeasurementViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MeasurementViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             State = (MeasurementViewModelState)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
-        }
-         
-        return State;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Unit property.
-    /// </summary>
-    public async Task<SystemOrLengthUnit?> GetUnit()
-    {
-        if (CoreJsModule is null)
-        {
-            return Unit;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Unit;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<SystemOrLengthUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrLengthUnit>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Unit = (SystemOrLengthUnit)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Unit)] = Unit;
-        }
-         
-        return Unit;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the UnitOptions property.
-    /// </summary>
-    public async Task<IReadOnlyList<SystemOrLengthUnit>?> GetUnitOptions()
-    {
-        if (CoreJsModule is null)
-        {
-            return UnitOptions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return UnitOptions;
-        }
-
-        // get the property value
-        IReadOnlyList<SystemOrLengthUnit>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SystemOrLengthUnit>?>("getProperty",
-            CancellationTokenSource.Token, "unitOptions");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             UnitOptions = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
-        }
-         
-        return UnitOptions;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the SnappingOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSnappingOptions(SnappingOptions? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        SnappingOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SnappingOptions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setSnappingOptions", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Unit property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetUnit(SystemOrLengthUnit? value)
-    {
-#pragma warning disable BL0005
-        Unit = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Unit)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "unit", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the UnitOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetUnitOptions(IReadOnlyList<SystemOrLengthUnit>? value)
-    {
-#pragma warning disable BL0005
-        UnitOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(UnitOptions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "unitOptions", value);
-    }
-    
-#endregion
 
 #region Add to Collection Methods
 
@@ -490,12 +68,12 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
             : [..UnitOptions, ..values];
         await SetUnitOptions(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the UnitOptions property.
     /// </summary>
@@ -508,10 +86,481 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         {
             return;
         }
+
         await SetUnitOptions(UnitOptions.Except(values).ToArray());
     }
-    
+
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SnappingOptions snappingOptions:
+                if (snappingOptions != SnappingOptions)
+                {
+                    SnappingOptions = snappingOptions;
+                    ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SnappingOptions _:
+                SnappingOptions = null;
+                ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelmeasurement-property">GeoBlazor Docs</a>
+    ///     The length and geometry of the measurement polyline in meters.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public DistanceMeasurement2DViewModelMeasurement? Measurement { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelmeasurementlabel-property">GeoBlazor Docs</a>
+    ///     This property returns the locale specific representation of the length.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurementLabel">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public string? MeasurementLabel { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelsnappingoptions-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html">SnappingOptions</a> for sketching.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#snappingOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SnappingOptions? SnappingOptions { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelstate-property">GeoBlazor Docs</a>
+    ///     The view model's state.
+    ///     default "disabled"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public MeasurementViewModelState? State { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelunit-property">GeoBlazor Docs</a>
+    ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#unit">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SystemOrLengthUnit? Unit { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelunitoptions-property">GeoBlazor Docs</a>
+    ///     List of available units and unit systems (imperial, metric) for displaying the distance values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#unitOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<SystemOrLengthUnit>? UnitOptions { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Measurement property.
+    /// </summary>
+    public async Task<DistanceMeasurement2DViewModelMeasurement?> GetMeasurement()
+    {
+        if (CoreJsModule is null)
+        {
+            return Measurement;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Measurement;
+        }
+
+        DistanceMeasurement2DViewModelMeasurement? result =
+            await JsComponentReference.InvokeAsync<DistanceMeasurement2DViewModelMeasurement?>("getMeasurement",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Measurement = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Measurement)] = Measurement;
+        }
+
+        return Measurement;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MeasurementLabel property.
+    /// </summary>
+    public async Task<string?> GetMeasurementLabel()
+    {
+        if (CoreJsModule is null)
+        {
+            return MeasurementLabel;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return MeasurementLabel;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "measurementLabel");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            MeasurementLabel = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MeasurementLabel)] = MeasurementLabel;
+        }
+
+        return MeasurementLabel;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SnappingOptions property.
+    /// </summary>
+    public async Task<SnappingOptions?> GetSnappingOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return SnappingOptions;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return SnappingOptions;
+        }
+
+        SnappingOptions? result = await JsComponentReference.InvokeAsync<SnappingOptions?>(
+            "getSnappingOptions", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            SnappingOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+        }
+
+        return SnappingOptions;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the State property.
+    /// </summary>
+    public async Task<MeasurementViewModelState?> GetState()
+    {
+        if (CoreJsModule is null)
+        {
+            return State;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return State;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<MeasurementViewModelState>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MeasurementViewModelState>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "state");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            State = (MeasurementViewModelState)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(State)] = State;
+        }
+
+        return State;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Unit property.
+    /// </summary>
+    public async Task<SystemOrLengthUnit?> GetUnit()
+    {
+        if (CoreJsModule is null)
+        {
+            return Unit;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Unit;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<SystemOrLengthUnit>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrLengthUnit>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "unit");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Unit = (SystemOrLengthUnit)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Unit)] = Unit;
+        }
+
+        return Unit;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the UnitOptions property.
+    /// </summary>
+    public async Task<IReadOnlyList<SystemOrLengthUnit>?> GetUnitOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return UnitOptions;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return UnitOptions;
+        }
+
+        // get the property value
+        IReadOnlyList<SystemOrLengthUnit>? result =
+            await JsComponentReference!.InvokeAsync<IReadOnlyList<SystemOrLengthUnit>?>("getProperty",
+                CancellationTokenSource.Token, "unitOptions");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            UnitOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
+        }
+
+        return UnitOptions;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the SnappingOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSnappingOptions(SnappingOptions? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        SnappingOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SnappingOptions)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setSnappingOptions",
+            CancellationTokenSource.Token, value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Unit property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUnit(SystemOrLengthUnit? value)
+    {
+#pragma warning disable BL0005
+        Unit = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Unit)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "unit", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the UnitOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUnitOptions(IReadOnlyList<SystemOrLengthUnit>? value)
+    {
+#pragma warning disable BL0005
+        UnitOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(UnitOptions)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "unitOptions", value);
+    }
+
+#endregion
+
 
 #region Public Methods
 
@@ -527,8 +576,8 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -537,17 +586,16 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "clear", 
+
+        await JsComponentReference!.InvokeVoidAsync("clear",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModel.html#distancemeasurement2dviewmodelstart-method">GeoBlazor Docs</a>
     ///     Starts a new measurement.
@@ -560,8 +608,8 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -570,58 +618,15 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "start", 
+
+        await JsComponentReference!.InvokeVoidAsync("start",
             CancellationTokenSource.Token);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SnappingOptions snappingOptions:
-                if (snappingOptions != SnappingOptions)
-                {
-                    SnappingOptions = snappingOptions;
-                    ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SnappingOptions _:
-                SnappingOptions = null;
-                ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        SnappingOptions?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

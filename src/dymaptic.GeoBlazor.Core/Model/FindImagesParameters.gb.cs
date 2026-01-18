@@ -36,33 +36,39 @@ public partial record FindImagesParameters(
     string? Where = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public FindImagesParameters() : this(null, null)
+    {
+    }
+
+    /// <summary>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry with `z` value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#fromGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Point? FromGeometry { get; set; } = FromGeometry;
-    
+
     /// <summary>
     ///     The maximum image count.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#maxCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public int? MaxCount { get; set; } = MaxCount;
-    
+
     /// <summary>
     ///     An array of ObjectIDs to filter images.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<ObjectId>? ObjectIds { get; set; } = ObjectIds;
-    
+
     /// <summary>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry with `z` value that defines the target geometry's location.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#toGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Point? ToGeometry { get; set; } = ToGeometry;
-    
+
     /// <summary>
     ///     A where clause for the query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#where">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Where { get; set; } = Where;
-    
 }

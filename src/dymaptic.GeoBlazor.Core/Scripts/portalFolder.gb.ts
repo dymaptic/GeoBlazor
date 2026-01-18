@@ -64,11 +64,11 @@ export async function buildDotNetPortalFolderGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetPortalFolder.id)) {
         jsObjectRefs[dotNetPortalFolder.id] ??= jsObject;
         arcGisObjectRefs[dotNetPortalFolder.id] ??= jsObject;
     }
-
     return dotNetPortalFolder;
 }
 

@@ -81,11 +81,11 @@ export async function buildDotNetSizeRampStopGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetSizeRampStop.id)) {
         jsObjectRefs[dotNetSizeRampStop.id] ??= jsObject;
         arcGisObjectRefs[dotNetSizeRampStop.id] ??= jsObject;
     }
-
     return dotNetSizeRampStop;
 }
 

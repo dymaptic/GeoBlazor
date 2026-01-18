@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html">GeoBlazor Docs</a>
 ///     Describes the schema of the SizeRampElement used as a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#legendElement">legendElement</a>.
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class SizeRampElement : MapComponent,
     ILegendElement
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -39,8 +37,7 @@ public partial class SizeRampElement : MapComponent,
     ///     The title of the size ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SizeRampElement(
-        ClusterTitle? clusterTitle = null,
+    public SizeRampElement(ClusterTitle? clusterTitle = null,
         IReadOnlyList<SizeRampStop>? infos = null,
         RampTitle? rampTitle = null,
         string? stringTitle = null)
@@ -51,384 +48,25 @@ public partial class SizeRampElement : MapComponent,
         Infos = infos;
         RampTitle = rampTitle;
         StringTitle = stringTitle;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementclustertitle-property">GeoBlazor Docs</a>
-    ///     The title of the size ramp as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ClusterTitle? ClusterTitle { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementinfos-property">GeoBlazor Docs</a>
-    ///     The individual size stops rendered in the legend that correspond to the size visual variable in the renderer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<SizeRampStop>? Infos { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementramptitle-property">GeoBlazor Docs</a>
-    ///     The title of the size ramp as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public RampTitle? RampTitle { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementstringtitle-property">GeoBlazor Docs</a>
-    ///     The title of the size ramp as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? StringTitle { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ClusterTitle property.
-    /// </summary>
-    public async Task<ClusterTitle?> GetClusterTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return ClusterTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ClusterTitle;
-        }
-
-        ClusterTitle? result = await JsComponentReference.InvokeAsync<ClusterTitle?>(
-            "getClusterTitle", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            ClusterTitle = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
-        }
-        
-        return ClusterTitle;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Infos property.
-    /// </summary>
-    public async Task<IReadOnlyList<SizeRampStop>?> GetInfos()
-    {
-        if (CoreJsModule is null)
-        {
-            return Infos;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Infos;
-        }
 
-        IReadOnlyList<SizeRampStop>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SizeRampStop>?>(
-            "getInfos", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Infos = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Infos)] = Infos;
-        }
-        
-        return Infos;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the RampTitle property.
-    /// </summary>
-    public async Task<RampTitle?> GetRampTitle()
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return RampTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return RampTitle;
-        }
+        ClusterTitle?.ValidateRequiredGeneratedChildren();
 
-        // get the property value
-        RampTitle? result = await JsComponentReference!.InvokeAsync<RampTitle?>("getProperty",
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
+        if (Infos is not null)
         {
-#pragma warning disable BL0005
-             RampTitle = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(RampTitle)] = RampTitle;
-        }
-         
-        return RampTitle;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the StringTitle property.
-    /// </summary>
-    public async Task<string?> GetStringTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return StringTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return StringTitle;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             StringTitle = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(StringTitle)] = StringTitle;
-        }
-         
-        return StringTitle;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the ClusterTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetClusterTitle(ClusterTitle? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        ClusterTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ClusterTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Infos property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetInfos(IReadOnlyList<SizeRampStop>? value)
-    {
-        if (value is not null)
-        {
-            foreach (SizeRampStop item in value)
+            foreach (SizeRampStop child in Infos)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                child.ValidateRequiredGeneratedChildren();
             }
         }
-        
-#pragma warning disable BL0005
-        Infos = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Infos)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "infos", value);
+
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the RampTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRampTitle(RampTitle? value)
-    {
-#pragma warning disable BL0005
-        RampTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(RampTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the StringTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStringTitle(string? value)
-    {
-#pragma warning disable BL0005
-        StringTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(StringTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
-#endregion
+
 
 #region Add to Collection Methods
 
@@ -445,12 +83,12 @@ public partial class SizeRampElement : MapComponent,
             : [..Infos, ..values];
         await SetInfos(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Infos property.
     /// </summary>
@@ -463,9 +101,10 @@ public partial class SizeRampElement : MapComponent,
         {
             return;
         }
+
         await SetInfos(Infos.Except(values).ToArray());
     }
-    
+
 #endregion
 
 
@@ -480,16 +119,17 @@ public partial class SizeRampElement : MapComponent,
                     ClusterTitle = clusterTitle;
                     ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
                 }
-                
+
                 return true;
             case SizeRampStop infos:
                 Infos ??= [];
+
                 if (!Infos.Contains(infos))
                 {
                     Infos = [..Infos, infos];
                     ModifiedParameters[nameof(Infos)] = Infos;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -504,29 +144,390 @@ public partial class SizeRampElement : MapComponent,
             case ClusterTitle _:
                 ClusterTitle = null;
                 ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
+
                 return true;
             case SizeRampStop infos:
                 Infos = Infos?.Where(i => i != infos).ToList();
                 ModifiedParameters[nameof(Infos)] = Infos;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementclustertitle-property">GeoBlazor Docs</a>
+    ///     The title of the size ramp as displayed in the legend.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ClusterTitle? ClusterTitle { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementinfos-property">GeoBlazor Docs</a>
+    ///     The individual size stops rendered in the legend that correspond to the size visual variable in the renderer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<SizeRampStop>? Infos { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementramptitle-property">GeoBlazor Docs</a>
+    ///     The title of the size ramp as displayed in the legend.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public RampTitle? RampTitle { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampElement.html#sizerampelementstringtitle-property">GeoBlazor Docs</a>
+    ///     The title of the size ramp as displayed in the legend.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampElement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? StringTitle { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ClusterTitle property.
+    /// </summary>
+    public async Task<ClusterTitle?> GetClusterTitle()
     {
-    
-        ClusterTitle?.ValidateRequiredGeneratedChildren();
-        if (Infos is not null)
+        if (CoreJsModule is null)
         {
-            foreach (SizeRampStop child in Infos)
+            return ClusterTitle;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ClusterTitle;
+        }
+
+        ClusterTitle? result = await JsComponentReference.InvokeAsync<ClusterTitle?>(
+            "getClusterTitle", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ClusterTitle = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
+        }
+
+        return ClusterTitle;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Infos property.
+    /// </summary>
+    public async Task<IReadOnlyList<SizeRampStop>?> GetInfos()
+    {
+        if (CoreJsModule is null)
+        {
+            return Infos;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Infos;
+        }
+
+        IReadOnlyList<SizeRampStop>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<SizeRampStop>?>("getInfos",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Infos = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Infos)] = Infos;
+        }
+
+        return Infos;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the RampTitle property.
+    /// </summary>
+    public async Task<RampTitle?> GetRampTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return RampTitle;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return RampTitle;
+        }
+
+        // get the property value
+        RampTitle? result = await JsComponentReference!.InvokeAsync<RampTitle?>("getProperty",
+            CancellationTokenSource.Token, "title");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            RampTitle = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(RampTitle)] = RampTitle;
+        }
+
+        return RampTitle;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the StringTitle property.
+    /// </summary>
+    public async Task<string?> GetStringTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return StringTitle;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return StringTitle;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            StringTitle = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(StringTitle)] = StringTitle;
+        }
+
+        return StringTitle;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the ClusterTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetClusterTitle(ClusterTitle? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        ClusterTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ClusterTitle)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Infos property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetInfos(IReadOnlyList<SizeRampStop>? value)
+    {
+        if (value is not null)
+        {
+            foreach (SizeRampStop item in value)
             {
-                child.ValidateRequiredGeneratedChildren();
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        base.ValidateRequiredGeneratedChildren();
+
+#pragma warning disable BL0005
+        Infos = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Infos)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "infos", value);
     }
-      
+
+    /// <summary>
+    ///    Asynchronously set the value of the RampTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRampTitle(RampTitle? value)
+    {
+#pragma warning disable BL0005
+        RampTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(RampTitle)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the StringTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetStringTitle(string? value)
+    {
+#pragma warning disable BL0005
+        StringTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(StringTitle)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+
+#endregion
 }

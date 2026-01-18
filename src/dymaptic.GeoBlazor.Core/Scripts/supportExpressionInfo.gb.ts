@@ -27,7 +27,7 @@ export async function buildJsSupportExpressionInfoGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetSupportExpressionInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetSupportExpressionInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityStop.html">GeoBlazor Docs</a>
 ///     Defines an opacity stop used for creating a continuous opacity visualization in a
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class OpacityStop
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -32,11 +30,10 @@ public partial class OpacityStop
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-support-OpacityStop.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     A string value used to label the stop in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     A string value used to label the stop in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-support-OpacityStop.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public OpacityStop(
-        double value,
+    public OpacityStop(double value,
         double opacity,
         string? label = null)
     {
@@ -45,10 +42,10 @@ public partial class OpacityStop
         Value = value;
         Opacity = opacity;
         Label = label;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Property Getters
 
     /// <summary>
@@ -60,8 +57,8 @@ public partial class OpacityStop
         {
             return Label;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -70,7 +67,7 @@ public partial class OpacityStop
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Label;
@@ -79,17 +76,18 @@ public partial class OpacityStop
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "label");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Label = result;
+            Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
+            ModifiedParameters[nameof(Label)] = Label;
         }
-         
+
         return Label;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Opacity property.
     /// </summary>
@@ -99,8 +97,8 @@ public partial class OpacityStop
         {
             return Opacity;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -109,26 +107,28 @@ public partial class OpacityStop
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Opacity;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "opacity");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Opacity = result.Value.Value;
+            Opacity = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Opacity)] = Opacity;
+            ModifiedParameters[nameof(Opacity)] = Opacity;
         }
-         
+
         return Opacity;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -138,8 +138,8 @@ public partial class OpacityStop
         {
             return Value;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -148,27 +148,30 @@ public partial class OpacityStop
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Value;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "value");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Value = result.Value.Value;
+            Value = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+            ModifiedParameters[nameof(Value)] = Value;
         }
-         
+
         return Value;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -184,13 +187,13 @@ public partial class OpacityStop
         Label = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Label)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -199,16 +202,16 @@ public partial class OpacityStop
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Opacity property after render.
     /// </summary>
@@ -221,13 +224,13 @@ public partial class OpacityStop
         Opacity = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Opacity)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -236,16 +239,16 @@ public partial class OpacityStop
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "opacity", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -258,13 +261,13 @@ public partial class OpacityStop
         Value = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Value)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -273,16 +276,15 @@ public partial class OpacityStop
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
     }
-    
-#endregion
 
+#endregion
 }

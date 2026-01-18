@@ -5,7 +5,8 @@ import {
     protobufRoot,
     ProtoTypes,
     updateGeometryForProtobuf,
-    updateGraphicForProtobuf, updateSymbolForProtobuf
+    updateGraphicForProtobuf,
+    updateSymbolForProtobuf
 } from "./arcGisJsInterop";
 import {buildEncodedJson} from "./geoBlazorCore";
 import {IPropertyWrapper} from "./definitions";

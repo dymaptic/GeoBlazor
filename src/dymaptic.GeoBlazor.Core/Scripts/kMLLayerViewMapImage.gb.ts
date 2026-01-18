@@ -67,11 +67,11 @@ export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any, vi
             }
         }
     }
+
     if (hasValue(dotNetKMLLayerViewMapImage.id)) {
         jsObjectRefs[dotNetKMLLayerViewMapImage.id] ??= jsObject;
         arcGisObjectRefs[dotNetKMLLayerViewMapImage.id] ??= jsObject;
     }
-
     return dotNetKMLLayerViewMapImage;
 }
 

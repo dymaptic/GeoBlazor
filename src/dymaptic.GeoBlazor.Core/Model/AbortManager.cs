@@ -19,7 +19,7 @@ public class AbortManager : IAsyncDisposable
         _jsRuntime = jsRuntime;
         _jsModuleManager = jsModuleManager;
     }
-    
+
     /// <summary>
     ///     Creates a new AbortManager.
     /// </summary>
@@ -32,6 +32,11 @@ public class AbortManager : IAsyncDisposable
     }
 
     /// <summary>
+    ///     Identifies when the AbortManager has been disposed.
+    /// </summary>
+    public bool Disposed { get; private set; }
+
+    /// <summary>
     ///     Disposes the full AbortManager, and cancels all queries.
     /// </summary>
     public async ValueTask DisposeAsync()
@@ -40,6 +45,8 @@ public class AbortManager : IAsyncDisposable
         {
             await AbortQuery(token);
         }
+
+        Disposed = true;
     }
 
     /// <summary>
@@ -58,7 +65,7 @@ public class AbortManager : IAsyncDisposable
             IJSObjectReference? proJsModule = await _jsModuleManager!.GetProJsModule(_jsRuntime!, cancellationToken);
             _jsModule = await _jsModuleManager.GetCoreJsModule(_jsRuntime!, proJsModule, cancellationToken);
         }
-        
+
         AbortManagerResult result = await _jsModule
             .InvokeAsync<AbortManagerResult>("createAbortControllerAndSignal", cancellationToken);
 
@@ -114,18 +121,18 @@ public class AbortManager : IAsyncDisposable
         {
             // swallow these exceptions, it usually means we are disconnected already.
         }
-        
+
         _tokensAndControllers.TryRemove(cancellationToken, out _);
     }
 
-    
     private readonly ConcurrentDictionary<CancellationToken, AbortReferenceRecord> _tokensAndControllers = new();
-
-    private IJSObjectReference? _jsModule;
     private readonly IJSRuntime? _jsRuntime;
     private readonly JsModuleManager? _jsModuleManager;
 
-    private record AbortReferenceRecord(CancellationTokenRegistration Registration,
+    private IJSObjectReference? _jsModule;
+
+    private record AbortReferenceRecord(
+        CancellationTokenRegistration Registration,
         IJSObjectReference AbortControllerRef);
 }
 

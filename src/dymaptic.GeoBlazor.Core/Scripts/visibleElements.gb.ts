@@ -128,11 +128,11 @@ export async function buildDotNetVisibleElementsGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetVisibleElements.id)) {
         jsObjectRefs[dotNetVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetVisibleElements.id] ??= jsObject;
     }
-
     return dotNetVisibleElements;
 }
 

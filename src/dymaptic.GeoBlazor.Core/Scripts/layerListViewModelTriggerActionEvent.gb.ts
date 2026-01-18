@@ -38,7 +38,7 @@ export async function buildDotNetLayerListViewModelTriggerActionEventGenerated(j
     
     if (hasValue(jsObject.item)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetLayerListViewModelTriggerActionEvent.item = await buildDotNetListItem(jsObject.item, viewId);
+        dotNetLayerListViewModelTriggerActionEvent.item = await buildDotNetListItem(jsObject.item, layerId, viewId);
     }
     
 
