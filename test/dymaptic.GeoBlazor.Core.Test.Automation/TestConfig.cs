@@ -680,13 +680,25 @@ public class TestConfig
                     .WithArguments($"Get-NetTCPConnection -LocalPort {_httpsPort
                     } -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object {{ Stop-Process -Id $_ -Force }}")
                     .WithValidation(CommandResultValidation.None)
+                    .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                        Trace.WriteLine(line, "TEST_PORT_SHUTDOWN")))
+                    .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+                        Trace.WriteLine(line, "TEST_PORT_SHUTDOWN_ERROR")))
                     .ExecuteAsync();
             }
             else
             {
                 await Cli.Wrap("/bin/bash")
-                    .WithArguments($"lsof -i:{_httpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9")
+                    .WithArguments(
+                    [
+                        "-c",
+                        $"lsof -i:{_httpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9"
+                    ])
                     .WithValidation(CommandResultValidation.None)
+                    .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                        Trace.WriteLine(line, "TEST_PORT_SHUTDOWN")))
+                    .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+                        Trace.WriteLine(line, "TEST_PORT_SHUTDOWN_ERROR")))
                     .ExecuteAsync();
             }
         }
