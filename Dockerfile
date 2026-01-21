@@ -27,8 +27,10 @@ COPY ./*.ps1 ./
 COPY ./Directory.Build.* ./
 COPY ./.gitignore ./.gitignore
 COPY ./nuget.config ./nuget.config
+COPY ./build-tools ./build-tools
+COPY ./build-scripts/ScriptBuilder.cs ./build-scripts/ScriptBuilder.cs
 
-RUN pwsh -Command "./GeoBlazorBuild.ps1"
+RUN dotnet ./build-tools/GeoBlazorBuild.dll -v current
 
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj
@@ -40,15 +42,14 @@ RUN dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
 
-RUN pwsh -Command './buildAppSettings.ps1 \
-    -ArcGISApiKey $env:ARCGIS_API_KEY \
-    -LicenseKey $env:GEOBLAZOR_LICENSE_KEY \
-    -OutputPaths @( \
-       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json", \
-       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json", \
-       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json", \
-       "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json") \
-    -WfsServers $env:WFS_SERVERS'
+RUN dotnet ./build-tools/BuildAppSettings.dll \
+    -k "$ARCGIS_API_KEY" \
+    -l "$GEOBLAZOR_LICENSE_KEY" \
+    -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json" \
+    -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json" \
+    -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json" \
+    -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json" \
+    -w "$WFS_SERVERS"
 
 # Build from source with debug symbols for code coverage
 # UsePackageReference=false builds GeoBlazor from source instead of NuGet

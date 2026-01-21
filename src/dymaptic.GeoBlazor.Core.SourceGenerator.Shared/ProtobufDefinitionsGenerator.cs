@@ -13,15 +13,15 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 public static class ProtobufDefinitionsGenerator
 {
     public static Dictionary<string, ProtoMessageDefinition> UpdateProtobufDefinitions(SourceProductionContext context,
-        ImmutableArray<BaseTypeDeclarationSyntax> types, string corePath)
+        ImmutableArray<BaseTypeDeclarationSyntax> types, string corePath, bool showDialog, string? sessionId = null)
     {
         ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
             "Updating Protobuf definitions...",
             DiagnosticSeverity.Info,
-            context, true);
+            context, showDialog, sessionId);
 
         // fetch protobuf definitions
-        var protoTypeContent = Generate(context, types);
+        var protoTypeContent = Generate(context, types, showDialog, sessionId);
 
         var typescriptContent = $"""
                                  export let protoTypeDefinitions: string = `
@@ -45,25 +45,26 @@ public static class ProtobufDefinitionsGenerator
         ProcessHelper.RunPowerShellScript("Copy Protobuf Definitions",
                 corePath, scriptPath,
                 ["-Content", encoded],
-                logBuilder, context.CancellationToken)
+                logBuilder, context)
             .GetAwaiter()
             .GetResult();
 
         ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
             logBuilder.ToString(),
             DiagnosticSeverity.Info,
-            context);
+            context, sessionId: sessionId);
 
         ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
             "Protobuf definitions updated successfully.",
             DiagnosticSeverity.Info,
-            context, true);
+            context, showDialog, sessionId);
 
         return _protoDefinitions ?? [];
     }
 
     public static Dictionary<string, ProtoMessageDefinition> ExtractProtobufDefinitions(
-        ImmutableArray<BaseTypeDeclarationSyntax> types, SourceProductionContext context)
+        ImmutableArray<BaseTypeDeclarationSyntax> types, SourceProductionContext context, bool showDialog,
+        string? sessionId = null)
     {
         var definitions = new Dictionary<string, ProtoMessageDefinition>();
         const string protoContractAttribute = "ProtoContract";
@@ -84,7 +85,7 @@ public static class ProtobufDefinitionsGenerator
                                 type.AttributeLists.SelectMany(al => al.Attributes.SelectMany(a => a.ToString())))
                         }",
                         DiagnosticSeverity.Warning,
-                        context, true);
+                        context, showDialog, sessionId);
                 }
 
                 continue;
@@ -104,7 +105,7 @@ public static class ProtobufDefinitionsGenerator
                 ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
                     $"Error processing syntax node {type.Identifier.Text}: {ex.Message}",
                     DiagnosticSeverity.Warning,
-                    context, true);
+                    context, showDialog, sessionId);
             }
         }
 
@@ -112,22 +113,22 @@ public static class ProtobufDefinitionsGenerator
     }
 
     private static string Generate(SourceProductionContext context,
-        ImmutableArray<BaseTypeDeclarationSyntax> types)
+        ImmutableArray<BaseTypeDeclarationSyntax> types, bool showDialog, string? sessionId = null)
     {
         try
         {
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
                 "Generating Protobuf schema",
                 DiagnosticSeverity.Info,
-                context, true);
+                context, showDialog, sessionId);
 
             // Extract protobuf definitions from syntax nodes
-            _protoDefinitions ??= ExtractProtobufDefinitions(types, context);
+            _protoDefinitions ??= ExtractProtobufDefinitions(types, context, showDialog, sessionId);
 
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
                 $"Extracted {_protoDefinitions.Count} Protobuf message definitions.",
                 DiagnosticSeverity.Info,
-                context, true);
+                context, showDialog, sessionId);
 
             // Generate new proto file content
             var newProtoContent = GenerateProtoFileContent(_protoDefinitions);
@@ -135,7 +136,7 @@ public static class ProtobufDefinitionsGenerator
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
                 "Protobuf schema generation complete",
                 DiagnosticSeverity.Info,
-                context, true);
+                context, showDialog, sessionId);
 
             return newProtoContent;
         }
@@ -144,7 +145,7 @@ public static class ProtobufDefinitionsGenerator
             ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
                 $"Error generating Protobuf definitions: {ex.Message}",
                 DiagnosticSeverity.Error,
-                context, true);
+                context, showDialog, sessionId);
 
             return string.Empty;
         }

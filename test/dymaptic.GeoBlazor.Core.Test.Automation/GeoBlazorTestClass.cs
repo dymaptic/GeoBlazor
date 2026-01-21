@@ -1,5 +1,6 @@
 using Microsoft.Playwright;
 using System.Diagnostics;
+using System.Text;
 using System.Web;
 
 
@@ -64,7 +65,6 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             .ConfigureAwait(false);
         page.Console += HandleConsoleMessage;
         page.PageError += HandlePageError;
-        string testMethodName = testName.Split('.').Last();
 
         try
         {
@@ -86,54 +86,49 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
             ILocator testBtn = page.GetByText("Run Test");
             await testBtn.ClickAsync();
+
             ILocator passedSpan = page.GetByTestId("passed");
             ILocator inconclusiveSpan = page.GetByTestId("inconclusive");
 
             if (await inconclusiveSpan.IsVisibleAsync())
             {
+                var (messages, errors) = CheckMessages(testName);
+                Trace.WriteLine(messages, "TEST");
+
+                if (!string.IsNullOrWhiteSpace(errors))
+                {
+                    // report errors but don't fail the test
+                    Trace.WriteLine(errors, "TEST_ERROR");
+                }
+
                 // Inconclusive we treat as passing for our automation purposes
-                Trace.WriteLine($"{testName} Inconclusive", "TEST");
+                Trace.WriteLine($"{testName} Inconclusive", "TEST_INCONCLUSIVE");
+                TestConfig.InconclusiveTests.Add(testName);
             }
             else
             {
                 await Expect(passedSpan).ToBeVisibleAsync(VisibleOptions);
                 await Expect(passedSpan).ToHaveTextAsync("Passed: 1");
-                Trace.WriteLine($"{testName} Passed", "TEST");
-            }
+                var (messages, errors) = CheckMessages(testName);
+                Trace.WriteLine(messages, "TEST");
 
-            if (_consoleMessages.TryGetValue(testName, out List<string>? consoleMessages))
-            {
-                foreach (string message in consoleMessages)
+                if (!string.IsNullOrWhiteSpace(errors))
                 {
-                    Trace.WriteLine(message, "TEST");
+                    Trace.WriteLine(errors, "TEST_ERROR");
+                    await RetryOrMarkAsFailure(testName, new Exception(errors), retries);
+
+                    return;
                 }
+
+                Trace.WriteLine($"{testName} Passed", "TEST");
             }
         }
         catch (Exception ex)
         {
-            if (_errorMessages.TryGetValue(testMethodName, out List<string>? testErrors))
-            {
-                foreach (string error in testErrors.Distinct())
-                {
-                    Trace.WriteLine(error, "ERROR");
-                }
-            }
-            else
-            {
-                Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}", "ERROR");
-            }
-
-            if (retries > 2)
-            {
-                Assert.Fail($"{testName} Exceeded the maximum number of retries.");
-            }
-
-            // Exponential backoff: 1s, 2s between retries
-            var backoffMs = 1000 * (retries + 1);
-            Trace.WriteLine($"Retrying {testName} in {backoffMs}ms (attempt {retries + 2}/3)", "TEST");
-            await Task.Delay(backoffMs);
-
-            await RunTestImplementation(testName, retries + 1);
+            var (messages, errors) = CheckMessages(testName);
+            Trace.WriteLine(messages, "TEST");
+            Trace.WriteLine(errors, "TEST_ERROR");
+            await RetryOrMarkAsFailure(testName, ex, retries);
         }
         finally
         {
@@ -202,6 +197,30 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         };
     }
 
+    private (string Messages, string Errors) CheckMessages(string testName)
+    {
+        StringBuilder messageBuilder = new();
+        StringBuilder errorBuilder = new();
+
+        if (_consoleMessages.TryGetValue(testName, out var consoleMessages))
+        {
+            foreach (var message in consoleMessages)
+            {
+                messageBuilder.AppendLine(message);
+            }
+        }
+
+        if (_errorMessages.TryGetValue(testName, out var errorMessages))
+        {
+            foreach (var message in errorMessages)
+            {
+                errorBuilder.AppendLine(message);
+            }
+        }
+
+        return (messageBuilder.ToString(), errorBuilder.ToString());
+    }
+
     // Set up console message logging
     private void HandleConsoleMessage(object? pageObject, IConsoleMessage message)
     {
@@ -241,6 +260,22 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         }
 
         _errorMessages[testName].Add(message);
+    }
+
+    private async Task RetryOrMarkAsFailure(string testName, Exception ex, int retries)
+    {
+        if (retries > 2)
+        {
+            TestConfig.FailedTests[testName] = $"{ex.Message}{Environment.NewLine}{ex.StackTrace}";
+            Assert.Fail($"{testName} Exceeded the maximum number of retries.");
+        }
+
+        // Exponential backoff: 1s, 2s between retries
+        var backoffMs = 1000 * (retries + 1);
+        Trace.WriteLine($"Retrying {testName} in {backoffMs}ms (attempt {retries + 2}/3)", "TEST");
+        await Task.Delay(backoffMs);
+
+        await RunTestImplementation(testName, retries + 1);
     }
 
     private readonly List<IBrowserContext> _contexts = new();

@@ -125,6 +125,6 @@
     
     <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
         <Message Importance="high" Text="Clearing locks on esBuild files..." />
-        <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />
+        <Exec Command="dotnet $(ProjectDir)../../build-tools/ESBuildClearLocks.dll" ContinueOnError="false"/>
     </Target>
 </Project>

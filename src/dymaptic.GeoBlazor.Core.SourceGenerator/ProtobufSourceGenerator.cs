@@ -32,43 +32,70 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
                 .Collect();
 
         // Reads the MSBuild properties to get the project directory.
-        IncrementalValueProvider<string?> optionsProvider =
+        IncrementalValueProvider<(string?, string?)> optionsProvider =
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
                 configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
                     out var projectDirectory);
 
-                return projectDirectory;
+                configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
+                    out var pipelineBuild);
+
+                return (projectDirectory, pipelineBuild);
             });
 
-        IncrementalValueProvider<(ImmutableArray<BaseTypeDeclarationSyntax> Left, string? Right)> combined =
+        IncrementalValueProvider<(ImmutableArray<BaseTypeDeclarationSyntax> Left, (string?, string?) Right)> combined =
             typeProvider.Combine(optionsProvider);
 
         context.RegisterSourceOutput(combined, FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        (ImmutableArray<BaseTypeDeclarationSyntax> Types, string? ProjectDirectory) pipeline)
+        (ImmutableArray<BaseTypeDeclarationSyntax> Types, (string? ProjectDirectory, string? PipelineBuild) Options)
+            pipeline)
     {
-        _corePath = pipeline.ProjectDirectory;
+        _corePath = pipeline.Options.ProjectDirectory;
+        var showDialog = pipeline.Options.PipelineBuild != "true";
+
+        // Generate a unique session ID for this build session
+        var sessionId = $"{nameof(ProtobufSourceGenerator)}_{Guid.NewGuid():N}";
 
         if (pipeline.Types.Length > 0)
         {
-            ProcessHelper.Log(nameof(ProtobufSourceGenerator),
-                $"Source Generation triggered with {pipeline.Types.Length} protobuf types found.",
-                DiagnosticSeverity.Info,
-                context, true);
+            try
+            {
+                ProcessHelper.Log(nameof(ProtobufSourceGenerator),
+                    $"Source Generation triggered with {pipeline.Types.Length} protobuf types found.",
+                    DiagnosticSeverity.Info,
+                    context, showDialog, sessionId);
 
-            var protoDefinitions = ProtobufDefinitionsGenerator
-                .UpdateProtobufDefinitions(context, pipeline.Types, _corePath!);
+                var protoDefinitions = ProtobufDefinitionsGenerator
+                    .UpdateProtobufDefinitions(context, pipeline.Types, _corePath!, showDialog, sessionId);
 
-            context.CancellationToken.ThrowIfCancellationRequested();
+                context.CancellationToken.ThrowIfCancellationRequested();
 
-            SerializationGenerator.GenerateSerializationDataClass(context,
-                pipeline.Types, protoDefinitions, false);
+                SerializationGenerator.GenerateSerializationDataClass(context,
+                    pipeline.Types, protoDefinitions, false, showDialog, sessionId);
 
-            context.CancellationToken.ThrowIfCancellationRequested();
-            ProcessHelper.CloseDialog();
+                context.CancellationToken.ThrowIfCancellationRequested();
+
+                if (showDialog)
+                {
+                    ProcessHelper.CloseDialog(sessionId);
+                }
+            }
+            catch (Exception ex)
+            {
+                ProcessHelper.Log(nameof(ProtobufSourceGenerator),
+                    $"Error generating serialization data class: {ex.Message}\n{ex.StackTrace}",
+                    DiagnosticSeverity.Error,
+                    context, showDialog, sessionId);
+
+                if (showDialog)
+                {
+                    ProcessHelper.CloseDialog(sessionId);
+                }
+            }
         }
     }
 

@@ -50,7 +50,7 @@ jobs:
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        ./GeoBlazorBuild.ps1 -xml -pkg -pub -c "Release"
+        dotnet ./build-tools/GeoBlazorBuild.dll -xml -pkg -pub -c "Release"
       
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint

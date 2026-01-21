@@ -7,14 +7,17 @@
 //   -f, --force                          Force rebuild, ignoring lock files and record
 //   -p, --pro                            Run the GeoBlazor Pro ESBuild process
 //   -d, --dialog                         Show a console dialog during build
+//   -v, --verbose                        Enable verbose logging
 //   -h, --help                           Display help message
 
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 // Get the actual script location using CallerFilePath (resolved at compile time)
-string scriptDir = GetScriptDirectory();
+string scriptDir = GetScriptsDirectory();
+string toolsDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "build-tools"));
 
 // Parse command line arguments
 string configuration = "Debug";
@@ -22,6 +25,7 @@ bool force = false;
 bool help = false;
 bool pro = false;
 bool dialog = false;
+bool verbose = false;
 
 for (int i = 0; i < args.Length; i++)
 {
@@ -51,6 +55,10 @@ for (int i = 0; i < args.Length; i++)
         case "--help":
             help = true;
             break;
+        case "-v":
+        case "--verbose":
+            verbose = true;
+            break;
         default:
             // Check for combined forms like "-c=Release"
             if (arg.StartsWith("-c=") || arg.StartsWith("--configuration="))
@@ -78,22 +86,14 @@ Trace.Listeners.Add(new ConsoleTraceListener());
 
 Process? dialogProcess = null;
 
-if (dialog)
+if (verbose)
 {
-    dialogProcess = StartConsoleDialog(scriptDir, 
-        $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild");
-    if (dialogProcess?.StandardInput is null)
+    if (dialog) // only start the dialog early if we are in Verbose + Dialog mode
     {
-        Trace.WriteLine("Failed to start console dialog. Exiting.");
+        dialogProcess = StartConsoleDialog(toolsDir, $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild");
     }
-    else
-    {
-        dialogProcess.StandardInput.AutoFlush = true;
-        Trace.Listeners.Add(new DialogTraceListener(dialogProcess));
-    }
+    Trace.WriteLine("Launching ESBuild...");
 }
-
-Trace.WriteLine("Launching ESBuild...");
 
 // Normalize configuration
 configuration = configuration.Equals("release", StringComparison.OrdinalIgnoreCase) ? "Release" : "Debug";
@@ -103,19 +103,25 @@ configuration = configuration.Equals("release", StringComparison.OrdinalIgnoreCa
 string coreSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "src", "dymaptic.GeoBlazor.Core"));
 string proSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "src", "dymaptic.GeoBlazor.Pro"));
 string sourceDir = pro ? proSourceDir : coreSourceDir;
+
 string coreScriptsDir = Path.Combine(coreSourceDir, "Scripts");
 string proScriptsDir = Path.Combine(proSourceDir, "Scripts");
 string scriptsDir = pro ? proScriptsDir : coreScriptsDir;
+
 string coreOutputDir = Path.Combine(coreSourceDir, "wwwroot", "js");
 string proOutputDir = Path.Combine(proSourceDir, "wwwroot", "js");
 string outputDir = pro ? proOutputDir : coreOutputDir;
+
 string coreRecordFilePath = Path.GetFullPath(Path.Combine(coreSourceDir, "..", ".esbuild-record.json"));
 string proRecordFilePath = Path.GetFullPath(Path.Combine(proSourceDir, "..", ".esbuild-record.json"));
 string recordFilePath = pro ? proRecordFilePath : coreRecordFilePath;
+
 string coreDebugLockFile = Path.Combine(coreSourceDir, "esBuild.Debug.lock");
 string coreReleaseLockFile = Path.Combine(coreSourceDir, "esBuild.Release.lock");
 string proDebugLockFile = Path.Combine(proSourceDir, "esBuild.Debug.lock");
 string proReleaseLockFile = Path.Combine(proSourceDir, "esBuild.Release.lock");
+string debugLockFile = configuration == "Debug" ? (pro ? proDebugLockFile : coreDebugLockFile) : string.Empty;
+string releaseLockFile = configuration == "Release" ? (pro ? proReleaseLockFile : coreReleaseLockFile) : string.Empty;
 string coreLockFilePath = configuration == "Release" ? coreReleaseLockFile : coreDebugLockFile;
 string proLockFilePath = configuration == "Release" ? proReleaseLockFile : proDebugLockFile;
 string lockFilePath = pro ? proLockFilePath : coreLockFilePath;
@@ -152,27 +158,30 @@ if (pro)
 
 if (!needsBuild)
 {
+    KillDialog(dialogProcess);
     Environment.Exit(0);
 }
 
+if (!verbose)
+{
+    if (dialog) // start the dialog now if we are not in Verbose mode
+    {
+        dialogProcess = StartConsoleDialog(toolsDir, $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild");
+    }
+    Trace.WriteLine("Launching ESBuild...");
+}
+
 // Check if the process is locked for the current configuration
-bool locked = configuration == "Debug" && File.Exists(coreDebugLockFile)
-           || configuration == "Release" && File.Exists(coreReleaseLockFile)
-           || (pro && ((configuration == "Debug" && File.Exists(proDebugLockFile))
-                   || (configuration == "Release" && File.Exists(proReleaseLockFile))));
+bool locked = configuration == "Debug" && File.Exists(debugLockFile)
+           || configuration == "Release" && File.Exists(releaseLockFile);
 
 // Prevent multiple instances of the script from running at the same time
 if (locked)
 {
     if (force)
     {
-        if (File.Exists(coreDebugLockFile)) File.Delete(coreDebugLockFile);
-        if (File.Exists(coreReleaseLockFile)) File.Delete(coreReleaseLockFile);
-        if (pro)
-        {
-            if (File.Exists(proDebugLockFile)) File.Delete(proDebugLockFile);
-            if (File.Exists(proReleaseLockFile)) File.Delete(proReleaseLockFile);
-        }
+        if (File.Exists(debugLockFile)) File.Delete(debugLockFile);
+        if (File.Exists(releaseLockFile)) File.Delete(releaseLockFile);
         Trace.WriteLine("Cleared esBuild lock files");
     }
     else
@@ -188,12 +197,6 @@ try
     // Lock
     File.WriteAllText(lockFilePath, DateTime.UtcNow.ToString("o"));
 
-    if (pro)
-    {
-        // also lock core
-        File.WriteAllText(coreLockFilePath, DateTime.UtcNow.ToString("o"));
-    }
-
     // Ensure output directory exists
     if (!Directory.Exists(outputDir))
     {
@@ -203,11 +206,11 @@ try
     if (pro)
     {
         // Copy core Scripts to Pro Scripts
-        CopyScriptsToPro(coreScriptsDir, proScriptsDir);
+        CopyScriptsToPro(coreScriptsDir, proScriptsDir, verbose);
     }
 
     // npm install
-    var (installOutput, installExitCode) = RunNpmCommand(coreSourceDir, "install", dialogProcess);
+    var (installOutput, installExitCode) = RunNpmCommand(sourceDir, "install", dialogProcess);
     Trace.WriteLine("-----");
 
     if (installExitCode != 0 || HasErrorOrWarning(installOutput))
@@ -219,7 +222,7 @@ try
 
     // Run ESLint before build
     Trace.WriteLine("Running ESLint...");
-    var (lintOutput, lintExitCode) = RunNpmCommand(coreSourceDir, "run lint", dialogProcess);
+    var (lintOutput, lintExitCode) = RunNpmCommand(sourceDir, "run lint", dialogProcess);
     Trace.WriteLine("-----");
 
     if (lintExitCode != 0 || lintOutput.Any(l => l.Contains("error", StringComparison.OrdinalIgnoreCase)))
@@ -231,7 +234,7 @@ try
 
     // Run build
     string buildCommand = configuration == "Release" ? "run releaseBuild" : "run debugBuild";
-    var (buildOutput, buildExitCode) = RunNpmCommand(coreSourceDir, buildCommand, dialogProcess);
+    var (buildOutput, buildExitCode) = RunNpmCommand(sourceDir, buildCommand, dialogProcess);
     Trace.WriteLine("-----");
 
     if (buildExitCode != 0 || HasErrorOrWarning(buildOutput))
@@ -250,7 +253,7 @@ try
 catch (Exception ex)
 {
     Trace.WriteLine("An error occurred in esBuild.cs");
-    Trace.WriteLine(ex.ToString());
+    Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
     HoldDialog(dialogProcess);
     return 1;
 }
@@ -260,11 +263,6 @@ finally
     if (File.Exists(lockFilePath))
     {
         File.Delete(lockFilePath);
-    }
-    
-    if (pro && File.Exists(coreLockFilePath))
-    {
-        File.Delete(coreLockFilePath);
     }
 }
 
@@ -328,14 +326,14 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
     // Check if build is needed
     var lastBuild = GetLastBuildRecord(recordFilePath);
     bool branchChanged = currentBranch != lastBuild.Branch;
-    bool needsBuild = false;
 
     if (branchChanged)
     {
         Trace.WriteLine($"Git branch changed from \"{lastBuild.Branch}\" to \"{currentBranch}\". Rebuilding...");
-        needsBuild = true;
+        return true;
     }
-    else if (!GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp))
+
+    if (!GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp))
     {
         Trace.WriteLine("No changes in Scripts folder since last build.");
 
@@ -343,25 +341,20 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
         if (Directory.Exists(outputDir) && Directory.GetFiles(outputDir).Length > 0)
         {
             Trace.WriteLine("Output directory is not empty. Skipping build.");
-            KillDialog(dialogProcess);
-            Environment.Exit(0);
+            return false;
         }
         else
         {
             Trace.WriteLine("Output directory is empty. Proceeding with build.");
-            needsBuild = true;
+            return true;
         }
     }
-    else
-    {
-        Trace.WriteLine("Changes detected in Scripts folder. Proceeding with build.");
-        needsBuild = true;
-    }
 
-    return needsBuild;
+    Trace.WriteLine("Changes detected in Scripts folder. Proceeding with build.");
+    return true;
 }
 
-static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir)
+static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool verbose)
 {
     Trace.WriteLine("Copying core Scripts to Pro Scripts directory...");
     if (!Directory.Exists(proScriptsDir))
@@ -373,7 +366,7 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir)
     int skippedCount = 0;
     List<string> fileNames = [];
 
-    foreach (string filePath in Directory.GetFiles(coreScriptsDir, "*", SearchOption.AllDirectories))
+    foreach (string filePath in Directory.GetFiles(coreScriptsDir, "*.ts", SearchOption.AllDirectories))
     {
         string fileName = Path.GetFileName(filePath);
         fileNames.Add(fileName);
@@ -383,6 +376,10 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir)
         {
             File.Copy(filePath, destinationPath, true);
             copiedCount++;
+            if (verbose)
+            {
+                Trace.WriteLine($"Copied new file: {fileName}");
+            }
             continue;
         }
 
@@ -392,6 +389,10 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir)
         if (sourceDate > destDate)
         {
             File.Copy(filePath, destinationPath, true);
+            if (verbose)
+            {
+                Trace.WriteLine($"Updated file: {fileName}");
+            }
             copiedCount++;
         }
         else
@@ -440,17 +441,25 @@ static Process? StartConsoleDialog(string buildDir, string title)
 {
     try
     {
-        string consoleDialogPath = Path.Combine(buildDir, "ConsoleDialog.cs");
+        string consoleDialogPath = Path.Combine(buildDir, "ConsoleDialog.dll");
         if (!File.Exists(consoleDialogPath))
         {
-            Trace.WriteLine($"ConsoleDialog.cs not found at {consoleDialogPath}");
+            Trace.WriteLine($"ConsoleDialog.dll not found at {consoleDialogPath}");
             return null;
         }
+        
+        string[] args =
+        [
+            "ConsoleDialog.dll",
+            $"\"{title}\"",
+            "-w",
+            "2"
+        ];
 
         var psi = new ProcessStartInfo
         {
             FileName = "dotnet",
-            Arguments = $"run \"{consoleDialogPath}\" \"{title}\"",
+            Arguments = string.Join(" ", args),
             WorkingDirectory = buildDir,
             RedirectStandardInput = true,
             RedirectStandardOutput = true,
@@ -458,7 +467,19 @@ static Process? StartConsoleDialog(string buildDir, string title)
             CreateNoWindow = true
         };
 
-        return Process.Start(psi);
+        Process? dialog = Process.Start(psi);
+
+        if (dialog?.StandardInput is null)
+        {
+            Trace.WriteLine("Failed to start console dialog. Exiting.");
+        }
+        else
+        {
+            dialog.StandardInput.AutoFlush = true;
+            Trace.Listeners.Add(new DialogTraceListener(dialog));
+        }
+
+        return dialog;
     }
     catch (Exception ex)
     {
@@ -543,7 +564,7 @@ static (List<string> Output, int ExitCode) RunNpmCommand(string workingDirectory
     }
     catch (Exception ex)
     {
-        Trace.WriteLine($"Error running npm {command}: {ex.Message}");
+        Trace.WriteLine($"Error running npm {command}: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
         output.Add(ex.Message);
         return (output, 1);
     }
@@ -556,9 +577,20 @@ static bool HasErrorOrWarning(List<string> output)
         line.Contains("Warning", StringComparison.OrdinalIgnoreCase));
 }
 
-static string GetScriptDirectory([CallerFilePath] string? callerFilePath = null)
+static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
 {
-    return Path.GetDirectoryName(callerFilePath) ?? Environment.CurrentDirectory;
+    // When running as a pre-compiled DLL, [CallerFilePath] contains the compile-time path
+    // which is invalid at runtime (especially in Docker containers).
+    // Detect this by checking if the file exists at the caller path.
+    if (!string.IsNullOrEmpty(callerFilePath) && File.Exists(callerFilePath))
+    {
+        return Path.GetDirectoryName(callerFilePath)!;
+    }
+
+    // Running as a DLL - use AppContext.BaseDirectory which points to the DLL location
+    // The DLL is in build-tools/, and scripts are in build-scripts/ (sibling directory)
+    string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+    return Path.Combine(Path.GetDirectoryName(dllDirectory)!, "build-scripts");
 }
 
 static void HoldDialog(Process? dialog)

@@ -8,7 +8,34 @@ object _consoleLock = new();
 Process? _consoleProcess = null;
 string? _consoleTempFile = null;
 
+string? title = null;
+int wait = 3;
 
+for (int i = 0; i < args.Length; i++)
+{
+    string arg = args[i];
+
+    switch (arg)
+    {
+        case "-w":
+        case "--wait":
+            wait = int.TryParse(args[i + 1], out int parsedWait) ? parsedWait : wait;
+            i++;
+            break;
+        default:
+            if (title is null)
+            {
+                title = arg;
+            }
+            else
+            {
+                title = $"{title} {arg}";
+            }
+            break;
+    }
+}
+
+title ??= "GeoBlazor Build";
 
 void ShowOrUpdateConsole(string title, string message)
 {
@@ -19,7 +46,7 @@ void ShowOrUpdateConsole(string title, string message)
         {
             _consoleTempFile = Path.Combine(Path.GetTempPath(), $"geoblazor_sourcegen_{Guid.NewGuid():N}.log");
             // Create the file immediately so Get-Content -Wait has something to tail
-            File.WriteAllText(_consoleTempFile, $"[{DateTime.Now:HH:mm:ss}] {title}: Starting...{Environment.NewLine}");
+            File.WriteAllText(_consoleTempFile, $" {Environment.NewLine}");
         }
 
         if (!string.IsNullOrWhiteSpace(message))
@@ -155,7 +182,7 @@ void StartLinuxConsole()
     // No terminal emulator found - messages still go to temp file and diagnostics
 }
 
-void CloseConsole(string title)
+void CloseConsole(string title, int wait)
 {
     lock (_consoleLock)
     {
@@ -165,7 +192,7 @@ void CloseConsole(string title)
             {
                 File.WriteAllText(_consoleTempFile, $"[{DateTime.Now:HH:mm:ss}] {title}: Console closing...");
                 // Give a brief moment for final messages to appear
-                Thread.Sleep(4000);
+                Thread.Sleep(wait * 1000);
                 _consoleProcess.Kill();
                 _consoleProcess.Dispose();
             }
@@ -198,9 +225,6 @@ void CloseConsole(string title)
     }
 }
 
-
-string? title = args.Length > 0 ? args[0] : "GeoBlazor Build";
-
 ShowOrUpdateConsole(title, string.Empty);
 
 CancellationTokenSource cts = new();
@@ -216,7 +240,7 @@ _ = Task.Run(async () =>
         await Task.Delay(1000);
     }
     Console.WriteLine("Console dialog timed out. Closing...");
-    CloseConsole(title);
+    CloseConsole(title, wait);
     Environment.Exit(0);
 });
 
@@ -241,7 +265,7 @@ while (!cts.IsCancellationRequested)
 
     if (inputLine.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
     {
-        CloseConsole(title);
+        CloseConsole(title, wait);
         
         break;
     }

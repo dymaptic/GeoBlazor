@@ -18,10 +18,12 @@ public static class SerializationGenerator
     /// <param name="types">The collection of type declarations to analyze for serialization attributes.</param>
     /// <param name="protoMessageDefinitions">A dictionary of Protobuf message definitions keyed by type name.</param>
     /// <param name="isPro">Whether generating for Pro (true) or Core (false) library.</param>
+    /// <param name="showDialog">Whether to show progress dialog during generation.</param>
+    /// <param name="sessionId">Optional session ID to identify the console dialog instance.</param>
     public static void GenerateSerializationDataClass(SourceProductionContext context,
         ImmutableArray<BaseTypeDeclarationSyntax> types,
         Dictionary<string, ProtoMessageDefinition> protoMessageDefinitions,
-        bool isPro)
+        bool isPro, bool showDialog, string? sessionId = null)
     {
         try
         {
@@ -100,7 +102,7 @@ public static class SerializationGenerator
             ProcessHelper.Log(nameof(SerializationGenerator),
                 $"Generated serialized data class: {className}.g.cs",
                 DiagnosticSeverity.Info,
-                context, true);
+                context, showDialog, sessionId);
 
             context.AddSource($"{className}.g.cs", classBuilder.ToString());
         }
@@ -109,7 +111,7 @@ public static class SerializationGenerator
             ProcessHelper.Log(nameof(SerializationGenerator),
                 $"Error generating serialized data class: {ex}",
                 DiagnosticSeverity.Error,
-                context, true);
+                context, showDialog, sessionId);
         }
     }
 
