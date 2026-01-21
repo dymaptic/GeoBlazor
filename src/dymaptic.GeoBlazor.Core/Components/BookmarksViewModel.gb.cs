@@ -774,7 +774,7 @@ public partial class BookmarksViewModel : IGoTo
         }
 
         BookmarksViewModelBookmarkEditEvent? bookmarkEditEvent =
-            await jsStreamRef.ReadJsStreamReference<BookmarksViewModelBookmarkEditEvent>();
+            await jsStreamRef.ReadJsStreamReferenceAsJSON<BookmarksViewModelBookmarkEditEvent>();
 
         if (bookmarkEditEvent is not null)
         {
@@ -808,7 +808,7 @@ public partial class BookmarksViewModel : IGoTo
         }
 
         BookmarksViewModelBookmarkSelectEvent? bookmarkSelectEvent =
-            await jsStreamRef.ReadJsStreamReference<BookmarksViewModelBookmarkSelectEvent>();
+            await jsStreamRef.ReadJsStreamReferenceAsJSON<BookmarksViewModelBookmarkSelectEvent>();
 
         if (bookmarkSelectEvent is not null)
         {

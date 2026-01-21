@@ -1,5 +1,4 @@
 import esbuild from 'esbuild';
-import eslint from 'esbuild-plugin-eslint';
 import {cleanPlugin} from 'esbuild-clean-plugin';
 import fs from 'fs';
 import path from 'path';
@@ -42,10 +41,7 @@ let options = {
     },
     metafile: true,
     minify: isRelease,
-    plugins: [eslint({
-        throwOnError: true
-    }),
-        cleanPlugin()]
+    plugins: [cleanPlugin()]
 }
 
 // check if output directory exists

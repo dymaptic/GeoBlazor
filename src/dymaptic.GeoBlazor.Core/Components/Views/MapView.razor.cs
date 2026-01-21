@@ -154,6 +154,9 @@ public partial class MapView : MapComponent
     [Parameter]
     public bool ExcludeApiKey { get; set; }
 
+    /// <summary>
+    ///     Captures any additional attributes that are not explicitly defined as parameters.
+    /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? UnMatchedAttributes { get; set; }
 

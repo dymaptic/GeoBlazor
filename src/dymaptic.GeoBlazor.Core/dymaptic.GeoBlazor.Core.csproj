@@ -25,6 +25,7 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoWarn>GeoBlazor_Untested</NoWarn>
         <LangVersion>latest</LangVersion>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -96,14 +97,11 @@
       <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
       <AdditionalFiles Include="package.json" />
       <AdditionalFiles Include="Scripts\*.ts" />
-      <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
-      <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
-      <CompilerVisibleProperty Include="LogESBuildOutput" Value="$(LogESBuildOutput)" />
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="Documentation/" />
-        <Folder Include="wwwroot/js/" />
+        <Folder Include="wwwroot/js" Watch="false"/>
         <Content Remove="esBuild*" Watch="false" Pack="false" />
     </ItemGroup>
 

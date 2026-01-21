@@ -2,6 +2,9 @@
       [switch][Alias("f")]$Force,
       [switch][Alias("h")]$Help)
 
+# Allow $IsLinux and $IsMacOS to be accessed safely in Windows PowerShell
+Set-StrictMode -Off
+
 if ($Help) {
     Write-Host "ESBuild TypeScript -> JavaScript Compilation Script"
     Write-Host ""
@@ -141,15 +144,28 @@ if (-not $needsBuild)
     exit 0
 }
 
+function WriteToDialog
+{
+    param([System.Diagnostics.Process]$DialogProcess,
+        [string]$Content)
+    if ($DialogProcess.StandardInput -eq $null)
+    {
+        return;
+    }
+
+    $DialogProcess.StandardInput.WriteLine($Content);
+}
+
 # Start dialog process only if we're actually going to build
-$ShowDialogPath = Join-Path -Path $PSScriptRoot ".." ".." "showDialog.ps1"
-$DialogArgs = "-Message `"Starting GeoBlazor Core ESBuild process...`" -Title `"GeoBlazor Core ESBuild`" -Buttons None -ListenForInput"
+$ConsoleDialogPath = Join-Path -Path $PSScriptRoot ".." ".." "build"
 $DialogStartInfo = New-Object System.Diagnostics.ProcessStartInfo
-$DialogStartInfo.FileName = "pwsh"
-$DialogStartInfo.Arguments = "-NoProfile -ExecutionPolicy ByPass -File `"$ShowDialogPath`" $DialogArgs"
+$DialogStartInfo.FileName = "dotnet"
+$DialogStartInfo.WorkingDirectory = $ConsoleDialogPath
+$DialogStartInfo.Arguments = "ConsoleDialog.cs `"GeoBlazor Core ESBuild`""
 $DialogStartInfo.RedirectStandardInput = $true
+$DialogStartInfo.RedirectStandardOutput = $true
 $DialogStartInfo.UseShellExecute = $false
-$DialogStartInfo.CreateNoWindow = $true
+
 $DialogProcess = [System.Diagnostics.Process]::Start($DialogStartInfo)
 
 # Check if the process is locked for the current configuration
@@ -201,33 +217,55 @@ try
     Write-Output $Install
     foreach ($line in $Install)
     {
-        $DialogProcess.StandardInput.WriteLine($line)
+        WriteToDialog -DialogProcess $DialogProcess -Content $line
     }
     $HasError = ($Install -like "*Error*")
     $HasWarning = ($Install -like "*Warning*")
     Write-Output "-----"
-    $DialogProcess.StandardInput.WriteLine("-----")
+    WriteToDialog -DialogProcess $DialogProcess -Content "-----"
     if ($HasError -ne $null -or $HasWarning -ne $null)
     {
         Write-Output "NPM Install failed"
-        $DialogProcess.StandardInput.WriteLine("NPM Install failed")
+        WriteToDialog -DialogProcess $DialogProcess -Content "NPM Install failed"
+        WriteToDialog -DialogProcess $DialogProcess -Content "hold"
         exit 1
     }
-    
+
+    # Run ESLint before build
+    Write-Output "Running ESLint..."
+    WriteToDialog -DialogProcess $DialogProcess -Content "Running ESLint..."
+    $Lint = npm run lint 2>&1
+    Write-Output $Lint
+    foreach ($line in $Lint)
+    {
+        WriteToDialog -DialogProcess $DialogProcess -Content $line
+    }
+    $LintHasError = ($Lint -like "*error*")
+    if ($LintHasError -ne $null)
+    {
+        Write-Output "ESLint found errors"
+        WriteToDialog -DialogProcess $DialogProcess -Content "ESLint found errors"
+        WriteToDialog -DialogProcess $DialogProcess -Content "hold"
+        exit 1
+    }
+    Write-Output "-----"
+    WriteToDialog -DialogProcess $DialogProcess -Content "-----"
+
     if ($Configuration.ToLowerInvariant() -eq "release")
     {
         $Build = npm run releaseBuild 2>&1
         Write-Output $Build
         foreach ($line in $Build)
         {
-            $DialogProcess.StandardInput.WriteLine($line)
+            WriteToDialog -DialogProcess $DialogProcess -Content $line
         }
         $HasError = ($Build -like "*Error*")
         $HasWarning = ($Build -like "*Warning*")
         Write-Output "-----"
-        $DialogProcess.StandardInput.WriteLine("-----")
+        WriteToDialog -DialogProcess $DialogProcess -Content "-----"
         if ($HasError -ne $null -or $HasWarning -ne $null)
         {
+            WriteToDialog -DialogProcess $DialogProcess -Content "hold"
             exit 1
         }
     }
@@ -237,29 +275,30 @@ try
         Write-Output $Build
         foreach ($line in $Build)
         {
-            $DialogProcess.StandardInput.WriteLine($line)
+            WriteToDialog -DialogProcess $DialogProcess -Content $line
         }
         $HasError = ($Build -like "*Error*")
         $HasWarning = ($Build -like "*Warning*")
         Write-Output "-----"
-        $DialogProcess.StandardInput.WriteLine("-----")
+        WriteToDialog -DialogProcess $DialogProcess -Content "-----"
         if ($HasError -ne $null -or $HasWarning -ne $null)
         {
+            WriteToDialog -DialogProcess $DialogProcess -Content "hold"
             exit 1
         }
     }
     Write-Output "NPM Build Complete"
-    $DialogProcess.StandardInput.WriteLine("NPM Build Complete")
-    Start-Sleep -Seconds 4
-    $DialogProcess.Kill()
+    WriteToDialog -DialogProcess $DialogProcess -Content "NPM Build Complete"
+    WriteToDialog -DialogProcess $DialogProcess -Content "exit"
     exit 0
 }
 catch
 {
     Write-Output "An error occurred in esBuild.ps1"
-    $DialogProcess.StandardInput.WriteLine("An error occurred in esBuild.ps1")
+    WriteToDialog -DialogProcess $DialogProcess -Content "An error occurred in esBuild.ps1"
     Write-Output $_
-    $DialogProcess.StandardInput.WriteLine($_)
+    WriteToDialog -DialogProcess $DialogProcess -Content $_
+    WriteToDialog -DialogProcess $DialogProcess -Content "hold"
     exit 1
 }
 finally

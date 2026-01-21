@@ -14,11 +14,6 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 [SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
 public class ESBuildGenerator : IIncrementalGenerator
 {
-    /// <summary>
-    ///     Gets a value indicating whether an ESBuild process is currently running.
-    /// </summary>
-    public static bool InProcess { get; private set; }
-
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -45,21 +40,17 @@ public class ESBuildGenerator : IIncrementalGenerator
                 return (projectDirectory, configuration, pipelineBuild);
             });
 
-        IncrementalValueProvider<((ImmutableArray<AdditionalText> Left, (string?, string?, string?) Right) Left,
-            Compilation Right)> combined =
-            tsFilesProvider
-                .Combine(optionsProvider)
-                .Combine(context.CompilationProvider);
+        IncrementalValueProvider<(ImmutableArray<AdditionalText> Left, (string?, string?, string?) Right)> combined =
+            tsFilesProvider.Combine(optionsProvider);
 
         context.RegisterSourceOutput(combined, FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((ImmutableArray<AdditionalText> Files,
-            (string? ProjectDirectory, string? Configuration, string? PipelineBuild) Options) Data,
-            Compilation Compilation) pipeline)
+        (ImmutableArray<AdditionalText> Files,
+            (string? ProjectDirectory, string? Configuration, string? PipelineBuild) Options) pipeline)
     {
-        if (!SetProjectDirectoryAndConfiguration(pipeline.Data.Options, context))
+        if (!SetProjectDirectoryAndConfiguration(pipeline.Options, context))
         {
             return;
         }
@@ -69,7 +60,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             DiagnosticSeverity.Info,
             context);
 
-        if (pipeline.Data.Options.PipelineBuild == "true")
+        if (pipeline.Options.PipelineBuild == "true")
         {
             // If the pipeline build is enabled, we skip the ESBuild process.
             // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
@@ -81,7 +72,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             return;
         }
 
-        if (pipeline.Data.Files.Length > 0)
+        if (pipeline.Files.Length > 0)
         {
             LaunchESBuild(context);
         }
@@ -152,6 +143,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             context);
 
         StringBuilder logBuilder = new StringBuilder(DateTime.Now.ToLongTimeString());
+        logBuilder.AppendLine();
         logBuilder.AppendLine("Starting Core ESBuild process...");
 
         try
@@ -165,7 +157,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             {
                 await ProcessHelper.RunPowerShellScript("Core",
                     _corePath!, "esBuild.ps1",
-                    $"-c {_configuration}", logBuilder, context.CancellationToken);
+                    ["-c", _configuration!], logBuilder, context.CancellationToken);
                 buildSuccess = true;
             }));
 
@@ -177,7 +169,7 @@ public class ESBuildGenerator : IIncrementalGenerator
                 {
                     await ProcessHelper.RunPowerShellScript("Pro",
                         _proPath, "esProBuild.ps1",
-                        $"-c {_configuration}", logBuilder, context.CancellationToken);
+                        ["-c", _configuration!], logBuilder, context.CancellationToken);
                     proBuildSuccess = true;
                 }));
             }
@@ -235,7 +227,7 @@ public class ESBuildGenerator : IIncrementalGenerator
         string rootCorePath = Path.Combine(_corePath!, "..", "..");
 
         _ = Task.Run(async () => await ProcessHelper.RunPowerShellScript("Clear Locks",
-            rootCorePath, "esBuildClearLocks.ps1", "",
+            rootCorePath, "esBuildClearLocks.ps1", [],
             logBuilder, context.CancellationToken));
 
         ProcessHelper.Log(nameof(ESBuildGenerator),

@@ -29,6 +29,13 @@
     This allows external processes to update the dialog message dynamically while it's open.
     (Windows only)
 
+.PARAMETER DuplicateAction
+    Controls behavior when a dialog with the same title already exists. Valid values:
+    - Allow: (Default) Always open a new dialog, even if one with the same title exists
+    - Skip: Do not open a new dialog if one with the same title is already open; returns $null
+    - BringToFront: Bring the existing dialog to the front instead of opening a new one; returns $null
+    (Windows only)
+
 .EXAMPLE
     .\showDialog.ps1 -Message "Operation completed successfully" -Title "Success" -Type success
 
@@ -49,6 +56,14 @@
     # Use -ListenForInput to dynamically update the dialog message from stdin
     # Pipe output to the dialog to update its message in real-time
     & { Write-Output "Step 1 complete"; Start-Sleep 1; Write-Output "Step 2 complete" } | .\showDialog.ps1 -Message "Starting..." -Title "Progress" -Buttons None -ListenForInput
+
+.EXAMPLE
+    # Use -DuplicateAction to prevent opening multiple dialogs with the same title
+    .\showDialog.ps1 -Message "Building..." -Title "Build Status" -Buttons None -DuplicateAction Skip
+
+.EXAMPLE
+    # Use -DuplicateAction BringToFront to focus an existing dialog instead of creating a new one
+    .\showDialog.ps1 -Message "Building..." -Title "Build Status" -Buttons None -DuplicateAction BringToFront
 #>
 
 param(
@@ -72,7 +87,11 @@ param(
 
     [switch]$Async,
 
-    [switch]$ListenForInput
+    [switch]$ListenForInput,
+
+    [Parameter()]
+    [ValidateSet('Allow', 'Skip', 'BringToFront')]
+    [string]$DuplicateAction = 'Skip'
 )
 
 $buttonMap = @{
@@ -83,6 +102,89 @@ $buttonMap = @{
     'YesNoCancel'      = @{ buttonList = @('Yes', 'No', 'Cancel'); defaultButtonIndex = 0; cancelButtonIndex = 2 }
     'RetryCancel'      = @{ buttonList = @('Retry', 'Cancel'); defaultButtonIndex = 0; cancelButtonIndex = 1 }
     'AbortRetryIgnore' = @{ buttonList = @('Abort', 'Retry', 'Ignore'); defaultButtonIndex = 2; cancelButtonIndex = 0 }
+}
+
+function Find-ExistingDialogByTitle {
+    param(
+        [string]$Title
+    )
+
+    if ($IsLinux -or $IsMacOS) {
+        # Not implemented for non-Windows platforms
+        return $null
+    }
+
+    # Windows implementation using Win32 API
+    Add-Type @"
+        using System;
+        using System.Collections.Generic;
+        using System.Runtime.InteropServices;
+        using System.Text;
+
+        public class DialogFinder {
+            [DllImport("user32.dll")]
+            private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+            [DllImport("user32.dll")]
+            private static extern bool IsWindowVisible(IntPtr hWnd);
+
+            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+            private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+            [DllImport("user32.dll")]
+            private static extern int GetWindowTextLength(IntPtr hWnd);
+
+            [DllImport("user32.dll")]
+            public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+            [DllImport("user32.dll")]
+            public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+            [DllImport("user32.dll")]
+            public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+            public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+            public static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+            public const uint SWP_NOMOVE = 0x0002;
+            public const uint SWP_NOSIZE = 0x0001;
+            public const int SW_SHOW = 5;
+            public const int SW_RESTORE = 9;
+
+            private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+            public static IntPtr FindWindowByTitle(string title) {
+                IntPtr foundHandle = IntPtr.Zero;
+                EnumWindows((hWnd, lParam) => {
+                    if (IsWindowVisible(hWnd)) {
+                        int length = GetWindowTextLength(hWnd);
+                        if (length > 0) {
+                            StringBuilder sb = new StringBuilder(length + 1);
+                            GetWindowText(hWnd, sb, sb.Capacity);
+                            if (sb.ToString() == title) {
+                                foundHandle = hWnd;
+                                return false; // Stop enumeration
+                            }
+                        }
+                    }
+                    return true;
+                }, IntPtr.Zero);
+                return foundHandle;
+            }
+
+            public static void BringWindowToFront(IntPtr hWnd) {
+                ShowWindow(hWnd, SW_RESTORE);
+                SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                SetForegroundWindow(hWnd);
+            }
+        }
+"@
+
+    $existingHandle = [DialogFinder]::FindWindowByTitle($Title)
+    if ($existingHandle -ne [IntPtr]::Zero) {
+        return $existingHandle
+    }
+    return $null
 }
 
 function Show-WindowsDialog {
@@ -678,6 +780,23 @@ $cancelIndex = $config.cancelButtonIndex
 
 # Ensure default index is within bounds
 $defaultIndex = [math]::Min($buttonList.Count - 1, $defaultIndex)
+
+# Check for duplicate dialogs (Windows only for now)
+if ($DuplicateAction -ne 'Allow' -and -not $IsLinux -and -not $IsMacOS) {
+    $existingHandle = Find-ExistingDialogByTitle -Title $Title
+    if ($null -ne $existingHandle) {
+        if ($DuplicateAction -eq 'Skip') {
+            # Return without showing - dialog already exists
+            Write-Output "Skipping duplicate dialog titled $Title"
+            return $null
+        }
+        elseif ($DuplicateAction -eq 'BringToFront') {
+            # Bring existing dialog to front and return
+            [DialogFinder]::BringWindowToFront($existingHandle)
+            return $null
+        }
+    }
+}
 
 if ($IsLinux) {
     $result = Show-LinuxDialog -Message $Message -Title $Title -Type $Type -ButtonList $buttonList -DefaultIndex $defaultIndex -CancelIndex $cancelIndex

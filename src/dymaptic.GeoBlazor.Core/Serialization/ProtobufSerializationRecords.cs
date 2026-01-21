@@ -9,35 +9,67 @@ namespace dymaptic.GeoBlazor.Core.Serialization;
 [ProtoContract(Name = "MapComponent")]
 public abstract record MapComponentSerializationRecord
 {
+    /// <summary>
+    ///     Indicates whether this record represents a null value.
+    /// </summary>
     [ProtoMember(1000)]
     public abstract bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Generic base class for Protobuf serialization records that can be converted to a specific type.
+/// </summary>
+/// <typeparam name="T">The type that this record can be converted to.</typeparam>
 public abstract record MapComponentSerializationRecord<T> : MapComponentSerializationRecord
 {
+    /// <summary>
+    ///     Converts this serialization record back to the original type.
+    /// </summary>
     public abstract T? FromSerializationRecord();
 }
 
+/// <summary>
+///     Base class for Protobuf serialization records representing collections.
+/// </summary>
 [ProtoContract(Name = "MapComponentCollection")]
 public abstract record MapComponentBaseCollectionSerializationRecord
 {
+    /// <summary>
+    ///     Indicates whether this collection record represents a null value.
+    /// </summary>
     [ProtoMember(1000)]
     public abstract bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Generic base class for Protobuf serialization records representing collections of a specific item type.
+/// </summary>
+/// <typeparam name="TItem">The type of items in the collection.</typeparam>
 public abstract record MapComponentCollectionSerializationRecord<TItem> : MapComponentBaseCollectionSerializationRecord
     where TItem : MapComponentSerializationRecord
 {
+    /// <summary>
+    ///     The collection of serialization record items.
+    /// </summary>
     public abstract TItem[]? Items { get; set; }
 }
 
+/// <summary>
+///     Protobuf serialization record for Geometry types.
+/// </summary>
 [ProtoContract(Name = "Geometry")]
 public record GeometrySerializationRecord : MapComponentSerializationRecord<Geometry>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public GeometrySerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new GeometrySerializationRecord with the specified values.
+    /// </summary>
     public GeometrySerializationRecord(string Id, string Type, GeometrySerializationRecord? Extent,
         SpatialReferenceSerializationRecord? SpatialReference)
     {
@@ -47,92 +79,179 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord<Geom
         this.SpatialReference = SpatialReference;
     }
 
+    /// <summary>
+    ///     The geometry type (point, polyline, polygon, extent, multipoint, mesh).
+    /// </summary>
     [ProtoMember(1)]
     public string Type { get; set; } = string.Empty;
 
+    /// <summary>
+    ///     The extent of the geometry.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public GeometrySerializationRecord? Extent { get; set; }
 
+    /// <summary>
+    ///     The spatial reference of the geometry.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public SpatialReferenceSerializationRecord? SpatialReference { get; set; }
 
+    /// <summary>
+    ///     The longitude coordinate for point geometries.
+    /// </summary>
     [ProtoMember(4)]
     public double? Longitude { get; set; }
 
+    /// <summary>
+    ///     The latitude coordinate for point geometries.
+    /// </summary>
     [ProtoMember(5)]
     public double? Latitude { get; set; }
 
+    /// <summary>
+    ///     The X coordinate for point geometries.
+    /// </summary>
     [ProtoMember(6)]
     public double? X { get; set; }
 
+    /// <summary>
+    ///     The Y coordinate for point geometries.
+    /// </summary>
     [ProtoMember(7)]
     public double? Y { get; set; }
 
+    /// <summary>
+    ///     The Z coordinate for point geometries.
+    /// </summary>
     [ProtoMember(8)]
     public double? Z { get; set; }
 
+    /// <summary>
+    ///     The paths for polyline geometries.
+    /// </summary>
     [ProtoMember(9)]
     public MapPathSerializationRecord[]? Paths { get; set; }
 
+    /// <summary>
+    ///     The rings for polygon geometries.
+    /// </summary>
     [ProtoMember(10)]
     public MapPathSerializationRecord[]? Rings { get; set; }
 
+    /// <summary>
+    ///     The maximum X coordinate for extent geometries.
+    /// </summary>
     [ProtoMember(11)]
     public double? Xmax { get; set; }
 
+    /// <summary>
+    ///     The minimum X coordinate for extent geometries.
+    /// </summary>
     [ProtoMember(12)]
     public double? Xmin { get; set; }
 
+    /// <summary>
+    ///     The maximum Y coordinate for extent geometries.
+    /// </summary>
     [ProtoMember(13)]
     public double? Ymax { get; set; }
 
+    /// <summary>
+    ///     The minimum Y coordinate for extent geometries.
+    /// </summary>
     [ProtoMember(14)]
     public double? Ymin { get; set; }
 
+    /// <summary>
+    ///     The maximum Z coordinate for extent geometries.
+    /// </summary>
     [ProtoMember(15)]
     public double? Zmax { get; set; }
 
+    /// <summary>
+    ///     The minimum Z coordinate for extent geometries.
+    /// </summary>
     [ProtoMember(16)]
     public double? Zmin { get; set; }
 
+    /// <summary>
+    ///     The maximum M value for extent geometries.
+    /// </summary>
     [ProtoMember(17)]
     public double? Mmax { get; set; }
 
+    /// <summary>
+    ///     The minimum M value for extent geometries.
+    /// </summary>
     [ProtoMember(18)]
     public double? Mmin { get; set; }
 
+    /// <summary>
+    ///     Indicates whether the geometry has M values.
+    /// </summary>
     [ProtoMember(19)]
     public bool? HasM { get; set; }
 
+    /// <summary>
+    ///     Indicates whether the geometry has Z values.
+    /// </summary>
     [ProtoMember(20)]
     public bool? HasZ { get; set; }
 
+    /// <summary>
+    ///     The M value for point geometries.
+    /// </summary>
     [ProtoMember(21)]
     public double? M { get; set; }
 
+    /// <summary>
+    ///     The centroid of polygon geometries.
+    /// </summary>
     [ProtoMember(22)]
     public GeometrySerializationRecord? Centroid { get; set; }
 
+    /// <summary>
+    ///     Indicates whether the polygon is self-intersecting.
+    /// </summary>
     [ProtoMember(23)]
     public bool? IsSelfIntersecting { get; set; }
 
+    /// <summary>
+    ///     The center point for circle geometries.
+    /// </summary>
     [ProtoMember(24)]
     public GeometrySerializationRecord? Center { get; set; }
 
+    /// <summary>
+    ///     Indicates whether the circle is geodesic.
+    /// </summary>
     [ProtoMember(25)]
     public bool? Geodesic { get; set; }
 
+    /// <summary>
+    ///     The number of points in the circle.
+    /// </summary>
     [ProtoMember(26)]
     public int? NumberOfPoints { get; set; }
 
+    /// <summary>
+    ///     The radius of the circle.
+    /// </summary>
     [ProtoMember(27)]
     public double? Radius { get; set; }
 
+    /// <summary>
+    ///     The unit of the radius.
+    /// </summary>
     [ProtoMember(28)]
     public string? RadiusUnit { get; set; }
 
+    /// <summary>
+    ///     The unique identifier for the geometry.
+    /// </summary>
     [ProtoMember(29)]
     public string? Id { get; set; }
 
@@ -142,24 +261,41 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord<Geom
     [ProtoMember(30)]
     public MapPointSerializationRecord[]? Points { get; set; }
 
+    /// <summary>
+    ///     Indicates whether the geometry is simple.
+    /// </summary>
     [ProtoMember(31)]
     public bool? IsSimple { get; set; }
 
+    /// <summary>
+    ///     The mesh components for mesh geometries.
+    /// </summary>
     [ProtoMember(32)]
     public MeshComponentSerializationRecord[]? Components { get; set; }
 
+    /// <summary>
+    ///     The transform for mesh geometries.
+    /// </summary>
     [ProtoMember(33)]
     public MeshTransformSerializationRecord? Transform { get; set; }
 
+    /// <summary>
+    ///     The vertex attributes for mesh geometries.
+    /// </summary>
     [ProtoMember(34)]
     public MeshVertexAttributesSerializationRecord? VertexAttributes { get; set; }
 
+    /// <summary>
+    ///     The vertex space for mesh geometries.
+    /// </summary>
     [ProtoMember(35)]
     public MeshVertexSpaceSerializationRecord? VertexSpace { get; set; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override Geometry? FromSerializationRecord()
     {
         if (IsNull)
@@ -298,64 +434,117 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for PopupContent types.
+/// </summary>
 [ProtoContract(Name = "PopupContent")]
 public record PopupContentSerializationRecord : MapComponentSerializationRecord<PopupContent>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public PopupContentSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new PopupContentSerializationRecord with the specified values.
+    /// </summary>
     public PopupContentSerializationRecord(string Id, string Type)
     {
         this.Type = Type;
         this.Id = Id;
     }
 
+    /// <summary>
+    ///     The popup content type.
+    /// </summary>
     [ProtoMember(1)]
     public string Type { get; init; } = string.Empty;
 
+    /// <summary>
+    ///     The description of the popup content.
+    /// </summary>
     [ProtoMember(2)]
     public string? Description { get; init; }
 
+    /// <summary>
+    ///     The display type of the popup content.
+    /// </summary>
     [ProtoMember(3)]
     public string? DisplayType { get; init; }
 
+    /// <summary>
+    ///     The title of the popup content.
+    /// </summary>
     [ProtoMember(4)]
     public string? Title { get; init; }
 
+    /// <summary>
+    ///     The expression info for expression popup content.
+    /// </summary>
     [ProtoMember(5)]
     public ElementExpressionInfoSerializationRecord? ExpressionInfo { get; init; }
 
+    /// <summary>
+    ///     The field info array for fields popup content.
+    /// </summary>
     [ProtoMember(6)]
     public FieldInfoSerializationRecord[]? FieldInfos { get; init; }
 
+    /// <summary>
+    ///     The active media info index for media popup content.
+    /// </summary>
     [ProtoMember(7)]
     public int? ActiveMediaInfoIndex { get; init; }
 
+    /// <summary>
+    ///     The media info array for media popup content.
+    /// </summary>
     [ProtoMember(8)]
     public MediaInfoSerializationRecord[]? MediaInfos { get; init; }
 
+    /// <summary>
+    ///     The display count for relationship popup content.
+    /// </summary>
     [ProtoMember(9)]
     public int? DisplayCount { get; init; }
 
+    /// <summary>
+    ///     The order by fields for relationship popup content.
+    /// </summary>
     [ProtoMember(10)]
     public RelatedRecordsInfoFieldOrderSerializationRecord[]? OrderByFields { get; init; }
 
+    /// <summary>
+    ///     The relationship ID for relationship popup content.
+    /// </summary>
     [ProtoMember(11)]
     public long? RelationshipId { get; init; }
 
+    /// <summary>
+    ///     The text for text popup content.
+    /// </summary>
     [ProtoMember(12)]
     public string? Text { get; init; }
 
+    /// <summary>
+    ///     The unique identifier for the popup content.
+    /// </summary>
     [ProtoMember(13)]
     public string? Id { get; set; }
 
+    /// <summary>
+    ///     The out fields for custom popup content.
+    /// </summary>
     [ProtoMember(14)]
     public string[]? OutFields { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override PopupContent? FromSerializationRecord()
     {
         if (IsNull)
@@ -438,13 +627,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for PopupExpressionInfo.
+/// </summary>
 [ProtoContract(Name = "PopupExpressionInfo")]
 public record PopupExpressionInfoSerializationRecord : MapComponentSerializationRecord<PopupExpressionInfo>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public PopupExpressionInfoSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new PopupExpressionInfoSerializationRecord with the specified values.
+    /// </summary>
     public PopupExpressionInfoSerializationRecord(string Id, string? Expression, string? Name, string? Title,
         PopupExpressionInfoReturnType? ReturnType)
     {
@@ -455,28 +653,45 @@ public record PopupExpressionInfoSerializationRecord : MapComponentSerialization
         this.ReturnType = ReturnType.ToString();
     }
 
+    /// <summary>
+    ///     The Arcade expression string.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public string? Expression { get; init; }
 
+    /// <summary>
+    ///     The name of the expression.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? Name { get; init; }
 
+    /// <summary>
+    ///     The title of the expression.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public string? Title { get; init; }
 
+    /// <summary>
+    ///     The return type of the expression.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
     public string? ReturnType { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(5)]
     public string? Id { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override PopupExpressionInfo? FromSerializationRecord()
     {
         if (IsNull)
@@ -518,13 +733,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for PopupTemplate.
+/// </summary>
 [ProtoContract(Name = "PopupTemplate")]
 public record PopupTemplateSerializationRecord : MapComponentSerializationRecord<PopupTemplate>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public PopupTemplateSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new PopupTemplateSerializationRecord with the specified values.
+    /// </summary>
     public PopupTemplateSerializationRecord(string? Title,
         string? StringContent = null,
         IEnumerable<string>? OutFields = null,
@@ -548,49 +772,81 @@ public record PopupTemplateSerializationRecord : MapComponentSerializationRecord
         this.Id = Id;
     }
 
+    /// <summary>
+    ///     The title of the popup template.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public string? Title { get; init; }
 
+    /// <summary>
+    ///     The string content of the popup template.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? StringContent { get; init; }
 
+    /// <summary>
+    ///     The output fields for the popup template.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public IEnumerable<string>? OutFields { get; init; }
 
+    /// <summary>
+    ///     The field info records for the popup template.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
     public IEnumerable<FieldInfoSerializationRecord>? FieldInfos { get; init; }
 
+    /// <summary>
+    ///     The content records for the popup template.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(5)]
     public IEnumerable<PopupContentSerializationRecord>? Content { get; init; }
 
+    /// <summary>
+    ///     The expression info records for the popup template.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public IEnumerable<PopupExpressionInfoSerializationRecord>? ExpressionInfos { get; init; }
 
+    /// <summary>
+    ///     Indicates whether to overwrite actions.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(7)]
     public bool? OverwriteActions { get; init; }
 
+    /// <summary>
+    ///     Indicates whether to return geometry.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(8)]
     public bool? ReturnGeometry { get; init; }
 
+    /// <summary>
+    ///     The action records for the popup template.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(9)]
     public IEnumerable<ActionBaseSerializationRecord>? Actions { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(10)]
     public string? Id { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override PopupTemplate? FromSerializationRecord()
     {
         if (IsNull)
@@ -636,13 +892,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for Symbol types.
+/// </summary>
 [ProtoContract(Name = "Symbol")]
 public record SymbolSerializationRecord : MapComponentSerializationRecord<Symbol>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public SymbolSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new SymbolSerializationRecord with the specified values.
+    /// </summary>
     public SymbolSerializationRecord(string Id,
         string Type,
         MapColorSerializationRecord? Color)
@@ -652,106 +917,204 @@ public record SymbolSerializationRecord : MapComponentSerializationRecord<Symbol
         this.Color = Color;
     }
 
+    /// <summary>
+    ///     The symbol type.
+    /// </summary>
     [ProtoMember(1)]
     public string Type { get; init; } = string.Empty;
 
+    /// <summary>
+    ///     The color of the symbol.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public MapColorSerializationRecord? Color { get; init; }
 
+    /// <summary>
+    ///     The outline of the symbol.
+    /// </summary>
     [ProtoMember(3)]
     public SymbolSerializationRecord? Outline { get; init; }
 
+    /// <summary>
+    ///     The size of the symbol.
+    /// </summary>
     [ProtoMember(4)]
     public double? Size { get; init; }
 
+    /// <summary>
+    ///     The style of the symbol.
+    /// </summary>
     [ProtoMember(5)]
     public string? Style { get; init; }
 
+    /// <summary>
+    ///     The angle of the symbol.
+    /// </summary>
     [ProtoMember(6)]
     public double? Angle { get; init; }
 
+    /// <summary>
+    ///     The X offset of the symbol.
+    /// </summary>
     [ProtoMember(7)]
     public double? Xoffset { get; init; }
 
+    /// <summary>
+    ///     The Y offset of the symbol.
+    /// </summary>
     [ProtoMember(8)]
     public double? Yoffset { get; init; }
 
+    /// <summary>
+    ///     The width of the symbol.
+    /// </summary>
     [ProtoMember(9)]
     public double? Width { get; init; }
 
+    /// <summary>
+    ///     The line style of the symbol.
+    /// </summary>
     [ProtoMember(10)]
     public string? LineStyle { get; init; }
 
+    /// <summary>
+    ///     The text content of a text symbol.
+    /// </summary>
     [ProtoMember(11)]
     public string? Text { get; init; }
 
+    /// <summary>
+    ///     The halo color of a text symbol.
+    /// </summary>
     [ProtoMember(12)]
     public MapColorSerializationRecord? HaloColor { get; init; }
 
+    /// <summary>
+    ///     The halo size of a text symbol.
+    /// </summary>
     [ProtoMember(13)]
     public double? HaloSize { get; init; }
 
+    /// <summary>
+    ///     The font of a text symbol.
+    /// </summary>
     [ProtoMember(14)]
     public MapFontSerializationRecord? Font { get; init; }
 
+    /// <summary>
+    ///     The height of the symbol.
+    /// </summary>
     [ProtoMember(15)]
     public double? Height { get; init; }
 
+    /// <summary>
+    ///     The URL of a picture symbol.
+    /// </summary>
     [ProtoMember(16)]
     public string? Url { get; init; }
 
+    /// <summary>
+    ///     The background color of a text symbol.
+    /// </summary>
     [ProtoMember(17)]
     public MapColorSerializationRecord? BackgroundColor { get; init; }
 
+    /// <summary>
+    ///     The border line size of a text symbol.
+    /// </summary>
     [ProtoMember(18)]
     public double? BorderLineSize { get; init; }
 
+    /// <summary>
+    ///     The border line color of a text symbol.
+    /// </summary>
     [ProtoMember(19)]
     public MapColorSerializationRecord? BorderLineColor { get; init; }
 
+    /// <summary>
+    ///     The horizontal alignment of a text symbol.
+    /// </summary>
     [ProtoMember(20)]
     public string? HorizontalAlignment { get; init; }
 
+    /// <summary>
+    ///     Indicates whether kerning is enabled for a text symbol.
+    /// </summary>
     [ProtoMember(21)]
     public bool? Kerning { get; init; }
 
+    /// <summary>
+    ///     The line height of a text symbol.
+    /// </summary>
     [ProtoMember(22)]
     public double? LineHeight { get; init; }
 
+    /// <summary>
+    ///     The line width of a text symbol.
+    /// </summary>
     [ProtoMember(23)]
     public double? LineWidth { get; init; }
 
+    /// <summary>
+    ///     Indicates whether the symbol is rotated.
+    /// </summary>
     [ProtoMember(24)]
     public bool? Rotated { get; init; }
 
+    /// <summary>
+    ///     The vertical alignment of a text symbol.
+    /// </summary>
     [ProtoMember(25)]
     public string? VerticalAlignment { get; init; }
 
+    /// <summary>
+    ///     The X scale of a picture fill symbol.
+    /// </summary>
     [ProtoMember(26)]
     public double? XScale { get; init; }
 
+    /// <summary>
+    ///     The Y scale of a picture fill symbol.
+    /// </summary>
     [ProtoMember(27)]
     public double? YScale { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(28)]
     public string? Id { get; init; }
 
+    /// <summary>
+    ///     The name of a web style symbol.
+    /// </summary>
     [ProtoMember(29)]
     public string? Name { get; init; }
 
+    /// <summary>
+    ///     The portal URL of a web style symbol.
+    /// </summary>
     [ProtoMember(30)]
     public string? PortalUrl { get; init; }
 
+    /// <summary>
+    ///     The style name of a web style symbol.
+    /// </summary>
     [ProtoMember(31)]
     public string? StyleName { get; init; }
 
+    /// <summary>
+    ///     The style URL of a web style symbol.
+    /// </summary>
     [ProtoMember(32)]
     public string? StyleUrl { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override Symbol? FromSerializationRecord()
     {
         if (IsNull)
@@ -762,6 +1125,9 @@ public record SymbolSerializationRecord : MapComponentSerializationRecord<Symbol
         return FromSerializationRecord();
     }
 
+    /// <summary>
+    ///     Converts this serialization record back to a Symbol, with an optional flag for outline context.
+    /// </summary>
     public Symbol FromSerializationRecord(bool isOutline = false)
     {
         var id = Guid.NewGuid();
@@ -843,28 +1209,45 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MapColor.
+/// </summary>
 [ProtoContract(Name = "MapColor")]
 public record MapColorSerializationRecord : MapComponentSerializationRecord<MapColor>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MapColorSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MapColorSerializationRecord with the specified values.
+    /// </summary>
     public MapColorSerializationRecord(double[]? rgbaValues, string? hexOrNameValue)
     {
         RgbaValues = rgbaValues;
         HexOrNameValue = hexOrNameValue;
     }
 
+    /// <summary>
+    ///     The RGBA values of the color.
+    /// </summary>
     [ProtoMember(1)]
     public double[]? RgbaValues { get; init; }
 
+    /// <summary>
+    ///     The hex or named color value.
+    /// </summary>
     [ProtoMember(2)]
     public string? HexOrNameValue { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MapColor? FromSerializationRecord()
     {
         if (IsNull)
@@ -886,28 +1269,47 @@ public record MapColorSerializationRecord : MapComponentSerializationRecord<MapC
     }
 }
 
+/// <summary>
+///     Protobuf serialization record for a collection of MapColor.
+/// </summary>
 [ProtoContract(Name = "MapColorCollection")]
 public record MapColorCollectionSerializationRecord
     : MapComponentCollectionSerializationRecord<MapColorSerializationRecord>
 {
+    /// <summary>
+    ///     Creates a new MapColorCollectionSerializationRecord with the specified items.
+    /// </summary>
     public MapColorCollectionSerializationRecord(MapColorSerializationRecord[] items)
     {
         Items = items;
     }
-    
+
+    /// <summary>
+    ///     The collection of MapColor serialization records.
+    /// </summary>
     public sealed override MapColorSerializationRecord[]? Items { get; set; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for ActionBase types.
+/// </summary>
 [ProtoContract(Name = "ActionBase")]
 public record ActionBaseSerializationRecord : MapComponentSerializationRecord<ActionBase>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public ActionBaseSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new ActionBaseSerializationRecord with the specified values.
+    /// </summary>
     public ActionBaseSerializationRecord(string Id,
         string Type,
         string? Title,
@@ -927,48 +1329,83 @@ public record ActionBaseSerializationRecord : MapComponentSerializationRecord<Ac
         this.ActionId = ActionId;
     }
 
+    /// <summary>
+    ///     The action type.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public string Type { get; init; } = string.Empty;
 
+    /// <summary>
+    ///     The title of the action.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? Title { get; init; }
 
+    /// <summary>
+    ///     The CSS class name for the action icon.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public string? ClassName { get; init; }
 
+    /// <summary>
+    ///     Indicates whether the action is active.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
     public bool? Active { get; init; }
 
+    /// <summary>
+    ///     Indicates whether the action is disabled.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(5)]
     public bool? Disabled { get; init; }
 
+    /// <summary>
+    ///     Indicates whether the action is visible.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public bool? Visible { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(7)]
     public string? Id { get; init; }
 
+    /// <summary>
+    ///     The image URL for the action.
+    /// </summary>
     [ProtoMember(8)]
     public string? Image { get; init; }
 
+    /// <summary>
+    ///     The toggle value for toggle actions.
+    /// </summary>
     [ProtoMember(9)]
     public bool? Value { get; init; }
 
+    /// <summary>
+    ///     The action identifier.
+    /// </summary>
     [ProtoMember(10)]
     public string? ActionId { get; init; }
 
+    /// <summary>
+    ///     The test value.
+    /// </summary>
     [ProtoMember(11)]
     public string? Test { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override ActionBase? FromSerializationRecord()
     {
         if (IsNull)
@@ -1015,13 +1452,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MediaInfoValue types.
+/// </summary>
 [ProtoContract(Name = "MediaInfoValue")]
 public record MediaInfoValueSerializationRecord : MapComponentSerializationRecord<IMediaInfoValue>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MediaInfoValueSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MediaInfoValueSerializationRecord with the specified values.
+    /// </summary>
     public MediaInfoValueSerializationRecord(string Id, IEnumerable<string>? Fields = null,
         string? NormalizeField = null, string? TooltipField = null,
         IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series = null, string? LinkURL = null,
@@ -1036,35 +1482,58 @@ public record MediaInfoValueSerializationRecord : MapComponentSerializationRecor
         this.SourceURL = SourceURL;
     }
 
+    /// <summary>
+    ///     The fields used for chart values.
+    /// </summary>
     [ProtoMember(1)]
     public IEnumerable<string>? Fields { get; init; }
 
+    /// <summary>
+    ///     The field used to normalize chart values.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? NormalizeField { get; init; }
 
+    /// <summary>
+    ///     The field used for tooltip display.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public string? TooltipField { get; init; }
 
+    /// <summary>
+    ///     The series data for chart media info.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
     public IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series { get; init; }
 
+    /// <summary>
+    ///     The link URL for image media info.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(5)]
     public string? LinkURL { get; init; }
 
+    /// <summary>
+    ///     The source URL for image media info.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public string? SourceURL { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(7)]
     public string? Id { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override IMediaInfoValue? FromSerializationRecord()
     {
         if (IsNull)
@@ -1112,13 +1581,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for ChartMediaInfoValueSeries.
+/// </summary>
 [ProtoContract(Name = "ChartMediaInfoValueSeries")]
 public record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSerializationRecord<ChartMediaInfoValueSeries>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public ChartMediaInfoValueSeriesSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new ChartMediaInfoValueSeriesSerializationRecord with the specified values.
+    /// </summary>
     public ChartMediaInfoValueSeriesSerializationRecord(string Id, string? FieldName, string? Tooltip, double? Value)
     {
         this.Id = Id;
@@ -1127,24 +1605,38 @@ public record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSeriali
         this.Value = Value;
     }
 
+    /// <summary>
+    ///     The field name for the series data.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public string? FieldName { get; init; }
 
+    /// <summary>
+    ///     The tooltip text for the series.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? Tooltip { get; init; }
 
+    /// <summary>
+    ///     The numeric value for the series.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public double? Value { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(4)]
     public string? Id { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override ChartMediaInfoValueSeries? FromSerializationRecord()
     {
         if (IsNull)
@@ -1183,28 +1675,45 @@ internal record ChartMediaInfoValueSeriesCollectionSerializationRecord : MapComp
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for ElementExpressionInfo.
+/// </summary>
 [ProtoContract(Name = "ElementExpressionInfo")]
 public record ElementExpressionInfoSerializationRecord : MapComponentSerializationRecord<ElementExpressionInfo>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public ElementExpressionInfoSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new ElementExpressionInfoSerializationRecord with the specified values.
+    /// </summary>
     public ElementExpressionInfoSerializationRecord(string? expression, string? title)
     {
         Expression = expression;
         Title = title;
     }
 
+    /// <summary>
+    ///     The Arcade expression string.
+    /// </summary>
     [ProtoMember(1)]
     public string? Expression { get; init; }
 
+    /// <summary>
+    ///     The title of the expression.
+    /// </summary>
     [ProtoMember(2)]
     public string? Title { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override ElementExpressionInfo? FromSerializationRecord()
     {
         if (IsNull)
@@ -1237,13 +1746,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for FieldInfo.
+/// </summary>
 [ProtoContract(Name = "FieldInfo")]
 public record FieldInfoSerializationRecord : MapComponentSerializationRecord<FieldInfo>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public FieldInfoSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new FieldInfoSerializationRecord with the specified values.
+    /// </summary>
     public FieldInfoSerializationRecord(string Id, string? FieldName = null, string? Label = null,
         string? Tooltip = null, string? StringFieldOption = null, FieldInfoFormatSerializationRecord? Format = null,
         bool? IsEditable = null, bool? Visible = null)
@@ -1258,40 +1776,66 @@ public record FieldInfoSerializationRecord : MapComponentSerializationRecord<Fie
         this.Visible = Visible;
     }
 
+    /// <summary>
+    ///     The name of the field.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public string? FieldName { get; init; }
 
+    /// <summary>
+    ///     The label for the field.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? Label { get; init; }
 
+    /// <summary>
+    ///     The tooltip text for the field.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public string? Tooltip { get; init; }
 
+    /// <summary>
+    ///     The string field option type.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
     public string? StringFieldOption { get; init; }
 
+    /// <summary>
+    ///     The format for displaying the field value.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(5)]
     public FieldInfoFormatSerializationRecord? Format { get; init; }
 
+    /// <summary>
+    ///     Indicates whether the field is editable.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public bool? IsEditable { get; init; }
 
+    /// <summary>
+    ///     Indicates whether the field is visible.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(7)]
     public bool? Visible { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(8)]
     public string? Id { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override FieldInfo? FromSerializationRecord()
     {
         if (IsNull)
@@ -1341,13 +1885,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for FieldInfoFormat.
+/// </summary>
 [ProtoContract(Name = "FieldInfoFormat")]
 public record FieldInfoFormatSerializationRecord : MapComponentSerializationRecord<FieldInfoFormat>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public FieldInfoFormatSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new FieldInfoFormatSerializationRecord with the specified values.
+    /// </summary>
     public FieldInfoFormatSerializationRecord(string Id,
         int? Places,
         bool? DigitSeparator,
@@ -1359,22 +1912,38 @@ public record FieldInfoFormatSerializationRecord : MapComponentSerializationReco
         this.DateFormat = DateFormat;
     }
 
+    /// <summary>
+    ///     The number of decimal places for numeric values.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public int? Places { get; init; }
+
+    /// <summary>
+    ///     Indicates whether to use a digit separator for numeric values.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public bool? DigitSeparator { get; init; }
+
+    /// <summary>
+    ///     The date format string.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public string? DateFormat { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(4)]
     public string? Id { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override FieldInfoFormat? FromSerializationRecord()
     {
         if (IsNull)
@@ -1447,13 +2016,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for Graphic.
+/// </summary>
 [ProtoContract(Name = "Graphic")]
 public record GraphicSerializationRecord : MapComponentSerializationRecord<Graphic>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public GraphicSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new GraphicSerializationRecord with the specified values.
+    /// </summary>
     public GraphicSerializationRecord(string Id, GeometrySerializationRecord? Geometry,
         SymbolSerializationRecord? Symbol, PopupTemplateSerializationRecord? PopupTemplate,
         AttributeSerializationRecord[]? Attributes, bool? Visible, string? AggregateGeometries,
@@ -1471,52 +2049,87 @@ public record GraphicSerializationRecord : MapComponentSerializationRecord<Graph
         this.ViewId = ViewId;
     }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(1)]
     public string? Id { get; set; } = string.Empty;
 
+    /// <summary>
+    ///     The geometry of the graphic.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public GeometrySerializationRecord? Geometry { get; set; }
 
+    /// <summary>
+    ///     The symbol used to render the graphic.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public SymbolSerializationRecord? Symbol { get; set; }
 
+    /// <summary>
+    ///     The popup template for the graphic.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
     public PopupTemplateSerializationRecord? PopupTemplate { get; set; }
 
+    /// <summary>
+    ///     The attributes of the graphic.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(5)]
     public AttributeSerializationRecord[]? Attributes { get; set; }
 
+    /// <summary>
+    ///     Indicates whether the graphic is visible.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
     public bool? Visible { get; set; }
 
+    /// <summary>
+    ///     The aggregate geometries setting.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(7)]
     public string? AggregateGeometries { get; set; }
 
+    /// <summary>
+    ///     The origin information for the graphic.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(8)]
     public GraphicOriginSerializationRecord? Origin { get; set; }
 
+    /// <summary>
+    ///     The layer ID associated with the graphic.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(9)]
     public string? LayerId { get; set; }
 
+    /// <summary>
+    ///     The view ID associated with the graphic.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(10)]
     public string? ViewId { get; set; }
 
+    /// <summary>
+    ///     The stacked attributes for clustered graphics.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(11)]
     public AttributeSerializationRecord[]? StackedAttributes { get; set; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override Graphic? FromSerializationRecord()
     {
         if (IsNull)
@@ -1576,13 +2189,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MapFont.
+/// </summary>
 [ProtoContract(Name = "MapFont")]
 public record MapFontSerializationRecord : MapComponentSerializationRecord<MapFont>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MapFontSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MapFontSerializationRecord with the specified values.
+    /// </summary>
     public MapFontSerializationRecord(string Id, double? Size, string? Family, string? FontStyle, string? Weight,
         string? Decoration)
     {
@@ -1594,27 +2216,47 @@ public record MapFontSerializationRecord : MapComponentSerializationRecord<MapFo
         this.Decoration = Decoration;
     }
 
+    /// <summary>
+    ///     The font size in points.
+    /// </summary>
     [ProtoMember(1)]
     public double? Size { get; init; }
 
+    /// <summary>
+    ///     The font family name.
+    /// </summary>
     [ProtoMember(2)]
     public string? Family { get; init; }
 
+    /// <summary>
+    ///     The font style (normal, italic, oblique).
+    /// </summary>
     [ProtoMember(3)]
     public string? FontStyle { get; init; }
 
+    /// <summary>
+    ///     The font weight (normal, bold, bolder, lighter).
+    /// </summary>
     [ProtoMember(4)]
     public string? Weight { get; init; }
 
+    /// <summary>
+    ///     The text decoration (underline, line-through, none).
+    /// </summary>
     [ProtoMember(5)]
     public string? Decoration { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(6)]
     public string? Id { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MapFont? FromSerializationRecord()
     {
         if (IsNull)
@@ -1655,43 +2297,75 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MediaInfo.
+/// </summary>
 [ProtoContract(Name = "MediaInfo")]
 public record MediaInfoSerializationRecord : MapComponentSerializationRecord<MediaInfo>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MediaInfoSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MediaInfoSerializationRecord with the specified values.
+    /// </summary>
     public MediaInfoSerializationRecord(string Id, string Type)
     {
         this.Id = Id;
         this.Type = Type;
     }
 
+    /// <summary>
+    ///     The media info type.
+    /// </summary>
     [ProtoMember(1)]
     public string Type { get; init; } = string.Empty;
 
+    /// <summary>
+    ///     The alternative text for accessibility.
+    /// </summary>
     [ProtoMember(2)]
     public string? AltText { get; init; }
 
+    /// <summary>
+    ///     The caption for the media.
+    /// </summary>
     [ProtoMember(3)]
     public string? Caption { get; init; }
 
+    /// <summary>
+    ///     The title of the media.
+    /// </summary>
     [ProtoMember(4)]
     public string? Title { get; init; }
 
+    /// <summary>
+    ///     The value containing media-specific data.
+    /// </summary>
     [ProtoMember(5)]
     public MediaInfoValueSerializationRecord? Value { get; init; }
 
+    /// <summary>
+    ///     The refresh interval in minutes for image media.
+    /// </summary>
     [ProtoMember(6)]
     public double? RefreshInterval { get; init; }
 
+    /// <summary>
+    ///     The unique identifier.
+    /// </summary>
     [ProtoMember(7)]
     public string? Id { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MediaInfo? FromSerializationRecord()
     {
         if (IsNull)
@@ -1744,19 +2418,36 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for RelatedRecordsInfoFieldOrder.
+/// </summary>
+/// <param name="Field">
+///     The field name to order by.
+/// </param>
+/// <param name="Order">
+///     The order direction (asc or desc).
+/// </param>
+/// <param name="Id">
+///     The unique identifier.
+/// </param>
 [ProtoContract(Name = "RelatedRecordsInfoFieldOrder")]
 public record RelatedRecordsInfoFieldOrderSerializationRecord(
     [property: ProtoMember(1)] string? Field,
     [property: ProtoMember(2)] string? Order,
     [property: ProtoMember(3)] string Id) : MapComponentSerializationRecord<RelatedRecordsInfoFieldOrder>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public RelatedRecordsInfoFieldOrderSerializationRecord() : this(null, null, Guid.NewGuid().ToString())
     {
     }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override RelatedRecordsInfoFieldOrder? FromSerializationRecord()
     {
         if (IsNull)
@@ -1798,13 +2489,22 @@ internal record RelatedRecordsInfoFieldOrderCollectionSerializationRecord : MapC
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for SpatialReference.
+/// </summary>
 [ProtoContract(Name = "SpatialReference")]
 public record SpatialReferenceSerializationRecord : MapComponentSerializationRecord<SpatialReference>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public SpatialReferenceSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new SpatialReferenceSerializationRecord with the specified values.
+    /// </summary>
     public SpatialReferenceSerializationRecord(int? Wkid, string? Wkt = null, string? Wkt2 = null)
     {
         this.Wkid = Wkid;
@@ -1812,21 +2512,32 @@ public record SpatialReferenceSerializationRecord : MapComponentSerializationRec
         this.Wkt2 = Wkt2;
     }
 
+    /// <summary>
+    ///     The well-known ID of the spatial reference.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public int? Wkid { get; init; }
 
+    /// <summary>
+    ///     The well-known text (WKT) of the spatial reference.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? Wkt { get; init; }
 
+    /// <summary>
+    ///     The well-known text 2 (WKT2) of the spatial reference.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public string? Wkt2 { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override SpatialReference? FromSerializationRecord()
     {
         if (IsNull)
@@ -1859,13 +2570,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for an attribute key-value pair.
+/// </summary>
 [ProtoContract(Name = "Attribute")]
 public record AttributeSerializationRecord : MapComponentSerializationRecord
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public AttributeSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new AttributeSerializationRecord with the specified values.
+    /// </summary>
     public AttributeSerializationRecord(string Key,
         string? Value,
         string ValueType)
@@ -1875,16 +2595,31 @@ public record AttributeSerializationRecord : MapComponentSerializationRecord
         this.ValueType = ValueType;
     }
 
+    /// <summary>
+    ///     The attribute key name.
+    /// </summary>
     [ProtoMember(1)]
     public string Key { get; init; } = string.Empty;
+
+    /// <summary>
+    ///     The serialized attribute value.
+    /// </summary>
     [ProtoMember(2)]
     public string? Value { get; init; }
+
+    /// <summary>
+    ///     The type name of the attribute value.
+    /// </summary>
     [ProtoMember(3)]
     public string ValueType { get; init; } = string.Empty;
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <summary>
+    ///     Converts this serialization record back to a key-value tuple.
+    /// </summary>
     public (string Key, object? Value) FromSerializationRecord()
     {
         if (Value is null)
@@ -1985,33 +2720,55 @@ public record AttributeSerializationRecord : MapComponentSerializationRecord
     }
 }
 
+/// <summary>
+///     Protobuf serialization record for a collection of attributes.
+/// </summary>
 [ProtoContract(Name = "AttributeCollection")]
 public record
     AttributeCollectionSerializationRecord : MapComponentCollectionSerializationRecord<AttributeSerializationRecord>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public AttributeCollectionSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new AttributeCollectionSerializationRecord with the specified items.
+    /// </summary>
     public AttributeCollectionSerializationRecord(AttributeSerializationRecord[] items)
     {
         Items = items;
     }
 
+    /// <summary>
+    ///     The collection of attribute serialization records.
+    /// </summary>
     [ProtoMember(1)]
     public sealed override AttributeSerializationRecord[]? Items { get; set; } = [];
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for GraphicOrigin.
+/// </summary>
 [ProtoContract(Name = "GraphicOrigin")]
 public record GraphicOriginSerializationRecord : MapComponentSerializationRecord<GraphicOrigin>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public GraphicOriginSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new GraphicOriginSerializationRecord with the specified values.
+    /// </summary>
     public GraphicOriginSerializationRecord(string? LayerId, string? ArcGISLayerId, int? LayerIndex)
     {
         this.LayerId = LayerId;
@@ -2019,21 +2776,32 @@ public record GraphicOriginSerializationRecord : MapComponentSerializationRecord
         this.LayerIndex = LayerIndex;
     }
 
+    /// <summary>
+    ///     The GeoBlazor layer ID.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public string? LayerId { get; init; }
 
+    /// <summary>
+    ///     The ArcGIS layer ID.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? ArcGISLayerId { get; init; }
 
+    /// <summary>
+    ///     The layer index within the map.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(3)]
     public int? LayerIndex { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override GraphicOrigin? FromSerializationRecord()
     {
         if (IsNull)
@@ -2067,24 +2835,38 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MapPath.
+/// </summary>
 [ProtoContract(Name = "MapPath")]
 public record MapPathSerializationRecord : MapComponentSerializationRecord<MapPath>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MapPathSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MapPathSerializationRecord with the specified points.
+    /// </summary>
     public MapPathSerializationRecord(MapPointSerializationRecord[] Points)
     {
         this.Points = Points;
     }
 
+    /// <summary>
+    ///     The points that make up the path.
+    /// </summary>
     [ProtoMember(1)]
     public MapPointSerializationRecord[] Points { get; init; } = [];
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MapPath? FromSerializationRecord()
     {
         if (IsNull || (Points.Length == 0) || Points.Any(p => p.IsNull))
@@ -2116,24 +2898,38 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MapPoint.
+/// </summary>
 [ProtoContract(Name = "MapPoint")]
 public record MapPointSerializationRecord : MapComponentSerializationRecord<MapPoint>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MapPointSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MapPointSerializationRecord with the specified coordinates.
+    /// </summary>
     public MapPointSerializationRecord(double[] Coordinates)
     {
         this.Coordinates = Coordinates;
     }
 
+    /// <summary>
+    ///     The coordinate values array.
+    /// </summary>
     [ProtoMember(1)]
     public double[] Coordinates { get; init; } = [];
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MapPoint? FromSerializationRecord()
     {
         if (IsNull)
@@ -2165,13 +2961,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MeshComponent.
+/// </summary>
 [ProtoContract(Name = "MeshComponent")]
 public record MeshComponentSerializationRecord : MapComponentSerializationRecord<MeshComponent>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MeshComponentSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MeshComponentSerializationRecord with the specified values.
+    /// </summary>
     public MeshComponentSerializationRecord(byte[]? faces,
         MeshComponentMaterialSerializationRecord? material,
         string? name,
@@ -2183,21 +2988,35 @@ public record MeshComponentSerializationRecord : MapComponentSerializationRecord
         Shading = shading;
     }
 
+    /// <summary>
+    ///     The face indices for the mesh component.
+    /// </summary>
     [ProtoMember(1)]
     public byte[]? Faces { get; init; }
 
+    /// <summary>
+    ///     The material for the mesh component.
+    /// </summary>
     [ProtoMember(2)]
     public MeshComponentMaterialSerializationRecord? Material { get; init; }
 
+    /// <summary>
+    ///     The name of the mesh component.
+    /// </summary>
     [ProtoMember(3)]
     public string? Name { get; init; }
 
+    /// <summary>
+    ///     The shading mode for the mesh component.
+    /// </summary>
     [ProtoMember(4)]
     public string? Shading { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MeshComponent? FromSerializationRecord()
     {
         if (IsNull)
@@ -2221,7 +3040,7 @@ internal record
     {
         Items = items;
     }
-    
+
     [ProtoMember(1)]
     public sealed override MeshComponentSerializationRecord[]? Items { get; set; } = [];
 
@@ -2229,13 +3048,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MeshComponentMaterial.
+/// </summary>
 [ProtoContract(Name = "MeshComponentMaterial")]
 public record MeshComponentMaterialSerializationRecord : MapComponentSerializationRecord<IMeshComponentMaterial>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MeshComponentMaterialSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MeshComponentMaterialSerializationRecord with the specified values.
+    /// </summary>
     public MeshComponentMaterialSerializationRecord(double? alphaCutoff,
         string? alphaMode,
         MapColorSerializationRecord? color,
@@ -2271,57 +3099,107 @@ public record MeshComponentMaterialSerializationRecord : MapComponentSerializati
         Roughness = roughness;
     }
 
+    /// <summary>
+    ///     The alpha cutoff threshold.
+    /// </summary>
     [ProtoMember(1)]
     public double? AlphaCutoff { get; init; }
 
+    /// <summary>
+    ///     The alpha blending mode.
+    /// </summary>
     [ProtoMember(2)]
     public string? AlphaMode { get; init; }
 
+    /// <summary>
+    ///     The base color of the material.
+    /// </summary>
     [ProtoMember(3)]
     public MapColorSerializationRecord? Color { get; init; }
 
+    /// <summary>
+    ///     The color texture.
+    /// </summary>
     [ProtoMember(4)]
     public MeshTextureSerializationRecord? ColorTexture { get; init; }
 
+    /// <summary>
+    ///     The transform for the color texture.
+    /// </summary>
     [ProtoMember(5)]
     public MeshTextureTransformSerializationRecord? ColorTextureTransform { get; init; }
 
+    /// <summary>
+    ///     Indicates whether the material is double-sided.
+    /// </summary>
     [ProtoMember(6)]
     public bool? DoubleSided { get; init; }
 
+    /// <summary>
+    ///     The normal map texture.
+    /// </summary>
     [ProtoMember(7)]
     public MeshTextureSerializationRecord? NormalTexture { get; init; }
 
+    /// <summary>
+    ///     The transform for the normal texture.
+    /// </summary>
     [ProtoMember(8)]
     public MeshTextureTransformSerializationRecord? NormalTextureTransform { get; init; }
 
+    /// <summary>
+    ///     The emissive color.
+    /// </summary>
     [ProtoMember(9)]
     public MapColorSerializationRecord? EmissiveColor { get; init; }
 
+    /// <summary>
+    ///     The emissive texture.
+    /// </summary>
     [ProtoMember(10)]
     public MeshTextureSerializationRecord? EmissiveTexture { get; init; }
 
+    /// <summary>
+    ///     The transform for the emissive texture.
+    /// </summary>
     [ProtoMember(11)]
     public MeshTextureTransformSerializationRecord? EmissiveTextureTransform { get; init; }
 
+    /// <summary>
+    ///     The metallic factor.
+    /// </summary>
     [ProtoMember(12)]
     public double? Metallic { get; init; }
 
+    /// <summary>
+    ///     The metallic-roughness texture.
+    /// </summary>
     [ProtoMember(13)]
     public MeshTextureSerializationRecord? MetallicRoughnessTexture { get; init; }
 
+    /// <summary>
+    ///     The ambient occlusion texture.
+    /// </summary>
     [ProtoMember(14)]
     public MeshTextureSerializationRecord? OcclusionTexture { get; init; }
 
+    /// <summary>
+    ///     The transform for the occlusion texture.
+    /// </summary>
     [ProtoMember(15)]
     public MeshTextureTransformSerializationRecord? OcclusionTextureTransform { get; init; }
 
+    /// <summary>
+    ///     The roughness factor.
+    /// </summary>
     [ProtoMember(16)]
     public double? Roughness { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override IMeshComponentMaterial? FromSerializationRecord()
     {
         if (IsNull)
@@ -2380,13 +3258,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MeshTexture.
+/// </summary>
 [ProtoContract(Name = "MeshTexture")]
 public record MeshTextureSerializationRecord : MapComponentSerializationRecord<MeshTexture>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MeshTextureSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MeshTextureSerializationRecord with the specified values.
+    /// </summary>
     public MeshTextureSerializationRecord(ImageDataSerializationRecord? imageData,
         string?[]? wrap,
         bool? transparent,
@@ -2398,21 +3285,35 @@ public record MeshTextureSerializationRecord : MapComponentSerializationRecord<M
         Url = url;
     }
 
+    /// <summary>
+    ///     The image data for the texture.
+    /// </summary>
     [ProtoMember(1)]
     public ImageDataSerializationRecord? ImageData { get; init; }
 
+    /// <summary>
+    ///     The wrap modes for the texture.
+    /// </summary>
     [ProtoMember(2)]
     public string?[]? Wrap { get; init; }
 
+    /// <summary>
+    ///     Indicates whether the texture has transparency.
+    /// </summary>
     [ProtoMember(3)]
     public bool? Transparent { get; init; }
 
+    /// <summary>
+    ///     The URL of the texture image.
+    /// </summary>
     [ProtoMember(4)]
     public string? Url { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MeshTexture? FromSerializationRecord()
     {
         if (IsNull)
@@ -2460,13 +3361,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for ImageData.
+/// </summary>
 [ProtoContract(Name = "ImageData")]
 public record ImageDataSerializationRecord : MapComponentSerializationRecord<ImageData>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public ImageDataSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new ImageDataSerializationRecord with the specified values.
+    /// </summary>
     public ImageDataSerializationRecord(byte[] data,
         string colorSpace,
         long height,
@@ -2478,21 +3388,35 @@ public record ImageDataSerializationRecord : MapComponentSerializationRecord<Ima
         Width = width;
     }
 
+    /// <summary>
+    ///     The raw image data bytes.
+    /// </summary>
     [ProtoMember(1)]
     public byte[]? Data { get; init; }
 
+    /// <summary>
+    ///     The color space of the image.
+    /// </summary>
     [ProtoMember(2)]
     public string? ColorSpace { get; init; }
 
+    /// <summary>
+    ///     The height of the image in pixels.
+    /// </summary>
     [ProtoMember(3)]
     public long Height { get; init; }
 
+    /// <summary>
+    ///     The width of the image in pixels.
+    /// </summary>
     [ProtoMember(4)]
     public long Width { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override ImageData? FromSerializationRecord()
     {
         if (IsNull)
@@ -2504,28 +3428,47 @@ public record ImageDataSerializationRecord : MapComponentSerializationRecord<Ima
     }
 }
 
+/// <summary>
+///     Protobuf serialization record for a collection of ImageData.
+/// </summary>
 [ProtoContract(Name = "ImageDataCollection")]
-public record ImageDataCollectionSerializationRecord 
+public record ImageDataCollectionSerializationRecord
     : MapComponentCollectionSerializationRecord<ImageDataSerializationRecord>
 {
+    /// <summary>
+    ///     Creates a new ImageDataCollectionSerializationRecord with the specified items.
+    /// </summary>
     public ImageDataCollectionSerializationRecord(ImageDataSerializationRecord[] items)
     {
         Items = items;
     }
-    
+
+    /// <summary>
+    ///     The collection of image data serialization records.
+    /// </summary>
     public sealed override ImageDataSerializationRecord[]? Items { get; set; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MeshTextureTransform.
+/// </summary>
 [ProtoContract(Name = "MeshTextureTransform")]
 public record MeshTextureTransformSerializationRecord : MapComponentSerializationRecord<MeshTextureTransform>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MeshTextureTransformSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MeshTextureTransformSerializationRecord with the specified values.
+    /// </summary>
     public MeshTextureTransformSerializationRecord(double[]? offset,
         double? rotation,
         double[]? scale)
@@ -2535,18 +3478,29 @@ public record MeshTextureTransformSerializationRecord : MapComponentSerializatio
         Scale = scale;
     }
 
+    /// <summary>
+    ///     The UV offset values.
+    /// </summary>
     [ProtoMember(1)]
     public double[]? Offset { get; init; }
 
+    /// <summary>
+    ///     The rotation angle in degrees.
+    /// </summary>
     [ProtoMember(2)]
     public double? Rotation { get; init; }
 
+    /// <summary>
+    ///     The UV scale values.
+    /// </summary>
     [ProtoMember(3)]
     public double[]? Scale { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MeshTextureTransform? FromSerializationRecord()
     {
         if (IsNull)
@@ -2575,13 +3529,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MeshTransform.
+/// </summary>
 [ProtoContract(Name = "MeshTransform")]
 public record MeshTransformSerializationRecord : MapComponentSerializationRecord<MeshTransform>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MeshTransformSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MeshTransformSerializationRecord with the specified values.
+    /// </summary>
     public MeshTransformSerializationRecord(double? rotationAngle,
         double[]? rotationAxis,
         double[]? scale,
@@ -2593,21 +3556,35 @@ public record MeshTransformSerializationRecord : MapComponentSerializationRecord
         Translation = translation;
     }
 
+    /// <summary>
+    ///     The rotation angle in degrees.
+    /// </summary>
     [ProtoMember(1)]
     public double? RotationAngle { get; init; }
 
+    /// <summary>
+    ///     The rotation axis vector.
+    /// </summary>
     [ProtoMember(2)]
     public double[]? RotationAxis { get; init; }
 
+    /// <summary>
+    ///     The scale factors.
+    /// </summary>
     [ProtoMember(3)]
     public double[]? Scale { get; init; }
 
+    /// <summary>
+    ///     The translation vector.
+    /// </summary>
     [ProtoMember(4)]
     public double[]? Translation { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MeshTransform? FromSerializationRecord()
     {
         if (IsNull)
@@ -2636,13 +3613,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MeshVertexAttributes.
+/// </summary>
 [ProtoContract(Name = "MeshVertexAttributes")]
 public record MeshVertexAttributesSerializationRecord : MapComponentSerializationRecord<MeshVertexAttributes>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MeshVertexAttributesSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MeshVertexAttributesSerializationRecord with the specified values.
+    /// </summary>
     public MeshVertexAttributesSerializationRecord(byte[]? color,
         double[]? normal,
         double[]? position,
@@ -2656,24 +3642,41 @@ public record MeshVertexAttributesSerializationRecord : MapComponentSerializatio
         Uv = uv;
     }
 
+    /// <summary>
+    ///     The vertex colors as RGBA bytes.
+    /// </summary>
     [ProtoMember(1)]
     public byte[]? Color { get; init; }
 
+    /// <summary>
+    ///     The vertex normals.
+    /// </summary>
     [ProtoMember(2)]
     public double[]? Normal { get; init; }
 
+    /// <summary>
+    ///     The vertex positions.
+    /// </summary>
     [ProtoMember(3)]
     public double[]? Position { get; init; }
 
+    /// <summary>
+    ///     The vertex tangents.
+    /// </summary>
     [ProtoMember(4)]
     public double[]? Tangent { get; init; }
 
+    /// <summary>
+    ///     The texture coordinates.
+    /// </summary>
     [ProtoMember(5)]
     public double[]? Uv { get; init; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override MeshVertexAttributes? FromSerializationRecord()
     {
         if (IsNull)
@@ -2702,13 +3705,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for MeshVertexSpace.
+/// </summary>
 [ProtoContract(Name = "MeshVertexSpace")]
 public record MeshVertexSpaceSerializationRecord : MapComponentSerializationRecord<IMeshVertexSpace>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public MeshVertexSpaceSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new MeshVertexSpaceSerializationRecord with the specified values.
+    /// </summary>
     public MeshVertexSpaceSerializationRecord(string? type,
         double[]? origin)
     {
@@ -2716,15 +3728,23 @@ public record MeshVertexSpaceSerializationRecord : MapComponentSerializationReco
         Origin = origin;
     }
 
+    /// <summary>
+    ///     The vertex space type (local or georeferenced).
+    /// </summary>
     [ProtoMember(1)]
     public string? Type { get; set; }
 
+    /// <summary>
+    ///     The origin coordinates of the vertex space.
+    /// </summary>
     [ProtoMember(2)]
     public double[]? Origin { get; set; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override IMeshVertexSpace? FromSerializationRecord()
     {
         if (IsNull)
@@ -2778,13 +3798,22 @@ internal record
     public override bool IsNull { get; init; }
 }
 
+/// <summary>
+///     Protobuf serialization record for ViewHit.
+/// </summary>
 [ProtoContract(Name = "ViewHit")]
 public record ViewHitSerializationRecord : MapComponentSerializationRecord<ViewHit>
 {
+    /// <summary>
+    ///     Default constructor for protobuf deserialization.
+    /// </summary>
     public ViewHitSerializationRecord()
     {
     }
 
+    /// <summary>
+    ///     Creates a new ViewHitSerializationRecord with the specified values.
+    /// </summary>
     public ViewHitSerializationRecord(string? Type,
         GeometrySerializationRecord? MapPoint,
         GraphicSerializationRecord? Graphic,
@@ -2798,24 +3827,41 @@ public record ViewHitSerializationRecord : MapComponentSerializationRecord<ViewH
         this.Distance = Distance;
     }
 
+    /// <summary>
+    ///     The type of view hit (graphic, ground, etc.).
+    /// </summary>
     [ProtoMember(1)]
     public string? Type { get; set; }
 
+    /// <summary>
+    ///     The map point of the hit.
+    /// </summary>
     [ProtoMember(2)]
     public GeometrySerializationRecord? MapPoint { get; set; }
 
+    /// <summary>
+    ///     The graphic that was hit (if type is graphic).
+    /// </summary>
     [ProtoMember(3)]
     public GraphicSerializationRecord? Graphic { get; set; }
 
+    /// <summary>
+    ///     The layer ID of the hit graphic.
+    /// </summary>
     [ProtoMember(4)]
     public string? LayerId { get; set; }
-    
+
+    /// <summary>
+    ///     The distance to the hit in meters.
+    /// </summary>
     [ProtoMember(5)]
     public double? Distance { get; set; }
 
+    /// <inheritdoc />
     [ProtoMember(1000)]
     public override bool IsNull { get; init; }
 
+    /// <inheritdoc />
     public override ViewHit? FromSerializationRecord()
     {
         if (IsNull || MapPoint is null || MapPoint.IsNull)

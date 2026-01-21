@@ -1,6 +1,8 @@
 using CliWrap;
 using CliWrap.EventStream;
 using Microsoft.CodeAnalysis;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -23,14 +25,31 @@ public static class ProcessHelper
     /// <param name="token">A cancellation token to cancel the operation.</param>
     /// <param name="environmentVariables">Optional environment variables to set for the process.</param>
     public static async Task RunPowerShellScript(string processName, string workingDirectory,
-        string powershellScriptName, string arguments, StringBuilder logBuilder, CancellationToken token,
+        string powershellScriptName, string[] arguments, StringBuilder logBuilder, CancellationToken token,
         Dictionary<string, string?>? environmentVariables = null)
     {
-        // Since we are always providing the scripts, this is safe to call `ByPass`
-        string shellArguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{
-            Path.Combine(workingDirectory, powershellScriptName)}\" {arguments}";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            arguments =
+            [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "ByPass",
+                "-File",
+                Path.Combine(workingDirectory, powershellScriptName),
+                ..arguments
+            ];
+        }
+        else
+        {
+            arguments =
+            [
+                Path.Combine(workingDirectory, powershellScriptName),
+                ..arguments
+            ];
+        }
 
-        await Execute(processName, workingDirectory, "pwsh", shellArguments, logBuilder, token,
+        await Execute(processName, workingDirectory, "pwsh", arguments, logBuilder, token,
             environmentVariables);
     }
 
@@ -44,12 +63,24 @@ public static class ProcessHelper
     /// <param name="token">A cancellation token to cancel the operation.</param>
     /// <param name="environmentVariables">Optional environment variables to set for the process.</param>
     public static async Task RunPowerShellCommand(string processName, string workingDirectory,
-        string arguments, StringBuilder logBuilder, CancellationToken token,
+        string[] arguments, StringBuilder logBuilder, CancellationToken token,
         Dictionary<string, string?>? environmentVariables = null)
     {
-        string shellArguments = $"-NoProfile -ExecutionPolicy ByPass -Command {{ {arguments} }}";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            arguments =
+            [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "ByPass",
+                "-Command",
+                "{",
+                ..arguments,
+                "}"
+            ];
+        }
 
-        await Execute(processName, workingDirectory, "pwsh", shellArguments, logBuilder, token,
+        await Execute(processName, workingDirectory, "pwsh", arguments, logBuilder, token,
             environmentVariables);
     }
 
@@ -65,7 +96,7 @@ public static class ProcessHelper
     /// <param name="environmentVariables">Optional environment variables to set for the process.</param>
     /// <exception cref="ProcessException">Thrown when the process exits with a non-zero exit code.</exception>
     public static async Task Execute(string processName, string workingDirectory, string? fileName,
-        string shellArguments, StringBuilder logBuilder, CancellationToken token,
+        string[] shellArguments, StringBuilder logBuilder, CancellationToken token,
         Dictionary<string, string?>? environmentVariables = null)
     {
         fileName ??= shellCommand;
@@ -93,25 +124,25 @@ public static class ProcessHelper
             {
                 case StartedCommandEvent started:
                     processId = started.ProcessId;
-                    outputBuilder.AppendLine($"{processName} Process started: {started.ProcessId}");
+                    outputBuilder.AppendLine($" - {processName} Process started: {started.ProcessId}");
 
-                    outputBuilder.AppendLine($"{processName} - PID {processId}: Executing command: {fileName} {
-                        shellArguments}");
+                    outputBuilder.AppendLine($" - {processName} - PID {processId}: Executing command: {fileName} {
+                        string.Join(" ", shellArguments)}");
 
                     break;
                 case StandardOutputCommandEvent stdOut:
                     string line = stdOut.Text.Trim();
-                    outputBuilder.AppendLine($"{processName} - PID {processId}: [stdout] {line}");
+                    outputBuilder.AppendLine($" - {processName} - PID {processId}: [stdout] {line}");
 
                     break;
                 case StandardErrorCommandEvent stdErr:
-                    outputBuilder.AppendLine($"{processName} - PID {processId}: [stderr] {stdErr.Text}");
+                    outputBuilder.AppendLine($" - {processName} - PID {processId}: [stderr] {stdErr.Text}");
 
                     break;
                 case ExitedCommandEvent exited:
                     exitCode = exited.ExitCode;
 
-                    outputBuilder.AppendLine($"{processName} - PID {processId}: Process exited with code: {
+                    outputBuilder.AppendLine($" - {processName} - PID {processId}: Process exited with code: {
                         exited.ExitCode}");
 
                     break;
@@ -126,12 +157,14 @@ public static class ProcessHelper
 
         if (exitCode != 0)
         {
-            throw new ProcessException($"{processName}: Error executing command '{shellArguments}' for process {
+            throw new ProcessException($"{processName}: Error executing command '{string.Join(" ", shellArguments)
+            }' for process {
                 processId}. Exit code: {exitCode}");
         }
 
         // Return the standard output if the process completed normally
-        logBuilder.AppendLine($"{processName}: Command '{shellArguments}' completed successfully on process {processId
+        logBuilder.AppendLine($" - {processName}: Command '{string.Join(" ", shellArguments)
+        }' completed successfully on process {processId
         }.");
     }
 
@@ -142,9 +175,15 @@ public static class ProcessHelper
     /// <param name="message">The diagnostic message content.</param>
     /// <param name="severity">The severity level of the diagnostic.</param>
     /// <param name="context">The source production context to report the diagnostic to.</param>
+    /// <param name="showConsole">Whether to show a popup console window with the message</param>
     public static void Log(string title, string message, DiagnosticSeverity severity,
-        SourceProductionContext context)
+        SourceProductionContext context, bool showConsole = false)
     {
+        if (showConsole)
+        {
+            ShowOrUpdateConsole(title, message);
+        }
+
         context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor("GBSourceGen",
             title,
             message,
@@ -153,9 +192,63 @@ public static class ProcessHelper
             isEnabledByDefault: true), Location.None));
     }
 
+    /// <summary>
+    ///     Closes any open console window created by <see cref="Log"/>.
+    /// </summary>
+    public static void CloseDialog()
+    {
+        _ = Task.Run(() =>
+        {
+            if (_consoleProcess is null)
+            {
+                return;
+            }
+
+            _consoleProcess.StandardInput.WriteLine("exit");
+            _consoleProcess.WaitForExit();
+            _consoleProcess.Dispose();
+        });
+    }
+
+    private static void ShowOrUpdateConsole(string title, string message,
+        [CallerFilePath] string callerFilePath = "")
+    {
+        if (_consoleProcess is null)
+        {
+            string buildScriptPath = Path.GetFullPath(Path.Combine(
+                Path.GetDirectoryName(callerFilePath)!, // GeoBlazor/src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared
+                "..", // GeoBlazor/src 
+                "..", // GeoBlazor Core repo root
+                "build"));
+
+            string[] args =
+            [
+                "ConsoleDialog.cs",
+                title
+            ];
+
+            ProcessStartInfo startInfo = new("dotnet")
+            {
+                Arguments = string.Join(" ", args),
+                WorkingDirectory = buildScriptPath,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                CreateNoWindow = true,
+            };
+
+            _consoleProcess = Process.Start(startInfo);
+        }
+
+        _consoleProcess!.StandardInput.WriteLine(message);
+    }
+
     private static readonly string shellCommand = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
         ? WindowsShell
         : LinuxShell;
+
+    private static Process? _consoleProcess;
 
     private const string LinuxShell = "/bin/bash";
     private const string WindowsShell = "cmd";

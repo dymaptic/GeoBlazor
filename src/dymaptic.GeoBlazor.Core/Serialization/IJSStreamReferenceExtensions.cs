@@ -3,9 +3,9 @@ namespace dymaptic.GeoBlazor.Core.Serialization;
 /// <summary>
 ///     Extension methods for <see cref="IJSStreamReference" /> to facilitate reading data from JavaScript streams.
 /// </summary>
-public static class IJSStreamReferenceHelper
+public static class IJSStreamReferenceExtensions
 {
-    public static async Task<Stream?> ReadJsStreamReferenceAsStream(this IJSStreamReference jsStreamReference,
+    internal static async Task<Stream?> ReadJsStreamReferenceAsStream(this IJSStreamReference jsStreamReference,
         long maxAllowedSize = 1_000_000_000L)
     {
         return await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);

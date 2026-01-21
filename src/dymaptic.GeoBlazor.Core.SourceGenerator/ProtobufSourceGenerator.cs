@@ -41,51 +41,38 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
                 return projectDirectory;
             });
 
-        var combined =
-            typeProvider.Combine(optionsProvider)
-                .Combine(context.CompilationProvider);
+        IncrementalValueProvider<(ImmutableArray<BaseTypeDeclarationSyntax> Left, string? Right)> combined =
+            typeProvider.Combine(optionsProvider);
 
         context.RegisterSourceOutput(combined, FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((ImmutableArray<BaseTypeDeclarationSyntax> Types, string? ProjectDirectory) Data,
-            Compilation Compilation) pipeline)
+        (ImmutableArray<BaseTypeDeclarationSyntax> Types, string? ProjectDirectory) pipeline)
     {
-        if (pipeline.Compilation.AssemblyName != "dymaptic.GeoBlazor.Core")
+        _corePath = pipeline.ProjectDirectory;
+
+        if (pipeline.Types.Length > 0)
         {
             ProcessHelper.Log(nameof(ProtobufSourceGenerator),
-                $"Run from project {pipeline.Compilation.AssemblyName}.",
+                $"Source Generation triggered with {pipeline.Types.Length} protobuf types found.",
                 DiagnosticSeverity.Info,
-                context);
+                context, true);
 
-            _isTest = true;
-        }
-
-        _corePath = pipeline.Data.ProjectDirectory;
-
-        ProcessHelper.Log(nameof(ProtobufSourceGenerator),
-            "Source Generation triggered.",
-            DiagnosticSeverity.Info,
-            context);
-
-        if (pipeline.Data.Types.Length > 0)
-        {
             var protoDefinitions = ProtobufDefinitionsGenerator
-                .UpdateProtobufDefinitions(context, pipeline.Data.Types, _corePath!);
+                .UpdateProtobufDefinitions(context, pipeline.Types, _corePath!);
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
             SerializationGenerator.GenerateSerializationDataClass(context,
-                pipeline.Data.Types, protoDefinitions, false,
-                _isTest);
+                pipeline.Types, protoDefinitions, false);
 
             context.CancellationToken.ThrowIfCancellationRequested();
+            ProcessHelper.CloseDialog();
         }
     }
 
     private static string? _corePath;
-    private static bool _isTest;
     private const string ProtoContractAttribute = "ProtoContract";
     private const string ProtoSerializableAttribute = "ProtobufSerializable";
     private const string SerializedMethodAttributeName = "SerializedMethod";

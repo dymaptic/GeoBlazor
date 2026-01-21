@@ -26,5 +26,8 @@ public interface IInteractiveRecord
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
 
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode 
+    /// </summary>
     public bool IsServer { get; set; }
 }

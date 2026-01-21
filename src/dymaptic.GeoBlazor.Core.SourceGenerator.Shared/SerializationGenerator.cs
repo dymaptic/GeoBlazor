@@ -18,19 +18,13 @@ public static class SerializationGenerator
     /// <param name="types">The collection of type declarations to analyze for serialization attributes.</param>
     /// <param name="protoMessageDefinitions">A dictionary of Protobuf message definitions keyed by type name.</param>
     /// <param name="isPro">Whether generating for Pro (true) or Core (false) library.</param>
-    /// <param name="isTest">If true, skips file generation (for testing purposes).</param>
     public static void GenerateSerializationDataClass(SourceProductionContext context,
         ImmutableArray<BaseTypeDeclarationSyntax> types,
         Dictionary<string, ProtoMessageDefinition> protoMessageDefinitions,
-        bool isPro, bool isTest)
+        bool isPro)
     {
         try
         {
-            ProcessHelper.Log(nameof(SerializationGenerator),
-                "Generating serialized data class...",
-                DiagnosticSeverity.Info,
-                context);
-
             ImmutableArray<SerializableMethodRecord> serializedMethodsCollection =
             [
                 ..types
@@ -106,26 +100,16 @@ public static class SerializationGenerator
             ProcessHelper.Log(nameof(SerializationGenerator),
                 $"Generated serialized data class: {className}.g.cs",
                 DiagnosticSeverity.Info,
-                context);
+                context, true);
 
-            if (isTest)
-            {
-                ProcessHelper.Log(nameof(SerializationGenerator),
-                    $"Skipping generating file for test.",
-                    DiagnosticSeverity.Info,
-                    context);
-            }
-            else
-            {
-                context.AddSource($"{className}.g.cs", classBuilder.ToString());
-            }
+            context.AddSource($"{className}.g.cs", classBuilder.ToString());
         }
         catch (Exception ex)
         {
             ProcessHelper.Log(nameof(SerializationGenerator),
                 $"Error generating serialized data class: {ex}",
                 DiagnosticSeverity.Error,
-                context);
+                context, true);
         }
     }
 

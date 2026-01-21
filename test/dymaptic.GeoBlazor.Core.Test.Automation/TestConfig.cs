@@ -62,6 +62,7 @@ public class TestConfig
         Path.GetFullPath(Path.Combine(CoreRepoRoot, "src", "dymaptic.GeoBlazor.Core"));
     private static string ProProjectPath =>
         Path.GetFullPath(Path.Combine(ProRepoRoot, "src", "dymaptic.GeoBlazor.Pro"));
+    private static string LogFilePath => Path.Combine(_projectFolder, "test-run.log");
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
@@ -136,8 +137,14 @@ public class TestConfig
             await GenerateCoverageReport();
         }
 
-        await File.WriteAllTextAsync(Path.Combine(_projectFolder, "test-run.log"),
-            logBuilder.ToString());
+        await File.WriteAllTextAsync(LogFilePath, logBuilder.ToString());
+
+        if (!IsCI)
+        {
+            await Cli.Wrap("code")
+                .WithArguments(LogFilePath)
+                .ExecuteAsync();
+        }
     }
 
     private static void SetupConfiguration()
