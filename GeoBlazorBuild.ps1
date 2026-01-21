@@ -64,6 +64,7 @@ try {
     $ProProjectPath = Join-Path -Path $ProRepoRoot "src/dymaptic.GeoBlazor.Pro"
     $ValidatorProjectPath = Join-Path -Path $ProRepoRoot "src/dymaptic.GeoBlazor.Pro.Validator"
     $AssetsPath = Join-Path -Path $CoreProjectPath "wwwroot/assets"
+    $BuildScriptsPath = Join-Path -Path $CoreRepoRoot "build"
     
     $OtherConfiguration = if ($Configuration.ToLowerInvariant() -eq "release") { "Debug" } else { "Release" }
     
@@ -109,19 +110,19 @@ try {
     Write-Host ""
     Write-Host ""
     dotnet clean (Join-Path $CoreProjectPath dymaptic.GeoBlazor.Core.csproj) /p:PipelineBuild=true
-    Get-ChildItem -Path (Join-Path $CoreProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
-    Get-ChildItem -Path (Join-Path $CoreProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
+    Remove-Item -Path (Join-Path $CoreProjectPath "bin") -Recurse -Force
+    Remove-Item -Path (Join-Path $CoreProjectPath "obj") -Recurse -Force
     if (Test-Path (Join-Path $CoreProjectPath "wwwroot/js")) {
         Get-ChildItem -Path (Join-Path $CoreProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
     }
     if (Test-Path (Join-Path $CoreProjectPath "node_modules")) {
-        Get-ChildItem -Path (Join-Path $CoreProjectPath "node_modules") -Recurse -Force | Remove-Item -Recurse -Force
+        Remove-Item (Join-Path $CoreProjectPath "node_modules") -Recurse -Force
     }
     
     if ($Pro -eq $true) {
         dotnet clean (Join-Path $ProProjectPath dymaptic.GeoBlazor.Pro.csproj) /p:PipelineBuild=true
-        Get-ChildItem -Path (Join-Path $ProProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
-        Get-ChildItem -Path (Join-Path $ProProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
+        Remove-Item -Path (Join-Path $ProProjectPath "bin") -Recurse -Force
+        Remove-Item -Path (Join-Path $ProProjectPath "obj") -Recurse -Force
         Get-ChildItem -Path (Join-Path $ProProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
         if (Test-Path (Join-Path $ProProjectPath "build/resources")) {
             Get-ChildItem -Path (Join-Path $ProProjectPath "build/resources") -Recurse -Force | Remove-Item -Recurse -Force
@@ -130,12 +131,12 @@ try {
             Get-ChildItem -Path (Join-Path $ProProjectPath "wwwroot/js") -Recurse -Force | Remove-Item -Recurse -Force
         }
         if (Test-Path (Join-Path $ProProjectPath "node_modules")) {
-            Get-ChildItem -Path (Join-Path $ProProjectPath "node_modules") -Recurse -Force | Remove-Item -Recurse -Force
+            Remove-Item -Path (Join-Path $ProProjectPath "node_modules") -Recurse -Force
         }
         if (Test-Path $ValidatorProjectPath) {
             dotnet clean (Join-Path $ValidatorProjectPath dymaptic.GeoBlazor.Pro.V.csproj)
-            Get-ChildItem -Path (Join-Path $ValidatorProjectPath "bin") -Recurse -Force | Remove-Item -Recurse -Force
-            Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obj") -Recurse -Force | Remove-Item -Recurse -Force
+            Remove-Item -Path (Join-Path $ValidatorProjectPath "bin") -Recurse -Force
+            Remove-Item -Path (Join-Path $ValidatorProjectPath "obj") -Recurse -Force
             Get-ChildItem -Path (Join-Path $ValidatorProjectPath "obf") -Recurse -Force | Remove-Item -Recurse -Force
         }
         
@@ -144,20 +145,6 @@ try {
     Write-Host ""
 
     $Step++
-
-    ## Delete old assets - from prior to 4.2.x
-    if (Test-Path $AssetsPath) {
-        $StepStartTime = Get-Date
-        Write-Host ""
-        Write-Host "$Step. Deleting old assets at $AssetsPath" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
-        Write-Host ""
-        Write-Host ""
-        Get-ChildItem -Path $AssetsPath -Recurse | Remove-Item -Recurse -Force
-        Write-Host "Step $Step completed in $( (Get-Date) - $StepStartTime )." -BackgroundColor Yellow -ForegroundColor Black -NoNewline
-        Write-Host ""
-
-        $Step++
-    }
     
     $CustomVersionSet = $null -ne $Version -and $Version -ne ""
 
@@ -224,8 +211,6 @@ try {
         $Step++
     }
 
-    Set-Location $CoreProjectPath
-
     $StepStartTime = Get-Date
 
     $CoreLockFilePath = Join-Path -Path $CoreProjectPath "esBuild.$Configuration.lock"
@@ -242,11 +227,13 @@ try {
         Write-Host "Lock released, continuing..."
     }
 
+    Set-Location $BuildScriptsPath
+    
     Write-Host ""
     Write-Host "$Step. Building Core JavaScript" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
     Write-Host ""
     Write-Host ""
-    ./esBuild.ps1 -c $Configuration
+    dotnet run ESBuild.cs -- -c $Configuration
     if ($LASTEXITCODE -ne 0) {
         Write-Host "ERROR: esBuild.ps1 failed with exit code $LASTEXITCODE. Exiting." -ForegroundColor Red
         exit 1
@@ -267,6 +254,8 @@ try {
     Write-Host ""
 
     $Step++
+    
+    Set-Location $CoreProjectPath
 
     $StepStartTime = Get-Date
     Write-Host ""
@@ -429,12 +418,14 @@ try {
             }
             Write-Host "Lock released, continuing..."
         }
+
+        Set-Location $BuildScriptsPath
         
         Write-Host ""
         Write-Host "$Step. Building Pro JavaScript" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
         Write-Host ""
         Write-Host ""
-        ./esProBuild.ps1 -c $Configuration
+        dotnet run ESBuild.cs -- -c $Configuration --pro
         if ($LASTEXITCODE -ne 0) {
             Write-Host "ERROR: esProBuild.ps1 failed with exit code $LASTEXITCODE. Exiting." -ForegroundColor Red
             exit 1
@@ -461,6 +452,8 @@ try {
         Write-Host "$Step. Building Pro project and package" -BackgroundColor DarkMagenta -ForegroundColor White -NoNewline
         Write-Host ""
         Write-Host ""
+
+        Set-Location $ProProjectPath
 
         # double-escape line breaks
         $ProBuild = "dotnet build dymaptic.GeoBlazor.Pro.csproj --no-restore ``

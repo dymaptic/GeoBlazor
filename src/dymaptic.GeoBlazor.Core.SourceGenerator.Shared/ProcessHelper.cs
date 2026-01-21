@@ -204,6 +204,8 @@ public static class ProcessHelper
                 return;
             }
 
+            _consoleProcess.StandardInput.Flush();
+            Thread.Sleep(500);
             _consoleProcess.StandardInput.WriteLine("exit");
             _consoleProcess.WaitForExit();
             _consoleProcess.Dispose();
@@ -239,9 +241,10 @@ public static class ProcessHelper
             };
 
             _consoleProcess = Process.Start(startInfo);
+            _consoleProcess!.StandardInput.AutoFlush = true;
         }
 
-        _consoleProcess!.StandardInput.WriteLine(message);
+        _consoleProcess.StandardInput.WriteLine(message);
     }
 
     private static readonly string shellCommand = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)

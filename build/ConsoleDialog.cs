@@ -1,3 +1,5 @@
+#!/usr/bin/env dotnet
+
 using System.Diagnostics;
 
 // Manages a console window for displaying log messages during source generation.
@@ -63,7 +65,8 @@ void StartConsoleWindow(string title)
 void StartWindowsConsole(string title)
 {
     string escapedPath = _consoleTempFile!.Replace("'", "''");
-    string command = $"$Host.UI.RawUI.WindowTitle = 'GeoBlazor Source Generator: {title}'; " +
+    string windowTitle = string.IsNullOrWhiteSpace(title) ? "GeoBlazor Build" : title;
+    string command = $"$Host.UI.RawUI.WindowTitle = '{windowTitle}'; " +
                    $"Write-Host 'GeoBlazor Source Generator Output' -ForegroundColor Cyan; " +
                    $"Write-Host ('=' * 50); " +
                    $"Get-Content -Path '{escapedPath}' -Wait -Tail 100";

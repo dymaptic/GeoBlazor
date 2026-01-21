@@ -49,9 +49,9 @@ dotnet build src/dymaptic.GeoBlazor.Core.sln
 dotnet build src/dymaptic.GeoBlazor.Core.sln -c Release
 dotnet build src/dymaptic.GeoBlazor.Core.sln -c Debug
 
-# Build TypeScript/JavaScript (from src/dymaptic.GeoBlazor.Core/)
-pwsh esBuild.ps1 -c Debug
-pwsh esBuild.ps1 -c Release
+# Build TypeScript/JavaScript (from Core repo root)
+dotnet ./build/ESBuild.cs -- -c Debug
+dotnet ./build/ESBuild.cs -- -c Release
 ```
 
 ### Test
@@ -106,7 +106,7 @@ npm install (from src/dymaptic.GeoBlazor.Core/)
 Known issue: ESBuild compilation conflicts with MSBuild static file analysis may cause intermittent build errors when building projects with project references to Core. This is tracked with Microsoft.
 
 ### Development Workflow
-1. Changes to TypeScript require running ESBuild (automatic via source generator or manual via `esBuild.ps1`). You should see a popup dialog when this is happening automatically from the source generator.
+1. Changes to TypeScript require running ESBuild (automatic via source generator or manual via `ESBuild.cs`). You should see a popup dialog when this is happening automatically from the source generator.
 2. Browser cache should be disabled when testing JavaScript changes
 3. Generated code (`.gb.*` files) should never be edited directly. Instead, move code into the matching hand-editable file to "override" the generated code.
 4. When adding new components, use the Code Generator in the parent CodeGen repository

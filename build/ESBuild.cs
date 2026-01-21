@@ -6,6 +6,7 @@
 //   -c, --configuration <Debug|Release>  Build configuration (default: Debug)
 //   -f, --force                          Force rebuild, ignoring lock files and record
 //   -p, --pro                            Run the GeoBlazor Pro ESBuild process
+//   -d, --dialog                         Show a console dialog during build
 //   -h, --help                           Display help message
 
 using System.Diagnostics;
@@ -20,6 +21,7 @@ string configuration = "Debug";
 bool force = false;
 bool help = false;
 bool pro = false;
+bool dialog = false;
 
 for (int i = 0; i < args.Length; i++)
 {
@@ -32,6 +34,10 @@ for (int i = 0; i < args.Length; i++)
             {
                 configuration = args[++i];
             }
+            break;
+        case "-d":
+        case "--dialog":
+            dialog = true;
             break;
         case "-f":
         case "--force":
@@ -55,8 +61,6 @@ for (int i = 0; i < args.Length; i++)
     }
 }
 
-Trace.Listeners.Add(new ConsoleTraceListener());
-
 if (help)
 {
     Trace.WriteLine("ESBuild TypeScript -> JavaScript Compilation Script");
@@ -69,6 +73,27 @@ if (help)
     Trace.WriteLine("  -h, --help                           Display this help message");
     return 0;
 }
+
+Trace.Listeners.Add(new ConsoleTraceListener());
+
+Process? dialogProcess = null;
+
+if (dialog)
+{
+    dialogProcess = StartConsoleDialog(scriptDir, 
+        $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild");
+    if (dialogProcess?.StandardInput is null)
+    {
+        Trace.WriteLine("Failed to start console dialog. Exiting.");
+    }
+    else
+    {
+        dialogProcess.StandardInput.AutoFlush = true;
+        Trace.Listeners.Add(new DialogTraceListener(dialogProcess));
+    }
+}
+
+Trace.WriteLine("Launching ESBuild...");
 
 // Normalize configuration
 configuration = configuration.Equals("release", StringComparison.OrdinalIgnoreCase) ? "Release" : "Debug";
@@ -94,15 +119,6 @@ string proReleaseLockFile = Path.Combine(proSourceDir, "esBuild.Release.lock");
 string coreLockFilePath = configuration == "Release" ? coreReleaseLockFile : coreDebugLockFile;
 string proLockFilePath = configuration == "Release" ? proReleaseLockFile : proDebugLockFile;
 string lockFilePath = pro ? proLockFilePath : coreLockFilePath;
-
-Trace.WriteLine($"Core source directory: {coreSourceDir}");
-
-if (pro)
-{
-    Trace.WriteLine($"Pro source directory: {proSourceDir}");
-}
-Trace.WriteLine($"Scripts directory: {coreScriptsDir}");
-Trace.WriteLine($"Configuration: {configuration}");
 
 // Handle --force flag: delete record file
 if (force && File.Exists(coreRecordFilePath))
@@ -137,18 +153,6 @@ if (pro)
 if (!needsBuild)
 {
     Environment.Exit(0);
-}
-
-// Start dialog process only if we're actually going to build
-Process? dialogProcess = StartConsoleDialog(scriptDir, $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild");
-if (dialogProcess?.StandardInput is null)
-{
-    Trace.WriteLine("Failed to start console dialog. Exiting.");
-}
-else
-{
-    dialogProcess.StandardInput.AutoFlush = true;
-    Trace.Listeners.Add(new DialogTraceListener(dialogProcess));
 }
 
 // Check if the process is locked for the current configuration
@@ -339,6 +343,7 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
         if (Directory.Exists(outputDir) && Directory.GetFiles(outputDir).Length > 0)
         {
             Trace.WriteLine("Output directory is not empty. Skipping build.");
+            KillDialog(dialogProcess);
             Environment.Exit(0);
         }
         else
@@ -473,6 +478,10 @@ static void KillDialog(Process? dialog)
     {
         if (dialog?.StandardInput is not null)
         {
+            // Flush to ensure all pending messages are sent before exit
+            dialog.StandardInput.Flush();
+            // Small delay to allow the dialog to display the final message
+            Thread.Sleep(500);
             dialog.StandardInput.WriteLine("exit");
         }
     }

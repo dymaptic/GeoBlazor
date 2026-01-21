@@ -14,6 +14,10 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 [SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
 public class ESBuildGenerator : IIncrementalGenerator
 {
+    private static string? BuildScriptsPath => _corePath is null
+        ? null
+        : Path.GetFullPath(Path.Combine(_corePath, "..", "..", "build"));
+
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -67,7 +71,9 @@ public class ESBuildGenerator : IIncrementalGenerator
             ProcessHelper.Log(nameof(ESBuildGenerator),
                 "Skipping ESBuild process as PipelineBuild is set to true.",
                 DiagnosticSeverity.Info,
-                context);
+                context, true);
+
+            ProcessHelper.CloseDialog();
 
             return;
         }
@@ -152,12 +158,19 @@ public class ESBuildGenerator : IIncrementalGenerator
             bool buildSuccess = false;
             bool proBuildSuccess = false;
 
-            // gets the esBuild.ps1 script from the Core path
+            // gets the ESBuild.cs script
             tasks.Add(Task.Run(async () =>
             {
-                await ProcessHelper.RunPowerShellScript("Core",
-                    _corePath!, "esBuild.ps1",
-                    ["-c", _configuration!], logBuilder, context.CancellationToken);
+                await ProcessHelper.Execute("Core",
+                    BuildScriptsPath!, "dotnet",
+                    [
+                        "run",
+                        "ESBuild.cs",
+                        "-c", _configuration!, // pass config to MSBuild
+                        "--",
+                        "-c", _configuration!, // set config for ESBuild
+                        "-d" // show dialog
+                    ], logBuilder, context.CancellationToken);
                 buildSuccess = true;
             }));
 
@@ -167,9 +180,17 @@ public class ESBuildGenerator : IIncrementalGenerator
 
                 tasks.Add(Task.Run(async () =>
                 {
-                    await ProcessHelper.RunPowerShellScript("Pro",
-                        _proPath, "esProBuild.ps1",
-                        ["-c", _configuration!], logBuilder, context.CancellationToken);
+                    await ProcessHelper.Execute("Pro",
+                        BuildScriptsPath!, "dotnet",
+                        [
+                            "run",
+                            "ESBuild.cs",
+                            "-c", _configuration!, // pass config to MSBuild
+                            "--",
+                            "-c", _configuration!, // set config for ESBuild
+                            "-d", // show dialog
+                            "--pro" // build for Pro project
+                        ], logBuilder, context.CancellationToken);
                     proBuildSuccess = true;
                 }));
             }
