@@ -2,18 +2,13 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMap.html">GeoBlazor Docs</a>
 ///     Loads a <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm">WebMap</a> from <a target="_blank" href="https://www.arcgis.com/home/">ArcGIS Online</a> or <a target="_blank" href="https://enterprise.arcgis.com/en/portal/latest/administer/windows/what-is-portal-for-arcgis-.htm">ArcGIS Enterprise portal</a> into a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class WebMap : ITimeSliderViewModelDocument,
-    ITimeSliderWidgetDocument,
-    ITimeUtilsDocument,
-    IVersionManagementUtilsInput
+public partial class WebMap
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -73,8 +68,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     ///     The widgets object contains widgets that are exposed to the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public WebMap(
-        ApplicationProperties? applicationProperties = null,
+    public WebMap(ApplicationProperties? applicationProperties = null,
         string? authoringApp = null,
         string? authoringAppVersion = null,
         IReadOnlyList<Bookmark>? bookmarks = null,
@@ -101,10 +95,88 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         ThumbnailUrl = thumbnailUrl;
         UtilityNetworks = utilityNetworks;
         Widgets = widgets;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        ApplicationProperties?.ValidateRequiredGeneratedChildren();
+
+        if (Bookmarks is not null)
+        {
+            foreach (Bookmark child in Bookmarks)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        Widgets?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ApplicationProperties applicationProperties:
+                if (applicationProperties != ApplicationProperties)
+                {
+                    ApplicationProperties = applicationProperties;
+                    ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
+                }
+
+                return true;
+            case Bookmark bookmarks:
+                Bookmarks ??= [];
+
+                if (!Bookmarks.Contains(bookmarks))
+                {
+                    Bookmarks = [..Bookmarks, bookmarks];
+                    ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+                }
+
+                return true;
+            case WebMapWidgets widgets:
+                if (widgets != Widgets)
+                {
+                    Widgets = widgets;
+                    ModifiedParameters[nameof(Widgets)] = Widgets;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ApplicationProperties _:
+                ApplicationProperties = null;
+                ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
+
+                return true;
+            case Bookmark bookmarks:
+                Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
+                ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+
+                return true;
+            case WebMapWidgets _:
+                Widgets = null;
+                ModifiedParameters[nameof(Widgets)] = Widgets;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -115,7 +187,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ApplicationProperties? ApplicationProperties { get; set; }
-    
+
     /// <summary>
     ///     The name of the application that authored the WebMap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#authoringApp">ArcGIS Maps SDK for JavaScript</a>
@@ -124,7 +196,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AuthoringApp { get; set; }
-    
+
     /// <summary>
     ///     The version of the application that authored the WebMap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#authoringAppVersion">ArcGIS Maps SDK for JavaScript</a>
@@ -133,7 +205,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AuthoringAppVersion { get; set; }
-    
+
     /// <summary>
     ///     An array of saved geographic extents that allow end users to quickly navigate to a particular area of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#bookmarks">ArcGIS Maps SDK for JavaScript</a>
@@ -142,7 +214,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Bookmark>? Bookmarks { get; set; }
-    
+
     /// <summary>
     ///     When a web map is configured as floor-aware, it has a floorInfo property defined.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#floorInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -151,7 +223,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapFloorInfo? FloorInfo { get; set; }
-    
+
     /// <summary>
     ///     Information relating to a list of Geotriggers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#geotriggersInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -160,7 +232,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public GeotriggersInfo? GeotriggersInfo { get; set; }
-    
+
     /// <summary>
     ///     The initial view of the WebMap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#initialViewProperties">ArcGIS Maps SDK for JavaScript</a>
@@ -169,7 +241,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InitialViewProperties? InitialViewProperties { get; set; }
-    
+
     /// <summary>
     ///     Indicates whether the instance has loaded.
     ///     default false
@@ -179,7 +251,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Loaded { get; protected set; }
-    
+
     /// <summary>
     ///     The Error object returned if an error occurred while loading.
     ///     default null
@@ -189,7 +261,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Error? LoadError { get; protected set; }
-    
+
     /// <summary>
     ///     Represents the status of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#load">load</a> operation.
     ///     default not-loaded
@@ -199,7 +271,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public LoadStatus? LoadStatus { get; protected set; }
-    
+
     /// <summary>
     ///     Provides multiple slides.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#presentation">ArcGIS Maps SDK for JavaScript</a>
@@ -208,7 +280,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public object? Presentation { get; set; }
-    
+
     /// <summary>
     ///     The version of the source document from which the WebMap was read.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#sourceVersion">ArcGIS Maps SDK for JavaScript</a>
@@ -217,7 +289,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public WebMapSourceVersion? SourceVersion { get; protected set; }
-    
+
     /// <summary>
     ///     The URL to the thumbnail used for the webmap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
@@ -226,7 +298,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailUrl { get; set; }
-    
+
     /// <summary>
     ///     The utilityNetworks object contains a collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html">UtilityNetworks</a> saved on the web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#utilityNetworks">ArcGIS Maps SDK for JavaScript</a>
@@ -235,7 +307,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<IUtilityNetwork>? UtilityNetworks { get; set; }
-    
+
     /// <summary>
     ///     The widgets object contains widgets that are exposed to the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#widgets">ArcGIS Maps SDK for JavaScript</a>
@@ -244,8 +316,9 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WebMapWidgets? Widgets { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -258,8 +331,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return ApplicationProperties;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -268,7 +341,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ApplicationProperties;
@@ -276,7 +349,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 
         ApplicationProperties? result = await JsComponentReference.InvokeAsync<ApplicationProperties?>(
             "getApplicationProperties", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -284,10 +357,10 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
         }
-        
+
         return ApplicationProperties;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AuthoringApp property.
     /// </summary>
@@ -297,8 +370,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return AuthoringApp;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -307,7 +380,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AuthoringApp;
@@ -316,17 +389,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "authoringApp");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AuthoringApp = result;
+            AuthoringApp = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AuthoringApp)] = AuthoringApp;
+            ModifiedParameters[nameof(AuthoringApp)] = AuthoringApp;
         }
-         
+
         return AuthoringApp;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AuthoringAppVersion property.
     /// </summary>
@@ -336,8 +410,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return AuthoringAppVersion;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -346,7 +420,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AuthoringAppVersion;
@@ -355,17 +429,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "authoringAppVersion");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AuthoringAppVersion = result;
+            AuthoringAppVersion = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AuthoringAppVersion)] = AuthoringAppVersion;
+            ModifiedParameters[nameof(AuthoringAppVersion)] = AuthoringAppVersion;
         }
-         
+
         return AuthoringAppVersion;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Bookmarks property.
     /// </summary>
@@ -375,8 +450,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return Bookmarks;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -385,15 +460,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Bookmarks;
         }
 
-        IReadOnlyList<Bookmark>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Bookmark>?>(
-            "getBookmarks", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Bookmark>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<Bookmark>?>("getBookmarks",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -401,10 +477,10 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
         }
-        
+
         return Bookmarks;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FloorInfo property.
     /// </summary>
@@ -414,8 +490,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return FloorInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -424,7 +500,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FloorInfo;
@@ -432,7 +508,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 
         MapFloorInfo? result = await JsComponentReference.InvokeAsync<MapFloorInfo?>(
             "getFloorInfo", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -440,10 +516,10 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
         }
-        
+
         return FloorInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeotriggersInfo property.
     /// </summary>
@@ -453,8 +529,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return GeotriggersInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -463,7 +539,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return GeotriggersInfo;
@@ -471,7 +547,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 
         GeotriggersInfo? result = await JsComponentReference.InvokeAsync<GeotriggersInfo?>(
             "getGeotriggersInfo", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -479,10 +555,10 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(GeotriggersInfo)] = GeotriggersInfo;
         }
-        
+
         return GeotriggersInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the InitialViewProperties property.
     /// </summary>
@@ -492,8 +568,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return InitialViewProperties;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -502,7 +578,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return InitialViewProperties;
@@ -510,7 +586,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 
         InitialViewProperties? result = await JsComponentReference.InvokeAsync<InitialViewProperties?>(
             "getInitialViewProperties", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -518,10 +594,10 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
         }
-        
+
         return InitialViewProperties;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -531,8 +607,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return Loaded;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -541,26 +617,28 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Loaded;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "loaded");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Loaded = result.Value.Value;
+            Loaded = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Loaded)] = Loaded;
+            ModifiedParameters[nameof(Loaded)] = Loaded;
         }
-         
+
         return Loaded;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LoadError property.
     /// </summary>
@@ -570,8 +648,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return LoadError;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -580,7 +658,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LoadError;
@@ -589,17 +667,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         // get the property value
         Error? result = await JsComponentReference!.InvokeAsync<Error?>("getProperty",
             CancellationTokenSource.Token, "loadError");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LoadError = result;
+            LoadError = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LoadError)] = LoadError;
+            ModifiedParameters[nameof(LoadError)] = LoadError;
         }
-         
+
         return LoadError;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LoadStatus property.
     /// </summary>
@@ -609,8 +688,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return LoadStatus;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -619,26 +698,28 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LoadStatus;
         }
 
         // get the property value
-        JsNullableEnumWrapper<LoadStatus>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LoadStatus>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<LoadStatus>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LoadStatus>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "loadStatus");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LoadStatus = (LoadStatus)result.Value.Value!;
+            LoadStatus = (LoadStatus)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LoadStatus)] = LoadStatus;
+            ModifiedParameters[nameof(LoadStatus)] = LoadStatus;
         }
-         
+
         return LoadStatus;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Presentation property.
     /// </summary>
@@ -648,8 +729,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return Presentation;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -658,7 +739,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Presentation;
@@ -667,17 +748,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         // get the property value
         object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "presentation");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Presentation = result;
+            Presentation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Presentation)] = Presentation;
+            ModifiedParameters[nameof(Presentation)] = Presentation;
         }
-         
+
         return Presentation;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceVersion property.
     /// </summary>
@@ -687,8 +769,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return SourceVersion;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -697,7 +779,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SourceVersion;
@@ -706,17 +788,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         // get the property value
         WebMapSourceVersion? result = await JsComponentReference!.InvokeAsync<WebMapSourceVersion?>("getProperty",
             CancellationTokenSource.Token, "sourceVersion");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SourceVersion = result;
+            SourceVersion = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SourceVersion)] = SourceVersion;
+            ModifiedParameters[nameof(SourceVersion)] = SourceVersion;
         }
-         
+
         return SourceVersion;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbnailUrl property.
     /// </summary>
@@ -726,8 +809,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return ThumbnailUrl;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -736,7 +819,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ThumbnailUrl;
@@ -745,17 +828,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "thumbnailUrl");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ThumbnailUrl = result;
+            ThumbnailUrl = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
+            ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
         }
-         
+
         return ThumbnailUrl;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UtilityNetworks property.
     /// </summary>
@@ -765,8 +849,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return UtilityNetworks;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -775,26 +859,28 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return UtilityNetworks;
         }
 
         // get the property value
-        IReadOnlyList<IUtilityNetwork>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IUtilityNetwork>?>("getProperty",
-            CancellationTokenSource.Token, "utilityNetworks");
+        IReadOnlyList<IUtilityNetwork>? result =
+            await JsComponentReference!.InvokeAsync<IReadOnlyList<IUtilityNetwork>?>("getProperty",
+                CancellationTokenSource.Token, "utilityNetworks");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             UtilityNetworks = result;
+            UtilityNetworks = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UtilityNetworks)] = UtilityNetworks;
+            ModifiedParameters[nameof(UtilityNetworks)] = UtilityNetworks;
         }
-         
+
         return UtilityNetworks;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Widgets property.
     /// </summary>
@@ -804,8 +890,8 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return Widgets;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -814,15 +900,15 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Widgets;
         }
 
-        WebMapWidgets? result = await JsComponentReference.InvokeAsync<WebMapWidgets?>(
-            "getWidgets", CancellationTokenSource.Token);
-        
+        WebMapWidgets? result =
+            await JsComponentReference.InvokeAsync<WebMapWidgets?>("getWidgets", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -830,11 +916,12 @@ public partial class WebMap : ITimeSliderViewModelDocument,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Widgets)] = Widgets;
         }
-        
+
         return Widgets;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -848,23 +935,23 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
+            value.CoreJsModule = CoreJsModule;
             value.Parent = this;
             value.Layer = Layer;
             value.View = View;
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         ApplicationProperties = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ApplicationProperties)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -873,16 +960,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setApplicationProperties", 
+
+        await JsComponentReference.InvokeVoidAsync("setApplicationProperties",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AuthoringApp property after render.
     /// </summary>
@@ -895,13 +982,13 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         AuthoringApp = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AuthoringApp)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -910,16 +997,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authoringApp", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AuthoringAppVersion property after render.
     /// </summary>
@@ -932,13 +1019,13 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         AuthoringAppVersion = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AuthoringAppVersion)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -947,16 +1034,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authoringAppVersion", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Bookmarks property after render.
     /// </summary>
@@ -975,18 +1062,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
                 item.View = View;
             }
         }
-        
+
 #pragma warning disable BL0005
         Bookmarks = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Bookmarks)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -995,16 +1082,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setBookmarks", 
+
+        await JsComponentReference.InvokeVoidAsync("setBookmarks",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FloorInfo property after render.
     /// </summary>
@@ -1017,13 +1104,13 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         FloorInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FloorInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1032,16 +1119,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
+
+        await JsComponentReference.InvokeVoidAsync("setFloorInfo",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GeotriggersInfo property after render.
     /// </summary>
@@ -1054,13 +1141,13 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         GeotriggersInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(GeotriggersInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1069,16 +1156,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setGeotriggersInfo", 
+
+        await JsComponentReference.InvokeVoidAsync("setGeotriggersInfo",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the InitialViewProperties property after render.
     /// </summary>
@@ -1087,25 +1174,17 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     /// </param>
     public async Task SetInitialViewProperties(InitialViewProperties? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         InitialViewProperties = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(InitialViewProperties)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1114,16 +1193,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setInitialViewProperties", 
+
+        await JsComponentReference.InvokeVoidAsync("setInitialViewProperties",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Presentation property after render.
     /// </summary>
@@ -1136,13 +1215,13 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         Presentation = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Presentation)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1151,16 +1230,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "presentation", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ThumbnailUrl property after render.
     /// </summary>
@@ -1173,13 +1252,13 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         ThumbnailUrl = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ThumbnailUrl)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1188,16 +1267,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbnailUrl", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UtilityNetworks property after render.
     /// </summary>
@@ -1210,13 +1289,13 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         UtilityNetworks = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(UtilityNetworks)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1225,16 +1304,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "utilityNetworks", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Widgets property after render.
     /// </summary>
@@ -1245,23 +1324,23 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
+            value.CoreJsModule = CoreJsModule;
             value.Parent = this;
             value.Layer = Layer;
             value.View = View;
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         Widgets = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Widgets)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1270,17 +1349,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setWidgets", 
+
+        await JsComponentReference.InvokeVoidAsync("setWidgets",
             CancellationTokenSource.Token, value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -1297,7 +1377,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
             : [..Bookmarks, ..values];
         await SetBookmarks(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the UtilityNetworks property.
     /// </summary>
@@ -1311,12 +1391,12 @@ public partial class WebMap : ITimeSliderViewModelDocument,
             : [..UtilityNetworks, ..values];
         await SetUtilityNetworks(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Bookmarks property.
     /// </summary>
@@ -1329,10 +1409,10 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return;
         }
+
         await SetBookmarks(Bookmarks.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the UtilityNetworks property.
     /// </summary>
@@ -1345,10 +1425,12 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return;
         }
+
         await SetUtilityNetworks(UtilityNetworks.Except(values).ToArray());
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
@@ -1363,7 +1445,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1373,17 +1455,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<object?>(
-            "load", 
+
+        return await JsComponentReference!.InvokeAsync<object?>("load",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     Loads all the externally loadable resources associated with the webmap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#loadAll">ArcGIS Maps SDK for JavaScript</a>
@@ -1395,7 +1476,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1405,17 +1486,16 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<WebMap?>(
-            "loadAll", 
+
+        return await JsComponentReference!.InvokeAsync<WebMap?>("loadAll",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     Saves the webmap to its associated portal item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#save">ArcGIS Maps SDK for JavaScript</a>
@@ -1430,7 +1510,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1440,18 +1520,17 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "save", 
+
+        return await JsComponentReference!.InvokeAsync<PortalItem?>("save",
             CancellationTokenSource.Token,
             options);
     }
-    
+
     /// <summary>
     ///     Saves the webmap to a new <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">portal item</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
@@ -1470,7 +1549,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1480,19 +1559,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "saveAs", 
+
+        return await JsComponentReference!.InvokeAsync<PortalItem?>("saveAs",
             CancellationTokenSource.Token,
             portalItem,
             options);
     }
-    
+
     /// <summary>
     ///     Update properties of the WebMap related to the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
@@ -1511,7 +1589,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1521,106 +1599,17 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<object?>(
-            "updateFrom", 
+
+        return await JsComponentReference!.InvokeAsync<object?>("updateFrom",
             CancellationTokenSource.Token,
             view,
             options);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ApplicationProperties applicationProperties:
-                if (applicationProperties != ApplicationProperties)
-                {
-                    ApplicationProperties = applicationProperties;
-                    ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
-                }
-                
-                return true;
-            case Bookmark bookmarks:
-                Bookmarks ??= [];
-                if (!Bookmarks.Contains(bookmarks))
-                {
-                    Bookmarks = [..Bookmarks, bookmarks];
-                    ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
-                }
-                
-                return true;
-            case InitialViewProperties initialViewProperties:
-                if (initialViewProperties != InitialViewProperties)
-                {
-                    InitialViewProperties = initialViewProperties;
-                    ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
-                }
-                
-                return true;
-            case WebMapWidgets widgets:
-                if (widgets != Widgets)
-                {
-                    Widgets = widgets;
-                    ModifiedParameters[nameof(Widgets)] = Widgets;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ApplicationProperties _:
-                ApplicationProperties = null;
-                ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
-                return true;
-            case Bookmark bookmarks:
-                Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
-                ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
-                return true;
-            case InitialViewProperties _:
-                InitialViewProperties = null;
-                ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
-                return true;
-            case WebMapWidgets _:
-                Widgets = null;
-                ModifiedParameters[nameof(Widgets)] = Widgets;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        ApplicationProperties?.ValidateRequiredGeneratedChildren();
-        if (Bookmarks is not null)
-        {
-            foreach (Bookmark child in Bookmarks)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        InitialViewProperties?.ValidateRequiredGeneratedChildren();
-        Widgets?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

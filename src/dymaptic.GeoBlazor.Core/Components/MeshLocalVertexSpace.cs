@@ -10,8 +10,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 [ProtobufSerializable]
 public record MeshLocalVertexSpace(double[]? Origin) : IMeshVertexSpace
 {
+    /// <inheritdoc />
     public string Type => "local";
-    
+
     /// <inheritdoc />
     public MeshVertexSpaceSerializationRecord ToProtobuf()
     {

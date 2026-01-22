@@ -77,11 +77,11 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any, viewId: 
             }
         }
     }
+
     if (hasValue(dotNetSimpleRenderer.id)) {
         jsObjectRefs[dotNetSimpleRenderer.id] ??= jsObject;
         arcGisObjectRefs[dotNetSimpleRenderer.id] ??= jsObject;
     }
-
     return dotNetSimpleRenderer;
 }
 

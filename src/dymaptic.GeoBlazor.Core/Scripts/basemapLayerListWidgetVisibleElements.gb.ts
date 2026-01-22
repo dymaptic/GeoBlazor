@@ -114,11 +114,11 @@ export async function buildDotNetBasemapLayerListWidgetVisibleElementsGenerated(
             }
         }
     }
+
     if (hasValue(dotNetBasemapLayerListWidgetVisibleElements.id)) {
         jsObjectRefs[dotNetBasemapLayerListWidgetVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetBasemapLayerListWidgetVisibleElements.id] ??= jsObject;
     }
-
     return dotNetBasemapLayerListWidgetVisibleElements;
 }
 

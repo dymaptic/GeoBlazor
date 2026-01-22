@@ -32,7 +32,7 @@ export async function buildJsTrackPartInfoGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetTrackPartInfoGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetTrackPartInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -41,7 +41,7 @@ export async function buildDotNetTrackPartInfoGenerated(jsObject: any, viewId: s
     
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
-        dotNetTrackPartInfo.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i, viewId)));
+        dotNetTrackPartInfo.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i, layerId, viewId)));
     }
     
     if (hasValue(jsObject.renderer)) {

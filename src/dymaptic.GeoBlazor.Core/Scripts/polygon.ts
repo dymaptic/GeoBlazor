@@ -1,3 +1,4 @@
+import PolygonGenerated from './polygon.gb';
 import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import Polygon from "@arcgis/core/geometry/Polygon";
@@ -126,3 +127,12 @@ function buildJsPathsOrRings(pathsOrRings: any) {
     }
     return pathsOrRings;
 }
+
+export default class PolygonWrapper extends PolygonGenerated {
+
+    constructor(component: Polygon) {
+        super(component);
+    }
+
+}
+

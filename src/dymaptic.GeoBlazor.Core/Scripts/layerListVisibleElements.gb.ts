@@ -100,11 +100,11 @@ export async function buildDotNetLayerListVisibleElementsGenerated(jsObject: any
             }
         }
     }
+
     if (hasValue(dotNetLayerListVisibleElements.id)) {
         jsObjectRefs[dotNetLayerListVisibleElements.id] ??= jsObject;
         arcGisObjectRefs[dotNetLayerListVisibleElements.id] ??= jsObject;
     }
-
     return dotNetLayerListVisibleElements;
 }
 

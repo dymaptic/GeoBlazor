@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModelMeasurement.html">GeoBlazor Docs</a>
 ///     The length and geometry of the measurement polyline in meters.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -30,215 +28,22 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     ///     Line length (m).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public DistanceMeasurement2DViewModelMeasurement(
-        Polyline? geometry = null,
+    public DistanceMeasurement2DViewModelMeasurement(Polyline? geometry = null,
         double? length = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Geometry = geometry;
         Length = length;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModelMeasurement.html#distancemeasurement2dviewmodelmeasurementgeometry-property">GeoBlazor Docs</a>
-    ///     Measurement line.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Polyline? Geometry { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModelMeasurement.html#distancemeasurement2dviewmodelmeasurementlength-property">GeoBlazor Docs</a>
-    ///     Line length (m).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Length { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Geometry property.
-    /// </summary>
-    public async Task<Polyline?> GetGeometry()
-    {
-        if (CoreJsModule is null)
-        {
-            return Geometry;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Geometry;
-        }
-
-        Polyline? result = await JsComponentReference.InvokeAsync<Polyline?>(
-            "getGeometry", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Geometry is not null)
-            {
-                result.Id = Geometry.Id;
-            }
-            
-#pragma warning disable BL0005
-            Geometry = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Geometry)] = Geometry;
-        }
-        
-        return Geometry;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Length property.
-    /// </summary>
-    public async Task<double?> GetLength()
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return Length;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Length;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "length");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Length = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Length)] = Length;
-        }
-         
-        return Length;
+        Geometry?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Geometry property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetGeometry(Polyline? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        Geometry = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Geometry)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "geometry", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Length property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLength(double? value)
-    {
-#pragma warning disable BL0005
-        Length = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Length)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "length", value);
-    }
-    
-#endregion
-
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -251,7 +56,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
                     Geometry = geometry;
                     ModifiedParameters[nameof(Geometry)] = Geometry;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -266,18 +71,211 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
             case Polyline _:
                 Geometry = null;
                 ModifiedParameters[nameof(Geometry)] = Geometry;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModelMeasurement.html#distancemeasurement2dviewmodelmeasurementgeometry-property">GeoBlazor Docs</a>
+    ///     Measurement line.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Polyline? Geometry { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DistanceMeasurement2DViewModelMeasurement.html#distancemeasurement2dviewmodelmeasurementlength-property">GeoBlazor Docs</a>
+    ///     Line length (m).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? Length { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Geometry property.
+    /// </summary>
+    public async Task<Polyline?> GetGeometry()
     {
-    
-        Geometry?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (CoreJsModule is null)
+        {
+            return Geometry;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Geometry;
+        }
+
+        Polyline? result =
+            await JsComponentReference.InvokeAsync<Polyline?>("getGeometry", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (Geometry is not null)
+            {
+                result.Id = Geometry.Id;
+            }
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            Geometry = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Geometry)] = Geometry;
+        }
+
+        return Geometry;
     }
-      
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Length property.
+    /// </summary>
+    public async Task<double?> GetLength()
+    {
+        if (CoreJsModule is null)
+        {
+            return Length;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Length;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "length");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Length = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Length)] = Length;
+        }
+
+        return Length;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Geometry property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetGeometry(Polyline? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        Geometry = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Geometry)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "geometry", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Length property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetLength(double? value)
+    {
+#pragma warning disable BL0005
+        Length = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Length)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "length", value);
+    }
+
+#endregion
 }

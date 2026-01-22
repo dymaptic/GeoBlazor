@@ -44,11 +44,11 @@ export async function buildDotNetClusterTitleGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetClusterTitle.id)) {
         jsObjectRefs[dotNetClusterTitle.id] ??= jsObject;
         arcGisObjectRefs[dotNetClusterTitle.id] ??= jsObject;
     }
-
     return dotNetClusterTitle;
 }
 

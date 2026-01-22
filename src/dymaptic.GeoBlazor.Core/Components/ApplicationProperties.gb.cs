@@ -2,15 +2,14 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ApplicationProperties.html">GeoBlazor Docs</a>
-///     Represents configuration of application and UI elements of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a>.
+///     Represents configuration of application and UI elements of the
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-ApplicationProperties.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ApplicationProperties : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -26,19 +25,19 @@ public partial class ApplicationProperties : MapComponent
     ///     View-specific properties of application and UI elements for the web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-ApplicationProperties.html#viewing">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public ApplicationProperties(
-        Viewing? viewing = null)
+    public ApplicationProperties(Viewing? viewing = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Viewing = viewing;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ApplicationProperties.html#applicationpropertiesviewing-property">GeoBlazor Docs</a>
     ///     View-specific properties of application and UI elements for the web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-ApplicationProperties.html#viewing">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -46,8 +45,9 @@ public partial class ApplicationProperties : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Viewing? Viewing { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -60,8 +60,8 @@ public partial class ApplicationProperties : MapComponent
         {
             return Viewing;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -70,15 +70,14 @@ public partial class ApplicationProperties : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Viewing;
         }
 
-        Viewing? result = await JsComponentReference.InvokeAsync<Viewing?>(
-            "getViewing", CancellationTokenSource.Token);
-        
+        Viewing? result = await JsComponentReference.InvokeAsync<Viewing?>("getViewing", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -86,11 +85,12 @@ public partial class ApplicationProperties : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Viewing)] = Viewing;
         }
-        
+
         return Viewing;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -104,23 +104,20 @@ public partial class ApplicationProperties : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Viewing = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Viewing)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -129,18 +126,25 @@ public partial class ApplicationProperties : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "viewing", value);
     }
-    
+
 #endregion
 
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Viewing?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -153,7 +157,7 @@ public partial class ApplicationProperties : MapComponent
                     Viewing = viewing;
                     ModifiedParameters[nameof(Viewing)] = Viewing;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -168,18 +172,10 @@ public partial class ApplicationProperties : MapComponent
             case Viewing _:
                 Viewing = null;
                 ModifiedParameters[nameof(Viewing)] = Viewing;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Viewing?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

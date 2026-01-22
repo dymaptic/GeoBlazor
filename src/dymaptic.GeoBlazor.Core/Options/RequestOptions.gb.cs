@@ -70,75 +70,81 @@ public partial record RequestOptions(
     bool? WithCredentials = null)
 {
     /// <summary>
+    ///     Parameterless constructor
+    /// </summary>
+    public RequestOptions() : this(null, null)
+    {
+    }
+
+    /// <summary>
     ///     Indicates if and how requests to ArcGIS Services are authenticated.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public AuthMode? AuthMode { get; set; } = AuthMode;
-    
+
     /// <summary>
     ///     If `true`, the browser will send a request to the server instead of using the browser's local cache.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? CacheBust { get; set; } = CacheBust;
-    
+
     /// <summary>
     ///     If uploading a file, specify the form data or element used to submit the file here.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public ElementReference? ElementReferenceBody { get; set; } = ElementReferenceBody;
-    
+
     /// <summary>
     ///     Headers to use for the request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Headers { get; set; } = Headers;
-    
+
     /// <summary>
     ///     Indicates if the request should be made using the HTTP DELETE, HEAD, POST, or PUT method.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public RequestMethod? Method { get; set; } = Method;
-    
+
     /// <summary>
     ///     If uploading a file, specify the form data or element used to submit the file here.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Dictionary<string, object?>? ObjectCollectionBody { get; set; } = ObjectCollectionBody;
-    
+
     /// <summary>
     ///     Query parameters for the request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Dictionary<string, object?>? Query { get; set; } = Query;
-    
+
     /// <summary>
     ///     Response format.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public ResponseType? ResponseType { get; set; } = ResponseType;
-    
+
     /// <summary>
     ///     If uploading a file, specify the form data or element used to submit the file here.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? StringBody { get; set; } = StringBody;
-    
+
     /// <summary>
     ///     Indicates the amount of time in milliseconds to wait for a response from the server.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public long? Timeout { get; set; } = Timeout;
-    
+
     /// <summary>
     ///     Indicates the request should use the proxy.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? UseProxy { get; set; } = UseProxy;
-    
+
     /// <summary>
     ///     Indicates if cross-site `Access-Control` requests should use credentials.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? WithCredentials { get; set; } = WithCredentials;
-    
 }

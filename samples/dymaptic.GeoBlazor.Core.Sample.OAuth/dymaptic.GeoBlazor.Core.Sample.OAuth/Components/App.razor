@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="@Assets["dymaptic.GeoBlazor.Core.Sample.OAuth.styles.css"]" />
     <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]"/>
     <ImportMap />
-    
     <link rel="icon" type="image/ico" href="favicon.ico" />
     <HeadOutlet @rendermode="InteractiveAuto" />
 </head>
@@ -18,7 +17,7 @@
 <body>
     <RenderModeSelector @rendermode="@InteractiveServer" />
     <Routes @rendermode="_configuredRenderMode" />
-    <script src="_framework/blazor.web.js"></script>
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
 </body>
 
 </html>

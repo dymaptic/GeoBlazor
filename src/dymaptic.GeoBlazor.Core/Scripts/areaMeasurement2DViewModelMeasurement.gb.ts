@@ -60,11 +60,11 @@ export async function buildDotNetAreaMeasurement2DViewModelMeasurementGenerated(
             }
         }
     }
+
     if (hasValue(dotNetAreaMeasurement2DViewModelMeasurement.id)) {
         jsObjectRefs[dotNetAreaMeasurement2DViewModelMeasurement.id] ??= jsObject;
         arcGisObjectRefs[dotNetAreaMeasurement2DViewModelMeasurement.id] ??= jsObject;
     }
-
     return dotNetAreaMeasurement2DViewModelMeasurement;
 }
 

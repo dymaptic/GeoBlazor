@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html">GeoBlazor Docs</a>
 ///     The material determines how a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html">MeshComponent</a> is visualized.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class MeshMaterial
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -59,8 +57,7 @@ public partial class MeshMaterial
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterial.html#normalTextureTransform">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public MeshMaterial(
-        double? alphaCutoff = null,
+    public MeshMaterial(double? alphaCutoff = null,
         AlphaMode? alphaMode = null,
         MapColor? color = null,
         MeshTexture? colorTexture = null,
@@ -79,10 +76,10 @@ public partial class MeshMaterial
         DoubleSided = doubleSided;
         NormalTexture = normalTexture;
         NormalTextureTransform = normalTextureTransform;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -95,7 +92,7 @@ public partial class MeshMaterial
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? AlphaCutoff { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialalphamode-property">GeoBlazor Docs</a>
     ///     Specifies how transparency on the object is handled.
@@ -106,7 +103,7 @@ public partial class MeshMaterial
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AlphaMode? AlphaMode { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialcolor-property">GeoBlazor Docs</a>
     ///     Specifies a single, uniform color for the mesh component.
@@ -116,7 +113,7 @@ public partial class MeshMaterial
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapColor? Color { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialcolortexture-property">GeoBlazor Docs</a>
     ///     Specifies a texture from which to get color information.
@@ -126,7 +123,7 @@ public partial class MeshMaterial
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MeshTexture? ColorTexture { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialcolortexturetransform-property">GeoBlazor Docs</a>
     ///     A transformation of UV mesh coordinates used to sample the color texture.
@@ -137,7 +134,7 @@ public partial class MeshMaterial
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MeshTextureTransform? ColorTextureTransform { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialdoublesided-property">GeoBlazor Docs</a>
     ///     Specifies whether both sides of each triangle are displayed, or only the front sides.
@@ -148,7 +145,7 @@ public partial class MeshMaterial
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? DoubleSided { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialnormaltexture-property">GeoBlazor Docs</a>
     ///     Specifies a texture from which to get normal information.
@@ -158,7 +155,7 @@ public partial class MeshMaterial
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MeshTexture? NormalTexture { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterial.html#meshmaterialnormaltexturetransform-property">GeoBlazor Docs</a>
     ///     A transformation of UV mesh coordinates used to sample the normal texture.
@@ -169,8 +166,9 @@ public partial class MeshMaterial
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MeshTextureTransform? NormalTextureTransform { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -183,8 +181,8 @@ public partial class MeshMaterial
         {
             return AlphaCutoff;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -193,26 +191,28 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AlphaCutoff;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "alphaCutoff");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AlphaCutoff = result.Value.Value;
+            AlphaCutoff = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AlphaCutoff)] = AlphaCutoff;
+            ModifiedParameters[nameof(AlphaCutoff)] = AlphaCutoff;
         }
-         
+
         return AlphaCutoff;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AlphaMode property.
     /// </summary>
@@ -222,8 +222,8 @@ public partial class MeshMaterial
         {
             return AlphaMode;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -232,26 +232,28 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AlphaMode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<AlphaMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AlphaMode>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<AlphaMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AlphaMode>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "alphaMode");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AlphaMode = (AlphaMode)result.Value.Value!;
+            AlphaMode = (AlphaMode)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AlphaMode)] = AlphaMode;
+            ModifiedParameters[nameof(AlphaMode)] = AlphaMode;
         }
-         
+
         return AlphaMode;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Color property.
     /// </summary>
@@ -261,8 +263,8 @@ public partial class MeshMaterial
         {
             return Color;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -271,7 +273,7 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Color;
@@ -280,17 +282,18 @@ public partial class MeshMaterial
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "color");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Color = result;
+            Color = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Color)] = Color;
+            ModifiedParameters[nameof(Color)] = Color;
         }
-         
+
         return Color;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ColorTexture property.
     /// </summary>
@@ -300,8 +303,8 @@ public partial class MeshMaterial
         {
             return ColorTexture;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -310,7 +313,7 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ColorTexture;
@@ -318,7 +321,7 @@ public partial class MeshMaterial
 
         MeshTexture? result = await JsComponentReference.InvokeAsync<MeshTexture?>(
             "getColorTexture", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -326,10 +329,10 @@ public partial class MeshMaterial
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ColorTexture)] = ColorTexture;
         }
-        
+
         return ColorTexture;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ColorTextureTransform property.
     /// </summary>
@@ -339,8 +342,8 @@ public partial class MeshMaterial
         {
             return ColorTextureTransform;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -349,7 +352,7 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ColorTextureTransform;
@@ -357,7 +360,7 @@ public partial class MeshMaterial
 
         MeshTextureTransform? result = await JsComponentReference.InvokeAsync<MeshTextureTransform?>(
             "getColorTextureTransform", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -365,10 +368,10 @@ public partial class MeshMaterial
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ColorTextureTransform)] = ColorTextureTransform;
         }
-        
+
         return ColorTextureTransform;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DoubleSided property.
     /// </summary>
@@ -378,8 +381,8 @@ public partial class MeshMaterial
         {
             return DoubleSided;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -388,26 +391,28 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return DoubleSided;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "doubleSided");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DoubleSided = result.Value.Value;
+            DoubleSided = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DoubleSided)] = DoubleSided;
+            ModifiedParameters[nameof(DoubleSided)] = DoubleSided;
         }
-         
+
         return DoubleSided;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalTexture property.
     /// </summary>
@@ -417,8 +422,8 @@ public partial class MeshMaterial
         {
             return NormalTexture;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -427,7 +432,7 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return NormalTexture;
@@ -435,7 +440,7 @@ public partial class MeshMaterial
 
         MeshTexture? result = await JsComponentReference.InvokeAsync<MeshTexture?>(
             "getNormalTexture", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -443,10 +448,10 @@ public partial class MeshMaterial
 #pragma warning restore BL0005
             ModifiedParameters[nameof(NormalTexture)] = NormalTexture;
         }
-        
+
         return NormalTexture;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalTextureTransform property.
     /// </summary>
@@ -456,8 +461,8 @@ public partial class MeshMaterial
         {
             return NormalTextureTransform;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -466,7 +471,7 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return NormalTextureTransform;
@@ -474,7 +479,7 @@ public partial class MeshMaterial
 
         MeshTextureTransform? result = await JsComponentReference.InvokeAsync<MeshTextureTransform?>(
             "getNormalTextureTransform", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -482,11 +487,12 @@ public partial class MeshMaterial
 #pragma warning restore BL0005
             ModifiedParameters[nameof(NormalTextureTransform)] = NormalTextureTransform;
         }
-        
+
         return NormalTextureTransform;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -502,13 +508,13 @@ public partial class MeshMaterial
         AlphaCutoff = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AlphaCutoff)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -517,16 +523,16 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alphaCutoff", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AlphaMode property after render.
     /// </summary>
@@ -539,13 +545,13 @@ public partial class MeshMaterial
         AlphaMode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AlphaMode)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -554,16 +560,16 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alphaMode", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Color property after render.
     /// </summary>
@@ -576,13 +582,13 @@ public partial class MeshMaterial
         Color = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Color)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -591,16 +597,16 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ColorTexture property after render.
     /// </summary>
@@ -611,23 +617,20 @@ public partial class MeshMaterial
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            (value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         ColorTexture = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ColorTexture)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -636,16 +639,16 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorTexture", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ColorTextureTransform property after render.
     /// </summary>
@@ -656,23 +659,20 @@ public partial class MeshMaterial
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         ColorTextureTransform = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ColorTextureTransform)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -681,16 +681,16 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorTextureTransform", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DoubleSided property after render.
     /// </summary>
@@ -703,13 +703,13 @@ public partial class MeshMaterial
         DoubleSided = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DoubleSided)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -718,16 +718,16 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "doubleSided", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalTexture property after render.
     /// </summary>
@@ -738,23 +738,20 @@ public partial class MeshMaterial
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         NormalTexture = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NormalTexture)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -763,16 +760,16 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalTexture", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalTextureTransform property after render.
     /// </summary>
@@ -783,23 +780,20 @@ public partial class MeshMaterial
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         NormalTextureTransform = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NormalTextureTransform)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -808,16 +802,15 @@ public partial class MeshMaterial
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalTextureTransform", value);
     }
-    
-#endregion
 
+#endregion
 }

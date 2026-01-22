@@ -2,7 +2,7 @@
 import UniqueValue from '@arcgis/core/renderers/support/UniqueValue';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './geoBlazorCore';
 
-export async function buildJsUniqueValueGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsUniqueValueGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }

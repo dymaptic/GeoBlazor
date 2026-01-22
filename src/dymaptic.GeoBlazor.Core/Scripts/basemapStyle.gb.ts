@@ -47,11 +47,11 @@ export async function buildDotNetBasemapStyleGenerated(jsObject: any, viewId: st
             }
         }
     }
+
     if (hasValue(dotNetBasemapStyle.id)) {
         jsObjectRefs[dotNetBasemapStyle.id] ??= jsObject;
         arcGisObjectRefs[dotNetBasemapStyle.id] ??= jsObject;
     }
-
     return dotNetBasemapStyle;
 }
 

@@ -1,7 +1,8 @@
 using dymaptic.GeoBlazor.Core;
-using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Apis;
 using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.Services;
+using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components;
+using _Imports = dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client._Imports;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -26,9 +27,11 @@ else
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
 app.UseAntiforgery();
 
+app.UseStaticFiles();
 app.MapStaticAssets();
 
 app.MapAuthenticationApis();
@@ -36,6 +39,6 @@ app.MapAuthenticationApis();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(_Imports).Assembly);
 
 app.Run();

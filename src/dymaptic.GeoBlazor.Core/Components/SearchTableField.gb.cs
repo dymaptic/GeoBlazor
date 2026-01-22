@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchTableField.html">GeoBlazor Docs</a>
 ///     Represents the field of a table to use for search.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class SearchTableField : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -30,21 +28,21 @@ public partial class SearchTableField : MapComponent
     ///     The name of the field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTableField.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SearchTableField(
-        bool? exactMatch = null,
+    public SearchTableField(bool? exactMatch = null,
         string? name = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ExactMatch = exactMatch;
         Name = name;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchTableField.html#searchtablefieldexactmatch-property">GeoBlazor Docs</a>
     ///     Whether or not the field is an exact match.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTableField.html#exactMatch">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -52,8 +50,9 @@ public partial class SearchTableField : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ExactMatch { get; set; }
-    
+
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchTableField.html#searchtablefieldname-property">GeoBlazor Docs</a>
     ///     The name of the field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTableField.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -61,8 +60,9 @@ public partial class SearchTableField : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -75,8 +75,8 @@ public partial class SearchTableField : MapComponent
         {
             return ExactMatch;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -85,26 +85,28 @@ public partial class SearchTableField : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ExactMatch;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "exactMatch");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ExactMatch = result.Value.Value;
+            ExactMatch = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ExactMatch)] = ExactMatch;
+            ModifiedParameters[nameof(ExactMatch)] = ExactMatch;
         }
-         
+
         return ExactMatch;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -114,8 +116,8 @@ public partial class SearchTableField : MapComponent
         {
             return Name;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -124,7 +126,7 @@ public partial class SearchTableField : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Name;
@@ -133,18 +135,20 @@ public partial class SearchTableField : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Name = result;
+            Name = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Name)] = Name;
+            ModifiedParameters[nameof(Name)] = Name;
         }
-         
+
         return Name;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -160,13 +164,13 @@ public partial class SearchTableField : MapComponent
         ExactMatch = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ExactMatch)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -175,16 +179,16 @@ public partial class SearchTableField : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "exactMatch", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -197,13 +201,13 @@ public partial class SearchTableField : MapComponent
         Name = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Name)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -212,16 +216,15 @@ public partial class SearchTableField : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
     }
-    
-#endregion
 
+#endregion
 }

@@ -55,11 +55,11 @@ export async function buildDotNetWebMapWidgetsGenerated(jsObject: any, viewId: s
             }
         }
     }
+
     if (hasValue(dotNetWebMapWidgets.id)) {
         jsObjectRefs[dotNetWebMapWidgets.id] ??= jsObject;
         arcGisObjectRefs[dotNetWebMapWidgets.id] ??= jsObject;
     }
-
     return dotNetWebMapWidgets;
 }
 

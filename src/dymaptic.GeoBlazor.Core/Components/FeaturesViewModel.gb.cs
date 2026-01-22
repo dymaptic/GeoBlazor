@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features.html">Features</a> widget and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-features/">component</a>.
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class FeaturesViewModel : MapComponent,
     IGoTo
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -80,13 +78,14 @@ public partial class FeaturesViewModel : MapComponent,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featureViewModelAbilities">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="goToOverride">
-    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
+    ///     This function provides the ability to override either the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="highlightEnabled">
-    ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a>
-    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a>
-    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Highlight the selected feature using one of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html">HighlightOptions</a> defined in the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#highlights">highlights</a> collection.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -148,8 +147,7 @@ public partial class FeaturesViewModel : MapComponent,
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public FeaturesViewModel(
-        IReadOnlyList<ActionBase>? actions = null,
+    public FeaturesViewModel(IReadOnlyList<ActionBase>? actions = null,
         Graphic? activeFeature = null,
         bool? autoCloseEnabled = null,
         bool? browseClusterEnabled = null,
@@ -206,10 +204,129 @@ public partial class FeaturesViewModel : MapComponent,
         UpdateLocationEnabled = updateLocationEnabled;
         Visible = visible;
         WidgetContent = widgetContent;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (Actions is not null)
+        {
+            foreach (ActionBase child in Actions)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        FeatureViewModelAbilities?.ValidateRequiredGeneratedChildren();
+        Location?.ValidateRequiredGeneratedChildren();
+        ScreenLocation?.ValidateRequiredGeneratedChildren();
+        SpatialReference?.ValidateRequiredGeneratedChildren();
+        WidgetContent?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ActionBase actions:
+                Actions ??= [];
+
+                if (!Actions.Contains(actions))
+                {
+                    Actions = [..Actions, actions];
+                    ModifiedParameters[nameof(Actions)] = Actions;
+                }
+
+                return true;
+            case Abilities featureViewModelAbilities:
+                if (featureViewModelAbilities != FeatureViewModelAbilities)
+                {
+                    FeatureViewModelAbilities = featureViewModelAbilities;
+                    ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
+                }
+
+                return true;
+            case Point location:
+                if (location != Location)
+                {
+                    Location = location;
+                    ModifiedParameters[nameof(Location)] = Location;
+                }
+
+                return true;
+            case FeaturesViewModelScreenPoint screenLocation:
+                if (screenLocation != ScreenLocation)
+                {
+                    ScreenLocation = screenLocation;
+                    ModifiedParameters[nameof(ScreenLocation)] = ScreenLocation;
+                }
+
+                return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+
+                return true;
+            case Widget widgetContent:
+                if (widgetContent != WidgetContent)
+                {
+                    WidgetContent = widgetContent;
+                    ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ActionBase actions:
+                Actions = Actions?.Where(a => a != actions).ToList();
+                ModifiedParameters[nameof(Actions)] = Actions;
+
+                return true;
+            case Abilities _:
+                FeatureViewModelAbilities = null;
+                ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
+
+                return true;
+            case Point _:
+                Location = null;
+                ModifiedParameters[nameof(Location)] = Location;
+
+                return true;
+            case FeaturesViewModelScreenPoint _:
+                ScreenLocation = null;
+                ModifiedParameters[nameof(ScreenLocation)] = ScreenLocation;
+
+                return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+
+                return true;
+            case Widget _:
+                WidgetContent = null;
+                ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -221,7 +338,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ActionBase>? Actions { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelactive-property">GeoBlazor Docs</a>
     ///     Indicates if the view model is active when it is visible and is not <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#waitingForResult">waiting for results</a>.
@@ -231,7 +348,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Active { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelactivefeature-property">GeoBlazor Docs</a>
     ///     The highlighted feature on the map that is either hovered over or in focus within the feature menu.
@@ -241,7 +358,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Graphic? ActiveFeature { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelallactions-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">actions</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggles</a>.
@@ -251,7 +368,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<ActionBase>? AllActions { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelautocloseenabled-property">GeoBlazor Docs</a>
     ///     This closes the container when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> camera or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> changes.
@@ -262,7 +379,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? AutoCloseEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelbrowseclusterenabled-property">GeoBlazor Docs</a>
     ///     Indicates if the "Browse features" experience is active in a
@@ -274,7 +391,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? BrowseClusterEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeldefaultactions-property">GeoBlazor Docs</a>
     ///     A read-only property that specifies a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of action <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">buttons</a> and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">toggles</a>.
@@ -284,7 +401,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<ActionBase>? DefaultActions { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeldefaultpopuptemplateenabled-property">GeoBlazor Docs</a>
     ///     Enables automatic creation of a popup template for layers that have popups enabled but no
@@ -296,7 +413,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? DefaultPopupTemplateEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelelementreferencecontent-property">GeoBlazor Docs</a>
     ///     The information to display.
@@ -306,7 +423,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElementReference? ElementReferenceContent { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturecount-property">GeoBlazor Docs</a>
     ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">features</a> available.
@@ -317,7 +434,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public int? FeatureCount { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturemenuopen-property">GeoBlazor Docs</a>
     ///     This property enables showing the list of features.
@@ -328,7 +445,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? FeatureMenuOpen { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturemenutitle-property">GeoBlazor Docs</a>
     ///     The title to display on the widget while viewing the feature menu.
@@ -338,7 +455,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FeatureMenuTitle { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturepage-property">GeoBlazor Docs</a>
     ///     The current page number in the feature browsing menu.
@@ -349,7 +466,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? FeaturePage { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeatures-property">GeoBlazor Docs</a>
     ///     An array of features.
@@ -359,7 +476,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Graphic>? Features { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeaturesperpage-property">GeoBlazor Docs</a>
     ///     The number of features to fetch at one time.
@@ -370,7 +487,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? FeaturesPerPage { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeatureviewmodelabilities-property">GeoBlazor Docs</a>
     ///     Defines the specific <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">abilities</a> that can be used when querying and displaying content.
@@ -380,7 +497,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Abilities? FeatureViewModelAbilities { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelfeatureviewmodels-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html">feature view model(s)</a>.
@@ -390,12 +507,11 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<IFeatureViewModel>? FeatureViewModels { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelhighlightenabled-property">GeoBlazor Docs</a>
-    ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a>
-    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a>
-    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Highlight the selected feature using one of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html">HighlightOptions</a> defined in the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#highlights">highlights</a> collection.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -403,7 +519,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HighlightEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelincludedefaultactions-property">GeoBlazor Docs</a>
     ///     Indicates whether or not to include <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultActions">defaultActions</a>.
@@ -414,7 +530,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IncludeDefaultActions { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelinitialdisplaymode-property">GeoBlazor Docs</a>
     ///     Indicates whether to initially display a list of features, or the content for one feature.
@@ -425,7 +541,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InitialDisplayMode? InitialDisplayMode { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodellocation-property">GeoBlazor Docs</a>
     ///     Geometry used to show the location of the feature.
@@ -435,7 +551,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Point? Location { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelpendingpromisescount-property">GeoBlazor Docs</a>
     ///     The number of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a> remaining to be resolved.
@@ -446,7 +562,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public int? PendingPromisesCount { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelscreenlocation-property">GeoBlazor Docs</a>
     ///     The screen location of the selected feature.
@@ -456,7 +572,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FeaturesViewModelScreenPoint? ScreenLocation { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelscreenlocationenabled-property">GeoBlazor Docs</a>
     ///     Determines whether screen point tracking is active for positioning.
@@ -467,7 +583,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ScreenLocationEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelselectedclusterboundaryfeature-property">GeoBlazor Docs</a>
     ///     The graphic used to represent the cluster extent when the `Browse features` action
@@ -478,7 +594,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Graphic? SelectedClusterBoundaryFeature { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelselectedfeature-property">GeoBlazor Docs</a>
     ///     The selected feature accessed.
@@ -488,7 +604,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Graphic? SelectedFeature { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelselectedfeatureindex-property">GeoBlazor Docs</a>
     ///     Index of the feature that is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeature">selected</a>.
@@ -498,7 +614,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? SelectedFeatureIndex { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelselectedfeatureviewmodel-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html">view model</a> of the selected feature.
@@ -508,7 +624,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IFeatureViewModel? SelectedFeatureViewModel { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference used for <a target="_blank" href="https://developers.arcgis.com/arcade">Arcade</a> operations.
@@ -519,7 +635,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SpatialReference? SpatialReference { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
@@ -530,7 +646,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public ViewModelState? State { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelstringcontent-property">GeoBlazor Docs</a>
     ///     The information to display.
@@ -540,7 +656,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? StringContent { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeltimezone-property">GeoBlazor Docs</a>
     ///     Dates and times will be displayed in this time zone.
@@ -550,7 +666,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? TimeZone { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeltitle-property">GeoBlazor Docs</a>
     ///     The title of the widget.
@@ -560,7 +676,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelupdatelocationenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to update the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#location">location</a> when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#selectedFeatureIndex">selectedFeatureIndex</a> changes.
@@ -571,7 +687,7 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UpdateLocationEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelwaitingforcontents-property">GeoBlazor Docs</a>
     ///     Indicates whether the widget is waiting for content to be resolved.
@@ -581,7 +697,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? WaitingForContents { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelwaitingforresult-property">GeoBlazor Docs</a>
     ///     Indicates whether a feature was found while resolving <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a>.
@@ -592,7 +708,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? WaitingForResult { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelwidgetcontent-property">GeoBlazor Docs</a>
     ///     The information to display.
@@ -602,8 +718,9 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Widget? WidgetContent { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -616,8 +733,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return Actions;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -626,15 +743,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Actions;
         }
 
-        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>(
-            "getActions", CancellationTokenSource.Token);
-        
+        IReadOnlyList<ActionBase>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>("getActions",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -642,10 +760,10 @@ public partial class FeaturesViewModel : MapComponent,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Actions)] = Actions;
         }
-        
+
         return Actions;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Active property.
     /// </summary>
@@ -655,8 +773,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return Active;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -665,26 +783,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Active;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "active");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Active = result.Value.Value;
+            Active = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Active)] = Active;
+            ModifiedParameters[nameof(Active)] = Active;
         }
-         
+
         return Active;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveFeature property.
     /// </summary>
@@ -694,8 +814,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return ActiveFeature;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -704,7 +824,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ActiveFeature;
@@ -712,23 +832,25 @@ public partial class FeaturesViewModel : MapComponent,
 
         Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
             "getActiveFeature", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (ActiveFeature is not null)
             {
                 result.Id = ActiveFeature.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             ActiveFeature = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ActiveFeature)] = ActiveFeature;
         }
-        
+
         return ActiveFeature;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllActions property.
     /// </summary>
@@ -738,8 +860,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return AllActions;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -748,15 +870,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AllActions;
         }
 
-        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>(
-            "getAllActions", CancellationTokenSource.Token);
-        
+        IReadOnlyList<ActionBase>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>("getAllActions",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -764,10 +887,10 @@ public partial class FeaturesViewModel : MapComponent,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(AllActions)] = AllActions;
         }
-        
+
         return AllActions;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AutoCloseEnabled property.
     /// </summary>
@@ -777,8 +900,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return AutoCloseEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -787,26 +910,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AutoCloseEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "autoCloseEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AutoCloseEnabled = result.Value.Value;
+            AutoCloseEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AutoCloseEnabled)] = AutoCloseEnabled;
+            ModifiedParameters[nameof(AutoCloseEnabled)] = AutoCloseEnabled;
         }
-         
+
         return AutoCloseEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BrowseClusterEnabled property.
     /// </summary>
@@ -816,8 +941,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return BrowseClusterEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -826,26 +951,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BrowseClusterEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "browseClusterEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BrowseClusterEnabled = result.Value.Value;
+            BrowseClusterEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BrowseClusterEnabled)] = BrowseClusterEnabled;
+            ModifiedParameters[nameof(BrowseClusterEnabled)] = BrowseClusterEnabled;
         }
-         
+
         return BrowseClusterEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultActions property.
     /// </summary>
@@ -855,8 +982,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return DefaultActions;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -865,15 +992,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return DefaultActions;
         }
 
-        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>(
-            "getDefaultActions", CancellationTokenSource.Token);
-        
+        IReadOnlyList<ActionBase>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>("getDefaultActions",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -881,10 +1009,10 @@ public partial class FeaturesViewModel : MapComponent,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(DefaultActions)] = DefaultActions;
         }
-        
+
         return DefaultActions;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultPopupTemplateEnabled property.
     /// </summary>
@@ -894,8 +1022,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return DefaultPopupTemplateEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -904,26 +1032,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return DefaultPopupTemplateEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "defaultPopupTemplateEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DefaultPopupTemplateEnabled = result.Value.Value;
+            DefaultPopupTemplateEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultPopupTemplateEnabled)] = DefaultPopupTemplateEnabled;
+            ModifiedParameters[nameof(DefaultPopupTemplateEnabled)] = DefaultPopupTemplateEnabled;
         }
-         
+
         return DefaultPopupTemplateEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElementReferenceContent property.
     /// </summary>
@@ -933,8 +1063,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return ElementReferenceContent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -943,26 +1073,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ElementReferenceContent;
         }
 
         // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "elementReferenceContent");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ElementReferenceContent = result.Value.Value;
+            ElementReferenceContent = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ElementReferenceContent)] = ElementReferenceContent;
+            ModifiedParameters[nameof(ElementReferenceContent)] = ElementReferenceContent;
         }
-         
+
         return ElementReferenceContent;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureCount property.
     /// </summary>
@@ -972,8 +1104,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return FeatureCount;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -982,26 +1114,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeatureCount;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "featureCount");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             FeatureCount = result.Value.Value;
+            FeatureCount = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureCount)] = FeatureCount;
+            ModifiedParameters[nameof(FeatureCount)] = FeatureCount;
         }
-         
+
         return FeatureCount;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureMenuOpen property.
     /// </summary>
@@ -1011,8 +1145,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return FeatureMenuOpen;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1021,26 +1155,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeatureMenuOpen;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "featureMenuOpen");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             FeatureMenuOpen = result.Value.Value;
+            FeatureMenuOpen = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureMenuOpen)] = FeatureMenuOpen;
+            ModifiedParameters[nameof(FeatureMenuOpen)] = FeatureMenuOpen;
         }
-         
+
         return FeatureMenuOpen;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureMenuTitle property.
     /// </summary>
@@ -1050,8 +1186,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return FeatureMenuTitle;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1060,7 +1196,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeatureMenuTitle;
@@ -1069,17 +1205,18 @@ public partial class FeaturesViewModel : MapComponent,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "featureMenuTitle");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureMenuTitle = result;
+            FeatureMenuTitle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureMenuTitle)] = FeatureMenuTitle;
+            ModifiedParameters[nameof(FeatureMenuTitle)] = FeatureMenuTitle;
         }
-         
+
         return FeatureMenuTitle;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeaturePage property.
     /// </summary>
@@ -1089,8 +1226,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return FeaturePage;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1099,26 +1236,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeaturePage;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "featurePage");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             FeaturePage = result.Value.Value;
+            FeaturePage = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeaturePage)] = FeaturePage;
+            ModifiedParameters[nameof(FeaturePage)] = FeaturePage;
         }
-         
+
         return FeaturePage;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Features property.
     /// </summary>
@@ -1128,8 +1267,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return Features;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1138,26 +1277,31 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Features;
         }
 
-        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Graphic>?>(
-            "getFeatures", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Graphic>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<Graphic>?>("getFeatures",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (Graphic item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Features = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Features)] = Features;
         }
-        
+
         return Features;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeaturesPerPage property.
     /// </summary>
@@ -1167,8 +1311,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return FeaturesPerPage;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1177,26 +1321,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeaturesPerPage;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "featuresPerPage");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             FeaturesPerPage = result.Value.Value;
+            FeaturesPerPage = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeaturesPerPage)] = FeaturesPerPage;
+            ModifiedParameters[nameof(FeaturesPerPage)] = FeaturesPerPage;
         }
-         
+
         return FeaturesPerPage;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureViewModelAbilities property.
     /// </summary>
@@ -1206,8 +1352,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return FeatureViewModelAbilities;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1216,7 +1362,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeatureViewModelAbilities;
@@ -1224,7 +1370,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         Abilities? result = await JsComponentReference.InvokeAsync<Abilities?>(
             "getFeatureViewModelAbilities", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1232,10 +1378,10 @@ public partial class FeaturesViewModel : MapComponent,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
         }
-        
+
         return FeatureViewModelAbilities;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureViewModels property.
     /// </summary>
@@ -1245,8 +1391,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return FeatureViewModels;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1255,26 +1401,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeatureViewModels;
         }
 
         // get the property value
-        IReadOnlyList<IFeatureViewModel>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IFeatureViewModel>?>("getProperty",
-            CancellationTokenSource.Token, "featureViewModels");
+        IReadOnlyList<IFeatureViewModel>? result =
+            await JsComponentReference!.InvokeAsync<IReadOnlyList<IFeatureViewModel>?>("getProperty",
+                CancellationTokenSource.Token, "featureViewModels");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureViewModels = result;
+            FeatureViewModels = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureViewModels)] = FeatureViewModels;
+            ModifiedParameters[nameof(FeatureViewModels)] = FeatureViewModels;
         }
-         
+
         return FeatureViewModels;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HighlightEnabled property.
     /// </summary>
@@ -1284,8 +1432,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return HighlightEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1294,26 +1442,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HighlightEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "highlightEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HighlightEnabled = result.Value.Value;
+            HighlightEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HighlightEnabled)] = HighlightEnabled;
+            ModifiedParameters[nameof(HighlightEnabled)] = HighlightEnabled;
         }
-         
+
         return HighlightEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IncludeDefaultActions property.
     /// </summary>
@@ -1323,8 +1473,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return IncludeDefaultActions;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1333,26 +1483,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return IncludeDefaultActions;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "includeDefaultActions");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IncludeDefaultActions = result.Value.Value;
+            IncludeDefaultActions = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IncludeDefaultActions)] = IncludeDefaultActions;
+            ModifiedParameters[nameof(IncludeDefaultActions)] = IncludeDefaultActions;
         }
-         
+
         return IncludeDefaultActions;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the InitialDisplayMode property.
     /// </summary>
@@ -1362,8 +1514,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return InitialDisplayMode;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1372,26 +1524,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return InitialDisplayMode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<InitialDisplayMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<InitialDisplayMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "initialDisplayMode");
+        JsNullableEnumWrapper<InitialDisplayMode>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<InitialDisplayMode>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "initialDisplayMode");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             InitialDisplayMode = (InitialDisplayMode)result.Value.Value!;
+            InitialDisplayMode = (InitialDisplayMode)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(InitialDisplayMode)] = InitialDisplayMode;
+            ModifiedParameters[nameof(InitialDisplayMode)] = InitialDisplayMode;
         }
-         
+
         return InitialDisplayMode;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Location property.
     /// </summary>
@@ -1401,8 +1555,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return Location;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1411,31 +1565,32 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Location;
         }
 
-        Point? result = await JsComponentReference.InvokeAsync<Point?>(
-            "getLocation", CancellationTokenSource.Token);
-        
+        Point? result = await JsComponentReference.InvokeAsync<Point?>("getLocation", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Location is not null)
             {
                 result.Id = Location.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             Location = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Location)] = Location;
         }
-        
+
         return Location;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PendingPromisesCount property.
     /// </summary>
@@ -1445,8 +1600,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return PendingPromisesCount;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1455,26 +1610,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PendingPromisesCount;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "pendingPromisesCount");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PendingPromisesCount = result.Value.Value;
+            PendingPromisesCount = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PendingPromisesCount)] = PendingPromisesCount;
+            ModifiedParameters[nameof(PendingPromisesCount)] = PendingPromisesCount;
         }
-         
+
         return PendingPromisesCount;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenLocation property.
     /// </summary>
@@ -1484,8 +1641,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return ScreenLocation;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1494,15 +1651,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ScreenLocation;
         }
 
-        FeaturesViewModelScreenPoint? result = await JsComponentReference.InvokeAsync<FeaturesViewModelScreenPoint?>(
-            "getScreenLocation", CancellationTokenSource.Token);
-        
+        FeaturesViewModelScreenPoint? result =
+            await JsComponentReference.InvokeAsync<FeaturesViewModelScreenPoint?>("getScreenLocation",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1510,10 +1668,10 @@ public partial class FeaturesViewModel : MapComponent,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ScreenLocation)] = ScreenLocation;
         }
-        
+
         return ScreenLocation;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenLocationEnabled property.
     /// </summary>
@@ -1523,8 +1681,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return ScreenLocationEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1533,26 +1691,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ScreenLocationEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "screenLocationEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ScreenLocationEnabled = result.Value.Value;
+            ScreenLocationEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ScreenLocationEnabled)] = ScreenLocationEnabled;
+            ModifiedParameters[nameof(ScreenLocationEnabled)] = ScreenLocationEnabled;
         }
-         
+
         return ScreenLocationEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedClusterBoundaryFeature property.
     /// </summary>
@@ -1562,8 +1722,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return SelectedClusterBoundaryFeature;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1572,7 +1732,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SelectedClusterBoundaryFeature;
@@ -1580,23 +1740,25 @@ public partial class FeaturesViewModel : MapComponent,
 
         Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
             "getSelectedClusterBoundaryFeature", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (SelectedClusterBoundaryFeature is not null)
             {
                 result.Id = SelectedClusterBoundaryFeature.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             SelectedClusterBoundaryFeature = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SelectedClusterBoundaryFeature)] = SelectedClusterBoundaryFeature;
         }
-        
+
         return SelectedClusterBoundaryFeature;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedFeature property.
     /// </summary>
@@ -1606,8 +1768,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return SelectedFeature;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1616,7 +1778,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SelectedFeature;
@@ -1624,23 +1786,25 @@ public partial class FeaturesViewModel : MapComponent,
 
         Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
             "getSelectedFeature", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (SelectedFeature is not null)
             {
                 result.Id = SelectedFeature.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             SelectedFeature = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SelectedFeature)] = SelectedFeature;
         }
-        
+
         return SelectedFeature;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedFeatureIndex property.
     /// </summary>
@@ -1650,8 +1814,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return SelectedFeatureIndex;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1660,26 +1824,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SelectedFeatureIndex;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "selectedFeatureIndex");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SelectedFeatureIndex = result.Value.Value;
+            SelectedFeatureIndex = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectedFeatureIndex)] = SelectedFeatureIndex;
+            ModifiedParameters[nameof(SelectedFeatureIndex)] = SelectedFeatureIndex;
         }
-         
+
         return SelectedFeatureIndex;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedFeatureViewModel property.
     /// </summary>
@@ -1689,8 +1855,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return SelectedFeatureViewModel;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1699,7 +1865,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SelectedFeatureViewModel;
@@ -1708,17 +1874,18 @@ public partial class FeaturesViewModel : MapComponent,
         // get the property value
         IFeatureViewModel? result = await JsComponentReference!.InvokeAsync<IFeatureViewModel?>("getProperty",
             CancellationTokenSource.Token, "selectedFeatureViewModel");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SelectedFeatureViewModel = result;
+            SelectedFeatureViewModel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectedFeatureViewModel)] = SelectedFeatureViewModel;
+            ModifiedParameters[nameof(SelectedFeatureViewModel)] = SelectedFeatureViewModel;
         }
-         
+
         return SelectedFeatureViewModel;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1728,8 +1895,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return SpatialReference;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1738,7 +1905,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SpatialReference;
@@ -1746,7 +1913,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
             "getSpatialReference", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1754,10 +1921,10 @@ public partial class FeaturesViewModel : MapComponent,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-        
+
         return SpatialReference;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -1767,8 +1934,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return State;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1777,26 +1944,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return State;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
+        JsNullableEnumWrapper<ViewModelState>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "state");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (ViewModelState)result.Value.Value!;
+            State = (ViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+            ModifiedParameters[nameof(State)] = State;
         }
-         
+
         return State;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StringContent property.
     /// </summary>
@@ -1806,8 +1975,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return StringContent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1816,7 +1985,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return StringContent;
@@ -1825,17 +1994,18 @@ public partial class FeaturesViewModel : MapComponent,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "content");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             StringContent = result;
+            StringContent = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(StringContent)] = StringContent;
+            ModifiedParameters[nameof(StringContent)] = StringContent;
         }
-         
+
         return StringContent;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeZone property.
     /// </summary>
@@ -1845,8 +2015,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return TimeZone;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1855,7 +2025,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TimeZone;
@@ -1864,17 +2034,18 @@ public partial class FeaturesViewModel : MapComponent,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "timeZone");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeZone = result;
+            TimeZone = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeZone)] = TimeZone;
+            ModifiedParameters[nameof(TimeZone)] = TimeZone;
         }
-         
+
         return TimeZone;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -1884,8 +2055,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return Title;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1894,7 +2065,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Title;
@@ -1903,17 +2074,18 @@ public partial class FeaturesViewModel : MapComponent,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+            Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+            ModifiedParameters[nameof(Title)] = Title;
         }
-         
+
         return Title;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UpdateLocationEnabled property.
     /// </summary>
@@ -1923,8 +2095,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return UpdateLocationEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1933,26 +2105,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return UpdateLocationEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "updateLocationEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UpdateLocationEnabled = result.Value.Value;
+            UpdateLocationEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UpdateLocationEnabled)] = UpdateLocationEnabled;
+            ModifiedParameters[nameof(UpdateLocationEnabled)] = UpdateLocationEnabled;
         }
-         
+
         return UpdateLocationEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WaitingForContents property.
     /// </summary>
@@ -1962,8 +2136,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return WaitingForContents;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1972,26 +2146,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return WaitingForContents;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "waitingForContents");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             WaitingForContents = result.Value.Value;
+            WaitingForContents = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WaitingForContents)] = WaitingForContents;
+            ModifiedParameters[nameof(WaitingForContents)] = WaitingForContents;
         }
-         
+
         return WaitingForContents;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WaitingForResult property.
     /// </summary>
@@ -2001,8 +2177,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return WaitingForResult;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2011,26 +2187,28 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return WaitingForResult;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "waitingForResult");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             WaitingForResult = result.Value.Value;
+            WaitingForResult = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WaitingForResult)] = WaitingForResult;
+            ModifiedParameters[nameof(WaitingForResult)] = WaitingForResult;
         }
-         
+
         return WaitingForResult;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WidgetContent property.
     /// </summary>
@@ -2040,8 +2218,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return WidgetContent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2050,7 +2228,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return WidgetContent;
@@ -2058,24 +2236,27 @@ public partial class FeaturesViewModel : MapComponent,
 
         Widget? result = await JsComponentReference.InvokeAsync<Widget?>(
             "getWidgetContent", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (WidgetContent is not null)
             {
                 result.Id = WidgetContent.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             WidgetContent = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
         }
-        
+
         return WidgetContent;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -2091,24 +2272,21 @@ public partial class FeaturesViewModel : MapComponent,
         {
             foreach (ActionBase item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         Actions = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Actions)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2117,16 +2295,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setActions", 
+
+        await JsComponentReference.InvokeVoidAsync("setActions",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ActiveFeature property after render.
     /// </summary>
@@ -2137,23 +2315,20 @@ public partial class FeaturesViewModel : MapComponent,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         ActiveFeature = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ActiveFeature)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2162,16 +2337,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setActiveFeature", 
+
+        await JsComponentReference.InvokeVoidAsync("setActiveFeature",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AutoCloseEnabled property after render.
     /// </summary>
@@ -2184,13 +2359,13 @@ public partial class FeaturesViewModel : MapComponent,
         AutoCloseEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AutoCloseEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2199,16 +2374,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoCloseEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BrowseClusterEnabled property after render.
     /// </summary>
@@ -2221,13 +2396,13 @@ public partial class FeaturesViewModel : MapComponent,
         BrowseClusterEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BrowseClusterEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2236,16 +2411,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "browseClusterEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultPopupTemplateEnabled property after render.
     /// </summary>
@@ -2258,13 +2433,13 @@ public partial class FeaturesViewModel : MapComponent,
         DefaultPopupTemplateEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DefaultPopupTemplateEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2273,16 +2448,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "defaultPopupTemplateEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ElementReferenceContent property after render.
     /// </summary>
@@ -2295,13 +2470,13 @@ public partial class FeaturesViewModel : MapComponent,
         ElementReferenceContent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ElementReferenceContent)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2310,16 +2485,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "content", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureMenuOpen property after render.
     /// </summary>
@@ -2332,13 +2507,13 @@ public partial class FeaturesViewModel : MapComponent,
         FeatureMenuOpen = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeatureMenuOpen)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2347,16 +2522,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureMenuOpen", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureMenuTitle property after render.
     /// </summary>
@@ -2369,13 +2544,13 @@ public partial class FeaturesViewModel : MapComponent,
         FeatureMenuTitle = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeatureMenuTitle)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2384,16 +2559,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureMenuTitle", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeaturePage property after render.
     /// </summary>
@@ -2406,13 +2581,13 @@ public partial class FeaturesViewModel : MapComponent,
         FeaturePage = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeaturePage)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2421,16 +2596,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featurePage", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Features property after render.
     /// </summary>
@@ -2443,24 +2618,21 @@ public partial class FeaturesViewModel : MapComponent,
         {
             foreach (Graphic item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         Features = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Features)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2469,16 +2641,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setFeatures", 
+
+        await JsComponentReference.InvokeVoidAsync("setFeatures",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeaturesPerPage property after render.
     /// </summary>
@@ -2491,13 +2663,13 @@ public partial class FeaturesViewModel : MapComponent,
         FeaturesPerPage = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeaturesPerPage)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2506,16 +2678,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featuresPerPage", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureViewModelAbilities property after render.
     /// </summary>
@@ -2526,23 +2698,20 @@ public partial class FeaturesViewModel : MapComponent,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         FeatureViewModelAbilities = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeatureViewModelAbilities)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2551,16 +2720,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setFeatureViewModelAbilities", 
+
+        await JsComponentReference.InvokeVoidAsync("setFeatureViewModelAbilities",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HighlightEnabled property after render.
     /// </summary>
@@ -2573,13 +2742,13 @@ public partial class FeaturesViewModel : MapComponent,
         HighlightEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(HighlightEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2588,16 +2757,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "highlightEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IncludeDefaultActions property after render.
     /// </summary>
@@ -2610,13 +2779,13 @@ public partial class FeaturesViewModel : MapComponent,
         IncludeDefaultActions = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(IncludeDefaultActions)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2625,16 +2794,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "includeDefaultActions", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the InitialDisplayMode property after render.
     /// </summary>
@@ -2647,13 +2816,13 @@ public partial class FeaturesViewModel : MapComponent,
         InitialDisplayMode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(InitialDisplayMode)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2662,16 +2831,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "initialDisplayMode", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Location property after render.
     /// </summary>
@@ -2682,23 +2851,20 @@ public partial class FeaturesViewModel : MapComponent,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Location = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Location)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2707,16 +2873,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setLocation", 
+
+        await JsComponentReference.InvokeVoidAsync("setLocation",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ScreenLocation property after render.
     /// </summary>
@@ -2727,23 +2893,20 @@ public partial class FeaturesViewModel : MapComponent,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         ScreenLocation = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ScreenLocation)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2752,16 +2915,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setScreenLocation", 
+
+        await JsComponentReference.InvokeVoidAsync("setScreenLocation",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ScreenLocationEnabled property after render.
     /// </summary>
@@ -2774,13 +2937,13 @@ public partial class FeaturesViewModel : MapComponent,
         ScreenLocationEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ScreenLocationEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2789,16 +2952,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenLocationEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SelectedFeatureIndex property after render.
     /// </summary>
@@ -2811,13 +2974,13 @@ public partial class FeaturesViewModel : MapComponent,
         SelectedFeatureIndex = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SelectedFeatureIndex)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2826,16 +2989,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "selectedFeatureIndex", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -2846,23 +3009,20 @@ public partial class FeaturesViewModel : MapComponent,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SpatialReference)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2871,16 +3031,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StringContent property after render.
     /// </summary>
@@ -2893,13 +3053,13 @@ public partial class FeaturesViewModel : MapComponent,
         StringContent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(StringContent)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2908,16 +3068,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "content", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeZone property after render.
     /// </summary>
@@ -2930,13 +3090,13 @@ public partial class FeaturesViewModel : MapComponent,
         TimeZone = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeZone)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2945,16 +3105,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeZone", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -2967,13 +3127,13 @@ public partial class FeaturesViewModel : MapComponent,
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2982,16 +3142,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UpdateLocationEnabled property after render.
     /// </summary>
@@ -3004,13 +3164,13 @@ public partial class FeaturesViewModel : MapComponent,
         UpdateLocationEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(UpdateLocationEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3019,16 +3179,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "updateLocationEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WidgetContent property after render.
     /// </summary>
@@ -3039,23 +3199,20 @@ public partial class FeaturesViewModel : MapComponent,
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         WidgetContent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(WidgetContent)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3064,17 +3221,18 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setWidgetContent", 
+
+        await JsComponentReference.InvokeVoidAsync("setWidgetContent",
             CancellationTokenSource.Token, value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -3091,7 +3249,7 @@ public partial class FeaturesViewModel : MapComponent,
             : [..Actions, ..values];
         await SetActions(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the Features property.
     /// </summary>
@@ -3105,12 +3263,12 @@ public partial class FeaturesViewModel : MapComponent,
             : [..Features, ..values];
         await SetFeatures(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Actions property.
     /// </summary>
@@ -3123,10 +3281,10 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return;
         }
+
         await SetActions(Actions.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the Features property.
     /// </summary>
@@ -3139,10 +3297,12 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return;
         }
+
         await SetFeatures(Features.Except(values).ToArray());
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
@@ -3159,8 +3319,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3169,17 +3329,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "clear", 
+
+        await JsComponentReference!.InvokeVoidAsync("clear",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelnext-method">GeoBlazor Docs</a>
     ///     Selects the feature at the next index in relation to the selected feature.
@@ -3192,7 +3351,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3202,17 +3361,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<FeaturesViewModel?>(
-            "next", 
+
+        return await JsComponentReference!.InvokeAsync<FeaturesViewModel?>("next",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelopen-method">GeoBlazor Docs</a>
     ///     Opens the widget at the given location with content defined either explicitly with `content`
@@ -3229,8 +3387,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3239,18 +3397,17 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "open", 
+
+        await JsComponentReference!.InvokeVoidAsync("open",
             CancellationTokenSource.Token,
             options);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelprevious-method">GeoBlazor Docs</a>
     ///     Selects the feature at the previous index in relation to the selected feature.
@@ -3263,7 +3420,7 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3273,17 +3430,16 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<FeaturesViewModel?>(
-            "previous", 
+
+        return await JsComponentReference!.InvokeAsync<FeaturesViewModel?>("previous",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodeltriggeraction-method">GeoBlazor Docs</a>
     ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#event-trigger-action">trigger-action</a> event and executes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#actions">action</a>
@@ -3300,8 +3456,8 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3310,19 +3466,19 @@ public partial class FeaturesViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "triggerAction", 
+
+        await JsComponentReference!.InvokeVoidAsync("triggerAction",
             CancellationTokenSource.Token,
             actionIndex);
     }
-    
+
 #endregion
+
 
 #region Event Handlers
 
@@ -3337,14 +3493,16 @@ public partial class FeaturesViewModel : MapComponent,
             // cancel if the component is disposed
             return;
         }
-    
-        FeaturesViewModelTriggerActionEvent? triggerActionEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<FeaturesViewModelTriggerActionEvent>();
+
+        FeaturesViewModelTriggerActionEvent? triggerActionEvent =
+            await jsStreamRef.ReadJsStreamReferenceAsJSON<FeaturesViewModelTriggerActionEvent>();
+
         if (triggerActionEvent is not null)
         {
             await OnTriggerAction.InvokeAsync(triggerActionEvent);
         }
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeaturesViewModel.html#featuresviewmodelontriggeraction-property">GeoBlazor Docs</a>
     ///     Fires after the user clicks on an <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> in the action bar. This
@@ -3354,125 +3512,11 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore]
     public EventCallback<FeaturesViewModelTriggerActionEvent> OnTriggerAction { get; set; }
-   
+
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasTriggerActionListener => OnTriggerAction.HasDelegate;
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ActionBase actions:
-                Actions ??= [];
-                if (!Actions.Contains(actions))
-                {
-                    Actions = [..Actions, actions];
-                    ModifiedParameters[nameof(Actions)] = Actions;
-                }
-                
-                return true;
-            case Abilities featureViewModelAbilities:
-                if (featureViewModelAbilities != FeatureViewModelAbilities)
-                {
-                    FeatureViewModelAbilities = featureViewModelAbilities;
-                    ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
-                }
-                
-                return true;
-            case Point location:
-                if (location != Location)
-                {
-                    Location = location;
-                    ModifiedParameters[nameof(Location)] = Location;
-                }
-                
-                return true;
-            case FeaturesViewModelScreenPoint screenLocation:
-                if (screenLocation != ScreenLocation)
-                {
-                    ScreenLocation = screenLocation;
-                    ModifiedParameters[nameof(ScreenLocation)] = ScreenLocation;
-                }
-                
-                return true;
-            case SpatialReference spatialReference:
-                if (spatialReference != SpatialReference)
-                {
-                    SpatialReference = spatialReference;
-                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                }
-                
-                return true;
-            case Widget widgetContent:
-                if (widgetContent != WidgetContent)
-                {
-                    WidgetContent = widgetContent;
-                    ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ActionBase actions:
-                Actions = Actions?.Where(a => a != actions).ToList();
-                ModifiedParameters[nameof(Actions)] = Actions;
-                return true;
-            case Abilities _:
-                FeatureViewModelAbilities = null;
-                ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
-                return true;
-            case Point _:
-                Location = null;
-                ModifiedParameters[nameof(Location)] = Location;
-                return true;
-            case FeaturesViewModelScreenPoint _:
-                ScreenLocation = null;
-                ModifiedParameters[nameof(ScreenLocation)] = ScreenLocation;
-                return true;
-            case SpatialReference _:
-                SpatialReference = null;
-                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                return true;
-            case Widget _:
-                WidgetContent = null;
-                ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (Actions is not null)
-        {
-            foreach (ActionBase child in Actions)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        FeatureViewModelAbilities?.ValidateRequiredGeneratedChildren();
-        Location?.ValidateRequiredGeneratedChildren();
-        ScreenLocation?.ValidateRequiredGeneratedChildren();
-        SpatialReference?.ValidateRequiredGeneratedChildren();
-        WidgetContent?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

@@ -11,9 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 [ProtobufSerializable]
 public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSerializationRecord>
 {
-    private double[]? _rgbaValues = [];
-    private string? _hexOrNameValue;
-
     /// <summary>
     ///     Parameterless constructor for Protobuf deserialization.
     ///     Not intended for public use.
@@ -21,7 +18,7 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
     public MapColor()
     {
     }
-    
+
     /// <summary>
     ///     Creates a new color with a collection of numeric values in rgb or rgba format.
     /// </summary>
@@ -70,6 +67,7 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
         {
             _rgbaValues = value;
             Color? color = ToSystemColor();
+
             if (color is not null && (HexOrNameValue is null || HexOrNameValue.Length == 0))
             {
                 HexOrNameValue = ToHex();
@@ -87,6 +85,7 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
         {
             _hexOrNameValue = value;
             Color? color = ToSystemColor();
+
             if (color is not null && (RgbaValues is null || RgbaValues.Length == 0))
             {
                 RgbaValues = [color.Value.R, color.Value.G, color.Value.B, color.Value.A / 255.0];
@@ -99,10 +98,12 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
+
         if (RgbaValues is null && other.RgbaValues is null)
         {
             return HexOrNameValue == other.HexOrNameValue;
         }
+
         if (RgbaValues is null || other.RgbaValues is null)
         {
             return false;
@@ -111,9 +112,63 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
         return RgbaValues.SequenceEqual(other.RgbaValues) && (HexOrNameValue == other.HexOrNameValue);
     }
 
+    /// <summary>
+    ///     Converts the map color to a protobuf serialization record.
+    /// </summary>
     public MapColorSerializationRecord ToProtobuf()
     {
         return new MapColorSerializationRecord(RgbaValues, HexOrNameValue);
+    }
+
+    /// <summary>
+    ///     Creates a Color instance by blending two colors using a weight factor.
+    /// </summary>
+    /// <param name="start">
+    ///     The start color.
+    /// </param>
+    /// <param name="end">
+    ///     The end color.
+    /// </param>
+    /// <param name="weight">
+    ///     The weight factor. 0 means the start color, 1 means the end color, 0.5 means a 50/50 blend.
+    /// </param>
+    /// <returns>
+    ///     A new color instance representing the blended color, or null if the colors could not be blended.
+    /// </returns>
+    public static MapColor? BlendColors(MapColor start, MapColor end, double weight)
+    {
+        if (start.RgbaValues?.Any() != true)
+        {
+            // reset triggers calculation of rgba values from hex or name
+            start.HexOrNameValue = start.HexOrNameValue;
+        }
+
+        if (end.RgbaValues?.Any() != true)
+        {
+            end.HexOrNameValue = end.HexOrNameValue;
+        }
+
+        if (start.RgbaValues?.Any() == true && end.RgbaValues?.Any() == true)
+        {
+            double[] startValues = start.RgbaValues.ToArray();
+            double[] endValues = end.RgbaValues.ToArray();
+
+            double[] blendedValues = new double[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (i > startValues.Length - 1 || i > endValues.Length - 1)
+                {
+                    break;
+                }
+
+                blendedValues[i] = startValues[i] + (endValues[i] - startValues[i]) * weight;
+            }
+
+            return new MapColor(blendedValues);
+        }
+
+        return null;
     }
 
     /// <inheritdoc />
@@ -147,8 +202,9 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
     public string? ToCss()
     {
         Color? color = ToSystemColor();
-        return color is null 
-            ? null 
+
+        return color is null
+            ? null
             : $"rgba({color.Value.R}, {color.Value.G}, {color.Value.B}, {color.Value.A / 255.0})";
     }
 
@@ -159,6 +215,7 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
     public string? ToHex()
     {
         Color? color = ToSystemColor();
+
         return color is null ? null : $"#{color.Value.R:X2}{color.Value.G:X2}{color.Value.B:X2}{color.Value.A:X2}";
     }
 
@@ -171,15 +228,13 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
         {
             if (RgbaValues.Length == 4)
             {
-                return Color.FromArgb(
-                    (int)(RgbaValues[3] * 255),
+                return Color.FromArgb((int)(RgbaValues[3] * 255),
                     (int)RgbaValues[0],
                     (int)RgbaValues[1],
                     (int)RgbaValues[2]);
             }
-            
-            return Color.FromArgb(
-                255,
+
+            return Color.FromArgb(255,
                 (int)RgbaValues[0],
                 (int)RgbaValues[1],
                 (int)RgbaValues[2]);
@@ -189,7 +244,7 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
         {
             return null;
         }
-        
+
         if (HexOrNameValue.StartsWith("#"))
         {
             if (HexOrNameValue.Length == 9)
@@ -197,67 +252,22 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
                 // Assume rgba format
                 // The ColorTranslator.FromHtml method does not support rgba format, so we parse it manually first
                 string alphaHex = HexOrNameValue.Substring(7, 2);
+
                 if (int.TryParse(alphaHex, NumberStyles.HexNumber, null, out int alphaValue))
                 {
                     return Color.FromArgb(alphaValue,
                         ColorTranslator.FromHtml(HexOrNameValue.Substring(0, 7)));
                 }
             }
+
             return ColorTranslator.FromHtml(HexOrNameValue);
         }
-        
+
         return Color.FromName(HexOrNameValue);
     }
 
-    /// <summary>
-    ///     Creates a Color instance by blending two colors using a weight factor.
-    /// </summary>
-    /// <param name="start">
-    ///     The start color.
-    /// </param>
-    /// <param name="end">
-    ///     The end color.
-    /// </param>
-    /// <param name="weight">
-    ///     The weight factor. 0 means the start color, 1 means the end color, 0.5 means a 50/50 blend.
-    /// </param>
-    /// <returns>
-    ///     A new color instance representing the blended color, or null if the colors could not be blended.
-    /// </returns>
-    public static MapColor? BlendColors(MapColor start, MapColor end, double weight)
-    {
-        if (start.RgbaValues?.Any() != true)
-        {
-            // reset triggers calculation of rgba values from hex or name
-            start.HexOrNameValue = start.HexOrNameValue;
-        }
-
-        if (end.RgbaValues?.Any() != true)
-        {
-            end.HexOrNameValue = end.HexOrNameValue;
-        }
-        
-        if (start.RgbaValues?.Any() == true && end.RgbaValues?.Any() == true)
-        {
-            double[] startValues = start.RgbaValues.ToArray();
-            double[] endValues = end.RgbaValues.ToArray();
-
-            double[] blendedValues = new double[4];
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (i > startValues.Length - 1 || i > endValues.Length - 1)
-                {
-                    break;
-                }
-                blendedValues[i] = startValues[i] + (endValues[i] - startValues[i]) * weight;
-            }
-
-            return new MapColor(blendedValues);
-        }
-
-        return null;
-    }
+    private double[]? _rgbaValues = [];
+    private string? _hexOrNameValue;
 }
 
 internal class MapColorConverter : JsonConverter<MapColor>
@@ -267,7 +277,7 @@ internal class MapColorConverter : JsonConverter<MapColor>
         if (reader.TokenType == JsonTokenType.StartArray)
         {
             double[] values = JsonSerializer.Deserialize<double[]>(ref reader, options)!;
-            
+
             if (values is [_, _, _, > 1])
             {
                 values[3] /= 255.0;

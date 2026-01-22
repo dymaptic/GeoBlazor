@@ -6,14 +6,12 @@ public partial class PieChartMediaInfo : MediaInfo
     /// <inheritdoc/>
     public override string Type => "pie-chart";
 
+    /// <inheritdoc />
     public override MediaInfoSerializationRecord ToProtobuf()
     {
         return new MediaInfoSerializationRecord(Id.ToString(), "pie-chart")
         {
-            AltText = AltText,
-            Caption = Caption,
-            Title = Title,
-            Value = Value?.ToProtobuf()
+            AltText = AltText, Caption = Caption, Title = Title, Value = Value?.ToProtobuf()
         };
     }
 }

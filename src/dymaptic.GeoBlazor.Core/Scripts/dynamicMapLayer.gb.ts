@@ -55,11 +55,11 @@ export async function buildDotNetDynamicMapLayerGenerated(jsObject: any, viewId:
             }
         }
     }
+
     if (hasValue(dotNetDynamicMapLayer.id)) {
         jsObjectRefs[dotNetDynamicMapLayer.id] ??= jsObject;
         arcGisObjectRefs[dotNetDynamicMapLayer.id] ??= jsObject;
     }
-
     return dotNetDynamicMapLayer;
 }
 

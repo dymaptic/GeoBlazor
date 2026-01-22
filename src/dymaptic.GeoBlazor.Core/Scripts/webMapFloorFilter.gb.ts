@@ -86,11 +86,11 @@ export async function buildDotNetWebMapFloorFilterGenerated(jsObject: any, viewI
             }
         }
     }
+
     if (hasValue(dotNetWebMapFloorFilter.id)) {
         jsObjectRefs[dotNetWebMapFloorFilter.id] ??= jsObject;
         arcGisObjectRefs[dotNetWebMapFloorFilter.id] ??= jsObject;
     }
-
     return dotNetWebMapFloorFilter;
 }
 

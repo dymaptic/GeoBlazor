@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IInputBaseLayers.html">GeoBlazor Docs</a>
-///     Interface for Input base layers
+///     An array of layers included in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BatchAttributeForm.html">BatchAttributeForm</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BatchAttributeForm-inputs-FieldInput.html#layers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IInputBaseLayers>))]
 public partial interface IInputBaseLayers : IMapComponent

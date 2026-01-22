@@ -163,11 +163,11 @@ export async function buildDotNetArcGISImageServiceCapabilitiesOperationsGenerat
             }
         }
     }
+
     if (hasValue(dotNetArcGISImageServiceCapabilitiesOperations.id)) {
         jsObjectRefs[dotNetArcGISImageServiceCapabilitiesOperations.id] ??= jsObject;
         arcGisObjectRefs[dotNetArcGISImageServiceCapabilitiesOperations.id] ??= jsObject;
     }
-
     return dotNetArcGISImageServiceCapabilitiesOperations;
 }
 

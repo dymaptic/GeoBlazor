@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewing.html">GeoBlazor Docs</a>
 ///     Represents view-specific properties of application and UI elements for the web map or web scene.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class Viewing : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -26,19 +24,19 @@ public partial class Viewing : MapComponent
     ///     An object specifying the search parameters set within the web scene or web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-Viewing.html#search">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Viewing(
-        Search? search = null)
+    public Viewing(Search? search = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Search = search;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewing.html#viewingsearch-property">GeoBlazor Docs</a>
     ///     An object specifying the search parameters set within the web scene or web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-Viewing.html#search">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -46,8 +44,9 @@ public partial class Viewing : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Search? Search { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -60,8 +59,8 @@ public partial class Viewing : MapComponent
         {
             return Search;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -70,15 +69,14 @@ public partial class Viewing : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Search;
         }
 
-        Search? result = await JsComponentReference.InvokeAsync<Search?>(
-            "getSearch", CancellationTokenSource.Token);
-        
+        Search? result = await JsComponentReference.InvokeAsync<Search?>("getSearch", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -86,11 +84,12 @@ public partial class Viewing : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Search)] = Search;
         }
-        
+
         return Search;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -104,23 +103,20 @@ public partial class Viewing : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Search = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Search)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -129,18 +125,25 @@ public partial class Viewing : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "search", value);
     }
-    
+
 #endregion
 
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Search?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -153,7 +156,7 @@ public partial class Viewing : MapComponent
                     Search = search;
                     ModifiedParameters[nameof(Search)] = Search;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -168,18 +171,10 @@ public partial class Viewing : MapComponent
             case Search _:
                 Search = null;
                 ModifiedParameters[nameof(Search)] = Search;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Search?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

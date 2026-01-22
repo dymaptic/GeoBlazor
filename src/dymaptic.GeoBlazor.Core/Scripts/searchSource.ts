@@ -32,8 +32,8 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
             let viewId: string | null = lookupGeoBlazorId(params.view);
 
             let dnResults = await dotNetSource.dotNetComponentReference
-                .invokeMethodAsync('OnJsGetResults', params.exactMatch, buildDotNetPoint(params.location, viewId),
-                    params.maxResults, params.sourceIndex, buildDotNetSpatialReference(params.spatialReference, viewId),
+                .invokeMethodAsync('OnJsGetResults', params.exactMatch, buildDotNetPoint(params.location),
+                    params.maxResults, params.sourceIndex, buildDotNetSpatialReference(params.spatialReference),
                     params.suggestResult, viewId);
 
             let results: any[] = [];
@@ -44,7 +44,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
                     name: dnResult.name ?? undefined,
                 };
                 if (hasValue(dnResult.feature)) {
-                    result.feature = buildJsGraphic(dnResult.feature, viewId);
+                    result.feature = buildJsGraphic(dnResult.feature);
                 }
                 results.push(result);
             }
@@ -64,16 +64,9 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
                 }
             }
 
-            let dnParams = {
-                maxSuggestions: params.maxSuggestions,
-                sourceIndex: params.sourceIndex,
-                spatialReference: buildDotNetSpatialReference(params.spatialReference, viewId),
-                suggestTerm: params.suggestTerm,
-                viewId: viewId
-            }
             let dnResults = await dotNetSource.dotNetComponentReference
                 .invokeMethodAsync('OnJsGetSuggestions', params.maxSuggestions, params.sourceIndex,
-                    buildDotNetSpatialReference(params.spatialReference, viewId), params.suggestTerm, viewId);
+                    buildDotNetSpatialReference(params.spatialReference), params.suggestTerm, viewId);
 
             let results: any[] = [];
 

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html">GeoBlazor Docs</a>
 ///     Represents a sublayer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html">WMTSLayer</a>.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class WMTSSublayer : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -56,15 +54,14 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     /// <param name="title">
     ///     The title of the WMTS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="wMTSSublayerId">
     ///     The unique ID assigned to the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public WMTSSublayer(
-        string? description = null,
+    public WMTSSublayer(string? description = null,
         Extent? fullExtent = null,
         string? imageFormat = null,
         IReadOnlyList<string>? imageFormats = null,
@@ -87,10 +84,97 @@ public partial class WMTSSublayer : MapComponent
         TileMatrixSets = tileMatrixSets;
         Title = title;
         WMTSSublayerId = wMTSSublayerId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        FullExtent?.ValidateRequiredGeneratedChildren();
+
+        if (Styles is not null)
+        {
+            foreach (WMTSStyle child in Styles)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        if (TileMatrixSets is not null)
+        {
+            foreach (TileMatrixSet child in TileMatrixSets)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent fullExtent:
+                if (fullExtent != FullExtent)
+                {
+                    FullExtent = fullExtent;
+                    ModifiedParameters[nameof(FullExtent)] = FullExtent;
+                }
+
+                return true;
+            case WMTSStyle styles:
+                Styles ??= [];
+
+                if (!Styles.Contains(styles))
+                {
+                    Styles = [..Styles, styles];
+                    ModifiedParameters[nameof(Styles)] = Styles;
+                }
+
+                return true;
+            case TileMatrixSet tileMatrixSets:
+                TileMatrixSets ??= [];
+
+                if (!TileMatrixSets.Contains(tileMatrixSets))
+                {
+                    TileMatrixSets = [..TileMatrixSets, tileMatrixSets];
+                    ModifiedParameters[nameof(TileMatrixSets)] = TileMatrixSets;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent _:
+                FullExtent = null;
+                ModifiedParameters[nameof(FullExtent)] = FullExtent;
+
+                return true;
+            case WMTSStyle styles:
+                Styles = Styles?.Where(s => s != styles).ToList();
+                ModifiedParameters[nameof(Styles)] = Styles;
+
+                return true;
+            case TileMatrixSet tileMatrixSets:
+                TileMatrixSets = TileMatrixSets?.Where(t => t != tileMatrixSets).ToList();
+                ModifiedParameters[nameof(TileMatrixSets)] = TileMatrixSets;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -102,7 +186,7 @@ public partial class WMTSSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerfullextent-property">GeoBlazor Docs</a>
     ///     The full extent of the layer.
@@ -112,7 +196,7 @@ public partial class WMTSSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? FullExtent { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerimageformat-property">GeoBlazor Docs</a>
     ///     The map image format (MIME type) to request.
@@ -122,7 +206,7 @@ public partial class WMTSSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ImageFormat { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerimageformats-property">GeoBlazor Docs</a>
     ///     Supported image formats as retrieved from the GetCapabilities request.
@@ -132,7 +216,7 @@ public partial class WMTSSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? ImageFormats { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerstyleid-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html">WMTSStyle</a> to request.
@@ -142,7 +226,7 @@ public partial class WMTSSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? StyleId { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerstyles-property">GeoBlazor Docs</a>
     ///     A collection of supported <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html">WMTSStyle</a>s as retrieved from the GetCapabilities request.
@@ -152,7 +236,7 @@ public partial class WMTSSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<WMTSStyle>? Styles { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayertilematrixset-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html">TileMatrixSet</a> to request.
@@ -162,7 +246,7 @@ public partial class WMTSSublayer : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public TileMatrixSet? TileMatrixSet { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayertilematrixsetid-property">GeoBlazor Docs</a>
     ///     The id of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html">TileMatrixSet</a> to request.
@@ -172,7 +256,7 @@ public partial class WMTSSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? TileMatrixSetId { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayertilematrixsets-property">GeoBlazor Docs</a>
     ///     A collection of supported <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html">TileMatrixSets</a>.
@@ -182,18 +266,18 @@ public partial class WMTSSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<TileMatrixSet>? TileMatrixSets { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayertitle-property">GeoBlazor Docs</a>
     ///     The title of the WMTS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSSublayer.html#wmtssublayerwmtssublayerid-property">GeoBlazor Docs</a>
     ///     The unique ID assigned to the sublayer.
@@ -203,8 +287,9 @@ public partial class WMTSSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? WMTSSublayerId { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -217,8 +302,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return Description;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -227,7 +312,7 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Description;
@@ -236,17 +321,18 @@ public partial class WMTSSublayer : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "description");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Description = result;
+            Description = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Description)] = Description;
+            ModifiedParameters[nameof(Description)] = Description;
         }
-         
+
         return Description;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullExtent property.
     /// </summary>
@@ -256,8 +342,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return FullExtent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -266,31 +352,33 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FullExtent;
         }
 
-        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
-            "getFullExtent", CancellationTokenSource.Token);
-        
+        Extent? result =
+            await JsComponentReference.InvokeAsync<Extent?>("getFullExtent", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (FullExtent is not null)
             {
                 result.Id = FullExtent.Id;
             }
-            
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
 #pragma warning disable BL0005
             FullExtent = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FullExtent)] = FullExtent;
         }
-        
+
         return FullExtent;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageFormat property.
     /// </summary>
@@ -300,8 +388,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return ImageFormat;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -310,7 +398,7 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ImageFormat;
@@ -319,17 +407,18 @@ public partial class WMTSSublayer : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "imageFormat");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ImageFormat = result;
+            ImageFormat = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ImageFormat)] = ImageFormat;
+            ModifiedParameters[nameof(ImageFormat)] = ImageFormat;
         }
-         
+
         return ImageFormat;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageFormats property.
     /// </summary>
@@ -339,8 +428,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return ImageFormats;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -349,7 +438,7 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ImageFormats;
@@ -358,17 +447,18 @@ public partial class WMTSSublayer : MapComponent
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "imageFormats");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ImageFormats = result;
+            ImageFormats = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ImageFormats)] = ImageFormats;
+            ModifiedParameters[nameof(ImageFormats)] = ImageFormats;
         }
-         
+
         return ImageFormats;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StyleId property.
     /// </summary>
@@ -378,8 +468,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return StyleId;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -388,7 +478,7 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return StyleId;
@@ -397,17 +487,18 @@ public partial class WMTSSublayer : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "styleId");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             StyleId = result;
+            StyleId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(StyleId)] = StyleId;
+            ModifiedParameters[nameof(StyleId)] = StyleId;
         }
-         
+
         return StyleId;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Styles property.
     /// </summary>
@@ -417,8 +508,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return Styles;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -427,15 +518,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Styles;
         }
 
-        IReadOnlyList<WMTSStyle>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<WMTSStyle>?>(
-            "getStyles", CancellationTokenSource.Token);
-        
+        IReadOnlyList<WMTSStyle>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<WMTSStyle>?>("getStyles",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -443,10 +535,10 @@ public partial class WMTSSublayer : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Styles)] = Styles;
         }
-        
+
         return Styles;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileMatrixSet property.
     /// </summary>
@@ -456,8 +548,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return TileMatrixSet;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -466,7 +558,7 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TileMatrixSet;
@@ -474,7 +566,7 @@ public partial class WMTSSublayer : MapComponent
 
         TileMatrixSet? result = await JsComponentReference.InvokeAsync<TileMatrixSet?>(
             "getTileMatrixSet", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -482,10 +574,10 @@ public partial class WMTSSublayer : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TileMatrixSet)] = TileMatrixSet;
         }
-        
+
         return TileMatrixSet;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileMatrixSetId property.
     /// </summary>
@@ -495,8 +587,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return TileMatrixSetId;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -505,7 +597,7 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TileMatrixSetId;
@@ -514,17 +606,18 @@ public partial class WMTSSublayer : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "tileMatrixSetId");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TileMatrixSetId = result;
+            TileMatrixSetId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TileMatrixSetId)] = TileMatrixSetId;
+            ModifiedParameters[nameof(TileMatrixSetId)] = TileMatrixSetId;
         }
-         
+
         return TileMatrixSetId;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileMatrixSets property.
     /// </summary>
@@ -534,8 +627,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return TileMatrixSets;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -544,15 +637,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TileMatrixSets;
         }
 
-        IReadOnlyList<TileMatrixSet>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<TileMatrixSet>?>(
-            "getTileMatrixSets", CancellationTokenSource.Token);
-        
+        IReadOnlyList<TileMatrixSet>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<TileMatrixSet>?>("getTileMatrixSets",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -560,10 +654,10 @@ public partial class WMTSSublayer : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TileMatrixSets)] = TileMatrixSets;
         }
-        
+
         return TileMatrixSets;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -573,8 +667,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return Title;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -583,7 +677,7 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Title;
@@ -592,17 +686,18 @@ public partial class WMTSSublayer : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+            Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+            ModifiedParameters[nameof(Title)] = Title;
         }
-         
+
         return Title;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WMTSSublayerId property.
     /// </summary>
@@ -612,8 +707,8 @@ public partial class WMTSSublayer : MapComponent
         {
             return WMTSSublayerId;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -622,7 +717,7 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return WMTSSublayerId;
@@ -631,18 +726,20 @@ public partial class WMTSSublayer : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "id");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             WMTSSublayerId = result;
+            WMTSSublayerId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WMTSSublayerId)] = WMTSSublayerId;
+            ModifiedParameters[nameof(WMTSSublayerId)] = WMTSSublayerId;
         }
-         
+
         return WMTSSublayerId;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -658,13 +755,13 @@ public partial class WMTSSublayer : MapComponent
         Description = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Description)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -673,16 +770,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FullExtent property after render.
     /// </summary>
@@ -693,23 +790,20 @@ public partial class WMTSSublayer : MapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         FullExtent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FullExtent)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -718,16 +812,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fullExtent", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageFormat property after render.
     /// </summary>
@@ -740,13 +834,13 @@ public partial class WMTSSublayer : MapComponent
         ImageFormat = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ImageFormat)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -755,16 +849,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageFormat", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageFormats property after render.
     /// </summary>
@@ -777,13 +871,13 @@ public partial class WMTSSublayer : MapComponent
         ImageFormats = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ImageFormats)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -792,16 +886,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageFormats", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StyleId property after render.
     /// </summary>
@@ -814,13 +908,13 @@ public partial class WMTSSublayer : MapComponent
         StyleId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(StyleId)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -829,16 +923,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "styleId", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Styles property after render.
     /// </summary>
@@ -851,24 +945,21 @@ public partial class WMTSSublayer : MapComponent
         {
             foreach (WMTSStyle item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         Styles = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Styles)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -877,16 +968,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "styles", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileMatrixSetId property after render.
     /// </summary>
@@ -899,13 +990,13 @@ public partial class WMTSSublayer : MapComponent
         TileMatrixSetId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TileMatrixSetId)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -914,16 +1005,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tileMatrixSetId", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileMatrixSets property after render.
     /// </summary>
@@ -936,24 +1027,21 @@ public partial class WMTSSublayer : MapComponent
         {
             foreach (TileMatrixSet item in value)
             {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         TileMatrixSets = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TileMatrixSets)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -962,16 +1050,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tileMatrixSets", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -984,13 +1072,13 @@ public partial class WMTSSublayer : MapComponent
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -999,16 +1087,16 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WMTSSublayerId property after render.
     /// </summary>
@@ -1021,13 +1109,13 @@ public partial class WMTSSublayer : MapComponent
         WMTSSublayerId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(WMTSSublayerId)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1036,17 +1124,18 @@ public partial class WMTSSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -1063,7 +1152,7 @@ public partial class WMTSSublayer : MapComponent
             : [..ImageFormats, ..values];
         await SetImageFormats(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the Styles property.
     /// </summary>
@@ -1077,7 +1166,7 @@ public partial class WMTSSublayer : MapComponent
             : [..Styles, ..values];
         await SetStyles(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the TileMatrixSets property.
     /// </summary>
@@ -1091,12 +1180,12 @@ public partial class WMTSSublayer : MapComponent
             : [..TileMatrixSets, ..values];
         await SetTileMatrixSets(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the ImageFormats property.
     /// </summary>
@@ -1109,10 +1198,10 @@ public partial class WMTSSublayer : MapComponent
         {
             return;
         }
+
         await SetImageFormats(ImageFormats.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the Styles property.
     /// </summary>
@@ -1125,10 +1214,10 @@ public partial class WMTSSublayer : MapComponent
         {
             return;
         }
+
         await SetStyles(Styles.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the TileMatrixSets property.
     /// </summary>
@@ -1141,90 +1230,9 @@ public partial class WMTSSublayer : MapComponent
         {
             return;
         }
+
         await SetTileMatrixSets(TileMatrixSets.Except(values).ToArray());
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent fullExtent:
-                if (fullExtent != FullExtent)
-                {
-                    FullExtent = fullExtent;
-                    ModifiedParameters[nameof(FullExtent)] = FullExtent;
-                }
-                
-                return true;
-            case WMTSStyle styles:
-                Styles ??= [];
-                if (!Styles.Contains(styles))
-                {
-                    Styles = [..Styles, styles];
-                    ModifiedParameters[nameof(Styles)] = Styles;
-                }
-                
-                return true;
-            case TileMatrixSet tileMatrixSets:
-                TileMatrixSets ??= [];
-                if (!TileMatrixSets.Contains(tileMatrixSets))
-                {
-                    TileMatrixSets = [..TileMatrixSets, tileMatrixSets];
-                    ModifiedParameters[nameof(TileMatrixSets)] = TileMatrixSets;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent _:
-                FullExtent = null;
-                ModifiedParameters[nameof(FullExtent)] = FullExtent;
-                return true;
-            case WMTSStyle styles:
-                Styles = Styles?.Where(s => s != styles).ToList();
-                ModifiedParameters[nameof(Styles)] = Styles;
-                return true;
-            case TileMatrixSet tileMatrixSets:
-                TileMatrixSets = TileMatrixSets?.Where(t => t != tileMatrixSets).ToList();
-                ModifiedParameters[nameof(TileMatrixSets)] = TileMatrixSets;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        FullExtent?.ValidateRequiredGeneratedChildren();
-        if (Styles is not null)
-        {
-            foreach (WMTSStyle child in Styles)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        if (TileMatrixSets is not null)
-        {
-            foreach (TileMatrixSet child in TileMatrixSets)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

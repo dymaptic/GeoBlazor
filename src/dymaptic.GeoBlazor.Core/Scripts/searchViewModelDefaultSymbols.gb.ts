@@ -64,11 +64,11 @@ export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject
             }
         }
     }
+
     if (hasValue(dotNetSearchViewModelDefaultSymbols.id)) {
         jsObjectRefs[dotNetSearchViewModelDefaultSymbols.id] ??= jsObject;
         arcGisObjectRefs[dotNetSearchViewModelDefaultSymbols.id] ??= jsObject;
     }
-
     return dotNetSearchViewModelDefaultSymbols;
 }
 

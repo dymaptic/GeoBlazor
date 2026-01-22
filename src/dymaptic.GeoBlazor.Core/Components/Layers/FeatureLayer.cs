@@ -8,14 +8,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ApiKey { get; set; }
-    
+
     /// <summary>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer. Unlike the method of using transparency which can result in a washed-out top layer, blend modes can create a variety of very vibrant and intriguing results by blending a layer with the layer(s) below it.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BlendMode? BlendMode { get; set; }
-    
+
     /// <summary>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
     /// </summary>
@@ -23,14 +23,12 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Effect? Effect { get; set; }
 
-
     /// <summary>
     ///     The SQL where clause used to filter features on the client.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DefinitionExpression { get; set; }
-
 
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
@@ -63,14 +61,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [ConditionallyRequiredProperty(nameof(Source))]
     [CodeGenerationIgnore]
     public FeatureGeometryType? GeometryType { get; set; }
-    
+
     /// <summary>
     ///     Indicates whether the layer will be included in the legend.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? LegendEnabled { get; set; }
-    
+
     /// <summary>
     ///     Indicates whether to display popups when features in the layer are clicked.
     /// </summary>
@@ -81,15 +79,128 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// <inheritdoc />
     public override LayerType Type => LayerType.Feature;
 
-    
     /// <summary>  
     ///     Configures the method for reducing the number of point features in the view.  
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureReductionLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>  
     /// </summary>  
-    [Parameter]  
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]  
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IFeatureReduction? FeatureReduction { get; set; }
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        if (LabelingInfo is not null)
+        {
+            foreach (Label label in LabelingInfo)
+            {
+                label.ValidateRequiredChildren();
+            }
+        }
+
+        if (Source is not null)
+        {
+            foreach (Graphic graphic in Source)
+            {
+                graphic.ValidateRequiredChildren();
+            }
+
+            if (ObjectIdField is null)
+            {
+                throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
+                    nameof(Source), nameof(ObjectIdField));
+            }
+
+            if (GeometryType is null)
+            {
+                if (Source.Count > 0
+                    && Source.Select(g => g.Geometry?.Type)
+                        .Where(t => t != null)
+                        .Distinct()
+                        .ToList() is { Count: 1 } geometryTypes)
+                {
+                    GeometryType = geometryTypes[0] switch
+                    {
+                        Enums.GeometryType.Point => FeatureGeometryType.Point,
+                        Enums.GeometryType.Multipoint => FeatureGeometryType.Multipoint,
+                        Enums.GeometryType.Polyline => FeatureGeometryType.Polyline,
+                        Enums.GeometryType.Polygon => FeatureGeometryType.Polygon,
+                        Enums.GeometryType.Mesh => FeatureGeometryType.Mesh,
+                        _ => null
+                    };
+                }
+
+                if (GeometryType is null)
+                {
+                    throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
+                        nameof(Source), nameof(GeometryType));
+                }
+            }
+        }
+
+        if (Fields is not null)
+        {
+            foreach (Field field in Fields)
+            {
+                field.ValidateRequiredChildren();
+            }
+        }
+
+        FeatureReduction?.ValidateRequiredChildren();
+        FormTemplate?.ValidateRequiredChildren();
+
+        // do last because we add GeometryType above if possible
+        base.ValidateRequiredChildren();
+    }
+
+    /// <summary>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
+    /// </summary>
+    /// <param name="effect">
+    ///     The effect to apply to the layer.
+    /// </param>
+    public async Task SetEffect(Effect? effect)
+    {
+        await JsComponentReference!.InvokeVoidAsync("setEffect", effect);
+    }
+
+    /// <summary>
+    /// Returns the Field instance for a field name (case-insensitive).
+    /// </summary>
+    /// <param name="fieldName">the field name (case-insensitive).</param>
+    [ArcGISMethod]
+    public async Task<Field?> GetField(string fieldName)
+    {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        if (JsComponentReference is null) return null;
+
+        return await JsComponentReference!.InvokeAsync<Field?>("getField", fieldName);
+    }
+
+    /// <summary>
+    /// Returns the Domain associated with the given field name. The domain can be either a CodedValueDomain or RangeDomain.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public async Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null)
+    {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        if (JsComponentReference is null) return null;
+
+        return await JsComponentReference!.InvokeAsync<Domain?>("getFieldDomain", fieldName, feature);
+    }
+
+    /// <summary>
+    ///    Describes the layer's supported capabilities.
+    /// </summary>
+    public async Task<FeatureLayerCapabilities?> GetCapabilities()
+    {
+        return await JsComponentReference!.InvokeAsync<FeatureLayerCapabilities>("getCapabilities");
+    }
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureReduction property after render.
     /// </summary>
@@ -103,26 +214,26 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         {
             await FeatureReduction.DisposeAsync();
         }
-        
+
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
+            value.CoreJsModule = CoreJsModule;
             value.Parent = this;
             value.Layer = Layer;
             value.View = View;
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         FeatureReduction = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeatureReduction)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -131,13 +242,13 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setFeatureReduction", 
+
+        await JsComponentReference.InvokeVoidAsync("setFeatureReduction",
             CancellationTokenSource.Token, value);
     }
 
@@ -154,13 +265,11 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         if (JsComponentReference is not null)
         {
-            await ApplyEdits(new FeatureEdits
-            {
-                AddFeatures = [graphic]
-            });
+            await ApplyEdits(new FeatureEdits { AddFeatures = [graphic] });
 
             return;
         }
+
         await RegisterChildComponent(graphic);
     }
 
@@ -177,13 +286,11 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         if (JsComponentReference is not null)
         {
-            await ApplyEdits(new FeatureEdits
-            {
-                AddFeatures = graphics
-            });
+            await ApplyEdits(new FeatureEdits { AddFeatures = graphics });
 
             return;
         }
+
         foreach (Graphic graphic in graphics)
         {
             await RegisterChildComponent(graphic);
@@ -216,8 +323,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     ///     Applies edits to features in a layer. New features can be created and existing features can be updated or deleted. Feature geometries and/or attributes may be modified. Only applicable to layers in a feature service and client-side features set through the FeatureLayer's source property. Attachments can also be added, updated or deleted.
     ///     If client-side features are added, removed or updated at runtime using applyEdits() then use FeatureLayer's queryFeatures() method to return updated features.
     /// </summary>
-        [CodeGenerationIgnore]
-        public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null,
+    [CodeGenerationIgnore]
+    public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null,
         CancellationToken cancellationToken = default)
     {
         // Verify that the layer is loaded. Layers with no graphics are not rendered and therefore not loaded
@@ -226,8 +333,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         {
             await Load(cancellationToken);
         }
-        
-        FeatureEditsResult emptyResult = new FeatureEditsResult([], 
+
+        FeatureEditsResult emptyResult = new FeatureEditsResult([],
             [],
             [],
             [],
@@ -247,57 +354,69 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         long? editMoment = null;
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
         AbortManager ??= new AbortManager(CoreJsModule!);
-        
+
         FeatureEditsResult? addFeatureResults = null;
         FeatureEditsResult? updateFeatureResults = null;
         FeatureEditsResult? deleteFeatureResults = null;
         List<EditedFeatureResult> editedFeatureResults = [];
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+
         for (var index = 0; index < addedFeatures.Length; index += chunkSize)
         {
             int skip = index;
 
-            addFeatureResults = 
-                await SendEdits(addedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "add", 
+            addFeatureResults =
+                await SendEdits(addedFeatures.Skip(skip)
+                        .Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord(true))
+                        .ToArray(), "add",
                     options, addFeatureResults, abortSignal, cancellationToken);
             editMoment ??= addFeatureResults?.EditMoment;
         }
+
         for (var index = 0; index < updatedFeatures.Length; index += chunkSize)
         {
             int skip = index;
 
-            updateFeatureResults = 
-                await SendEdits(updatedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "update", 
+            updateFeatureResults =
+                await SendEdits(updatedFeatures.Skip(skip)
+                        .Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord(true))
+                        .ToArray(), "update",
                     options, updateFeatureResults, abortSignal, cancellationToken);
             editMoment ??= updateFeatureResults?.EditMoment;
         }
+
         for (var index = 0; index < deletedFeatures.Length; index += chunkSize)
         {
             int skip = index;
 
-            deleteFeatureResults = 
-                await SendEdits(deletedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "delete", 
+            deleteFeatureResults =
+                await SendEdits(deletedFeatures.Skip(skip)
+                        .Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord(true))
+                        .ToArray(), "delete",
                     options, deleteFeatureResults, abortSignal, cancellationToken);
             editMoment ??= deleteFeatureResults?.EditMoment;
         }
-        
+
         if (addFeatureResults?.EditedFeatureResults is not null)
         {
             editedFeatureResults.AddRange(addFeatureResults.EditedFeatureResults);
         }
+
         if (updateFeatureResults?.EditedFeatureResults is not null)
         {
             editedFeatureResults.AddRange(updateFeatureResults.EditedFeatureResults);
         }
+
         if (deleteFeatureResults?.EditedFeatureResults is not null)
         {
             editedFeatureResults.AddRange(deleteFeatureResults.EditedFeatureResults);
         }
 
         FeatureEditsResult? attachmentResults = null;
+
         if (edits.AddAttachments?.Any() == true ||
             edits.UpdateAttachments?.Any() == true ||
             edits.DeleteAttachments?.Any() == true)
@@ -308,16 +427,18 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 UpdateAttachments = edits.UpdateAttachments,
                 DeleteAttachments = edits.DeleteAttachments
             };
-            attachmentResults = await JsComponentReference!.InvokeAsync<FeatureEditsResult>(
-                "applyAttachmentEdits", cancellationToken, attachmentEdits, options, View!.Id,
+
+            attachmentResults = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyAttachmentEdits",
+                cancellationToken, attachmentEdits, options, View!.Id,
                 abortSignal);
             editMoment ??= attachmentResults.EditMoment;
+
             if (attachmentResults.EditedFeatureResults is not null)
             {
                 editedFeatureResults.AddRange(attachmentResults.EditedFeatureResults);
             }
         }
-        
+
         if (Source is not null)
         {
             // update the in-memory collections:
@@ -329,61 +450,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 .ToList();
         }
 
-        return new FeatureEditsResult
-        (
-            addFeatureResults?.AddFeatureResults ?? [], 
-            updateFeatureResults?.UpdateFeatureResults ?? [], 
-            deleteFeatureResults?.DeleteFeatureResults ?? [], 
+        return new FeatureEditsResult(addFeatureResults?.AddFeatureResults ?? [],
+            updateFeatureResults?.UpdateFeatureResults ?? [],
+            deleteFeatureResults?.DeleteFeatureResults ?? [],
             attachmentResults?.AddAttachmentResults ?? [],
             attachmentResults?.UpdateAttachmentResults ?? [],
             attachmentResults?.DeleteAttachmentResults ?? [],
             editedFeatureResults.ToArray(),
-            editMoment
-        );
-    }
-
-    private async Task<FeatureEditsResult?> SendEdits(GraphicSerializationRecord[] graphics, 
-        string editType, FeatureEditOptions? options, FeatureEditsResult? currentResults, 
-        IJSObjectReference abortSignal, CancellationToken cancellationToken)
-    {
-        if (cancellationToken.IsCancellationRequested ||
-            CancellationTokenSource.Token.IsCancellationRequested)
-        {
-            return null;
-        }
-        
-        ProtoGraphicCollection collection = new(graphics);
-        MemoryStream ms = new();
-        Serializer.Serialize(ms, collection);
-
-        if (cancellationToken.IsCancellationRequested ||
-            CancellationTokenSource.Token.IsCancellationRequested)
-        {
-            await ms.DisposeAsync();
-            return null;
-        }
-        
-        ms.Seek(0, SeekOrigin.Begin);
-
-        FeatureEditsResult result;
-
-        if (View!.IsWebAssembly)
-        {
-            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsSynchronously",
-                cancellationToken, ms.ToArray(), editType, options, abortSignal);
-            await ms.DisposeAsync();
-            await Task.Delay(1, cancellationToken);
-        }
-        else
-        {
-            using DotNetStreamReference streamRef = new(ms);
-
-            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsFromStream",
-                cancellationToken, streamRef, editType, options,
-                View!.Id, abortSignal);
-        }
-
-        return result.Concat(currentResults);
+            editMoment);
     }
 
     /// <summary>
@@ -396,41 +470,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return null;
+
         return await JsComponentReference!.InvokeAsync<FeatureType>("getFeatureType", feature);
-    }
-
-    /// <summary>
-    /// Returns the Field instance for a field name (case-insensitive).
-    /// </summary>
-    /// <param name="fieldName">the field name (case-insensitive).</param>
-    [ArcGISMethod]
-    public async Task<Field?> GetField(string fieldName)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null) return null;
-        return await JsComponentReference!.InvokeAsync<Field?>("getField", fieldName);
-    }
-
-    /// <summary>
-    /// Returns the Domain associated with the given field name. The domain can be either a CodedValueDomain or RangeDomain.
-    /// </summary>
-    [CodeGenerationIgnore]
-    public async Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null) return null;
-        return await JsComponentReference!.InvokeAsync<Domain?>("getFieldDomain", fieldName, feature);
-    }
-
-    /// <summary>
-    ///    Describes the layer's supported capabilities.
-    /// </summary>
-    public async Task<FeatureLayerCapabilities?> GetCapabilities()
-    {
-        return await JsComponentReference!.InvokeAsync<FeatureLayerCapabilities>("getCapabilities");
     }
 
     /// <summary>
@@ -440,18 +483,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         return await JsComponentReference!.InvokeAsync<FeatureLayer>("clone");
     }
-    
-    /// <summary>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
-    /// </summary>
-    /// <param name="effect">
-    ///     The effect to apply to the layer.
-    /// </param>
-    public async Task SetEffect(Effect? effect)
-    {
-        await JsComponentReference!.InvokeVoidAsync("setEffect", effect);
-    }
-    
+
     /// <summary>
     ///     Fetches all the data for the layer. Calls 'refresh' on the layer.
     /// </summary>
@@ -462,9 +494,11 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         {
             await UpdateLayer();
         }
+
         await base.Refresh();
+
         if (JsComponentReference is null) return;
-        
+
         FeatureLayer newLayer = await JsComponentReference!.InvokeAsync<FeatureLayer>("refresh");
         await UpdateFromJavaScript(newLayer);
     }
@@ -474,13 +508,13 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         switch (child)
         {
-
             case Label label:
                 LabelingInfo ??= [];
 
                 if (!LabelingInfo.Contains(label))
                 {
                     LabelingInfo = [..LabelingInfo, label];
+
                     if (MapRendered)
                     {
                         await UpdateLayer();
@@ -512,6 +546,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!Fields.Contains(field))
                 {
                     Fields = [..Fields, field];
+
                     if (MapRendered)
                     {
                         await UpdateLayer();
@@ -524,6 +559,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!reduction.Equals(FeatureReduction))
                 {
                     FeatureReduction = reduction;
+
                     if (MapRendered)
                     {
                         await UpdateLayer();
@@ -535,6 +571,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!formTemplate.Equals(FormTemplate))
                 {
                     FormTemplate = formTemplate;
+
                     if (MapRendered)
                     {
                         await UpdateLayer();
@@ -554,10 +591,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         switch (child)
         {
-
             case Label label:
                 LabelingInfo = LabelingInfo?.Where(l => !l.Equals(label)).ToList();
-                
+
 
                 break;
 
@@ -579,7 +615,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 FeatureReduction = null;
 
                 break;
-            
+
             case IFormTemplate _:
                 FormTemplate = null;
 
@@ -590,72 +626,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
                 break;
         }
-    }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredChildren()
-    {
-        if (LabelingInfo is not null)
-        {
-            foreach (Label label in LabelingInfo)
-            {
-                label.ValidateRequiredChildren();
-            }
-        }
-
-        if (Source is not null)
-        {
-            foreach (Graphic graphic in Source)
-            {
-                graphic.ValidateRequiredChildren();
-            }
-
-            if (ObjectIdField is null)
-            {
-                throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
-                    nameof(Source), nameof(ObjectIdField));
-            }
-
-            if (GeometryType is null)
-            {
-                if (Source.Count > 0 
-                    && Source.Select(g => g.Geometry?.Type)
-                            .Where(t => t != null)
-                            .Distinct()
-                            .ToList() is { Count: 1 } geometryTypes)
-                {
-                    GeometryType = geometryTypes[0] switch
-                    {
-                        Enums.GeometryType.Point => FeatureGeometryType.Point,
-                        Enums.GeometryType.Multipoint => FeatureGeometryType.Multipoint,
-                        Enums.GeometryType.Polyline => FeatureGeometryType.Polyline,
-                        Enums.GeometryType.Polygon => FeatureGeometryType.Polygon,
-                        Enums.GeometryType.Mesh => FeatureGeometryType.Mesh,
-                        _ => null
-                    };
-                }
-
-                if (GeometryType is null)
-                {
-                    throw new MissingConditionallyRequiredChildElementException(nameof(FeatureLayer),
-                        nameof(Source), nameof(GeometryType));
-                }
-            }
-        }
-        
-        if (Fields is not null)
-        {
-            foreach (Field field in Fields)
-            {
-                field.ValidateRequiredChildren();
-            }
-        }
-        
-        FeatureReduction?.ValidateRequiredChildren();
-        FormTemplate?.ValidateRequiredChildren();
-        
-        // do last because we add GeometryType above if possible
-        base.ValidateRequiredChildren();
     }
 
     /// <summary>
@@ -669,7 +639,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return new PopupTemplate();
+
         return await JsComponentReference!.InvokeAsync<PopupTemplate>("createPopupTemplate",
             CancellationTokenSource.Token, options);
     }
@@ -682,7 +654,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return new Query();
+
         return await JsComponentReference!.InvokeAsync<Query>("createQuery", CancellationTokenSource.Token);
     }
 
@@ -726,7 +700,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return 0;
+
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
@@ -753,7 +729,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return null;
+
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
@@ -763,16 +741,13 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         if (_activeQueries.ContainsKey(queryId))
         {
-            result = result with {Features = _activeQueries[queryId]};
+            result = result with { Features = _activeQueries[queryId] };
             _activeQueries.Remove(queryId);
         }
-        
+
         foreach (Graphic graphic in result.Features!)
         {
-            graphic.View = View;
-            graphic.Parent = this;
-            graphic.Layer = this;
-            graphic.CoreJsModule = CoreJsModule;
+            graphic.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, this);
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -800,7 +775,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         }
         catch (Exception ex)
         {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);   
+            throw new SerializationException("Error deserializing graphics from stream.", ex);
         }
     }
 
@@ -818,10 +793,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return [];
+
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ObjectId[] queryResult = await JsComponentReference!.InvokeAsync<ObjectId[]>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
+
+        ObjectId[] queryResult = await JsComponentReference!.InvokeAsync<ObjectId[]>("queryObjectIds",
+            cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return queryResult;
@@ -842,10 +821,13 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return null;
+
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
+
         RelatedFeaturesQueryResult result = (await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
             "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
             DotNetComponentReference, queryId))!;
@@ -853,22 +835,21 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         if (_activeRelatedQueries.ContainsKey(queryId))
         {
             Dictionary<long, Graphic[]> relatedGraphics = _activeRelatedQueries[queryId];
+
             foreach (KeyValuePair<long, FeatureSet?> kvp in result)
             {
-                if (kvp.Value is null || !relatedGraphics.TryGetValue(kvp.Key, out Graphic[]? relatedGraphic))
-                    continue;
+                if (kvp.Value is null || !relatedGraphics.TryGetValue(kvp.Key, out Graphic[]? relatedGraphic)) continue;
+
                 foreach (Graphic graphic in relatedGraphic)
                 {
                     graphic.View = View;
                     graphic.Parent = this;
                     graphic.Layer = this;
                 }
-                
-                result[kvp.Key] = kvp.Value with
-                {
-                    Features = relatedGraphic
-                };
+
+                result[kvp.Key] = kvp.Value with { Features = relatedGraphic };
             }
+
             _activeRelatedQueries.Remove(queryId);
         }
 
@@ -876,12 +857,13 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         return result;
     }
-    
+
     /// <summary>
     ///     Internal use callback from JavaScript
     /// </summary>
     [JSInvokable]
-    public async Task OnQueryRelatedFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId, string objectId)
+    public async Task OnQueryRelatedFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId,
+        string objectId)
     {
         try
         {
@@ -902,7 +884,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         }
         catch (Exception ex)
         {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);   
+            throw new SerializationException("Error deserializing graphics from stream.", ex);
         }
     }
 
@@ -921,12 +903,15 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return null;
+
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        RelatedFeaturesCountQueryResult? result = await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult?>(
-            "queryRelatedFeaturesCount", cancellationToken, query, new { signal = abortSignal });
+        RelatedFeaturesCountQueryResult? result =
+            await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult?>("queryRelatedFeaturesCount",
+                cancellationToken, query, new { signal = abortSignal });
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
@@ -979,19 +964,22 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return null;
+
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
+
         FeatureSet result = (await JsComponentReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
             query, new { signal = abortSignal }, DotNetComponentReference, queryId))!;
 
         if (_activeQueries.ContainsKey(queryId))
         {
-            result = result with {Features = _activeQueries[queryId]};
+            result = result with { Features = _activeQueries[queryId] };
             _activeQueries.Remove(queryId);
         }
-        
+
         foreach (Graphic graphic in result.Features!)
         {
             graphic.View = View;
@@ -1017,15 +1005,19 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     ///     An array of Object IDs for features that satisfy the input query.
     /// </returns>
     [CodeGenerationIgnore]
-    public async Task<ObjectId[]> QueryTopObjectIds(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    public async Task<ObjectId[]> QueryTopObjectIds(TopFeaturesQuery query,
+        CancellationToken cancellationToken = default)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
+
         if (JsComponentReference is null) return [];
+
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        ObjectId[] queryResult = await JsComponentReference!.InvokeAsync<ObjectId[]>("queryTopObjectIds", cancellationToken,
+        ObjectId[] queryResult = await JsComponentReference!.InvokeAsync<ObjectId[]>("queryTopObjectIds",
+            cancellationToken,
             query, new { signal = abortSignal });
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -1062,6 +1054,51 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         return result;
     }
 
+    private async Task<FeatureEditsResult?> SendEdits(GraphicSerializationRecord[] graphics,
+        string editType, FeatureEditOptions? options, FeatureEditsResult? currentResults,
+        IJSObjectReference abortSignal, CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested ||
+            CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            return null;
+        }
+
+        ProtoGraphicCollection collection = new(graphics);
+        MemoryStream ms = new();
+        Serializer.Serialize(ms, collection);
+
+        if (cancellationToken.IsCancellationRequested ||
+            CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            await ms.DisposeAsync();
+
+            return null;
+        }
+
+        ms.Seek(0, SeekOrigin.Begin);
+
+        FeatureEditsResult result;
+
+        if (View!.IsWebAssembly)
+        {
+            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsSynchronously",
+                cancellationToken, ms.ToArray(), editType, options, abortSignal);
+            await ms.DisposeAsync();
+            await Task.Delay(1, cancellationToken);
+        }
+        else
+        {
+            using DotNetStreamReference streamRef = new(ms);
+
+            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsFromStream",
+                cancellationToken, streamRef, editType, options,
+                View!.Id, abortSignal);
+        }
+
+        return result.Concat(currentResults);
+    }
+
     private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();
     private readonly Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
 }
@@ -1069,7 +1106,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 /// <summary>
 ///     One-directional converter to just send the component Id to JS
 /// </summary>
-internal class GraphicToIdConverter: JsonConverter<Graphic>
+internal class GraphicToIdConverter : JsonConverter<Graphic>
 {
     public override Graphic Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

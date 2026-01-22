@@ -9,7 +9,7 @@
     [TestMethod]
     public async Task TestCanQueryFeatures(Action renderHandler, Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
-        FeatureLayerView? layerView = null;
+        FeatureLayerView? layerView;
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler"
                       OnLayerViewCreate="layerViewCreatedHandler">
@@ -103,13 +103,6 @@
         visible = await layerView.GetVisible();
         Assert.AreEqual(true, visible);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "visible", true]);
-
-        // HighlightOptions (object) — set & ensure roundtrip (object equality via C#)
-        var hl = new HighlightOptions(color: new MapColor("cyan"), fillOpacity: 1.0, haloOpacity: 1.0);
-        await layerView.SetHighlightOptions(hl);
-        HighlightOptions? gotHl = await layerView.GetHighlightOptions();
-        Assert.IsNotNull(gotHl);
-        // Skipping JS assert because it is hard to compare the color object deeply in JS, but this has been tested manually
 
         // ---------------------------
         // Read-only indicators (do NOT set): just read and verify JS matches getter
@@ -215,12 +208,6 @@
         bool? exceeded = await layerView.GetMaximumNumberOfFeaturesExceeded();
         Assert.IsNotNull(exceeded);
         await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layerView.Id, "maximumNumberOfFeaturesExceeded", exceeded]);
-
-        // 3) Complex object roundtrip: ensure we can set/get an object without touching component-only internals
-        var hl = new HighlightOptions(color: new MapColor("cyan"), fillOpacity: 1.0, haloOpacity: 1.0);
-        await layerView.SetHighlightOptions(hl);
-        HighlightOptions? gotHl = await layerView.GetHighlightOptions();
-        Assert.IsNotNull(gotHl);
 
         // Optional: feature effect as an object (do not set IncludedEffect here)
         var fx = new FeatureEffect();

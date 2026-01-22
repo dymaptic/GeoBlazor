@@ -27,7 +27,7 @@
                     </WMSLayer>
                 </Map>
         </SceneView>);
-        await WaitForMapToRender();
+        await WaitForMapToRender(timeoutInSeconds: 30);
         
         LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
         Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
@@ -42,7 +42,6 @@
     public async Task TestWMSLayerSpatialReference(Action renderHandler,
         Action<LayerViewCreateEvent> layerViewCreated)
     {
-#pragma warning disable GeoBlazor_Untested
         WMSLayer? layer = null;
 
         AddMapRenderFragment(
@@ -56,14 +55,40 @@
                     </WMSLayer>
                 </Map>
             </SceneView>);
-        await WaitForMapToRender();
+        await WaitForMapToRender(timeoutInSeconds: 30);
         LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
         Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
         WMSLayer createdLayer = (WMSLayer)createEvent.Layer;
         Assert.AreEqual(layer?.Id, createdLayer.Id);
         Assert.IsTrue(layer?.SpatialReference == SpatialReference.Wgs84);
-        
-#pragma warning restore GeoBlazor_Untested
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerWithLatLongAndZoom(Action renderHandler,
+            Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        MapView? view = null;
+
+        AddMapRenderFragment(@<MapView @ref="view" class="map-view"
+                                       Latitude="51.4" Longitude="0.0"
+                                       Zoom="11">
+                                 <Map>
+                                     <Basemap>
+                                         <WMSLayer Url="https://ows.terrestris.de/osm/service">
+                                             <WMSSublayer Name="OSM-WMS"/>
+                                         </WMSLayer>
+                                     </Basemap>
+                                 </Map>
+                             </MapView>);
+        await WaitForMapToRender(timeoutInSeconds: 30);
+        await WaitForLayerToRender<WMSLayer>();
+        Point? center = await view!.GetCenter();
+        Assert.IsNotNull(center);
+        Assert.IsTrue(Math.Abs(0.0 - center.Longitude!.Value) < 0.001);
+        Assert.IsTrue(Math.Abs(51.4 - center.Latitude!.Value) < 0.001);
+        double? zoom = await view!.GetZoom();
+        Assert.IsNotNull(zoom);
+        Assert.AreEqual(11.0, zoom);
     }
 
 }

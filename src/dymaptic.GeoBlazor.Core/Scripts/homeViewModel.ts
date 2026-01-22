@@ -15,7 +15,7 @@ export async function buildJsHomeViewModel(dotNetObject: any, viewId: string | n
     return await buildJsHomeViewModelGenerated(dotNetObject, viewId);
 }
 
-export async function buildDotNetHomeViewModel(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetHomeViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetHomeViewModelGenerated} = await import('./homeViewModel.gb');
-    return await buildDotNetHomeViewModelGenerated(jsObject, viewId);
+    return await buildDotNetHomeViewModelGenerated(jsObject, layerId, viewId);
 }

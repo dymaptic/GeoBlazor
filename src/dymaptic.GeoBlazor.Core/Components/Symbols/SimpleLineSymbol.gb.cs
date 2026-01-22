@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SimpleLineSymbol.html">GeoBlazor Docs</a>
 ///     SimpleLineSymbol is used for rendering 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">polyline geometries</a>
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// </summary>
 public partial class SimpleLineSymbol : ISymbol2D
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -57,8 +55,7 @@ public partial class SimpleLineSymbol : ISymbol2D
     ///     default 2
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html#miterLimit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SimpleLineSymbol(
-        MapColor? color = null,
+    public SimpleLineSymbol(MapColor? color = null,
         Dimension? width = null,
         SimpleLineSymbolStyle? style = null,
         Cap? cap = null,
@@ -75,10 +72,10 @@ public partial class SimpleLineSymbol : ISymbol2D
         Join = join;
         Marker = marker;
         MiterLimit = miterLimit;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Property Getters
 
     /// <summary>
@@ -90,8 +87,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return Cap;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -100,26 +97,28 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Cap;
         }
 
         // get the property value
-        JsNullableEnumWrapper<Cap>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Cap>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<Cap>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Cap>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "cap");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Cap = (Cap)result.Value.Value!;
+            Cap = (Cap)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Cap)] = Cap;
+            ModifiedParameters[nameof(Cap)] = Cap;
         }
-         
+
         return Cap;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Join property.
     /// </summary>
@@ -129,8 +128,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return Join;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -139,26 +138,28 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Join;
         }
 
         // get the property value
-        JsNullableEnumWrapper<Join>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Join>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<Join>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Join>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "join");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Join = (Join)result.Value.Value!;
+            Join = (Join)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Join)] = Join;
+            ModifiedParameters[nameof(Join)] = Join;
         }
-         
+
         return Join;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Marker property.
     /// </summary>
@@ -168,8 +169,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return Marker;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -178,15 +179,15 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Marker;
         }
 
-        LineSymbolMarker? result = await JsComponentReference.InvokeAsync<LineSymbolMarker?>(
-            "getMarker", CancellationTokenSource.Token);
-        
+        LineSymbolMarker? result =
+            await JsComponentReference.InvokeAsync<LineSymbolMarker?>("getMarker", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -194,10 +195,10 @@ public partial class SimpleLineSymbol : ISymbol2D
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Marker)] = Marker;
         }
-        
+
         return Marker;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MiterLimit property.
     /// </summary>
@@ -207,8 +208,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return MiterLimit;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -217,26 +218,28 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MiterLimit;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "miterLimit");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MiterLimit = result.Value.Value;
+            MiterLimit = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MiterLimit)] = MiterLimit;
+            ModifiedParameters[nameof(MiterLimit)] = MiterLimit;
         }
-         
+
         return MiterLimit;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -246,8 +249,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return Style;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -256,27 +259,31 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Style;
         }
 
         // get the property value
-        JsNullableEnumWrapper<SimpleLineSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleLineSymbolStyle>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
+        JsNullableEnumWrapper<SimpleLineSymbolStyle>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleLineSymbolStyle>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "style");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Style = (SimpleLineSymbolStyle)result.Value.Value!;
+            Style = (SimpleLineSymbolStyle)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Style)] = Style;
+            ModifiedParameters[nameof(Style)] = Style;
         }
-         
+
         return Style;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -292,13 +299,13 @@ public partial class SimpleLineSymbol : ISymbol2D
         Cap = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Cap)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -307,16 +314,16 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "cap", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Join property after render.
     /// </summary>
@@ -329,13 +336,13 @@ public partial class SimpleLineSymbol : ISymbol2D
         Join = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Join)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -344,16 +351,16 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "join", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Marker property after render.
     /// </summary>
@@ -364,23 +371,20 @@ public partial class SimpleLineSymbol : ISymbol2D
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Marker = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Marker)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -389,16 +393,16 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "marker", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MiterLimit property after render.
     /// </summary>
@@ -411,13 +415,13 @@ public partial class SimpleLineSymbol : ISymbol2D
         MiterLimit = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MiterLimit)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -426,16 +430,16 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "miterLimit", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -448,13 +452,13 @@ public partial class SimpleLineSymbol : ISymbol2D
         Style = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Style)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -463,16 +467,15 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
     }
-    
-#endregion
 
+#endregion
 }
