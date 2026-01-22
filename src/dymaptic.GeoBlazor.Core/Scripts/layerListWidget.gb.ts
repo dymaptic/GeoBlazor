@@ -73,7 +73,7 @@ export default class LayerListWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -521,7 +521,7 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, layerId
 
     if (hasValue(dotNetLayerListWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetLayerListWidget.id)) {
-            let { default: LayerListWidgetWrapper } = await import('./layerListWidget');
+            let {default: LayerListWidgetWrapper} = await import('./layerListWidget');
             let layerListWidgetWrapper = new LayerListWidgetWrapper(jsObject);
             layerListWidgetWrapper.geoBlazorId = dotNetLayerListWidget.id;
             layerListWidgetWrapper.viewId = viewId;

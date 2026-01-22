@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[ProtobufSerializable]
 public partial class PictureFillSymbol : FillSymbol
 {
-
-    
     /// <summary>
     ///     The height of the image in points.
     /// </summary>
@@ -52,7 +51,8 @@ public partial class PictureFillSymbol : FillSymbol
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dimension? Yoffset { get; set; }
 
-    internal override SymbolSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override SymbolSerializationRecord ToProtobuf()
     {
         return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), null)
         {
@@ -63,7 +63,7 @@ public partial class PictureFillSymbol : FillSymbol
             Yoffset = Yoffset?.Points,
             XScale = XScale,
             YScale = YScale,
-            Outline = Outline?.ToSerializationRecord()
+            Outline = Outline?.ToProtobuf()
         };
     }
 }

@@ -35,7 +35,7 @@ export async function buildJsFeatureEffect(dotNetObject: any, layerId: string | 
     }
     
     return featureEffect;
-}     
+}
 
 export async function buildDotNetFeatureEffect(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFeatureEffectGenerated } = await import('./featureEffect.gb');

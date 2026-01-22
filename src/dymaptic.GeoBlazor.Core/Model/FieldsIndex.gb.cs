@@ -11,8 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     default []
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html#dateFields">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-public partial record FieldsIndex(
-    IReadOnlyList<Field>? DateFields = null): IInteractiveRecord
+public partial record FieldsIndex(IReadOnlyList<Field>? DateFields = null) : IInteractiveRecord
 {
     /// <summary>
     ///     An array of date fields or field json objects.
@@ -20,32 +19,38 @@ public partial record FieldsIndex(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html#dateFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyList<Field>? DateFields { get; set; } = DateFields;
-    
+
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>
     public IJSObjectReference? JsComponentReference { get; set; }
-    
+
     /// <summary>
     ///     Allows for transmitting CancellationToken cancel signals to JavaScript.
     /// </summary>
     public AbortManager? AbortManager { get; set; }
-    
+
     /// <summary>
     ///     A unique Id to identify this record in JavaScript.
     /// </summary>
     public Guid Id { get; set; } = Guid.NewGuid();
-    
+
     /// <summary>
     ///     Reference to the Core JavaScript module.
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
-    
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    public bool IsServer { get; set; }
 
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();
+
+
 #region Public Methods
 
     /// <summary>
@@ -63,7 +68,7 @@ public partial record FieldsIndex(
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -73,18 +78,17 @@ public partial record FieldsIndex(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Field?>(
-            "get", 
+
+        return await JsComponentReference!.InvokeAsync<Field?>("get",
             CancellationTokenSource.Token,
             fieldName);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldsIndex.html#fieldsindexgettimezone-method">GeoBlazor Docs</a>
     ///     Returns a <a target="_blank" href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">time zone</a> for a field.
@@ -100,7 +104,7 @@ public partial record FieldsIndex(
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -110,18 +114,17 @@ public partial record FieldsIndex(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getTimeZone", 
+
+        return await JsComponentReference!.InvokeAsync<string?>("getTimeZone",
             CancellationTokenSource.Token,
             fieldOrFieldName);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldsIndex.html#fieldsindexhas-method">GeoBlazor Docs</a>
     ///     Checks if a field with the specified field name exists in the layer.
@@ -137,7 +140,7 @@ public partial record FieldsIndex(
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -147,18 +150,17 @@ public partial record FieldsIndex(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "has", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("has",
             CancellationTokenSource.Token,
             fieldName);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldsIndex.html#fieldsindexisdatefield-method">GeoBlazor Docs</a>
     ///     Checks if a field with the specified field name is a date field.
@@ -174,7 +176,7 @@ public partial record FieldsIndex(
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -184,18 +186,16 @@ public partial record FieldsIndex(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isDateField", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isDateField",
             CancellationTokenSource.Token,
             fieldName);
     }
-    
-#endregion
 
+#endregion
 }

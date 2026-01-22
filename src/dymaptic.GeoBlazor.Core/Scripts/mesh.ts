@@ -98,6 +98,6 @@ export default class MeshWrapper extends MeshGenerated {
     constructor(component: Mesh) {
         super(component);
     }
-    
+
 }
 

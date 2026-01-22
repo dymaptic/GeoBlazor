@@ -11,5 +11,5 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#save">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record WebMapSaveOptions(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? IgnoreUnsupported = null);

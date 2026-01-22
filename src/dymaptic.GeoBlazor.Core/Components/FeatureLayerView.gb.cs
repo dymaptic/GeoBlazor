@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html">GeoBlazor Docs</a>
 ///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>
@@ -12,6 +11,60 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class FeatureLayerView : IHighlightLayerViewMixin
 {
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        FeatureEffect?.ValidateRequiredGeneratedChildren();
+        Filter?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case FeatureEffect featureEffect:
+                if (featureEffect != FeatureEffect)
+                {
+                    FeatureEffect = featureEffect;
+                    ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+                }
+
+                return true;
+            case FeatureFilter filter:
+                if (filter != Filter)
+                {
+                    Filter = filter;
+                    ModifiedParameters[nameof(Filter)] = Filter;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case FeatureEffect _:
+                FeatureEffect = null;
+                ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+
+                return true;
+            case FeatureFilter _:
+                Filter = null;
+                ModifiedParameters[nameof(Filter)] = Filter;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
 
 #region Public Properties / Blazor Parameters
 
@@ -25,7 +78,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<string>? AvailableFields { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewdataupdating-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view is currently fetching new features.
@@ -35,7 +88,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? DataUpdating { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewfeatureeffect-property">GeoBlazor Docs</a>
     ///     The featureEffect can be used to draw attention to features of interest.
@@ -45,7 +98,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FeatureEffect? FeatureEffect { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewfilter-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">attribute</a>,
@@ -58,7 +111,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FeatureFilter? Filter { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewhasallfeatures-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view contains all available features from the service or source.
@@ -68,7 +121,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? HasAllFeatures { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewhasallfeaturesinview-property">GeoBlazor Docs</a>
     ///     This property helps determine if the layer view has successfully retrieved all relevant data for the current extent, even if no features are visible
@@ -79,7 +132,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? HasAllFeaturesInView { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewhasfullgeometries-property">GeoBlazor Docs</a>
     ///     Indicates whether the LayerView contains geometries at full resolution.
@@ -89,8 +142,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? HasFullGeometries { get; protected set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -103,8 +157,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             return AvailableFields;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -113,7 +167,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AvailableFields;
@@ -122,17 +176,18 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "availableFields");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AvailableFields = result;
+            AvailableFields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AvailableFields)] = AvailableFields;
+            ModifiedParameters[nameof(AvailableFields)] = AvailableFields;
         }
-         
+
         return AvailableFields;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DataUpdating property.
     /// </summary>
@@ -142,8 +197,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             return DataUpdating;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -152,26 +207,28 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return DataUpdating;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "dataUpdating");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DataUpdating = result.Value.Value;
+            DataUpdating = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DataUpdating)] = DataUpdating;
+            ModifiedParameters[nameof(DataUpdating)] = DataUpdating;
         }
-         
+
         return DataUpdating;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEffect property.
     /// </summary>
@@ -181,8 +238,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             return FeatureEffect;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -191,7 +248,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeatureEffect;
@@ -199,7 +256,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 
         FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
             "getFeatureEffect", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -207,10 +264,10 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
         }
-        
+
         return FeatureEffect;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -220,8 +277,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             return Filter;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -230,32 +287,33 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Filter;
         }
 
-        FeatureFilter? result = await JsComponentReference.InvokeAsync<FeatureFilter?>(
-            "getFilter", CancellationTokenSource.Token);
-        
+        FeatureFilter? result =
+            await JsComponentReference.InvokeAsync<FeatureFilter?>("getFilter", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Filter is not null)
             {
                 result.Id = Filter.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             Filter = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Filter)] = Filter;
         }
-        
+
         return Filter;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasAllFeatures property.
     /// </summary>
@@ -265,8 +323,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             return HasAllFeatures;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -275,26 +333,28 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HasAllFeatures;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasAllFeatures");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasAllFeatures = result.Value.Value;
+            HasAllFeatures = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HasAllFeatures)] = HasAllFeatures;
+            ModifiedParameters[nameof(HasAllFeatures)] = HasAllFeatures;
         }
-         
+
         return HasAllFeatures;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasAllFeaturesInView property.
     /// </summary>
@@ -304,8 +364,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             return HasAllFeaturesInView;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -314,26 +374,28 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HasAllFeaturesInView;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasAllFeaturesInView");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasAllFeaturesInView = result.Value.Value;
+            HasAllFeaturesInView = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HasAllFeaturesInView)] = HasAllFeaturesInView;
+            ModifiedParameters[nameof(HasAllFeaturesInView)] = HasAllFeaturesInView;
         }
-         
+
         return HasAllFeaturesInView;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasFullGeometries property.
     /// </summary>
@@ -343,8 +405,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             return HasFullGeometries;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -353,26 +415,28 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HasFullGeometries;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasFullGeometries");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasFullGeometries = result.Value.Value;
+            HasFullGeometries = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HasFullGeometries)] = HasFullGeometries;
+            ModifiedParameters[nameof(HasFullGeometries)] = HasFullGeometries;
         }
-         
+
         return HasFullGeometries;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaximumNumberOfFeatures property.
     /// </summary>
@@ -382,8 +446,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             return MaximumNumberOfFeatures;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -392,26 +456,28 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MaximumNumberOfFeatures;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeatures");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaximumNumberOfFeatures = result.Value.Value;
+            MaximumNumberOfFeatures = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaximumNumberOfFeatures)] = MaximumNumberOfFeatures;
+            ModifiedParameters[nameof(MaximumNumberOfFeatures)] = MaximumNumberOfFeatures;
         }
-         
+
         return MaximumNumberOfFeatures;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaximumNumberOfFeaturesExceeded property.
     /// </summary>
@@ -421,8 +487,8 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             return MaximumNumberOfFeaturesExceeded;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -431,27 +497,30 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MaximumNumberOfFeaturesExceeded;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeaturesExceeded");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaximumNumberOfFeaturesExceeded = result.Value.Value;
+            MaximumNumberOfFeaturesExceeded = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = MaximumNumberOfFeaturesExceeded;
+            ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = MaximumNumberOfFeaturesExceeded;
         }
-         
+
         return MaximumNumberOfFeaturesExceeded;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -467,13 +536,13 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         MaximumNumberOfFeatures = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaximumNumberOfFeatures)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -482,16 +551,16 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maximumNumberOfFeatures", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaximumNumberOfFeaturesExceeded property after render.
     /// </summary>
@@ -504,13 +573,13 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         MaximumNumberOfFeaturesExceeded = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -519,74 +588,20 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maximumNumberOfFeaturesExceeded", value);
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case FeatureEffect featureEffect:
-                if (featureEffect != FeatureEffect)
-                {
-                    FeatureEffect = featureEffect;
-                    ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
-                }
-                
-                return true;
-            case FeatureFilter filter:
-                if (filter != Filter)
-                {
-                    Filter = filter;
-                    ModifiedParameters[nameof(Filter)] = Filter;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case FeatureEffect _:
-                FeatureEffect = null;
-                ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
-                return true;
-            case FeatureFilter _:
-                Filter = null;
-                ModifiedParameters[nameof(Filter)] = Filter;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        FeatureEffect?.ValidateRequiredGeneratedChildren();
-        Filter?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

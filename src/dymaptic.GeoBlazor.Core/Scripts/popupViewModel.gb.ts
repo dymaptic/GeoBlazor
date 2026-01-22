@@ -102,7 +102,7 @@ export default class PopupViewModelGenerated extends BaseComponent {
             this.component.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async clear(): Promise<void> {
         this.component.clear();
@@ -666,7 +666,7 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
 
     if (hasValue(dotNetPopupViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetPopupViewModel.id)) {
-            let { default: PopupViewModelWrapper } = await import('./popupViewModel');
+            let {default: PopupViewModelWrapper} = await import('./popupViewModel');
             let popupViewModelWrapper = new PopupViewModelWrapper(jsObject);
             popupViewModelWrapper.geoBlazorId = dotNetPopupViewModel.id;
             popupViewModelWrapper.viewId = viewId;

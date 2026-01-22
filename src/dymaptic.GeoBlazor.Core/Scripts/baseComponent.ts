@@ -2,10 +2,11 @@ import {Field, Type } from "protobufjs";
 import {
     hasValue,
     loadProtobuf,
-    // protobufRoot,
-    // ProtoTypes,
-    // updateGeometryForProtobuf,
-    // updateGraphicForProtobuf, updateSymbolForProtobuf
+    protobufRoot,
+    ProtoTypes,
+    updateGeometryForProtobuf,
+    updateGraphicForProtobuf,
+    updateSymbolForProtobuf
 } from "./arcGisJsInterop";
 import {buildEncodedJson} from "./geoBlazorCore";
 import {IPropertyWrapper} from "./definitions";
@@ -129,51 +130,51 @@ export default class BaseComponent implements IPropertyWrapper {
     }
 
     parseDotNetUint8Array(typeName: string, uint8: Uint8Array, isArrayType: boolean): any {
-        // if (Object.hasOwn(ProtoTypes, typeName)) {
-        //     try {
-        //         const protoType = ProtoTypes[typeName];
-        //        
-        //         if (isArrayType) {
-        //             let collectionType = `${typeName}Collection`;
-        //             let ProtoCollectionType: any = ProtoTypes[collectionType];
-        //             if (!ProtoCollectionType) {
-        //                 // create missing protobuf type for array of this type
-        //                 ProtoCollectionType = new Type(collectionType)
-        //                     .add(new Field('items', 1, protoType.name, 'repeated'));
-        //                 ProtoTypes[collectionType] = ProtoCollectionType;
-        //                 protobufRoot.nested.dymaptic.GeoBlazor.Core.add(ProtoCollectionType)
-        //             }
-        //
-        //             const decodedCollection = ProtoCollectionType.decode(uint8);
-        //             let parsedCollection = ProtoCollectionType.toObject(decodedCollection, {
-        //                 defaults: false,
-        //                 enums: String,
-        //                 longs: String,
-        //                 arrays: true,
-        //                 objects: false
-        //             });
-        //
-        //             let resultArray: any[] = [];
-        //             for (let i = 0; i < parsedCollection.items.length; i++) {
-        //                 let itemValue = parsedCollection.items[i];
-        //                 resultArray.push(itemValue);
-        //             }
-        //             return resultArray;
-        //         }
-        //    
-        //         const decoded = protoType.decode(uint8);
-        //         return protoType.toObject(decoded, {
-        //             defaults: false,
-        //             enums: String,
-        //             longs: String,
-        //             arrays: false,
-        //             objects: false
-        //         });
-        //     } catch (e) {
-        //         console.error(e);
-        //         return null;
-        //     }
-        // }
+        if (Object.hasOwn(ProtoTypes, typeName)) {
+            try {
+                const protoType = ProtoTypes[typeName];
+                
+                if (isArrayType) {
+                    let collectionType = `${typeName}Collection`;
+                    let ProtoCollectionType: any = ProtoTypes[collectionType];
+                    if (!ProtoCollectionType) {
+                        // create missing protobuf type for array of this type
+                        ProtoCollectionType = new Type(collectionType)
+                            .add(new Field('items', 1, protoType.name, 'repeated'));
+                        ProtoTypes[collectionType] = ProtoCollectionType;
+                        protobufRoot.nested.dymaptic.GeoBlazor.Core.add(ProtoCollectionType)
+                    }
+
+                    const decodedCollection = ProtoCollectionType.decode(uint8);
+                    let parsedCollection = ProtoCollectionType.toObject(decodedCollection, {
+                        defaults: false,
+                        enums: String,
+                        longs: String,
+                        arrays: true,
+                        objects: false
+                    });
+
+                    let resultArray: any[] = [];
+                    for (let i = 0; i < parsedCollection.items.length; i++) {
+                        let itemValue = parsedCollection.items[i];
+                        resultArray.push(itemValue);
+                    }
+                    return resultArray;
+                }
+            
+                const decoded = protoType.decode(uint8);
+                return protoType.toObject(decoded, {
+                    defaults: false,
+                    enums: String,
+                    longs: String,
+                    arrays: false,
+                    objects: false
+                });
+            } catch (e) {
+                console.error(e);
+                return null;
+            }
+        }
 
         // Fallback to JSON parsing for simple types
         let decoder = new TextDecoder();
@@ -216,82 +217,82 @@ export default class BaseComponent implements IPropertyWrapper {
             protoReturnType = protoReturnType.replace("Collection", "");
         }
 
-        // if (Object.hasOwn(ProtoTypes, protoReturnType)) {
-        //     try {
-        //         const protoType = ProtoTypes[protoReturnType];
-        //
-        //         if (isArrayType) {
-        //             let collectionType = `${protoReturnType}Collection`;
-        //             let protoCollectionType: any = ProtoTypes[collectionType];
-        //             if (!protoCollectionType) {
-        //                 // create missing protobuf type for array of this type
-        //                 protoCollectionType = new Type(collectionType)
-        //                     .add(new Field('items', 1, protoType.name, 'repeated'));
-        //                 ProtoTypes[collectionType] = protoCollectionType;
-        //                 protobufRoot.nested.dymaptic.GeoBlazor.Core.add(protoCollectionType)
-        //             }
-        //            
-        //             this.checkObjectForGraphics(protoCollectionType, returnValue, true);
-        //
-        //             return protoCollectionType.encode({
-        //                 items: returnValue
-        //             }).finish();
-        //         }
-        //        
-        //         this.checkObjectForGraphics(protoType, returnValue, false);
-        //
-        //         return protoType.encode(returnValue).finish();
-        //     } catch (e) {
-        //         console.error(e);
-        //         throw e;
-        //     }
-        // }
+        if (Object.hasOwn(ProtoTypes, protoReturnType)) {
+            try {
+                const protoType = ProtoTypes[protoReturnType];
+
+                if (isArrayType) {
+                    let collectionType = `${protoReturnType}Collection`;
+                    let protoCollectionType: any = ProtoTypes[collectionType];
+                    if (!protoCollectionType) {
+                        // create missing protobuf type for array of this type
+                        protoCollectionType = new Type(collectionType)
+                            .add(new Field('items', 1, protoType.name, 'repeated'));
+                        ProtoTypes[collectionType] = protoCollectionType;
+                        protobufRoot.nested.dymaptic.GeoBlazor.Core.add(protoCollectionType)
+                    }
+                    
+                    this.checkObjectForGraphics(protoCollectionType, returnValue, true);
+
+                    return protoCollectionType.encode({
+                        items: returnValue
+                    }).finish();
+                }
+                
+                this.checkObjectForGraphics(protoType, returnValue, false);
+
+                return protoType.encode(returnValue).finish();
+            } catch (e) {
+                console.error(e);
+                throw e;
+            }
+        }
         
-        return buildEncodedJson(returnValue) as any;
+        return buildEncodedJson(returnValue);
     }
     
     checkObjectForGraphics(protoType: any, returnValue: any, isArrayType: boolean): void {
-        // if (this.updateGraphicsForProtobuf(protoType, returnValue, isArrayType)) {
-        //     return;
-        // }
+        if (this.updateGraphicsForProtobuf(protoType, returnValue, isArrayType)) {
+            return;
+        }
         for (let nested of protoType.nestedArray) {
             this.checkObjectForGraphics(nested, returnValue, isArrayType);
         }
     }
     
-    // updateGraphicsForProtobuf(protoType: any, returnValue: any, isArrayType: boolean): boolean {
-    //     switch (protoType.name) {
-    //         case 'Graphic':
-    //             if (isArrayType) {
-    //                 for(let val of returnValue as Array<any>) {
-    //                     updateGraphicForProtobuf(val, null);
-    //                 }
-    //             } else {
-    //                 updateGraphicForProtobuf(returnValue, null);
-    //             }
-    //             return true;
-    //         case 'Geometry':
-    //             if (isArrayType) {
-    //                 for(let val of returnValue as Array<any>) {
-    //                     updateGeometryForProtobuf(val);
-    //                 }
-    //             } else {
-    //                 updateGeometryForProtobuf(returnValue);
-    //             }
-    //             return true;
-    //         case 'Symbol':
-    //             if (isArrayType) {
-    //                 for(let val of returnValue as Array<any>) {
-    //                     updateSymbolForProtobuf(val);
-    //                 }
-    //             } else {
-    //                 updateSymbolForProtobuf(returnValue);
-    //             }
-    //             return true;
-    //         default:
-    //             return false;
-    //     }
-    // }
+    updateGraphicsForProtobuf(protoType: any, returnValue: any, isArrayType: boolean): boolean {
+        switch (protoType.name) {
+            case 'Graphic':
+                if (isArrayType) {
+                    for(let val of returnValue as Array<any>) {
+                        updateGraphicForProtobuf(val, null);
+                    }
+                } else {
+                    updateGraphicForProtobuf(returnValue, null);
+                }
+                return true;
+            case 'Geometry':
+                if (isArrayType) {
+                    for(let val of returnValue as Array<any>) {
+                        updateGeometryForProtobuf(val);
+                    }
+                } else {
+                    updateGeometryForProtobuf(returnValue);
+                }
+                return true;
+            case 'Symbol':
+                if (isArrayType) {
+                    for(let val of returnValue as Array<any>) {
+                        updateSymbolForProtobuf(val);
+                    }
+                } else {
+                    updateSymbolForProtobuf(returnValue);
+                }
+                return true;
+            default:
+                return false;
+        }
+    }
 
     simpleDotNetTypes = ['int32', 'int64', 'long', 'decimal', 'double', 'single', 'float', 'int', 'bool',
         'ulong', 'uint', 'ushort', 'byte', 'sbyte', 'char',

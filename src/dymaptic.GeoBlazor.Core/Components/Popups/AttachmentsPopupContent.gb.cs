@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.AttachmentsPopupContent.html">GeoBlazor Docs</a>
 ///     An `AttachmentsContent` popup element represents an attachment element associated with a
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public partial class AttachmentsPopupContent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -40,8 +38,7 @@ public partial class AttachmentsPopupContent
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-AttachmentsOrderByInfo.html">AttachmentsOrderByInfo</a> indicating the display order for the attachments, and whether they should be sorted in ascending or descending order.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html#orderByFields">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public AttachmentsPopupContent(
-        string? title = null,
+    public AttachmentsPopupContent(string? title = null,
         string? description = null,
         AttachmentsPopupContentDisplayType? displayType = null,
         IReadOnlyList<AttachmentsOrderByInfo>? orderByFields = null)
@@ -52,10 +49,10 @@ public partial class AttachmentsPopupContent
         Description = description;
         DisplayType = displayType;
         OrderByFields = orderByFields;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -67,328 +64,9 @@ public partial class AttachmentsPopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<AttachmentsOrderByInfo>? OrderByFields { get; set; }
-    
+
 #endregion
 
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Description property.
-    /// </summary>
-    public async Task<string?> GetDescription()
-    {
-        if (CoreJsModule is null)
-        {
-            return Description;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Description;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "description");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Description = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Description)] = Description;
-        }
-         
-        return Description;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DisplayType property.
-    /// </summary>
-    public async Task<AttachmentsPopupContentDisplayType?> GetDisplayType()
-    {
-        if (CoreJsModule is null)
-        {
-            return DisplayType;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return DisplayType;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<AttachmentsPopupContentDisplayType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AttachmentsPopupContentDisplayType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "displayType");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             DisplayType = (AttachmentsPopupContentDisplayType)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(DisplayType)] = DisplayType;
-        }
-         
-        return DisplayType;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the OrderByFields property.
-    /// </summary>
-    public async Task<IReadOnlyList<AttachmentsOrderByInfo>?> GetOrderByFields()
-    {
-        if (CoreJsModule is null)
-        {
-            return OrderByFields;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return OrderByFields;
-        }
-
-        IReadOnlyList<AttachmentsOrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AttachmentsOrderByInfo>?>(
-            "getOrderByFields", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            OrderByFields = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
-        }
-        
-        return OrderByFields;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Title property.
-    /// </summary>
-    public async Task<string?> GetTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return Title;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Title;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Title = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
-        }
-         
-        return Title;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Description property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDescription(string? value)
-    {
-#pragma warning disable BL0005
-        Description = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Description)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "description", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the DisplayType property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDisplayType(AttachmentsPopupContentDisplayType? value)
-    {
-#pragma warning disable BL0005
-        DisplayType = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DisplayType)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "displayType", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the OrderByFields property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetOrderByFields(IReadOnlyList<AttachmentsOrderByInfo>? value)
-    {
-        if (value is not null)
-        {
-            foreach (AttachmentsOrderByInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
-#pragma warning disable BL0005
-        OrderByFields = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(OrderByFields)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "orderByFields", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Title property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTitle(string? value)
-    {
-#pragma warning disable BL0005
-        Title = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Title)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
-#endregion
 
 #region Add to Collection Methods
 
@@ -405,12 +83,12 @@ public partial class AttachmentsPopupContent
             : [..OrderByFields, ..values];
         await SetOrderByFields(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the OrderByFields property.
     /// </summary>
@@ -423,11 +101,26 @@ public partial class AttachmentsPopupContent
         {
             return;
         }
+
         await SetOrderByFields(OrderByFields.Except(values).ToArray());
     }
-    
+
 #endregion
 
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (OrderByFields is not null)
+        {
+            foreach (AttachmentsOrderByInfo child in OrderByFields)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -436,12 +129,13 @@ public partial class AttachmentsPopupContent
         {
             case AttachmentsOrderByInfo orderByFields:
                 OrderByFields ??= [];
+
                 if (!OrderByFields.Contains(orderByFields))
                 {
                     OrderByFields = [..OrderByFields, orderByFields];
                     ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -456,24 +150,338 @@ public partial class AttachmentsPopupContent
             case AttachmentsOrderByInfo orderByFields:
                 OrderByFields = OrderByFields?.Where(o => o != orderByFields).ToList();
                 ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Description property.
+    /// </summary>
+    public async Task<string?> GetDescription()
     {
-    
-        if (OrderByFields is not null)
+        if (CoreJsModule is null)
         {
-            foreach (AttachmentsOrderByInfo child in OrderByFields)
+            return Description;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Description;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Description = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Description)] = Description;
+        }
+
+        return Description;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DisplayType property.
+    /// </summary>
+    public async Task<AttachmentsPopupContentDisplayType?> GetDisplayType()
+    {
+        if (CoreJsModule is null)
+        {
+            return DisplayType;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return DisplayType;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<AttachmentsPopupContentDisplayType>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AttachmentsPopupContentDisplayType>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "displayType");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            DisplayType = (AttachmentsPopupContentDisplayType)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(DisplayType)] = DisplayType;
+        }
+
+        return DisplayType;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the OrderByFields property.
+    /// </summary>
+    public async Task<IReadOnlyList<AttachmentsOrderByInfo>?> GetOrderByFields()
+    {
+        if (CoreJsModule is null)
+        {
+            return OrderByFields;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return OrderByFields;
+        }
+
+        IReadOnlyList<AttachmentsOrderByInfo>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<AttachmentsOrderByInfo>?>("getOrderByFields",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            OrderByFields = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
+        }
+
+        return OrderByFields;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Title property.
+    /// </summary>
+    public async Task<string?> GetTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return Title;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Title;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Title = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Title)] = Title;
+        }
+
+        return Title;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Description property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDescription(string? value)
+    {
+#pragma warning disable BL0005
+        Description = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Description)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "description", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the DisplayType property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDisplayType(AttachmentsPopupContentDisplayType? value)
+    {
+#pragma warning disable BL0005
+        DisplayType = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DisplayType)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "displayType", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the OrderByFields property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetOrderByFields(IReadOnlyList<AttachmentsOrderByInfo>? value)
+    {
+        if (value is not null)
+        {
+            foreach (AttachmentsOrderByInfo item in value)
             {
-                child.ValidateRequiredGeneratedChildren();
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        base.ValidateRequiredGeneratedChildren();
+
+#pragma warning disable BL0005
+        OrderByFields = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(OrderByFields)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "orderByFields", value);
     }
-      
+
+    /// <summary>
+    ///    Asynchronously set the value of the Title property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTitle(string? value)
+    {
+#pragma warning disable BL0005
+        Title = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Title)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+
+#endregion
 }

@@ -40,7 +40,7 @@ export default class DistanceMeasurement2DWidgetGenerated extends BaseComponent 
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -279,7 +279,7 @@ export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: 
 
     if (hasValue(dotNetDistanceMeasurement2DWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetDistanceMeasurement2DWidget.id)) {
-            let { default: DistanceMeasurement2DWidgetWrapper } = await import('./distanceMeasurement2DWidget');
+            let {default: DistanceMeasurement2DWidgetWrapper} = await import('./distanceMeasurement2DWidget');
             let distanceMeasurement2DWidgetWrapper = new DistanceMeasurement2DWidgetWrapper(jsObject);
             distanceMeasurement2DWidgetWrapper.geoBlazorId = dotNetDistanceMeasurement2DWidget.id;
             distanceMeasurement2DWidgetWrapper.viewId = viewId;

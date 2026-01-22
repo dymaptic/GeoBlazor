@@ -69,6 +69,6 @@ export default class MultipointWrapper extends MultipointGenerated {
     constructor(component: Multipoint) {
         super(component);
     }
-    
+
 }
 

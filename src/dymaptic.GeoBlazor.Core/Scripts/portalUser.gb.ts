@@ -66,7 +66,7 @@ export default class PortalUserGenerated extends BaseComponent {
             this.component.username = dotNetObject.username;
         }
     }
-    
+
     // region methods
     async addItem(parameters: any): Promise<any> {
         let { buildJsPortalUserAddItemParams } = await import('./portalUserAddItemParams');
@@ -454,7 +454,7 @@ export async function buildDotNetPortalUserGenerated(jsObject: any, layerId: str
 
     if (hasValue(dotNetPortalUser.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetPortalUser.id)) {
-            let { default: PortalUserWrapper } = await import('./portalUser');
+            let {default: PortalUserWrapper} = await import('./portalUser');
             let portalUserWrapper = new PortalUserWrapper(jsObject);
             portalUserWrapper.geoBlazorId = dotNetPortalUser.id;
             portalUserWrapper.viewId = viewId;

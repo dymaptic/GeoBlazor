@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeVariable.html">GeoBlazor Docs</a>
 ///     The size visual variable defines the size of individual features in a layer based
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class SizeVariable
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -96,8 +94,7 @@ public partial class SizeVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#valueExpression">valueExpression</a> to icon sizes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#stops">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SizeVariable(
-        string field,
+    public SizeVariable(string field,
         Dimension? minSize = null,
         Dimension? maxSize = null,
         double? minDataValue = null,
@@ -130,10 +127,10 @@ public partial class SizeVariable
         ValueExpressionTitle = valueExpressionTitle;
         LegendOptions = legendOptions;
         Stops = stops;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -146,860 +143,24 @@ public partial class SizeVariable
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<SizeStop>? Stops { get; set; }
-    
+
 #endregion
 
-#region Property Getters
 
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Axis property.
-    /// </summary>
-    public async Task<VisualAxis?> GetAxis()
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
+        if (Stops is not null)
         {
-            return Axis;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Axis;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<VisualAxis>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualAxis>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "axis");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Axis = (VisualAxis)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Axis)] = Axis;
-        }
-         
-        return Axis;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MaxDataValue property.
-    /// </summary>
-    public async Task<double?> GetMaxDataValue()
-    {
-        if (CoreJsModule is null)
-        {
-            return MaxDataValue;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return MaxDataValue;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxDataValue");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             MaxDataValue = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxDataValue)] = MaxDataValue;
-        }
-         
-        return MaxDataValue;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MaxSize property.
-    /// </summary>
-    public async Task<Dimension?> GetMaxSize()
-    {
-        if (CoreJsModule is null)
-        {
-            return MaxSize;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return MaxSize;
-        }
-
-        // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, "maxSize");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             MaxSize = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxSize)] = MaxSize;
-        }
-         
-        return MaxSize;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MinDataValue property.
-    /// </summary>
-    public async Task<double?> GetMinDataValue()
-    {
-        if (CoreJsModule is null)
-        {
-            return MinDataValue;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return MinDataValue;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minDataValue");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             MinDataValue = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(MinDataValue)] = MinDataValue;
-        }
-         
-        return MinDataValue;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MinSize property.
-    /// </summary>
-    public async Task<Dimension?> GetMinSize()
-    {
-        if (CoreJsModule is null)
-        {
-            return MinSize;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return MinSize;
-        }
-
-        // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, "minSize");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             MinSize = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(MinSize)] = MinSize;
-        }
-         
-        return MinSize;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the NormalizationField property.
-    /// </summary>
-    public async Task<string?> GetNormalizationField()
-    {
-        if (CoreJsModule is null)
-        {
-            return NormalizationField;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return NormalizationField;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "normalizationField");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             NormalizationField = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
-        }
-         
-        return NormalizationField;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Stops property.
-    /// </summary>
-    public async Task<IReadOnlyList<SizeStop>?> GetStops()
-    {
-        if (CoreJsModule is null)
-        {
-            return Stops;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Stops;
-        }
-
-        IReadOnlyList<SizeStop>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SizeStop>?>(
-            "getStops", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Stops = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Stops)] = Stops;
-        }
-        
-        return Stops;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Target property.
-    /// </summary>
-    public async Task<string?> GetTarget()
-    {
-        if (CoreJsModule is null)
-        {
-            return Target;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Target;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "target");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Target = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Target)] = Target;
-        }
-         
-        return Target;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the UseSymbolValue property.
-    /// </summary>
-    public async Task<bool?> GetUseSymbolValue()
-    {
-        if (CoreJsModule is null)
-        {
-            return UseSymbolValue;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return UseSymbolValue;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "useSymbolValue");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             UseSymbolValue = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(UseSymbolValue)] = UseSymbolValue;
-        }
-         
-        return UseSymbolValue;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ValueRepresentation property.
-    /// </summary>
-    public async Task<VisualValueRepresentation?> GetValueRepresentation()
-    {
-        if (CoreJsModule is null)
-        {
-            return ValueRepresentation;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ValueRepresentation;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<VisualValueRepresentation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualValueRepresentation>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueRepresentation");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             ValueRepresentation = (VisualValueRepresentation)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ValueRepresentation)] = ValueRepresentation;
-        }
-         
-        return ValueRepresentation;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ValueUnit property.
-    /// </summary>
-    public async Task<VisualValueUnit?> GetValueUnit()
-    {
-        if (CoreJsModule is null)
-        {
-            return ValueUnit;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ValueUnit;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<VisualValueUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualValueUnit>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueUnit");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             ValueUnit = (VisualValueUnit)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ValueUnit)] = ValueUnit;
-        }
-         
-        return ValueUnit;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Axis property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetAxis(VisualAxis? value)
-    {
-#pragma warning disable BL0005
-        Axis = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Axis)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "axis", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the MaxDataValue property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMaxDataValue(double? value)
-    {
-#pragma warning disable BL0005
-        MaxDataValue = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MaxDataValue)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "maxDataValue", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the MaxSize property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMaxSize(Dimension? value)
-    {
-#pragma warning disable BL0005
-        MaxSize = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MaxSize)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "maxSize", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the MinDataValue property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMinDataValue(double? value)
-    {
-#pragma warning disable BL0005
-        MinDataValue = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MinDataValue)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "minDataValue", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the MinSize property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMinSize(Dimension? value)
-    {
-#pragma warning disable BL0005
-        MinSize = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MinSize)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "minSize", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the NormalizationField property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetNormalizationField(string? value)
-    {
-#pragma warning disable BL0005
-        NormalizationField = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(NormalizationField)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "normalizationField", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Stops property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStops(IReadOnlyList<SizeStop>? value)
-    {
-        if (value is not null)
-        {
-            foreach (SizeStop item in value)
+            foreach (SizeStop child in Stops)
             {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                child.ValidateRequiredGeneratedChildren();
             }
         }
-        
-#pragma warning disable BL0005
-        Stops = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Stops)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setStops", 
-            CancellationTokenSource.Token, value);
+
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Target property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTarget(string? value)
-    {
-#pragma warning disable BL0005
-        Target = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Target)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "target", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the UseSymbolValue property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetUseSymbolValue(bool? value)
-    {
-#pragma warning disable BL0005
-        UseSymbolValue = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(UseSymbolValue)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "useSymbolValue", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ValueRepresentation property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetValueRepresentation(VisualValueRepresentation? value)
-    {
-#pragma warning disable BL0005
-        ValueRepresentation = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ValueRepresentation)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "valueRepresentation", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ValueUnit property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetValueUnit(VisualValueUnit? value)
-    {
-#pragma warning disable BL0005
-        ValueUnit = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ValueUnit)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "valueUnit", value);
-    }
-    
-#endregion
+
 
 #region Add to Collection Methods
 
@@ -1016,12 +177,12 @@ public partial class SizeVariable
             : [..Stops, ..values];
         await SetStops(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Stops property.
     /// </summary>
@@ -1034,10 +195,12 @@ public partial class SizeVariable
         {
             return;
         }
+
         await SetStops(Stops.Except(values).ToArray());
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
@@ -1053,8 +216,8 @@ public partial class SizeVariable
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1063,17 +226,16 @@ public partial class SizeVariable
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "flipSizes", 
+
+        await JsComponentReference!.InvokeVoidAsync("flipSizes",
             CancellationTokenSource.Token);
     }
-    
+
 #endregion
 
 
@@ -1084,12 +246,13 @@ public partial class SizeVariable
         {
             case SizeStop stops:
                 Stops ??= [];
+
                 if (!Stops.Contains(stops))
                 {
                     Stops = [..Stops, stops];
                     ModifiedParameters[nameof(Stops)] = Stops;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -1104,24 +267,881 @@ public partial class SizeVariable
             case SizeStop stops:
                 Stops = Stops?.Where(s => s != stops).ToList();
                 ModifiedParameters[nameof(Stops)] = Stops;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Axis property.
+    /// </summary>
+    public async Task<VisualAxis?> GetAxis()
     {
-    
-        if (Stops is not null)
+        if (CoreJsModule is null)
         {
-            foreach (SizeStop child in Stops)
+            return Axis;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Axis;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<VisualAxis>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualAxis>?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "axis");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Axis = (VisualAxis)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Axis)] = Axis;
+        }
+
+        return Axis;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MaxDataValue property.
+    /// </summary>
+    public async Task<double?> GetMaxDataValue()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaxDataValue;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return MaxDataValue;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxDataValue");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            MaxDataValue = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MaxDataValue)] = MaxDataValue;
+        }
+
+        return MaxDataValue;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MaxSize property.
+    /// </summary>
+    public async Task<Dimension?> GetMaxSize()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaxSize;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return MaxSize;
+        }
+
+        // get the property value
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "maxSize");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            MaxSize = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MaxSize)] = MaxSize;
+        }
+
+        return MaxSize;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MinDataValue property.
+    /// </summary>
+    public async Task<double?> GetMinDataValue()
+    {
+        if (CoreJsModule is null)
+        {
+            return MinDataValue;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return MinDataValue;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minDataValue");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            MinDataValue = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MinDataValue)] = MinDataValue;
+        }
+
+        return MinDataValue;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MinSize property.
+    /// </summary>
+    public async Task<Dimension?> GetMinSize()
+    {
+        if (CoreJsModule is null)
+        {
+            return MinSize;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return MinSize;
+        }
+
+        // get the property value
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "minSize");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            MinSize = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MinSize)] = MinSize;
+        }
+
+        return MinSize;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the NormalizationField property.
+    /// </summary>
+    public async Task<string?> GetNormalizationField()
+    {
+        if (CoreJsModule is null)
+        {
+            return NormalizationField;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return NormalizationField;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "normalizationField");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            NormalizationField = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+        }
+
+        return NormalizationField;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Stops property.
+    /// </summary>
+    public async Task<IReadOnlyList<SizeStop>?> GetStops()
+    {
+        if (CoreJsModule is null)
+        {
+            return Stops;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Stops;
+        }
+
+        IReadOnlyList<SizeStop>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<SizeStop>?>("getStops", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Stops = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Stops)] = Stops;
+        }
+
+        return Stops;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Target property.
+    /// </summary>
+    public async Task<string?> GetTarget()
+    {
+        if (CoreJsModule is null)
+        {
+            return Target;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Target;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "target");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Target = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Target)] = Target;
+        }
+
+        return Target;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the UseSymbolValue property.
+    /// </summary>
+    public async Task<bool?> GetUseSymbolValue()
+    {
+        if (CoreJsModule is null)
+        {
+            return UseSymbolValue;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return UseSymbolValue;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "useSymbolValue");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            UseSymbolValue = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(UseSymbolValue)] = UseSymbolValue;
+        }
+
+        return UseSymbolValue;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ValueRepresentation property.
+    /// </summary>
+    public async Task<VisualValueRepresentation?> GetValueRepresentation()
+    {
+        if (CoreJsModule is null)
+        {
+            return ValueRepresentation;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ValueRepresentation;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<VisualValueRepresentation>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualValueRepresentation>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "valueRepresentation");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            ValueRepresentation = (VisualValueRepresentation)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ValueRepresentation)] = ValueRepresentation;
+        }
+
+        return ValueRepresentation;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ValueUnit property.
+    /// </summary>
+    public async Task<VisualValueUnit?> GetValueUnit()
+    {
+        if (CoreJsModule is null)
+        {
+            return ValueUnit;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ValueUnit;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<VisualValueUnit>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualValueUnit>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "valueUnit");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            ValueUnit = (VisualValueUnit)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ValueUnit)] = ValueUnit;
+        }
+
+        return ValueUnit;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Axis property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetAxis(VisualAxis? value)
+    {
+#pragma warning disable BL0005
+        Axis = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Axis)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "axis", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the MaxDataValue property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaxDataValue(double? value)
+    {
+#pragma warning disable BL0005
+        MaxDataValue = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MaxDataValue)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "maxDataValue", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the MaxSize property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaxSize(Dimension? value)
+    {
+#pragma warning disable BL0005
+        MaxSize = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MaxSize)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "maxSize", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the MinDataValue property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMinDataValue(double? value)
+    {
+#pragma warning disable BL0005
+        MinDataValue = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MinDataValue)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "minDataValue", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the MinSize property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMinSize(Dimension? value)
+    {
+#pragma warning disable BL0005
+        MinSize = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MinSize)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "minSize", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the NormalizationField property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetNormalizationField(string? value)
+    {
+#pragma warning disable BL0005
+        NormalizationField = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(NormalizationField)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "normalizationField", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Stops property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetStops(IReadOnlyList<SizeStop>? value)
+    {
+        if (value is not null)
+        {
+            foreach (SizeStop item in value)
             {
-                child.ValidateRequiredGeneratedChildren();
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        base.ValidateRequiredGeneratedChildren();
+
+#pragma warning disable BL0005
+        Stops = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Stops)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setStops",
+            CancellationTokenSource.Token, value);
     }
-      
+
+    /// <summary>
+    ///    Asynchronously set the value of the Target property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTarget(string? value)
+    {
+#pragma warning disable BL0005
+        Target = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Target)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "target", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the UseSymbolValue property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUseSymbolValue(bool? value)
+    {
+#pragma warning disable BL0005
+        UseSymbolValue = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(UseSymbolValue)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "useSymbolValue", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the ValueRepresentation property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetValueRepresentation(VisualValueRepresentation? value)
+    {
+#pragma warning disable BL0005
+        ValueRepresentation = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ValueRepresentation)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "valueRepresentation", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the ValueUnit property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetValueUnit(VisualValueUnit? value)
+    {
+#pragma warning disable BL0005
+        ValueUnit = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ValueUnit)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "valueUnit", value);
+    }
+
+#endregion
 }

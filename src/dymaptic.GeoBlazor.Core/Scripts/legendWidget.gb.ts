@@ -56,7 +56,7 @@ export default class LegendWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -364,7 +364,7 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any, layerId: s
 
     if (hasValue(dotNetLegendWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetLegendWidget.id)) {
-            let { default: LegendWidgetWrapper } = await import('./legendWidget');
+            let {default: LegendWidgetWrapper} = await import('./legendWidget');
             let legendWidgetWrapper = new LegendWidgetWrapper(jsObject);
             legendWidgetWrapper.geoBlazorId = dotNetLegendWidget.id;
             legendWidgetWrapper.viewId = viewId;

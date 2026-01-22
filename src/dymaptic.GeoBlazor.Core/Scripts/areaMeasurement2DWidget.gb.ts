@@ -40,7 +40,7 @@ export default class AreaMeasurement2DWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -279,7 +279,7 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any,
 
     if (hasValue(dotNetAreaMeasurement2DWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetAreaMeasurement2DWidget.id)) {
-            let { default: AreaMeasurement2DWidgetWrapper } = await import('./areaMeasurement2DWidget');
+            let {default: AreaMeasurement2DWidgetWrapper} = await import('./areaMeasurement2DWidget');
             let areaMeasurement2DWidgetWrapper = new AreaMeasurement2DWidgetWrapper(jsObject);
             areaMeasurement2DWidgetWrapper.geoBlazorId = dotNetAreaMeasurement2DWidget.id;
             areaMeasurement2DWidgetWrapper.viewId = viewId;

@@ -39,7 +39,7 @@ export default class BasemapGenerated extends BaseComponent {
             this.component.title = dotNetObject.title;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.component.cancelLoad();
@@ -58,7 +58,7 @@ export default class BasemapGenerated extends BaseComponent {
     }
 
     async load(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.load(options);
     }
 
@@ -96,7 +96,7 @@ export default class BasemapGenerated extends BaseComponent {
         let { buildJsLayer } = await import('./layer');
         this.component.baseLayers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getBasemapId(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -172,7 +172,7 @@ export default class BasemapGenerated extends BaseComponent {
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
         return await buildDotNetBasemapStyle(this.component.style, this.viewId);
     }
-    
+
     async getThumbnailUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -188,7 +188,7 @@ export default class BasemapGenerated extends BaseComponent {
     setThumbnailUrl(value: any): void {
         this.component.thumbnailUrl = JSON.parse(value);
     }
-    
+
     async getTitle(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -315,7 +315,7 @@ export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string
 
     if (hasValue(dotNetBasemap.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetBasemap.id)) {
-            let { default: BasemapWrapper } = await import('./basemap');
+            let {default: BasemapWrapper} = await import('./basemap');
             let basemapWrapper = new BasemapWrapper(jsObject);
             basemapWrapper.geoBlazorId = dotNetBasemap.id;
             basemapWrapper.viewId = viewId;

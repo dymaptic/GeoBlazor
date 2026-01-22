@@ -77,15 +77,15 @@ export default class WebTileLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -97,8 +97,8 @@ export default class WebTileLayerGenerated extends BaseComponent {
     async fetchTile(level: any,
         row: any,
         col: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                    signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -408,7 +408,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
         default: 
             return sanitize(dotNetObject);
     }
-}     
+}
 
 export async function buildDotNetWebTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
@@ -529,7 +529,7 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any, layerId: s
 
             if (hasValue(dotNetWebTileLayer.id)) {
                 if (!jsObjectRefs.hasOwnProperty(dotNetWebTileLayer.id)) {
-                    let { default: WebTileLayerWrapper } = await import('./webTileLayer');
+                    let {default: WebTileLayerWrapper} = await import('./webTileLayer');
                     let webTileLayerWrapper = new WebTileLayerWrapper(jsObject);
                     webTileLayerWrapper.geoBlazorId = dotNetWebTileLayer.id;
                     webTileLayerWrapper.viewId = viewId;

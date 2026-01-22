@@ -65,73 +65,72 @@ public partial record WFSLayerInfo(
     /// <summary>
     ///     Parameterless constructor
     /// </summary>
-    public WFSLayerInfo(): this(null, null)
+    public WFSLayerInfo() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     The custom parameters applied to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Dictionary<string, object>? CustomParameters { get; set; } = CustomParameters;
-    
+
     /// <summary>
     ///     The extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Extent? Extent { get; set; } = Extent;
-    
+
     /// <summary>
     ///     The fields on the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<Field>? Fields { get; set; } = Fields;
-    
+
     /// <summary>
     ///     The geometry type of the features in the layer.
     ///     <a target="_blank" href="global.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public SimpleGeometryType? GeometryType { get; set; } = GeometryType;
-    
+
     /// <summary>
     ///     The name of the layer in the WFS service to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Name { get; set; } = Name;
-    
+
     /// <summary>
     ///     The namespace URI for the layer name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? NamespaceUri { get; set; } = NamespaceUri;
-    
+
     /// <summary>
     ///     The field containing the object ID.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? ObjectIdField { get; set; } = ObjectIdField;
-    
+
     /// <summary>
     ///     The spatial reference of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public SpatialReference? SpatialReference { get; set; } = SpatialReference;
-    
+
     /// <summary>
     ///     Determines whether the X and Y coordinates should be swapped.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? SwapXY { get; set; } = SwapXY;
-    
+
     /// <summary>
     ///     The URL to the WFS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Url { get; set; } = Url;
-    
+
     /// <summary>
     ///     
     /// </summary>
     public WFSCapabilities? WfsCapabilities { get; set; } = WfsCapabilities;
-    
 }

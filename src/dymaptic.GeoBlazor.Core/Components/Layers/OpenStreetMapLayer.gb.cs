@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer.html">GeoBlazor Docs</a>
 ///     Allows you to use <a target="_blank" href="http://wiki.openstreetmap.org/wiki/List_of_OSM-based_services">basemaps</a> from <a target="_blank" href="http://www.openstreetmap.org/">OpenStreetMap</a>.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public partial class OpenStreetMapLayer
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -107,8 +105,7 @@ public partial class OpenStreetMapLayer
     /// <param name="excludeApiKey">
     ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
-    public OpenStreetMapLayer(
-        PortalItem? portalItem = null,
+    public OpenStreetMapLayer(PortalItem? portalItem = null,
         string? title = null,
         BlendMode? blendMode = null,
         string? copyright = null,
@@ -149,8 +146,6 @@ public partial class OpenStreetMapLayer
         UrlTemplate = urlTemplate;
         VisibilityTimeExtent = visibilityTimeExtent;
         ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
 }

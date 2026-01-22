@@ -20,8 +20,8 @@ export default class WMTSLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -33,8 +33,8 @@ export default class WMTSLayerGenerated extends BaseComponent {
     async fetchTile(level: any,
         row: any,
         col: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                    signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -495,7 +495,7 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any, layerId: stri
 
     if (hasValue(dotNetWMTSLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetWMTSLayer.id)) {
-            let { default: WMTSLayerWrapper } = await import('./wMTSLayer');
+            let {default: WMTSLayerWrapper} = await import('./wMTSLayer');
             let wMTSLayerWrapper = new WMTSLayerWrapper(jsObject);
             wMTSLayerWrapper.geoBlazorId = dotNetWMTSLayer.id;
             wMTSLayerWrapper.viewId = viewId;

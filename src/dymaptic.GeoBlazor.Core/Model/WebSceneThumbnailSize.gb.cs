@@ -12,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="Width">
 /// </param>
 public partial record WebSceneThumbnailSize(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Height = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Width = null);

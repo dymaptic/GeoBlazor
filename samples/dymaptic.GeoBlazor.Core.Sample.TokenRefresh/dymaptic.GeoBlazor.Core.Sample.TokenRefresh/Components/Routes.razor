@@ -1,8 +1,9 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly" 
+﻿@using dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Components.Layout
+<Router AppAssembly="@typeof(Program).Assembly"
         AdditionalAssemblies="@(new[] { typeof(Client._Imports).Assembly })"
         NotFoundPage="@typeof(NotFound)">
     <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+        <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
 </Router>

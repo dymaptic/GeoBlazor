@@ -24,7 +24,7 @@ export default class ZoomViewModelGenerated extends BaseComponent {
             this.component.canZoomOut = dotNetObject.canZoomOut;
         }
     }
-    
+
     // region methods
     async zoomIn(): Promise<void> {
         this.component.zoomIn();
@@ -107,7 +107,7 @@ export async function buildDotNetZoomViewModelGenerated(jsObject: any, layerId: 
 
     if (hasValue(dotNetZoomViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetZoomViewModel.id)) {
-            let { default: ZoomViewModelWrapper } = await import('./zoomViewModel');
+            let {default: ZoomViewModelWrapper} = await import('./zoomViewModel');
             let zoomViewModelWrapper = new ZoomViewModelWrapper(jsObject);
             zoomViewModelWrapper.geoBlazorId = dotNetZoomViewModel.id;
             zoomViewModelWrapper.viewId = viewId;

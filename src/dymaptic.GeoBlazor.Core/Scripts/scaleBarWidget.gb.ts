@@ -36,7 +36,7 @@ export default class ScaleBarWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -252,7 +252,7 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any, layerId:
 
     if (hasValue(dotNetScaleBarWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetScaleBarWidget.id)) {
-            let { default: ScaleBarWidgetWrapper } = await import('./scaleBarWidget');
+            let {default: ScaleBarWidgetWrapper} = await import('./scaleBarWidget');
             let scaleBarWidgetWrapper = new ScaleBarWidgetWrapper(jsObject);
             scaleBarWidgetWrapper.geoBlazorId = dotNetScaleBarWidget.id;
             scaleBarWidgetWrapper.viewId = viewId;

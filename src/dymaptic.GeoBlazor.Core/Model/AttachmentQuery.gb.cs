@@ -81,65 +81,65 @@ public partial record AttachmentQuery(
     /// <summary>
     ///     Parameterless constructor
     /// </summary>
-    public AttachmentQuery(): this(null, null)
+    public AttachmentQuery() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     The where clause to be applied to attachment queries.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#attachmentsWhere">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? AttachmentsWhere { get; set; } = AttachmentsWhere;
-    
+
     /// <summary>
     ///     The file format that is supported by query attachment.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#attachmentTypes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? AttachmentTypes { get; set; } = AttachmentTypes;
-    
+
     /// <summary>
     ///     Indicates if the service should cache the attachment query results.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#cacheHint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? CacheHint { get; set; } = CacheHint;
-    
+
     /// <summary>
     ///     An array of globalIds for the features in the layer being queried.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#globalIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? GlobalIds { get; set; } = GlobalIds;
-    
+
     /// <summary>
     ///     Used to query for attachments that match the provided `keywords`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#keywords">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? Keywords { get; set; } = Keywords;
-    
+
     /// <summary>
     ///     Used to query for attachments that match this `name`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Name { get; set; } = Name;
-    
+
     /// <summary>
     ///     The number of features to retrieve.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#num">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? Num { get; set; } = Num;
-    
+
     /// <summary>
     ///     An array of objectIds of the features to be queried for attachments.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<ObjectId>? ObjectIds { get; set; } = ObjectIds;
-    
+
     /// <summary>
     ///     An array of one or more `attachmentInfo` field names on which the returned queried attachments will be sorted.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#orderByFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? OrderByFields { get; set; } = OrderByFields;
-    
+
     /// <summary>
     ///     If `true`, the <a target="_blank" href="https://en.wikipedia.org/wiki/Exif">Exchangeable image file format</a> for the attachment will be included in
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#exifInfo">attachmentInfo</a>.
@@ -147,23 +147,22 @@ public partial record AttachmentQuery(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#returnMetadata">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? ReturnMetadata { get; set; } = ReturnMetadata;
-    
+
     /// <summary>
     ///     The file size of the attachment is specified in bytes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#size">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<int>? Size { get; set; } = Size;
-    
+
     /// <summary>
     ///     This option fetches query results by skipping a specified number of records.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#start">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? Start { get; set; } = Start;
-    
+
     /// <summary>
     ///     The `where` clause to be applied to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#where">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Where { get; set; } = Where;
-    
 }

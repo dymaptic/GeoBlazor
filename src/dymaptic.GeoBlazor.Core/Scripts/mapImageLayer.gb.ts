@@ -117,7 +117,7 @@ export default class MapImageLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
@@ -136,8 +136,8 @@ export default class MapImageLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -799,7 +799,7 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, layerId: 
 
     if (hasValue(dotNetMapImageLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetMapImageLayer.id)) {
-            let { default: MapImageLayerWrapper } = await import('./mapImageLayer');
+            let {default: MapImageLayerWrapper} = await import('./mapImageLayer');
             let mapImageLayerWrapper = new MapImageLayerWrapper(jsObject);
             mapImageLayerWrapper.geoBlazorId = dotNetMapImageLayer.id;
             mapImageLayerWrapper.viewId = viewId;

@@ -27,7 +27,7 @@ export default class GeographicTransformationStepGenerated extends BaseComponent
             this.component.wkt = dotNetObject.wkt;
         }
     }
-    
+
     // region methods
     async getInverse(): Promise<any> {
         let result = this.component.getInverse();
@@ -120,7 +120,7 @@ export async function buildDotNetGeographicTransformationStepGenerated(jsObject:
 
     if (hasValue(dotNetGeographicTransformationStep.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetGeographicTransformationStep.id)) {
-            let { default: GeographicTransformationStepWrapper } = await import('./geographicTransformationStep');
+            let {default: GeographicTransformationStepWrapper} = await import('./geographicTransformationStep');
             let geographicTransformationStepWrapper = new GeographicTransformationStepWrapper(jsObject);
             geographicTransformationStepWrapper.geoBlazorId = dotNetGeographicTransformationStep.id;
             geographicTransformationStepWrapper.viewId = viewId;

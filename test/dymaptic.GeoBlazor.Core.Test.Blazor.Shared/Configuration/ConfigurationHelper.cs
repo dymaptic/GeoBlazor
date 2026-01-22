@@ -6,17 +6,18 @@ namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Configuration;
 
 public static class ConfigurationHelper
 {
-
     /// <summary>
     /// Recursively converts IConfiguration to a nested Dictionary and serializes to JSON.
     /// </summary>
     public static string ToJson(this IConfiguration config)
     {
         var dict = ToDictionary(config);
+
         var options = new JsonSerializerOptions
         {
             WriteIndented = true // Pretty print
         };
+
         return JsonSerializer.Serialize(dict, options);
     }
 

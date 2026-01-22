@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MultipartColorRamp.html">GeoBlazor Docs</a>
 ///     Creates a multipart color ramp to combine multiple continuous color ramps for use in raster
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class MultipartColorRamp
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -27,16 +25,15 @@ public partial class MultipartColorRamp
     ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MultipartColorRamp.html#colorRamps">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public MultipartColorRamp(
-        IReadOnlyList<AlgorithmicColorRamp>? colorRamps = null)
+    public MultipartColorRamp(IReadOnlyList<AlgorithmicColorRamp>? colorRamps = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ColorRamps = colorRamps;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -48,8 +45,24 @@ public partial class MultipartColorRamp
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<AlgorithmicColorRamp>? ColorRamps { get; set; }
-    
+
 #endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (ColorRamps is not null)
+        {
+            foreach (AlgorithmicColorRamp child in ColorRamps)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
+
 
 #region Property Getters
 
@@ -62,8 +75,8 @@ public partial class MultipartColorRamp
         {
             return ColorRamps;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -72,15 +85,16 @@ public partial class MultipartColorRamp
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ColorRamps;
         }
 
-        IReadOnlyList<AlgorithmicColorRamp>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AlgorithmicColorRamp>?>(
-            "getColorRamps", CancellationTokenSource.Token);
-        
+        IReadOnlyList<AlgorithmicColorRamp>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<AlgorithmicColorRamp>?>("getColorRamps",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -88,11 +102,12 @@ public partial class MultipartColorRamp
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ColorRamps)] = ColorRamps;
         }
-        
+
         return ColorRamps;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -111,18 +126,18 @@ public partial class MultipartColorRamp
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         ColorRamps = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ColorRamps)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -131,17 +146,18 @@ public partial class MultipartColorRamp
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorRamps", value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -158,12 +174,12 @@ public partial class MultipartColorRamp
             : [..ColorRamps, ..values];
         await SetColorRamps(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the ColorRamps property.
     /// </summary>
@@ -176,9 +192,10 @@ public partial class MultipartColorRamp
         {
             return;
         }
+
         await SetColorRamps(ColorRamps.Except(values).ToArray());
     }
-    
+
 #endregion
 
 
@@ -189,12 +206,13 @@ public partial class MultipartColorRamp
         {
             case AlgorithmicColorRamp colorRamps:
                 ColorRamps ??= [];
+
                 if (!ColorRamps.Contains(colorRamps))
                 {
                     ColorRamps = [..ColorRamps, colorRamps];
                     ModifiedParameters[nameof(ColorRamps)] = ColorRamps;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -209,24 +227,10 @@ public partial class MultipartColorRamp
             case AlgorithmicColorRamp colorRamps:
                 ColorRamps = ColorRamps?.Where(c => c != colorRamps).ToList();
                 ModifiedParameters[nameof(ColorRamps)] = ColorRamps;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (ColorRamps is not null)
-        {
-            foreach (AlgorithmicColorRamp child in ColorRamps)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

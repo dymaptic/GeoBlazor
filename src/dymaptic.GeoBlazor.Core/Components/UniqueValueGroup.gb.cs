@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html">GeoBlazor Docs</a>
 ///     UniqueValueGroup represents a group of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">unique value classes</a>
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class UniqueValueGroup : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -31,18 +29,107 @@ public partial class UniqueValueGroup : MapComponent
     ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public UniqueValueGroup(
-        IReadOnlyList<UniqueValueClass>? classes = null,
+    public UniqueValueGroup(IReadOnlyList<UniqueValueClass>? classes = null,
         string? heading = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Classes = classes;
         Heading = heading;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the Classes property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToClasses(params UniqueValueClass[] values)
+    {
+        UniqueValueClass[] join = Classes is null
+            ? values
+            : [..Classes, ..values];
+        await SetClasses(join);
+    }
+
+#endregion
+
+
+#region Remove From Collection Methods
+
+    /// <summary>
+    ///     Asynchronously remove an element from the Classes property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromClasses(params UniqueValueClass[] values)
+    {
+        if (Classes is null)
+        {
+            return;
+        }
+
+        await SetClasses(Classes.Except(values).ToArray());
+    }
+
+#endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (Classes is not null)
+        {
+            foreach (UniqueValueClass child in Classes)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case UniqueValueClass classes:
+                Classes ??= [];
+
+                if (!Classes.Contains(classes))
+                {
+                    Classes = [..Classes, classes];
+                    ModifiedParameters[nameof(Classes)] = Classes;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case UniqueValueClass classes:
+                Classes = Classes?.Where(c => c != classes).ToList();
+                ModifiedParameters[nameof(Classes)] = Classes;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -54,7 +141,7 @@ public partial class UniqueValueGroup : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<UniqueValueClass>? Classes { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html#uniquevaluegroupheading-property">GeoBlazor Docs</a>
     ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
@@ -64,8 +151,9 @@ public partial class UniqueValueGroup : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Heading { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -78,8 +166,8 @@ public partial class UniqueValueGroup : MapComponent
         {
             return Classes;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -88,15 +176,16 @@ public partial class UniqueValueGroup : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Classes;
         }
 
-        IReadOnlyList<UniqueValueClass>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValueClass>?>(
-            "getClasses", CancellationTokenSource.Token);
-        
+        IReadOnlyList<UniqueValueClass>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValueClass>?>("getClasses",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -104,10 +193,10 @@ public partial class UniqueValueGroup : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Classes)] = Classes;
         }
-        
+
         return Classes;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -117,8 +206,8 @@ public partial class UniqueValueGroup : MapComponent
         {
             return Heading;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -127,7 +216,7 @@ public partial class UniqueValueGroup : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Heading;
@@ -136,18 +225,20 @@ public partial class UniqueValueGroup : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "heading");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Heading = result;
+            Heading = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Heading)] = Heading;
+            ModifiedParameters[nameof(Heading)] = Heading;
         }
-         
+
         return Heading;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -166,18 +257,18 @@ public partial class UniqueValueGroup : MapComponent
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         Classes = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Classes)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -186,16 +277,16 @@ public partial class UniqueValueGroup : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classes", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -208,13 +299,13 @@ public partial class UniqueValueGroup : MapComponent
         Heading = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Heading)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -223,102 +314,15 @@ public partial class UniqueValueGroup : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
     }
-    
+
 #endregion
-
-#region Add to Collection Methods
-
-    /// <summary>
-    ///     Asynchronously adds elements to the Classes property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToClasses(params UniqueValueClass[] values)
-    {
-        UniqueValueClass[] join = Classes is null
-            ? values
-            : [..Classes, ..values];
-        await SetClasses(join);
-    }
-    
-#endregion
-
-#region Remove From Collection Methods
-
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the Classes property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromClasses(params UniqueValueClass[] values)
-    {
-        if (Classes is null)
-        {
-            return;
-        }
-        await SetClasses(Classes.Except(values).ToArray());
-    }
-    
-#endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case UniqueValueClass classes:
-                Classes ??= [];
-                if (!Classes.Contains(classes))
-                {
-                    Classes = [..Classes, classes];
-                    ModifiedParameters[nameof(Classes)] = Classes;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case UniqueValueClass classes:
-                Classes = Classes?.Where(c => c != classes).ToList();
-                ModifiedParameters[nameof(Classes)] = Classes;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (Classes is not null)
-        {
-            foreach (UniqueValueClass child in Classes)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

@@ -7,7 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// </summary>
 [CodeGenerationIgnore]
 [JsonConverter(typeof(BasemapGallerySourceConverter))]
-public interface IBasemapGalleryWidgetSource: IMapComponent
+public interface IBasemapGalleryWidgetSource : IMapComponent
 {
-   
 }

@@ -34,7 +34,7 @@ export default class CompassWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -258,7 +258,7 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any, layerId: 
 
     if (hasValue(dotNetCompassWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetCompassWidget.id)) {
-            let { default: CompassWidgetWrapper } = await import('./compassWidget');
+            let {default: CompassWidgetWrapper} = await import('./compassWidget');
             let compassWidgetWrapper = new CompassWidgetWrapper(jsObject);
             compassWidgetWrapper.geoBlazorId = dotNetCompassWidget.id;
             compassWidgetWrapper.viewId = viewId;

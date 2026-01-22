@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.ExpressionPopupContent.html">GeoBlazor Docs</a>
 ///     An ExpressionContent element allows you to define a popup content element with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public partial class ExpressionPopupContent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -26,8 +24,7 @@ public partial class ExpressionPopupContent
     ///     Contains the Arcade expression used to create a popup content element.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html#expressionInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public ExpressionPopupContent(
-        ElementExpressionInfo? expressionInfo = null)
+    public ExpressionPopupContent(ElementExpressionInfo? expressionInfo = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -35,10 +32,10 @@ public partial class ExpressionPopupContent
         {
             ExpressionInfo = expressionInfo;
         }
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Property Getters
 
     /// <summary>
@@ -50,8 +47,8 @@ public partial class ExpressionPopupContent
         {
             return ExpressionInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -60,7 +57,7 @@ public partial class ExpressionPopupContent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ExpressionInfo;
@@ -68,7 +65,7 @@ public partial class ExpressionPopupContent
 
         ElementExpressionInfo? result = await JsComponentReference.InvokeAsync<ElementExpressionInfo?>(
             "getExpressionInfo", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -76,11 +73,12 @@ public partial class ExpressionPopupContent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ExpressionInfo)] = ExpressionInfo;
         }
-        
+
         return ExpressionInfo;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -95,19 +93,19 @@ public partial class ExpressionPopupContent
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         ExpressionInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ExpressionInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -116,16 +114,15 @@ public partial class ExpressionPopupContent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expressionInfo", value);
     }
-    
-#endregion
 
+#endregion
 }

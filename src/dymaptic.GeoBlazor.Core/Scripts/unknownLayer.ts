@@ -19,7 +19,7 @@ export default class UnknownLayerWrapper extends UnknownLayerGenerated {
 export async function buildJsUnknownLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsUnknownLayerGenerated } = await import('./unknownLayer.gb');
     return await buildJsUnknownLayerGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetUnknownLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetUnknownLayerGenerated } = await import('./unknownLayer.gb');

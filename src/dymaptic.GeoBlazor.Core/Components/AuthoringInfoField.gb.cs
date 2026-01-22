@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField.html">GeoBlazor Docs</a>
 ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class AuthoringInfoField
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -39,8 +37,7 @@ public partial class AuthoringInfoField
     ///     The name of a numeric field used to normalize the given `field`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public AuthoringInfoField(
-        IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? classBreakInfos = null,
+    public AuthoringInfoField(IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? classBreakInfos = null,
         string? field = null,
         string? label = null,
         string? normalizationField = null)
@@ -51,10 +48,100 @@ public partial class AuthoringInfoField
         Field = field;
         Label = label;
         NormalizationField = normalizationField;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the ClassBreakInfos property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToClassBreakInfos(params AuthoringInfoField1ClassBreakInfos[] values)
+    {
+        AuthoringInfoField1ClassBreakInfos[] join = ClassBreakInfos is null
+            ? values
+            : [..ClassBreakInfos, ..values];
+        await SetClassBreakInfos(join);
+    }
+
+#endregion
+
+
+#region Remove From Collection Methods
+
+    /// <summary>
+    ///     Asynchronously remove an element from the ClassBreakInfos property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromClassBreakInfos(params AuthoringInfoField1ClassBreakInfos[] values)
+    {
+        if (ClassBreakInfos is null)
+        {
+            return;
+        }
+
+        await SetClassBreakInfos(ClassBreakInfos.Except(values).ToArray());
+    }
+
+#endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (ClassBreakInfos is not null)
+        {
+            foreach (AuthoringInfoField1ClassBreakInfos child in ClassBreakInfos)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case AuthoringInfoField1ClassBreakInfos classBreakInfos:
+                ClassBreakInfos ??= [];
+
+                if (!ClassBreakInfos.Contains(classBreakInfos))
+                {
+                    ClassBreakInfos = [..ClassBreakInfos, classBreakInfos];
+                    ModifiedParameters[nameof(ClassBreakInfos)] = ClassBreakInfos;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case AuthoringInfoField1ClassBreakInfos classBreakInfos:
+                ClassBreakInfos = ClassBreakInfos?.Where(c => c != classBreakInfos).ToList();
+                ModifiedParameters[nameof(ClassBreakInfos)] = ClassBreakInfos;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -66,7 +153,7 @@ public partial class AuthoringInfoField
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? ClassBreakInfos { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField.html#authoringinfofieldfield-property">GeoBlazor Docs</a>
     ///     The name of a numeric field.
@@ -76,7 +163,7 @@ public partial class AuthoringInfoField
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Field { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField.html#authoringinfofieldlabel-property">GeoBlazor Docs</a>
     ///     The label used to describe the field or variable in the legend.
@@ -86,7 +173,7 @@ public partial class AuthoringInfoField
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoField.html#authoringinfofieldnormalizationfield-property">GeoBlazor Docs</a>
     ///     The name of a numeric field used to normalize the given `field`.
@@ -96,8 +183,9 @@ public partial class AuthoringInfoField
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? NormalizationField { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -110,8 +198,8 @@ public partial class AuthoringInfoField
         {
             return ClassBreakInfos;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -120,15 +208,16 @@ public partial class AuthoringInfoField
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ClassBreakInfos;
         }
 
-        IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AuthoringInfoField1ClassBreakInfos>?>(
-            "getClassBreakInfos", CancellationTokenSource.Token);
-        
+        IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<AuthoringInfoField1ClassBreakInfos>?>(
+                "getClassBreakInfos", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -136,10 +225,10 @@ public partial class AuthoringInfoField
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ClassBreakInfos)] = ClassBreakInfos;
         }
-        
+
         return ClassBreakInfos;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field property.
     /// </summary>
@@ -149,8 +238,8 @@ public partial class AuthoringInfoField
         {
             return Field;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -159,7 +248,7 @@ public partial class AuthoringInfoField
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Field;
@@ -168,17 +257,18 @@ public partial class AuthoringInfoField
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "field");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Field = result;
+            Field = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Field)] = Field;
+            ModifiedParameters[nameof(Field)] = Field;
         }
-         
+
         return Field;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
@@ -188,8 +278,8 @@ public partial class AuthoringInfoField
         {
             return Label;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -198,7 +288,7 @@ public partial class AuthoringInfoField
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Label;
@@ -207,17 +297,18 @@ public partial class AuthoringInfoField
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "label");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Label = result;
+            Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
+            ModifiedParameters[nameof(Label)] = Label;
         }
-         
+
         return Label;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalizationField property.
     /// </summary>
@@ -227,8 +318,8 @@ public partial class AuthoringInfoField
         {
             return NormalizationField;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -237,7 +328,7 @@ public partial class AuthoringInfoField
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return NormalizationField;
@@ -246,18 +337,20 @@ public partial class AuthoringInfoField
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "normalizationField");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             NormalizationField = result;
+            NormalizationField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+            ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
         }
-         
+
         return NormalizationField;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -276,18 +369,18 @@ public partial class AuthoringInfoField
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         ClassBreakInfos = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ClassBreakInfos)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -296,16 +389,16 @@ public partial class AuthoringInfoField
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classBreakInfos", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Field property after render.
     /// </summary>
@@ -318,13 +411,13 @@ public partial class AuthoringInfoField
         Field = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Field)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -333,16 +426,16 @@ public partial class AuthoringInfoField
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Label property after render.
     /// </summary>
@@ -355,13 +448,13 @@ public partial class AuthoringInfoField
         Label = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Label)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -370,16 +463,16 @@ public partial class AuthoringInfoField
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalizationField property after render.
     /// </summary>
@@ -392,13 +485,13 @@ public partial class AuthoringInfoField
         NormalizationField = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NormalizationField)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -407,102 +500,15 @@ public partial class AuthoringInfoField
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizationField", value);
     }
-    
+
 #endregion
-
-#region Add to Collection Methods
-
-    /// <summary>
-    ///     Asynchronously adds elements to the ClassBreakInfos property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToClassBreakInfos(params AuthoringInfoField1ClassBreakInfos[] values)
-    {
-        AuthoringInfoField1ClassBreakInfos[] join = ClassBreakInfos is null
-            ? values
-            : [..ClassBreakInfos, ..values];
-        await SetClassBreakInfos(join);
-    }
-    
-#endregion
-
-#region Remove From Collection Methods
-
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the ClassBreakInfos property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromClassBreakInfos(params AuthoringInfoField1ClassBreakInfos[] values)
-    {
-        if (ClassBreakInfos is null)
-        {
-            return;
-        }
-        await SetClassBreakInfos(ClassBreakInfos.Except(values).ToArray());
-    }
-    
-#endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case AuthoringInfoField1ClassBreakInfos classBreakInfos:
-                ClassBreakInfos ??= [];
-                if (!ClassBreakInfos.Contains(classBreakInfos))
-                {
-                    ClassBreakInfos = [..ClassBreakInfos, classBreakInfos];
-                    ModifiedParameters[nameof(ClassBreakInfos)] = ClassBreakInfos;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case AuthoringInfoField1ClassBreakInfos classBreakInfos:
-                ClassBreakInfos = ClassBreakInfos?.Where(c => c != classBreakInfos).ToList();
-                ModifiedParameters[nameof(ClassBreakInfos)] = ClassBreakInfos;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (ClassBreakInfos is not null)
-        {
-            foreach (AuthoringInfoField1ClassBreakInfos child in ClassBreakInfos)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

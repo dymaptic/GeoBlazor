@@ -10,5 +10,5 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     Indicates if the layer's data has changed.
 /// </param>
 public partial record RefreshEvent(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? DataChanged = null);

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelData.html">GeoBlazor Docs</a>
 ///     An object that provides the user access to
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class PixelData : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -31,224 +29,23 @@ public partial class PixelData : MapComponent
     ///     An object representing the pixels in the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public PixelData(
-        Extent? extent = null,
+    public PixelData(Extent? extent = null,
         PixelBlock? pixelBlock = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Extent = extent;
         PixelBlock = pixelBlock;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelData.html#pixeldataextent-property">GeoBlazor Docs</a>
-    ///     The extent of the `pixelBlock`.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Extent? Extent { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelData.html#pixeldatapixelblock-property">GeoBlazor Docs</a>
-    ///     An object representing the pixels in the view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PixelBlock? PixelBlock { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Extent property.
-    /// </summary>
-    public async Task<Extent?> GetExtent()
-    {
-        if (CoreJsModule is null)
-        {
-            return Extent;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Extent;
-        }
-
-        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
-            "getExtent", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Extent is not null)
-            {
-                result.Id = Extent.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            Extent = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Extent)] = Extent;
-        }
-        
-        return Extent;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PixelBlock property.
-    /// </summary>
-    public async Task<PixelBlock?> GetPixelBlock()
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return PixelBlock;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return PixelBlock;
-        }
-
-        PixelBlock? result = await JsComponentReference.InvokeAsync<PixelBlock?>(
-            "getPixelBlock", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (PixelBlock is not null)
-            {
-                result.Id = PixelBlock.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            PixelBlock = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
-        }
-        
-        return PixelBlock;
+        Extent?.ValidateRequiredGeneratedChildren();
+        PixelBlock?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Extent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetExtent(Extent? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-#pragma warning disable BL0005
-        Extent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Extent)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "extent", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PixelBlock property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPixelBlock(PixelBlock? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-#pragma warning disable BL0005
-        PixelBlock = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PixelBlock)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "pixelBlock", value);
-    }
-    
-#endregion
-
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -261,7 +58,7 @@ public partial class PixelData : MapComponent
                     Extent = extent;
                     ModifiedParameters[nameof(Extent)] = Extent;
                 }
-                
+
                 return true;
             case PixelBlock pixelBlock:
                 if (pixelBlock != PixelBlock)
@@ -269,7 +66,7 @@ public partial class PixelData : MapComponent
                     PixelBlock = pixelBlock;
                     ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -284,23 +81,225 @@ public partial class PixelData : MapComponent
             case Extent _:
                 Extent = null;
                 ModifiedParameters[nameof(Extent)] = Extent;
+
                 return true;
             case PixelBlock _:
                 PixelBlock = null;
                 ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelData.html#pixeldataextent-property">GeoBlazor Docs</a>
+    ///     The extent of the `pixelBlock`.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Extent? Extent { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelData.html#pixeldatapixelblock-property">GeoBlazor Docs</a>
+    ///     An object representing the pixels in the view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PixelBlock? PixelBlock { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Extent property.
+    /// </summary>
+    public async Task<Extent?> GetExtent()
     {
-    
-        Extent?.ValidateRequiredGeneratedChildren();
-        PixelBlock?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (CoreJsModule is null)
+        {
+            return Extent;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Extent;
+        }
+
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>("getExtent", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (Extent is not null)
+            {
+                result.Id = Extent.Id;
+            }
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            Extent = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Extent)] = Extent;
+        }
+
+        return Extent;
     }
-      
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the PixelBlock property.
+    /// </summary>
+    public async Task<PixelBlock?> GetPixelBlock()
+    {
+        if (CoreJsModule is null)
+        {
+            return PixelBlock;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return PixelBlock;
+        }
+
+        PixelBlock? result = await JsComponentReference.InvokeAsync<PixelBlock?>(
+            "getPixelBlock", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (PixelBlock is not null)
+            {
+                result.Id = PixelBlock.Id;
+            }
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            PixelBlock = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
+        }
+
+        return PixelBlock;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Extent property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetExtent(Extent? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        Extent = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Extent)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "extent", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the PixelBlock property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPixelBlock(PixelBlock? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        PixelBlock = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PixelBlock)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "pixelBlock", value);
+    }
+
+#endregion
 }

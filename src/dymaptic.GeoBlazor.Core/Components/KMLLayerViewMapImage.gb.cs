@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html">GeoBlazor Docs</a>
 ///     **MapImage*represents an image overlay draped onto the terrain.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class KMLLayerViewMapImage : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -38,8 +36,7 @@ public partial class KMLLayerViewMapImage : MapComponent
     ///     Rotation of the map image about its center, in degrees.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public KMLLayerViewMapImage(
-        Extent? extent = null,
+    public KMLLayerViewMapImage(Extent? extent = null,
         string? href = null,
         long? kMLLayerViewMapImageId = null,
         double? rotation = null)
@@ -50,377 +47,15 @@ public partial class KMLLayerViewMapImage : MapComponent
         Href = href;
         KMLLayerViewMapImageId = kMLLayerViewMapImageId;
         Rotation = rotation;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimageextent-property">GeoBlazor Docs</a>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of the map image.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Extent? Extent { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimagehref-property">GeoBlazor Docs</a>
-    ///     URL to the map image.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Href { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimagekmllayerviewmapimageid-property">GeoBlazor Docs</a>
-    ///     Map image id.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public long? KMLLayerViewMapImageId { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimagerotation-property">GeoBlazor Docs</a>
-    ///     Rotation of the map image about its center, in degrees.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Rotation { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Extent property.
-    /// </summary>
-    public async Task<Extent?> GetExtent()
-    {
-        if (CoreJsModule is null)
-        {
-            return Extent;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Extent;
-        }
-
-        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
-            "getExtent", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Extent is not null)
-            {
-                result.Id = Extent.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            Extent = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Extent)] = Extent;
-        }
-        
-        return Extent;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Href property.
-    /// </summary>
-    public async Task<string?> GetHref()
-    {
-        if (CoreJsModule is null)
-        {
-            return Href;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Href;
-        }
 
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "href");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Href = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Href)] = Href;
-        }
-         
-        return Href;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the KMLLayerViewMapImageId property.
-    /// </summary>
-    public async Task<long?> GetKMLLayerViewMapImageId()
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return KMLLayerViewMapImageId;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return KMLLayerViewMapImageId;
-        }
-
-        // get the property value
-        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "kMLLayerViewMapImageId");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             KMLLayerViewMapImageId = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(KMLLayerViewMapImageId)] = KMLLayerViewMapImageId;
-        }
-         
-        return KMLLayerViewMapImageId;
+        Extent?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Rotation property.
-    /// </summary>
-    public async Task<double?> GetRotation()
-    {
-        if (CoreJsModule is null)
-        {
-            return Rotation;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Rotation;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotation");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Rotation = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Rotation)] = Rotation;
-        }
-         
-        return Rotation;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Extent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetExtent(Extent? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-#pragma warning disable BL0005
-        Extent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Extent)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "extent", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Href property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHref(string? value)
-    {
-#pragma warning disable BL0005
-        Href = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Href)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "href", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the KMLLayerViewMapImageId property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetKMLLayerViewMapImageId(long? value)
-    {
-#pragma warning disable BL0005
-        KMLLayerViewMapImageId = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(KMLLayerViewMapImageId)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "id", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Rotation property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRotation(double? value)
-    {
-#pragma warning disable BL0005
-        Rotation = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Rotation)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "rotation", value);
-    }
-    
-#endregion
-
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -433,7 +68,7 @@ public partial class KMLLayerViewMapImage : MapComponent
                     Extent = extent;
                     ModifiedParameters[nameof(Extent)] = Extent;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -448,18 +83,385 @@ public partial class KMLLayerViewMapImage : MapComponent
             case Extent _:
                 Extent = null;
                 ModifiedParameters[nameof(Extent)] = Extent;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimageextent-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of the map image.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Extent? Extent { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimagehref-property">GeoBlazor Docs</a>
+    ///     URL to the map image.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Href { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimagekmllayerviewmapimageid-property">GeoBlazor Docs</a>
+    ///     Map image id.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public long? KMLLayerViewMapImageId { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerViewMapImage.html#kmllayerviewmapimagerotation-property">GeoBlazor Docs</a>
+    ///     Rotation of the map image about its center, in degrees.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-KMLLayerView.html#MapImage">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? Rotation { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Extent property.
+    /// </summary>
+    public async Task<Extent?> GetExtent()
     {
-    
-        Extent?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (CoreJsModule is null)
+        {
+            return Extent;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Extent;
+        }
+
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>("getExtent", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (Extent is not null)
+            {
+                result.Id = Extent.Id;
+            }
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            Extent = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Extent)] = Extent;
+        }
+
+        return Extent;
     }
-      
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Href property.
+    /// </summary>
+    public async Task<string?> GetHref()
+    {
+        if (CoreJsModule is null)
+        {
+            return Href;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Href;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "href");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Href = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Href)] = Href;
+        }
+
+        return Href;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the KMLLayerViewMapImageId property.
+    /// </summary>
+    public async Task<long?> GetKMLLayerViewMapImageId()
+    {
+        if (CoreJsModule is null)
+        {
+            return KMLLayerViewMapImageId;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return KMLLayerViewMapImageId;
+        }
+
+        // get the property value
+        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "kMLLayerViewMapImageId");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            KMLLayerViewMapImageId = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(KMLLayerViewMapImageId)] = KMLLayerViewMapImageId;
+        }
+
+        return KMLLayerViewMapImageId;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Rotation property.
+    /// </summary>
+    public async Task<double?> GetRotation()
+    {
+        if (CoreJsModule is null)
+        {
+            return Rotation;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Rotation;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "rotation");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Rotation = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Rotation)] = Rotation;
+        }
+
+        return Rotation;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Extent property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetExtent(Extent? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        Extent = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Extent)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "extent", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Href property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetHref(string? value)
+    {
+#pragma warning disable BL0005
+        Href = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Href)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "href", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the KMLLayerViewMapImageId property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetKMLLayerViewMapImageId(long? value)
+    {
+#pragma warning disable BL0005
+        KMLLayerViewMapImageId = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(KMLLayerViewMapImageId)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "id", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Rotation property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRotation(double? value)
+    {
+#pragma warning disable BL0005
+        Rotation = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Rotation)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "rotation", value);
+    }
+
+#endregion
 }

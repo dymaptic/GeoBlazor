@@ -421,7 +421,7 @@ public partial class LayerListViewModel : MapComponent
             return;
         }
     
-        LayerListViewModelTriggerActionEvent? triggerActionEvent = await jsStreamRef.ReadJsStreamReference<LayerListViewModelTriggerActionEvent>();
+        LayerListViewModelTriggerActionEvent? triggerActionEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerListViewModelTriggerActionEvent>();
         if (triggerActionEvent is not null)
         {
             await OnTriggerAction.InvokeAsync(triggerActionEvent);

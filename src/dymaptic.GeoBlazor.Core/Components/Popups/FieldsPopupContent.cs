@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+[ProtobufSerializable]
 public partial class FieldsPopupContent : PopupContent
 {
-
-
     /// <summary>
     ///     Describes the field's content in detail.
     /// </summary>
@@ -56,11 +55,12 @@ public partial class FieldsPopupContent : PopupContent
     }
 
 
-    internal override PopupContentSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
-            FieldInfos = FieldInfos?.Select(i => i.ToSerializationRecord()).ToArray(), 
+            FieldInfos = FieldInfos?.Select(i => i.ToProtobuf()).ToArray(), 
             Description = Description, Title = Title
         };
     }

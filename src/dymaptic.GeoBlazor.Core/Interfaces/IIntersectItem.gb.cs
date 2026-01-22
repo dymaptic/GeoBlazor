@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     Items which are to be excluded when querying elevation from the view.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-analysis-ElevationProfile-ElevationProfileLineScene.html#exclude">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IIntersectItem 
+public partial interface IIntersectItem
 {
 }

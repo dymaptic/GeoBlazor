@@ -70,7 +70,7 @@ export default class VectorTileLayerViewWrapper implements IPropertyWrapper {
 
 export async function buildJsVectorTileLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     // not used
-}     
+}
 
 export async function buildDotNetVectorTileLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVectorTileLayerViewGenerated } = await import('./vectorTileLayerView.gb');

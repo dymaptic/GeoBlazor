@@ -133,15 +133,15 @@ export default class WMSLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -829,7 +829,7 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, layerId: strin
 
     if (hasValue(dotNetWMSLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetWMSLayer.id)) {
-            let { default: WMSLayerWrapper } = await import('./wMSLayer');
+            let {default: WMSLayerWrapper} = await import('./wMSLayer');
             let wMSLayerWrapper = new WMSLayerWrapper(jsObject);
             wMSLayerWrapper.geoBlazorId = dotNetWMSLayer.id;
             wMSLayerWrapper.viewId = viewId;

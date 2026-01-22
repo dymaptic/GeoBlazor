@@ -98,7 +98,7 @@ export default class FeaturesViewModelGenerated extends BaseComponent {
             this.component.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async clear(): Promise<void> {
         this.component.clear();

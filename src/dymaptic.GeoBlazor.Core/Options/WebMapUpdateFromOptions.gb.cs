@@ -31,15 +31,15 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record WebMapUpdateFromOptions(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? BackgroundExcluded = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? ScalePreserved = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? ThumbnailExcluded = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     WebMapUpdateFromOptionsThumbnailSize? ThumbnailSize = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? ViewpointExcluded = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? WidgetsExcluded = null);

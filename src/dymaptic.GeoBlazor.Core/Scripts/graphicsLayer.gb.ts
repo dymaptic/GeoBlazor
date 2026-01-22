@@ -61,7 +61,7 @@ export default class GraphicsLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async add(graphic: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
@@ -80,8 +80,8 @@ export default class GraphicsLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -411,7 +411,7 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: 
 
     if (hasValue(dotNetGraphicsLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetGraphicsLayer.id)) {
-            let { default: GraphicsLayerWrapper } = await import('./graphicsLayer');
+            let {default: GraphicsLayerWrapper} = await import('./graphicsLayer');
             let graphicsLayerWrapper = new GraphicsLayerWrapper(jsObject);
             graphicsLayerWrapper.geoBlazorId = dotNetGraphicsLayer.id;
             graphicsLayerWrapper.viewId = viewId;

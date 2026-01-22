@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RotationVariable.html">GeoBlazor Docs</a>
 ///     The rotation visual variable, determined by mapping the values to data in a field or
@@ -14,7 +13,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class RotationVariable
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -57,8 +55,7 @@ public partial class RotationVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">valueExpression</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public RotationVariable(
-        string field,
+    public RotationVariable(string field,
         Axis? axis = null,
         RotationType? rotationType = null,
         VisualVariableLegendOptions? legendOptions = null,
@@ -73,10 +70,10 @@ public partial class RotationVariable
         LegendOptions = legendOptions;
         ValueExpression = valueExpression;
         ValueExpressionTitle = valueExpressionTitle;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -89,8 +86,9 @@ public partial class RotationVariable
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Axis? Axis { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -103,8 +101,8 @@ public partial class RotationVariable
         {
             return Axis;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -113,26 +111,28 @@ public partial class RotationVariable
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Axis;
         }
 
         // get the property value
-        JsNullableEnumWrapper<Axis>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Axis>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<Axis>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Axis>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "axis");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Axis = (Axis)result.Value.Value!;
+            Axis = (Axis)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Axis)] = Axis;
+            ModifiedParameters[nameof(Axis)] = Axis;
         }
-         
+
         return Axis;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RotationType property.
     /// </summary>
@@ -142,8 +142,8 @@ public partial class RotationVariable
         {
             return RotationType;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -152,27 +152,30 @@ public partial class RotationVariable
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return RotationType;
         }
 
         // get the property value
-        JsNullableEnumWrapper<RotationType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<RotationType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotationType");
+        JsNullableEnumWrapper<RotationType>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<RotationType>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "rotationType");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RotationType = (RotationType)result.Value.Value!;
+            RotationType = (RotationType)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RotationType)] = RotationType;
+            ModifiedParameters[nameof(RotationType)] = RotationType;
         }
-         
+
         return RotationType;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -188,13 +191,13 @@ public partial class RotationVariable
         Axis = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Axis)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -203,16 +206,16 @@ public partial class RotationVariable
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "axis", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RotationType property after render.
     /// </summary>
@@ -225,13 +228,13 @@ public partial class RotationVariable
         RotationType = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RotationType)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -240,16 +243,15 @@ public partial class RotationVariable
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotationType", value);
     }
-    
-#endregion
 
+#endregion
 }

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html">Compass</a> widget and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-compass/">component</a>.
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class CompassViewModel : MapComponent,
     IGoTo
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -29,123 +27,14 @@ public partial class CompassViewModel : MapComponent,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public CompassViewModel(
-        GoToOverride? goToOverride = null)
+    public CompassViewModel(GoToOverride? goToOverride = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         GoToOverride = goToOverride;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelorientation-property">GeoBlazor Docs</a>
-    ///     The z axis orientation.
-    ///     default { z: 0 }
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#orientation">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public Orientation? Orientation { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelstate-property">GeoBlazor Docs</a>
-    ///     The view model's state.
-    ///     default "disabled"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public CompassViewModelState? State { get; protected set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Orientation property.
-    /// </summary>
-    public async Task<Orientation?> GetOrientation()
-    {
-        if (CoreJsModule is null)
-        {
-            return Orientation;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Orientation;
-        }
-
-        Orientation? result = await JsComponentReference.InvokeAsync<Orientation?>(
-            "getOrientation", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Orientation = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Orientation)] = Orientation;
-        }
-        
-        return Orientation;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the State property.
-    /// </summary>
-    public async Task<CompassViewModelState?> GetState()
-    {
-        if (CoreJsModule is null)
-        {
-            return State;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return State;
-        }
 
-        // get the property value
-        JsNullableEnumWrapper<CompassViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<CompassViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             State = (CompassViewModelState)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
-        }
-         
-        return State;
-    }
-    
-#endregion
 
 #region Public Methods
 
@@ -162,8 +51,8 @@ public partial class CompassViewModel : MapComponent,
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -172,17 +61,128 @@ public partial class CompassViewModel : MapComponent,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "reset", 
+
+        await JsComponentReference!.InvokeVoidAsync("reset",
             CancellationTokenSource.Token);
     }
-    
+
 #endregion
 
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelorientation-property">GeoBlazor Docs</a>
+    ///     The z axis orientation.
+    ///     default { z: 0 }
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#orientation">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public Orientation? Orientation { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelstate-property">GeoBlazor Docs</a>
+    ///     The view model's state.
+    ///     default "disabled"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public CompassViewModelState? State { get; protected set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Orientation property.
+    /// </summary>
+    public async Task<Orientation?> GetOrientation()
+    {
+        if (CoreJsModule is null)
+        {
+            return Orientation;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Orientation;
+        }
+
+        Orientation? result = await JsComponentReference.InvokeAsync<Orientation?>(
+            "getOrientation", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Orientation = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Orientation)] = Orientation;
+        }
+
+        return Orientation;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the State property.
+    /// </summary>
+    public async Task<CompassViewModelState?> GetState()
+    {
+        if (CoreJsModule is null)
+        {
+            return State;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return State;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<CompassViewModelState>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<CompassViewModelState>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "state");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            State = (CompassViewModelState)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(State)] = State;
+        }
+
+        return State;
+    }
+
+#endregion
 }

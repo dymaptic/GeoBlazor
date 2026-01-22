@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class ImageMediaInfoValue : MapComponent
+[ProtobufSerializable]
+public partial class ImageMediaInfoValue : MapComponent, IMediaInfoValue
 {
-
-
     /// <summary>
     ///     A string containing a URL to be launched in a browser when a user clicks the image.
     /// </summary>
@@ -17,9 +16,10 @@ public partial class ImageMediaInfoValue : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SourceURL { get; set; }
-
-    internal ChartMediaInfoValueSerializationRecord ToSerializationRecord()
+    
+    /// <inheritdoc />
+    public MediaInfoValueSerializationRecord ToProtobuf()
     {
-        return new ChartMediaInfoValueSerializationRecord(Id.ToString(), LinkURL: LinkURL, SourceURL: SourceURL);
+        return new MediaInfoValueSerializationRecord(Id.ToString(), LinkURL: LinkURL, SourceURL: SourceURL);
     }
 }

@@ -11,7 +11,7 @@ public static class TestApi
         {
             app.MapPost("/log", (LogMessage message, ITestLogger logger) =>
                 logger.Log(message.Message));
-        
+
             app.MapPost("/log-error", (LogMessage message, ITestLogger logger) =>
                 logger.LogError(message.Message, message.Exception));
         }

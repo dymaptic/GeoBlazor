@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerView.html">GeoBlazor Docs</a>
 ///     Represents the view for a single layer after it has been added to either a
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LayerView
 {
-
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -23,7 +21,7 @@ public partial class LayerView
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? SpatialReferenceSupported { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerView.html#layerviewsuspended-property">GeoBlazor Docs</a>
     ///     Value is `true` if the layer is suspended (i.e., layer will not redraw or update
@@ -34,7 +32,7 @@ public partial class LayerView
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Suspended { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerView.html#layerviewupdating-property">GeoBlazor Docs</a>
     ///     Indicates if the layer view is making any updates that will impact what is displayed on the map.
@@ -45,7 +43,7 @@ public partial class LayerView
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Updating { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerView.html#layerviewvisibleatcurrentscale-property">GeoBlazor Docs</a>
     ///     When `true`, the layer is visible in the view at the current scale.
@@ -56,7 +54,7 @@ public partial class LayerView
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? VisibleAtCurrentScale { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerView.html#layerviewvisibleatcurrenttimeextent-property">GeoBlazor Docs</a>
     ///     When `true`, the layer is visible in the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
@@ -67,8 +65,9 @@ public partial class LayerView
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? VisibleAtCurrentTimeExtent { get; protected set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -81,8 +80,8 @@ public partial class LayerView
         {
             return SpatialReferenceSupported;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -91,26 +90,28 @@ public partial class LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SpatialReferenceSupported;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReferenceSupported");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SpatialReferenceSupported = result.Value.Value;
+            SpatialReferenceSupported = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReferenceSupported)] = SpatialReferenceSupported;
+            ModifiedParameters[nameof(SpatialReferenceSupported)] = SpatialReferenceSupported;
         }
-         
+
         return SpatialReferenceSupported;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Suspended property.
     /// </summary>
@@ -120,8 +121,8 @@ public partial class LayerView
         {
             return Suspended;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -130,26 +131,28 @@ public partial class LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Suspended;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "suspended");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Suspended = result.Value.Value;
+            Suspended = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Suspended)] = Suspended;
+            ModifiedParameters[nameof(Suspended)] = Suspended;
         }
-         
+
         return Suspended;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Updating property.
     /// </summary>
@@ -159,8 +162,8 @@ public partial class LayerView
         {
             return Updating;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -169,26 +172,28 @@ public partial class LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Updating;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "updating");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Updating = result.Value.Value;
+            Updating = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Updating)] = Updating;
+            ModifiedParameters[nameof(Updating)] = Updating;
         }
-         
+
         return Updating;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentScale property.
     /// </summary>
@@ -198,8 +203,8 @@ public partial class LayerView
         {
             return VisibleAtCurrentScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -208,26 +213,28 @@ public partial class LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return VisibleAtCurrentScale;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             VisibleAtCurrentScale = result.Value.Value;
+            VisibleAtCurrentScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
+            ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
         }
-         
+
         return VisibleAtCurrentScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentTimeExtent property.
     /// </summary>
@@ -237,8 +244,8 @@ public partial class LayerView
         {
             return VisibleAtCurrentTimeExtent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -247,27 +254,30 @@ public partial class LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return VisibleAtCurrentTimeExtent;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentTimeExtent");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             VisibleAtCurrentTimeExtent = result.Value.Value;
+            VisibleAtCurrentTimeExtent = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
+            ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
         }
-         
+
         return VisibleAtCurrentTimeExtent;
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
@@ -283,7 +293,7 @@ public partial class LayerView
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -293,17 +303,16 @@ public partial class LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isFulfilled",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerView.html#layerviewisrejected-method">GeoBlazor Docs</a>
     ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
@@ -316,7 +325,7 @@ public partial class LayerView
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -326,17 +335,16 @@ public partial class LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isRejected",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerView.html#layerviewisresolved-method">GeoBlazor Docs</a>
     ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
@@ -349,7 +357,7 @@ public partial class LayerView
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -359,17 +367,16 @@ public partial class LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("isResolved",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerView.html#layerviewwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
@@ -389,7 +396,7 @@ public partial class LayerView
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -399,19 +406,17 @@ public partial class LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
+
+        return await JsComponentReference!.InvokeAsync<string?>("when",
             CancellationTokenSource.Token,
             onFulfilled,
             onRejected);
     }
-    
-#endregion
 
+#endregion
 }

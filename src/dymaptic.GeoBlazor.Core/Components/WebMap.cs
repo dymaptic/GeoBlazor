@@ -10,7 +10,7 @@ public partial class WebMap : Map, IPortalLayer, IMapComponent
     [RequiredProperty] // the extra required here is for WebMap only, whereas the previous allows a check against the Map base type
     [CodeGenerationIgnore]
     public PortalItem? PortalItem { get; set; }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -21,23 +21,23 @@ public partial class WebMap : Map, IPortalLayer, IMapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule  = CoreJsModule;
+            value.CoreJsModule = CoreJsModule;
             value.Parent = this;
             value.Layer = Layer;
             value.View = View;
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PortalItem)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -46,13 +46,13 @@ public partial class WebMap : Map, IPortalLayer, IMapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+
+        await JsComponentReference.InvokeVoidAsync("setPortalItem",
             CancellationTokenSource.Token, value);
     }
 
@@ -65,8 +65,8 @@ public partial class WebMap : Map, IPortalLayer, IMapComponent
         {
             return PortalItem;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -75,7 +75,7 @@ public partial class WebMap : Map, IPortalLayer, IMapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PortalItem;
@@ -83,21 +83,28 @@ public partial class WebMap : Map, IPortalLayer, IMapComponent
 
         PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
             "getPortalItem", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (PortalItem is not null)
             {
                 result.Id = PortalItem.Id;
             }
-            
+
 #pragma warning disable BL0005
             PortalItem = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PortalItem)] = PortalItem;
         }
-        
+
         return PortalItem;
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PortalItem?.ValidateRequiredChildren();
     }
 
     /// <inheritdoc />
@@ -134,12 +141,4 @@ public partial class WebMap : Map, IPortalLayer, IMapComponent
                 break;
         }
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        PortalItem?.ValidateRequiredChildren();
-    }
-
 }

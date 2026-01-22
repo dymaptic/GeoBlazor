@@ -39,7 +39,7 @@ export default class MeasurementWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -274,7 +274,7 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, layer
 
     if (hasValue(dotNetMeasurementWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetMeasurementWidget.id)) {
-            let { default: MeasurementWidgetWrapper } = await import('./measurementWidget');
+            let {default: MeasurementWidgetWrapper} = await import('./measurementWidget');
             let measurementWidgetWrapper = new MeasurementWidgetWrapper(jsObject);
             measurementWidgetWrapper.geoBlazorId = dotNetMeasurementWidget.id;
             measurementWidgetWrapper.viewId = viewId;

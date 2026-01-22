@@ -1,21 +1,17 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[ProtobufSerializable]
 public partial class PieChartMediaInfo : MediaInfo
 {
-
-
     /// <inheritdoc/>
     public override string Type => "pie-chart";
 
-
-    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override MediaInfoSerializationRecord ToProtobuf()
     {
         return new MediaInfoSerializationRecord(Id.ToString(), "pie-chart")
         {
-            AltText = AltText,
-            Caption = Caption,
-            Title = Title,
-            Value = Value?.ToSerializationRecord()
+            AltText = AltText, Caption = Caption, Title = Title, Value = Value?.ToProtobuf()
         };
     }
 }

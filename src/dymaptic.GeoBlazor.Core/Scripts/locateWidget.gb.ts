@@ -50,7 +50,7 @@ export default class LocateWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async cancelLocate(): Promise<void> {
         this.widget.cancelLocate();

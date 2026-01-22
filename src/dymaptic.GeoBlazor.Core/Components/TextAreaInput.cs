@@ -22,5 +22,3 @@ public class TextAreaInput : FormInput
     [Parameter]
     public int? MinLength { get; set; }
 }
-
-

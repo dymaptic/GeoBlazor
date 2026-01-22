@@ -15,7 +15,7 @@ public interface IHighlightLayerViewMixin
     /// </summary>
     [Obsolete($"Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
     HighlightOptions? HighlightOptions { get; set; }
-    
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
@@ -27,7 +27,7 @@ public interface IHighlightLayerViewMixin
     /// </returns>
     [CodeGenerationIgnore]
     Task<Handle> Highlight(ObjectId objectId);
-    
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
@@ -42,7 +42,7 @@ public interface IHighlightLayerViewMixin
     /// </exception>
     [CodeGenerationIgnore]
     Task<Handle> Highlight(IReadOnlyCollection<ObjectId> objectIds);
-    
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
@@ -57,7 +57,7 @@ public interface IHighlightLayerViewMixin
     /// </exception>
     [CodeGenerationIgnore]
     Task<Handle> Highlight(Graphic graphic);
-    
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>

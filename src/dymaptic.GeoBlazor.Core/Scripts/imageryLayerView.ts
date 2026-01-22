@@ -36,7 +36,7 @@ export default class ImageryLayerViewWrapper extends ImageryLayerViewGenerated {
 export async function buildJsImageryLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsImageryLayerViewGenerated } = await import('./imageryLayerView.gb');
     return await buildJsImageryLayerViewGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetImageryLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetImageryLayerViewGenerated } = await import('./imageryLayerView.gb');

@@ -28,7 +28,7 @@ export default class DistanceMeasurement2DViewModelGenerated extends BaseCompone
             this.component.unitOptions = dotNetObject.unitOptions;
         }
     }
-    
+
     // region methods
     async clear(): Promise<void> {
         this.component.clear();
@@ -160,7 +160,7 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
 
     if (hasValue(dotNetDistanceMeasurement2DViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetDistanceMeasurement2DViewModel.id)) {
-            let { default: DistanceMeasurement2DViewModelWrapper } = await import('./distanceMeasurement2DViewModel');
+            let {default: DistanceMeasurement2DViewModelWrapper} = await import('./distanceMeasurement2DViewModel');
             let distanceMeasurement2DViewModelWrapper = new DistanceMeasurement2DViewModelWrapper(jsObject);
             distanceMeasurement2DViewModelWrapper.geoBlazorId = dotNetDistanceMeasurement2DViewModel.id;
             distanceMeasurement2DViewModelWrapper.viewId = viewId;

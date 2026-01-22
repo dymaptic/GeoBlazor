@@ -1,8 +1,8 @@
 using Microsoft.Playwright;
+using Microsoft.Playwright.TestAdapter;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.Playwright.TestAdapter;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Automation;
@@ -33,34 +33,46 @@ namespace dymaptic.GeoBlazor.Core.Test.Automation;
 
 internal class BrowserService : IWorkerService
 {
-    public IBrowser Browser { get; private set; }
-
     private BrowserService(IBrowser browser)
     {
         Browser = browser;
     }
 
-    public static Task<BrowserService> Register(WorkerAwareTest test, IBrowserType browserType, (string, BrowserTypeConnectOptions?)? connectOptions)
+    public IBrowser Browser { get; private set; }
+
+    public Task ResetAsync() => Task.CompletedTask;
+    public Task DisposeAsync() => Browser.CloseAsync();
+
+    public static Task<BrowserService> Register(WorkerAwareTest test, IBrowserType browserType,
+        (string, BrowserTypeConnectOptions?)? connectOptions)
     {
-        return test.RegisterService("Browser", async () => new BrowserService(await CreateBrowser(browserType, connectOptions).ConfigureAwait(false)));
+        return test.RegisterService("Browser",
+            async () => new BrowserService(await CreateBrowser(browserType, connectOptions).ConfigureAwait(false)));
     }
 
-    private static async Task<IBrowser> CreateBrowser(IBrowserType browserType, (string WSEndpoint, BrowserTypeConnectOptions? Options)? connectOptions)
+    private static async Task<IBrowser> CreateBrowser(IBrowserType browserType,
+        (string WSEndpoint, BrowserTypeConnectOptions? Options)? connectOptions)
     {
         if (connectOptions.HasValue)
         {
             var options = new BrowserTypeConnectOptions(connectOptions.Value.Options ?? new());
             var headers = options.Headers?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value) ?? [];
-            headers.Add("x-playwright-launch-options", JsonSerializer.Serialize(PlaywrightSettingsProvider.LaunchOptions, new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }));
+
+            headers.Add("x-playwright-launch-options",
+                JsonSerializer.Serialize(PlaywrightSettingsProvider.LaunchOptions,
+                    new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }));
             options.Headers = headers;
+
             return await browserType.ConnectAsync(connectOptions.Value.WSEndpoint, options).ConfigureAwait(false);
         }
 
         var legacyBrowser = await ConnectBasedOnEnv(browserType);
+
         if (legacyBrowser != null)
         {
             return legacyBrowser;
         }
+
         return await browserType.LaunchAsync(PlaywrightSettingsProvider.LaunchOptions).ConfigureAwait(false);
     }
 
@@ -77,22 +89,28 @@ internal class BrowserService : IWorkerService
 
         var exposeNetwork = Environment.GetEnvironmentVariable("PLAYWRIGHT_SERVICE_EXPOSE_NETWORK") ?? "<loopback>";
         var os = Uri.EscapeDataString(Environment.GetEnvironmentVariable("PLAYWRIGHT_SERVICE_OS") ?? "linux");
-        var runId = Uri.EscapeDataString(Environment.GetEnvironmentVariable("PLAYWRIGHT_SERVICE_RUN_ID") ?? DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
+
+        var runId = Uri.EscapeDataString(Environment.GetEnvironmentVariable("PLAYWRIGHT_SERVICE_RUN_ID") ??
+            DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
         var apiVersion = "2023-10-01-preview";
         var wsEndpoint = $"{serviceUrl}?os={os}&runId={runId}&api-version={apiVersion}";
 
-        return await browserType.ConnectAsync(wsEndpoint, new BrowserTypeConnectOptions
-        {
-            Timeout = 3 * 60 * 1000,
-            ExposeNetwork = exposeNetwork,
-            Headers = new Dictionary<string, string>
-            {
-                ["Authorization"] = $"Bearer {accessToken}",
-                ["x-playwright-launch-options"] = JsonSerializer.Serialize(PlaywrightSettingsProvider.LaunchOptions, new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull })
-            }
-        }).ConfigureAwait(false);
+        return await browserType.ConnectAsync(wsEndpoint,
+                new BrowserTypeConnectOptions
+                {
+                    Timeout = 3 * 60 * 1000,
+                    ExposeNetwork = exposeNetwork,
+                    Headers = new Dictionary<string, string>
+                    {
+                        ["Authorization"] = $"Bearer {accessToken}",
+                        ["x-playwright-launch-options"] =
+                            JsonSerializer.Serialize(PlaywrightSettingsProvider.LaunchOptions,
+                                new JsonSerializerOptions()
+                                {
+                                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                                })
+                    }
+                })
+            .ConfigureAwait(false);
     }
-
-    public Task ResetAsync() => Task.CompletedTask;
-    public Task DisposeAsync() => Browser.CloseAsync();
 }

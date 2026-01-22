@@ -81,7 +81,7 @@ export default class SublayerGenerated extends BaseComponent {
             this.component.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.component.cancelLoad();
@@ -128,20 +128,20 @@ export default class SublayerGenerated extends BaseComponent {
     }
 
     async load(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.load(options);
     }
 
     async queryAttachments(attachmentQuery: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                           signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return this.component.queryAttachments(attachmentQuery,
             options);
     }
 
     async queryFeatureCount(query: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                            signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsQuery } = await import('./query');
         let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryFeatureCount(jsQuery,
@@ -149,8 +149,8 @@ export default class SublayerGenerated extends BaseComponent {
     }
 
     async queryFeatures(query: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                        signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsQuery } = await import('./query');
         let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryFeatures(jsQuery,
@@ -158,8 +158,8 @@ export default class SublayerGenerated extends BaseComponent {
     }
 
     async queryObjectIds(query: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                         signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsQuery } = await import('./query');
         let jsQuery = await buildJsQuery(query) as any;
         return await this.component.queryObjectIds(jsQuery,
@@ -167,8 +167,8 @@ export default class SublayerGenerated extends BaseComponent {
     }
 
     async queryRelatedFeatures(relationshipQuery: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                               signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsRelationshipQuery } = await import('./relationshipQuery');
         let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
         return await this.component.queryRelatedFeatures(jsRelationshipQuery,
@@ -176,8 +176,8 @@ export default class SublayerGenerated extends BaseComponent {
     }
 
     async queryRelatedFeaturesCount(relationshipQuery: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                                    signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsRelationshipQuery } = await import('./relationshipQuery');
         let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
         return await this.component.queryRelatedFeaturesCount(jsRelationshipQuery,
@@ -204,7 +204,7 @@ export default class SublayerGenerated extends BaseComponent {
         let { buildDotNetSublayerCapabilities } = await import('./sublayerCapabilities');
         return await buildDotNetSublayerCapabilities(this.component.capabilities);
     }
-    
+
     async getDefinitionExpression(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -298,7 +298,7 @@ export default class SublayerGenerated extends BaseComponent {
         let { buildDotNetLayer } = await import('./layer');
         return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
-    
+
     async getObjectIdField(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -385,7 +385,7 @@ export default class SublayerGenerated extends BaseComponent {
         let { buildJsDynamicLayer } = await import('./dynamicLayer');
         this.component.source = await  buildJsDynamicLayer(value);
     }
-    
+
     async getSourceJSON(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -431,7 +431,7 @@ export default class SublayerGenerated extends BaseComponent {
         let { buildJsSublayer } = await import('./sublayer');
         this.component.sublayers = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getTitle(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -447,7 +447,7 @@ export default class SublayerGenerated extends BaseComponent {
     setTitle(value: any): void {
         this.component.title = JSON.parse(value);
     }
-    
+
     async getTypeIdField(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -472,7 +472,7 @@ export default class SublayerGenerated extends BaseComponent {
         let { buildDotNetFeatureType } = await import('./featureType');
         return await Promise.all(this.component.types!.map(async i => await buildDotNetFeatureType(i)));
     }
-    
+
     async getUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -733,7 +733,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
 
     if (hasValue(dotNetSublayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetSublayer.id)) {
-            let { default: SublayerWrapper } = await import('./sublayer');
+            let {default: SublayerWrapper} = await import('./sublayer');
             let sublayerWrapper = new SublayerWrapper(jsObject);
             sublayerWrapper.geoBlazorId = dotNetSublayer.id;
             sublayerWrapper.viewId = viewId;

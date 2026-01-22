@@ -24,7 +24,7 @@ export default class LayerListViewModelGenerated extends BaseComponent {
             this.component.listModeDisabled = dotNetObject.listModeDisabled;
         }
     }
-    
+
     // region methods
     async moveListItem(targetItem: any,
         fromParentItem: any,
@@ -152,7 +152,7 @@ export async function buildDotNetLayerListViewModelGenerated(jsObject: any, laye
 
     if (hasValue(dotNetLayerListViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetLayerListViewModel.id)) {
-            let { default: LayerListViewModelWrapper } = await import('./layerListViewModel');
+            let {default: LayerListViewModelWrapper} = await import('./layerListViewModel');
             let layerListViewModelWrapper = new LayerListViewModelWrapper(jsObject);
             layerListViewModelWrapper.geoBlazorId = dotNetLayerListViewModel.id;
             layerListViewModelWrapper.viewId = viewId;

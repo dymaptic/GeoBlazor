@@ -68,15 +68,15 @@ export default class KMLLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -430,7 +430,7 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: strin
 
     if (hasValue(dotNetKMLLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetKMLLayer.id)) {
-            let { default: KMLLayerWrapper } = await import('./kMLLayer');
+            let {default: KMLLayerWrapper} = await import('./kMLLayer');
             let kMLLayerWrapper = new KMLLayerWrapper(jsObject);
             kMLLayerWrapper.geoBlazorId = dotNetKMLLayer.id;
             kMLLayerWrapper.viewId = viewId;

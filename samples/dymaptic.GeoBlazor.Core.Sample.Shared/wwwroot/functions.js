@@ -1,33 +1,4 @@
-﻿let navbarRef;
-let navbar;
-
-window.trackScrollPosition = (navbarElem, dotNetRef) => {
-    navbar = navbarElem;
-    navbarRef = dotNetRef;
-    navbar.addEventListener('scroll', onScroll);
-    // Initial call to set the position
-    _ = onScroll();
-}
-
-window.removeScrollTracking = () => {
-    if (navbar) {
-        navbar.removeEventListener('scroll', onScroll);
-        navbar = null;
-    }
-    navbarRef = null;
-}
-
-window.scrollToPosition = (position) => {
-    if (navbar) {
-        navbar.scrollTop = position;
-    }
-}
-
-async function  onScroll() {
-    await navbarRef.invokeMethodAsync('OnScroll', navbar.scrollTop);
-}
-
-window.scrollToNav = (page) => {
+﻿window.scrollToNav = (page) => {
     let navItems = document.getElementsByTagName('a');
     let navItem = Array.from(navItems).find(i => i.href.endsWith(page));
     if (navigator.userAgent.indexOf('Firefox') === -1) {

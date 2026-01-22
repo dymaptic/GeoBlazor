@@ -43,7 +43,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                 }
                 else if (kvp.Value is JsonElement jsonObjectIdElement)
                 {
-                    if (jsonObjectIdElement.ValueKind == JsonValueKind.Number 
+                    if (jsonObjectIdElement.ValueKind == JsonValueKind.Number
                         && jsonObjectIdElement.TryGetInt64(out long objectIdLong2))
                     {
                         _backingDictionary[kvp.Key] = new ObjectId(objectIdLong2);
@@ -68,7 +68,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
 
                 continue;
             }
-            
+
             if (kvp.Value is JsonElement jsonElement)
             {
                 object? typedValue = jsonElement.ValueKind switch
@@ -81,30 +81,34 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                     JsonValueKind.String => jsonElement.ToString(),
                     _ => jsonElement
                 };
-                
+
                 if (typedValue is double)
                 {
-                    if (int.TryParse(jsonElement.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out int intVal))
+                    if (int.TryParse(jsonElement.ToString(), NumberStyles.None, CultureInfo.InvariantCulture,
+                        out int intVal))
                     {
                         typedValue = intVal;
                     }
-                    else if (long.TryParse(jsonElement.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out long longVal))
+                    else if (long.TryParse(jsonElement.ToString(), NumberStyles.None, CultureInfo.InvariantCulture,
+                        out long longVal))
                     {
                         typedValue = longVal;
                     }
                 }
-                
+
                 if (typedValue is string stringValue)
                 {
                     if (Guid.TryParse(stringValue, out Guid guidValue))
                     {
                         typedValue = guidValue;
                     }
-                    else if (DateTime.TryParse(stringValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
+                    else if (DateTime.TryParse(stringValue, CultureInfo.InvariantCulture, DateTimeStyles.None,
+                        out DateTime dateValue))
                     {
                         typedValue = dateValue;
                     }
                 }
+
                 _backingDictionary[kvp.Key] = (typedValue ?? null)!;
             }
             else
@@ -131,6 +135,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                 if (record.Value is null)
                 {
                     _backingDictionary[record.Key] = null;
+
                     continue;
                 }
 
@@ -147,18 +152,18 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
 
                     continue;
                 }
-                
+
                 switch (record.ValueType)
                 {
                     case "System.Int32":
                     case "integer":
                         _backingDictionary[record.Key] = int.Parse(record.Value!, CultureInfo.InvariantCulture);
-                        
+
                         break;
                     case "System.Int16":
                     case "small-integer":
                         _backingDictionary[record.Key] = short.Parse(record.Value!, CultureInfo.InvariantCulture);
-                        
+
                         break;
                     case "System.Int64":
                     case "big-integer":
@@ -173,22 +178,24 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                     case "System.Double":
                     case "double":
                         _backingDictionary[record.Key] = double.Parse(record.Value!, CultureInfo.InvariantCulture);
-                        
+
                         break;
                     case "[object Number]":
                         if (int.TryParse(record.Value, NumberStyles.None, CultureInfo.InvariantCulture, out int intVal))
                         {
                             _backingDictionary[record.Key] = intVal;
                         }
-                        else if (long.TryParse(record.Value, NumberStyles.None, CultureInfo.InvariantCulture, out long longVal))
+                        else if (long.TryParse(record.Value, NumberStyles.None, CultureInfo.InvariantCulture,
+                            out long longVal))
                         {
                             _backingDictionary[record.Key] = longVal;
                         }
-                        else if (double.TryParse(record.Value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double doubleVal))
+                        else if (double.TryParse(record.Value, NumberStyles.AllowDecimalPoint,
+                            CultureInfo.InvariantCulture, out double doubleVal))
                         {
                             _backingDictionary[record.Key] = doubleVal;
                         }
-                        
+
                         break;
                     case "System.Boolean":
                     case "[object Boolean]":
@@ -206,11 +213,13 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                         // Date is serialized in ArcGIS as a long unix timestamp, so we check for this first.
                         if (long.TryParse(record.Value, out long unixTimestamp))
                         {
-                            _backingDictionary[record.Key] = DateTimeOffset.FromUnixTimeMilliseconds(unixTimestamp).DateTime;
+                            _backingDictionary[record.Key] =
+                                DateTimeOffset.FromUnixTimeMilliseconds(unixTimestamp).DateTime;
                         }
                         else
                         {
-                            _backingDictionary[record.Key] = DateTime.Parse(record.Value!, CultureInfo.InvariantCulture);
+                            _backingDictionary[record.Key] =
+                                DateTime.Parse(record.Value!, CultureInfo.InvariantCulture);
                         }
 
                         break;
@@ -229,7 +238,8 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                         {
                             _backingDictionary[record.Key] = guidValue;
                         }
-                        else if (DateTime.TryParse(record.Value, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
+                        else if (DateTime.TryParse(record.Value, CultureInfo.InvariantCulture, DateTimeStyles.None,
+                            out DateTime dateValue))
                         {
                             _backingDictionary[record.Key] = dateValue;
                         }
@@ -288,6 +298,17 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
     ///     Returns all the values in the dictionary
     /// </summary>
     public Dictionary<string, object?>.ValueCollection Values => _backingDictionary.Values;
+
+    /// <inheritdoc />
+    public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
+    {
+        return _backingDictionary.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     /// <inheritdoc />
     public bool Equals(AttributesDictionary? other)
@@ -392,6 +413,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
 
                 continue;
             }
+
             _backingDictionary[kvp.Key] = kvp.Value;
         }
 
@@ -459,12 +481,6 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
     }
 
     /// <inheritdoc />
-    public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
-    {
-        return _backingDictionary.GetEnumerator();
-    }
-
-    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -497,22 +513,21 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
         return _backingDictionary.GetHashCode();
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    internal AttributeSerializationRecord[] ToSerializationRecord()
+    /// <summary>
+    ///     Converts the attributes dictionary to an array of protobuf serialization records.
+    /// </summary>
+    public AttributeSerializationRecord[] ToProtobufArray()
     {
         return _backingDictionary
             .Select(kvp =>
             {
                 string valueType = kvp.Value?.GetType().ToString() ?? "null";
+
                 if (kvp.Value is ObjectId objectId)
                 {
                     valueType = objectId.NumericVal is not null ? "long" : "string";
                 }
-                
+
                 string? stringVal = valueType switch
                 {
                     "System.DateTime" => ((DateTime)kvp.Value!).ToString("O", CultureInfo.InvariantCulture),
@@ -521,10 +536,16 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                     null => string.Empty,
                     _ => kvp.Value?.ToString()
                 };
-                
+
                 return new AttributeSerializationRecord(kvp.Key, stringVal, valueType!);
             })
             .ToArray();
+    }
+
+    /// <inheritdoc />
+    public AttributeCollectionSerializationRecord ToProtobuf()
+    {
+        return new AttributeCollectionSerializationRecord(ToProtobufArray());
     }
 
     private readonly Dictionary<string, object?> _backingDictionary;
@@ -538,30 +559,6 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
     public object? this[string key] => _backingDictionary[key];
 }
 
-[ProtoContract(Name = "Attribute")]
-internal record AttributeSerializationRecord : MapComponentSerializationRecord
-{
-    public AttributeSerializationRecord()
-    {
-    }
-    
-    public AttributeSerializationRecord(string Key,
-        string? Value,
-        string ValueType)
-    {
-        this.Key = Key;
-        this.Value = Value;
-        this.ValueType = ValueType;
-    }
-
-    [ProtoMember(1)]
-    public string Key { get; init; } = string.Empty;
-    [ProtoMember(2)]
-    public string? Value { get; init; }
-    [ProtoMember(3)]
-    public string ValueType { get; init; } = string.Empty;
-}
-
 internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionary>
 {
     public override AttributesDictionary? Read(ref Utf8JsonReader reader, Type typeToConvert,
@@ -570,12 +567,15 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
         // if first symbol is array
         if (reader.TokenType == JsonTokenType.StartArray)
         {
-            AttributeSerializationRecord[]? records = JsonSerializer.Deserialize<AttributeSerializationRecord[]>(ref reader, options);
+            AttributeSerializationRecord[]? records =
+                JsonSerializer.Deserialize<AttributeSerializationRecord[]>(ref reader, options);
+
             return new AttributesDictionary(records);
         }
-        
+
         // read as a dictionary
-        Dictionary<string, object?>? dictionary = JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, options);
+        Dictionary<string, object?>? dictionary =
+            JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, options);
 
         if (dictionary is null)
         {
@@ -592,6 +592,7 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
         foreach (KeyValuePair<string, object?> entry in (Dictionary<string, object?>)value)
         {
             string valueType = entry.Value?.GetType().ToString() ?? "null";
+
             string? stringVal = valueType switch
             {
                 "System.DateTime" => ((DateTime)entry.Value!).ToString("O", CultureInfo.InvariantCulture),

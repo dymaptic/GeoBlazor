@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SearchViewModelDefaultSymbols.html">GeoBlazor Docs</a>
 ///     The default <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">symbol(s)</a> for the search result.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// </summary>
 public partial class SearchViewModelDefaultSymbols : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -34,8 +32,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">SimpleLineSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbol3D.html">LineSymbol3D</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-CIMSymbol.html">CIMSymbol</a> used for representing the polyline geometry that is being drawn for the search result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSymbols">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SearchViewModelDefaultSymbols(
-        Symbol? point = null,
+    public SearchViewModelDefaultSymbols(Symbol? point = null,
         Symbol? polygon = null,
         Symbol? polyline = null)
     {
@@ -44,10 +41,10 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         Point = point;
         Polygon = polygon;
         Polyline = polyline;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -59,7 +56,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? Point { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SearchViewModelDefaultSymbols.html#searchviewmodeldefaultsymbolspolygon-property">GeoBlazor Docs</a>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">SimpleFillSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PolygonSymbol3D.html">PolygonSymbol3D</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-CIMSymbol.html">CIMSymbol</a> used for representing the polygon geometry that is being drawn for the search result.
@@ -69,7 +66,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? Polygon { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SearchViewModelDefaultSymbols.html#searchviewmodeldefaultsymbolspolyline-property">GeoBlazor Docs</a>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">SimpleLineSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbol3D.html">LineSymbol3D</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-CIMSymbol.html">CIMSymbol</a> used for representing the polyline geometry that is being drawn for the search result.
@@ -79,8 +76,9 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? Polyline { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -93,8 +91,8 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             return Point;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -103,15 +101,14 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Point;
         }
 
-        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
-            "getPoint", CancellationTokenSource.Token);
-        
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>("getPoint", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -119,10 +116,10 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Point)] = Point;
         }
-        
+
         return Point;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Polygon property.
     /// </summary>
@@ -132,8 +129,8 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             return Polygon;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -142,15 +139,14 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Polygon;
         }
 
-        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
-            "getPolygon", CancellationTokenSource.Token);
-        
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>("getPolygon", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -158,10 +154,10 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Polygon)] = Polygon;
         }
-        
+
         return Polygon;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Polyline property.
     /// </summary>
@@ -171,8 +167,8 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             return Polyline;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -181,15 +177,14 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Polyline;
         }
 
-        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
-            "getPolyline", CancellationTokenSource.Token);
-        
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>("getPolyline", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -197,11 +192,12 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Polyline)] = Polyline;
         }
-        
+
         return Polyline;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -216,19 +212,19 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         Point = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Point)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -237,16 +233,16 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "point", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Polygon property after render.
     /// </summary>
@@ -258,19 +254,19 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         Polygon = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Polygon)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -279,16 +275,16 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "polygon", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Polyline property after render.
     /// </summary>
@@ -300,19 +296,19 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         Polyline = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Polyline)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -321,16 +317,15 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "polyline", value);
     }
-    
-#endregion
 
+#endregion
 }

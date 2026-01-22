@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     An array of time, elevation and other dimensions for the root layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#dimensions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IWMSLayerDimension 
+public partial interface IWMSLayerDimension
 {
 }

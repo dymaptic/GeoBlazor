@@ -27,10 +27,10 @@ public partial record GroundQueryElevationOptions(
     /// <summary>
     ///     Parameterless constructor
     /// </summary>
-    public GroundQueryElevationOptions(): this(null, null)
+    public GroundQueryElevationOptions() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`).
     ///     default auto
@@ -38,17 +38,16 @@ public partial record GroundQueryElevationOptions(
     /// </summary>
     [JsonConverter(typeof(NumberToStringConverter))]
     public string? DemResolution { get; set; } = DemResolution;
-    
+
     /// <summary>
     ///     The value that appears in the resulting geometry when there is no data available.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? NoDataValue { get; set; } = NoDataValue;
-    
+
     /// <summary>
     ///     Indicates whether to return additional sample information for each sampled coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? ReturnSampleInfo { get; set; } = ReturnSampleInfo;
-    
 }

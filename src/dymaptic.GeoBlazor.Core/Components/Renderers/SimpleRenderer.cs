@@ -37,7 +37,7 @@ public partial class SimpleRenderer : Renderer
         if (CoreJsModule is not null)
         {
             await CoreJsModule.InvokeVoidAsync("setGraphicSymbol",
-                Id, Symbol.ToSerializationRecord());
+                Id, Symbol.ToProtobuf());
         }
     }
 

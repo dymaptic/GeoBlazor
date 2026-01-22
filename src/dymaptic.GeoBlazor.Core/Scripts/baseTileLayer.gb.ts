@@ -65,7 +65,7 @@ export default class BaseTileLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async addResolvingPromise(promiseToLoad: any): Promise<void> {
         this.layer.addResolvingPromise(promiseToLoad);
@@ -76,8 +76,8 @@ export default class BaseTileLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -89,8 +89,8 @@ export default class BaseTileLayerGenerated extends BaseComponent {
     async fetchTile(level: any,
         row: any,
         col: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                    signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -345,7 +345,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
         default: 
             return sanitize(dotNetObject);
     }
-}     
+}
 
 export async function buildDotNetBaseTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
@@ -445,7 +445,7 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any, layerId: 
 
             if (hasValue(dotNetBaseTileLayer.id)) {
                 if (!jsObjectRefs.hasOwnProperty(dotNetBaseTileLayer.id)) {
-                    let { default: BaseTileLayerWrapper } = await import('./baseTileLayer');
+                    let {default: BaseTileLayerWrapper} = await import('./baseTileLayer');
                     let baseTileLayerWrapper = new BaseTileLayerWrapper(jsObject);
                     baseTileLayerWrapper.geoBlazorId = dotNetBaseTileLayer.id;
                     baseTileLayerWrapper.viewId = viewId;

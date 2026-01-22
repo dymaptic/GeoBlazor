@@ -51,6 +51,6 @@ export default class MeshComponentWrapper extends MeshComponentGenerated {
     constructor(component: MeshComponent) {
         super(component);
     }
-    
+
 }
 

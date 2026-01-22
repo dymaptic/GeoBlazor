@@ -10,7 +10,7 @@ export default class SublayerWrapper extends SublayerGenerated {
     }
 
     async getFields(): Promise<any> {
-               
+
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
         }
@@ -19,7 +19,7 @@ export default class SublayerWrapper extends SublayerGenerated {
             return null;
         }
 
-        let { buildDotNetField } = await import('./field');
+        let {buildDotNetField} = await import('./field');
         return this.component.fields!.map(i => buildDotNetField(i));
     }
 }

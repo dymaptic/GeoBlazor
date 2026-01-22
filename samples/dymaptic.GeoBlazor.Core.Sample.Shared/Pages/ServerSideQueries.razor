@@ -11,10 +11,9 @@
 </p>
 
 <MapView @ref="_mapView"
-         OnLayerViewCreate="OnLayerViewCreate"
-         Class="map-view"
          OnClick="OnClick"
-         PopupEnabled="false">
+         OnLayerViewCreate="OnLayerViewCreate"
+         Class="map-view">
     <Map>
         <Basemap>
             <BasemapStyle Name="BasemapStyleName.ArcgisDarkGray" />
@@ -29,7 +28,7 @@
             Ymin="4536523.6511999965">
         <SpatialReference Wkid="102100" />
     </Extent>
-    <PopupWidget DockEnabled="true">
+    <PopupWidget @ref="_popup" DockEnabled="true">
         <PopupDockOptions ButtonEnabled="false"
                           BreakPoint="@(new BreakPoint(false))"
                           Position="PopupDockPosition.BottomRight" />
@@ -50,68 +49,55 @@
     </CustomOverlay>
 </MapView>
 
-
 @code {
+    
+    [Inject]
+    public required IJSRuntime JsRuntime { get; set; }
 
     private async Task OnLayerViewCreate(LayerViewCreateEvent createEvent)
     {
         if (createEvent.Layer?.Id == _featureLayer?.Id)
         {
-            PopupTemplate popupTemplate = await _featureLayer!.CreatePopupTemplate();
-            await _featureLayer!.SetPopupTemplate(popupTemplate);
             await _mapView!.SetExtent(_featureLayer!.FullExtent!);
         }
     }
 
     private async Task OnClick(ClickEvent clickEvent)
     {
-        var query = new Query
-        {
-            Geometry = clickEvent.MapPoint,
-            Distance = Distance,
-            Units = Unit,
-            SpatialRelationship = SpatialRelationship.Intersects,
-            ReturnGeometry = false,
-            ReturnQueryGeometry = true,
-            OutFields = new HashSet<string> { "*" }
-        };
+        Query query = await _featureLayer!.CreateQuery();
+        query.Geometry = clickEvent.MapPoint;
+        query.Distance = Distance;
+        query.Units = Unit;
+        query.SpatialRelationship = SpatialRelationship.Intersects;
+        query.ReturnGeometry = true;
+        query.ReturnQueryGeometry = true;
+        query.OutFields = ["*"];
+            
         FeatureSet result = (await _featureLayer!.QueryFeatures(query))!;
-        await _pointGraphic.SetGeometry(clickEvent.MapPoint);
-        if (!_mapView!.Graphics.Contains(_pointGraphic))
+        await _mapView!.ClearGraphics();
+        Graphic pointGraphic = new(clickEvent.MapPoint, _markerSymbol);
+
+        if (_queryType == "distance")
         {
-            await _mapView.AddGraphic(_pointGraphic);
+            Graphic buffer = new(result.QueryGeometry, _bufferSymbol);
+            await _mapView.AddGraphics([pointGraphic, buffer]);
+        }
+        else
+        {
+            await _mapView.AddGraphic(pointGraphic);
         }
 
-        if (result.QueryGeometry is not null)
-        {
-            await _bufferGraphic.SetGeometry(result.QueryGeometry);
-            if (!_mapView.Graphics.Contains(_bufferGraphic))
-            {
-                await _mapView.AddGraphic(_bufferGraphic);
-            }
-        }
-        else if (_mapView.Graphics.Contains(_bufferGraphic))
-        {
-            await _mapView.RemoveGraphic(_bufferGraphic);
-        }
-
-        await _mapView.OpenPopup(new PopupOpenOptions
-        {
-            Location = clickEvent.MapPoint,
-            Features = result.Features,
-            FeatureMenuOpen = true
-        });
+        await _popup!.SetFeatures(result.Features);
     }
 
     private double? Distance => _queryType == "distance" ? 0.5 : null;
     private QueryUnits? Unit => _queryType == "distance" ? QueryUnits.Miles : null;
     private MapView? _mapView;
+    private PopupWidget? _popup;
     private FeatureLayer? _featureLayer;
-    private readonly Graphic _pointGraphic = new(symbol: new SimpleMarkerSymbol(
-        new Outline(new MapColor(255, 255, 255), 1),
-        new MapColor(0, 0, 139)));
-    private readonly Graphic _bufferGraphic = new(symbol: new SimpleFillSymbol(
-        new Outline(new MapColor(255, 255, 255), 1.5),
-        new MapColor(173, 216, 230, 0.2)));
+    private readonly SimpleMarkerSymbol _markerSymbol = new(new Outline(new MapColor(255, 255, 255), 1),
+        new MapColor(0, 0, 139));
+    private readonly SimpleFillSymbol _bufferSymbol = new(new Outline(new MapColor(255, 255, 255), 1.5),
+        new MapColor(173, 216, 230, 0.2));
     private string? _queryType;
 }

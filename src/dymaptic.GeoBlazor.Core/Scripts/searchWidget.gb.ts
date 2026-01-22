@@ -91,7 +91,7 @@ export default class SearchWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async blur(): Promise<void> {
         this.widget.blur();
@@ -364,9 +364,9 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     
     if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
         jswidgetsSearch.on('search-complete', async (evt: any) => {
-                let { buildDotNetSearchCompleteEvent } = await import('./searchCompleteEvent');
-                let dnEvent = await buildDotNetSearchCompleteEvent(evt, layerId, viewId);
-                let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let {buildDotNetSearchCompleteEvent} = await import('./searchCompleteEvent');
+            let dnEvent = await buildDotNetSearchCompleteEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
             });
     }
@@ -387,9 +387,9 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     
     if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
         jswidgetsSearch.on('select-result', async (evt: any) => {
-                let { buildDotNetSearchSelectResultEvent } = await import('./searchSelectResultEvent');
-                let dnEvent = await buildDotNetSearchSelectResultEvent(evt, layerId, viewId);
-                let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let {buildDotNetSearchSelectResultEvent} = await import('./searchSelectResultEvent');
+            let dnEvent = await buildDotNetSearchSelectResultEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
             });
     }
@@ -599,7 +599,7 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
 
     if (hasValue(dotNetSearchWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetSearchWidget.id)) {
-            let { default: SearchWidgetWrapper } = await import('./searchWidget');
+            let {default: SearchWidgetWrapper} = await import('./searchWidget');
             let searchWidgetWrapper = new SearchWidgetWrapper(jsObject);
             searchWidgetWrapper.geoBlazorId = dotNetSearchWidget.id;
             searchWidgetWrapper.viewId = viewId;

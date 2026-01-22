@@ -199,7 +199,7 @@ public partial class LayerListWidget : Widget
     public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
         LayerListTriggerActionEvent? triggerActionEvent =
-            await jsStreamRef.ReadJsStreamReference<LayerListTriggerActionEvent>();
+            await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerListTriggerActionEvent>();
 
         if (triggerActionEvent is null)
         {

@@ -72,15 +72,15 @@ export default class VectorTileLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -130,8 +130,8 @@ export default class VectorTileLayerGenerated extends BaseComponent {
     }
 
     async loadStyle(style: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                    signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.loadStyle(style,
             options);
     }
@@ -606,7 +606,7 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId
 
     if (hasValue(dotNetVectorTileLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetVectorTileLayer.id)) {
-            let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
+            let {default: VectorTileLayerWrapper} = await import('./vectorTileLayer');
             let vectorTileLayerWrapper = new VectorTileLayerWrapper(jsObject);
             vectorTileLayerWrapper.geoBlazorId = dotNetVectorTileLayer.id;
             vectorTileLayerWrapper.viewId = viewId;

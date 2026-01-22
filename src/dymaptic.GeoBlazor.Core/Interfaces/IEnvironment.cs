@@ -6,5 +6,4 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// </summary>
 public interface IEnvironment
 {
-    
 }

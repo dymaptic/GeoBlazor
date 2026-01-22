@@ -36,7 +36,7 @@ export default class WFSLayerViewWrapper extends WFSLayerViewGenerated {
 export async function buildJsWFSLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsWFSLayerViewGenerated } = await import('./wFSLayerView.gb');
     return await buildJsWFSLayerViewGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetWFSLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWFSLayerViewGenerated } = await import('./wFSLayerView.gb');

@@ -54,7 +54,7 @@ export async function buildDotNetVectorTileLayerViewGenerated(jsObject: any, lay
 
     if (hasValue(dotNetVectorTileLayerView.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetVectorTileLayerView.id)) {
-            let { default: VectorTileLayerViewWrapper } = await import('./vectorTileLayerView');
+            let {default: VectorTileLayerViewWrapper} = await import('./vectorTileLayerView');
             let vectorTileLayerViewWrapper = new VectorTileLayerViewWrapper(jsObject);
             vectorTileLayerViewWrapper.geoBlazorId = dotNetVectorTileLayerView.id;
             vectorTileLayerViewWrapper.viewId = viewId;

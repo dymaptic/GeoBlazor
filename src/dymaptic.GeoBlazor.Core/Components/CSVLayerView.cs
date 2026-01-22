@@ -2,23 +2,23 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 public partial class CSVLayerView
 {
-   // Add custom code to this file to override generated code
-   
-   /// <inheritdoc />
-   public override LayerType? Type => LayerType.CSV;
-   
-   /// <summary>
-   ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhighlightoptions-property">GeoBlazor Docs</a>
-   ///     Options for configuring the highlight.
-   ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
-   /// </summary>
-   [ArcGISProperty]
-   [Parameter]
-   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-   [Obsolete($"Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
-   public HighlightOptions? HighlightOptions { get; set; }
-   
-   /// <summary>
+    // Add custom code to this file to override generated code
+
+    /// <inheritdoc />
+    public override LayerType? Type => LayerType.CSV;
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhighlightoptions-property">GeoBlazor Docs</a>
+    ///     Options for configuring the highlight.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete($"Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
+    public HighlightOptions? HighlightOptions { get; set; }
+
+    /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
     /// <param name="objectId">
@@ -31,9 +31,11 @@ public partial class CSVLayerView
     public async Task<Handle> Highlight(ObjectId objectId)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+
         IJSObjectReference objectRef =
             await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectId);
+
         return new Handle(objectRef);
     }
 
@@ -53,17 +55,19 @@ public partial class CSVLayerView
     public async Task<Handle> Highlight(IReadOnlyCollection<ObjectId> objectIds)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+
         if (objectIds.Count == 0)
         {
             throw new ArgumentException("At least one ObjectID must be provided.", nameof(objectIds));
         }
+
         IJSObjectReference objectRef =
             await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectIds);
 
         return new Handle(objectRef);
     }
-    
+
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
@@ -81,22 +85,24 @@ public partial class CSVLayerView
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference? objectRef;
+
         if (graphic.Attributes.TryGetValue("OBJECTID", out object? objectId))
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
-                    CancellationTokenSource.Token, objectId);
+                CancellationTokenSource.Token, objectId);
         }
         else
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorId",
                 CancellationTokenSource.Token, graphic.Id);
-            
+
             if (objectRef is null)
             {
-                throw new InvalidOperationException("The graphic does not have an OBJECTID attribute and was not registered with GeoBlazor.");
+                throw new InvalidOperationException(
+                    "The graphic does not have an OBJECTID attribute and was not registered with GeoBlazor.");
             }
         }
-        
+
         return new Handle(objectRef);
     }
 
@@ -122,6 +128,7 @@ public partial class CSVLayerView
         {
             throw new ArgumentException("At least one graphic must be provided.", nameof(graphics));
         }
+
         if (graphics.First().Attributes.TryGetValue("OBJECTID", out _))
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
@@ -131,10 +138,11 @@ public partial class CSVLayerView
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorIds",
                 CancellationTokenSource.Token, graphics.Select(g => g.Id).ToArray());
-            
+
             if (objectRef is null)
             {
-                throw new InvalidOperationException("The graphics do not have the OBJECTID attribute and were not registered with GeoBlazor.");
+                throw new InvalidOperationException(
+                    "The graphics do not have the OBJECTID attribute and were not registered with GeoBlazor.");
             }
         }
 

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebSceneWidgets.html">GeoBlazor Docs</a>
 ///     The widgets object contains widgets that are exposed to the user.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class WebSceneWidgets : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -26,16 +24,15 @@ public partial class WebSceneWidgets : MapComponent
     ///     Time animation is controlled by a configurable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#Widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public WebSceneWidgets(
-        WebDocTimeSlider? timeSlider = null)
+    public WebSceneWidgets(WebDocTimeSlider? timeSlider = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         TimeSlider = timeSlider;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -47,8 +44,9 @@ public partial class WebSceneWidgets : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WebDocTimeSlider? TimeSlider { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -61,8 +59,8 @@ public partial class WebSceneWidgets : MapComponent
         {
             return TimeSlider;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -71,7 +69,7 @@ public partial class WebSceneWidgets : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TimeSlider;
@@ -79,7 +77,7 @@ public partial class WebSceneWidgets : MapComponent
 
         WebDocTimeSlider? result = await JsComponentReference.InvokeAsync<WebDocTimeSlider?>(
             "getTimeSlider", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -87,11 +85,12 @@ public partial class WebSceneWidgets : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeSlider)] = TimeSlider;
         }
-        
+
         return TimeSlider;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -107,13 +106,13 @@ public partial class WebSceneWidgets : MapComponent
         TimeSlider = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeSlider)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -122,16 +121,15 @@ public partial class WebSceneWidgets : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setTimeSlider", 
+
+        await JsComponentReference.InvokeVoidAsync("setTimeSlider",
             CancellationTokenSource.Token, value);
     }
-    
-#endregion
 
+#endregion
 }

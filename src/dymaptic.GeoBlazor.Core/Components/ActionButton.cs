@@ -1,10 +1,9 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [CodeGenerationIgnore]
+[ProtobufSerializable]
 public partial class ActionButton : ActionBase
 {
-
-    
     /// <inheritdoc />
     public override string Type => "button";
 
@@ -15,7 +14,8 @@ public partial class ActionButton : ActionBase
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Image { get; set; }
 
-    internal override ActionBaseSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override ActionBaseSerializationRecord ToProtobuf()
     {
         return new ActionBaseSerializationRecord(Id.ToString(), Type, Title, ClassName, Active, Disabled, Visible, ActionId)
         {

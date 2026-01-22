@@ -80,7 +80,7 @@ export default class BingMapsLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async addResolvingPromise(promiseToLoad: any): Promise<void> {
         this.layer.addResolvingPromise(promiseToLoad);
@@ -91,8 +91,8 @@ export default class BingMapsLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -104,8 +104,8 @@ export default class BingMapsLayerGenerated extends BaseComponent {
     async fetchTile(level: any,
         row: any,
         col: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                    signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -526,7 +526,7 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: 
 
     if (hasValue(dotNetBingMapsLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetBingMapsLayer.id)) {
-            let { default: BingMapsLayerWrapper } = await import('./bingMapsLayer');
+            let {default: BingMapsLayerWrapper} = await import('./bingMapsLayer');
             let bingMapsLayerWrapper = new BingMapsLayerWrapper(jsObject);
             bingMapsLayerWrapper.geoBlazorId = dotNetBingMapsLayer.id;
             bingMapsLayerWrapper.viewId = viewId;

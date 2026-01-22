@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GraphicsLayerView.html">GeoBlazor Docs</a>
 ///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">GraphicsLayer</a>
@@ -13,7 +12,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class GraphicsLayerView : LayerView,
     IHighlightLayerViewMixin
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -34,8 +32,7 @@ public partial class GraphicsLayerView : LayerView,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public GraphicsLayerView(
-        HighlightOptions? highlightOptions = null,
+    public GraphicsLayerView(HighlightOptions? highlightOptions = null,
         bool? visible = null)
     {
         AllowRender = false;
@@ -44,12 +41,11 @@ public partial class GraphicsLayerView : LayerView,
         HighlightOptions = highlightOptions;
 #pragma warning restore CS0618 // Type or member is obsolete
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Methods
 
 #endregion
-
 }

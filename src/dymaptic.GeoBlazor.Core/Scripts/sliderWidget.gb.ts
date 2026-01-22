@@ -83,7 +83,7 @@ export default class SliderWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -614,7 +614,7 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any, layerId: s
 
     if (hasValue(dotNetSliderWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetSliderWidget.id)) {
-            let { default: SliderWidgetWrapper } = await import('./sliderWidget');
+            let {default: SliderWidgetWrapper} = await import('./sliderWidget');
             let sliderWidgetWrapper = new SliderWidgetWrapper(jsObject);
             sliderWidgetWrapper.geoBlazorId = dotNetSliderWidget.id;
             sliderWidgetWrapper.viewId = viewId;

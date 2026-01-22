@@ -114,7 +114,7 @@ public partial class Label : MapComponent
         Symbol = symbol;
         if (CoreJsModule is not null)
         {
-            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol", Id, Symbol.ToSerializationRecord());
+            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol", Id, Symbol.ToProtobuf());
         }
         else
         {

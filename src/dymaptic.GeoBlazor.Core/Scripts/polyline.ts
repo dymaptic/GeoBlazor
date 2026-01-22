@@ -62,6 +62,6 @@ export default class PolylineWrapper extends PolylineGenerated {
     constructor(component: Polyline) {
         super(component);
     }
-    
+
 }
 

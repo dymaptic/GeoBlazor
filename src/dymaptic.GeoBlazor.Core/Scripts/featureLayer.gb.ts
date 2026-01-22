@@ -220,7 +220,7 @@ export default class FeatureLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async addAttachment(feature: any,
         attachment: any): Promise<any> {
@@ -243,8 +243,8 @@ export default class FeatureLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -274,15 +274,15 @@ export default class FeatureLayerGenerated extends BaseComponent {
     }
 
     async queryAttachments(attachmentQuery: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                           signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.queryAttachments(attachmentQuery,
             options);
     }
 
     async queryAttributeBins(binsQuery: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                             signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.queryAttributeBins(binsQuery,
             options);
     }
@@ -698,13 +698,13 @@ export default class FeatureLayerGenerated extends BaseComponent {
         
         return generateSerializableJson(this.layer.subtypeField);
     }
-    
+
     async getSubtypes(): Promise<any> {
         if (!hasValue(this.layer.subtypes)) {
             return null;
         }
-        
-        let { buildDotNetSubtype } = await import('./subtype');
+
+        let {buildDotNetSubtype} = await import('./subtype');
         return await Promise.all(this.layer.subtypes!.map(async i => await buildDotNetSubtype(i, this.viewId)));
     }
     
@@ -1079,9 +1079,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     
     if (hasValue(dotNetObject.hasEditsListener) && dotNetObject.hasEditsListener) {
         jsFeatureLayer.on('edits', async (evt: any) => {
-                let { buildDotNetFeatureLayerEditsEvent } = await import('./featureLayerEditsEvent');
-                let dnEvent = await buildDotNetFeatureLayerEditsEvent(evt, layerId, viewId);
-                let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let {buildDotNetFeatureLayerEditsEvent} = await import('./featureLayerEditsEvent');
+            let dnEvent = await buildDotNetFeatureLayerEditsEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', streamRef);
             });
     }
@@ -1215,9 +1215,9 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         dotNetFeatureLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
-    
+
     if (hasValue(jsObject.subtypes)) {
-        let { buildDotNetSubtype } = await import('./subtype');
+        let {buildDotNetSubtype} = await import('./subtype');
         dotNetFeatureLayer.subtypes = await Promise.all(jsObject.subtypes.map(async i => await buildDotNetSubtype(i, viewId)));
     }
     
@@ -1497,7 +1497,7 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
 
     if (hasValue(dotNetFeatureLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetFeatureLayer.id)) {
-            let { default: FeatureLayerWrapper } = await import('./featureLayer');
+            let {default: FeatureLayerWrapper} = await import('./featureLayer');
             let featureLayerWrapper = new FeatureLayerWrapper(jsObject);
             featureLayerWrapper.geoBlazorId = dotNetFeatureLayer.id;
             featureLayerWrapper.viewId = viewId;

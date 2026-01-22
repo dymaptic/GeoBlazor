@@ -13,7 +13,7 @@ export default class ImageryTileLayerViewWrapper extends ImageryTileLayerViewGen
 export async function buildJsImageryTileLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsImageryTileLayerViewGenerated } = await import('./imageryTileLayerView.gb');
     return await buildJsImageryTileLayerViewGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetImageryTileLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetImageryTileLayerViewGenerated } = await import('./imageryTileLayerView.gb');

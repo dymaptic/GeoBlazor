@@ -489,7 +489,7 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'catalog-dynamic-group':
-           if (!Pro) return removeCircularReferences(jsObject);
+            if (!Pro) return removeCircularReferences(jsObject);
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogDynamicGroupLayer} = await import('./catalogDynamicGroupLayer');

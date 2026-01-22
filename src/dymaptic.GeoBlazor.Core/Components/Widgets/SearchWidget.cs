@@ -136,7 +136,7 @@ public partial class SearchWidget : Widget
     public async Task OnJsSearchComplete(IJSStreamReference jsStreamRef)
     {
         View!.ExtentChangedInJs = true;
-        SearchCompleteEvent? searchCompleteEvent = await jsStreamRef.ReadJsStreamReference<SearchCompleteEvent>();
+        SearchCompleteEvent? searchCompleteEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchCompleteEvent>();
 
         if (searchCompleteEvent is null)
         {
@@ -183,7 +183,7 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsSelectResult(IJSStreamReference jsStreamRef)
     {
-        SearchSelectResultEvent? selectResultEvent = await jsStreamRef.ReadJsStreamReference<SearchSelectResultEvent>();
+        SearchSelectResultEvent? selectResultEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchSelectResultEvent>();
         
         if (selectResultEvent is null)
         {
@@ -229,7 +229,7 @@ public partial class SearchWidget : Widget
     public async Task OnJsSuggestComplete(IJSStreamReference jsStreamRef)
     {
         SearchSuggestCompleteEvent? suggestCompleteEvent =
-            await jsStreamRef.ReadJsStreamReference<SearchSuggestCompleteEvent>();
+            await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchSuggestCompleteEvent>();
 
         if (suggestCompleteEvent is null)
         {
@@ -296,7 +296,7 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
-        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReference<GoToOverrideParameters>();
+        GoToOverrideParameters? goToParameters = await jsStreamRef.ReadJsStreamReferenceAsJSON<GoToOverrideParameters>();
         if (GoToOverride is not null && goToParameters is not null)
         {
             await GoToOverride.Invoke(goToParameters);
@@ -372,7 +372,7 @@ public partial class SearchWidget : Widget
         
         IJSStreamReference jsStreamRef = 
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("search", searchTerm);
-        return (await jsStreamRef.ReadJsStreamReference<SearchResponse>())!;
+        return (await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchResponse>())!;
     }
     
     /// <summary>
@@ -398,7 +398,7 @@ public partial class SearchWidget : Widget
         
         IJSStreamReference jsStreamRef =
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("suggest", value);
-        return (await jsStreamRef.ReadJsStreamReference<SuggestResponse>())!;
+        return (await jsStreamRef.ReadJsStreamReferenceAsJSON<SuggestResponse>())!;
     }
     
     /// <summary>
@@ -430,7 +430,7 @@ public partial class SearchWidget : Widget
         IJSStreamReference jsStreamRef = await JsComponentReference.InvokeAsync<IJSStreamReference>(
             "getActiveSource", CancellationTokenSource.Token);
 
-        SearchSource? result = await jsStreamRef.ReadJsStreamReference<SearchSource>();
+        SearchSource? result = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchSource>();
         
         if (result is not null)
         {
@@ -472,7 +472,7 @@ public partial class SearchWidget : Widget
         IJSStreamReference jsStreamRef = await JsComponentReference.InvokeAsync<IJSStreamReference>(
             "getAllSources", CancellationTokenSource.Token);
 
-        IReadOnlyList<SearchSource>? result = await jsStreamRef.ReadJsStreamReference<IReadOnlyList<SearchSource>>();
+        IReadOnlyList<SearchSource>? result = await jsStreamRef.ReadJsStreamReferenceAsJSON<IReadOnlyList<SearchSource>>();
         
         if (result is not null)
         {
@@ -493,7 +493,7 @@ public partial class SearchWidget : Widget
     {
         IJSStreamReference jsStreamRef =
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSelectedResult");
-        return (await jsStreamRef.ReadJsStreamReference<SearchResult>())!;
+        return (await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchResult>())!;
     }
     
     /// <summary>
@@ -524,7 +524,7 @@ public partial class SearchWidget : Widget
 
         IJSStreamReference jsStreamRef =
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSources", CancellationTokenSource.Token);
-        IReadOnlyList<SearchSource>? result = await jsStreamRef.ReadJsStreamReference<IReadOnlyList<SearchSource>>();
+        IReadOnlyList<SearchSource>? result = await jsStreamRef.ReadJsStreamReferenceAsJSON<IReadOnlyList<SearchSource>>();
         
         if (result is not null)
         {
@@ -564,7 +564,7 @@ public partial class SearchWidget : Widget
 
         IJSStreamReference jsStreamRef =
             await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSources", CancellationTokenSource.Token);
-        IReadOnlyList<SuggestResult>? result = await jsStreamRef.ReadJsStreamReference<IReadOnlyList<SuggestResult>>();
+        IReadOnlyList<SuggestResult>? result = await jsStreamRef.ReadJsStreamReferenceAsJSON<IReadOnlyList<SuggestResult>>();
         
         if (result is not null)
         {

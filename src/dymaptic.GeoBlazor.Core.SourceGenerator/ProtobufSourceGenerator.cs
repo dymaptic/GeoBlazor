@@ -32,60 +32,74 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
                 .Collect();
 
         // Reads the MSBuild properties to get the project directory.
-        IncrementalValueProvider<string?> optionsProvider =
+        IncrementalValueProvider<(string?, string?)> optionsProvider =
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
                 configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
                     out var projectDirectory);
 
-                return projectDirectory;
+                configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
+                    out var pipelineBuild);
+
+                return (projectDirectory, pipelineBuild);
             });
 
-        var combined =
-            typeProvider.Combine(optionsProvider)
-                .Combine(context.CompilationProvider);
+        IncrementalValueProvider<(ImmutableArray<BaseTypeDeclarationSyntax> Left, (string?, string?) Right)> combined =
+            typeProvider.Combine(optionsProvider);
 
         context.RegisterSourceOutput(combined, FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((ImmutableArray<BaseTypeDeclarationSyntax> Types, string? ProjectDirectory) Data,
-            Compilation Compilation) pipeline)
+        (ImmutableArray<BaseTypeDeclarationSyntax> Types, (string? ProjectDirectory, string? PipelineBuild) Options)
+            pipeline)
     {
-        // Skip if not running from the Core project
-        if (pipeline.Compilation.AssemblyName != "dymaptic.GeoBlazor.Core")
+        _corePath = pipeline.Options.ProjectDirectory;
+        var showDialog = pipeline.Options.PipelineBuild != "true";
+
+        // Generate a unique session ID for this build session
+        var sessionId = $"{nameof(ProtobufSourceGenerator)}_{Guid.NewGuid():N}";
+
+        if (pipeline.Types.Length > 0)
         {
-            return;
-        }
+            try
+            {
+                ProcessHelper.Log(nameof(ProtobufSourceGenerator),
+                    $"Source Generation triggered with {pipeline.Types.Length} protobuf types found.",
+                    DiagnosticSeverity.Info,
+                    context, showDialog, sessionId);
 
-        // Skip source generation if the project path is not available
-        if (string.IsNullOrEmpty(pipeline.Data.ProjectDirectory))
-        {
-            ProcessHelper.Log(nameof(ProtobufSourceGenerator),
-                "CoreProjectPath not set. Skipping protobuf source generation.",
-                DiagnosticSeverity.Warning,
-                context);
+                var protoDefinitions = ProtobufDefinitionsGenerator
+                    .UpdateProtobufDefinitions(context, pipeline.Types, _corePath!, showDialog, sessionId);
 
-            return;
-        }
+                context.CancellationToken.ThrowIfCancellationRequested();
 
-        // Log that protobuf types were found (infrastructure ready for future implementation)
-        if (pipeline.Data.Types.Length > 0)
-        {
-            ProcessHelper.Log(nameof(ProtobufSourceGenerator),
-                $"Found {pipeline.Data.Types.Length} protobuf-serializable types.",
-                DiagnosticSeverity.Info,
-                context);
+                SerializationGenerator.GenerateSerializationDataClass(context,
+                    pipeline.Types, protoDefinitions, false, showDialog, sessionId);
 
-            // TODO: Generate protobuf serialization records and registration code.
-            // This will include:
-            // 1. Generating *SerializationRecord classes for each protobuf-attributed type
-            // 2. Generating ToProtobuf()/FromProtobuf() extension methods
-            // 3. Generating JsSyncManager registration code for ProtoContractTypes dictionary
-            // 4. Copying .proto definitions to TypeScript for JS-side deserialization
+                context.CancellationToken.ThrowIfCancellationRequested();
+
+                if (showDialog)
+                {
+                    ProcessHelper.CloseDialog(sessionId);
+                }
+            }
+            catch (Exception ex)
+            {
+                ProcessHelper.Log(nameof(ProtobufSourceGenerator),
+                    $"Error generating serialization data class: {ex.Message}\n{ex.StackTrace}",
+                    DiagnosticSeverity.Error,
+                    context, showDialog, sessionId);
+
+                if (showDialog)
+                {
+                    ProcessHelper.CloseDialog(sessionId);
+                }
+            }
         }
     }
 
+    private static string? _corePath;
     private const string ProtoContractAttribute = "ProtoContract";
     private const string ProtoSerializableAttribute = "ProtobufSerializable";
     private const string SerializedMethodAttributeName = "SerializedMethod";

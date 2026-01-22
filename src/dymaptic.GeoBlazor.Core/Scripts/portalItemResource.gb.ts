@@ -25,19 +25,19 @@ export default class PortalItemResourceGenerated extends BaseComponent {
             this.component.path = dotNetObject.path;
         }
     }
-    
+
     // region methods
     async fetch(responseType: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+                options: any,
+                signal: AbortSignal): Promise<any> {
         options.signal = signal;
         return await this.component.fetch(responseType,
             options);
     }
 
     async update(content: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+                 options: any,
+                 signal: AbortSignal): Promise<any> {
         options.signal = signal;
         return await this.component.update(content,
             options);
@@ -149,7 +149,7 @@ export async function buildDotNetPortalItemResourceGenerated(jsObject: any, laye
 
     if (hasValue(dotNetPortalItemResource.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetPortalItemResource.id)) {
-            let { default: PortalItemResourceWrapper } = await import('./portalItemResource');
+            let {default: PortalItemResourceWrapper} = await import('./portalItemResource');
             let portalItemResourceWrapper = new PortalItemResourceWrapper(jsObject);
             portalItemResourceWrapper.geoBlazorId = dotNetPortalItemResource.id;
             portalItemResourceWrapper.viewId = viewId;

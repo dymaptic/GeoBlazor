@@ -2,8 +2,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 public partial class JoinTableDataSource : DynamicDataSource
 {
-
-
     /// <inheritdoc/>
     public override DynamicDataSourceType Type => DynamicDataSourceType.JoinTable;
 

@@ -34,7 +34,9 @@ public class CoreSourceGeneratorTests
 
         TestAnalyzerConfigOptionsProvider analyzerConfigOptions = new(new Dictionary<string, string>
         {
-            { "build_property.CoreProjectPath", corePath }, { "build_property.Configuration", "Debug" }
+            { "build_property.CoreProjectPath", corePath },
+            { "build_property.Configuration", "Debug" },
+            { "build_property.PipelineBuild", "false" }
         });
 
         // Source generators should be tested using 'GeneratorDriver'.

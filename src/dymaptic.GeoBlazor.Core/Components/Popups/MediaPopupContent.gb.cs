@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.MediaPopupContent.html">GeoBlazor Docs</a>
 ///     A `MediaContent` popup element contains an individual or array of chart and/or image media elements
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public partial class MediaPopupContent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -40,8 +38,7 @@ public partial class MediaPopupContent
     ///     Index of the current active media within the popup's media content.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html#activeMediaInfoIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public MediaPopupContent(
-        string? title = null,
+    public MediaPopupContent(string? title = null,
         string? description = null,
         IReadOnlyList<MediaInfo>? mediaInfos = null,
         int? activeMediaInfoIndex = null)
@@ -52,329 +49,9 @@ public partial class MediaPopupContent
         Description = description;
         MediaInfos = mediaInfos;
         ActiveMediaInfoIndex = activeMediaInfoIndex;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
-#region Property Getters
 
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ActiveMediaInfoIndex property.
-    /// </summary>
-    public async Task<int?> GetActiveMediaInfoIndex()
-    {
-        if (CoreJsModule is null)
-        {
-            return ActiveMediaInfoIndex;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ActiveMediaInfoIndex;
-        }
-
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "activeMediaInfoIndex");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             ActiveMediaInfoIndex = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveMediaInfoIndex)] = ActiveMediaInfoIndex;
-        }
-         
-        return ActiveMediaInfoIndex;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Description property.
-    /// </summary>
-    public async Task<string?> GetDescription()
-    {
-        if (CoreJsModule is null)
-        {
-            return Description;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Description;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "description");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Description = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Description)] = Description;
-        }
-         
-        return Description;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MediaInfos property.
-    /// </summary>
-    public async Task<IReadOnlyList<MediaInfo>?> GetMediaInfos()
-    {
-        if (CoreJsModule is null)
-        {
-            return MediaInfos;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return MediaInfos;
-        }
-
-        IReadOnlyList<MediaInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<MediaInfo>?>(
-            "getMediaInfos", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            MediaInfos = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
-        }
-        
-        return MediaInfos;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Title property.
-    /// </summary>
-    public async Task<string?> GetTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return Title;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Title;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Title = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
-        }
-         
-        return Title;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the ActiveMediaInfoIndex property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetActiveMediaInfoIndex(int? value)
-    {
-#pragma warning disable BL0005
-        ActiveMediaInfoIndex = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ActiveMediaInfoIndex)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "activeMediaInfoIndex", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Description property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDescription(string? value)
-    {
-#pragma warning disable BL0005
-        Description = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Description)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "description", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the MediaInfos property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMediaInfos(IReadOnlyList<MediaInfo>? value)
-    {
-        if (value is not null)
-        {
-            foreach (MediaInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
-#pragma warning disable BL0005
-        MediaInfos = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MediaInfos)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "mediaInfos", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Title property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTitle(string? value)
-    {
-#pragma warning disable BL0005
-        Title = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Title)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
-#endregion
 
 #region Add to Collection Methods
 
@@ -391,12 +68,12 @@ public partial class MediaPopupContent
             : [..MediaInfos, ..values];
         await SetMediaInfos(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the MediaInfos property.
     /// </summary>
@@ -409,9 +86,336 @@ public partial class MediaPopupContent
         {
             return;
         }
+
         await SetMediaInfos(MediaInfos.Except(values).ToArray());
     }
-    
+
 #endregion
 
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActiveMediaInfoIndex property.
+    /// </summary>
+    public async Task<int?> GetActiveMediaInfoIndex()
+    {
+        if (CoreJsModule is null)
+        {
+            return ActiveMediaInfoIndex;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ActiveMediaInfoIndex;
+        }
+
+        // get the property value
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "activeMediaInfoIndex");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            ActiveMediaInfoIndex = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ActiveMediaInfoIndex)] = ActiveMediaInfoIndex;
+        }
+
+        return ActiveMediaInfoIndex;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Description property.
+    /// </summary>
+    public async Task<string?> GetDescription()
+    {
+        if (CoreJsModule is null)
+        {
+            return Description;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Description;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Description = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Description)] = Description;
+        }
+
+        return Description;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MediaInfos property.
+    /// </summary>
+    public async Task<IReadOnlyList<MediaInfo>?> GetMediaInfos()
+    {
+        if (CoreJsModule is null)
+        {
+            return MediaInfos;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return MediaInfos;
+        }
+
+        IReadOnlyList<MediaInfo>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<MediaInfo>?>("getMediaInfos",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            MediaInfos = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
+        }
+
+        return MediaInfos;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Title property.
+    /// </summary>
+    public async Task<string?> GetTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return Title;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Title;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Title = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Title)] = Title;
+        }
+
+        return Title;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the ActiveMediaInfoIndex property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetActiveMediaInfoIndex(int? value)
+    {
+#pragma warning disable BL0005
+        ActiveMediaInfoIndex = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActiveMediaInfoIndex)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "activeMediaInfoIndex", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Description property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDescription(string? value)
+    {
+#pragma warning disable BL0005
+        Description = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Description)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "description", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the MediaInfos property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMediaInfos(IReadOnlyList<MediaInfo>? value)
+    {
+        if (value is not null)
+        {
+            foreach (MediaInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+
+#pragma warning disable BL0005
+        MediaInfos = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MediaInfos)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "mediaInfos", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Title property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTitle(string? value)
+    {
+#pragma warning disable BL0005
+        Title = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Title)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+
+#endregion
 }

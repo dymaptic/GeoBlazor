@@ -35,6 +35,7 @@ public class AuthenticationManager
             {
                 _appId = _configuration["ArcGISAppId"];
             }
+
             return _appId;
         }
         set
@@ -61,6 +62,7 @@ public class AuthenticationManager
                 string? fromConfig = _configuration["ArcGISPortalUrl"];
                 _portalUrl = fromConfig?.TrimEnd('/');
             }
+
             return _portalUrl;
         }
         set
@@ -137,11 +139,24 @@ public class AuthenticationManager
             }
         }
     }
-    
+
     /// <summary>
     ///     The expiration date and time of the current token. This is used to determine when the token should be refreshed or removed. If the token is an API Key, this will be null.
     /// </summary>
     public DateTime? TokenExpirationDateTime { get; set; }
+
+    /// <summary>
+    ///     Allows the user to prevent the ApiKey from being used in the authentication process for the current MapView.
+    ///     This value is copied from MapView.ExcludeApiKey, and will be reset (default to false) when a new MapView is created.
+    ///     Part of the workaround for https://my.esri.com/#/support/bugs/bugs?bugNumber=BUG-000174423 
+    /// </summary>
+    public bool ExcludeApiKey { get; set; }
+
+    /// <summary>
+    ///     Handles any runtime exceptions instead of throwing. Return a boolean to indicate if the exception was handled (true) or should still throw (false).
+    /// </summary>
+    [Parameter]
+    public Func<Exception, Task<bool>>? OnExceptionHandler { get; set; }
 
     /// <summary>
     ///     Initializes authentication based on either an OAuth App ID or an API Key. This is called automatically by <see cref="MapView" /> on first render, but can also be called manually for other actions such as rest calls.
@@ -149,11 +164,11 @@ public class AuthenticationManager
     public async Task<bool> Initialize()
     {
         if (_module is null)
-        { 
+        {
             IJSObjectReference coreJsModule = await GetCoreJsModule();
 
             _module = await coreJsModule.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
-                _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl, 
+                _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl,
                 TrustedServers, FontsUrl);
         }
 
@@ -215,7 +230,8 @@ public class AuthenticationManager
         if (string.IsNullOrWhiteSpace(AppId))
         {
             // If no AppId is provided, we cannot check if the user is logged in using Esri's logic.
-            throw new InvalidOperationException("AuthenticationManager.IsLoggedIn() is for use with the ArcGISAppId and OAuth flows.");
+            throw new InvalidOperationException(
+                "AuthenticationManager.IsLoggedIn() is for use with the ArcGISAppId and OAuth flows.");
         }
 
         await Initialize();
@@ -240,8 +256,10 @@ public class AuthenticationManager
     public async Task<IJSObjectReference> GetCoreJsModule()
     {
         IJSObjectReference? proModule = await _jsModuleManager.GetProJsModule(_jsRuntime, CancellationToken.None);
-        IJSObjectReference coreModule = await _jsModuleManager.GetCoreJsModule(_jsRuntime, proModule, CancellationToken.None);
-        
+
+        IJSObjectReference coreModule =
+            await _jsModuleManager.GetCoreJsModule(_jsRuntime, proModule, CancellationToken.None);
+
         return coreModule;
     }
 
@@ -260,7 +278,7 @@ public class AuthenticationManager
         TokenExpirationDateTime = expires.DateTime;
         await _module!.InvokeVoidAsync("registerToken", token, expires.ToUnixTimeMilliseconds());
     }
-    
+
     /// <summary>
     ///     Retrieves the expiration date and time of the current token. This is used to determine when the token should be refreshed or removed. If the token is an API Key, this will always return null.
     /// </summary>
@@ -270,29 +288,18 @@ public class AuthenticationManager
         {
             return TokenExpirationDateTime;
         }
+
         await Initialize();
         long? expiresInMilliseconds = await _module!.InvokeAsync<long?>("getTokenExpires");
+
         if (expiresInMilliseconds is not null)
         {
             TokenExpirationDateTime = DateTimeOffset.FromUnixTimeMilliseconds(expiresInMilliseconds.Value).UtcDateTime;
         }
-        
+
         return TokenExpirationDateTime;
     }
 
-    /// <summary>
-    ///     Allows the user to prevent the ApiKey from being used in the authentication process for the current MapView.
-    ///     This value is copied from MapView.ExcludeApiKey, and will be reset (default to false) when a new MapView is created.
-    ///     Part of the workaround for https://my.esri.com/#/support/bugs/bugs?bugNumber=BUG-000174423 
-    /// </summary>
-    public bool ExcludeApiKey { get; set; }
-    
-    /// <summary>
-    ///     Handles any runtime exceptions instead of throwing. Return a boolean to indicate if the exception was handled (true) or should still throw (false).
-    /// </summary>
-    [Parameter]
-    public Func<Exception, Task<bool>>? OnExceptionHandler { get; set; }
-    
     /// <summary>
     ///     Surfaces JavaScript errors to the .NET Code for debugging.
     /// </summary>
@@ -308,11 +315,12 @@ public class AuthenticationManager
         var exception = new JavascriptException(error);
 
         bool handled = false;
+
         if (OnExceptionHandler is not null)
         {
             handled = await OnExceptionHandler(exception);
         }
-        
+
         if (!handled)
         {
             throw exception;

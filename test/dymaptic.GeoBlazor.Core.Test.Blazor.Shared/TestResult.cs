@@ -1,6 +1,4 @@
-﻿
-
-namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared;
+﻿namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared;
 
 public record TestResult(
     string ClassName,
@@ -12,6 +10,5 @@ public record TestResult(
 {
     public int Pending => TestCount - (Passed.Count + Failed.Count);
 }
-
 
 public record ErrorEventArgs(Exception Exception, string MethodName);

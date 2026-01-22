@@ -52,15 +52,15 @@ export default class PortalGroupGenerated extends BaseComponent {
             this.component.title = dotNetObject.title;
         }
     }
-    
+
     // region methods
     async fetchCategorySchema(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.fetchCategorySchema(options);
     }
 
     async fetchMembers(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.fetchMembers(options);
     }
 
@@ -69,8 +69,8 @@ export default class PortalGroupGenerated extends BaseComponent {
     }
 
     async queryItems(queryParams: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                     signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryItems(jsQueryParams,
@@ -306,7 +306,7 @@ export async function buildDotNetPortalGroupGenerated(jsObject: any, layerId: st
 
     if (hasValue(dotNetPortalGroup.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetPortalGroup.id)) {
-            let { default: PortalGroupWrapper } = await import('./portalGroup');
+            let {default: PortalGroupWrapper} = await import('./portalGroup');
             let portalGroupWrapper = new PortalGroupWrapper(jsObject);
             portalGroupWrapper.geoBlazorId = dotNetPortalGroup.id;
             portalGroupWrapper.viewId = viewId;

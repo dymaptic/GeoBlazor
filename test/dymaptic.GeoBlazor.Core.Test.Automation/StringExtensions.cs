@@ -31,7 +31,7 @@ public static class StringExtensions
 
             previousWasDigit = char.IsDigit(c);
         }
-        
+
         return sb.ToString();
     }
 }

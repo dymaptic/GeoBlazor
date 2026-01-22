@@ -279,7 +279,7 @@ public partial class BasemapLayerListWidget : Widget
     public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
         BasemapLayerListTriggerActionEvent? triggerActionEvent =
-            await jsStreamRef.ReadJsStreamReference<BasemapLayerListTriggerActionEvent>();
+            await jsStreamRef.ReadJsStreamReferenceAsJSON<BasemapLayerListTriggerActionEvent>();
 
         if (triggerActionEvent is null)
         {

@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[ProtobufSerializable]
 public partial class SimpleFillSymbol : FillSymbol
 {
-
-
     /// <summary>
     ///     The fill style.
     /// </summary>
@@ -56,11 +55,12 @@ public partial class SimpleFillSymbol : FillSymbol
         Outline?.ValidateRequiredChildren();
     }
 
-    internal override SymbolSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override SymbolSerializationRecord ToProtobuf()
     {
-        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color)
+        return new SymbolSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), Color?.ToProtobuf())
         {
-            Outline = Outline?.ToSerializationRecord(), 
+            Outline = Outline?.ToProtobuf(), 
             Style = Style?.ToString().ToKebabCase()
         };
     }

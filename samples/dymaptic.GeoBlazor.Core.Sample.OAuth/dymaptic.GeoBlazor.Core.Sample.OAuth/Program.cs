@@ -1,5 +1,7 @@
-using dymaptic.GeoBlazor.Core.Sample.OAuth.Components;
 using dymaptic.GeoBlazor.Core;
+using dymaptic.GeoBlazor.Core.Sample.OAuth.Components;
+using _Imports = dymaptic.GeoBlazor.Core.Sample.OAuth.Client._Imports;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -35,6 +38,6 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(dymaptic.GeoBlazor.Core.Sample.OAuth.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(_Imports).Assembly);
 
 app.Run();

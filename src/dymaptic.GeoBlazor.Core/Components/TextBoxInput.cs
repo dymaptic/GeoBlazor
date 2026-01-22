@@ -22,5 +22,3 @@ public class TextBoxInput : FormInput
     [Parameter]
     public int? MinLength { get; set; }
 }
-
-

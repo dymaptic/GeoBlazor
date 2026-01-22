@@ -34,6 +34,10 @@ public class TestConfig
     /// </summary>
     public static bool IsCI { get; private set; }
 
+    public static Dictionary<string, string> FailedTests { get; } = [];
+
+    public static List<string> InconclusiveTests { get; } = [];
+
     private static string ComposeFilePath => _proAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
     private static string CoreComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core.yml");
     private static string ProComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro.yml");
@@ -62,6 +66,7 @@ public class TestConfig
         Path.GetFullPath(Path.Combine(CoreRepoRoot, "src", "dymaptic.GeoBlazor.Core"));
     private static string ProProjectPath =>
         Path.GetFullPath(Path.Combine(ProRepoRoot, "src", "dymaptic.GeoBlazor.Pro"));
+    private static string LogFilePath => Path.Combine(_projectFolder, "test-run.log");
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
@@ -69,6 +74,32 @@ public class TestConfig
         Trace.Listeners.Add(new ConsoleTraceListener());
         Trace.Listeners.Add(new StringBuilderTraceListener(logBuilder));
         Trace.AutoFlush = true;
+
+        // Handle Ctrl-C gracefully
+        Console.CancelKeyPress += (sender, e) =>
+        {
+            Trace.WriteLine("Ctrl-C detected, initiating shutdown...", "TEST_SHUTDOWN");
+            e.Cancel = true; // Prevent immediate termination to allow cleanup
+
+            // Trigger cancellation
+            if (!cts.IsCancellationRequested)
+            {
+                cts.Cancel();
+            }
+
+            if (!gracefulCts.IsCancellationRequested)
+            {
+                gracefulCts.Cancel();
+            }
+
+            // Force exit after timeout if cleanup hangs
+            Task.Run(async () =>
+            {
+                await Task.Delay(15000); // 15 second timeout for cleanup
+                Trace.WriteLine("Cleanup timeout - forcing exit", "TEST_SHUTDOWN");
+                Environment.Exit(1);
+            });
+        };
 
         SetupConfiguration();
 
@@ -103,19 +134,37 @@ public class TestConfig
     [AssemblyCleanup]
     public static async Task AssemblyCleanup()
     {
+        var isCancelled = cts.IsCancellationRequested;
+
         // Dispose browser pool first
         if (BrowserPool.TryGetInstance(out var pool) && pool is not null)
         {
             Trace.WriteLine("Disposing browser pool...", "TEST_CLEANUP");
-            await pool.DisposeAsync().ConfigureAwait(false);
-            Trace.WriteLine("Browser pool disposed", "TEST_CLEANUP");
+
+            try
+            {
+                using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(isCancelled ? 3 : 10));
+                await pool.DisposeAsync().ConfigureAwait(false);
+                Trace.WriteLine("Browser pool disposed", "TEST_CLEANUP");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"Browser pool disposal error: {ex.Message}", "TEST_CLEANUP");
+            }
         }
 
-        cts.CancelAfter(5000);
+        if (!isCancelled)
+        {
+            cts.CancelAfter(5000);
+        }
 
-        await gracefulCts.CancelAsync();
+        if (!gracefulCts.IsCancellationRequested)
+        {
+            await gracefulCts.CancelAsync();
+        }
 
-        await Task.Delay(5000);
+        // Shorter delay if already cancelled
+        await Task.Delay(isCancelled ? 1000 : 5000);
 
         if (_useContainer)
         {
@@ -136,8 +185,14 @@ public class TestConfig
             await GenerateCoverageReport();
         }
 
-        await File.WriteAllTextAsync(Path.Combine(_projectFolder, "test-run.log"),
-            logBuilder.ToString());
+        await File.WriteAllTextAsync(LogFilePath, logBuilder.ToString());
+
+        if (!IsCI)
+        {
+            await Cli.Wrap("code")
+                .WithArguments(LogFilePath)
+                .ExecuteAsync();
+        }
     }
 
     private static void SetupConfiguration()

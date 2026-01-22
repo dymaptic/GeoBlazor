@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TrackPartInfo.html">GeoBlazor Docs</a>
 ///     TrackPartInfo provides information about how to render and label temporal data in a layer.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class TrackPartInfo : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -41,8 +39,7 @@ public partial class TrackPartInfo : MapComponent
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TrackPartInfo.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public TrackPartInfo(
-        IReadOnlyList<Label>? labelingInfo = null,
+    public TrackPartInfo(IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         Renderer? renderer = null,
         bool? visible = null)
@@ -53,10 +50,114 @@ public partial class TrackPartInfo : MapComponent
         LabelsVisible = labelsVisible;
         Renderer = renderer;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the LabelingInfo property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToLabelingInfo(params Label[] values)
+    {
+        Label[] join = LabelingInfo is null
+            ? values
+            : [..LabelingInfo, ..values];
+        await SetLabelingInfo(join);
+    }
+
+#endregion
+
+
+#region Remove From Collection Methods
+
+    /// <summary>
+    ///     Asynchronously remove an element from the LabelingInfo property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromLabelingInfo(params Label[] values)
+    {
+        if (LabelingInfo is null)
+        {
+            return;
+        }
+
+        await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
+    }
+
+#endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (LabelingInfo is not null)
+        {
+            foreach (Label child in LabelingInfo)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        Renderer?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Label labelingInfo:
+                LabelingInfo ??= [];
+
+                if (!LabelingInfo.Contains(labelingInfo))
+                {
+                    LabelingInfo = [..LabelingInfo, labelingInfo];
+                    ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                }
+
+                return true;
+            case Renderer renderer:
+                if (renderer != Renderer)
+                {
+                    Renderer = renderer;
+                    ModifiedParameters[nameof(Renderer)] = Renderer;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Label labelingInfo:
+                LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
+                ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+
+                return true;
+            case Renderer _:
+                Renderer = null;
+                ModifiedParameters[nameof(Renderer)] = Renderer;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -69,7 +170,7 @@ public partial class TrackPartInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Label>? LabelingInfo { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TrackPartInfo.html#trackpartinfolabelsvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to display labels for the track.
@@ -80,7 +181,7 @@ public partial class TrackPartInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? LabelsVisible { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TrackPartInfo.html#trackpartinforenderer-property">GeoBlazor Docs</a>
     ///     The renderer used to style the track part.
@@ -90,8 +191,9 @@ public partial class TrackPartInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Renderer? Renderer { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -104,8 +206,8 @@ public partial class TrackPartInfo : MapComponent
         {
             return LabelingInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -114,15 +216,16 @@ public partial class TrackPartInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LabelingInfo;
         }
 
-        IReadOnlyList<Label>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>(
-            "getLabelingInfo", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Label>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>("getLabelingInfo",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -130,10 +233,10 @@ public partial class TrackPartInfo : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
         }
-        
+
         return LabelingInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -143,8 +246,8 @@ public partial class TrackPartInfo : MapComponent
         {
             return LabelsVisible;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -153,26 +256,28 @@ public partial class TrackPartInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LabelsVisible;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LabelsVisible = result.Value.Value;
+            LabelsVisible = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+            ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
-         
+
         return LabelsVisible;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -182,8 +287,8 @@ public partial class TrackPartInfo : MapComponent
         {
             return Renderer;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -192,15 +297,15 @@ public partial class TrackPartInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Renderer;
         }
 
-        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
-            "getRenderer", CancellationTokenSource.Token);
-        
+        Renderer? result =
+            await JsComponentReference.InvokeAsync<Renderer?>("getRenderer", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -208,11 +313,12 @@ public partial class TrackPartInfo : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Renderer)] = Renderer;
         }
-        
+
         return Renderer;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -231,18 +337,18 @@ public partial class TrackPartInfo : MapComponent
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         LabelingInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelingInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -251,16 +357,16 @@ public partial class TrackPartInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelingInfo", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -273,13 +379,13 @@ public partial class TrackPartInfo : MapComponent
         LabelsVisible = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelsVisible)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -288,16 +394,16 @@ public partial class TrackPartInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -309,19 +415,19 @@ public partial class TrackPartInfo : MapComponent
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Renderer)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -330,115 +436,15 @@ public partial class TrackPartInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "renderer", value);
     }
-    
+
 #endregion
-
-#region Add to Collection Methods
-
-    /// <summary>
-    ///     Asynchronously adds elements to the LabelingInfo property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToLabelingInfo(params Label[] values)
-    {
-        Label[] join = LabelingInfo is null
-            ? values
-            : [..LabelingInfo, ..values];
-        await SetLabelingInfo(join);
-    }
-    
-#endregion
-
-#region Remove From Collection Methods
-
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the LabelingInfo property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromLabelingInfo(params Label[] values)
-    {
-        if (LabelingInfo is null)
-        {
-            return;
-        }
-        await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
-    }
-    
-#endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Label labelingInfo:
-                LabelingInfo ??= [];
-                if (!LabelingInfo.Contains(labelingInfo))
-                {
-                    LabelingInfo = [..LabelingInfo, labelingInfo];
-                    ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
-                }
-                
-                return true;
-            case Renderer renderer:
-                if (renderer != Renderer)
-                {
-                    Renderer = renderer;
-                    ModifiedParameters[nameof(Renderer)] = Renderer;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Label labelingInfo:
-                LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
-                return true;
-            case Renderer _:
-                Renderer = null;
-                ModifiedParameters[nameof(Renderer)] = Renderer;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (LabelingInfo is not null)
-        {
-            foreach (Label child in LabelingInfo)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        Renderer?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

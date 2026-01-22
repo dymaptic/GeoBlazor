@@ -65,7 +65,7 @@ export default class BookmarksWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -463,7 +463,7 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any, layerId
 
     if (hasValue(dotNetBookmarksWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetBookmarksWidget.id)) {
-            let { default: BookmarksWidgetWrapper } = await import('./bookmarksWidget');
+            let {default: BookmarksWidgetWrapper} = await import('./bookmarksWidget');
             let bookmarksWidgetWrapper = new BookmarksWidgetWrapper(jsObject);
             bookmarksWidgetWrapper.geoBlazorId = dotNetBookmarksWidget.id;
             bookmarksWidgetWrapper.viewId = viewId;

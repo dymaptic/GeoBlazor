@@ -95,37 +95,6 @@ public partial class FeatureLayerView : LayerView
     public bool? MaximumNumberOfFeaturesExceeded { get; set; }
 
     /// <summary>
-    ///     Sets the <see cref="FeatureFilter" /> for this view.
-    /// </summary>
-    /// <param name="filter">
-    ///     The new filter (or null to clear) to apply to this view.
-    /// </param>
-    public async Task SetFilter(FeatureFilter? filter)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
-
-        if (JsComponentReference is null) return;
-
-        await JsComponentReference.InvokeVoidAsync("setFilter", CancellationTokenSource.Token, filter);
-
-        Filter = filter;
-    }
-
-    /// <summary>
-    ///  Sets the <see cref="FeatureEffect" /> for this view.
-    /// </summary>
-    /// <param name="featureEffect">
-    /// The new effect (or null to clear) to apply to this view.
-    /// </param>
-    public async Task SetFeatureEffect(FeatureEffect? featureEffect)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
-        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", CancellationTokenSource.Token, featureEffect);
-
-        FeatureEffect = featureEffect;
-    }
-
-    /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
     /// <param name="objectId">
@@ -254,6 +223,37 @@ public partial class FeatureLayerView : LayerView
         }
 
         return new Handle(objectRef);
+    }
+
+    /// <summary>
+    ///     Sets the <see cref="FeatureFilter" /> for this view.
+    /// </summary>
+    /// <param name="filter">
+    ///     The new filter (or null to clear) to apply to this view.
+    /// </param>
+    public async Task SetFilter(FeatureFilter? filter)
+    {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+
+        if (JsComponentReference is null) return;
+
+        await JsComponentReference.InvokeVoidAsync("setFilter", CancellationTokenSource.Token, filter);
+
+        Filter = filter;
+    }
+
+    /// <summary>
+    ///  Sets the <see cref="FeatureEffect" /> for this view.
+    /// </summary>
+    /// <param name="featureEffect">
+    /// The new effect (or null to clear) to apply to this view.
+    /// </param>
+    public async Task SetFeatureEffect(FeatureEffect? featureEffect)
+    {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", CancellationTokenSource.Token, featureEffect);
+
+        FeatureEffect = featureEffect;
     }
 
     /// <summary>
@@ -393,7 +393,7 @@ public partial class FeatureLayerView : LayerView
             await stream.CopyToAsync(ms);
             ms.Seek(0, SeekOrigin.Begin);
             ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
-          
+
             Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
 
             _activeQueries[queryId] = graphics;

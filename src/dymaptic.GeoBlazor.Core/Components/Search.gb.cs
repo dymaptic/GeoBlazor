@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html">GeoBlazor Docs</a>
 ///     Represents the search parameters set within the web scene or the web map.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class Search : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -42,8 +40,7 @@ public partial class Search : MapComponent
     ///     A collection of tables to be included in search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-Search.html#tables">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Search(
-        bool? addressSearchEnabled = null,
+    public Search(bool? addressSearchEnabled = null,
         bool? enabled = null,
         string? hintText = null,
         IReadOnlyList<SearchLayer>? layers = null,
@@ -56,10 +53,82 @@ public partial class Search : MapComponent
         HintText = hintText;
         Layers = layers;
         Tables = tables;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (Layers is not null)
+        {
+            foreach (SearchLayer child in Layers)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        if (Tables is not null)
+        {
+            foreach (SearchTable child in Tables)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SearchLayer layers:
+                Layers ??= [];
+
+                if (!Layers.Contains(layers))
+                {
+                    Layers = [..Layers, layers];
+                    ModifiedParameters[nameof(Layers)] = Layers;
+                }
+
+                return true;
+            case SearchTable tables:
+                Tables ??= [];
+
+                if (!Tables.Contains(tables))
+                {
+                    Tables = [..Tables, tables];
+                    ModifiedParameters[nameof(Tables)] = Tables;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SearchLayer layers:
+                Layers = Layers?.Where(l => l != layers).ToList();
+                ModifiedParameters[nameof(Layers)] = Layers;
+
+                return true;
+            case SearchTable tables:
+                Tables = Tables?.Where(t => t != tables).ToList();
+                ModifiedParameters[nameof(Tables)] = Tables;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -71,7 +140,7 @@ public partial class Search : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? AddressSearchEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html#searchenabled-property">GeoBlazor Docs</a>
     ///     Whether search functionality is enabled in the web scene or the web map.
@@ -81,7 +150,7 @@ public partial class Search : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Enabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html#searchhinttext-property">GeoBlazor Docs</a>
     ///     The hint provided with the search dialog.
@@ -91,7 +160,7 @@ public partial class Search : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? HintText { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html#searchlayers-property">GeoBlazor Docs</a>
     ///     A collection of layers to be included in search.
@@ -101,7 +170,7 @@ public partial class Search : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<SearchLayer>? Layers { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Search.html#searchtables-property">GeoBlazor Docs</a>
     ///     A collection of tables to be included in search.
@@ -111,8 +180,9 @@ public partial class Search : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<SearchTable>? Tables { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -125,8 +195,8 @@ public partial class Search : MapComponent
         {
             return AddressSearchEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -135,26 +205,28 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AddressSearchEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "addressSearchEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AddressSearchEnabled = result.Value.Value;
+            AddressSearchEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AddressSearchEnabled)] = AddressSearchEnabled;
+            ModifiedParameters[nameof(AddressSearchEnabled)] = AddressSearchEnabled;
         }
-         
+
         return AddressSearchEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Enabled property.
     /// </summary>
@@ -164,8 +236,8 @@ public partial class Search : MapComponent
         {
             return Enabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -174,26 +246,28 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Enabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "enabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Enabled = result.Value.Value;
+            Enabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Enabled)] = Enabled;
+            ModifiedParameters[nameof(Enabled)] = Enabled;
         }
-         
+
         return Enabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HintText property.
     /// </summary>
@@ -203,8 +277,8 @@ public partial class Search : MapComponent
         {
             return HintText;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -213,7 +287,7 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HintText;
@@ -222,17 +296,18 @@ public partial class Search : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "hintText");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             HintText = result;
+            HintText = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HintText)] = HintText;
+            ModifiedParameters[nameof(HintText)] = HintText;
         }
-         
+
         return HintText;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layers property.
     /// </summary>
@@ -242,8 +317,8 @@ public partial class Search : MapComponent
         {
             return Layers;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -252,15 +327,16 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Layers;
         }
 
-        IReadOnlyList<SearchLayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchLayer>?>(
-            "getLayers", CancellationTokenSource.Token);
-        
+        IReadOnlyList<SearchLayer>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<SearchLayer>?>("getLayers",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -268,10 +344,10 @@ public partial class Search : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Layers)] = Layers;
         }
-        
+
         return Layers;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tables property.
     /// </summary>
@@ -281,8 +357,8 @@ public partial class Search : MapComponent
         {
             return Tables;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -291,15 +367,16 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Tables;
         }
 
-        IReadOnlyList<SearchTable>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchTable>?>(
-            "getTables", CancellationTokenSource.Token);
-        
+        IReadOnlyList<SearchTable>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<SearchTable>?>("getTables",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -307,11 +384,12 @@ public partial class Search : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Tables)] = Tables;
         }
-        
+
         return Tables;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -327,13 +405,13 @@ public partial class Search : MapComponent
         AddressSearchEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AddressSearchEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -342,16 +420,16 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "addressSearchEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Enabled property after render.
     /// </summary>
@@ -364,13 +442,13 @@ public partial class Search : MapComponent
         Enabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Enabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -379,16 +457,16 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HintText property after render.
     /// </summary>
@@ -401,13 +479,13 @@ public partial class Search : MapComponent
         HintText = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(HintText)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -416,16 +494,16 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hintText", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layers property after render.
     /// </summary>
@@ -441,18 +519,18 @@ public partial class Search : MapComponent
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         Layers = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Layers)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -461,16 +539,16 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layers", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Tables property after render.
     /// </summary>
@@ -486,18 +564,18 @@ public partial class Search : MapComponent
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         Tables = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Tables)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -506,17 +584,18 @@ public partial class Search : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tables", value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -533,7 +612,7 @@ public partial class Search : MapComponent
             : [..Layers, ..values];
         await SetLayers(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the Tables property.
     /// </summary>
@@ -547,12 +626,12 @@ public partial class Search : MapComponent
             : [..Tables, ..values];
         await SetTables(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Layers property.
     /// </summary>
@@ -565,10 +644,10 @@ public partial class Search : MapComponent
         {
             return;
         }
+
         await SetLayers(Layers.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the Tables property.
     /// </summary>
@@ -581,77 +660,9 @@ public partial class Search : MapComponent
         {
             return;
         }
+
         await SetTables(Tables.Except(values).ToArray());
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SearchLayer layers:
-                Layers ??= [];
-                if (!Layers.Contains(layers))
-                {
-                    Layers = [..Layers, layers];
-                    ModifiedParameters[nameof(Layers)] = Layers;
-                }
-                
-                return true;
-            case SearchTable tables:
-                Tables ??= [];
-                if (!Tables.Contains(tables))
-                {
-                    Tables = [..Tables, tables];
-                    ModifiedParameters[nameof(Tables)] = Tables;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SearchLayer layers:
-                Layers = Layers?.Where(l => l != layers).ToList();
-                ModifiedParameters[nameof(Layers)] = Layers;
-                return true;
-            case SearchTable tables:
-                Tables = Tables?.Where(t => t != tables).ToList();
-                ModifiedParameters[nameof(Tables)] = Tables;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (Layers is not null)
-        {
-            foreach (SearchLayer child in Layers)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        if (Tables is not null)
-        {
-            foreach (SearchTable child in Tables)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

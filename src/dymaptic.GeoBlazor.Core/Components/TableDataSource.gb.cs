@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TableDataSource.html">GeoBlazor Docs</a>
 ///     A table or feature class that resides in a registered workspace (either a folder or geodatabase).
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class TableDataSource
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -34,8 +32,7 @@ public partial class TableDataSource
     ///     References the geodatabase version if multiple versions exist in the geodatabase.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#TableDataSource">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public TableDataSource(
-        string workspaceId,
+    public TableDataSource(string workspaceId,
         string dataSourceName,
         string? gdbVersion = null)
     {
@@ -44,10 +41,10 @@ public partial class TableDataSource
         WorkspaceId = workspaceId;
         DataSourceName = dataSourceName;
         GdbVersion = gdbVersion;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Property Getters
 
     /// <summary>
@@ -59,8 +56,8 @@ public partial class TableDataSource
         {
             return DataSourceName;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -69,7 +66,7 @@ public partial class TableDataSource
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return DataSourceName;
@@ -78,17 +75,18 @@ public partial class TableDataSource
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "dataSourceName");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DataSourceName = result;
+            DataSourceName = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DataSourceName)] = DataSourceName;
+            ModifiedParameters[nameof(DataSourceName)] = DataSourceName;
         }
-         
+
         return DataSourceName;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GdbVersion property.
     /// </summary>
@@ -98,8 +96,8 @@ public partial class TableDataSource
         {
             return GdbVersion;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -108,7 +106,7 @@ public partial class TableDataSource
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return GdbVersion;
@@ -117,17 +115,18 @@ public partial class TableDataSource
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "gdbVersion");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             GdbVersion = result;
+            GdbVersion = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
+            ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
         }
-         
+
         return GdbVersion;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WorkspaceId property.
     /// </summary>
@@ -137,8 +136,8 @@ public partial class TableDataSource
         {
             return WorkspaceId;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -147,7 +146,7 @@ public partial class TableDataSource
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return WorkspaceId;
@@ -156,18 +155,20 @@ public partial class TableDataSource
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "workspaceId");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             WorkspaceId = result;
+            WorkspaceId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
+            ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
         }
-         
+
         return WorkspaceId;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -183,13 +184,13 @@ public partial class TableDataSource
         DataSourceName = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DataSourceName)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -198,16 +199,16 @@ public partial class TableDataSource
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dataSourceName", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GdbVersion property after render.
     /// </summary>
@@ -220,13 +221,13 @@ public partial class TableDataSource
         GdbVersion = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(GdbVersion)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -235,16 +236,16 @@ public partial class TableDataSource
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WorkspaceId property after render.
     /// </summary>
@@ -257,13 +258,13 @@ public partial class TableDataSource
         WorkspaceId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(WorkspaceId)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -272,16 +273,15 @@ public partial class TableDataSource
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "workspaceId", value);
     }
-    
-#endregion
 
+#endregion
 }

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.QueryTableDataSource.html">GeoBlazor Docs</a>
 ///     A query table is a feature class or table defined by a SQL query on the fly.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class QueryTableDataSource
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -42,8 +40,7 @@ public partial class QueryTableDataSource
     ///     The spatial reference of the geometry of each feature in the table source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#QueryTableDataSource">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public QueryTableDataSource(
-        string workspaceId,
+    public QueryTableDataSource(string workspaceId,
         string query,
         string? oidFields = null,
         FeatureGeometryType? geometryType = null,
@@ -56,10 +53,10 @@ public partial class QueryTableDataSource
         OidFields = oidFields;
         GeometryType = geometryType;
         SpatialReference = spatialReference;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -71,8 +68,50 @@ public partial class QueryTableDataSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SpatialReference? SpatialReference { get; set; }
-    
+
 #endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        SpatialReference?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SpatialReference _:
+                SpatialReference = null;
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
 
 #region Property Getters
 
@@ -85,8 +124,8 @@ public partial class QueryTableDataSource
         {
             return GeometryType;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -95,26 +134,29 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return GeometryType;
         }
 
         // get the property value
-        JsNullableEnumWrapper<FeatureGeometryType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureGeometryType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        JsNullableEnumWrapper<FeatureGeometryType>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureGeometryType>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "geometryType");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             GeometryType = (FeatureGeometryType)result.Value.Value!;
+            GeometryType = (FeatureGeometryType)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GeometryType)] = GeometryType;
+            ModifiedParameters[nameof(GeometryType)] = GeometryType;
         }
-         
+
         return GeometryType;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OidFields property.
     /// </summary>
@@ -124,8 +166,8 @@ public partial class QueryTableDataSource
         {
             return OidFields;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -134,7 +176,7 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return OidFields;
@@ -143,17 +185,18 @@ public partial class QueryTableDataSource
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "oidFields");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             OidFields = result;
+            OidFields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(OidFields)] = OidFields;
+            ModifiedParameters[nameof(OidFields)] = OidFields;
         }
-         
+
         return OidFields;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -163,8 +206,8 @@ public partial class QueryTableDataSource
         {
             return Query;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -173,7 +216,7 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Query;
@@ -182,17 +225,18 @@ public partial class QueryTableDataSource
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "query");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Query = result;
+            Query = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Query)] = Query;
+            ModifiedParameters[nameof(Query)] = Query;
         }
-         
+
         return Query;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -202,8 +246,8 @@ public partial class QueryTableDataSource
         {
             return SpatialReference;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -212,7 +256,7 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SpatialReference;
@@ -220,7 +264,7 @@ public partial class QueryTableDataSource
 
         SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
             "getSpatialReference", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -228,10 +272,10 @@ public partial class QueryTableDataSource
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-        
+
         return SpatialReference;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WorkspaceId property.
     /// </summary>
@@ -241,8 +285,8 @@ public partial class QueryTableDataSource
         {
             return WorkspaceId;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -251,7 +295,7 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return WorkspaceId;
@@ -260,18 +304,20 @@ public partial class QueryTableDataSource
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "workspaceId");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             WorkspaceId = result;
+            WorkspaceId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
+            ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
         }
-         
+
         return WorkspaceId;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -287,13 +333,13 @@ public partial class QueryTableDataSource
         GeometryType = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(GeometryType)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -302,16 +348,16 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geometryType", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OidFields property after render.
     /// </summary>
@@ -324,13 +370,13 @@ public partial class QueryTableDataSource
         OidFields = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OidFields)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -339,16 +385,16 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "oidFields", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -361,13 +407,13 @@ public partial class QueryTableDataSource
         Query = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Query)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -376,16 +422,16 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -397,19 +443,19 @@ public partial class QueryTableDataSource
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SpatialReference)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -418,16 +464,16 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialReference", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WorkspaceId property after render.
     /// </summary>
@@ -440,13 +486,13 @@ public partial class QueryTableDataSource
         WorkspaceId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(WorkspaceId)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -455,57 +501,15 @@ public partial class QueryTableDataSource
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "workspaceId", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SpatialReference spatialReference:
-                if (spatialReference != SpatialReference)
-                {
-                    SpatialReference = spatialReference;
-                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SpatialReference _:
-                SpatialReference = null;
-                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        SpatialReference?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

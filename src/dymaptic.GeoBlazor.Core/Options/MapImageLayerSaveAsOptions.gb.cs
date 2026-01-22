@@ -17,18 +17,17 @@ public partial record MapImageLayerSaveAsOptions(
     /// <summary>
     ///     Parameterless constructor
     /// </summary>
-    public MapImageLayerSaveAsOptions(): this(null, null)
+    public MapImageLayerSaveAsOptions() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     
     /// </summary>
     public PortalFolder? Folder { get; set; } = Folder;
-    
+
     /// <summary>
     ///     
     /// </summary>
     public bool? IgnoreUnsupported { get; set; } = IgnoreUnsupported;
-    
 }

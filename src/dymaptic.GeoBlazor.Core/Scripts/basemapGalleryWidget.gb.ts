@@ -44,7 +44,7 @@ export default class BasemapGalleryWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -296,7 +296,7 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any, la
 
     if (hasValue(dotNetBasemapGalleryWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetBasemapGalleryWidget.id)) {
-            let { default: BasemapGalleryWidgetWrapper } = await import('./basemapGalleryWidget');
+            let {default: BasemapGalleryWidgetWrapper} = await import('./basemapGalleryWidget');
             let basemapGalleryWidgetWrapper = new BasemapGalleryWidgetWrapper(jsObject);
             basemapGalleryWidgetWrapper.geoBlazorId = dotNetBasemapGalleryWidget.id;
             basemapGalleryWidgetWrapper.viewId = viewId;

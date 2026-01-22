@@ -21,7 +21,7 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
             this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
         }
         if (hasValue(dotNetObject.fullExtent)) {
-            let { buildJsExtent } = await import('./extent');
+            let {buildJsExtent} = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
         if (hasValue(dotNetObject.portalItem)) {
@@ -77,15 +77,15 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -97,8 +97,8 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
     async fetchTile(level: any,
         row: any,
         col: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                    signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -183,10 +183,10 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
-    
+
     async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
+        let {buildJsExtent} = await import('./extent');
+        this.layer.fullExtent = buildJsExtent(value);
     }
     
     async getPortalItem(): Promise<any> {
@@ -245,7 +245,7 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
         
         return generateSerializableJson(this.layer.urlTemplate);
     }
-    
+
     setUrlTemplate(value: any): void {
         this.layer.urlTemplate = JSON.parse(value);
     }
@@ -278,7 +278,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
@@ -517,7 +517,7 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, laye
 
     if (hasValue(dotNetOpenStreetMapLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetOpenStreetMapLayer.id)) {
-            let { default: OpenStreetMapLayerWrapper } = await import('./openStreetMapLayer');
+            let {default: OpenStreetMapLayerWrapper} = await import('./openStreetMapLayer');
             let openStreetMapLayerWrapper = new OpenStreetMapLayerWrapper(jsObject);
             openStreetMapLayerWrapper.geoBlazorId = dotNetOpenStreetMapLayer.id;
             openStreetMapLayerWrapper.viewId = viewId;

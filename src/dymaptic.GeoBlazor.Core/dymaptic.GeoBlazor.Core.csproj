@@ -25,6 +25,7 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoWarn>GeoBlazor_Untested</NoWarn>
         <LangVersion>latest</LangVersion>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -44,21 +45,21 @@
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Unit" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
-        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.CodeGen" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Unit" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="DefaultDocumentation" Version="1.2.0" PrivateAssets="all" />
-        <PackageReference Include="protobuf-net" Version="3.2.56" />
+        <PackageReference Include="protobuf-net" Version="3.2.56"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.22" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.22"/>
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
@@ -77,7 +78,6 @@
         <None Include="GeoBlazor-Icon-500px.png" Pack="true" PackagePath="" />
         <None Include="gb_white_text_300px.png" Pack="true" PackagePath="" />
         <None Include="Go-GeoBlazor-Pro.png" Pack="true" PackagePath="" />
-
         <Content Remove="package.json" />
         <Content Remove="package-lock.json" />
         <Content Remove="tsconfig.json" />
@@ -97,14 +97,11 @@
       <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
       <AdditionalFiles Include="package.json" />
       <AdditionalFiles Include="Scripts\*.ts" />
-      <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
-      <CompilerVisibleProperty Include="PipelineBuild" Value="$(PipelineBuild)" />
-      <CompilerVisibleProperty Include="LogESBuildOutput" Value="$(LogESBuildOutput)" />
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="Documentation/" />
-        <Folder Include="wwwroot/js/" />
+        <Folder Include="wwwroot/js" Watch="false"/>
         <Content Remove="esBuild*" Watch="false" Pack="false" />
     </ItemGroup>
 
@@ -121,20 +118,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Components\DateTimeFieldFormat.cs" />
-      <Compile Remove="Components\FeatureInfo.cs" />
-      <Compile Remove="Options\EditorViewModelStartMergeFeaturesWorkflowOptions.gb.cs" />
-      <Compile Remove="Options\EditorViewModelStartMergeFeaturesWorkflowOptions.cs" />
-      <Compile Remove="Options\FeatureTitleOptions.gb.cs" />
-      <Compile Remove="Options\FeatureTitleOptions.cs" />
-      <Compile Remove="Enums\PortalBasemapsSourceState.cs" />
-      <Compile Remove="Interfaces\IFieldConfigurationFieldFormat.cs" />
-      <Compile Remove="Interfaces\IFieldInfoFieldFormat.cs" />
-      <Compile Remove="Model\CompositeTransformationGeoTransforms1.cs" />
+        <Compile Condition="$(Configuration) == 'SourceGen Highlighting'"
+                 Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated\**\*.g.cs" />
+        <Compile Remove="Interfaces\IViewHit.cs" />
     </ItemGroup>
-
+    
     <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
         <Message Importance="high" Text="Clearing locks on esBuild files..." />
-        <Exec Command="pwsh $(ProjectDir)../../esBuildClearLocks.ps1" ContinueOnError="false" />
+        <Exec Command="dotnet $(ProjectDir)../../build-tools/ESBuildClearLocks.dll" ContinueOnError="false"/>
     </Target>
 </Project>

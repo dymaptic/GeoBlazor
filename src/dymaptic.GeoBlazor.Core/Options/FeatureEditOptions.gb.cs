@@ -36,38 +36,37 @@ public partial record FeatureEditOptions(
     /// <summary>
     ///     Parameterless constructor
     /// </summary>
-    public FeatureEditOptions(): this(null, null)
+    public FeatureEditOptions() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     The geodatabase version to apply the edits.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? GdbVersion { get; set; } = GdbVersion;
-    
+
     /// <summary>
     ///     Indicates whether the edits can be applied using globalIds of features or attachments.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? GlobalIdUsed { get; set; } = GlobalIdUsed;
-    
+
     /// <summary>
     ///     Indicates whether the edit results should return the time edits were applied.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? ReturnEditMoment { get; set; } = ReturnEditMoment;
-    
+
     /// <summary>
     ///     If set to `original-and-current-features`, the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditedFeatureResult">EditedFeatureResult</a> parameter will be included in the `applyEdits` response.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public ReturnServiceEditsOption? ReturnServiceEditsOption { get; set; } = ReturnServiceEditsOption;
-    
+
     /// <summary>
     ///     Indicates whether the edits should be applied only if all submitted edits succeed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? RollbackOnFailureEnabled { get; set; } = RollbackOnFailureEnabled;
-    
 }

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html">GeoBlazor Docs</a>
 ///     Represents a registered user of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a>.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class PortalUser : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -87,8 +85,7 @@ public partial class PortalUser : MapComponent
     ///     The unique id for the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public PortalUser(
-        PortalUserAccess? access = null,
+    public PortalUser(PortalUserAccess? access = null,
         DateTime? created = null,
         string? culture = null,
         string? description = null,
@@ -123,1517 +120,9 @@ public partial class PortalUser : MapComponent
         Units = units;
         Username = username;
         PortalUserId = portalUserId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
-#region Public Properties / Blazor Parameters
 
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluseraccess-property">GeoBlazor Docs</a>
-    ///     Indicates the level of access of the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#access">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalUserAccess? Access { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusercreated-property">GeoBlazor Docs</a>
-    ///     The date the user was created.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#created">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public DateTime? Created { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserculture-property">GeoBlazor Docs</a>
-    ///     The culture information for the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#culture">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Culture { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserdescription-property">GeoBlazor Docs</a>
-    ///     A description of the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#description">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Description { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluseremail-property">GeoBlazor Docs</a>
-    ///     The user's e-mail address.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#email">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Email { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfullname-property">GeoBlazor Docs</a>
-    ///     The user's full name.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fullName">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? FullName { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusermodified-property">GeoBlazor Docs</a>
-    ///     The date the user was last modified.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#modified">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public DateTime? Modified { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserorgid-property">GeoBlazor Docs</a>
-    ///     The ID of the organization the user belongs to.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#orgId">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? OrgId { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserportal-property">GeoBlazor Docs</a>
-    ///     The portal associated with the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#portal">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [AncestorPropertyReference]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Portal? Portal { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserportaluserid-property">GeoBlazor Docs</a>
-    ///     The unique id for the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? PortalUserId { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserpreferredview-property">GeoBlazor Docs</a>
-    ///     The user's preferred view for content, either web or GIS.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#preferredView">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? PreferredView { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserprivileges-property">GeoBlazor Docs</a>
-    ///     The user's privileges based on their user type or role in their organization.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#privileges">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<string>? Privileges { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserregion-property">GeoBlazor Docs</a>
-    ///     The user preferred region, used to set the featured maps on the home page,
-    ///     content in the gallery, and the default extent of new maps in the Viewer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#region">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Region { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserrole-property">GeoBlazor Docs</a>
-    ///     Defines the user's role in the organization.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#role">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalUserRole? Role { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserroleid-property">GeoBlazor Docs</a>
-    ///     The ID of the user's role.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#roleId">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? RoleId { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusersourcejson-property">GeoBlazor Docs</a>
-    ///     The JSON used to create the property values when the `PortalUser` is created.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public string? SourceJSON { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserthumbnailurl-property">GeoBlazor Docs</a>
-    ///     The URL to the thumbnail image for the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public string? ThumbnailUrl { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserunits-property">GeoBlazor Docs</a>
-    ///     The user's personal units of measure setting.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#units">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalUserUnits? Units { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserusercontenturl-property">GeoBlazor Docs</a>
-    ///     The URL for the user's content.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#userContentUrl">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public string? UserContentUrl { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserusername-property">GeoBlazor Docs</a>
-    ///     The username of the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#username">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Username { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Access property.
-    /// </summary>
-    public async Task<PortalUserAccess?> GetAccess()
-    {
-        if (CoreJsModule is null)
-        {
-            return Access;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Access;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<PortalUserAccess>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUserAccess>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "access");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Access = (PortalUserAccess)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Access)] = Access;
-        }
-         
-        return Access;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Created property.
-    /// </summary>
-    public async Task<DateTime?> GetCreated()
-    {
-        if (CoreJsModule is null)
-        {
-            return Created;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Created;
-        }
-
-        // get the property value
-        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "created");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Created = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Created)] = Created;
-        }
-         
-        return Created;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Culture property.
-    /// </summary>
-    public async Task<string?> GetCulture()
-    {
-        if (CoreJsModule is null)
-        {
-            return Culture;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Culture;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "culture");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Culture = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Culture)] = Culture;
-        }
-         
-        return Culture;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Description property.
-    /// </summary>
-    public async Task<string?> GetDescription()
-    {
-        if (CoreJsModule is null)
-        {
-            return Description;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Description;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "description");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Description = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Description)] = Description;
-        }
-         
-        return Description;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Email property.
-    /// </summary>
-    public async Task<string?> GetEmail()
-    {
-        if (CoreJsModule is null)
-        {
-            return Email;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Email;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "email");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Email = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Email)] = Email;
-        }
-         
-        return Email;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FullName property.
-    /// </summary>
-    public async Task<string?> GetFullName()
-    {
-        if (CoreJsModule is null)
-        {
-            return FullName;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return FullName;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "fullName");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             FullName = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(FullName)] = FullName;
-        }
-         
-        return FullName;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Modified property.
-    /// </summary>
-    public async Task<DateTime?> GetModified()
-    {
-        if (CoreJsModule is null)
-        {
-            return Modified;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Modified;
-        }
-
-        // get the property value
-        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "modified");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Modified = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Modified)] = Modified;
-        }
-         
-        return Modified;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the OrgId property.
-    /// </summary>
-    public async Task<string?> GetOrgId()
-    {
-        if (CoreJsModule is null)
-        {
-            return OrgId;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return OrgId;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "orgId");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             OrgId = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(OrgId)] = OrgId;
-        }
-         
-        return OrgId;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PortalUserId property.
-    /// </summary>
-    public async Task<string?> GetPortalUserId()
-    {
-        if (CoreJsModule is null)
-        {
-            return PortalUserId;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return PortalUserId;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "id");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             PortalUserId = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(PortalUserId)] = PortalUserId;
-        }
-         
-        return PortalUserId;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PreferredView property.
-    /// </summary>
-    public async Task<string?> GetPreferredView()
-    {
-        if (CoreJsModule is null)
-        {
-            return PreferredView;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return PreferredView;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "preferredView");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             PreferredView = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(PreferredView)] = PreferredView;
-        }
-         
-        return PreferredView;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Privileges property.
-    /// </summary>
-    public async Task<IReadOnlyList<string>?> GetPrivileges()
-    {
-        if (CoreJsModule is null)
-        {
-            return Privileges;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Privileges;
-        }
-
-        // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, "privileges");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Privileges = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Privileges)] = Privileges;
-        }
-         
-        return Privileges;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Region property.
-    /// </summary>
-    public async Task<string?> GetRegion()
-    {
-        if (CoreJsModule is null)
-        {
-            return Region;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Region;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "region");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Region = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Region)] = Region;
-        }
-         
-        return Region;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Role property.
-    /// </summary>
-    public async Task<PortalUserRole?> GetRole()
-    {
-        if (CoreJsModule is null)
-        {
-            return Role;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Role;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<PortalUserRole>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUserRole>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "role");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Role = (PortalUserRole)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Role)] = Role;
-        }
-         
-        return Role;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the RoleId property.
-    /// </summary>
-    public async Task<string?> GetRoleId()
-    {
-        if (CoreJsModule is null)
-        {
-            return RoleId;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return RoleId;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "roleId");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             RoleId = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(RoleId)] = RoleId;
-        }
-         
-        return RoleId;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SourceJSON property.
-    /// </summary>
-    public async Task<string?> GetSourceJSON()
-    {
-        if (CoreJsModule is null)
-        {
-            return SourceJSON;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return SourceJSON;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "sourceJSON");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             SourceJSON = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
-        }
-         
-        return SourceJSON;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Units property.
-    /// </summary>
-    public async Task<PortalUserUnits?> GetUnits()
-    {
-        if (CoreJsModule is null)
-        {
-            return Units;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Units;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<PortalUserUnits>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUserUnits>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "units");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Units = (PortalUserUnits)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Units)] = Units;
-        }
-         
-        return Units;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the UserContentUrl property.
-    /// </summary>
-    public async Task<string?> GetUserContentUrl()
-    {
-        if (CoreJsModule is null)
-        {
-            return UserContentUrl;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return UserContentUrl;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "userContentUrl");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             UserContentUrl = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(UserContentUrl)] = UserContentUrl;
-        }
-         
-        return UserContentUrl;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Username property.
-    /// </summary>
-    public async Task<string?> GetUsername()
-    {
-        if (CoreJsModule is null)
-        {
-            return Username;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Username;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "username");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Username = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Username)] = Username;
-        }
-         
-        return Username;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Access property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetAccess(PortalUserAccess? value)
-    {
-#pragma warning disable BL0005
-        Access = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Access)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "access", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Created property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCreated(DateTime? value)
-    {
-#pragma warning disable BL0005
-        Created = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Created)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "created", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Culture property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCulture(string? value)
-    {
-#pragma warning disable BL0005
-        Culture = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Culture)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "culture", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Description property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDescription(string? value)
-    {
-#pragma warning disable BL0005
-        Description = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Description)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "description", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Email property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetEmail(string? value)
-    {
-#pragma warning disable BL0005
-        Email = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Email)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "email", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the FullName property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFullName(string? value)
-    {
-#pragma warning disable BL0005
-        FullName = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FullName)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fullName", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Modified property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetModified(DateTime? value)
-    {
-#pragma warning disable BL0005
-        Modified = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Modified)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "modified", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the OrgId property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetOrgId(string? value)
-    {
-#pragma warning disable BL0005
-        OrgId = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(OrgId)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "orgId", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PortalUserId property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPortalUserId(string? value)
-    {
-#pragma warning disable BL0005
-        PortalUserId = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PortalUserId)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "id", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PreferredView property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPreferredView(string? value)
-    {
-#pragma warning disable BL0005
-        PreferredView = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PreferredView)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "preferredView", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Privileges property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPrivileges(IReadOnlyList<string>? value)
-    {
-#pragma warning disable BL0005
-        Privileges = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Privileges)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "privileges", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Region property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRegion(string? value)
-    {
-#pragma warning disable BL0005
-        Region = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Region)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "region", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Role property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRole(PortalUserRole? value)
-    {
-#pragma warning disable BL0005
-        Role = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Role)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "role", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the RoleId property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRoleId(string? value)
-    {
-#pragma warning disable BL0005
-        RoleId = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(RoleId)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "roleId", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Units property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetUnits(PortalUserUnits? value)
-    {
-#pragma warning disable BL0005
-        Units = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Units)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "units", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Username property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetUsername(string? value)
-    {
-#pragma warning disable BL0005
-        Username = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Username)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "username", value);
-    }
-    
-#endregion
 
 #region Add to Collection Methods
 
@@ -1650,12 +139,12 @@ public partial class PortalUser : MapComponent
             : [..Privileges, ..values];
         await SetPrivileges(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Privileges property.
     /// </summary>
@@ -1668,10 +157,1587 @@ public partial class PortalUser : MapComponent
         {
             return;
         }
+
         await SetPrivileges(Privileges.Except(values).ToArray());
     }
-    
+
 #endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Portal?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Portal portal:
+                if (portal != Portal)
+                {
+                    Portal = portal;
+                    ModifiedParameters[nameof(Portal)] = Portal;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Portal _:
+                Portal = null;
+                ModifiedParameters[nameof(Portal)] = Portal;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluseraccess-property">GeoBlazor Docs</a>
+    ///     Indicates the level of access of the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#access">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PortalUserAccess? Access { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusercreated-property">GeoBlazor Docs</a>
+    ///     The date the user was created.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#created">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DateTime? Created { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserculture-property">GeoBlazor Docs</a>
+    ///     The culture information for the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#culture">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Culture { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserdescription-property">GeoBlazor Docs</a>
+    ///     A description of the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#description">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluseremail-property">GeoBlazor Docs</a>
+    ///     The user's e-mail address.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#email">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Email { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfullname-property">GeoBlazor Docs</a>
+    ///     The user's full name.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fullName">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FullName { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusermodified-property">GeoBlazor Docs</a>
+    ///     The date the user was last modified.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#modified">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DateTime? Modified { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserorgid-property">GeoBlazor Docs</a>
+    ///     The ID of the organization the user belongs to.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#orgId">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? OrgId { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserportal-property">GeoBlazor Docs</a>
+    ///     The portal associated with the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#portal">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [AncestorPropertyReference]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Portal? Portal { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserportaluserid-property">GeoBlazor Docs</a>
+    ///     The unique id for the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? PortalUserId { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserpreferredview-property">GeoBlazor Docs</a>
+    ///     The user's preferred view for content, either web or GIS.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#preferredView">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? PreferredView { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserprivileges-property">GeoBlazor Docs</a>
+    ///     The user's privileges based on their user type or role in their organization.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#privileges">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? Privileges { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserregion-property">GeoBlazor Docs</a>
+    ///     The user preferred region, used to set the featured maps on the home page,
+    ///     content in the gallery, and the default extent of new maps in the Viewer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#region">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserrole-property">GeoBlazor Docs</a>
+    ///     Defines the user's role in the organization.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#role">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PortalUserRole? Role { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserroleid-property">GeoBlazor Docs</a>
+    ///     The ID of the user's role.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#roleId">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? RoleId { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusersourcejson-property">GeoBlazor Docs</a>
+    ///     The JSON used to create the property values when the `PortalUser` is created.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public string? SourceJSON { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserthumbnailurl-property">GeoBlazor Docs</a>
+    ///     The URL to the thumbnail image for the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public string? ThumbnailUrl { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserunits-property">GeoBlazor Docs</a>
+    ///     The user's personal units of measure setting.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#units">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PortalUserUnits? Units { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserusercontenturl-property">GeoBlazor Docs</a>
+    ///     The URL for the user's content.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#userContentUrl">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public string? UserContentUrl { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserusername-property">GeoBlazor Docs</a>
+    ///     The username of the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#username">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Username { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Access property.
+    /// </summary>
+    public async Task<PortalUserAccess?> GetAccess()
+    {
+        if (CoreJsModule is null)
+        {
+            return Access;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Access;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<PortalUserAccess>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUserAccess>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "access");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Access = (PortalUserAccess)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Access)] = Access;
+        }
+
+        return Access;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Created property.
+    /// </summary>
+    public async Task<DateTime?> GetCreated()
+    {
+        if (CoreJsModule is null)
+        {
+            return Created;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Created;
+        }
+
+        // get the property value
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "created");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Created = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Created)] = Created;
+        }
+
+        return Created;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Culture property.
+    /// </summary>
+    public async Task<string?> GetCulture()
+    {
+        if (CoreJsModule is null)
+        {
+            return Culture;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Culture;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "culture");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Culture = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Culture)] = Culture;
+        }
+
+        return Culture;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Description property.
+    /// </summary>
+    public async Task<string?> GetDescription()
+    {
+        if (CoreJsModule is null)
+        {
+            return Description;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Description;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Description = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Description)] = Description;
+        }
+
+        return Description;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Email property.
+    /// </summary>
+    public async Task<string?> GetEmail()
+    {
+        if (CoreJsModule is null)
+        {
+            return Email;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Email;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "email");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Email = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Email)] = Email;
+        }
+
+        return Email;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FullName property.
+    /// </summary>
+    public async Task<string?> GetFullName()
+    {
+        if (CoreJsModule is null)
+        {
+            return FullName;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return FullName;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "fullName");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            FullName = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(FullName)] = FullName;
+        }
+
+        return FullName;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Modified property.
+    /// </summary>
+    public async Task<DateTime?> GetModified()
+    {
+        if (CoreJsModule is null)
+        {
+            return Modified;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Modified;
+        }
+
+        // get the property value
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "modified");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Modified = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Modified)] = Modified;
+        }
+
+        return Modified;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the OrgId property.
+    /// </summary>
+    public async Task<string?> GetOrgId()
+    {
+        if (CoreJsModule is null)
+        {
+            return OrgId;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return OrgId;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "orgId");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            OrgId = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(OrgId)] = OrgId;
+        }
+
+        return OrgId;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the PortalUserId property.
+    /// </summary>
+    public async Task<string?> GetPortalUserId()
+    {
+        if (CoreJsModule is null)
+        {
+            return PortalUserId;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return PortalUserId;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "id");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            PortalUserId = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(PortalUserId)] = PortalUserId;
+        }
+
+        return PortalUserId;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the PreferredView property.
+    /// </summary>
+    public async Task<string?> GetPreferredView()
+    {
+        if (CoreJsModule is null)
+        {
+            return PreferredView;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return PreferredView;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "preferredView");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            PreferredView = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(PreferredView)] = PreferredView;
+        }
+
+        return PreferredView;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Privileges property.
+    /// </summary>
+    public async Task<IReadOnlyList<string>?> GetPrivileges()
+    {
+        if (CoreJsModule is null)
+        {
+            return Privileges;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Privileges;
+        }
+
+        // get the property value
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "privileges");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Privileges = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Privileges)] = Privileges;
+        }
+
+        return Privileges;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Region property.
+    /// </summary>
+    public async Task<string?> GetRegion()
+    {
+        if (CoreJsModule is null)
+        {
+            return Region;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Region;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "region");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Region = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Region)] = Region;
+        }
+
+        return Region;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Role property.
+    /// </summary>
+    public async Task<PortalUserRole?> GetRole()
+    {
+        if (CoreJsModule is null)
+        {
+            return Role;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Role;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<PortalUserRole>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUserRole>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "role");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Role = (PortalUserRole)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Role)] = Role;
+        }
+
+        return Role;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the RoleId property.
+    /// </summary>
+    public async Task<string?> GetRoleId()
+    {
+        if (CoreJsModule is null)
+        {
+            return RoleId;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return RoleId;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "roleId");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            RoleId = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(RoleId)] = RoleId;
+        }
+
+        return RoleId;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SourceJSON property.
+    /// </summary>
+    public async Task<string?> GetSourceJSON()
+    {
+        if (CoreJsModule is null)
+        {
+            return SourceJSON;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return SourceJSON;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sourceJSON");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            SourceJSON = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+        }
+
+        return SourceJSON;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Units property.
+    /// </summary>
+    public async Task<PortalUserUnits?> GetUnits()
+    {
+        if (CoreJsModule is null)
+        {
+            return Units;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Units;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<PortalUserUnits>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUserUnits>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "units");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Units = (PortalUserUnits)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Units)] = Units;
+        }
+
+        return Units;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the UserContentUrl property.
+    /// </summary>
+    public async Task<string?> GetUserContentUrl()
+    {
+        if (CoreJsModule is null)
+        {
+            return UserContentUrl;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return UserContentUrl;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "userContentUrl");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            UserContentUrl = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(UserContentUrl)] = UserContentUrl;
+        }
+
+        return UserContentUrl;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Username property.
+    /// </summary>
+    public async Task<string?> GetUsername()
+    {
+        if (CoreJsModule is null)
+        {
+            return Username;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Username;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "username");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Username = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Username)] = Username;
+        }
+
+        return Username;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Access property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetAccess(PortalUserAccess? value)
+    {
+#pragma warning disable BL0005
+        Access = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Access)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "access", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Created property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCreated(DateTime? value)
+    {
+#pragma warning disable BL0005
+        Created = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Created)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "created", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Culture property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCulture(string? value)
+    {
+#pragma warning disable BL0005
+        Culture = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Culture)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "culture", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Description property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDescription(string? value)
+    {
+#pragma warning disable BL0005
+        Description = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Description)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "description", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Email property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetEmail(string? value)
+    {
+#pragma warning disable BL0005
+        Email = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Email)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "email", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the FullName property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFullName(string? value)
+    {
+#pragma warning disable BL0005
+        FullName = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FullName)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "fullName", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Modified property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetModified(DateTime? value)
+    {
+#pragma warning disable BL0005
+        Modified = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Modified)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "modified", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the OrgId property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetOrgId(string? value)
+    {
+#pragma warning disable BL0005
+        OrgId = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(OrgId)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "orgId", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the PortalUserId property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPortalUserId(string? value)
+    {
+#pragma warning disable BL0005
+        PortalUserId = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PortalUserId)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "id", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the PreferredView property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPreferredView(string? value)
+    {
+#pragma warning disable BL0005
+        PreferredView = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PreferredView)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "preferredView", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Privileges property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPrivileges(IReadOnlyList<string>? value)
+    {
+#pragma warning disable BL0005
+        Privileges = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Privileges)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "privileges", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Region property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRegion(string? value)
+    {
+#pragma warning disable BL0005
+        Region = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Region)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "region", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Role property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRole(PortalUserRole? value)
+    {
+#pragma warning disable BL0005
+        Role = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Role)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "role", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the RoleId property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRoleId(string? value)
+    {
+#pragma warning disable BL0005
+        RoleId = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(RoleId)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "roleId", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Units property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUnits(PortalUserUnits? value)
+    {
+#pragma warning disable BL0005
+        Units = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Units)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "units", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Username property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUsername(string? value)
+    {
+#pragma warning disable BL0005
+        Username = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Username)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "username", value);
+    }
+
+#endregion
+
 
 #region Public Methods
 
@@ -1701,7 +1767,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1711,18 +1777,17 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "addItem", 
+
+        return await JsComponentReference!.InvokeAsync<PortalItem?>("addItem",
             CancellationTokenSource.Token,
             new { item, data, folder });
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserdeleteitem-method">GeoBlazor Docs</a>
     ///     Deletes an item from the user's portal content.
@@ -1743,7 +1808,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1753,19 +1818,18 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "deleteItem", 
+
+        return await JsComponentReference!.InvokeAsync<string?>("deleteItem",
             CancellationTokenSource.Token,
             item,
             permanentDelete);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserdeleteitems-method">GeoBlazor Docs</a>
     ///     Deletes items from the user's portal content.
@@ -1786,7 +1850,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1796,19 +1860,18 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<DeleteItemsResult[]?>(
-            "deleteItems", 
+
+        return await JsComponentReference!.InvokeAsync<DeleteItemsResult[]?>("deleteItems",
             CancellationTokenSource.Token,
             items,
             permanentDelete);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchfolders-method">GeoBlazor Docs</a>
     ///     Fetches all of the user's folders used to organize portal content.
@@ -1821,7 +1884,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1831,17 +1894,16 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<PortalFolder[]?>(
-            "fetchFolders", 
+
+        return await JsComponentReference!.InvokeAsync<PortalFolder[]?>("fetchFolders",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchgroups-method">GeoBlazor Docs</a>
     ///     Fetches all the groups that the portal user has permission to access.
@@ -1854,7 +1916,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1864,17 +1926,16 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<PortalGroup[]?>(
-            "fetchGroups", 
+
+        return await JsComponentReference!.InvokeAsync<PortalGroup[]?>("fetchGroups",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchitems-method">GeoBlazor Docs</a>
     ///     Retrieves all the items in either the user's root folder or the specified folder.
@@ -1925,7 +1986,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1935,18 +1996,26 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<FetchItemsResult?>(
-            "fetchItems", 
+
+        return await JsComponentReference!.InvokeAsync<FetchItemsResult?>("fetchItems",
             CancellationTokenSource.Token,
-            new { folder, inRecycleBin, includeSubfolderItems, num, sortField, sortOrder, start });
+            new
+            {
+                folder,
+                inRecycleBin,
+                includeSubfolderItems,
+                num,
+                sortField,
+                sortOrder,
+                start
+            });
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserfetchtags-method">GeoBlazor Docs</a>
     ///     Fetches the tag objects that have been created by the portal user.
@@ -1959,7 +2028,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1969,17 +2038,16 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<string[]?>(
-            "fetchTags", 
+
+        return await JsComponentReference!.InvokeAsync<string[]?>("fetchTags",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portalusergetthumbnailurl-method">GeoBlazor Docs</a>
     ///     Get the URL to the thumbnail image for the user.
@@ -1995,7 +2063,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2005,18 +2073,17 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getThumbnailUrl", 
+
+        return await JsComponentReference!.InvokeAsync<string?>("getThumbnailUrl",
             CancellationTokenSource.Token,
             width);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserqueryfavorites-method">GeoBlazor Docs</a>
     ///     Executes a query against the user's favorite group to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItem</a>
@@ -2033,7 +2100,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2043,18 +2110,17 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<PortalQueryResult?>(
-            "queryFavorites", 
+
+        return await JsComponentReference!.InvokeAsync<PortalQueryResult?>("queryFavorites",
             CancellationTokenSource.Token,
             queryParams);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalUser.html#portaluserrestoreitem-method">GeoBlazor Docs</a>
     ///     Restores an item from the user's recycle bin to their content.
@@ -2076,7 +2142,7 @@ public partial class PortalUser : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2086,60 +2152,17 @@ public partial class PortalUser : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "restoreItem", 
+
+        return await JsComponentReference!.InvokeAsync<string?>("restoreItem",
             CancellationTokenSource.Token,
             item,
             folder);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Portal portal:
-                if (portal != Portal)
-                {
-                    Portal = portal;
-                    ModifiedParameters[nameof(Portal)] = Portal;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Portal _:
-                Portal = null;
-                ModifiedParameters[nameof(Portal)] = Portal;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Portal?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

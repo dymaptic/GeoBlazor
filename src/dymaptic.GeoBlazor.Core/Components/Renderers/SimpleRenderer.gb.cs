@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html">GeoBlazor Docs</a>
 ///     SimpleRenderer renders all features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a> with one
@@ -12,7 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 public partial class SimpleRenderer : IRendererWithVisualVariables,
     IVisualVariablesMixin
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -43,8 +41,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-color.html#createContinuousRenderer">colorRendererCreator.createContinuousRenderer()</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html#authoringInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SimpleRenderer(
-        Symbol symbol,
+    public SimpleRenderer(Symbol symbol,
         string? label = null,
         IReadOnlyList<VisualVariable>? visualVariables = null,
         AuthoringInfo? authoringInfo = null)
@@ -55,201 +52,25 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         Label = label;
         VisualVariables = visualVariables;
         AuthoringInfo = authoringInfo;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html#simplerenderersymbol-property">GeoBlazor Docs</a>
-    ///     The symbol used by the renderer to visualize all features in the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html#symbol">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Symbol? Symbol { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html#simplerenderervisualvariables-property">GeoBlazor Docs</a>
-    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">VisualVariable</a> objects.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<VisualVariable>? VisualVariables { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Label property.
-    /// </summary>
-    public async Task<string?> GetLabel()
-    {
-        if (CoreJsModule is null)
-        {
-            return Label;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Label;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "label");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
-        }
-         
-        return Label;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the VisualVariables property.
-    /// </summary>
-    public async Task<IReadOnlyList<VisualVariable>?> GetVisualVariables()
-    {
-        if (CoreJsModule is null)
-        {
-            return VisualVariables;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return VisualVariables;
-        }
 
-        IReadOnlyList<VisualVariable>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<VisualVariable>?>(
-            "getVisualVariables", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            VisualVariables = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
-        }
-        
-        return VisualVariables;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Label property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLabel(string? value)
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-#pragma warning disable BL0005
-        Label = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Label)] = value;
-        
-        if (CoreJsModule is null)
+        Symbol?.ValidateRequiredGeneratedChildren();
+
+        if (VisualVariables is not null)
         {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "label", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the VisualVariables property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetVisualVariables(IReadOnlyList<VisualVariable>? value)
-    {
-        if (value is not null)
-        {
-            foreach (VisualVariable item in value)
+            foreach (VisualVariable child in VisualVariables)
             {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                child.ValidateRequiredGeneratedChildren();
             }
         }
-        
-#pragma warning disable BL0005
-        VisualVariables = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(VisualVariables)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visualVariables", value);
+
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-#endregion
+
 
 #region Add to Collection Methods
 
@@ -266,12 +87,12 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
             : [..VisualVariables, ..values];
         await SetVisualVariables(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the VisualVariables property.
     /// </summary>
@@ -284,9 +105,10 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         {
             return;
         }
+
         await SetVisualVariables(VisualVariables.Except(values).ToArray());
     }
-    
+
 #endregion
 
 
@@ -301,16 +123,17 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
                     Symbol = symbol;
                     ModifiedParameters[nameof(Symbol)] = Symbol;
                 }
-                
+
                 return true;
             case VisualVariable visualVariables:
                 VisualVariables ??= [];
+
                 if (!VisualVariables.Contains(visualVariables))
                 {
                     VisualVariables = [..VisualVariables, visualVariables];
                     ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -325,29 +148,212 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
             case Symbol _:
                 Symbol = null;
                 ModifiedParameters[nameof(Symbol)] = Symbol;
+
                 return true;
             case VisualVariable visualVariables:
                 VisualVariables = VisualVariables?.Where(v => v != visualVariables).ToList();
                 ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html#simplerenderersymbol-property">GeoBlazor Docs</a>
+    ///     The symbol used by the renderer to visualize all features in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html#symbol">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Symbol? Symbol { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html#simplerenderervisualvariables-property">GeoBlazor Docs</a>
+    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">VisualVariable</a> objects.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<VisualVariable>? VisualVariables { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Label property.
+    /// </summary>
+    public async Task<string?> GetLabel()
     {
-    
-        Symbol?.ValidateRequiredGeneratedChildren();
-        if (VisualVariables is not null)
+        if (CoreJsModule is null)
         {
-            foreach (VisualVariable child in VisualVariables)
+            return Label;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Label;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "label");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Label = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Label)] = Label;
+        }
+
+        return Label;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the VisualVariables property.
+    /// </summary>
+    public async Task<IReadOnlyList<VisualVariable>?> GetVisualVariables()
+    {
+        if (CoreJsModule is null)
+        {
+            return VisualVariables;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return VisualVariables;
+        }
+
+        IReadOnlyList<VisualVariable>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<VisualVariable>?>("getVisualVariables",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            VisualVariables = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+        }
+
+        return VisualVariables;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Label property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetLabel(string? value)
+    {
+#pragma warning disable BL0005
+        Label = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Label)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "label", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the VisualVariables property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetVisualVariables(IReadOnlyList<VisualVariable>? value)
+    {
+        if (value is not null)
+        {
+            foreach (VisualVariable item in value)
             {
-                child.ValidateRequiredGeneratedChildren();
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        base.ValidateRequiredGeneratedChildren();
+
+#pragma warning disable BL0005
+        VisualVariables = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(VisualVariables)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visualVariables", value);
     }
-      
+
+#endregion
 }

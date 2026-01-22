@@ -11,14 +11,38 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     [Inject]
     [JsonIgnore]
-    public IJSRuntime? JsRuntime { get; set; }
+    public IJSRuntime? JsRuntime
+    {
+        get
+        {
+            if (field is null && Parent?.JsRuntime is not null)
+            {
+                field = Parent.JsRuntime;
+            }
+
+            return field;
+        }
+        set;
+    }
 
     /// <summary>
     ///     Manages references to JavaScript modules.
     /// </summary>
     [Inject]
     [JsonIgnore]
-    public JsModuleManager? JsModuleManager { get; set; }
+    public JsModuleManager? JsModuleManager
+    {
+        get
+        {
+            if (field is null && Parent?.JsModuleManager is not null)
+            {
+                field = Parent.JsModuleManager;
+            }
+
+            return field;
+        }
+        set;
+    }
 
     /// <summary>
     ///     ChildContent defines the ability to add other components within this component in the razor syntax.
@@ -80,11 +104,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
-    /// </summary>
-    internal AbortManager? AbortManager { get; set; }
-
-    /// <summary>
     ///     The parent <see cref="MapView" /> of the current component.
     /// </summary>
     [CascadingParameter(Name = "View")]
@@ -133,6 +152,42 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     public bool IsDisposed { get; private set; }
 
     /// <summary>
+    ///     The reference to the .NET object that represents the component.
+    /// </summary>
+    [JsonConverter(typeof(DotNetObjectReferenceJsonConverter))]
+    public DotNetObjectReference<MapComponent> DotNetComponentReference => DotNetObjectReference.Create(this);
+
+    /// <summary>
+    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
+    /// </summary>
+    internal AbortManager? AbortManager { get; set; }
+
+    /// <summary>
+    ///     The reference to the JavaScript object that represents the component.
+    /// </summary>
+    internal IJSObjectReference? JsComponentReference { get; set; }
+
+    /// <summary>
+    ///     Reflects the type of the component that is being rendered.
+    /// </summary>
+    protected Type MapComponentType => _mapComponentType ??= GetType();
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    protected internal bool IsServer => JsRuntime?.GetType().Name.Contains("Remote") ?? false;
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
+    /// </summary>
+    protected internal bool IsWebAssembly => OperatingSystem.IsBrowser();
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
+    /// </summary>
+    protected internal bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
+
+    /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
     /// </summary>
     public virtual async ValueTask DisposeAsync()
@@ -141,7 +196,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             await CancellationTokenSource.CancelAsync();
             IsDisposed = true;
-            
+
             if (AbortManager is not null)
             {
                 await AbortManager.DisposeAbortController(CancellationToken.None);
@@ -206,6 +261,113 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             // instance already destroyed
         }
+    }
+
+    /// <summary>
+    ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the <see cref="RequiredPropertyAttribute" /> are provided.
+    /// </summary>
+    /// <exception cref="MissingRequiredChildElementException">
+    ///     The consumer needs to provide the missing child component
+    /// </exception>
+    /// <exception cref="MissingRequiredOptionsChildElementException">
+    ///     The consumer needs to provide ONE of the options of child components
+    /// </exception>
+    public virtual void ValidateRequiredChildren()
+    {
+        if (_isValidated) return;
+
+        _props ??= GetPropertyInfos();
+
+        IEnumerable<PropertyInfo> requiredParameters = _props.Where(p =>
+            Attribute.IsDefined(p, typeof(RequiredPropertyAttribute)));
+
+        List<ComponentOption> options = [];
+
+        foreach (PropertyInfo requiredParameter in requiredParameters)
+        {
+            Type propType = requiredParameter.PropertyType;
+            object? value = requiredParameter.GetValue(this);
+            string propName = requiredParameter.Name;
+
+            object[] attributes = requiredParameter.GetCustomAttributes(typeof(RequiredPropertyAttribute), true);
+
+            if (attributes.Length > 0 && attributes[0] is RequiredPropertyAttribute { OtherOptions: not null } attr
+                && attr.OtherOptions.Any())
+            {
+                ComponentOption? optionSet = options.FirstOrDefault(o =>
+                    o.Options.Contains(propName));
+
+                if (optionSet is null)
+                {
+                    optionSet = new ComponentOption();
+                    optionSet.Options.Add(propName);
+
+                    foreach (string other in attr.OtherOptions)
+                    {
+                        optionSet.Options.Add(other);
+                    }
+
+                    options.Add(optionSet);
+                }
+
+                if (value is not null)
+                {
+                    optionSet.Found = true;
+                }
+
+                continue;
+            }
+
+            if (value is null)
+            {
+                throw new MissingRequiredChildElementException(MapComponentType.Name, propName);
+            }
+
+            // lists, arrays
+            if (propType.GetInterface(nameof(ICollection)) != null && ((ICollection)value).Count == 0)
+            {
+                throw new MissingRequiredChildElementException(MapComponentType.Name, propName);
+            }
+        }
+
+        foreach (ComponentOption option in options)
+        {
+            if (!option.Found)
+            {
+                throw new MissingRequiredOptionsChildElementException(MapComponentType.Name, option.Options);
+            }
+        }
+
+        IEnumerable<PropertyInfo> conditionallyRequiredProps = _props.Where(p =>
+            Attribute.IsDefined(p, typeof(ConditionallyRequiredPropertyAttribute)));
+
+        foreach (PropertyInfo condRequiredProp in conditionallyRequiredProps)
+        {
+            PropertyInfo dependentProp = _props.First(p =>
+                p.Name == ((ConditionallyRequiredPropertyAttribute)condRequiredProp
+                    .GetCustomAttributes(typeof(ConditionallyRequiredPropertyAttribute), true)[0]).DependentOn);
+            object? dependentValue = dependentProp.GetValue(this);
+
+            if (dependentValue is not null)
+            {
+                object? condValue = condRequiredProp.GetValue(this);
+
+                if (condValue is null)
+                {
+                    throw new MissingConditionallyRequiredChildElementException(MapComponentType.Name,
+                        dependentProp.Name, condRequiredProp.Name);
+                }
+            }
+        }
+
+        _isValidated = true;
+    }
+
+    /// <summary>
+    ///     Validates source-generated child components.
+    /// </summary>
+    public virtual void ValidateRequiredGeneratedChildren()
+    {
     }
 
     /// <summary>
@@ -528,14 +690,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Register a child component that was created with a source generator.
-    /// </summary>
-    protected virtual ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        return ValueTask.FromResult(false);
-    }
-
-    /// <summary>
     ///     Undoes the "Registration" of a child with its parent.
     /// </summary>
     /// <param name="child">
@@ -569,14 +723,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
 
         throw new InvalidChildElementException(MapComponentType.Name, child.GetType().Name);
-    }
-
-    /// <summary>
-    ///     Unregister a child component that was created with a source generator.
-    /// </summary>
-    protected virtual ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        return ValueTask.FromResult(false);
     }
 
     /// <summary>
@@ -640,17 +786,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     The reference to the .NET object that represents the component.
-    /// </summary>
-    [JsonConverter(typeof(DotNetObjectReferenceJsonConverter))]
-    public DotNetObjectReference<MapComponent> DotNetComponentReference => DotNetObjectReference.Create(this);
-
-    /// <summary>
-    ///     The reference to the JavaScript object that represents the component.
-    /// </summary>
-    internal IJSObjectReference? JsComponentReference { get; set; }
-
-    /// <summary>
     ///     For internal use, registration from JavaScript.
     /// </summary>
     [JSInvokable]
@@ -667,13 +802,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         try
         {
-            if (await jsonStreamReference.ReadJsStreamReference(MapComponentType) is MapComponent deserialized)
+            if (await jsonStreamReference.ReadJsStreamReferenceAsJSON(MapComponentType) is MapComponent deserialized)
             {
                 if (IsDisposed)
                 {
                     return null;
                 }
-                
+
                 instantiatedComponent = deserialized;
                 CopyProperties(instantiatedComponent);
             }
@@ -692,21 +827,125 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         return instantiatedComponent;
     }
 
+    /// <inheritdoc />
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        await base.SetParametersAsync(parameters);
+
+        _layerId ??= Layer?.Id;
+
+        foreach (KeyValuePair<string, object?> kvp in ModifiedParameters)
+        {
+            try
+            {
+                MapComponentType.GetProperty(kvp.Key)?.SetValue(this, kvp.Value);
+            }
+            catch
+            {
+                // user set a value in `SetProperty` that doesn't match a known property
+                // don't log this
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Register a child component that was created with a source generator.
+    /// </summary>
+    protected virtual ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        return ValueTask.FromResult(false);
+    }
+
+    /// <summary>
+    ///     Unregister a child component that was created with a source generator.
+    /// </summary>
+    protected virtual ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        return ValueTask.FromResult(false);
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (Parent is not null && !_registered)
+        {
+            if (!await Parent.RegisterGeneratedChildComponent(this))
+            {
+                await Parent.RegisterChildComponent(this);
+            }
+
+            if (Parent is Layer layer)
+            {
+                Layer = layer;
+            }
+            else
+            {
+                Layer ??= Parent.Layer;
+            }
+
+            View ??= Parent.View;
+            _registered = true;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            ProJsModule ??= await JsModuleManager!.GetProJsModule(JsRuntime!, CancellationToken.None);
+            CoreJsModule ??= await JsModuleManager!.GetCoreJsModule(JsRuntime!, ProJsModule, CancellationToken.None);
+            AbortManager ??= new AbortManager(CoreJsModule);
+        }
+
+        IsRenderedBlazorComponent = true;
+    }
+
+    /// <summary>
+    ///     Tells the <see cref="MapView" /> to completely re-render.
+    /// </summary>
+    /// <param name="forceRender">
+    ///     Optional parameter, if set, will re-render even if other logic says it is not needed.
+    /// </param>
+    protected virtual async Task RenderView(bool forceRender = false)
+    {
+        if (Parent is not null)
+        {
+            await Parent.RenderView(forceRender);
+        }
+    }
+
+    /// <summary>
+    ///     Retrieves the reflected public and private instance properties of the current type
+    /// </summary>
+    protected PropertyInfo[] GetPropertyInfos()
+    {
+        return MapComponentType
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .Where(p => p.DeclaringType?.Namespace?.StartsWith("dymaptic.GeoBlazor") == true)
+            .ToArray();
+    }
+
     internal void CopyProperties(MapComponent deserializedComponent)
     {
         _props ??= GetPropertyInfos();
+
         foreach (PropertyInfo prop in _props.Where(p => p.SetMethod is not null))
         {
             if (IsDisposed)
             {
                 return;
             }
-            
+
             if (prop.Name == nameof(CoreJsModule)
                 || prop.Name == nameof(Layer)
                 || prop.Name == nameof(View)
                 || prop.PropertyType == typeof(EventCallback)
-                || (prop.PropertyType.IsGenericType 
+                || (prop.PropertyType.IsGenericType
                     && prop.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
             {
                 continue;
@@ -772,6 +1011,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                     }
                 }
             }
+
             prop.SetValue(this, newValue);
         }
 
@@ -783,7 +1023,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                 (cp.PropertyType.IsAssignableTo(typeof(EventCallback))
                     || (cp.PropertyType.IsGenericType &&
                         cp.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>))));
-        
+
             if (callbackProp is not null)
             {
                 // invoke the callback to notify of the changed value
@@ -793,14 +1033,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                     {
                         _ = eventCallback.InvokeAsync(newValue);
                     }
-                    catch  (Exception ex)
+                    catch (Exception ex)
                     {
-                        Console.Error.WriteLine($"Error invoking parameter changed callback for parameter {prop.Name} on type {MapComponentType.Name}: {ex}");
+                        Console.Error.WriteLine($"Error invoking parameter changed callback for parameter {prop.Name
+                        } on type {MapComponentType.Name}: {ex}");
                     }
                 }
                 else
                 {
                     object? callbackValue = callbackProp.GetValue(this);
+
                     // find an InvokeAsync method with exactly one parameter
                     MethodInfo? invokeAsync = callbackProp.PropertyType
                         .GetMethods(BindingFlags.Instance | BindingFlags.Public)
@@ -814,208 +1056,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                         }
                         catch (Exception ex)
                         {
-                            Console.Error.WriteLine($"Error invoking parameter changed callback for parameter {prop.Name} on type {MapComponentType.Name}: {ex}");
+                            Console.Error.WriteLine($"Error invoking parameter changed callback for parameter {prop.Name
+                            } on type {MapComponentType.Name}: {ex}");
                         }
                     }
                 }
             }
-        }
-    }
-
-    /// <summary>
-    ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the <see cref="RequiredPropertyAttribute" /> are provided.
-    /// </summary>
-    /// <exception cref="MissingRequiredChildElementException">
-    ///     The consumer needs to provide the missing child component
-    /// </exception>
-    /// <exception cref="MissingRequiredOptionsChildElementException">
-    ///     The consumer needs to provide ONE of the options of child components
-    /// </exception>
-    public virtual void ValidateRequiredChildren()
-    {
-        if (_isValidated) return;
-
-        _props ??= GetPropertyInfos();
-
-        IEnumerable<PropertyInfo> requiredParameters = _props.Where(p =>
-            Attribute.IsDefined(p, typeof(RequiredPropertyAttribute)));
-
-        List<ComponentOption> options = [];
-
-        foreach (PropertyInfo requiredParameter in requiredParameters)
-        {
-            Type propType = requiredParameter.PropertyType;
-            object? value = requiredParameter.GetValue(this);
-            string propName = requiredParameter.Name;
-
-            object[] attributes = requiredParameter.GetCustomAttributes(typeof(RequiredPropertyAttribute), true);
-
-            if (attributes.Length > 0 && attributes[0] is RequiredPropertyAttribute { OtherOptions: not null } attr
-                && attr.OtherOptions.Any())
-            {
-                ComponentOption? optionSet = options.FirstOrDefault(o =>
-                    o.Options.Contains(propName));
-
-                if (optionSet is null)
-                {
-                    optionSet = new ComponentOption();
-                    optionSet.Options.Add(propName);
-
-                    foreach (string other in attr.OtherOptions)
-                    {
-                        optionSet.Options.Add(other);
-                    }
-
-                    options.Add(optionSet);
-                }
-
-                if (value is not null)
-                {
-                    optionSet.Found = true;
-                }
-
-                continue;
-            }
-
-            if (value is null)
-            {
-                throw new MissingRequiredChildElementException(MapComponentType.Name, propName);
-            }
-
-            // lists, arrays
-            if (propType.GetInterface(nameof(ICollection)) != null && ((ICollection)value).Count == 0)
-            {
-                throw new MissingRequiredChildElementException(MapComponentType.Name, propName);
-            }
-        }
-
-        foreach (ComponentOption option in options)
-        {
-            if (!option.Found)
-            {
-                throw new MissingRequiredOptionsChildElementException(MapComponentType.Name, option.Options);
-            }
-        }
-        
-        IEnumerable<PropertyInfo> conditionallyRequiredProps = _props.Where(p =>
-            Attribute.IsDefined(p, typeof(ConditionallyRequiredPropertyAttribute)));
-
-        foreach (PropertyInfo condRequiredProp in conditionallyRequiredProps)
-        {
-            PropertyInfo dependentProp = _props.First(p =>
-                p.Name == ((ConditionallyRequiredPropertyAttribute)condRequiredProp
-                    .GetCustomAttributes(typeof(ConditionallyRequiredPropertyAttribute), true)[0]).DependentOn);
-            object? dependentValue = dependentProp.GetValue(this);
-
-            if (dependentValue is not null)
-            {
-                object? condValue = condRequiredProp.GetValue(this);
-                if (condValue is null)
-                {
-                    throw new MissingConditionallyRequiredChildElementException(MapComponentType.Name, 
-                        dependentProp.Name, condRequiredProp.Name);
-                }
-            }
-        }
-
-        _isValidated = true;
-    }
-
-    /// <summary>
-    ///     Validates source-generated child components.
-    /// </summary>
-    public virtual void ValidateRequiredGeneratedChildren()
-    {
-    }
-
-    /// <summary>
-    ///     Reflects the type of the component that is being rendered.
-    /// </summary>
-    protected Type MapComponentType => _mapComponentType ??= GetType();
-
-    /// <summary>
-    ///     Reflection-based properties of the component.
-    /// </summary>
-    private PropertyInfo[]? _props;
-
-    /// <summary>
-    ///     Identifies whether this component has been checked for valid and required properties/children.
-    /// </summary>
-    private bool _isValidated;
-
-    /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        if (Parent is not null && !_registered)
-        {
-            if (!await Parent.RegisterGeneratedChildComponent(this))
-            {
-                await Parent.RegisterChildComponent(this);
-            }
-
-            if (Parent is Layer layer)
-            {
-                Layer = layer;
-            }
-            else
-            {
-                Layer ??= Parent.Layer;
-            }
-
-            View ??= Parent.View;
-            _registered = true;
-        }
-    }
-
-    /// <inheritdoc />
-    public override async Task SetParametersAsync(ParameterView parameters)
-    {
-        await base.SetParametersAsync(parameters);
-
-        _layerId ??= Layer?.Id;
-
-        foreach (KeyValuePair<string, object?> kvp in ModifiedParameters)
-        {
-            try
-            {
-                MapComponentType.GetProperty(kvp.Key)?.SetValue(this, kvp.Value);
-            }
-            catch
-            {
-                // user set a value in `SetProperty` that doesn't match a known property
-                // don't log this
-            }
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (firstRender)
-        {
-            ProJsModule ??= await JsModuleManager!.GetProJsModule(JsRuntime!, CancellationToken.None);
-            CoreJsModule ??= await JsModuleManager!.GetCoreJsModule(JsRuntime!, ProJsModule, CancellationToken.None);
-            AbortManager ??= new AbortManager(CoreJsModule);
-        }
-
-        IsRenderedBlazorComponent = true;
-    }
-
-    /// <summary>
-    ///     Tells the <see cref="MapView" /> to completely re-render.
-    /// </summary>
-    /// <param name="forceRender">
-    ///     Optional parameter, if set, will re-render even if other logic says it is not needed.
-    /// </param>
-    protected virtual async Task RenderView(bool forceRender = false)
-    {
-        if (Parent is not null)
-        {
-            await Parent.RenderView(forceRender);
         }
     }
 
@@ -1052,7 +1098,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             return;
         }
-        
+
         CoreJsModule ??= coreJsModule;
         ProJsModule ??= proJsModule;
 
@@ -1079,28 +1125,29 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             Layer = layer;
         }
-        
+
         LayerId ??= Layer?.Id;
-        
+
         if (MapComponentType.IsAssignableTo(typeof(Layer)))
         {
             // set the layer for the child components
             layer = (Layer)this;
         }
-        
+
         _props ??= GetPropertyInfos();
 
         foreach (PropertyInfo prop in _props)
         {
             if (_circularMapComponents.Contains(prop.Name)
                 || _circularMapComponents.Contains(prop.PropertyType.Name)
-                || (prop.PropertyType.IsGenericType 
+                || (prop.PropertyType.IsGenericType
                     && _circularMapComponents.Any(c => prop.PropertyType
-                        .GetGenericTypeDefinition().Name.StartsWith(c))))
+                        .GetGenericTypeDefinition()
+                        .Name.StartsWith(c))))
             {
                 continue;
             }
-            
+
             object? value = prop.GetValue(this);
 
             if (value is null)
@@ -1111,6 +1158,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             if (value is IInteractiveRecord record)
             {
                 record.CoreJsModule ??= CoreJsModule;
+                record.IsServer = IsServer;
+
                 if (record.AbortManager is null || record.AbortManager.Disposed)
                 {
                     record.AbortManager = new AbortManager(CoreJsModule);
@@ -1118,12 +1167,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             }
             else if (value is MapComponent propComponent)
             {
-                propComponent.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, 
+                propComponent.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view,
                     this, layer, depth + 1, visited);
             }
             else if (prop.PropertyType.IsArray || prop.PropertyType.IsGenericType)
             {
-                Type elementType = prop.PropertyType.IsArray 
+                Type elementType = prop.PropertyType.IsArray
                     ? prop.PropertyType.GetElementType()!
                     : prop.PropertyType.GenericTypeArguments[0];
 
@@ -1132,6 +1181,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                     foreach (IInteractiveRecord item in (IEnumerable)value)
                     {
                         item.CoreJsModule ??= CoreJsModule;
+                        item.IsServer = IsServer;
+
                         if (item.AbortManager is null || item.AbortManager.Disposed)
                         {
                             item.AbortManager = new AbortManager(CoreJsModule);
@@ -1143,7 +1194,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                 {
                     foreach (MapComponent? item in itemCollection)
                     {
-                        item?.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view, 
+                        item?.UpdateGeoBlazorReferences(CoreJsModule, proJsModule, view,
                             this, layer, depth + 1, visited);
                     }
                 }
@@ -1151,22 +1202,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
     }
 
-    /// <summary>
-    ///     Retrieves the reflected public and private instance properties of the current type
-    /// </summary>
-    protected PropertyInfo[] GetPropertyInfos()
-    {
-        return MapComponentType
-            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Where(p => p.DeclaringType?.Namespace?.StartsWith("dymaptic.GeoBlazor") == true)
-            .ToArray(); 
-    }
+    private static Type? _proExtensions;
 
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
-    private static Type? _proExtensions;
-    
+
     /// <summary>
     ///     Components to skip in <see cref="UpdateGeoBlazorReferences"/> so as not to create neverending loops
     /// </summary>
@@ -1187,20 +1228,31 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ];
 
     /// <summary>
+    ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.
+    /// </summary>
+    protected internal readonly Dictionary<string, object?> ModifiedParameters = new();
+
+    /// <summary>
+    ///     Reflection-based properties of the component.
+    /// </summary>
+    private PropertyInfo[]? _props;
+
+    /// <summary>
+    ///     Identifies whether this component has been checked for valid and required properties/children.
+    /// </summary>
+    private bool _isValidated;
+
+    /// <summary>
     ///     The previous parameters that were set in the component.
     /// </summary>
     protected internal Dictionary<string, object?>? PreviousParameters;
 
     /// <summary>
-    ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.
-    /// </summary>
-    protected readonly internal Dictionary<string, object?> ModifiedParameters = new();
-
-    /// <summary>
     ///     Creates a cancellation token to control external calls
     /// </summary>
     protected internal CancellationTokenSource CancellationTokenSource = new();
-    
+
+
 #region Events
 
     /// <summary>
@@ -1528,14 +1580,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             return;
         }
-        
+
         Delegate handler = _watchers[watchExpression].Handler;
         Type returnType = handler.Method.GetParameters()[0].ParameterType;
         object? typedValue = null;
 
         if (jsStreamReference is not null)
         {
-            typedValue = await jsStreamReference.ReadJsStreamReference(returnType);
+            typedValue = await jsStreamReference.ReadJsStreamReferenceAsJSON(returnType);
         }
 
         handler.DynamicInvoke(typedValue);
@@ -1661,14 +1713,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             return;
         }
-        
+
         Delegate handler = _listeners[eventName].Handler;
         Type returnType = handler.Method.GetParameters()[0].ParameterType;
         object? typedValue = null;
 
         if (jsStreamReference is not null)
         {
-            typedValue = await jsStreamReference.ReadJsStreamReference(returnType);
+            typedValue = await jsStreamReference.ReadJsStreamReferenceAsJSON(returnType);
         }
 
         handler.DynamicInvoke(typedValue);
@@ -1933,7 +1985,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             return;
         }
-        
+
         Delegate handler = _waiters[waitExpression].Handler;
         handler.DynamicInvoke();
     }

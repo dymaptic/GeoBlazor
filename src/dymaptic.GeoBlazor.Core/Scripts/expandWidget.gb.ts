@@ -66,7 +66,7 @@ export default class ExpandWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -440,7 +440,7 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any, layerId: s
 
     if (hasValue(dotNetExpandWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetExpandWidget.id)) {
-            let { default: ExpandWidgetWrapper } = await import('./expandWidget');
+            let {default: ExpandWidgetWrapper} = await import('./expandWidget');
             let expandWidgetWrapper = new ExpandWidgetWrapper(jsObject);
             expandWidgetWrapper.geoBlazorId = dotNetExpandWidget.id;
             expandWidgetWrapper.viewId = viewId;

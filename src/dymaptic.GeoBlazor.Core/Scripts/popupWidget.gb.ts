@@ -84,7 +84,7 @@ export default class PopupWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async blur(): Promise<void> {
         this.widget.blur();
@@ -602,7 +602,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
 
     if (hasValue(dotNetPopupWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetPopupWidget.id)) {
-            let { default: PopupWidgetWrapper } = await import('./popupWidget');
+            let {default: PopupWidgetWrapper} = await import('./popupWidget');
             let popupWidgetWrapper = new PopupWidgetWrapper(jsObject);
             popupWidgetWrapper.geoBlazorId = dotNetPopupWidget.id;
             popupWidgetWrapper.viewId = viewId;

@@ -42,6 +42,6 @@ export default class PointWrapper extends PointGenerated {
     constructor(component: Point) {
         super(component);
     }
-    
+
 }
 

@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
+[ProtobufSerializable]
 public partial class Extent : Geometry
 {
     /// <summary>
@@ -131,10 +132,11 @@ public partial class Extent : Geometry
         return new Extent(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin, SpatialReference?.Clone());
     }
 
-    internal override GeometrySerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override GeometrySerializationRecord ToProtobuf()
     {
         return new GeometrySerializationRecord(Id.ToString(), Type.ToString().ToKebabCase(), null, 
-            SpatialReference?.ToSerializationRecord())
+            SpatialReference?.ToProtobuf())
         {
             Xmax = Xmax,
             Xmin = Xmin,

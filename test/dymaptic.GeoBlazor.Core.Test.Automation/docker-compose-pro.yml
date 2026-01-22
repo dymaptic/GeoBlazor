@@ -32,7 +32,7 @@ services:
     volumes:
       - ./coverage:/coverage
     healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider --no-check-certificate https://localhost:${HTTPS_PORT:-9443} || exit 1"]
+      test: [ "CMD-SHELL", "wget -q --spider --no-check-certificate https://localhost:${HTTPS_PORT:-9443} || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 10

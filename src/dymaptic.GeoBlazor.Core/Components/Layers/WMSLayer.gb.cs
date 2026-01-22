@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html">GeoBlazor Docs</a>
 ///     The WMSLayer is used to create layers based on OGC Web Map Services (WMS).
@@ -15,7 +14,6 @@ public partial class WMSLayer : Layer,
     IRefreshableLayer,
     IScaleRangeLayer
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -201,8 +199,7 @@ public partial class WMSLayer : Layer,
     /// <param name="excludeApiKey">
     ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
-    public WMSLayer(
-        string? arcGISLayerId = null,
+    public WMSLayer(string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         string? copyright = null,
         string? customLayerParameters = null,
@@ -281,13 +278,231 @@ public partial class WMSLayer : Layer,
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
         ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
     /// <inheritdoc />
     public override LayerType Type => LayerType.WMS;
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (FullExtents is not null)
+        {
+            foreach (Extent child in FullExtents)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        PortalItem?.ValidateRequiredGeneratedChildren();
+        SpatialReference?.ValidateRequiredGeneratedChildren();
+
+        if (Sublayers is not null)
+        {
+            foreach (WMSSublayer child in Sublayers)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        TimeExtent?.ValidateRequiredGeneratedChildren();
+        TimeInfo?.ValidateRequiredGeneratedChildren();
+        TimeOffset?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+
+#region Public Methods
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerrefresh-method">GeoBlazor Docs</a>
+    ///     Fetches all the data for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public override async ValueTask Refresh()
+    {
+        await base.Refresh();
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference!.InvokeVoidAsync("refresh",
+            CancellationTokenSource.Token);
+    }
+
+#endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent fullExtents:
+                FullExtents ??= [];
+
+                if (!FullExtents.Contains(fullExtents))
+                {
+                    FullExtents = [..FullExtents, fullExtents];
+                    ModifiedParameters[nameof(FullExtents)] = FullExtents;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case PortalItem portalItem:
+                if (portalItem != PortalItem)
+                {
+                    PortalItem = portalItem;
+                    ModifiedParameters[nameof(PortalItem)] = PortalItem;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case WMSSublayer sublayers:
+                Sublayers ??= [];
+
+                if (!Sublayers.Contains(sublayers))
+                {
+                    Sublayers = [..Sublayers, sublayers];
+                    ModifiedParameters[nameof(Sublayers)] = Sublayers;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case TimeExtent timeExtent:
+                if (timeExtent != TimeExtent)
+                {
+                    TimeExtent = timeExtent;
+                    ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case TimeInfo timeInfo:
+                if (timeInfo != TimeInfo)
+                {
+                    TimeInfo = timeInfo;
+                    ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            case TimeInterval timeOffset:
+                if (timeOffset != TimeOffset)
+                {
+                    TimeOffset = timeOffset;
+                    ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent fullExtents:
+                FullExtents = FullExtents?.Where(f => f != fullExtents).ToList();
+                ModifiedParameters[nameof(FullExtents)] = FullExtents;
+
+                return true;
+            case PortalItem _:
+                PortalItem = null;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+
+                return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+
+                return true;
+            case WMSSublayer sublayers:
+                Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
+                ModifiedParameters[nameof(Sublayers)] = Sublayers;
+
+                return true;
+            case TimeExtent _:
+                TimeExtent = null;
+                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+
+                return true;
+            case TimeInfo _:
+                TimeInfo = null;
+                ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+
+                return true;
+            case TimeInterval _:
+                TimeOffset = null;
+                ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -299,7 +514,7 @@ public partial class WMSLayer : Layer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<WMSSublayer>? AllSublayers { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
@@ -310,7 +525,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BlendMode? BlendMode { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayercopyright-property">GeoBlazor Docs</a>
     ///     Copyright information for the WMS service.
@@ -320,7 +535,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Copyright { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayercustomlayerparameters-property">GeoBlazor Docs</a>
     ///     Use this to append different custom parameters to the WMS map requests.
@@ -330,7 +545,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? CustomLayerParameters { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayercustomparameters-property">GeoBlazor Docs</a>
     ///     Use this to append custom parameters to all WMS requests.
@@ -340,7 +555,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, object>? CustomParameters { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerdescription-property">GeoBlazor Docs</a>
     ///     Description for the WMS layer.
@@ -350,7 +565,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerdimensions-property">GeoBlazor Docs</a>
     ///     An array of time, elevation and other dimensions for the root layer.
@@ -360,7 +575,7 @@ public partial class WMSLayer : Layer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<IWMSLayerDimension>? Dimensions { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayereffect-property">GeoBlazor Docs</a>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
@@ -372,7 +587,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Effect? Effect { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfeatureinfoformat-property">GeoBlazor Docs</a>
     ///     The MIME type that will be requested by popups.
@@ -382,7 +597,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FeatureInfoFormat? FeatureInfoFormat { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfeatureinfoformats-property">GeoBlazor Docs</a>
     ///     This property lists all available MIME-types that can be used with the WMS service's _GetFeatureInfo_ request.
@@ -392,7 +607,7 @@ public partial class WMSLayer : Layer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<string>? FeatureInfoFormats { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfeatureinfourl-property">GeoBlazor Docs</a>
     ///     The URL for the WMS GetFeatureInfo call.
@@ -402,7 +617,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FeatureInfoUrl { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfetchfeatureinfofunction-property">GeoBlazor Docs</a>
     ///     Function to override the default popup behavior of `WMSLayer`.
@@ -413,7 +628,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore]
     public FetchFeatureInfoFunction? FetchFeatureInfoFunction { get; set; }
-    
+
     /// <summary>
     ///     JS-invokable method that triggers the <see cref="FetchFeatureInfoFunction"/> function.
     ///     Should not be called by consuming code.
@@ -426,22 +641,22 @@ public partial class WMSLayer : Layer,
             // cancel if the component is disposed
             return null;
         }
-    
+
         Graphic[]? result = null;
-    
+
         if (FetchFeatureInfoFunction is not null)
         {
             result = await FetchFeatureInfoFunction.Invoke(query);
         }
-        
+
         return result;
     }
-    
+
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="FetchFeatureInfoFunction" /> function was registered.
     /// </summary>
     public bool HasFetchFeatureInfoFunction => FetchFeatureInfoFunction is not null;
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfullextents-property">GeoBlazor Docs</a>
     ///     All bounding boxes defined for the layer.
@@ -451,7 +666,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Extent>? FullExtents { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerimageformat-property">GeoBlazor Docs</a>
     ///     The map image format (MIME type) to request.
@@ -461,7 +676,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ImageFormat { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerimagemaxheight-property">GeoBlazor Docs</a>
     ///     Indicates the maximum height of the image exported by the service.
@@ -472,7 +687,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ImageMaxHeight { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerimagemaxwidth-property">GeoBlazor Docs</a>
     ///     Indicates the maximum width of the image exported by the service.
@@ -483,7 +698,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ImageMaxWidth { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerimagetransparency-property">GeoBlazor Docs</a>
     ///     Indicates whether the background of the image exported by the service is transparent.
@@ -494,7 +709,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ImageTransparency { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
@@ -505,7 +720,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? LegendEnabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
@@ -516,7 +731,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxScale { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
@@ -527,7 +742,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MinScale { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
@@ -537,7 +752,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PortalItem? PortalItem { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerrefreshinterval-property">GeoBlazor Docs</a>
     ///     Refresh interval of the layer in minutes.
@@ -548,7 +763,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? RefreshInterval { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
@@ -558,7 +773,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SpatialReference? SpatialReference { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerspatialreferences-property">GeoBlazor Docs</a>
     ///     List of spatialReference well known ids derived from the CRS elements of the first layer in the GetCapabilities request.
@@ -568,7 +783,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<double>? SpatialReferences { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayersublayers-property">GeoBlazor Docs</a>
     ///     A subset of the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a>s that will be displayed.
@@ -578,7 +793,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<WMSSublayer>? Sublayers { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayertimeextent-property">GeoBlazor Docs</a>
     ///     The layer's time extent.
@@ -588,7 +803,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeExtent? TimeExtent { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayertimeinfo-property">GeoBlazor Docs</a>
     ///     TimeInfo provides information such as date fields that store
@@ -603,7 +818,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeInfo? TimeInfo { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayertimeoffset-property">GeoBlazor Docs</a>
     ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
@@ -614,7 +829,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeInterval? TimeOffset { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerurl-property">GeoBlazor Docs</a>
     ///     The URL of the WMS service.
@@ -624,7 +839,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayeruseviewtime-property">GeoBlazor Docs</a>
     ///     Determines if the layer will update its temporal data based on the view's
@@ -636,7 +851,7 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UseViewTime { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerversion-property">GeoBlazor Docs</a>
     ///     Version of the <a target="_blank" href="http://www.opengeospatial.org/standards/wms">WMS specification</a> to use.
@@ -646,8 +861,9 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Version { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -660,8 +876,8 @@ public partial class WMSLayer : Layer,
         {
             return AllSublayers;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -670,15 +886,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AllSublayers;
         }
 
-        IReadOnlyList<WMSSublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<WMSSublayer>?>(
-            "getAllSublayers", CancellationTokenSource.Token);
-        
+        IReadOnlyList<WMSSublayer>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<WMSSublayer>?>("getAllSublayers",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -686,10 +903,10 @@ public partial class WMSLayer : Layer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(AllSublayers)] = AllSublayers;
         }
-        
+
         return AllSublayers;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -699,8 +916,8 @@ public partial class WMSLayer : Layer,
         {
             return BlendMode;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -709,26 +926,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BlendMode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = (BlendMode)result.Value.Value!;
+            BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+            ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
-         
+
         return BlendMode;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -738,8 +957,8 @@ public partial class WMSLayer : Layer,
         {
             return Copyright;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -748,7 +967,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Copyright;
@@ -757,17 +976,18 @@ public partial class WMSLayer : Layer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "copyright");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Copyright = result;
+            Copyright = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Copyright)] = Copyright;
+            ModifiedParameters[nameof(Copyright)] = Copyright;
         }
-         
+
         return Copyright;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomLayerParameters property.
     /// </summary>
@@ -777,8 +997,8 @@ public partial class WMSLayer : Layer,
         {
             return CustomLayerParameters;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -787,7 +1007,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return CustomLayerParameters;
@@ -796,17 +1016,18 @@ public partial class WMSLayer : Layer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "customLayerParameters");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CustomLayerParameters = result;
+            CustomLayerParameters = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CustomLayerParameters)] = CustomLayerParameters;
+            ModifiedParameters[nameof(CustomLayerParameters)] = CustomLayerParameters;
         }
-         
+
         return CustomLayerParameters;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -816,8 +1037,8 @@ public partial class WMSLayer : Layer,
         {
             return CustomParameters;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -826,26 +1047,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return CustomParameters;
         }
 
         // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>(
+            "getProperty",
             CancellationTokenSource.Token, "customParameters");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CustomParameters = result;
+            CustomParameters = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+            ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
         }
-         
+
         return CustomParameters;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Description property.
     /// </summary>
@@ -855,8 +1078,8 @@ public partial class WMSLayer : Layer,
         {
             return Description;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -865,7 +1088,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Description;
@@ -874,17 +1097,18 @@ public partial class WMSLayer : Layer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "description");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Description = result;
+            Description = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Description)] = Description;
+            ModifiedParameters[nameof(Description)] = Description;
         }
-         
+
         return Description;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
@@ -894,8 +1118,8 @@ public partial class WMSLayer : Layer,
         {
             return Dimensions;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -904,26 +1128,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Dimensions;
         }
 
         // get the property value
-        IReadOnlyList<IWMSLayerDimension>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IWMSLayerDimension>?>("getProperty",
-            CancellationTokenSource.Token, "dimensions");
+        IReadOnlyList<IWMSLayerDimension>? result =
+            await JsComponentReference!.InvokeAsync<IReadOnlyList<IWMSLayerDimension>?>("getProperty",
+                CancellationTokenSource.Token, "dimensions");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Dimensions = result;
+            Dimensions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Dimensions)] = Dimensions;
+            ModifiedParameters[nameof(Dimensions)] = Dimensions;
         }
-         
+
         return Dimensions;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -933,8 +1159,8 @@ public partial class WMSLayer : Layer,
         {
             return Effect;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -943,15 +1169,14 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
-            "getEffect", CancellationTokenSource.Token);
-        
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>("getEffect", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -959,10 +1184,10 @@ public partial class WMSLayer : Layer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Effect)] = Effect;
         }
-        
+
         return Effect;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureInfoFormat property.
     /// </summary>
@@ -972,8 +1197,8 @@ public partial class WMSLayer : Layer,
         {
             return FeatureInfoFormat;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -982,26 +1207,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeatureInfoFormat;
         }
 
         // get the property value
-        JsNullableEnumWrapper<FeatureInfoFormat>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureInfoFormat>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "featureInfoFormat");
+        JsNullableEnumWrapper<FeatureInfoFormat>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureInfoFormat>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "featureInfoFormat");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             FeatureInfoFormat = (FeatureInfoFormat)result.Value.Value!;
+            FeatureInfoFormat = (FeatureInfoFormat)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureInfoFormat)] = FeatureInfoFormat;
+            ModifiedParameters[nameof(FeatureInfoFormat)] = FeatureInfoFormat;
         }
-         
+
         return FeatureInfoFormat;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureInfoFormats property.
     /// </summary>
@@ -1011,8 +1238,8 @@ public partial class WMSLayer : Layer,
         {
             return FeatureInfoFormats;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1021,7 +1248,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeatureInfoFormats;
@@ -1030,17 +1257,18 @@ public partial class WMSLayer : Layer,
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "featureInfoFormats");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureInfoFormats = result;
+            FeatureInfoFormats = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureInfoFormats)] = FeatureInfoFormats;
+            ModifiedParameters[nameof(FeatureInfoFormats)] = FeatureInfoFormats;
         }
-         
+
         return FeatureInfoFormats;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureInfoUrl property.
     /// </summary>
@@ -1050,8 +1278,8 @@ public partial class WMSLayer : Layer,
         {
             return FeatureInfoUrl;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1060,7 +1288,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FeatureInfoUrl;
@@ -1069,17 +1297,18 @@ public partial class WMSLayer : Layer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "featureInfoUrl");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureInfoUrl = result;
+            FeatureInfoUrl = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureInfoUrl)] = FeatureInfoUrl;
+            ModifiedParameters[nameof(FeatureInfoUrl)] = FeatureInfoUrl;
         }
-         
+
         return FeatureInfoUrl;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullExtents property.
     /// </summary>
@@ -1089,8 +1318,8 @@ public partial class WMSLayer : Layer,
         {
             return FullExtents;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1099,15 +1328,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FullExtents;
         }
 
-        IReadOnlyList<Extent>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Extent>?>(
-            "getFullExtents", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Extent>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<Extent>?>("getFullExtents",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
             foreach (Extent item in result)
@@ -1119,10 +1349,10 @@ public partial class WMSLayer : Layer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FullExtents)] = FullExtents;
         }
-        
+
         return FullExtents;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageFormat property.
     /// </summary>
@@ -1132,8 +1362,8 @@ public partial class WMSLayer : Layer,
         {
             return ImageFormat;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1142,7 +1372,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ImageFormat;
@@ -1151,17 +1381,18 @@ public partial class WMSLayer : Layer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "imageFormat");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ImageFormat = result;
+            ImageFormat = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ImageFormat)] = ImageFormat;
+            ModifiedParameters[nameof(ImageFormat)] = ImageFormat;
         }
-         
+
         return ImageFormat;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageMaxHeight property.
     /// </summary>
@@ -1171,8 +1402,8 @@ public partial class WMSLayer : Layer,
         {
             return ImageMaxHeight;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1181,26 +1412,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ImageMaxHeight;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageMaxHeight");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ImageMaxHeight = result.Value.Value;
+            ImageMaxHeight = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ImageMaxHeight)] = ImageMaxHeight;
+            ModifiedParameters[nameof(ImageMaxHeight)] = ImageMaxHeight;
         }
-         
+
         return ImageMaxHeight;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageMaxWidth property.
     /// </summary>
@@ -1210,8 +1443,8 @@ public partial class WMSLayer : Layer,
         {
             return ImageMaxWidth;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1220,26 +1453,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ImageMaxWidth;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageMaxWidth");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ImageMaxWidth = result.Value.Value;
+            ImageMaxWidth = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ImageMaxWidth)] = ImageMaxWidth;
+            ModifiedParameters[nameof(ImageMaxWidth)] = ImageMaxWidth;
         }
-         
+
         return ImageMaxWidth;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageTransparency property.
     /// </summary>
@@ -1249,8 +1484,8 @@ public partial class WMSLayer : Layer,
         {
             return ImageTransparency;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1259,26 +1494,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ImageTransparency;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageTransparency");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ImageTransparency = result.Value.Value;
+            ImageTransparency = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ImageTransparency)] = ImageTransparency;
+            ModifiedParameters[nameof(ImageTransparency)] = ImageTransparency;
         }
-         
+
         return ImageTransparency;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -1288,8 +1525,8 @@ public partial class WMSLayer : Layer,
         {
             return LegendEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1298,26 +1535,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LegendEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value.Value;
+            LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+            ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
-         
+
         return LegendEnabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -1327,8 +1566,8 @@ public partial class WMSLayer : Layer,
         {
             return MaxScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1337,26 +1576,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MaxScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+            MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+            ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
-         
+
         return MaxScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -1366,8 +1607,8 @@ public partial class WMSLayer : Layer,
         {
             return MinScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1376,26 +1617,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MinScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+            MinScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+            ModifiedParameters[nameof(MinScale)] = MinScale;
         }
-         
+
         return MinScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -1405,8 +1648,8 @@ public partial class WMSLayer : Layer,
         {
             return PortalItem;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1415,7 +1658,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PortalItem;
@@ -1423,24 +1666,25 @@ public partial class WMSLayer : Layer,
 
         PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
             "getPortalItem", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (PortalItem is not null)
             {
                 result.Id = PortalItem.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             PortalItem = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PortalItem)] = PortalItem;
         }
-        
+
         return PortalItem;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -1450,8 +1694,8 @@ public partial class WMSLayer : Layer,
         {
             return RefreshInterval;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1460,26 +1704,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return RefreshInterval;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value.Value;
+            RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+            ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
-         
+
         return RefreshInterval;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1489,8 +1735,8 @@ public partial class WMSLayer : Layer,
         {
             return SpatialReference;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1499,7 +1745,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SpatialReference;
@@ -1507,7 +1753,7 @@ public partial class WMSLayer : Layer,
 
         SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
             "getSpatialReference", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1515,10 +1761,10 @@ public partial class WMSLayer : Layer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-        
+
         return SpatialReference;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReferences property.
     /// </summary>
@@ -1528,8 +1774,8 @@ public partial class WMSLayer : Layer,
         {
             return SpatialReferences;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1538,7 +1784,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SpatialReferences;
@@ -1547,17 +1793,18 @@ public partial class WMSLayer : Layer,
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "spatialReferences");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialReferences = result;
+            SpatialReferences = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReferences)] = SpatialReferences;
+            ModifiedParameters[nameof(SpatialReferences)] = SpatialReferences;
         }
-         
+
         return SpatialReferences;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sublayers property.
     /// </summary>
@@ -1567,8 +1814,8 @@ public partial class WMSLayer : Layer,
         {
             return Sublayers;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1577,15 +1824,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Sublayers;
         }
 
-        IReadOnlyList<WMSSublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<WMSSublayer>?>(
-            "getSublayers", CancellationTokenSource.Token);
-        
+        IReadOnlyList<WMSSublayer>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<WMSSublayer>?>("getSublayers",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1593,10 +1841,10 @@ public partial class WMSLayer : Layer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Sublayers)] = Sublayers;
         }
-        
+
         return Sublayers;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -1606,8 +1854,8 @@ public partial class WMSLayer : Layer,
         {
             return TimeExtent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1616,7 +1864,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TimeExtent;
@@ -1624,24 +1872,25 @@ public partial class WMSLayer : Layer,
 
         TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
             "getTimeExtent", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (TimeExtent is not null)
             {
                 result.Id = TimeExtent.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
         }
-        
+
         return TimeExtent;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -1651,8 +1900,8 @@ public partial class WMSLayer : Layer,
         {
             return TimeInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1661,15 +1910,15 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TimeInfo;
         }
 
-        TimeInfo? result = await JsComponentReference.InvokeAsync<TimeInfo?>(
-            "getTimeInfo", CancellationTokenSource.Token);
-        
+        TimeInfo? result =
+            await JsComponentReference.InvokeAsync<TimeInfo?>("getTimeInfo", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1677,10 +1926,10 @@ public partial class WMSLayer : Layer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
         }
-        
+
         return TimeInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -1690,8 +1939,8 @@ public partial class WMSLayer : Layer,
         {
             return TimeOffset;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1700,7 +1949,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TimeOffset;
@@ -1708,7 +1957,7 @@ public partial class WMSLayer : Layer,
 
         TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
             "getTimeOffset", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1716,10 +1965,10 @@ public partial class WMSLayer : Layer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
         }
-        
+
         return TimeOffset;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1729,8 +1978,8 @@ public partial class WMSLayer : Layer,
         {
             return Url;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1739,7 +1988,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Url;
@@ -1748,17 +1997,18 @@ public partial class WMSLayer : Layer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Url = result;
+            Url = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
+            ModifiedParameters[nameof(Url)] = Url;
         }
-         
+
         return Url;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -1768,8 +2018,8 @@ public partial class WMSLayer : Layer,
         {
             return UseViewTime;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1778,26 +2028,28 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return UseViewTime;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useViewTime");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UseViewTime = result.Value.Value;
+            UseViewTime = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+            ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }
-         
+
         return UseViewTime;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -1807,8 +2059,8 @@ public partial class WMSLayer : Layer,
         {
             return Version;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1817,7 +2069,7 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Version;
@@ -1826,18 +2078,20 @@ public partial class WMSLayer : Layer,
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "version");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Version = result;
+            Version = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Version)] = Version;
+            ModifiedParameters[nameof(Version)] = Version;
         }
-         
+
         return Version;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -1853,13 +2107,13 @@ public partial class WMSLayer : Layer,
         BlendMode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BlendMode)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1868,16 +2122,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -1890,13 +2144,13 @@ public partial class WMSLayer : Layer,
         Copyright = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Copyright)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1905,16 +2159,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomLayerParameters property after render.
     /// </summary>
@@ -1927,13 +2181,13 @@ public partial class WMSLayer : Layer,
         CustomLayerParameters = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(CustomLayerParameters)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1942,16 +2196,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customLayerParameters", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1964,13 +2218,13 @@ public partial class WMSLayer : Layer,
         CustomParameters = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(CustomParameters)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1979,16 +2233,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Description property after render.
     /// </summary>
@@ -2001,13 +2255,13 @@ public partial class WMSLayer : Layer,
         Description = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Description)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2016,16 +2270,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -2038,13 +2292,13 @@ public partial class WMSLayer : Layer,
         Effect = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Effect)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2053,16 +2307,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setEffect", 
+
+        await JsComponentReference.InvokeVoidAsync("setEffect",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureInfoFormat property after render.
     /// </summary>
@@ -2075,13 +2329,13 @@ public partial class WMSLayer : Layer,
         FeatureInfoFormat = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeatureInfoFormat)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2090,16 +2344,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureInfoFormat", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureInfoUrl property after render.
     /// </summary>
@@ -2112,13 +2366,13 @@ public partial class WMSLayer : Layer,
         FeatureInfoUrl = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeatureInfoUrl)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2127,16 +2381,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureInfoUrl", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FullExtents property after render.
     /// </summary>
@@ -2152,18 +2406,18 @@ public partial class WMSLayer : Layer,
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         FullExtents = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FullExtents)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2172,16 +2426,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setFullExtents", 
+
+        await JsComponentReference.InvokeVoidAsync("setFullExtents",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageFormat property after render.
     /// </summary>
@@ -2194,13 +2448,13 @@ public partial class WMSLayer : Layer,
         ImageFormat = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ImageFormat)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2209,16 +2463,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageFormat", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxHeight property after render.
     /// </summary>
@@ -2231,13 +2485,13 @@ public partial class WMSLayer : Layer,
         ImageMaxHeight = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ImageMaxHeight)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2246,16 +2500,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageMaxHeight", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxWidth property after render.
     /// </summary>
@@ -2268,13 +2522,13 @@ public partial class WMSLayer : Layer,
         ImageMaxWidth = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ImageMaxWidth)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2283,16 +2537,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageMaxWidth", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageTransparency property after render.
     /// </summary>
@@ -2305,13 +2559,13 @@ public partial class WMSLayer : Layer,
         ImageTransparency = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ImageTransparency)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2320,16 +2574,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageTransparency", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -2342,13 +2596,13 @@ public partial class WMSLayer : Layer,
         LegendEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LegendEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2357,16 +2611,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -2379,13 +2633,13 @@ public partial class WMSLayer : Layer,
         MaxScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2394,16 +2648,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -2416,13 +2670,13 @@ public partial class WMSLayer : Layer,
         MinScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2431,16 +2685,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -2453,13 +2707,13 @@ public partial class WMSLayer : Layer,
         PersistenceEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PersistenceEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2468,16 +2722,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -2489,19 +2743,19 @@ public partial class WMSLayer : Layer,
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PortalItem)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2510,16 +2764,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+
+        await JsComponentReference.InvokeVoidAsync("setPortalItem",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -2532,13 +2786,13 @@ public partial class WMSLayer : Layer,
         RefreshInterval = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RefreshInterval)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2547,16 +2801,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -2568,19 +2822,19 @@ public partial class WMSLayer : Layer,
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SpatialReference)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2589,16 +2843,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReferences property after render.
     /// </summary>
@@ -2611,13 +2865,13 @@ public partial class WMSLayer : Layer,
         SpatialReferences = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SpatialReferences)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2626,16 +2880,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialReferences", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Sublayers property after render.
     /// </summary>
@@ -2651,18 +2905,18 @@ public partial class WMSLayer : Layer,
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
+
 #pragma warning disable BL0005
         Sublayers = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Sublayers)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2671,16 +2925,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setSublayers", 
+
+        await JsComponentReference.InvokeVoidAsync("setSublayers",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -2692,19 +2946,19 @@ public partial class WMSLayer : Layer,
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeExtent)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2713,16 +2967,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
+
+        await JsComponentReference.InvokeVoidAsync("setTimeExtent",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -2734,19 +2988,19 @@ public partial class WMSLayer : Layer,
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2755,16 +3009,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -2776,19 +3030,19 @@ public partial class WMSLayer : Layer,
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeOffset)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2797,16 +3051,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2819,13 +3073,13 @@ public partial class WMSLayer : Layer,
         Url = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Url)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2834,16 +3088,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -2856,13 +3110,13 @@ public partial class WMSLayer : Layer,
         UseViewTime = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(UseViewTime)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2871,16 +3125,16 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Version property after render.
     /// </summary>
@@ -2893,13 +3147,13 @@ public partial class WMSLayer : Layer,
         Version = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Version)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2908,17 +3162,18 @@ public partial class WMSLayer : Layer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "version", value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -2935,7 +3190,7 @@ public partial class WMSLayer : Layer,
             : [..FullExtents, ..values];
         await SetFullExtents(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the SpatialReferences property.
     /// </summary>
@@ -2949,7 +3204,7 @@ public partial class WMSLayer : Layer,
             : [..SpatialReferences, ..values];
         await SetSpatialReferences(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the Sublayers property.
     /// </summary>
@@ -2963,12 +3218,12 @@ public partial class WMSLayer : Layer,
             : [..Sublayers, ..values];
         await SetSublayers(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the FullExtents property.
     /// </summary>
@@ -2981,10 +3236,10 @@ public partial class WMSLayer : Layer,
         {
             return;
         }
+
         await SetFullExtents(FullExtents.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the SpatialReferences property.
     /// </summary>
@@ -2997,10 +3252,10 @@ public partial class WMSLayer : Layer,
         {
             return;
         }
+
         await SetSpatialReferences(SpatialReferences.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the Sublayers property.
     /// </summary>
@@ -3013,48 +3268,12 @@ public partial class WMSLayer : Layer,
         {
             return;
         }
+
         await SetSublayers(Sublayers.Except(values).ToArray());
     }
-    
+
 #endregion
 
-#region Public Methods
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerrefresh-method">GeoBlazor Docs</a>
-    ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public override async ValueTask Refresh()
-    {
-        await base.Refresh();
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "refresh", 
-            CancellationTokenSource.Token);
-    }
-    
-#endregion
 
 #region Event Handlers
 
@@ -3069,14 +3288,15 @@ public partial class WMSLayer : Layer,
             // cancel if the component is disposed
             return;
         }
-    
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
+
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
         }
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
@@ -3085,173 +3305,11 @@ public partial class WMSLayer : Layer,
     [Parameter]
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
-   
+
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasRefreshListener => OnRefresh.HasDelegate;
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent fullExtents:
-                FullExtents ??= [];
-                if (!FullExtents.Contains(fullExtents))
-                {
-                    FullExtents = [..FullExtents, fullExtents];
-                    ModifiedParameters[nameof(FullExtents)] = FullExtents;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case PortalItem portalItem:
-                if (portalItem != PortalItem)
-                {
-                    PortalItem = portalItem;
-                    ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case SpatialReference spatialReference:
-                if (spatialReference != SpatialReference)
-                {
-                    SpatialReference = spatialReference;
-                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case WMSSublayer sublayers:
-                Sublayers ??= [];
-                if (!Sublayers.Contains(sublayers))
-                {
-                    Sublayers = [..Sublayers, sublayers];
-                    ModifiedParameters[nameof(Sublayers)] = Sublayers;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case TimeExtent timeExtent:
-                if (timeExtent != TimeExtent)
-                {
-                    TimeExtent = timeExtent;
-                    ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case TimeInfo timeInfo:
-                if (timeInfo != TimeInfo)
-                {
-                    TimeInfo = timeInfo;
-                    ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case TimeInterval timeOffset:
-                if (timeOffset != TimeOffset)
-                {
-                    TimeOffset = timeOffset;
-                    ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent fullExtents:
-                FullExtents = FullExtents?.Where(f => f != fullExtents).ToList();
-                ModifiedParameters[nameof(FullExtents)] = FullExtents;
-                return true;
-            case PortalItem _:
-                PortalItem = null;
-                ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                return true;
-            case SpatialReference _:
-                SpatialReference = null;
-                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                return true;
-            case WMSSublayer sublayers:
-                Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
-                ModifiedParameters[nameof(Sublayers)] = Sublayers;
-                return true;
-            case TimeExtent _:
-                TimeExtent = null;
-                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-                return true;
-            case TimeInfo _:
-                TimeInfo = null;
-                ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
-                return true;
-            case TimeInterval _:
-                TimeOffset = null;
-                ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (FullExtents is not null)
-        {
-            foreach (Extent child in FullExtents)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        PortalItem?.ValidateRequiredGeneratedChildren();
-        SpatialReference?.ValidateRequiredGeneratedChildren();
-        if (Sublayers is not null)
-        {
-            foreach (WMSSublayer child in Sublayers)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        TimeExtent?.ValidateRequiredGeneratedChildren();
-        TimeInfo?.ValidateRequiredGeneratedChildren();
-        TimeOffset?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

@@ -1,3 +1,4 @@
+@using BlazorFrame
 @using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Pages
 <ErrorBoundary>
     @if (Isolated)
@@ -37,7 +38,7 @@
     [Parameter]
     [EditorRequired]
     public TestResult? Results { get; set; }
-    
+
     [Parameter]
     [EditorRequired]
     public required IJSObjectReference JsTestRunner { get; set; }
@@ -97,7 +98,7 @@
         }
     }
 
-    private async Task OnIsolatedTestMessage(BlazorFrame.IframeMessage message)
+    private async Task OnIsolatedTestMessage(IframeMessage message)
     {
         switch (message.MessageType)
         {
@@ -116,12 +117,10 @@
 
     private Dictionary<string, object?> Parameters => new() 
     { 
-        { nameof(OnTestResults), OnTestResults }, 
-        { nameof(Results), Results },
-        { nameof(JsTestRunner), JsTestRunner }
+        { nameof(OnTestResults), OnTestResults }, { nameof(Results), Results }, { nameof(JsTestRunner), JsTestRunner }
     };
 
-    private BlazorFrame.BlazorFrame? _isolatedFrame;
+    private BlazorFrame? _isolatedFrame;
     private DynamicComponent? _dynamicComponent;
     private bool _allowRender = true;
     private bool _expectingResult;
@@ -131,5 +130,5 @@
         NavigationManager.BaseUri.TrimEnd('/'),
         NavigationManager.ToAbsoluteUri("/test-frame").ToString()
     ];
-    private BlazorFrame.MessageSecurityOptions SecurityOptions => new() { AllowedOrigins = AllowedOrigins };
+    private MessageSecurityOptions SecurityOptions => new() { AllowedOrigins = AllowedOrigins };
 }

@@ -65,7 +65,7 @@ export default class SizeVariableGenerated extends BaseComponent {
             this.component.valueUnit = dotNetObject.valueUnit;
         }
     }
-    
+
     // region methods
     async flipSizes(): Promise<void> {
         this.component.flipSizes();

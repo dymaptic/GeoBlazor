@@ -21,7 +21,7 @@ public partial class LocateViewModel : MapComponent
     [CodeGenerationIgnore]
     public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
-        GoToOverrideParameters? goToParameters =  await jsStreamRef.ReadJsStreamReference<GoToOverrideParameters>();
+        GoToOverrideParameters? goToParameters =  await jsStreamRef.ReadJsStreamReferenceAsJSON<GoToOverrideParameters>();
         if (GoToOverride is not null && goToParameters is not null)
         {
             await GoToOverride.Invoke(goToParameters);
@@ -41,7 +41,7 @@ public partial class LocateViewModel : MapComponent
     [CodeGenerationIgnore]
     public async Task OnJsLocate(IJSStreamReference jsStreamRef)
     {
-        LocateViewModelLocateEvent? locateEvent =  await jsStreamRef.ReadJsStreamReference<LocateViewModelLocateEvent>();
+        LocateViewModelLocateEvent? locateEvent =  await jsStreamRef.ReadJsStreamReferenceAsJSON<LocateViewModelLocateEvent>();
         View!.ExtentChangedInJs = true;
         await OnLocate.InvokeAsync(locateEvent);
     }

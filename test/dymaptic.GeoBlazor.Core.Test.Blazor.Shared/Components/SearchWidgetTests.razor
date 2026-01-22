@@ -9,17 +9,16 @@
     [TestMethod]
     public async Task TestCanRenderSearchWidget(Action renderHandler)
     {
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget />
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery"/>
+                                     </Basemap>
+                                 </Map>
+                                 <SearchWidget/>
 
-            </MapView>);
+                             </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -32,7 +31,7 @@
         var resultsHandlerWasCalled = false;
 
         Task<IReadOnlyList<SearchResult>> GetResultsHandler(bool? exactMatch, Point? location, int? maxResults,
-            int? sourceIndex, SpatialReference? spatialReference, SuggestResult suggestResult, Guid? viewId)
+                int? sourceIndex, SpatialReference? spatialReference, SuggestResult suggestResult, Guid? viewId)
         {
             Assert.IsNotNull(viewId);
             resultsHandlerWasCalled = true;
@@ -40,20 +39,20 @@
             return Task.FromResult<IReadOnlyList<SearchResult>>(new List<SearchResult>());
         }
 
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget @ref="widget">
-                    <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-                                         GetResultsHandler="GetResultsHandler" />
-                </SearchWidget>
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery"/>
+                                     </Basemap>
+                                 </Map>
+                                 <SearchWidget @ref="widget">
+                                     <LocatorSearchSource
+                                             Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+                                             GetResultsHandler="GetResultsHandler"/>
+                                 </SearchWidget>
 
-            </MapView>);
+                             </MapView>);
 
         await WaitForMapToRender();
         await Task.Delay(1000);
@@ -70,7 +69,7 @@
         var suggestionsHandlerWasCalled = false;
 
         Task<IReadOnlyList<SuggestResult>> GetSuggestionsHandler(int? maxSuggestions, int? sourceIndex,
-            SpatialReference? spatialReference, string? suggestTerm, Guid? viewId)
+                SpatialReference? spatialReference, string? suggestTerm, Guid? viewId)
         {
             Assert.IsNotNull(viewId);
             suggestionsHandlerWasCalled = true;
@@ -78,20 +77,20 @@
             return Task.FromResult<IReadOnlyList<SuggestResult>>(new List<SuggestResult>());
         }
 
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget>
-                    <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-                                         GetSuggestionsHandler="GetSuggestionsHandler" />
-                </SearchWidget>
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery"/>
+                                     </Basemap>
+                                 </Map>
+                                 <SearchWidget>
+                                     <LocatorSearchSource
+                                             Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+                                             GetSuggestionsHandler="GetSuggestionsHandler"/>
+                                 </SearchWidget>
 
-            </MapView>);
+                             </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -113,17 +112,16 @@
     {
         SearchWidget? widget = null;
 
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget @ref="widget" />
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery"/>
+                                     </Basemap>
+                                 </Map>
+                                 <SearchWidget @ref="widget"/>
 
-            </MapView>);
+                             </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -167,17 +165,16 @@
             eventReceived = true;
         }
 
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget @ref="widget" OnSearchComplete="OnSearchComplete" />
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery"/>
+                                     </Basemap>
+                                 </Map>
+                                 <SearchWidget @ref="widget" OnSearchComplete="OnSearchComplete"/>
 
-            </MapView>);
+                             </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -187,6 +184,7 @@
 
         // Wait for the event to be received
         var tries = 50;
+
         while (!eventReceived && tries > 0)
         {
             await Task.Delay(100);
@@ -212,17 +210,16 @@
             eventReceived = true;
         }
 
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget @ref="widget" OnSearchComplete="OnSearchComplete" />
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery"/>
+                                     </Basemap>
+                                 </Map>
+                                 <SearchWidget @ref="widget" OnSearchComplete="OnSearchComplete"/>
 
-            </MapView>);
+                             </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -232,6 +229,7 @@
 
         // Wait for the event to be received
         var tries = 50;
+
         while (!eventReceived && tries > 0)
         {
             await Task.Delay(100);
@@ -268,17 +266,16 @@
             eventReceived = true;
         }
 
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget @ref="widget" OnSelectResult="OnSelectResult" />
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery"/>
+                                     </Basemap>
+                                 </Map>
+                                 <SearchWidget @ref="widget" OnSelectResult="OnSelectResult"/>
 
-            </MapView>);
+                             </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -288,6 +285,7 @@
 
         // Wait for the event to be received
         var tries = 50;
+
         while (!eventReceived && tries > 0)
         {
             await Task.Delay(100);
@@ -317,17 +315,16 @@
             eventReceived = true;
         }
 
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget @ref="widget" OnSelectResult="OnSelectResult" />
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery"/>
+                                     </Basemap>
+                                 </Map>
+                                 <SearchWidget @ref="widget" OnSelectResult="OnSelectResult"/>
 
-            </MapView>);
+                             </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -337,6 +334,7 @@
 
         // Wait for the event to be received
         var tries = 50;
+
         while (!eventReceived && tries > 0)
         {
             await Task.Delay(100);
@@ -351,10 +349,12 @@
 
         // Verify the extent has valid coordinates (Extent properties are non-nullable doubles)
         Assert.IsNotNull(receivedEvent.Result.Extent, "Result should have an extent");
+
         // Verify the extent has reasonable coordinate values (not default 0 for all)
         var extent = receivedEvent.Result.Extent;
+
         Assert.IsTrue(extent.Xmin != 0 || extent.Xmax != 0 || extent.Ymin != 0 || extent.Ymax != 0,
-            "Extent should have at least one non-zero coordinate value");
+                "Extent should have at least one non-zero coordinate value");
     }
 
     [TestMethod]
@@ -378,19 +378,18 @@
             selectResultReceived = true;
         }
 
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                    </Basemap>
-                </Map>
-                <SearchWidget @ref="widget"
-                              OnSearchComplete="OnSearchComplete"
-                              OnSelectResult="OnSelectResult" />
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery"/>
+                                     </Basemap>
+                                 </Map>
+                                 <SearchWidget @ref="widget"
+                                               OnSearchComplete="OnSearchComplete"
+                                               OnSelectResult="OnSelectResult"/>
 
-            </MapView>);
+                             </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -400,6 +399,7 @@
 
         // Wait for both events to be received
         var tries = 50;
+
         while ((!searchCompleteReceived || !selectResultReceived) && tries > 0)
         {
             await Task.Delay(100);
@@ -415,4 +415,5 @@
         Assert.IsNotNull(selectResultEvent);
         Assert.IsNotNull(selectResultEvent.Result);
     }
+
 }

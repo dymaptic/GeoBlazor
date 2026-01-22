@@ -25,9 +25,9 @@
     @{
 #endif
     }
-    <Routes RunOnStart="@_runOnStart"
-            TestFilter="@_testFilter"
-            @rendermode="@_configuredRenderMode" />
+        <Routes RunOnStart="@_runOnStart"
+                TestFilter="@_testFilter"
+                @rendermode="@_configuredRenderMode"/>
         <script src="@Assets["_framework/blazor.web.js"]"></script>
     </body>
 </html>
@@ -59,7 +59,7 @@
 #endif
         _runOnStart = Configuration.GetValue("RunOnStart", false);
         _testFilter = Configuration.GetValue<string?>("TestFilter");
-        
+
         Uri uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
         Dictionary<string, StringValues> queryDict = QueryHelpers.ParseQuery(uri.Query);
 
@@ -86,10 +86,10 @@
                     {
                         _configuredRenderMode = queryRenderModeValue.ToLowerInvariant() switch
                         {
-                            "server" => InteractiveServer,
-                            "webassembly" => InteractiveWebAssembly,
-                            "wasm" => InteractiveWebAssembly,
-                            _ => InteractiveAuto
+                                "server" => InteractiveServer,
+                                "webassembly" => InteractiveWebAssembly,
+                                "wasm" => InteractiveWebAssembly,
+                                _ => InteractiveAuto
                         };
                     }
 
@@ -97,7 +97,7 @@
             }
         }
     }
-    
+
     private bool _runOnStart;
     private string? _testFilter;
 

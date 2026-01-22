@@ -41,7 +41,7 @@ export default class LocateViewModelGenerated extends BaseComponent {
             this.component.scale = dotNetObject.scale;
         }
     }
-    
+
     // region methods
     async cancelLocate(): Promise<void> {
         this.component.cancelLocate();

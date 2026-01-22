@@ -17,18 +17,17 @@ public partial record ArcGISImageServiceFetchPixelsOptions(
     /// <summary>
     ///     Parameterless constructor
     /// </summary>
-    public ArcGISImageServiceFetchPixelsOptions(): this(null, null)
+    public ArcGISImageServiceFetchPixelsOptions() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     
     /// </summary>
     public bool? ApplyRendering { get; set; } = ApplyRendering;
-    
+
     /// <summary>
     ///     
     /// </summary>
     public Interpolation? Interpolation { get; set; } = Interpolation;
-    
 }

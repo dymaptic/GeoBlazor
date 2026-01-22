@@ -41,7 +41,7 @@ export default class HomeWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async cancelGo(): Promise<void> {
         this.widget.cancelGo();
@@ -318,7 +318,7 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any, layerId: str
 
     if (hasValue(dotNetHomeWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetHomeWidget.id)) {
-            let { default: HomeWidgetWrapper } = await import('./homeWidget');
+            let {default: HomeWidgetWrapper} = await import('./homeWidget');
             let homeWidgetWrapper = new HomeWidgetWrapper(jsObject);
             homeWidgetWrapper.geoBlazorId = dotNetHomeWidget.id;
             homeWidgetWrapper.viewId = viewId;

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ImageryLayerView.html">GeoBlazor Docs</a>
 ///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>
@@ -12,7 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class ImageryLayerView : LayerView
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -38,8 +36,7 @@ public partial class ImageryLayerView : LayerView
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public ImageryLayerView(
-        HighlightOptions? highlightOptions = null,
+    public ImageryLayerView(HighlightOptions? highlightOptions = null,
         PixelData? pixelData = null,
         bool? visible = null)
     {
@@ -50,10 +47,10 @@ public partial class ImageryLayerView : LayerView
 #pragma warning restore CS0618 // Type or member is obsolete
         PixelData = pixelData;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -66,8 +63,9 @@ public partial class ImageryLayerView : LayerView
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PixelData? PixelData { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -80,8 +78,8 @@ public partial class ImageryLayerView : LayerView
         {
             return PixelData;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -90,7 +88,7 @@ public partial class ImageryLayerView : LayerView
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PixelData;
@@ -98,7 +96,7 @@ public partial class ImageryLayerView : LayerView
 
         PixelData? result = await JsComponentReference.InvokeAsync<PixelData?>(
             "getPixelData", CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -106,11 +104,12 @@ public partial class ImageryLayerView : LayerView
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PixelData)] = PixelData;
         }
-        
+
         return PixelData;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -125,19 +124,19 @@ public partial class ImageryLayerView : LayerView
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         PixelData = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PixelData)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -146,22 +145,25 @@ public partial class ImageryLayerView : LayerView
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidAsync("setPixelData", 
+
+        await JsComponentReference.InvokeVoidAsync("setPixelData",
             CancellationTokenSource.Token, value);
     }
-    
-#endregion
-
-#region Public Methods
 
 #endregion
 
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        PixelData?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -174,7 +176,7 @@ public partial class ImageryLayerView : LayerView
                     PixelData = pixelData;
                     ModifiedParameters[nameof(PixelData)] = PixelData;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -189,18 +191,15 @@ public partial class ImageryLayerView : LayerView
             case PixelData _:
                 PixelData = null;
                 ModifiedParameters[nameof(PixelData)] = PixelData;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        PixelData?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
+
+
+#region Public Methods
+
+#endregion
 }

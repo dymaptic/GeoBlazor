@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+[ProtobufSerializable]
 public partial class RelationshipPopupContent : PopupContent
 {
-
-
     /// <inheritdoc />
     public override PopupContentType Type => PopupContentType.Relationship;
 
@@ -49,14 +48,15 @@ public partial class RelationshipPopupContent : PopupContent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
-    internal override PopupContentSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {
             Description = Description,
             DisplayCount = DisplayCount,
             DisplayType = DisplayType,
-            OrderByFields = OrderByFields?.Select(r => r.ToSerializationRecord()).ToArray(),
+            OrderByFields = OrderByFields?.Select(r => r.ToProtobuf()).ToArray(),
             RelationshipId = RelationshipId,
             Title = Title
         };

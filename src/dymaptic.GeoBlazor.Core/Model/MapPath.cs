@@ -5,7 +5,8 @@
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MapPathConverter))]
-public class MapPath : List<MapPoint>, IEquatable<MapPath>
+[ProtobufSerializable]
+public class MapPath : List<MapPoint>, IEquatable<MapPath>, IProtobufSerializable<MapPathSerializationRecord>
 {
     /// <summary>
     ///     Implicitly converts a <see cref="MapPath" /> to a <see cref="MapPoint" />.
@@ -79,10 +80,10 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
 
         return newPath;
     }
-
-    internal MapPathSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public MapPathSerializationRecord ToProtobuf()
     {
-        return new MapPathSerializationRecord(this.Select(p => p.ToSerializationRecord()).ToArray());
+        return new MapPathSerializationRecord(this.Select(p => p.ToProtobuf()).ToArray());
     }
 }
 
@@ -90,7 +91,8 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
 ///     This is another representation of <see cref="Point" /> that should be used to create <see cref="MapPath" />s.
 /// </summary>
 [JsonConverter(typeof(MapPointConverter))]
-public class MapPoint : List<double>, IEquatable<MapPoint>
+[ProtobufSerializable]
+public class MapPoint : List<double>, IEquatable<MapPoint>, IProtobufSerializable<MapPointSerializationRecord>
 {
     /// <summary>
     ///     Implicitly converts a <see cref="MapPoint" /> to a <see cref="MapPath" />.
@@ -145,52 +147,11 @@ public class MapPoint : List<double>, IEquatable<MapPoint>
         return new MapPoint(this);
     }
 
-    internal MapPointSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public MapPointSerializationRecord ToProtobuf()
     {
         return new MapPointSerializationRecord(ToArray());
     }
-}
-
-[ProtoContract(Name = "MapPath")]
-internal record MapPathSerializationRecord
-{
-    public MapPathSerializationRecord()
-    {
-    }
-    
-    public MapPathSerializationRecord(MapPointSerializationRecord[] Points)
-    {
-        this.Points = Points;
-    }
-
-    public MapPath FromSerializationRecord()
-    {
-        return new MapPath(Points.Select(p => p.FromSerializationRecord()));
-    }
-
-    [ProtoMember(1)]
-    public MapPointSerializationRecord[] Points { get; init; } = []; 
-}
-
-[ProtoContract(Name = "MapPoint")]
-internal record MapPointSerializationRecord
-{
-    public MapPointSerializationRecord()
-    {
-    }
-    
-    public MapPointSerializationRecord(double[] Coordinates)
-    {
-        this.Coordinates = Coordinates;
-    }
-
-    public MapPoint FromSerializationRecord()
-    {
-        return new MapPoint(Coordinates);
-    }
-
-    [ProtoMember(1)]
-    public double[] Coordinates { get; init; } = [];
 }
 
 internal class MapPointEqualityComparer : EqualityComparer<MapPoint>

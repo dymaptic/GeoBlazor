@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build: 
-    runs-on: [self-hosted, Windows, X64]
+  build:
+    runs-on: [ self-hosted, Windows, X64 ]
     timeout-minutes: 90
     outputs:
       token: ${{ steps.app-token.outputs.token }}
@@ -34,7 +34,7 @@ jobs:
         token: ${{ steps.app-token.outputs.token }}
         repository: ${{ github.repository }}
         ref: ${{ github.ref }}
-      
+
     - name: Run Tests
       shell: pwsh
       env:
@@ -50,8 +50,8 @@ jobs:
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        ./GeoBlazorBuild.ps1 -xml -pkg -pub -c "Release"
-    
+        dotnet ./build-tools/GeoBlazorBuild.dll -xml -pkg -pub -c "Release"
+      
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint
       shell: bash
@@ -71,7 +71,7 @@ jobs:
       with:
         name: .core-nuget
         path: ./dymaptic.GeoBlazor.Core.*.nupkg
-        
+      
       # This step will copy the PR description to an environment variable
     - name: Copy PR Release Notes
       run: |

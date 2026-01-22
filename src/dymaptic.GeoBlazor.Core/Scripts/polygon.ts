@@ -130,6 +130,6 @@ export default class PolygonWrapper extends PolygonGenerated {
     constructor(component: Polygon) {
         super(component);
     }
-    
+
 }
 

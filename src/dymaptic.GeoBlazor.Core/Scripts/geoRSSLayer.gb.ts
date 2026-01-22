@@ -78,15 +78,15 @@ export default class GeoRSSLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -471,7 +471,7 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, layerId: st
 
     if (hasValue(dotNetGeoRSSLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetGeoRSSLayer.id)) {
-            let { default: GeoRSSLayerWrapper } = await import('./geoRSSLayer');
+            let {default: GeoRSSLayerWrapper} = await import('./geoRSSLayer');
             let geoRSSLayerWrapper = new GeoRSSLayerWrapper(jsObject);
             geoRSSLayerWrapper.geoBlazorId = dotNetGeoRSSLayer.id;
             geoRSSLayerWrapper.viewId = viewId;

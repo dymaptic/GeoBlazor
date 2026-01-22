@@ -96,7 +96,7 @@ export default class SearchViewModelGenerated extends BaseComponent {
             this.component.suggestionsEnabled = dotNetObject.suggestionsEnabled;
         }
     }
-    
+
     // region methods
     async clear(): Promise<void> {
         this.component.clear();
@@ -415,9 +415,9 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     
     if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
         jsSearchViewModel.on('search-complete', async (evt: any) => {
-                let { buildDotNetSearchViewModelSearchCompleteEvent } = await import('./searchViewModelSearchCompleteEvent');
-                let dnEvent = await buildDotNetSearchViewModelSearchCompleteEvent(evt, viewId);
-                let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let {buildDotNetSearchViewModelSearchCompleteEvent} = await import('./searchViewModelSearchCompleteEvent');
+            let dnEvent = await buildDotNetSearchViewModelSearchCompleteEvent(evt, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
             });
     }
@@ -431,18 +431,18 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     
     if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
         jsSearchViewModel.on('select-result', async (evt: any) => {
-                let { buildDotNetSearchViewModelSelectResultEvent } = await import('./searchViewModelSelectResultEvent');
-                let dnEvent = await buildDotNetSearchViewModelSelectResultEvent(evt, layerId, viewId);
-                let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let {buildDotNetSearchViewModelSelectResultEvent} = await import('./searchViewModelSelectResultEvent');
+            let dnEvent = await buildDotNetSearchViewModelSelectResultEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
             });
     }
     
     if (hasValue(dotNetObject.hasSuggestCompleteListener) && dotNetObject.hasSuggestCompleteListener) {
         jsSearchViewModel.on('suggest-complete', async (evt: any) => {
-                let { buildDotNetSearchViewModelSuggestCompleteEvent } = await import('./searchViewModelSuggestCompleteEvent');
-                let dnEvent = await buildDotNetSearchViewModelSuggestCompleteEvent(evt, viewId);
-                let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let {buildDotNetSearchViewModelSuggestCompleteEvent} = await import('./searchViewModelSuggestCompleteEvent');
+            let dnEvent = await buildDotNetSearchViewModelSuggestCompleteEvent(evt, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
                 await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', streamRef);
             });
     }
@@ -641,7 +641,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
 
     if (hasValue(dotNetSearchViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetSearchViewModel.id)) {
-            let { default: SearchViewModelWrapper } = await import('./searchViewModel');
+            let {default: SearchViewModelWrapper} = await import('./searchViewModel');
             let searchViewModelWrapper = new SearchViewModelWrapper(jsObject);
             searchViewModelWrapper.geoBlazorId = dotNetSearchViewModel.id;
             searchViewModelWrapper.viewId = viewId;

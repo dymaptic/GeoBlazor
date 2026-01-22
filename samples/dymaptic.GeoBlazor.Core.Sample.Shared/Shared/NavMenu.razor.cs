@@ -4,7 +4,7 @@ using Microsoft.JSInterop;
 
 namespace dymaptic.GeoBlazor.Core.Sample.Shared.Shared;
 
-public partial class NavMenu: IDisposable
+public partial class NavMenu
 {
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
@@ -21,17 +21,6 @@ public partial class NavMenu: IDisposable
     protected IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(SearchText)
         ? Pages
         : Pages.Where(p => p.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
-    
-    public void Dispose()
-    {
-        _dotNetRef?.Dispose();
-    }
-
-    [JSInvokable]
-    public void OnScroll(double scrollTop)
-    {
-        _scrollTop = scrollTop;
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -47,9 +36,12 @@ public partial class NavMenu: IDisposable
             string currentPage = NavigationManager
                 .ToBaseRelativePath(NavigationManager.Uri)
                 .Replace("source-code/", "");
-            await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
-            _dotNetRef = DotNetObjectReference.Create(this);
-            await JsRuntime.InvokeVoidAsync("trackScrollPosition", Navbar, _dotNetRef);
+
+            if (currentPage != string.Empty)
+            {
+                await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
+            }
+            
             StateHasChanged();
         }
 
@@ -89,8 +81,6 @@ public partial class NavMenu: IDisposable
 
     protected virtual bool CollapseNavMenu { get; set; } = true;
     protected ElementReference? Navbar;
-    private DotNetObjectReference<NavMenu>? _dotNetRef;
-    private double _scrollTop;
     public virtual PageLink[] Pages =>
     [
         new("", "Home", "oi-home"),

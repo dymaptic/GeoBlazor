@@ -36,14 +36,16 @@
                 }
             </select>
         }
-        <a class="btn btn-primary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html">Basemap Style Service</a>
+        <a class="btn btn-primary" target="_blank"
+           href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html">Basemap
+            Style Service</a>
     </div>
     <div class="toggle-row">
         <label class="radio-container">
             3D Scene Styles
-            <input type="radio" 
-                   name="basemap-type" @onclick="@(() => SetBasemap(2))" />
-            <div class="radio-box" />
+            <input type="radio"
+                   name="basemap-type" @onclick="@(() => SetBasemap(2))"/>
+            <div class="radio-box"/>
         </label>
         @if (_basemapType == 2)
         {
@@ -60,7 +62,7 @@
         <label class="radio-container">
             From Portal Id
             <input type="radio"
-                   name="basemap-type" @onclick="@(() => SetBasemap(3))" />
+                   name="basemap-type" @onclick="@(() => SetBasemap(3))"/>
             <div class="radio-box"></div>
         </label>
         @if (_basemapType == 3)
@@ -84,7 +86,7 @@
         <label class="radio-container">
             From Tile Layers
             <input type="radio"
-                   name="basemap-type" @onclick="@(() => SetBasemap(4))" />
+                   name="basemap-type" @onclick="@(() => SetBasemap(4))"/>
             <div class="radio-box" />
         </label>
         <a class="btn btn-secondary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1b243539f4514b6ba35e7d995890db1d">World Hillshade Tile Layer</a>
@@ -114,10 +116,11 @@
         <SceneView @ref="_sceneView2" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
-                    <BasemapStyle Name="_basemapStyleName" />
+                    <BasemapStyle Name="_basemapStyleName"/>
                 </Basemap>
             </Map>
         </SceneView>
+
         break;
     case 3:
         <MapView @ref="_mapView3" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
@@ -157,7 +160,7 @@
         _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!, true);
         await _mapView1!.Refresh();
     }
-    
+
     private async Task SelectSceneStyleMapChanged(ChangeEventArgs obj)
     {
         _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!, true);

@@ -104,7 +104,7 @@ export default class PortalItemGenerated extends BaseComponent {
             this.component.url = dotNetObject.url;
         }
     }
-    
+
     // region methods
     async addRating(rating: any): Promise<any> {
         return await this.component.addRating(rating);
@@ -112,8 +112,8 @@ export default class PortalItemGenerated extends BaseComponent {
 
     async addResource(resource: any,
         content: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+                      options: any,
+                      signal: AbortSignal): Promise<any> {
         options.signal = signal;
         let { buildJsPortalItemResource } = await import('./portalItemResource');
         let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
@@ -131,20 +131,20 @@ export default class PortalItemGenerated extends BaseComponent {
     }
 
     async fetchData(responseType: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                    signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.component.fetchData(responseType,
             options);
     }
 
     async fetchRating(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.fetchRating(options);
     }
 
     async fetchRelatedItems(parameters: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                            signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.component.fetchRelatedItems(parameters,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -152,8 +152,8 @@ export default class PortalItemGenerated extends BaseComponent {
     }
 
     async fetchResources(parameters: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                         signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.component.fetchResources(parameters,
             options);
     }
@@ -175,7 +175,7 @@ export default class PortalItemGenerated extends BaseComponent {
     }
 
     async load(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.load(options);
     }
 
@@ -186,13 +186,13 @@ export default class PortalItemGenerated extends BaseComponent {
     }
 
     async removeAllResources(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.removeAllResources(options);
     }
 
     async removeResource(resource: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                         signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsPortalItemResource } = await import('./portalItemResource');
         let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
         return await this.component.removeResource(jsResource,
@@ -218,7 +218,7 @@ export default class PortalItemGenerated extends BaseComponent {
     }
 
     // region properties
-    
+
     async getAccessInformation(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -234,7 +234,7 @@ export default class PortalItemGenerated extends BaseComponent {
     setAccessInformation(value: any): void {
         this.component.accessInformation = JSON.parse(value);
     }
-    
+
     async getApiKey(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -250,7 +250,7 @@ export default class PortalItemGenerated extends BaseComponent {
     setApiKey(value: any): void {
         this.component.apiKey = JSON.parse(value);
     }
-    
+
     async getCulture(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -266,7 +266,7 @@ export default class PortalItemGenerated extends BaseComponent {
     setCulture(value: any): void {
         this.component.culture = JSON.parse(value);
     }
-    
+
     async getDescription(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -300,7 +300,7 @@ export default class PortalItemGenerated extends BaseComponent {
         let { buildJsExtent } = await import('./extent');
         this.component.extent =  buildJsExtent(value);
     }
-    
+
     async getItemPageUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -312,7 +312,7 @@ export default class PortalItemGenerated extends BaseComponent {
         
         return generateSerializableJson(this.component.itemPageUrl);
     }
-    
+
     async getItemUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -324,7 +324,7 @@ export default class PortalItemGenerated extends BaseComponent {
         
         return generateSerializableJson(this.component.itemUrl);
     }
-    
+
     async getLicenseInfo(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -340,7 +340,7 @@ export default class PortalItemGenerated extends BaseComponent {
     setLicenseInfo(value: any): void {
         this.component.licenseInfo = JSON.parse(value);
     }
-    
+
     async getName(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -356,7 +356,7 @@ export default class PortalItemGenerated extends BaseComponent {
     setName(value: any): void {
         this.component.name = JSON.parse(value);
     }
-    
+
     async getOwner(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -372,7 +372,7 @@ export default class PortalItemGenerated extends BaseComponent {
     setOwner(value: any): void {
         this.component.owner = JSON.parse(value);
     }
-    
+
     async getOwnerFolder(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -406,7 +406,7 @@ export default class PortalItemGenerated extends BaseComponent {
         let { buildJsPortal } = await import('./portal');
         this.component.portal =  buildJsPortal(value, this.layerId, this.viewId);
     }
-    
+
     async getPortalItemId(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -422,7 +422,7 @@ export default class PortalItemGenerated extends BaseComponent {
     setPortalItemId(value: any): void {
         this.component.id = JSON.parse(value);
     }
-    
+
     async getSnippet(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -438,7 +438,7 @@ export default class PortalItemGenerated extends BaseComponent {
     setSnippet(value: any): void {
         this.component.snippet = JSON.parse(value);
     }
-    
+
     async getSourceJSON(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -450,7 +450,7 @@ export default class PortalItemGenerated extends BaseComponent {
         
         return generateSerializableJson(this.component.sourceJSON);
     }
-    
+
     async getTitle(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -466,7 +466,7 @@ export default class PortalItemGenerated extends BaseComponent {
     setTitle(value: any): void {
         this.component.title = JSON.parse(value);
     }
-    
+
     async getUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -769,7 +769,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: str
 
     if (hasValue(dotNetPortalItem.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetPortalItem.id)) {
-            let { default: PortalItemWrapper } = await import('./portalItem');
+            let {default: PortalItemWrapper} = await import('./portalItem');
             let portalItemWrapper = new PortalItemWrapper(jsObject);
             portalItemWrapper.geoBlazorId = dotNetPortalItem.id;
             portalItemWrapper.viewId = viewId;

@@ -36,7 +36,7 @@ export default class GeoJSONLayerViewWrapper extends GeoJSONLayerViewGenerated {
 export async function buildJsGeoJSONLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsGeoJSONLayerViewGenerated } = await import('./geoJSONLayerView.gb');
     return await buildJsGeoJSONLayerViewGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetGeoJSONLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGeoJSONLayerViewGenerated } = await import('./geoJSONLayerView.gb');

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BarChartMediaInfo.html">GeoBlazor Docs</a>
 ///     A `BarChartMediaInfo` is a type of chart media element that represents a bar chart displayed within a popup.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class BarChartMediaInfo : IChartMediaInfo
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -38,8 +36,7 @@ public partial class BarChartMediaInfo : IChartMediaInfo
     ///     Defines the chart value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public BarChartMediaInfo(
-        string? title = null,
+    public BarChartMediaInfo(string? title = null,
         string? caption = null,
         string? altText = null,
         ChartMediaInfoValue? value = null)
@@ -50,10 +47,10 @@ public partial class BarChartMediaInfo : IChartMediaInfo
         Caption = caption;
         AltText = altText;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -65,8 +62,9 @@ public partial class BarChartMediaInfo : IChartMediaInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -79,8 +77,8 @@ public partial class BarChartMediaInfo : IChartMediaInfo
         {
             return Value;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -89,15 +87,15 @@ public partial class BarChartMediaInfo : IChartMediaInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Value;
         }
 
-        ChartMediaInfoValue? result = await JsComponentReference.InvokeAsync<ChartMediaInfoValue?>(
-            "getValue", CancellationTokenSource.Token);
-        
+        ChartMediaInfoValue? result =
+            await JsComponentReference.InvokeAsync<ChartMediaInfoValue?>("getValue", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -105,11 +103,12 @@ public partial class BarChartMediaInfo : IChartMediaInfo
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Value)] = Value;
         }
-        
+
         return Value;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -124,19 +123,19 @@ public partial class BarChartMediaInfo : IChartMediaInfo
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         Value = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Value)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -145,18 +144,25 @@ public partial class BarChartMediaInfo : IChartMediaInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
     }
-    
+
 #endregion
 
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Value?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -169,7 +175,7 @@ public partial class BarChartMediaInfo : IChartMediaInfo
                     Value = value;
                     ModifiedParameters[nameof(Value)] = Value;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -184,18 +190,10 @@ public partial class BarChartMediaInfo : IChartMediaInfo
             case ChartMediaInfoValue _:
                 Value = null;
                 ModifiedParameters[nameof(Value)] = Value;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Value?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

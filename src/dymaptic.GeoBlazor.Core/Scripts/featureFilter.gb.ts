@@ -41,7 +41,7 @@ export default class FeatureFilterGenerated extends BaseComponent {
             this.component.where = dotNetObject.where;
         }
     }
-    
+
     // region methods
     async createQuery(): Promise<any> {
         return this.component.createQuery();
@@ -192,7 +192,7 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: 
 
     if (hasValue(dotNetFeatureFilter.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetFeatureFilter.id)) {
-            let { default: FeatureFilterWrapper } = await import('./featureFilter');
+            let {default: FeatureFilterWrapper} = await import('./featureFilter');
             let featureFilterWrapper = new FeatureFilterWrapper(jsObject);
             featureFilterWrapper.geoBlazorId = dotNetFeatureFilter.id;
             featureFilterWrapper.viewId = viewId;

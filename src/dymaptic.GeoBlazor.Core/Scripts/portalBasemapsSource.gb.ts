@@ -29,7 +29,7 @@ export default class PortalBasemapsSourceGenerated extends BaseComponent {
             this.component.query = dotNetObject.query;
         }
     }
-    
+
     // region methods
     async refresh(): Promise<any> {
         return await this.component.refresh();
@@ -182,7 +182,7 @@ export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any, la
 
     if (hasValue(dotNetPortalBasemapsSource.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetPortalBasemapsSource.id)) {
-            let { default: PortalBasemapsSourceWrapper } = await import('./portalBasemapsSource');
+            let {default: PortalBasemapsSourceWrapper} = await import('./portalBasemapsSource');
             let portalBasemapsSourceWrapper = new PortalBasemapsSourceWrapper(jsObject);
             portalBasemapsSourceWrapper.geoBlazorId = dotNetPortalBasemapsSource.id;
             portalBasemapsSourceWrapper.viewId = viewId;

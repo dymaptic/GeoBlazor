@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Position.html">GeoBlazor Docs</a>
 ///     Describes a point in terms of a location, a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a>, and a coordinate, a string.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class Position : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -30,18 +28,57 @@ public partial class Position : MapComponent
     ///     A point geometry representing the location described by the conversion.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CoordinateConversion-CoordinateConversionViewModel.html#Position">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Position(
-        string? coordinate = null,
+    public Position(string? coordinate = null,
         Point? location = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Coordinate = coordinate;
         Location = location;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Location?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Point location:
+                if (location != Location)
+                {
+                    Location = location;
+                    ModifiedParameters[nameof(Location)] = Location;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Point _:
+                Location = null;
+                ModifiedParameters[nameof(Location)] = Location;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -53,7 +90,7 @@ public partial class Position : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Coordinate { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Position.html#positionlocation-property">GeoBlazor Docs</a>
     ///     A point geometry representing the location described by the conversion.
@@ -63,8 +100,9 @@ public partial class Position : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Point? Location { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -77,8 +115,8 @@ public partial class Position : MapComponent
         {
             return Coordinate;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -87,7 +125,7 @@ public partial class Position : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Coordinate;
@@ -96,17 +134,18 @@ public partial class Position : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "coordinate");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Coordinate = result;
+            Coordinate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Coordinate)] = Coordinate;
+            ModifiedParameters[nameof(Coordinate)] = Coordinate;
         }
-         
+
         return Coordinate;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Location property.
     /// </summary>
@@ -116,8 +155,8 @@ public partial class Position : MapComponent
         {
             return Location;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -126,33 +165,34 @@ public partial class Position : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Location;
         }
 
-        Point? result = await JsComponentReference.InvokeAsync<Point?>(
-            "getLocation", CancellationTokenSource.Token);
-        
+        Point? result = await JsComponentReference.InvokeAsync<Point?>("getLocation", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Location is not null)
             {
                 result.Id = Location.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             Location = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Location)] = Location;
         }
-        
+
         return Location;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -168,13 +208,13 @@ public partial class Position : MapComponent
         Coordinate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Coordinate)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -183,16 +223,16 @@ public partial class Position : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "coordinate", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Location property after render.
     /// </summary>
@@ -204,19 +244,19 @@ public partial class Position : MapComponent
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         Location = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Location)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -225,57 +265,15 @@ public partial class Position : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "location", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Point location:
-                if (location != Location)
-                {
-                    Location = location;
-                    ModifiedParameters[nameof(Location)] = Location;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Point _:
-                Location = null;
-                ModifiedParameters[nameof(Location)] = Location;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Location?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

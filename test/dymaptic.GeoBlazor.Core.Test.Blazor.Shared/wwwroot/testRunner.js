@@ -18,7 +18,7 @@ export function initialize(core, wfsServers) {
     if (!wfsServers) {
         return;
     }
-    
+
     core.esriConfig.request.interceptors.push({
         before: (params) => {
             if (wfsServers) {

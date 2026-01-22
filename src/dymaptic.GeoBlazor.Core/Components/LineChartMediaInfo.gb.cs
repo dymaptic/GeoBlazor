@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LineChartMediaInfo.html">GeoBlazor Docs</a>
 ///     A `LineChartMediaInfo` is a type of chart media element
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LineChartMediaInfo : IChartMediaInfo
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -39,8 +37,7 @@ public partial class LineChartMediaInfo : IChartMediaInfo
     ///     Defines the chart value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public LineChartMediaInfo(
-        string? title = null,
+    public LineChartMediaInfo(string? title = null,
         string? caption = null,
         string? altText = null,
         ChartMediaInfoValue? value = null)
@@ -51,10 +48,10 @@ public partial class LineChartMediaInfo : IChartMediaInfo
         Caption = caption;
         AltText = altText;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -66,8 +63,9 @@ public partial class LineChartMediaInfo : IChartMediaInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -80,8 +78,8 @@ public partial class LineChartMediaInfo : IChartMediaInfo
         {
             return Value;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -90,15 +88,15 @@ public partial class LineChartMediaInfo : IChartMediaInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Value;
         }
 
-        ChartMediaInfoValue? result = await JsComponentReference.InvokeAsync<ChartMediaInfoValue?>(
-            "getValue", CancellationTokenSource.Token);
-        
+        ChartMediaInfoValue? result =
+            await JsComponentReference.InvokeAsync<ChartMediaInfoValue?>("getValue", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -106,11 +104,12 @@ public partial class LineChartMediaInfo : IChartMediaInfo
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Value)] = Value;
         }
-        
+
         return Value;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -125,19 +124,19 @@ public partial class LineChartMediaInfo : IChartMediaInfo
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
+        }
+
 #pragma warning disable BL0005
         Value = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Value)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -146,18 +145,25 @@ public partial class LineChartMediaInfo : IChartMediaInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
     }
-    
+
 #endregion
 
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Value?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -170,7 +176,7 @@ public partial class LineChartMediaInfo : IChartMediaInfo
                     Value = value;
                     ModifiedParameters[nameof(Value)] = Value;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -185,18 +191,10 @@ public partial class LineChartMediaInfo : IChartMediaInfo
             case ChartMediaInfoValue _:
                 Value = null;
                 ModifiedParameters[nameof(Value)] = Value;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Value?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

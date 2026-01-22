@@ -211,7 +211,7 @@ export default class PortalGenerated extends BaseComponent {
             this.component.vectorBasemapGalleryGroupQuery = dotNetObject.vectorBasemapGalleryGroupQuery;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.component.cancelLoad();
@@ -222,8 +222,8 @@ export default class PortalGenerated extends BaseComponent {
     }
 
     async fetchBasemaps(basemapGalleryGroupQuery: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+                        options: any,
+                        signal: AbortSignal): Promise<any> {
         options.signal = signal;
         let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
             options);
@@ -232,36 +232,36 @@ export default class PortalGenerated extends BaseComponent {
     }
 
     async fetchCategorySchema(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.fetchCategorySchema(options);
     }
 
     async fetchClassificationSchema(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.fetchClassificationSchema(options);
     }
 
     async fetchDefault3DBasemap(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         let result = await this.component.fetchDefault3DBasemap(options);
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(result, this.layerId, this.viewId);
     }
 
     async fetchFeaturedGroups(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         let result = await this.component.fetchFeaturedGroups(options);
         let { buildDotNetPortalGroup } = await import('./portalGroup');
         return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
 
     async fetchRegions(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.fetchRegions(options);
     }
 
     async fetchSettings(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.fetchSettings(options);
     }
 
@@ -278,13 +278,13 @@ export default class PortalGenerated extends BaseComponent {
     }
 
     async load(signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+        let options = {signal: signal};
         return await this.component.load(options);
     }
 
     async queryGroups(queryParams: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                      signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryGroups(jsQueryParams,
@@ -292,8 +292,8 @@ export default class PortalGenerated extends BaseComponent {
     }
 
     async queryItems(queryParams: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                     signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryItems(jsQueryParams,
@@ -301,8 +301,8 @@ export default class PortalGenerated extends BaseComponent {
     }
 
     async queryUsers(queryParams: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                     signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryUsers(jsQueryParams,
@@ -316,7 +316,7 @@ export default class PortalGenerated extends BaseComponent {
     }
 
     // region properties
-    
+
     async getBasemapGalleryGroupQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -332,7 +332,7 @@ export default class PortalGenerated extends BaseComponent {
     setBasemapGalleryGroupQuery(value: any): void {
         this.component.basemapGalleryGroupQuery = JSON.parse(value);
     }
-    
+
     async getBasemapGalleryGroupQuery3D(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -348,7 +348,7 @@ export default class PortalGenerated extends BaseComponent {
     setBasemapGalleryGroupQuery3D(value: any): void {
         this.component.basemapGalleryGroupQuery3D = JSON.parse(value);
     }
-    
+
     async getBingKey(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -364,7 +364,7 @@ export default class PortalGenerated extends BaseComponent {
     setBingKey(value: any): void {
         this.component.bingKey = JSON.parse(value);
     }
-    
+
     async getColorSetsGroupQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -380,7 +380,7 @@ export default class PortalGenerated extends BaseComponent {
     setColorSetsGroupQuery(value: any): void {
         this.component.colorSetsGroupQuery = JSON.parse(value);
     }
-    
+
     async getCulture(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -396,7 +396,7 @@ export default class PortalGenerated extends BaseComponent {
     setCulture(value: any): void {
         this.component.culture = JSON.parse(value);
     }
-    
+
     async getCustomBaseUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -412,7 +412,7 @@ export default class PortalGenerated extends BaseComponent {
     setCustomBaseUrl(value: any): void {
         this.component.customBaseUrl = JSON.parse(value);
     }
-    
+
     async getDefault3DBasemapQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -500,7 +500,7 @@ export default class PortalGenerated extends BaseComponent {
         let { buildJsBasemap } = await import('./basemap');
         this.component.defaultVectorBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
-    
+
     async getDescription(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -516,7 +516,7 @@ export default class PortalGenerated extends BaseComponent {
     setDescription(value: any): void {
         this.component.description = JSON.parse(value);
     }
-    
+
     async getDevBasemapGalleryGroupQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -553,7 +553,7 @@ export default class PortalGenerated extends BaseComponent {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
         this.component.featuredGroups = await Promise.all(value.map(async i => await buildJsPortalFeaturedGroups(i))) as any;
     }
-    
+
     async getFeaturedItemsGroupQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -569,7 +569,7 @@ export default class PortalGenerated extends BaseComponent {
     setFeaturedItemsGroupQuery(value: any): void {
         this.component.featuredItemsGroupQuery = JSON.parse(value);
     }
-    
+
     async getGalleryTemplatesGroupQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -585,7 +585,7 @@ export default class PortalGenerated extends BaseComponent {
     setGalleryTemplatesGroupQuery(value: any): void {
         this.component.galleryTemplatesGroupQuery = JSON.parse(value);
     }
-    
+
     async getHomePageFeaturedContent(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -601,7 +601,7 @@ export default class PortalGenerated extends BaseComponent {
     setHomePageFeaturedContent(value: any): void {
         this.component.homePageFeaturedContent = JSON.parse(value);
     }
-    
+
     async getIpCntryCode(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -617,7 +617,7 @@ export default class PortalGenerated extends BaseComponent {
     setIpCntryCode(value: any): void {
         this.component.ipCntryCode = JSON.parse(value);
     }
-    
+
     async getLayerTemplatesGroupQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -633,7 +633,7 @@ export default class PortalGenerated extends BaseComponent {
     setLayerTemplatesGroupQuery(value: any): void {
         this.component.layerTemplatesGroupQuery = JSON.parse(value);
     }
-    
+
     async getName(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -649,7 +649,7 @@ export default class PortalGenerated extends BaseComponent {
     setName(value: any): void {
         this.component.name = JSON.parse(value);
     }
-    
+
     async getPortalHostname(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -665,7 +665,7 @@ export default class PortalGenerated extends BaseComponent {
     setPortalHostname(value: any): void {
         this.component.portalHostname = JSON.parse(value);
     }
-    
+
     async getPortalId(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -699,7 +699,7 @@ export default class PortalGenerated extends BaseComponent {
         let { buildJsPortalProperties } = await import('./portalProperties');
         this.component.portalProperties =  buildJsPortalProperties(value);
     }
-    
+
     async getRegion(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -715,7 +715,7 @@ export default class PortalGenerated extends BaseComponent {
     setRegion(value: any): void {
         this.component.region = JSON.parse(value);
     }
-    
+
     async getRestUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -727,7 +727,7 @@ export default class PortalGenerated extends BaseComponent {
         
         return generateSerializableJson(this.component.restUrl);
     }
-    
+
     async getSourceJSON(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -739,7 +739,7 @@ export default class PortalGenerated extends BaseComponent {
         
         return generateSerializableJson(this.component.sourceJSON);
     }
-    
+
     async getSymbolSetsGroupQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -755,7 +755,7 @@ export default class PortalGenerated extends BaseComponent {
     setSymbolSetsGroupQuery(value: any): void {
         this.component.symbolSetsGroupQuery = JSON.parse(value);
     }
-    
+
     async getTemplatesGroupQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -771,7 +771,7 @@ export default class PortalGenerated extends BaseComponent {
     setTemplatesGroupQuery(value: any): void {
         this.component.templatesGroupQuery = JSON.parse(value);
     }
-    
+
     async getThumbnailUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -783,7 +783,7 @@ export default class PortalGenerated extends BaseComponent {
         
         return generateSerializableJson(this.component.thumbnailUrl);
     }
-    
+
     async getUrl(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -799,7 +799,7 @@ export default class PortalGenerated extends BaseComponent {
     setUrl(value: any): void {
         this.component.url = JSON.parse(value);
     }
-    
+
     async getUrlKey(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -833,7 +833,7 @@ export default class PortalGenerated extends BaseComponent {
         let { buildJsPortalUser } = await import('./portalUser');
         this.component.user = await  buildJsPortalUser(value, this.layerId, this.viewId);
     }
-    
+
     async getVectorBasemapGalleryGroupQuery(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();
@@ -1351,7 +1351,7 @@ export async function buildDotNetPortalGenerated(jsObject: any, layerId: string 
 
     if (hasValue(dotNetPortal.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetPortal.id)) {
-            let { default: PortalWrapper } = await import('./portal');
+            let {default: PortalWrapper} = await import('./portal');
             let portalWrapper = new PortalWrapper(jsObject);
             portalWrapper.geoBlazorId = dotNetPortal.id;
             portalWrapper.viewId = viewId;

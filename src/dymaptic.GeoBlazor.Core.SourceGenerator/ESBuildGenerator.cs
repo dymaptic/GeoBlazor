@@ -14,10 +14,9 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 [SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
 public class ESBuildGenerator : IIncrementalGenerator
 {
-    /// <summary>
-    ///     Gets a value indicating whether an ESBuild process is currently running.
-    /// </summary>
-    public static bool InProcess { get; private set; }
+    private static string? BuildToolsPath => _corePath is null
+        ? null
+        : Path.GetFullPath(Path.Combine(_corePath, "..", "..", "build-tools"));
 
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -30,7 +29,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             .Collect();
 
         // Reads the MSBuild properties to get the project directory and configuration.
-        IncrementalValueProvider<(string?, string?, string?)> optionsProvider =
+        IncrementalValueProvider<(string?, string?, string?, string?)> optionsProvider =
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
                 configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
@@ -42,24 +41,25 @@ public class ESBuildGenerator : IIncrementalGenerator
                 configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
                     out string? pipelineBuild);
 
-                return (projectDirectory, configuration, pipelineBuild);
+                configProvider.GlobalOptions.TryGetValue("build_property.DesignTimeBuild",
+                    out var designTimeBuild);
+
+                return (projectDirectory, configuration, pipelineBuild, designTimeBuild);
             });
 
-        IncrementalValueProvider<((ImmutableArray<AdditionalText> Left, (string?, string?, string?) Right) Left,
-            Compilation Right)> combined =
-            tsFilesProvider
-                .Combine(optionsProvider)
-                .Combine(context.CompilationProvider);
+        var
+            combined =
+                tsFilesProvider.Combine(optionsProvider);
 
         context.RegisterSourceOutput(combined, FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        ((ImmutableArray<AdditionalText> Files,
-            (string? ProjectDirectory, string? Configuration, string? PipelineBuild) Options) Data,
-            Compilation Compilation) pipeline)
+        (ImmutableArray<AdditionalText> Files,
+            (string? ProjectDirectory, string? Configuration, string? PipelineBuild, string? DesignTimeBuild) Options)
+            pipeline)
     {
-        if (!SetProjectDirectoryAndConfiguration(pipeline.Data.Options, context))
+        if (!SetProjectDirectoryAndConfiguration(pipeline.Options, context))
         {
             return;
         }
@@ -69,7 +69,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             DiagnosticSeverity.Info,
             context);
 
-        if (pipeline.Data.Options.PipelineBuild == "true")
+        if (pipeline.Options.PipelineBuild == "true")
         {
             // If the pipeline build is enabled, we skip the ESBuild process.
             // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
@@ -81,14 +81,14 @@ public class ESBuildGenerator : IIncrementalGenerator
             return;
         }
 
-        if (pipeline.Data.Files.Length > 0)
+        if (pipeline.Files.Length > 0)
         {
             LaunchESBuild(context);
         }
     }
 
     private bool SetProjectDirectoryAndConfiguration(
-        (string? ProjectDirectory, string? Configuration, string? _) options,
+        (string? ProjectDirectory, string? Configuration, string? _, string? DesignTimeBuild) options,
         SourceProductionContext context)
     {
         string? projectDirectory = options.ProjectDirectory;
@@ -130,6 +130,7 @@ public class ESBuildGenerator : IIncrementalGenerator
         if (options.Configuration is { } configuration)
         {
             _configuration = configuration;
+            _isDesignTimeBuild = options.DesignTimeBuild == "true";
 
             return true;
         }
@@ -152,6 +153,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             context);
 
         StringBuilder logBuilder = new StringBuilder(DateTime.Now.ToLongTimeString());
+        logBuilder.AppendLine();
         logBuilder.AppendLine("Starting Core ESBuild process...");
 
         try
@@ -160,12 +162,25 @@ public class ESBuildGenerator : IIncrementalGenerator
             bool buildSuccess = false;
             bool proBuildSuccess = false;
 
-            // gets the esBuild.ps1 script from the Core path
+            // gets the ESBuild.cs script
+            // Only show dialog on full compilation builds, not design-time builds
+            string[] coreArgs =
+            [
+                "ESBuild.dll",
+                "-c", _configuration!, // set config for ESBuild
+                "-d" // show dialog
+            ];
+
+            if (!_isDesignTimeBuild)
+            {
+                coreArgs = [..coreArgs, "-v"]; // show verbose output
+            }
+
             tasks.Add(Task.Run(async () =>
             {
-                await ProcessHelper.RunPowerShellScript("Core",
-                    _corePath!, "esBuild.ps1",
-                    $"-c {_configuration}", logBuilder, context.CancellationToken);
+                await ProcessHelper.Execute("Core",
+                    BuildToolsPath!, "dotnet",
+                    coreArgs, logBuilder, context);
                 buildSuccess = true;
             }));
 
@@ -173,11 +188,24 @@ public class ESBuildGenerator : IIncrementalGenerator
             {
                 logBuilder.AppendLine("Starting Pro ESBuild process...");
 
+                string[] proArgs =
+                [
+                    "ESBuild.dll",
+                    "-c", _configuration!, // set config for ESBuild
+                    "-d", // show dialog
+                    "--pro" // build for Pro project
+                ];
+
+                if (!_isDesignTimeBuild)
+                {
+                    proArgs = [..proArgs, "-v"]; // show verbose output
+                }
+
                 tasks.Add(Task.Run(async () =>
                 {
-                    await ProcessHelper.RunPowerShellScript("Pro",
-                        _proPath, "esProBuild.ps1",
-                        $"-c {_configuration}", logBuilder, context.CancellationToken);
+                    await ProcessHelper.Execute("Pro",
+                        BuildToolsPath!, "dotnet",
+                        proArgs, logBuilder, context);
                     proBuildSuccess = true;
                 }));
             }
@@ -232,11 +260,11 @@ public class ESBuildGenerator : IIncrementalGenerator
     private void ClearESBuildLocks(SourceProductionContext context)
     {
         StringBuilder logBuilder = new();
-        string rootCorePath = Path.Combine(_corePath!, "..", "..");
 
-        _ = Task.Run(async () => await ProcessHelper.RunPowerShellScript("Clear Locks",
-            rootCorePath, "esBuildClearLocks.ps1", "",
-            logBuilder, context.CancellationToken));
+        _ = Task.Run(async () => await ProcessHelper.Execute("Clear Locks",
+            BuildToolsPath!, "dotnet",
+            ["ESBuildClearLocks.dll"],
+            logBuilder, context));
 
         ProcessHelper.Log(nameof(ESBuildGenerator),
             "Cleared ESBuild Process Locks",
@@ -247,4 +275,5 @@ public class ESBuildGenerator : IIncrementalGenerator
     private static string? _corePath;
     private static string? _proPath;
     private static string? _configuration;
+    private static bool _isDesignTimeBuild;
 }

@@ -222,7 +222,7 @@ async function buildDefaultLayerView(jsObject: any, layerId: string | null, view
 
     dnLayerView.layerId = layerId;
     dnLayerView.type = jsObject.layer.type;
-    
+
     return dnLayerView;
 }
 

@@ -22,5 +22,3 @@ public class BarcodeScannerInput : FormInput
     [Parameter]
     public int? MinLength { get; set; }
 }
-
-

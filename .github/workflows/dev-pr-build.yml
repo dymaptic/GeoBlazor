@@ -9,7 +9,7 @@ on:
   push:
     branches: [ "develop" ]
   workflow_dispatch:
-    
+
 concurrency:
   group: dev-pr-build
   cancel-in-progress: ${{ !contains(github.actor, '[bot]') }}
@@ -29,7 +29,7 @@ jobs:
   
   test:
     runs-on: [ self-hosted, Windows, X64 ]
-    needs: [actor-check]
+    needs: [ actor-check ]
     timeout-minutes: 90
     if: needs.actor-check.outputs.was-bot != 'true'
     steps:
@@ -41,7 +41,7 @@ jobs:
           private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: 'GeoBlazor'
-    
+      
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,7 +49,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.ref || github.ref }}
-          
+
       - name: Run Tests
         shell: pwsh
         env:
@@ -63,7 +63,7 @@ jobs:
   
   build:
     runs-on: ubuntu-latest
-    needs: [actor-check]
+    needs: [ actor-check ]
     if: needs.actor-check.outputs.was-bot != 'true'
     timeout-minutes: 30
     steps:
@@ -75,8 +75,8 @@ jobs:
         private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
         owner: ${{ github.repository_owner }}
         repositories: 'GeoBlazor'
-        
-    # Checkout the repository to the GitHub Actions runner
+      
+      # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -99,7 +99,7 @@ jobs:
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        ./GeoBlazorBuild.ps1 -xml -pkg -docs -c "Release"
+        dotnet ./build-tools/GeoBlazorBuild.dll -xml -pkg -docs -c "Release"
         
       # Copies the nuget package to the artifacts directory
     - name: Upload nuget artifact
@@ -108,7 +108,7 @@ jobs:
         name: .core-nuget
         retention-days: 4
         path: ./dymaptic.GeoBlazor.Core.*.nupkg
-        
+      
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint
       shell: bash
@@ -129,8 +129,8 @@ jobs:
       run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
       env:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
-
-    # This step will commit the updated version number back to the develop branch
+      
+      # This step will commit the updated version number back to the develop branch
     - name: Add Changes to Git
       if: github.event_name == 'pull_request'
       run: |

@@ -16,6 +16,36 @@ public partial class LocationService : LogicComponent
     /// <inheritdoc/>
     protected override string ComponentName => nameof(LocationService);
 
+    // Final implementation of all the permutations of AddressesToLocations
+    private async Task<List<AddressCandidate>> AddressesToLocationsImplementation(string url, object addresses,
+        string? countryCode, List<string>? categories, LocationType? locationType,
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions,
+        string? addressSearchStringParameterName)
+    {
+        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url,
+            addresses, countryCode, categories, locationType,
+            outSpatialReference, requestOptions, addressSearchStringParameterName);
+
+        return await streamRef.ReadJsStreamReferenceAsJSON<List<AddressCandidate>>() ?? [];
+    }
+
+    // final implementation of all the AddressToLocations permutations
+    private async Task<List<AddressCandidate>> AddressToLocationsImplementation(string url, object address,
+        List<string>? categories = null, string? countryCode = null, bool? forStorage = null, Point? location = null,
+        LocationType? locationType = null, string? magicKey = null, int? maxLocations = null,
+        List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
+        RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null)
+    {
+        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
+            categories, countryCode, forStorage, location, locationType, magicKey,
+            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions,
+            addressSearchStringParameterName);
+
+        return await streamRef.ReadJsStreamReferenceAsJSON<List<AddressCandidate>>() ?? [];
+    }
+
+    private const string ESRIGeoLocationUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+
 
 #region AddressesToLocationsWithAddress
 
@@ -588,18 +618,6 @@ public partial class LocationService : LogicComponent
 
 #endregion
 
-    // Final implementation of all the permutations of AddressesToLocations
-    private  async Task<List<AddressCandidate>> AddressesToLocationsImplementation(string url, object addresses,
-        string? countryCode, List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference, RequestOptions? requestOptions,
-        string? addressSearchStringParameterName)
-    {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url,
-            addresses, countryCode, categories, locationType,
-            outSpatialReference, requestOptions, addressSearchStringParameterName);
-
-        return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
-    }
 
 #region AddressToLocationsWithAddress
 
@@ -1833,8 +1851,8 @@ public partial class LocationService : LogicComponent
             location, locationType, magicKey, maxLocations, outFields, outSpatialReference,
             searchExtent, null, null);
     }
-    
-        /// <summary>
+
+    /// <summary>
     ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the address parameter.
     /// </summary>
     /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
@@ -1924,21 +1942,8 @@ public partial class LocationService : LogicComponent
     }
 
 #endregion
-    
-    // final implementation of all the AddressToLocations permutations
-    private async Task<List<AddressCandidate>> AddressToLocationsImplementation(string url, object address,
-        List<string>? categories = null, string? countryCode = null, bool? forStorage = null, Point? location = null,
-        LocationType? locationType = null, string? magicKey = null, int? maxLocations = null,
-        List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
-        RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null)
-    {
-        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address,
-            categories, countryCode, forStorage, location, locationType, magicKey,
-            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions, addressSearchStringParameterName);
 
-        return await streamRef.ReadJsStreamReference<List<AddressCandidate>>() ?? [];
-    }
-    
+
 #region LocationToAddress
 
     /// <summary>
@@ -2078,11 +2083,12 @@ public partial class LocationService : LogicComponent
         return await InvokeAsync<AddressCandidate>("locationToAddress", url, location, locationType,
             outSpatialReference, requestOptions);
     }
-    
+
 #endregion
-    
+
+
 #region SuggestLocations
-    
+
     /// <summary>
     ///     Get character by character auto complete suggestions.
     ///     Uses the default ESRI geolocation service.
@@ -2199,7 +2205,4 @@ public partial class LocationService : LogicComponent
     }
 
 #endregion
-    
-
-    private const string ESRIGeoLocationUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 }

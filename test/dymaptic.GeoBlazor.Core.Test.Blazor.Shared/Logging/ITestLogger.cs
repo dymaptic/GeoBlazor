@@ -26,6 +26,7 @@ public class ServerTestLogger(ILogger<ServerTestLogger> logger) : ITestLogger
     public Task LogError(string message, Exception? exception = null)
     {
         logger.LogError(exception, message);
+
         return Task.CompletedTask;
     }
 
@@ -106,8 +107,7 @@ public record SerializableException(
     {
         if (exception is null) return null;
 
-        return new SerializableException(
-            exception.GetType().FullName ?? exception.GetType().Name,
+        return new SerializableException(exception.GetType().FullName ?? exception.GetType().Name,
             exception.Message,
             exception.StackTrace,
             FromException(exception.InnerException));

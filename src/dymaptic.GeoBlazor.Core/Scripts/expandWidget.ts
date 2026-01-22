@@ -77,5 +77,5 @@ export async function buildJsExpandWidget(dotNetObject: any, layerId: string | n
 
 export async function buildDotNetExpandWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
         let {buildDotNetExpandWidgetGenerated} = await import('./expandWidget.gb');
-        return await buildDotNetExpandWidgetGenerated(jsObject, layerId, viewId);
+    return await buildDotNetExpandWidgetGenerated(jsObject, layerId, viewId);
     }

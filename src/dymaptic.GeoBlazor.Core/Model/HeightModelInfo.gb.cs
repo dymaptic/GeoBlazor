@@ -22,9 +22,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-HeightModelInfo.html#vertCRS">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record HeightModelInfo(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     HeightModel? HeightModel = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     HeightUnit? HeightUnit = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? VertCRS = null);

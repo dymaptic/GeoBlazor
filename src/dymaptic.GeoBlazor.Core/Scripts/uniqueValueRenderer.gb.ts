@@ -70,7 +70,7 @@ export default class UniqueValueRendererGenerated extends BaseComponent {
             this.component.valueExpressionTitle = dotNetObject.valueExpressionTitle;
         }
     }
-    
+
     // region methods
     async getUniqueValueInfo(graphic: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
@@ -448,7 +448,7 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, lay
 
     if (hasValue(dotNetUniqueValueRenderer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetUniqueValueRenderer.id)) {
-            let { default: UniqueValueRendererWrapper } = await import('./uniqueValueRenderer');
+            let {default: UniqueValueRendererWrapper} = await import('./uniqueValueRenderer');
             let uniqueValueRendererWrapper = new UniqueValueRendererWrapper(jsObject);
             uniqueValueRendererWrapper.geoBlazorId = dotNetUniqueValueRenderer.id;
             uniqueValueRendererWrapper.viewId = viewId;

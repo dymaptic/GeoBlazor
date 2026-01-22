@@ -1,10 +1,9 @@
 import esbuild from 'esbuild';
-import eslint from 'esbuild-plugin-eslint';
-import { cleanPlugin } from 'esbuild-clean-plugin';
+import {cleanPlugin} from 'esbuild-clean-plugin';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
-import { execSync } from 'child_process';
+import {execSync} from 'child_process';
 
 const args = process.argv.slice(2);
 const isRelease = args.includes('--release');
@@ -14,7 +13,7 @@ const OUTPUT_DIR = path.resolve('./wwwroot/js');
 
 function getCurrentGitBranch() {
     try {
-        const branch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
+        const branch = execSync('git rev-parse --abbrev-ref HEAD', {encoding: 'utf-8'}).trim();
         return branch;
     } catch (error) {
         console.warn('Failed to get git branch name:', error.message);
@@ -42,16 +41,13 @@ let options = {
     },
     metafile: true,
     minify: isRelease,
-    plugins: [eslint({
-        throwOnError: true
-    }),
-        cleanPlugin()]
+    plugins: [cleanPlugin()]
 }
 
 // check if output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {
     console.log('Output directory does not exist. Creating it.');
-    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    fs.mkdirSync(OUTPUT_DIR, {recursive: true});
 }
 
 try {

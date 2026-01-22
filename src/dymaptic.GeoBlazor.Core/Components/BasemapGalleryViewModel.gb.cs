@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery widget</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-basemap-gallery/">component</a>.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class BasemapGalleryViewModel : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -30,372 +28,16 @@ public partial class BasemapGalleryViewModel : MapComponent
     ///     The source for basemaps that the Basemap Gallery will display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public BasemapGalleryViewModel(
-        Basemap? activeBasemap = null,
+    public BasemapGalleryViewModel(Basemap? activeBasemap = null,
         IBasemapGalleryWidgetSource? source = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ActiveBasemap = activeBasemap;
         Source = source;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelactivebasemap-property">GeoBlazor Docs</a>
-    ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Basemap? ActiveBasemap { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelactivebasemapindex-property">GeoBlazor Docs</a>
-    ///     The current index of the active <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>
-    ///     in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#activeBasemapIndex">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public int? ActiveBasemapIndex { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelitems-property">GeoBlazor Docs</a>
-    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-BasemapGalleryItem.html">BasemapGalleryItem</a>s representing basemaps.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#items">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public IReadOnlyList<BasemapGalleryItem>? Items { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelsource-property">GeoBlazor Docs</a>
-    ///     The source for basemaps that the Basemap Gallery will display.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IBasemapGalleryWidgetSource? Source { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelstate-property">GeoBlazor Docs</a>
-    ///     The view model's state.
-    ///     default "disabled"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public BasemapGalleryViewModelState? State { get; protected set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ActiveBasemap property.
-    /// </summary>
-    public async Task<Basemap?> GetActiveBasemap()
-    {
-        if (CoreJsModule is null)
-        {
-            return ActiveBasemap;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ActiveBasemap;
-        }
-
-        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
-            "getActiveBasemap", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (ActiveBasemap is not null)
-            {
-                result.Id = ActiveBasemap.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            ActiveBasemap = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
-        }
-        
-        return ActiveBasemap;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ActiveBasemapIndex property.
-    /// </summary>
-    public async Task<int?> GetActiveBasemapIndex()
-    {
-        if (CoreJsModule is null)
-        {
-            return ActiveBasemapIndex;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ActiveBasemapIndex;
-        }
 
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "activeBasemapIndex");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             ActiveBasemapIndex = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveBasemapIndex)] = ActiveBasemapIndex;
-        }
-         
-        return ActiveBasemapIndex;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Items property.
-    /// </summary>
-    public async Task<IReadOnlyList<BasemapGalleryItem>?> GetItems()
-    {
-        if (CoreJsModule is null)
-        {
-            return Items;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Items;
-        }
-
-        IReadOnlyList<BasemapGalleryItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<BasemapGalleryItem>?>(
-            "getItems", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Items = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Items)] = Items;
-        }
-        
-        return Items;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Source property.
-    /// </summary>
-    public async Task<IBasemapGalleryWidgetSource?> GetSource()
-    {
-        if (CoreJsModule is null)
-        {
-            return Source;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Source;
-        }
-
-        IBasemapGalleryWidgetSource? result = await JsComponentReference.InvokeAsync<IBasemapGalleryWidgetSource?>(
-            "getSource", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Source is not null)
-            {
-                result.Id = Source.Id;
-            }
-            ((MapComponent)result).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            Source = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Source)] = Source;
-        }
-        
-        return Source;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the State property.
-    /// </summary>
-    public async Task<BasemapGalleryViewModelState?> GetState()
-    {
-        if (CoreJsModule is null)
-        {
-            return State;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return State;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<BasemapGalleryViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BasemapGalleryViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             State = (BasemapGalleryViewModelState)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
-        }
-         
-        return State;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the ActiveBasemap property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetActiveBasemap(Basemap? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-#pragma warning disable BL0005
-        ActiveBasemap = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ActiveBasemap)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setActiveBasemap", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Source property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSource(IBasemapGalleryWidgetSource? value)
-    {
-        if (value is not null)
-        {
-            ((MapComponent)value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-#pragma warning disable BL0005
-        Source = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Source)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "source", value);
-    }
-    
-#endregion
 
 #region Public Methods
 
@@ -419,7 +61,7 @@ public partial class BasemapGalleryViewModel : MapComponent
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -429,21 +71,28 @@ public partial class BasemapGalleryViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "basemapEquals", 
+
+        return await JsComponentReference!.InvokeAsync<bool?>("basemapEquals",
             CancellationTokenSource.Token,
             basemap1,
             basemap2);
     }
-    
+
 #endregion
 
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        ActiveBasemap?.ValidateRequiredGeneratedChildren();
+        Source?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -456,7 +105,7 @@ public partial class BasemapGalleryViewModel : MapComponent
                     ActiveBasemap = activeBasemap;
                     ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 }
-                
+
                 return true;
             case IBasemapGalleryWidgetSource source:
                 if (source != Source)
@@ -464,7 +113,7 @@ public partial class BasemapGalleryViewModel : MapComponent
                     Source = source;
                     ModifiedParameters[nameof(Source)] = Source;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -479,23 +128,382 @@ public partial class BasemapGalleryViewModel : MapComponent
             case Basemap _:
                 ActiveBasemap = null;
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
+
                 return true;
             case IBasemapGalleryWidgetSource _:
                 Source = null;
                 ModifiedParameters[nameof(Source)] = Source;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelactivebasemap-property">GeoBlazor Docs</a>
+    ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Basemap? ActiveBasemap { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelactivebasemapindex-property">GeoBlazor Docs</a>
+    ///     The current index of the active <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>
+    ///     in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#activeBasemapIndex">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public int? ActiveBasemapIndex { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelitems-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-BasemapGalleryItem.html">BasemapGalleryItem</a>s representing basemaps.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#items">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IReadOnlyList<BasemapGalleryItem>? Items { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelsource-property">GeoBlazor Docs</a>
+    ///     The source for basemaps that the Basemap Gallery will display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IBasemapGalleryWidgetSource? Source { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapGalleryViewModel.html#basemapgalleryviewmodelstate-property">GeoBlazor Docs</a>
+    ///     The view model's state.
+    ///     default "disabled"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public BasemapGalleryViewModelState? State { get; protected set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActiveBasemap property.
+    /// </summary>
+    public async Task<Basemap?> GetActiveBasemap()
     {
-    
-        ActiveBasemap?.ValidateRequiredGeneratedChildren();
-        Source?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (CoreJsModule is null)
+        {
+            return ActiveBasemap;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ActiveBasemap;
+        }
+
+        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
+            "getActiveBasemap", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (ActiveBasemap is not null)
+            {
+                result.Id = ActiveBasemap.Id;
+            }
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            ActiveBasemap = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
+        }
+
+        return ActiveBasemap;
     }
-      
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActiveBasemapIndex property.
+    /// </summary>
+    public async Task<int?> GetActiveBasemapIndex()
+    {
+        if (CoreJsModule is null)
+        {
+            return ActiveBasemapIndex;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ActiveBasemapIndex;
+        }
+
+        // get the property value
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "activeBasemapIndex");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            ActiveBasemapIndex = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ActiveBasemapIndex)] = ActiveBasemapIndex;
+        }
+
+        return ActiveBasemapIndex;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Items property.
+    /// </summary>
+    public async Task<IReadOnlyList<BasemapGalleryItem>?> GetItems()
+    {
+        if (CoreJsModule is null)
+        {
+            return Items;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Items;
+        }
+
+        IReadOnlyList<BasemapGalleryItem>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<BasemapGalleryItem>?>("getItems",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Items = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Items)] = Items;
+        }
+
+        return Items;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Source property.
+    /// </summary>
+    public async Task<IBasemapGalleryWidgetSource?> GetSource()
+    {
+        if (CoreJsModule is null)
+        {
+            return Source;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Source;
+        }
+
+        IBasemapGalleryWidgetSource? result =
+            await JsComponentReference.InvokeAsync<IBasemapGalleryWidgetSource?>("getSource",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (Source is not null)
+            {
+                result.Id = Source.Id;
+            }
+
+            ((MapComponent)result).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            Source = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Source)] = Source;
+        }
+
+        return Source;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the State property.
+    /// </summary>
+    public async Task<BasemapGalleryViewModelState?> GetState()
+    {
+        if (CoreJsModule is null)
+        {
+            return State;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return State;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<BasemapGalleryViewModelState>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BasemapGalleryViewModelState>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "state");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            State = (BasemapGalleryViewModelState)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(State)] = State;
+        }
+
+        return State;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the ActiveBasemap property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetActiveBasemap(Basemap? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        ActiveBasemap = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActiveBasemap)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setActiveBasemap",
+            CancellationTokenSource.Token, value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Source property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSource(IBasemapGalleryWidgetSource? value)
+    {
+        if (value is not null)
+        {
+            ((MapComponent)value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        Source = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Source)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "source", value);
+    }
+
+#endregion
 }

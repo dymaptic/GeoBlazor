@@ -9,5 +9,5 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="Bookmark">
 /// </param>
 public partial record BookmarksViewModelBookmarkEditEvent(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Bookmark? Bookmark = null);

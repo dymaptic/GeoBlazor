@@ -1,9 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+[ProtobufSerializable]
 public partial class AttachmentsPopupContent : PopupContent
 {
-
-    
     /// <inheritdoc />
     public override PopupContentType Type => PopupContentType.Attachments;
 
@@ -32,7 +31,8 @@ public partial class AttachmentsPopupContent : PopupContent
     public string? Title { get; set; }
 
 
-    internal override PopupContentSerializationRecord ToSerializationRecord()
+    /// <inheritdoc />
+    public override PopupContentSerializationRecord ToProtobuf()
     {
         return new PopupContentSerializationRecord(Id.ToString(), Type.ToString().ToKebabCase())
         {

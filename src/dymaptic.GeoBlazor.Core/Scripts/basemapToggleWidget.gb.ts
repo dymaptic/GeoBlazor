@@ -38,7 +38,7 @@ export default class BasemapToggleWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -294,7 +294,7 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any, lay
 
     if (hasValue(dotNetBasemapToggleWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetBasemapToggleWidget.id)) {
-            let { default: BasemapToggleWidgetWrapper } = await import('./basemapToggleWidget');
+            let {default: BasemapToggleWidgetWrapper} = await import('./basemapToggleWidget');
             let basemapToggleWidgetWrapper = new BasemapToggleWidgetWrapper(jsObject);
             basemapToggleWidgetWrapper.geoBlazorId = dotNetBasemapToggleWidget.id;
             basemapToggleWidgetWrapper.viewId = viewId;

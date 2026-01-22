@@ -6,7 +6,7 @@
             <div class="@Class map-wrapper" style="@Style">
                 @if (MapComponentType == typeof(SceneView))
                 {
-                    <arcgis-scene class="map-container" id="@($"map-container-{Id}")">
+                    <arcgis-scene class="map-container" id="@($"map-container-{Id}")" @attributes="@UnMatchedAttributes">
                         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                         {
                             <div class="geoblazor-message-overlay">
@@ -18,16 +18,17 @@
                             // TODO: in V5, use GeoBlazor Components Here, wrapping the ArcGIS components
                             if (!Widgets.Any(w => w is ZoomWidget))
                             {
-                                <arcgis-zoom slot="top-left" />
+                                <arcgis-zoom slot="top-left"/>
                             }
-                            <arcgis-navigation-toggle slot="top-left" />
+
+                            <arcgis-navigation-toggle slot="top-left"/>
                         }
                         @ChildContent
                     </arcgis-scene>
                 }
                 else
                 {
-                    <arcgis-map class="map-container" id="@($"map-container-{Id}")">
+                    <arcgis-map class="map-container" id="@($"map-container-{Id}")" @attributes="@UnMatchedAttributes">
                         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                         {
                             <div class="geoblazor-message-overlay">
@@ -36,7 +37,7 @@
                         }
                         else if (ShowZoomWidget && !Widgets.Any(w => w is ZoomWidget))
                         {
-                            <arcgis-zoom slot="top-left" />
+                            <arcgis-zoom slot="top-left"/>
                         }
                         @ChildContent
                     </arcgis-map>

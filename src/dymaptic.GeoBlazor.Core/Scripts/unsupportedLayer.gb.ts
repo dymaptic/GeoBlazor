@@ -41,15 +41,15 @@ export default class UnsupportedLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -288,7 +288,7 @@ export async function buildDotNetUnsupportedLayerGenerated(jsObject: any, layerI
 
     if (hasValue(dotNetUnsupportedLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetUnsupportedLayer.id)) {
-            let { default: UnsupportedLayerWrapper } = await import('./unsupportedLayer');
+            let {default: UnsupportedLayerWrapper} = await import('./unsupportedLayer');
             let unsupportedLayerWrapper = new UnsupportedLayerWrapper(jsObject);
             unsupportedLayerWrapper.geoBlazorId = dotNetUnsupportedLayer.id;
             unsupportedLayerWrapper.viewId = viewId;

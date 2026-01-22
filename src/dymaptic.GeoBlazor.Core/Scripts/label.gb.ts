@@ -242,7 +242,7 @@ export async function buildDotNetLabelGenerated(jsObject: any, layerId: string |
 
     if (hasValue(dotNetLabel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetLabel.id)) {
-            let { default: LabelWrapper } = await import('./label');
+            let {default: LabelWrapper} = await import('./label');
             let labelWrapper = new LabelWrapper(jsObject);
             labelWrapper.geoBlazorId = dotNetLabel.id;
             labelWrapper.viewId = viewId;

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.UnsupportedLayer.html">GeoBlazor Docs</a>
 ///     Represents an unsupported layer instance.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public partial class UnsupportedLayer : Layer
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -60,8 +58,7 @@ public partial class UnsupportedLayer : Layer
     /// <param name="excludeApiKey">
     ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
-    public UnsupportedLayer(
-        string? arcGISLayerId = null,
+    public UnsupportedLayer(string? arcGISLayerId = null,
         Extent? fullExtent = null,
         bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
@@ -82,11 +79,9 @@ public partial class UnsupportedLayer : Layer
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
         ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
     /// <inheritdoc />
     public override LayerType Type => LayerType.Unsupported;
-    
 }

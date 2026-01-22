@@ -41,15 +41,15 @@ export default class UnknownLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -288,7 +288,7 @@ export async function buildDotNetUnknownLayerGenerated(jsObject: any, layerId: s
 
     if (hasValue(dotNetUnknownLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetUnknownLayer.id)) {
-            let { default: UnknownLayerWrapper } = await import('./unknownLayer');
+            let {default: UnknownLayerWrapper} = await import('./unknownLayer');
             let unknownLayerWrapper = new UnknownLayerWrapper(jsObject);
             unknownLayerWrapper.geoBlazorId = dotNetUnknownLayer.id;
             unknownLayerWrapper.viewId = viewId;

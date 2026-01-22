@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> widget, which allows users to view
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public partial class PopupViewModel : FeaturesViewModel
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -149,8 +147,7 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public PopupViewModel(
-        IReadOnlyList<ActionBase>? actions = null,
+    public PopupViewModel(IReadOnlyList<ActionBase>? actions = null,
         Graphic? activeFeature = null,
         bool? autoCloseEnabled = null,
         bool? browseClusterEnabled = null,
@@ -207,8 +204,6 @@ public partial class PopupViewModel : FeaturesViewModel
         UpdateLocationEnabled = updateLocationEnabled;
         Visible = visible;
         WidgetContent = widgetContent;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
 }

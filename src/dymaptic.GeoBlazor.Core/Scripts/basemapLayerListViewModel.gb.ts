@@ -27,7 +27,7 @@ export default class BasemapLayerListViewModelGenerated extends BaseComponent {
             this.component.listModeDisabled = dotNetObject.listModeDisabled;
         }
     }
-    
+
     // region methods
     async triggerAction(action: any,
         item: any): Promise<void> {
@@ -171,7 +171,7 @@ export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: an
 
     if (hasValue(dotNetBasemapLayerListViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetBasemapLayerListViewModel.id)) {
-            let { default: BasemapLayerListViewModelWrapper } = await import('./basemapLayerListViewModel');
+            let {default: BasemapLayerListViewModelWrapper} = await import('./basemapLayerListViewModel');
             let basemapLayerListViewModelWrapper = new BasemapLayerListViewModelWrapper(jsObject);
             basemapLayerListViewModelWrapper.geoBlazorId = dotNetBasemapLayerListViewModel.id;
             basemapLayerListViewModelWrapper.viewId = viewId;

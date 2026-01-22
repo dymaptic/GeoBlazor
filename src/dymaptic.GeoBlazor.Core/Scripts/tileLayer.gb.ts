@@ -93,15 +93,15 @@ export default class TileLayerGenerated extends BaseComponent {
             this.layer.visible = dotNetObject.visible;
         }
     }
-    
+
     // region methods
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                          signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.createLayerView(view,
             options);
     }
@@ -119,8 +119,8 @@ export default class TileLayerGenerated extends BaseComponent {
     async fetchTile(level: any,
         row: any,
         col: any,
-        signal: AbortSignal): Promise<any> {
-        let options = { signal: signal };
+                    signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -668,7 +668,7 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
 
     if (hasValue(dotNetTileLayer.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetTileLayer.id)) {
-            let { default: TileLayerWrapper } = await import('./tileLayer');
+            let {default: TileLayerWrapper} = await import('./tileLayer');
             let tileLayerWrapper = new TileLayerWrapper(jsObject);
             tileLayerWrapper.geoBlazorId = dotNetTileLayer.id;
             tileLayerWrapper.viewId = viewId;

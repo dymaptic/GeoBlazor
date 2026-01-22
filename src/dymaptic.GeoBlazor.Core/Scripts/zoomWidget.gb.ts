@@ -33,7 +33,7 @@ export default class ZoomWidgetGenerated extends BaseComponent {
             this.widget.id = dotNetObject.widgetId;
         }
     }
-    
+
     // region methods
     async classes(): Promise<any> {
         return this.widget.classes();
@@ -250,7 +250,7 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any, layerId: str
 
     if (hasValue(dotNetZoomWidget.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetZoomWidget.id)) {
-            let { default: ZoomWidgetWrapper } = await import('./zoomWidget');
+            let {default: ZoomWidgetWrapper} = await import('./zoomWidget');
             let zoomWidgetWrapper = new ZoomWidgetWrapper(jsObject);
             zoomWidgetWrapper.geoBlazorId = dotNetZoomWidget.id;
             zoomWidgetWrapper.viewId = viewId;

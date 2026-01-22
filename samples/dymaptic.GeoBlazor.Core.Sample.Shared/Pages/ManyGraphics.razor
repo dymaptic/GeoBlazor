@@ -52,7 +52,7 @@
     {
         if (firstRender)
         {
-            _chunkSize = _view?.IsMaui == true ? 100 : 200;
+            _chunkSize = IsMaui ? 100 : 200;
         }
     }
 
@@ -178,4 +178,5 @@
     private string _geometryType = "Point";
     private readonly List<Graphic> _graphics = new();
     private bool _generating;
+    private bool IsMaui => _view?.JsRuntime!.GetType().Name.Contains("WebView") ?? false;
 }

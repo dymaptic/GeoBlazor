@@ -12,5 +12,5 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#ElevationDimension">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ElevationDimension(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null) : IWMSLayerDimension;

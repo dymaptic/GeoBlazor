@@ -12,12 +12,12 @@ internal static class Licensing
 
                 _isPro = true;
             }
-            catch(FileNotFoundException)
+            catch (FileNotFoundException)
             {
                 _isPro = false;
-            }    
+            }
         }
-        
+
         return _isPro.Value ? LicenseType.Pro : LicenseType.Core;
     }
 

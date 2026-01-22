@@ -22,7 +22,7 @@ export default class CompassViewModelGenerated extends BaseComponent {
         }
 
     }
-    
+
     // region methods
     async reset(): Promise<void> {
         this.component.reset();
@@ -119,7 +119,7 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any, layerI
 
     if (hasValue(dotNetCompassViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetCompassViewModel.id)) {
-            let { default: CompassViewModelWrapper } = await import('./compassViewModel');
+            let {default: CompassViewModelWrapper} = await import('./compassViewModel');
             let compassViewModelWrapper = new CompassViewModelWrapper(jsObject);
             compassViewModelWrapper.geoBlazorId = dotNetCompassViewModel.id;
             compassViewModelWrapper.viewId = viewId;

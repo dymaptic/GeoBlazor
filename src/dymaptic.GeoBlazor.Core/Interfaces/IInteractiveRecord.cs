@@ -15,14 +15,19 @@ public interface IInteractiveRecord
     ///     Allows for transmitting CancellationToken cancel signals to JavaScript.
     /// </summary>
     AbortManager? AbortManager { get; set; }
-    
+
     /// <summary>
     ///     A unique Id to identify this record in JavaScript.
     /// </summary>
     public Guid Id { get; set; }
-    
+
     /// <summary>
     ///     Reference to the Core JavaScript module.
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode 
+    /// </summary>
+    public bool IsServer { get; set; }
 }

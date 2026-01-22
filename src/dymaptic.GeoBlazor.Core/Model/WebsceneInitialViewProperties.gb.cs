@@ -34,15 +34,15 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-InitialViewProperties.html#analyses">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record WebsceneInitialViewProperties(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IEnvironment? Environment = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SpatialReference? SpatialReference = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     TimeExtent? TimeExtent = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     ViewingMode? ViewingMode = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Viewpoint? Viewpoint = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<ISliceAnalysis>? Analyses = null);
