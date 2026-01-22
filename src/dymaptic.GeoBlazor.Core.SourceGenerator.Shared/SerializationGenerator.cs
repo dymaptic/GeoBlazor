@@ -390,7 +390,8 @@ public static class SerializationGenerator
                                 """);
         }
 
-        foreach (var classGroup in serializedMethodsCollection.GroupBy(m => m.ClassName))
+        foreach (var classGroup in serializedMethodsCollection
+            .GroupBy(m => m.ClassName))
         {
             outputBuilder.AppendLine($$"""
                                                ["{{classGroup.Key}}"] = 

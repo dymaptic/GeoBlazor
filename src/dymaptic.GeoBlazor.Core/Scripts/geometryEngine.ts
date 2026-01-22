@@ -3,27 +3,21 @@ import Polygon from "@arcgis/core/geometry/Polygon";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Point from "@arcgis/core/geometry/Point";
-import {
-    DotNetExtent,
-    DotNetGeometry,
-    DotNetPoint,
-    DotNetPolygon,
-    DotNetPolyline
-} from "./definitions";
+import {DotNetExtent, DotNetGeometry, DotNetPoint, DotNetPolygon, DotNetPolyline} from "./definitions";
 import Extent from "@arcgis/core/geometry/Extent";
 import {buildDotNetExtent, buildJsExtent} from "./extent";
 import {buildDotNetPolygon, buildJsPolygon} from "./polygon";
 import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
 import {buildDotNetPoint, buildJsPoint} from "./point";
 import {buildDotNetPolyline, buildJsPathsOrRings, buildJsPolyline} from "./polyline";
+import Mesh from "@arcgis/core/geometry/Mesh";
+import Multipoint from "@arcgis/core/geometry/Multipoint";
+import {hasValue} from './geoBlazorCore';
+import BaseComponent from "./baseComponent";
 import LinearUnits = __esri.LinearUnits;
 import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
 import AreaUnits = __esri.AreaUnits;
-import Mesh from "@arcgis/core/geometry/Mesh";
-import Multipoint from "@arcgis/core/geometry/Multipoint";
-import { hasValue } from './geoBlazorCore';
 import GeometryUnion = __esri.GeometryUnion;
-import BaseComponent from "./baseComponent";
 
 export default class GeometryEngineWrapper extends BaseComponent {
     
@@ -584,19 +578,19 @@ export default class GeometryEngineWrapper extends BaseComponent {
         let jsPolyline = buildJsPolyline(polyline) as Polyline;
         let path = jsPolyline.removePath(pathIndex);
         let newLine = buildDotNetPolyline(jsPolyline) as DotNetPolyline;
-        return {
-            geometry: newLine,
-            path: path?.map(p => buildDotNetPoint(p) as DotNetPoint)
-        }
+        let result: DotNetGeometry[] = [];
+        result.push(newLine);
+        result.push(...path?.map(p => buildDotNetPoint(p) as DotNetPoint) ?? []);
+        return result;
     }
 
     removePoint(geometry: DotNetGeometry, firstIndex: number, secondIndex: number): any | null {
         let jsGeometry = buildJsGeometry(geometry) as Geometry;
         let point = (jsGeometry as any).removePoint(firstIndex, secondIndex);
-        return {
-            geometry: buildDotNetGeometry(jsGeometry) as DotNetGeometry,
-            point: buildDotNetPoint(point) as DotNetPoint
-        };
+        let result: DotNetGeometry[] = [];
+        result.push(buildDotNetGeometry(jsGeometry) as DotNetGeometry);
+        result.push(buildDotNetPoint(point) as DotNetPoint);
+        return result;
     }
 
     setPoint(geometry: DotNetGeometry, firstIndex: number, secondIndex: number, point: DotNetPoint)
@@ -630,10 +624,10 @@ export default class GeometryEngineWrapper extends BaseComponent {
     removeRing(polygon: DotNetPolygon, index: number): any {
         let jsPolygon = buildJsPolygon(polygon) as Polygon;
         let ring = jsPolygon.removeRing(index);
-        return {
-            geometry: buildDotNetPolygon(jsPolygon) as DotNetPolygon,
-            path: ring?.map(p => buildDotNetPoint(p) as DotNetPoint)
-        };
+        let result: DotNetGeometry[] = [];
+        result.push(buildDotNetPolygon(jsPolygon) as DotNetPolygon);
+        result.push(...ring?.map(p => buildDotNetPoint(p) as DotNetPoint) ?? []);
+        return result;
     }
 
     getExtentCenter(extent: DotNetExtent): DotNetPoint {

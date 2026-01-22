@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+﻿namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A client-side projection engine for converting geometries from one SpatialReference to another. When projecting geometries the starting spatial reference must be specified on the input geometry. You can specify a specific geographic (datum) transformation for the project operation, or accept the default transformation if one is needed.
@@ -31,10 +31,11 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A collection of projected geometries.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]?>(nameof(ProjectionEngine), parameters: [geometries, spatialReference, null]);
+        return Project(geometries, spatialReference, null, cancellationToken);
     }
 
     /// <summary>
@@ -52,12 +53,13 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A collection of projected geometries.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
     public async Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference,
-        GeographicTransformation? geographicTransformation)
+        GeographicTransformation? geographicTransformation, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]?>(nameof(ProjectionEngine), parameters: [geometries, spatialReference,
-            geographicTransformation]);
+        return await InvokeAsync<Geometry[]?>(nameof(ProjectionEngine), nameof(Project),
+            cancellationToken, geometries, spatialReference, geographicTransformation);
     }
 
     /// <summary>
@@ -72,10 +74,11 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A projected geometry.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), parameters: [geometry, spatialReference, null]);
+        return Project(geometry, spatialReference, null, cancellationToken);
     }
 
     /// <summary>
@@ -93,12 +96,13 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A projected geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
     public async Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference,
-        GeographicTransformation? geographicTransformation)
+        GeographicTransformation? geographicTransformation, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), parameters: [geometry, spatialReference,
-            geographicTransformation]);
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Project),
+            cancellationToken, geometry, spatialReference, geographicTransformation);
     }
 
     /// <summary>
@@ -116,12 +120,14 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A geographic transformation.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
     public async Task<GeographicTransformation?> GetTransformation(SpatialReference inSpatialReference,
-        SpatialReference outSpatialReference, Extent extent)
+        SpatialReference outSpatialReference, Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<GeographicTransformation?>(nameof(ProjectionEngine), parameters: [inSpatialReference,
-            outSpatialReference, extent]);
+        return await InvokeAsync<GeographicTransformation?>(nameof(ProjectionEngine), nameof(GetTransformation),
+            cancellationToken, inSpatialReference,
+            outSpatialReference, extent);
     }
 
     /// <summary>
@@ -139,11 +145,12 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A collection of geographic transformation.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
     public async Task<GeographicTransformation[]?> GetTransformations(SpatialReference inSpatialReference,
-        SpatialReference outSpatialReference, Extent extent)
+        SpatialReference outSpatialReference, Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<GeographicTransformation[]?>(nameof(ProjectionEngine), 
-            parameters: [inSpatialReference, outSpatialReference, extent]);
+        return await InvokeAsync<GeographicTransformation[]?>(nameof(ProjectionEngine),
+            nameof(GetTransformations), cancellationToken, inSpatialReference, outSpatialReference, extent);
     }
 }

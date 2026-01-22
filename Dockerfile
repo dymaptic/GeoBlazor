@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.4
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG ARCGIS_API_KEY
 ARG GEOBLAZOR_LICENSE_KEY
@@ -19,7 +20,7 @@ RUN apt-get update \
 WORKDIR /work
 WORKDIR /work/src/dymaptic.GeoBlazor.Core
 COPY ./src/dymaptic.GeoBlazor.Core/package.json ./package.json
-RUN npm install
+RUN --mount=type=cache,target=/root/.npm npm install
 
 WORKDIR /work
 COPY ./src/ ./src/
@@ -37,7 +38,8 @@ COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.Web
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj
 
 # Use UsePackageReference=false to build from source (enables code coverage with PDB symbols)
-RUN dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:UsePackageReference=false
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:UsePackageReference=false
 
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
@@ -54,7 +56,8 @@ RUN dotnet ./build-tools/BuildAppSettings.dll \
 # Build from source with debug symbols for code coverage
 # UsePackageReference=false builds GeoBlazor from source instead of NuGet
 # DebugSymbols=true and DebugType=portable ensure PDB files are generated
-RUN dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj \
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj \
     -c Release \
     /p:UsePackageReference=false \
     /p:PipelineBuild=true \

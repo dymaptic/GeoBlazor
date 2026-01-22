@@ -1,14 +1,19 @@
 // ReSharper disable RedundantEnumerableCastCall
 namespace dymaptic.GeoBlazor.Core.Components;
+
 /// <summary>
-///     A client-side geometry engine for testing, measuring, and analyzing the spatial relationship between two or more 2D geometries. If more than one geometry is required for any of the methods below, all geometries must have the same spatial reference for the methods to work as expected.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">ArcGIS Maps SDK for JavaScript</a>
+///     A client-side geometry engine for testing, measuring, and analyzing the spatial relationship between two or more 2D
+///     geometries. If more than one geometry is required for any of the methods below, all geometries must have the same
+///     spatial reference for the methods to work as expected.
+///     <a target="_blank"
+///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">
+///         ArcGIS
+///         Maps SDK for JavaScript
+///     </a>
 /// </summary>
 [CodeGenerationIgnore]
 public class GeometryEngine : LogicComponent
 {
-    // TODO: Add CancellationToken support to all methods
-    
     /// <summary>
     ///     Default Constructor
     /// </summary>
@@ -18,14 +23,15 @@ public class GeometryEngine : LogicComponent
     {
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override string ComponentName => nameof(GeometryEngine).ToLowerFirstChar();
 
     /// <summary>
     ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.
     /// </summary>
     /// <remarks>
-    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
+    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution
+    ///     when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
     ///     reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer
     ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
     ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -34,22 +40,29 @@ public class GeometryEngine : LogicComponent
     ///     The buffer input geometries.
     /// </param>
     /// <param name="distances">
-    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The value of the geometry array will be matched one to one with those in the distance array until the final value of the distance array is reached, in which case that value will be applied to the remaining geometries.
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
     /// <returns>
     ///     The resulting buffers.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, null, null]);
+        return Buffer(geometries, distances, null, null, cancellationToken);
     }
 
     /// <summary>
     ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.
     /// </summary>
     /// <remarks>
-    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
+    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution
+    ///     when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
     ///     reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer
     ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
     ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -58,7 +71,12 @@ public class GeometryEngine : LogicComponent
     ///     The buffer input geometries.
     /// </param>
     /// <param name="distances">
-    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The value of the geometry array will be matched one to one with those in the distance array until the final value of the distance array is reached, in which case that value will be applied to the remaining geometries.
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
     /// <param name="unit">
     ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
@@ -66,18 +84,19 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
-        GeometryEngineLinearUnit? unit)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
+        GeometryEngineLinearUnit? unit, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, unit, null]);
+        return Buffer(geometries, distances, unit, null, cancellationToken);
     }
 
     /// <summary>
     ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.
     /// </summary>
     /// <remarks>
-    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
+    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution
+    ///     when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
     ///     reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer
     ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
     ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -86,7 +105,12 @@ public class GeometryEngine : LogicComponent
     ///     The buffer input geometries.
     /// </param>
     /// <param name="distances">
-    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The value of the geometry array will be matched one to one with those in the distance array until the final value of the distance array is reached, in which case that value will be applied to the remaining geometries.
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
     /// <param name="unit">
     ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
@@ -97,18 +121,21 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
-        GeometryEngineLinearUnit? unit, bool? unionResults)
+    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
+        GeometryEngineLinearUnit? unit, bool? unionResults, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, unit, unionResults]);
+        return await InvokeAsync<Polygon[]>(nameof(ProjectionEngine), nameof(distances),
+            cancellationToken, geometries, distances, unit, unionResults);
     }
 
     /// <summary>
     ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.
     /// </summary>
     /// <remarks>
-    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
+    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution
+    ///     when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
     ///     reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer
     ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
     ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -122,17 +149,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffer.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Polygon> Buffer(Geometry geometry, double distance)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Polygon> Buffer(Geometry geometry, double distance, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [geometry, distance, null]);
+        return Buffer(geometry, distance, null, cancellationToken);
     }
 
     /// <summary>
     ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.
     /// </summary>
     /// <remarks>
-    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
+    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution
+    ///     when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
     ///     reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer
     ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
     ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -149,10 +177,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffer.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon> Buffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit)
+    public async Task<Polygon> Buffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [geometry, distance, unit]);
+        return await InvokeAsync<Polygon>(nameof(ProjectionEngine), nameof(Buffer),
+            cancellationToken, geometry, distance, unit);
     }
 
     /// <summary>
@@ -167,17 +198,20 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Clipped geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry?> Clip(Geometry geometry, Extent extent)
+    public async Task<Geometry?> Clip(Geometry geometry, Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry?>(nameof(GeometryEngine), parameters: [geometry, extent]);
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Clip),
+            cancellationToken, geometry, extent);
     }
 
     /// <summary>
     ///     Indicates if one geometry contains another geometry.
     /// </summary>
     /// <param name="containerGeometry">
-    ///     The geometry that is tested for the "contains" relationship to the other geometry. Think of this geometry as the potential "container" of the insideGeometry.
+    ///     The geometry that is tested for the "contains" relationship to the other geometry. Think of this geometry as the
+    ///     potential "container" of the insideGeometry.
     /// </param>
     /// <param name="insideGeometry">
     ///     The geometry that is tested for the "within" relationship to the containerGeometry.
@@ -185,14 +219,19 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the containerGeometry contains the insideGeometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> Contains(Geometry containerGeometry, Geometry insideGeometry)
+    public async Task<bool> Contains(Geometry containerGeometry, Geometry insideGeometry,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [containerGeometry, insideGeometry]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Contains),
+            cancellationToken, containerGeometry, insideGeometry);
     }
 
     /// <summary>
-    ///     Calculates the convex hull of one or more geometries. A convex hull is the smallest convex polygon that encloses a group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
+    ///     Calculates the convex hull of one or more geometries. A convex hull is the smallest convex polygon that encloses a
+    ///     group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any
+    ///     geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
     /// </summary>
     /// <param name="geometries">
     ///     The input geometries used to calculate the convex hull. The input array can include various geometry types.
@@ -204,14 +243,19 @@ public class GeometryEngine : LogicComponent
     ///     Returns the convex hull of the input geometries. This is usually a polygon, but can also be a polyline (if the
     ///     input is a set of points or polylines forming a straight line), or a point (in degenerate cases).
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry[]> ConvexHull(IEnumerable<Geometry> geometries, bool? merge = null)
+    public async Task<Geometry[]> ConvexHull(IEnumerable<Geometry> geometries, bool? merge = null,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, merge]);
+        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(ConvexHull),
+            cancellationToken, geometries, merge);
     }
 
     /// <summary>
-    ///     Calculates the convex hull of one or more geometries. A convex hull is the smallest convex polygon that encloses a group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
+    ///     Calculates the convex hull of one or more geometries. A convex hull is the smallest convex polygon that encloses a
+    ///     group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any
+    ///     geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
     /// </summary>
     /// <param name="geometry">
     ///     The input geometry used to calculate the convex hull.
@@ -220,10 +264,12 @@ public class GeometryEngine : LogicComponent
     ///     Returns the convex hull of the input geometries. This is usually a polygon, but can also be a polyline (if the
     ///     input is a set of points or polylines forming a straight line), or a point (in degenerate cases).
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> ConvexHull(Geometry geometry)
+    public async Task<Geometry> ConvexHull(Geometry geometry, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(ConvexHull),
+            cancellationToken, geometry);
     }
 
     /// <summary>
@@ -238,14 +284,23 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if geometry1 crosses geometry2.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> Crosses(Geometry geometry1, Geometry geometry2)
+    public async Task<bool> Crosses(Geometry geometry1, Geometry geometry2,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Crosses),
+            cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
-    ///     Splits the input Polyline or Polygon where it crosses a cutting Polyline. For Polylines, all left cuts are grouped together in the first Geometry. Right cuts and coincident cuts are grouped in the second Geometry and each undefined cut, along with any uncut parts, are output as separate Polylines. For Polygons, all left cuts are grouped in the first Polygon, all right cuts are grouped in the second Polygon, and each undefined cut, along with any leftover parts after cutting, are output as a separate Polygon. If no cuts are returned then the array will be empty. An undefined cut will only be produced if a left cut or right cut was produced and there was a part left over after cutting, or a cut is bounded to the left and right of the cutter.
+    ///     Splits the input Polyline or Polygon where it crosses a cutting Polyline. For Polylines, all left cuts are grouped
+    ///     together in the first Geometry. Right cuts and coincident cuts are grouped in the second Geometry and each
+    ///     undefined cut, along with any uncut parts, are output as separate Polylines. For Polygons, all left cuts are
+    ///     grouped in the first Polygon, all right cuts are grouped in the second Polygon, and each undefined cut, along with
+    ///     any leftover parts after cutting, are output as a separate Polygon. If no cuts are returned then the array will be
+    ///     empty. An undefined cut will only be produced if a left cut or right cut was produced and there was a part left
+    ///     over after cutting, or a cut is bounded to the left and right of the cutter.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to be cut.
@@ -256,10 +311,12 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an array of geometries created by cutting the input geometry with the cutter.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry[]> Cut(Geometry geometry, Polyline cutter)
+    public async Task<Geometry[]> Cut(Geometry geometry, Polyline cutter, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometry, cutter]);
+        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(Cut),
+            cancellationToken, geometry, cutter);
     }
 
     /// <summary>
@@ -277,14 +334,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The densified geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Densify(Geometry geometry, double maxSegmentLength, GeometryEngineLinearUnit? maxSegmentLengthUnit = null)
+    public async Task<Geometry> Densify(Geometry geometry, double maxSegmentLength,
+        GeometryEngineLinearUnit? maxSegmentLengthUnit = null, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, maxSegmentLength, maxSegmentLengthUnit]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Densify),
+            cancellationToken, geometry, maxSegmentLength, maxSegmentLengthUnit);
     }
 
     /// <summary>
-    ///     Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
+    ///     Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the
+    ///     subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
     /// </summary>
     /// <param name="geometries">
     ///     The input geometries to subtract from.
@@ -295,14 +356,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the geometry of inputGeometry minus the subtractor geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry[]> Difference(IEnumerable<Geometry> geometries, Geometry subtractor)
+    public async Task<Geometry[]> Difference(IEnumerable<Geometry> geometries, Geometry subtractor,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, subtractor]);
+        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(geometries),
+            cancellationToken, geometries, subtractor);
     }
 
     /// <summary>
-    ///     Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
+    ///     Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the
+    ///     subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
     /// </summary>
     /// <param name="geometry">
     ///     The input geometry to subtract from.
@@ -313,10 +378,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the geometry of inputGeometry minus the subtractor geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Difference(Geometry geometry, Geometry subtractor)
+    public async Task<Geometry> Difference(Geometry geometry, Geometry subtractor,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, subtractor]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Difference),
+            cancellationToken, geometry, subtractor);
     }
 
     /// <summary>
@@ -331,14 +399,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if geometry1 and geometry2 are disjoint (don't intersect in any way).
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> Disjoint(Geometry geometry1, Geometry geometry2)
+    public async Task<bool> Disjoint(Geometry geometry1, Geometry geometry2,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Disjoint),
+            cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
-    ///     Calculates the shortest planar distance between two geometries. Distance is reported in the linear units specified by distanceUnit or, if distanceUnit is null, the units of the spatialReference of input geometry.
+    ///     Calculates the shortest planar distance between two geometries. Distance is reported in the linear units specified
+    ///     by distanceUnit or, if distanceUnit is null, the units of the spatialReference of input geometry.
     /// </summary>
     /// <param name="geometry1">
     ///     First input geometry.
@@ -352,17 +424,21 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Distance between the two input geometries.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<double> Distance(Geometry geometry1, Geometry geometry2, GeometryEngineLinearUnit? distanceUnit = null)
+    public async Task<double> Distance(Geometry geometry1, Geometry geometry2,
+        GeometryEngineLinearUnit? distanceUnit = null, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry1, geometry2, distanceUnit]);
+        return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(Distance),
+            cancellationToken, geometry1, geometry2, distanceUnit);
     }
 
     /// <summary>
     ///     Indicates if two geometries are equal.
     /// </summary>
     /// <remarks>
-    ///     In ArcGIS for JS, this method is called `Equals`. However, this term has special meaning in .NET, so we have renamed here.
+    ///     In ArcGIS for JS, this method is called `Equals`. However, this term has special meaning in .NET, so we have
+    ///     renamed here.
     /// </remarks>
     /// <param name="geometry1">
     ///     First input geometry.
@@ -373,10 +449,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the two input geometries are equal.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> AreEqual(Geometry geometry1, Geometry geometry2)
+    public async Task<bool> AreEqual(Geometry geometry1, Geometry geometry2,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(AreEqual),
+            cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -386,12 +465,15 @@ public class GeometryEngine : LogicComponent
     ///     The input spatial reference.
     /// </param>
     /// <returns>
-    ///     Resolves to a <see cref = "SpatialReferenceInfo"/> object.
+    ///     Resolves to a <see cref="SpatialReferenceInfo" /> object.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<SpatialReferenceInfo> ExtendedSpatialReferenceInfo(SpatialReference spatialReference)
+    public async Task<SpatialReferenceInfo> ExtendedSpatialReferenceInfo(SpatialReference spatialReference,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<SpatialReferenceInfo>(nameof(GeometryEngine), parameters: [spatialReference]);
+        return await InvokeAsync<SpatialReferenceInfo>(nameof(ProjectionEngine), nameof(ExtendedSpatialReferenceInfo),
+            cancellationToken, spatialReference);
     }
 
     /// <summary>
@@ -406,10 +488,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The flipped geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> FlipHorizontal(Geometry geometry, Point? flipOrigin = null)
+    public async Task<Geometry> FlipHorizontal(Geometry geometry, Point? flipOrigin = null,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, flipOrigin]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(FlipHorizontal),
+            cancellationToken, geometry, flipOrigin);
     }
 
     /// <summary>
@@ -424,14 +509,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The flipped geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> FlipVertical(Geometry geometry, Point? flipOrigin = null)
+    public async Task<Geometry> FlipVertical(Geometry geometry, Point? flipOrigin = null,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, flipOrigin]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(FlipVertical),
+            cancellationToken, geometry, flipOrigin);
     }
 
     /// <summary>
-    ///     Performs the generalize operation on the geometries in the cursor. Point and Multipoint geometries are left unchanged. Envelope is converted to a Polygon and then generalized.
+    ///     Performs the generalize operation on the geometries in the cursor. Point and Multipoint geometries are left
+    ///     unchanged. Envelope is converted to a Polygon and then generalized.
     /// </summary>
     /// <param name="geometry">
     ///     The input geometry to be generalized.
@@ -448,14 +537,21 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The generalized geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Generalize(Geometry geometry, double maxDeviation, bool? removeDegenerateParts = null, GeometryEngineLinearUnit? maxDeviationUnit = null)
+    public async Task<Geometry> Generalize(Geometry geometry, double maxDeviation, bool? removeDegenerateParts = null,
+        GeometryEngineLinearUnit? maxDeviationUnit = null, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, maxDeviation, removeDegenerateParts, maxDeviationUnit]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Generalize),
+            cancellationToken, geometry, maxDeviation, removeDegenerateParts, maxDeviationUnit);
     }
 
     /// <summary>
-    ///     Calculates the area of the input geometry. As opposed to planarArea(), geodesicArea takes into account the curvature of the earth when performing this calculation. Therefore, when using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use planarArea() instead.
+    ///     Calculates the area of the input geometry. As opposed to planarArea(), geodesicArea takes into account the
+    ///     curvature of the earth when performing this calculation. Therefore, when using input geometries with a spatial
+    ///     reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using
+    ///     geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use
+    ///     planarArea() instead.
     /// </summary>
     /// <remarks>
     ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references.
@@ -469,17 +565,24 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Area of the input geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<double> GeodesicArea(Polygon geometry, GeometryEngineAreaUnit? unit = null)
+    public async Task<double> GeodesicArea(Polygon geometry, GeometryEngineAreaUnit? unit = null,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, unit]);
+        return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(GeodesicArea),
+            cancellationToken, geometry, unit);
     }
 
     /// <summary>
-    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances, this method takes the curvature of the earth into account, which provides highly accurate results when dealing with very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system could not accurately plot coordinates and measure distances for all the geometries.
+    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,
+    ///     this method takes the curvature of the earth into account, which provides highly accurate results when dealing with
+    ///     very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system
+    ///     could not accurately plot coordinates and measure distances for all the geometries.
     /// </summary>
     /// <remarks>
-    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
+    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input
+    ///     geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
     ///     most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system
     ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
     ///     than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -488,22 +591,32 @@ public class GeometryEngine : LogicComponent
     ///     The buffer input geometries
     /// </param>
     /// <param name="distances">
-    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The value of the geometry array will be matched one to one with those in the distance array until the final value of the distance array is reached, in which case that value will be applied to the remaining geometries.
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
     /// <returns>
     ///     The resulting buffers
     /// </returns>
-    [SerializedMethod]
-    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, null, null]);
+        return GeodesicBuffer(geometries, distances, null, null, cancellationToken);
     }
 
     /// <summary>
-    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances, this method takes the curvature of the earth into account, which provides highly accurate results when dealing with very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system could not accurately plot coordinates and measure distances for all the geometries.
+    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,
+    ///     this method takes the curvature of the earth into account, which provides highly accurate results when dealing with
+    ///     very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system
+    ///     could not accurately plot coordinates and measure distances for all the geometries.
     /// </summary>
     /// <remarks>
-    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
+    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input
+    ///     geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
     ///     most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system
     ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
     ///     than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -512,7 +625,12 @@ public class GeometryEngine : LogicComponent
     ///     The buffer input geometries
     /// </param>
     /// <param name="distances">
-    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The value of the geometry array will be matched one to one with those in the distance array until the final value of the distance array is reached, in which case that value will be applied to the remaining geometries.
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
     /// <param name="unit">
     ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
@@ -520,18 +638,22 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
-    [SerializedMethod]
-    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
-        GeometryEngineLinearUnit? unit)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
+        GeometryEngineLinearUnit? unit, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, unit, null]);
+        return GeodesicBuffer(geometries, distances, unit, null, cancellationToken);
     }
 
     /// <summary>
-    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances, this method takes the curvature of the earth into account, which provides highly accurate results when dealing with very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system could not accurately plot coordinates and measure distances for all the geometries.
+    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,
+    ///     this method takes the curvature of the earth into account, which provides highly accurate results when dealing with
+    ///     very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system
+    ///     could not accurately plot coordinates and measure distances for all the geometries.
     /// </summary>
     /// <remarks>
-    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
+    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input
+    ///     geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
     ///     most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system
     ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
     ///     than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -540,7 +662,12 @@ public class GeometryEngine : LogicComponent
     ///     The buffer input geometries
     /// </param>
     /// <param name="distances">
-    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The value of the geometry array will be matched one to one with those in the distance array until the final value of the distance array is reached, in which case that value will be applied to the remaining geometries.
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
     /// <param name="unit">
     ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
@@ -551,18 +678,24 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
-        GeometryEngineLinearUnit? unit, bool? unionResults)
+    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
+        GeometryEngineLinearUnit? unit, bool? unionResults, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon[]>(nameof(GeometryEngine), parameters: [geometries, distances, unit, unionResults]);
+        return await InvokeAsync<Polygon[]>(nameof(ProjectionEngine), nameof(distances),
+            cancellationToken, geometries, distances, unit, unionResults);
     }
 
     /// <summary>
-    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances, this method takes the curvature of the earth into account, which provides highly accurate results when dealing with very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system could not accurately plot coordinates and measure distances for all the geometries.
+    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,
+    ///     this method takes the curvature of the earth into account, which provides highly accurate results when dealing with
+    ///     very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system
+    ///     could not accurately plot coordinates and measure distances for all the geometries.
     /// </summary>
     /// <remarks>
-    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
+    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input
+    ///     geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
     ///     most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system
     ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
     ///     than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -576,17 +709,22 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
-    [SerializedMethod]
-    public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Polygon> GeodesicBuffer(Geometry geometry, double distance,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [geometry, distance, null]);
+        return GeodesicBuffer(geometry, distance, null, cancellationToken);
     }
 
     /// <summary>
-    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances, this method takes the curvature of the earth into account, which provides highly accurate results when dealing with very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system could not accurately plot coordinates and measure distances for all the geometries.
+    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,
+    ///     this method takes the curvature of the earth into account, which provides highly accurate results when dealing with
+    ///     very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system
+    ///     could not accurately plot coordinates and measure distances for all the geometries.
     /// </summary>
     /// <remarks>
-    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
+    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input
+    ///     geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
     ///     most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system
     ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
     ///     than WGS84 (wkid: 4326), use geometryService.buffer().
@@ -603,38 +741,46 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit)
+    public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [geometry, distance, unit]);
+        return await InvokeAsync<Polygon>(nameof(ProjectionEngine), nameof(GeodesicBuffer),
+            cancellationToken, geometry, distance, unit);
     }
 
     /// <summary>
-    ///     Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the geometry along great circles.
+    ///     Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the
+    ///     geometry along great circles.
     /// </summary>
     /// <param name="geometry">
     ///     A polyline or polygon to densify.
     /// </param>
     /// <param name="maxSegmentLength">
-    ///     The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive value.
+    ///     The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive
+    ///     value.
     /// </param>
     /// <returns>
     ///     Returns the densified geometry.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, maxSegmentLength, null]);
+        return GeodesicDensify(geometry, maxSegmentLength, null, cancellationToken);
     }
-    
+
     /// <summary>
-    ///     Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the geometry along great circles.
+    ///     Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the
+    ///     geometry along great circles.
     /// </summary>
     /// <param name="geometry">
     ///     A polyline or polygon to densify.
     /// </param>
     /// <param name="maxSegmentLength">
-    ///     The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive value.
+    ///     The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive
+    ///     value.
     /// </param>
     /// <param name="maxSegmentLengthUnit">
     ///     Measurement unit for maxSegmentLength. If not provided, the unit will default to meters.
@@ -642,15 +788,21 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the densified geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength, 
-        GeometryEngineLinearUnit? maxSegmentLengthUnit)
+    public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength,
+        GeometryEngineLinearUnit? maxSegmentLengthUnit, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, maxSegmentLength, maxSegmentLengthUnit]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(GeodesicDensify),
+            cancellationToken, geometry, maxSegmentLength, maxSegmentLengthUnit);
     }
 
     /// <summary>
-    ///     Calculates the length of the input geometry. As opposed to planarLength(), geodesicLength() takes into account the curvature of the earth when performing this calculation. Therefore, when using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web Mercator, use planarLength() instead.
+    ///     Calculates the length of the input geometry. As opposed to planarLength(), geodesicLength() takes into account the
+    ///     curvature of the earth when performing this calculation. Therefore, when using input geometries with a spatial
+    ///     reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate lengths using
+    ///     geodesicLength(). If the input geometries have a projected coordinate system other than Web Mercator, use
+    ///     planarLength() instead.
     /// </summary>
     /// <remarks>
     ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references.
@@ -664,14 +816,19 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Length of the input geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<double> GeodesicLength(Geometry geometry, GeometryEngineLinearUnit? unit = null)
+    public async Task<double> GeodesicLength(Geometry geometry, GeometryEngineLinearUnit? unit = null,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, unit]);
+        return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(GeodesicLength),
+            cancellationToken, geometry, unit);
     }
 
     /// <summary>
-    ///     Creates new geometries from the intersections between two geometries. If the input geometries have different dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest dimension of the inputs. The table below describes the expected output for various combinations of geometry types.
+    ///     Creates new geometries from the intersections between two geometries. If the input geometries have different
+    ///     dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest
+    ///     dimension of the inputs. The table below describes the expected output for various combinations of geometry types.
     /// </summary>
     /// <param name="geometries1">
     ///     The input array of geometries.
@@ -682,14 +839,19 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The intersections of the geometries.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry[]> Intersect(IEnumerable<Geometry> geometries1, Geometry geometry2)
+    public async Task<Geometry[]> Intersect(IEnumerable<Geometry> geometries1, Geometry geometry2,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries1, geometry2]);
+        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(geometries1),
+            cancellationToken, geometries1, geometry2);
     }
 
     /// <summary>
-    ///     Creates new geometries from the intersections between two geometries. If the input geometries have different dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest dimension of the inputs.
+    ///     Creates new geometries from the intersections between two geometries. If the input geometries have different
+    ///     dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest
+    ///     dimension of the inputs.
     /// </summary>
     /// <param name="geometry1">
     ///     The input geometry.
@@ -700,10 +862,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The intersections of the geometries.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Intersect(Geometry geometry1, Geometry geometry2)
+    public async Task<Geometry> Intersect(Geometry geometry1, Geometry geometry2,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Intersect),
+            cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -718,14 +883,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the input geometries intersect each other.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> Intersects(Geometry geometry1, Geometry geometry2)
+    public async Task<bool> Intersects(Geometry geometry1, Geometry geometry2,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Intersects),
+            cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
-    ///     Indicates if the given geometry is topologically simple. In a simplified geometry, no polygon rings or polyline paths will overlap, and no self-intersection will occur.
+    ///     Indicates if the given geometry is topologically simple. In a simplified geometry, no polygon rings or polyline
+    ///     paths will overlap, and no self-intersection will occur.
     /// </summary>
     /// <param name="geometry">
     ///     The input geometry.
@@ -733,10 +902,12 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the geometry is topologically simple.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> IsSimple(Geometry geometry)
+    public async Task<bool> IsSimple(Geometry geometry, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(IsSimple),
+            cancellationToken, geometry);
     }
 
     /// <summary>
@@ -751,10 +922,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object containing the nearest coordinate.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<NearestPointResult> NearestCoordinate(Geometry geometry, Point inputPoint)
+    public async Task<NearestPointResult> NearestCoordinate(Geometry geometry, Point inputPoint,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<NearestPointResult>(nameof(GeometryEngine), parameters: [geometry, inputPoint]);
+        return await InvokeAsync<NearestPointResult>(nameof(ProjectionEngine), nameof(NearestCoordinate),
+            cancellationToken, geometry, inputPoint);
     }
 
     /// <summary>
@@ -769,14 +943,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object containing the nearest vertex.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<NearestPointResult> NearestVertex(Geometry geometry, Point inputPoint)
+    public async Task<NearestPointResult> NearestVertex(Geometry geometry, Point inputPoint,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<NearestPointResult>(nameof(GeometryEngine), parameters: [geometry, inputPoint]);
+        return await InvokeAsync<NearestPointResult>(nameof(ProjectionEngine), nameof(NearestVertex),
+            cancellationToken, geometry, inputPoint);
     }
 
     /// <summary>
-    ///     Finds all vertices in the given distance from the specified point, sorted from the closest to the furthest and returns them as an array of Objects.
+    ///     Finds all vertices in the given distance from the specified point, sorted from the closest to the furthest and
+    ///     returns them as an array of Objects.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to consider.
@@ -793,38 +971,53 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     An array of objects containing the nearest vertices within the given searchRadius.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<NearestPointResult[]> NearestVertices(Geometry geometry, Point inputPoint, double searchRadius, int maxVertexCountToReturn)
+    public async Task<NearestPointResult[]> NearestVertices(Geometry geometry, Point inputPoint, double searchRadius,
+        int maxVertexCountToReturn, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<NearestPointResult[]>(nameof(GeometryEngine), parameters: [geometry, inputPoint, searchRadius, maxVertexCountToReturn]);
+        return await InvokeAsync<NearestPointResult[]>(nameof(ProjectionEngine), nameof(NearestVertices),
+            cancellationToken, geometry, inputPoint, searchRadius, maxVertexCountToReturn);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <returns>
     ///     The offset geometries.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, null, null, null, null]);
+        return Offset(geometries, offsetDistance, null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
@@ -832,21 +1025,27 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometries.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, offsetUnit, null, null, null]);
+        return Offset(geometries, offsetDistance, offsetUnit, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
@@ -857,21 +1056,27 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometries.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, offsetUnit, joinType, null, null]);
+        return Offset(geometries, offsetDistance, offsetUnit, joinType, null, null,
+            cancellationToken);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
@@ -880,76 +1085,100 @@ public class GeometryEngine : LogicComponent
     ///     The <see cref="JoinType" />
     /// </param>
     /// <param name="bevelRatio">
-    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how far a mitered offset intersection can be located before it is beveled.
+    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
+    ///     far a mitered offset intersection can be located before it is beveled.
     /// </param>
     /// <returns>
     ///     The offset geometries.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, offsetUnit, joinType, bevelRatio, null]);
+        return Offset(geometries, offsetDistance, offsetUnit, joinType, bevelRatio, null,
+            cancellationToken);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
     /// </param>
     /// <param name="joinType">
-    ///     The <see cref = "JoinType"/>
+    ///     The <see cref="JoinType" />
     /// </param>
     /// <param name="bevelRatio">
-    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how far a mitered offset intersection can be located before it is beveled.
+    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
+    ///     far a mitered offset intersection can be located before it is beveled.
     /// </param>
     /// <param name="flattenError">
-    ///     Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
+    ///     Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared
+    ///     to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
     /// </param>
     /// <returns>
     ///     The offset geometries.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
     public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
-        double? flattenError)
+        double? flattenError, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [geometries, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError]);
+        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(Offset),
+            cancellationToken, geometries, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <returns>
     ///     The offset geometry.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, null, null, null, null]);
+        return Offset(geometry, offsetDistance, null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
@@ -957,21 +1186,27 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometry.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, offsetUnit, null, null, null]);
+        return Offset(geometry, offsetDistance, offsetUnit, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
@@ -982,21 +1217,27 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometry.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, offsetUnit, joinType, null, null]);
+        return Offset(geometry, offsetDistance, offsetUnit, joinType, null, null,
+            cancellationToken);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
@@ -1005,48 +1246,60 @@ public class GeometryEngine : LogicComponent
     ///     The <see cref="JoinType" />
     /// </param>
     /// <param name="bevelRatio">
-    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how far a mitered offset intersection can be located before it is beveled.
+    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
+    ///     far a mitered offset intersection can be located before it is beveled.
     /// </param>
     /// <returns>
     ///     The offset geometry.
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, offsetUnit, joinType, bevelRatio, null]);
+        return Offset(geometry, offsetDistance, offsetUnit, joinType, bevelRatio, null,
+            cancellationToken);
     }
 
     /// <summary>
-    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
     /// </param>
     /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
     /// </param>
     /// <param name="joinType">
-    ///     The <see cref = "JoinType"/>
+    ///     The <see cref="JoinType" />
     /// </param>
     /// <param name="bevelRatio">
-    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how far a mitered offset intersection can be located before it is beveled.
+    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
+    ///     far a mitered offset intersection can be located before it is beveled.
     /// </param>
     /// <param name="flattenError">
-    ///     Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
+    ///     Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared
+    ///     to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
     /// </param>
     /// <returns>
     ///     The offset geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
     public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
-        double? flattenError)
+        double? flattenError, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Offset),
+            cancellationToken, geometry, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
     }
 
     /// <summary>
@@ -1061,26 +1314,37 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the two geometries overlap.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> Overlaps(Geometry geometry1, Geometry geometry2)
+    public async Task<bool> Overlaps(Geometry geometry1, Geometry geometry2,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Overlaps),
+            cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
-    ///     Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation using projected coordinates and does not take into account the earth's curvature. When using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use planarArea() instead.
+    ///     Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation
+    ///     using projected coordinates and does not take into account the earth's curvature. When using input geometries with
+    ///     a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using
+    ///     geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use
+    ///     planarArea() instead.
     /// </summary>
     /// <param name="geometry">
     ///     The input polygon.
     /// </param>
-    [SerializedMethod]
-    public async Task<double> PlanarArea(Polygon geometry)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<double> PlanarArea(Polygon geometry, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, null]);
+        return PlanarArea(geometry, null, cancellationToken);
     }
-    
+
     /// <summary>
-    ///     Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation using projected coordinates and does not take into account the earth's curvature. When using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use planarArea() instead.
+    ///     Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation
+    ///     using projected coordinates and does not take into account the earth's curvature. When using input geometries with
+    ///     a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using
+    ///     geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use
+    ///     planarArea() instead.
     /// </summary>
     /// <param name="geometry">
     ///     The input polygon.
@@ -1091,14 +1355,21 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The area of the input geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<double> PlanarArea(Polygon geometry, GeometryEngineAreaUnit? unit)
+    public async Task<double> PlanarArea(Polygon geometry, GeometryEngineAreaUnit? unit,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, unit]);
+        return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(PlanarArea),
+            cancellationToken, geometry, unit);
     }
 
     /// <summary>
-    ///     Calculates the length of the input geometry. As opposed to geodesicLength(), planarLength() uses projected coordinates and does not take into account the curvature of the earth when performing this calculation. When using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web Mercator, use planarLength() instead.
+    ///     Calculates the length of the input geometry. As opposed to geodesicLength(), planarLength() uses projected
+    ///     coordinates and does not take into account the curvature of the earth when performing this calculation. When using
+    ///     input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to
+    ///     calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web
+    ///     Mercator, use planarLength() instead.
     /// </summary>
     /// <param name="geometry">
     ///     The input geometry.
@@ -1106,14 +1377,20 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The length of the input geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<double> PlanarLength(Geometry geometry)
+    public async Task<double> PlanarLength(Geometry geometry, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry]);
+        return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(PlanarLength),
+            cancellationToken, geometry);
     }
-    
+
     /// <summary>
-    ///     Calculates the length of the input geometry. As opposed to geodesicLength(), planarLength() uses projected coordinates and does not take into account the curvature of the earth when performing this calculation. When using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web Mercator, use planarLength() instead.
+    ///     Calculates the length of the input geometry. As opposed to geodesicLength(), planarLength() uses projected
+    ///     coordinates and does not take into account the curvature of the earth when performing this calculation. When using
+    ///     input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to
+    ///     calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web
+    ///     Mercator, use planarLength() instead.
     /// </summary>
     /// <param name="geometry">
     ///     The input geometry.
@@ -1124,10 +1401,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The length of the input geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<double> PlanarLength(Geometry geometry, GeometryEngineLinearUnit? unit)
+    public async Task<double> PlanarLength(Geometry geometry, GeometryEngineLinearUnit? unit,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<double>(nameof(GeometryEngine), parameters: [geometry, unit]);
+        return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(PlanarLength),
+            cancellationToken, geometry, unit);
     }
 
     /// <summary>
@@ -1140,9 +1420,16 @@ public class GeometryEngine : LogicComponent
     ///     The second geometry for the relation.
     /// </param>
     /// <param name="relation">
-    ///     The Dimensionally Extended 9 Intersection Model (DE-9IM) matrix relation (encoded as a string) to test against the relationship of the two geometries. This string contains the test result of each intersection represented in the DE-9IM matrix. Each result is one character of the string and may be represented as either a number (maximum dimension returned: 0,1,2), a Boolean value (T or F), or a mask character (for ignoring results: '*'). For example, each of the following DE-9IM string codes are valid for testing whether a polygon geometry completely contains a line geometry: TTTFFTFFT (Boolean), 'T******FF*' (ignore irrelevant intersections), or '102FF*FF*' (dimension form). Each returns the same result. See
+    ///     The Dimensionally Extended 9 Intersection Model (DE-9IM) matrix relation (encoded as a string) to test against the
+    ///     relationship of the two geometries. This string contains the test result of each intersection represented in the
+    ///     DE-9IM matrix. Each result is one character of the string and may be represented as either a number (maximum
+    ///     dimension returned: 0,1,2), a Boolean value (T or F), or a mask character (for ignoring results: '*'). For example,
+    ///     each of the following DE-9IM string codes are valid for testing whether a polygon geometry completely contains a
+    ///     line geometry: TTTFFTFFT (Boolean), 'T******FF*' (ignore irrelevant intersections), or '102FF*FF*' (dimension
+    ///     form). Each returns the same result. See
     ///     <a target="_blank" href="https://en.wikipedia.org/wiki/DE-9IM">this article</a> and
-    ///     <a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">
+    ///     <a target="_blank"
+    ///        href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">
     ///         this
     ///         ArcGIS help page
     ///     </a>
@@ -1151,14 +1438,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the relation of the input geometries is accurate.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> Relate(Geometry geometry1, Geometry geometry2, string relation)
+    public async Task<bool> Relate(Geometry geometry1, Geometry geometry2, string relation,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2, relation]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Relate),
+            cancellationToken, geometry1, geometry2, relation);
     }
 
     /// <summary>
-    ///     Rotates a geometry counterclockwise by the specified number of degrees. Rotation is around the centroid, or a given rotation point.
+    ///     Rotates a geometry counterclockwise by the specified number of degrees. Rotation is around the centroid, or a given
+    ///     rotation point.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to rotate.
@@ -1172,14 +1463,19 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The rotated geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Rotate(Geometry geometry, double angle, Point rotationOrigin)
+    public async Task<Geometry> Rotate(Geometry geometry, double angle, Point rotationOrigin,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry, angle, rotationOrigin]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Rotate),
+            cancellationToken, geometry, angle, rotationOrigin);
     }
 
     /// <summary>
-    ///     Performs the simplify operation on the geometry, which alters the given geometries to make their definitions topologically legal with respect to their geometry type. At the end of a simplify operation, no polygon rings or polyline paths will overlap, and no self-intersection will occur.
+    ///     Performs the simplify operation on the geometry, which alters the given geometries to make their definitions
+    ///     topologically legal with respect to their geometry type. At the end of a simplify operation, no polygon rings or
+    ///     polyline paths will overlap, and no self-intersection will occur.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to be simplified.
@@ -1187,14 +1483,17 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The simplified geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Simplify(Geometry geometry)
+    public async Task<Geometry> Simplify(Geometry geometry, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometry]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Simplify),
+            cancellationToken, geometry);
     }
 
     /// <summary>
-    ///     Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either of the sets, but not in both.
+    ///     Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either
+    ///     of the sets, but not in both.
     /// </summary>
     /// <param name="leftGeometries">
     ///     One of the Geometry instances in the XOR operation.
@@ -1205,14 +1504,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The symmetric differences of the two geometries.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry[]> SymmetricDifference(IEnumerable<Geometry> leftGeometries, Geometry rightGeometry)
+    public async Task<Geometry[]> SymmetricDifference(IEnumerable<Geometry> leftGeometries, Geometry rightGeometry,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(GeometryEngine), parameters: [leftGeometries, rightGeometry]);
+        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(SymmetricDifference),
+            cancellationToken, leftGeometries, rightGeometry);
     }
 
     /// <summary>
-    ///     Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either of the sets, but not in both.
+    ///     Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either
+    ///     of the sets, but not in both.
     /// </summary>
     /// <param name="leftGeometry">
     ///     One of the Geometry instances in the XOR operation.
@@ -1223,10 +1526,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The symmetric differences of the two geometries.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> SymmetricDifference(Geometry leftGeometry, Geometry rightGeometry)
+    public async Task<Geometry> SymmetricDifference(Geometry leftGeometry, Geometry rightGeometry,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [leftGeometry, rightGeometry]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(SymmetricDifference),
+            cancellationToken, leftGeometry, rightGeometry);
     }
 
     /// <summary>
@@ -1241,10 +1547,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     When true, geometry1 touches geometry2.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> Touches(Geometry geometry1, Geometry geometry2)
+    public async Task<bool> Touches(Geometry geometry1, Geometry geometry2,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [geometry1, geometry2]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Touches),
+            cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -1256,10 +1565,9 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The union of the geometries
     /// </returns>
-    [SerializedMethod]
-    public async Task<Geometry> Union(params Geometry[] geometries)
+    public Task<Geometry> Union(params Geometry[] geometries)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometries.Cast<object>()]);
+        return Union(geometries, CancellationToken.None);
     }
 
     /// <summary>
@@ -1271,10 +1579,12 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The union of the geometries
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Union(IEnumerable<Geometry> geometries)
+    public async Task<Geometry> Union(IEnumerable<Geometry> geometries, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(GeometryEngine), parameters: [geometries.Cast<object>()]);
+        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Union),
+            cancellationToken, geometries.Cast<object>());
     }
 
     /// <summary>
@@ -1289,55 +1599,89 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if innerGeometry is within outerGeometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> Within(Geometry innerGeometry, Geometry outerGeometry)
+    public async Task<bool> Within(Geometry innerGeometry, Geometry outerGeometry,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [innerGeometry, outerGeometry]);
+        return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Within),
+            cancellationToken, innerGeometry, outerGeometry);
     }
 
     /// <summary>
-    ///     Creates a new instance of this class and initializes it with values from a JSON object generated from an ArcGIS product. The object passed into the input json parameter often comes from a response to a query operation in the REST API or a toJSON() method from another ArcGIS product. See the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">Using fromJSON()</a> topic in the Guide for details and examples of when and how to use this function.
+    ///     Creates a new instance of this class and initializes it with values from a JSON object generated from an ArcGIS
+    ///     product. The object passed into the input json parameter often comes from a response to a query operation in the
+    ///     REST API or a toJSON() method from another ArcGIS product. See the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">
+    ///         Using
+    ///         fromJSON()
+    ///     </a>
+    ///     topic in the Guide for details and examples of when and how to use this function.
     /// </summary>
     /// <param name="json">
-    ///     A JSON representation of the instance in the ArcGIS format. See the <a target="_blank" href="https://developers.arcgis.com/documentation/common-data-types/overview-of-common-data-types.htm">ArcGIS REST API documentation</a> for examples of the structure of various input JSON objects.
+    ///     A JSON representation of the instance in the ArcGIS format. See the
+    ///     <a target="_blank"
+    ///        href="https://developers.arcgis.com/documentation/common-data-types/overview-of-common-data-types.htm">
+    ///         ArcGIS
+    ///         REST API documentation
+    ///     </a>
+    ///     for examples of the structure of various input JSON objects.
     /// </param>
     /// <returns>
     ///     Returns a new geometry instance.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<T> FromArcGisJson<T>(string json)
+    public async Task<T> FromArcGisJson<T>(string json, CancellationToken cancellationToken = default)
         where T : Geometry
     {
-        return await InvokeAsync<T>(nameof(GeometryEngine), parameters: [json, typeof(T).Name]);
+        return await InvokeAsync<T>(nameof(ProjectionEngine), nameof(FromArcGisJson),
+            cancellationToken, json, typeof(T).Name);
     }
 
     /// <summary>
-    ///     Converts an instance of this class to its ArcGIS portal JSON representation. See the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">Using fromJSON()</a> guide topic for more information.
+    ///     Converts an instance of this class to its ArcGIS portal JSON representation. See the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">
+    ///         Using
+    ///         fromJSON()
+    ///     </a>
+    ///     guide topic for more information.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to convert.
     /// </param>
     /// <returns>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/documentation/common-data-types/geometry-objects.htm">ArcGIS portal JSON</a> representation of an instance of this class.
+    ///     The
+    ///     <a target="_blank" href="https://developers.arcgis.com/documentation/common-data-types/geometry-objects.htm">
+    ///         ArcGIS
+    ///         portal JSON
+    ///     </a>
+    ///     representation of an instance of this class.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<string> ToArcGisJson<T>(T geometry)
+    public async Task<string> ToArcGisJson<T>(T geometry, CancellationToken cancellationToken = default)
         where T : Geometry
     {
-        return await InvokeAsync<string>(nameof(GeometryEngine), parameters: [geometry]);
+        return await InvokeAsync<string>(nameof(ProjectionEngine), nameof(ToArcGisJson),
+            cancellationToken, geometry);
     }
 
     /// <summary>
     ///     Creates a deep clone of the geometry.
     /// </summary>
     /// <remarks>
-    ///     Unlike the Clone methods in the Geometry classes, this method does a loop through the ArcGIS JS SDK. Therefore, if you are having issues with unpopulated fields in the geometry, try using this method instead.
+    ///     Unlike the Clone methods in the Geometry classes, this method does a loop through the ArcGIS JS SDK. Therefore, if
+    ///     you are having issues with unpopulated fields in the geometry, try using this method instead.
     /// </remarks>
+    /// <param name="geometry">The geometry to clone</param>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<T> Clone<T>(T geometry)
+    public async Task<T> Clone<T>(T geometry, CancellationToken cancellationToken = default)
         where T : Geometry
     {
-        return await InvokeAsync<T>(nameof(GeometryEngine), parameters: [geometry]);
+        return await InvokeAsync<T>(nameof(ProjectionEngine), nameof(Clone),
+            cancellationToken, geometry);
     }
 
     /// <summary>
@@ -1352,14 +1696,17 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The centered extent.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Extent> CenterExtentAt(Extent extent, Point point)
+    public async Task<Extent> CenterExtentAt(Extent extent, Point point, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Extent>(nameof(GeometryEngine), parameters: [extent, point]);
+        return await InvokeAsync<Extent>(nameof(ProjectionEngine), nameof(CenterExtentAt),
+            cancellationToken, extent, point);
     }
 
     /// <summary>
-    ///     Expands the extent by the given factor. For example, a value of 1.5 will expand the extent to be 50 percent larger than the original extent.
+    ///     Expands the extent by the given factor. For example, a value of 1.5 will expand the extent to be 50 percent larger
+    ///     than the original extent.
     /// </summary>
     /// <param name="extent">
     ///     The input extent.
@@ -1370,25 +1717,31 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The expanded extent.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Extent> Expand(Extent extent, double factor)
+    public async Task<Extent> Expand(Extent extent, double factor, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Extent>(nameof(GeometryEngine), parameters: [extent, factor]);
+        return await InvokeAsync<Extent>(nameof(ProjectionEngine), nameof(Expand),
+            cancellationToken, extent, factor);
     }
 
     /// <summary>
-    ///     Returns an array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent intersects the International Dateline.
+    ///     Returns an array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent
+    ///     intersects the International Dateline.
     /// </summary>
     /// <param name="extent">
     ///     The input extent.
     /// </param>
     /// <returns>
-    ///     An array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent intersects the International Dateline.
+    ///     An array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent
+    ///     intersects the International Dateline.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Extent[]> NormalizeExtent(Extent extent)
+    public async Task<Extent[]> NormalizeExtent(Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Extent[]>(nameof(GeometryEngine), parameters: [extent]);
+        return await InvokeAsync<Extent[]>(nameof(ProjectionEngine), nameof(NormalizeExtent),
+            cancellationToken, extent);
     }
 
     /// <summary>
@@ -1407,10 +1760,13 @@ public class GeometryEngine : LogicComponent
     ///     The offset distance in map units for the Z-coordinate.
     /// </param>
     /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Extent> OffsetExtent(Extent extent, double dx, double dy, double dz = 0)
+    public async Task<Extent> OffsetExtent(Extent extent, double dx, double dy, double dz = 0,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Extent>(nameof(GeometryEngine), parameters: [extent, dx, dy, dz]);
+        return await InvokeAsync<Extent>(nameof(ProjectionEngine), nameof(OffsetExtent),
+            cancellationToken, extent, dx, dy, dz);
     }
 
     /// <summary>
@@ -1422,10 +1778,12 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a point with a normalized x-value.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Point> NormalizePoint(Point point)
+    public async Task<Point> NormalizePoint(Point point, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Point>(nameof(GeometryEngine), parameters: [point]);
+        return await InvokeAsync<Point>(nameof(ProjectionEngine), nameof(NormalizePoint),
+            cancellationToken, point);
     }
 
     /// <summary>
@@ -1435,15 +1793,18 @@ public class GeometryEngine : LogicComponent
     ///     The polyline to add the path to. Will return a new modified copy.
     /// </param>
     /// <param name="points">
-    ///     The polyline path to add as a <see cref = "MapPath"/>.
+    ///     The polyline path to add as a <see cref="MapPath" />.
     /// </param>
     /// <returns>
     ///     Returns a new polyline with the added path.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polyline> AddPath(Polyline polyline, MapPath points)
+    public async Task<Polyline> AddPath(Polyline polyline, MapPath points,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polyline>(nameof(GeometryEngine), parameters: [polyline, points]);
+        return await InvokeAsync<Polyline>(nameof(ProjectionEngine), nameof(AddPath),
+            cancellationToken, polyline, points);
     }
 
     /// <summary>
@@ -1453,21 +1814,24 @@ public class GeometryEngine : LogicComponent
     ///     The polyline to add the path to. Will return a new modified copy.
     /// </param>
     /// <param name="points">
-    ///     The polyline path to add as an array of <see cref = "Point"/>s.
+    ///     The polyline path to add as an array of <see cref="Point" />s.
     /// </param>
     /// <returns>
     ///     Returns a new polyline with the added path.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polyline> AddPath(Polyline polyline, Point[] points)
+    public async Task<Polyline> AddPath(Polyline polyline, Point[] points,
+        CancellationToken cancellationToken = default)
     {
         var mapPoints = new List<MapPoint>();
-        foreach (Point p in points)
+
+        foreach (var p in points)
         {
             mapPoints.Add(new MapPoint(p.X ?? p.Longitude!.Value, p.Y ?? p.Latitude!.Value));
         }
 
-        return await AddPath(polyline, new MapPath(mapPoints));
+        return await AddPath(polyline, new MapPath(mapPoints), cancellationToken);
     }
 
     /// <summary>
@@ -1485,10 +1849,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the point along the Polyline located in the given path and point indices.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Point> GetPoint(Polyline polyline, int pathIndex, int pointIndex)
+    public async Task<Point> GetPoint(Polyline polyline, int pathIndex, int pointIndex,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Point>(nameof(GeometryEngine), parameters: [polyline, pathIndex, pointIndex]);
+        return await InvokeAsync<Point>(nameof(GeometryEngine), nameof(GetPoint),
+            cancellationToken, polyline, pathIndex, pointIndex);
     }
 
     /// <summary>
@@ -1509,10 +1876,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the inserted point.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polyline> InsertPoint(Polyline polyline, int pathIndex, int pointIndex, Point point)
+    public async Task<Polyline> InsertPoint(Polyline polyline, int pathIndex, int pointIndex, Point point,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polyline>(nameof(GeometryEngine), parameters: [polyline, pathIndex, pointIndex, point]);
+        return await InvokeAsync<Polyline>(nameof(ProjectionEngine), nameof(InsertPoint),
+            cancellationToken, polyline, pathIndex, pointIndex, point);
     }
 
     /// <summary>
@@ -1524,17 +1894,24 @@ public class GeometryEngine : LogicComponent
     /// <param name="index">
     ///     The index of the path to remove.
     /// </param>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     /// <returns>
     ///     Returns an object with the modified polyline and the removed path.
     /// </returns>
-    public async Task<(Polyline PolyLine, Point[] Path)> RemovePath(Polyline polyline, int index)
+    [SerializedMethod]
+    public async Task<(Polyline PolyLine, Point[] Path)> RemovePath(Polyline polyline, int index,
+        CancellationToken cancellationToken = default)
     {
-        // DON'T ADD [SerializedMethod], doesn't work here
-        // TODO: Refactor API for V5
-        GeometryRemovePathResult result = 
-            await InvokeAsync<GeometryRemovePathResult>(nameof(GeometryEngine), parameters: [polyline, index]);
-        
-        return ((Polyline)result.Geometry, result.Path);
+        var result =
+            await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(RemovePath),
+                cancellationToken, polyline, index);
+
+        if (result.Length < 3) // need at least two points for the path
+        {
+            throw new InvalidOperationException($"No path found at index {index} on polyline");
+        }
+
+        return ((Polyline)result[0], result.Skip(1).Cast<Point>().ToArray());
     }
 
     /// <summary>
@@ -1549,18 +1926,25 @@ public class GeometryEngine : LogicComponent
     /// <param name="pointIndex">
     ///     The index of the point in the path to remove.
     /// </param>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     /// <returns>
     ///     Returns an object with the modified polyline and the removed point.
     /// </returns>
-    public async Task<(Polyline Polyline, Point Point)> RemovePoint(Polyline polyline, int pathIndex, int pointIndex)
+    [SerializedMethod]
+    public async Task<(Polyline Polyline, Point Point)> RemovePoint(Polyline polyline, int pathIndex, int pointIndex,
+        CancellationToken cancellationToken = default)
     {
-        // DON'T ADD [SerializedMethod], doesn't work here
-        // TODO: Refactor API for V5
-        GeometryRemovePointResult result =
-            await InvokeAsync<GeometryRemovePointResult>(nameof(GeometryEngine), 
-                parameters: [polyline, pathIndex, pointIndex]);
+        var result =
+            await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(RemovePoint),
+                cancellationToken, polyline, pathIndex, pointIndex);
 
-        return ((Polyline)result.Geometry, result.Point);
+        if (result.Length < 2)
+        {
+            throw new InvalidOperationException($"No point found at path index {pathIndex} and point index {pointIndex
+            } on polyline");
+        }
+
+        return ((Polyline)result[0], (Point)result[1]);
     }
 
     /// <summary>
@@ -1581,14 +1965,18 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the updated point.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polyline> SetPoint(Polyline polyline, int pathIndex, int pointIndex, Point point)
+    public async Task<Polyline> SetPoint(Polyline polyline, int pathIndex, int pointIndex, Point point,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polyline>(nameof(GeometryEngine), parameters: [polyline, pathIndex, pointIndex, point]);
+        return await InvokeAsync<Polyline>(nameof(GeometryEngine), nameof(SetPoint),
+            cancellationToken, polyline, pathIndex, pointIndex, point);
     }
 
     /// <summary>
-    ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
+    ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When
+    ///     added the index of the ring is incremented by one.
     /// </summary>
     /// <param name="polygon">
     ///     The polygon to add the ring to.
@@ -1599,14 +1987,17 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polygon with the added ring.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon> AddRing(Polygon polygon, MapPath points)
+    public async Task<Polygon> AddRing(Polygon polygon, MapPath points, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [polygon, points]);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), nameof(AddRing),
+            cancellationToken, polygon, points);
     }
 
     /// <summary>
-    ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
+    ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When
+    ///     added the index of the ring is incremented by one.
     /// </summary>
     /// <param name="polygon">
     ///     The polygon to add the ring to.
@@ -1617,20 +2008,24 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polygon with the added ring.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon> AddRing(Polygon polygon, Point[] points)
+    public async Task<Polygon> AddRing(Polygon polygon, Point[] points, CancellationToken cancellationToken = default)
     {
         var mapPoints = new List<MapPoint>();
-        foreach (Point p in points)
+
+        foreach (var p in points)
         {
             mapPoints.Add(new MapPoint(p.X ?? p.Longitude!.Value, p.Y ?? p.Latitude!.Value));
         }
 
-        return await AddRing(polygon, new MapPath(mapPoints));
+        return await AddRing(polygon, new MapPath(mapPoints), cancellationToken);
     }
 
     /// <summary>
-    ///     Converts the given Extent to a Polygon instance. This is useful for scenarios in which you would like to display an area of interest, which is typically defined by an Extent or bounding box, as a polygon with a fill symbol in the view. Some geoprocessing tools require input geometries to be of a Polygon type and not an Extent.
+    ///     Converts the given Extent to a Polygon instance. This is useful for scenarios in which you would like to display an
+    ///     area of interest, which is typically defined by an Extent or bounding box, as a polygon with a fill symbol in the
+    ///     view. Some geoprocessing tools require input geometries to be of a Polygon type and not an Extent.
     /// </summary>
     /// <param name="extent">
     ///     An extent object to convert to a polygon.
@@ -1638,10 +2033,12 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     A polygon instance representing the given extent.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon> PolygonFromExtent(Extent extent)
+    public async Task<Polygon> PolygonFromExtent(Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [extent]);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), nameof(PolygonFromExtent),
+            cancellationToken, extent);
     }
 
     /// <summary>
@@ -1659,10 +2056,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the point at the specified ring index and point index.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Point> GetPoint(Polygon polygon, int ringIndex, int pointIndex)
+    public async Task<Point> GetPoint(Polygon polygon, int ringIndex, int pointIndex,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Point>(nameof(GeometryEngine), parameters: [polygon, ringIndex, pointIndex]);
+        return await InvokeAsync<Point>(nameof(GeometryEngine), nameof(GetPoint),
+            cancellationToken, polygon, ringIndex, pointIndex);
     }
 
     /// <summary>
@@ -1683,10 +2083,13 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polygon with the inserted point.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon> InsertPoint(Polygon polygon, int ringIndex, int pointIndex, Point point)
+    public async Task<Polygon> InsertPoint(Polygon polygon, int ringIndex, int pointIndex, Point point,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [polygon, ringIndex, pointIndex, point]);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), nameof(InsertPoint),
+            cancellationToken, polygon, ringIndex, pointIndex, point);
     }
 
     /// <summary>
@@ -1696,15 +2099,18 @@ public class GeometryEngine : LogicComponent
     ///     The polygon to check the ring on.
     /// </param>
     /// <param name="ring">
-    ///     A polygon ring defined as a <see cref = "MapPath"/>. The first and last coordinates/points in the ring must be the same.
+    ///     A polygon ring defined as a <see cref="MapPath" />. The first and last coordinates/points in the ring must be the
+    ///     same.
     /// </param>
     /// <returns>
     ///     Returns true if the ring is clockwise and false for counterclockwise.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> IsClockwise(Polygon polygon, MapPath ring)
+    public async Task<bool> IsClockwise(Polygon polygon, MapPath ring, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<bool>(nameof(GeometryEngine), parameters: [polygon, ring]);
+        return await InvokeAsync<bool>(nameof(GeometryEngine), nameof(IsClockwise),
+            cancellationToken, polygon, ring);
     }
 
     /// <summary>
@@ -1714,21 +2120,24 @@ public class GeometryEngine : LogicComponent
     ///     The polygon to check the ring on.
     /// </param>
     /// <param name="ring">
-    ///     A polygon ring defined as an array of <see cref = "Point"/>s. The first and last coordinates/points in the ring must be the same.
+    ///     A polygon ring defined as an array of <see cref="Point" />s. The first and last coordinates/points in the ring must
+    ///     be the same.
     /// </param>
     /// <returns>
     ///     Returns true if the ring is clockwise and false for counterclockwise.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<bool> IsClockwise(Polygon polygon, Point[] ring)
+    public async Task<bool> IsClockwise(Polygon polygon, Point[] ring, CancellationToken cancellationToken = default)
     {
         var mapPoints = new List<MapPoint>();
-        foreach (Point p in ring)
+
+        foreach (var p in ring)
         {
             mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
         }
 
-        return await IsClockwise(polygon, new MapPath(mapPoints));
+        return await IsClockwise(polygon, new MapPath(mapPoints), cancellationToken);
     }
 
     /// <summary>
@@ -1743,18 +2152,25 @@ public class GeometryEngine : LogicComponent
     /// <param name="pointIndex">
     ///     The index of the point to remove within the ring.
     /// </param>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     /// <returns>
     ///     Returns an object with the modified polygon and the removed point.
     /// </returns>
-    public async Task<(Polygon Polygon, Point Point)> RemovePoint(Polygon polygon, int ringIndex, int pointIndex)
+    [SerializedMethod]
+    public async Task<(Polygon Polygon, Point Point)> RemovePoint(Polygon polygon, int ringIndex, int pointIndex,
+        CancellationToken cancellationToken = default)
     {
-        // DON'T ADD [SerializedMethod], doesn't work here
-        // TODO: Refactor API for V5
-        GeometryRemovePointResult result =
-            await InvokeAsync<GeometryRemovePointResult>(nameof(GeometryEngine), 
-                parameters: [polygon, ringIndex, pointIndex]);
+        var result =
+            await InvokeAsync<Geometry[]>(nameof(GeometryEngine), nameof(RemovePoint),
+                cancellationToken, polygon, ringIndex, pointIndex);
 
-        return ((Polygon)result.Geometry, result.Point);
+        if (result.Length < 2)
+        {
+            throw new InvalidOperationException($"No point found at ring index {ringIndex} and point index {pointIndex
+            } on polygon");
+        }
+
+        return ((Polygon)result[0], (Point)result[1]);
     }
 
     /// <summary>
@@ -1766,17 +2182,24 @@ public class GeometryEngine : LogicComponent
     /// <param name="index">
     ///     The index of the ring to remove.
     /// </param>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     /// <returns>
     ///     Returns an object with the modified polygon and the removed ring.
     /// </returns>
-    public async Task<(Polygon Polygon, Point[] Ring)> RemoveRing(Polygon polygon, int index)
+    [SerializedMethod]
+    public async Task<(Polygon Polygon, Point[] Ring)> RemoveRing(Polygon polygon, int index,
+        CancellationToken cancellationToken = default)
     {
-        // DON'T ADD [SerializedMethod], doesn't work here
-        // TODO: Refactor API for V5
-        GeometryRemovePathResult result =
-            await InvokeAsync<GeometryRemovePathResult>(nameof(GeometryEngine), parameters: [polygon, index]);
-        
-        return ((Polygon)result.Geometry, result.Path);
+        var result =
+            await InvokeAsync<Geometry[]>(nameof(GeometryEngine), nameof(RemoveRing),
+                cancellationToken, polygon, index);
+
+        if (result.Length < 3) // need at least two points for the ring
+        {
+            throw new InvalidOperationException($"No ring found at index {index} on polygon");
+        }
+
+        return ((Polygon)result[0], result.Skip(1).Cast<Point>().ToArray());
     }
 
     /// <summary>
@@ -1797,39 +2220,48 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polygon with the updated point.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon> SetPoint(Polygon polygon, int ringIndex, int pointIndex, Point point)
+    public async Task<Polygon> SetPoint(Polygon polygon, int ringIndex, int pointIndex, Point point,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon>(nameof(GeometryEngine), parameters: [polygon, ringIndex, pointIndex, point]);
+        return await InvokeAsync<Polygon>(nameof(GeometryEngine), nameof(SetPoint),
+            cancellationToken, polygon, ringIndex, pointIndex, point);
     }
 
     /// <summary>
     ///     Retrieves the center point of the extent in map units.
     /// </summary>
+    /// <param name="extent">The extent to measure</param>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Point?> GetExtentCenter(Extent extent)
+    public async Task<Point?> GetExtentCenter(Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Point?>(nameof(GeometryEngine), parameters: [extent]);
+        return await InvokeAsync<Point?>(nameof(GeometryEngine), nameof(GetExtentCenter),
+            cancellationToken, extent);
     }
 
     /// <summary>
     ///     Retrieves the height of the extent in map units (the distance between ymin and ymax).
     /// </summary>
+    /// <param name="extent">The extent to measure</param>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<double?> GetExtentHeight(Extent extent)
+    public async Task<double?> GetExtentHeight(Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<double?>(nameof(GeometryEngine), parameters: [extent]);
+        return await InvokeAsync<double?>(nameof(ProjectionEngine), nameof(GetExtentHeight),
+            cancellationToken, extent);
     }
 
     /// <summary>
     ///     Retrieves the width of the extent in map units (the distance between xmin and xmax).
     /// </summary>
+    /// <param name="extent">The extent to measure</param>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<double?> GetExtentWidth(Extent extent)
+    public async Task<double?> GetExtentWidth(Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<double?>(nameof(GeometryEngine), parameters: [extent]);
+        return await InvokeAsync<double?>(nameof(ProjectionEngine), nameof(GetExtentWidth),
+            cancellationToken, extent);
     }
 }
-
-internal record GeometryRemovePointResult(Geometry Geometry, Point Point);
-internal record GeometryRemovePathResult(Geometry Geometry, Point[] Path);
