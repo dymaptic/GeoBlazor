@@ -131,8 +131,7 @@ if (help)
     return 0;
 }
 
-string currentDir = Environment.CurrentDirectory;
-string scriptDir = GetScriptDirectory();
+string scriptDir = GetScriptsDirectory();
 
 // Determine templates directory
 string templatesDir = templatesDirOverride ?? Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "templates"));
@@ -603,7 +602,18 @@ static int RunDotnet(string arguments)
     return process.ExitCode;
 }
 
-static string GetScriptDirectory([CallerFilePath] string? callerFilePath = null)
+static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
 {
-    return Path.GetDirectoryName(callerFilePath!) ?? Environment.CurrentDirectory;
+    // When running as a pre-compiled DLL, [CallerFilePath] contains the compile-time path
+    // which is invalid at runtime (especially in Docker containers).
+    // Detect this by checking if the file exists at the caller path.
+    if (!string.IsNullOrEmpty(callerFilePath) && File.Exists(callerFilePath))
+    {
+        return Path.GetDirectoryName(callerFilePath)!;
+    }
+
+    // Running as a DLL - use AppContext.BaseDirectory which points to the DLL location
+    // The DLL is in build-tools/, and scripts are in build-scripts/ (sibling directory)
+    string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+    return Path.Combine(Path.GetDirectoryName(dllDirectory)!, "build-scripts");
 }
