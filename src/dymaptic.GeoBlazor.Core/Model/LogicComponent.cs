@@ -6,8 +6,11 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.
 /// </summary>
-public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRuntime, 
-    JsModuleManager jsModuleManager, AuthenticationManager authenticationManager)
+public abstract class LogicComponent(
+    IAppValidator appValidator,
+    IJSRuntime jsRuntime,
+    JsModuleManager jsModuleManager,
+    AuthenticationManager authenticationManager)
 {
     /// <summary>
     ///     The name of the logic component.
@@ -23,13 +26,17 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     ///     A .NET Object reference to this class for use in JavaScript.
     /// </summary>
     [JsonConverter(typeof(DotNetObjectReferenceJsonConverter))]
-    protected DotNetObjectReference<LogicComponent> DotNetComponentReference =>
-        DotNetObjectReference.Create(this);
+    protected DotNetObjectReference<LogicComponent> DotNetComponentReference => DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     The project library which houses this particular logic component.
     /// </summary>
     protected virtual string Library => "Core";
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    protected bool IsServer => jsRuntime.GetType().Name.Contains("Remote");
 
     /// <summary>
     ///     A JavaScript invokable method that returns a JS Error and converts it to an Exception.
@@ -44,6 +51,7 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     public void OnJavascriptError(JavascriptError error)
     {
         var exception = new JavascriptException(error);
+
         throw exception;
     }
 
@@ -78,7 +86,7 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    internal virtual async Task InvokeVoidAsync(string className, [CallerMemberName] string method = "",
+    protected internal virtual async Task InvokeVoidAsync(string className, [CallerMemberName] string method = "",
         params object?[] parameters)
     {
         await Initialize();
@@ -101,18 +109,13 @@ public abstract class LogicComponent(IAppValidator appValidator, IJSRuntime jsRu
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    internal virtual async Task<T> InvokeAsync<T>(string className, [CallerMemberName]string method = "",
+    protected internal virtual async Task<T> InvokeAsync<T>(string className, [CallerMemberName] string method = "",
         CancellationToken cancellationToken = default, params object?[] parameters)
     {
         await Initialize(cancellationToken);
-        
+
         return await Component!.InvokeJsMethod<T>(IsServer, method, className, cancellationToken, parameters);
     }
-    
+
     private bool _validated;
-    
-    /// <summary>
-    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
-    /// </summary>
-    protected bool IsServer => jsRuntime.GetType().Name.Contains("Remote");
 }

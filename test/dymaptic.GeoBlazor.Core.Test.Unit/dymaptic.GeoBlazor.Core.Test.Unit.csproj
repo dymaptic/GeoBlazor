@@ -21,6 +21,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.3.2"/>
     </ItemGroup>
 
     <ItemGroup>

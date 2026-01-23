@@ -1,5 +1,5 @@
 // ReSharper disable RedundantEnumerableCastCall
-namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A client-side geometry engine for testing, measuring, and analyzing the spatial relationship between two or more 2D
@@ -126,7 +126,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
         GeometryEngineLinearUnit? unit, bool? unionResults, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon[]>(nameof(ProjectionEngine), nameof(distances),
+        return await InvokeAsync<Polygon[]>(nameof(ProjectionEngine), nameof(Buffer),
             cancellationToken, geometries, distances, unit, unionResults);
     }
 
@@ -150,7 +150,7 @@ public class GeometryEngine : LogicComponent
     ///     The resulting buffer.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Polygon> Buffer(Geometry geometry, double distance, CancellationToken cancellationToken = default)
+    public Task<Polygon?> Buffer(Geometry geometry, double distance, CancellationToken cancellationToken = default)
     {
         return Buffer(geometry, distance, null, cancellationToken);
     }
@@ -179,7 +179,7 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon> Buffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit,
+    public async Task<Polygon?> Buffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit,
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polygon>(nameof(ProjectionEngine), nameof(Buffer),
@@ -245,10 +245,10 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry[]> ConvexHull(IEnumerable<Geometry> geometries, bool? merge = null,
+    public async Task<Geometry?[]> ConvexHull(IEnumerable<Geometry> geometries, bool? merge = null,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(ConvexHull),
+        return await InvokeAsync<Geometry?[]>(nameof(ProjectionEngine), nameof(ConvexHull),
             cancellationToken, geometries, merge);
     }
 
@@ -266,9 +266,9 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> ConvexHull(Geometry geometry, CancellationToken cancellationToken = default)
+    public async Task<Geometry?> ConvexHull(Geometry geometry, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(ConvexHull),
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(ConvexHull),
             cancellationToken, geometry);
     }
 
@@ -358,10 +358,10 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry[]> Difference(IEnumerable<Geometry> geometries, Geometry subtractor,
+    public async Task<Geometry?[]> Difference(IEnumerable<Geometry> geometries, Geometry subtractor,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(geometries),
+        return await InvokeAsync<Geometry?[]>(nameof(ProjectionEngine), nameof(Difference),
             cancellationToken, geometries, subtractor);
     }
 
@@ -380,10 +380,10 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Difference(Geometry geometry, Geometry subtractor,
+    public async Task<Geometry?> Difference(Geometry geometry, Geometry subtractor,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Difference),
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Difference),
             cancellationToken, geometry, subtractor);
     }
 
@@ -469,11 +469,12 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
+    [Obsolete]
     public async Task<SpatialReferenceInfo> ExtendedSpatialReferenceInfo(SpatialReference spatialReference,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<SpatialReferenceInfo>(nameof(ProjectionEngine), nameof(ExtendedSpatialReferenceInfo),
-            cancellationToken, spatialReference);
+        return await InvokeAsync<SpatialReferenceInfo>(nameof(ProjectionEngine),
+            nameof(ExtendedSpatialReferenceInfo), cancellationToken, spatialReference);
     }
 
     /// <summary>
@@ -539,10 +540,10 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Generalize(Geometry geometry, double maxDeviation, bool? removeDegenerateParts = null,
+    public async Task<Geometry?> Generalize(Geometry geometry, double maxDeviation, bool? removeDegenerateParts = null,
         GeometryEngineLinearUnit? maxDeviationUnit = null, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Generalize),
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Generalize),
             cancellationToken, geometry, maxDeviation, removeDegenerateParts, maxDeviationUnit);
     }
 
@@ -683,7 +684,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
         GeometryEngineLinearUnit? unit, bool? unionResults, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon[]>(nameof(ProjectionEngine), nameof(distances),
+        return await InvokeAsync<Polygon[]>(nameof(ProjectionEngine), nameof(GeodesicBuffer),
             cancellationToken, geometries, distances, unit, unionResults);
     }
 
@@ -710,7 +711,7 @@ public class GeometryEngine : LogicComponent
     ///     The resulting buffers
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Polygon> GeodesicBuffer(Geometry geometry, double distance,
+    public Task<Polygon?> GeodesicBuffer(Geometry geometry, double distance,
         CancellationToken cancellationToken = default)
     {
         return GeodesicBuffer(geometry, distance, null, cancellationToken);
@@ -743,10 +744,10 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit,
+    public async Task<Polygon?> GeodesicBuffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Polygon>(nameof(ProjectionEngine), nameof(GeodesicBuffer),
+        return await InvokeAsync<Polygon?>(nameof(ProjectionEngine), nameof(GeodesicBuffer),
             cancellationToken, geometry, distance, unit);
     }
 
@@ -765,7 +766,7 @@ public class GeometryEngine : LogicComponent
     ///     Returns the densified geometry.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength,
+    public Task<Geometry?> GeodesicDensify(Geometry geometry, double maxSegmentLength,
         CancellationToken cancellationToken = default)
     {
         return GeodesicDensify(geometry, maxSegmentLength, null, cancellationToken);
@@ -790,7 +791,7 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength,
+    public async Task<Geometry?> GeodesicDensify(Geometry geometry, double maxSegmentLength,
         GeometryEngineLinearUnit? maxSegmentLengthUnit, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(GeodesicDensify),
@@ -844,7 +845,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Geometry[]> Intersect(IEnumerable<Geometry> geometries1, Geometry geometry2,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(geometries1),
+        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(Intersect),
             cancellationToken, geometries1, geometry2);
     }
 
@@ -864,10 +865,10 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Intersect(Geometry geometry1, Geometry geometry2,
+    public async Task<Geometry?> Intersect(Geometry geometry1, Geometry geometry2,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Intersect),
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Intersect),
             cancellationToken, geometry1, geometry2);
     }
 
@@ -924,10 +925,10 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<NearestPointResult> NearestCoordinate(Geometry geometry, Point inputPoint,
+    public async Task<ProximityResult> NearestCoordinate(Geometry geometry, Point inputPoint,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<NearestPointResult>(nameof(ProjectionEngine), nameof(NearestCoordinate),
+        return await InvokeAsync<ProximityResult>(nameof(ProjectionEngine), nameof(NearestCoordinate),
             cancellationToken, geometry, inputPoint);
     }
 
@@ -945,10 +946,10 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<NearestPointResult> NearestVertex(Geometry geometry, Point inputPoint,
+    public async Task<ProximityResult> NearestVertex(Geometry geometry, Point inputPoint,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<NearestPointResult>(nameof(ProjectionEngine), nameof(NearestVertex),
+        return await InvokeAsync<ProximityResult>(nameof(ProjectionEngine), nameof(NearestVertex),
             cancellationToken, geometry, inputPoint);
     }
 
@@ -973,32 +974,28 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<NearestPointResult[]> NearestVertices(Geometry geometry, Point inputPoint, double searchRadius,
+    public async Task<ProximityResult[]> NearestVertices(Geometry geometry, Point inputPoint, double searchRadius,
         int maxVertexCountToReturn, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<NearestPointResult[]>(nameof(ProjectionEngine), nameof(NearestVertices),
+        return await InvokeAsync<ProximityResult[]>(nameof(ProjectionEngine), nameof(NearestVertices),
             cancellationToken, geometry, inputPoint, searchRadius, maxVertexCountToReturn);
     }
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <returns>
     ///     The offset geometries.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+    public Task<Geometry?[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
         CancellationToken cancellationToken = default)
     {
         return Offset(geometries, offsetDistance, null, null, null, null,
@@ -1007,26 +1004,22 @@ public class GeometryEngine : LogicComponent
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <returns>
     ///     The offset geometries.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+    public Task<Geometry?[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, CancellationToken cancellationToken = default)
     {
         return Offset(geometries, offsetDistance, offsetUnit, null, null, null,
@@ -1035,29 +1028,30 @@ public class GeometryEngine : LogicComponent
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
-    ///     The <see cref="JoinType" />
+    ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
+    ///     Default value: "round"
+    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
+    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
+    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
+    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
     /// <returns>
     ///     The offset geometries.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+    public Task<Geometry?[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, CancellationToken cancellationToken = default)
     {
         return Offset(geometries, offsetDistance, offsetUnit, joinType, null, null,
@@ -1066,100 +1060,95 @@ public class GeometryEngine : LogicComponent
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
-    ///     The <see cref="JoinType" />
+    ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
+    ///     Default value: "round"
+    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
+    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
+    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
+    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
-    /// <param name="bevelRatio">
-    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
-    ///     far a mitered offset intersection can be located before it is beveled.
+    /// <param name="miterLimit">
+    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins which would result in a larger mitered offset will be beveled instead.
     /// </param>
     /// <returns>
     ///     The offset geometries.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
+    public Task<Geometry?[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? miterLimit,
         CancellationToken cancellationToken = default)
     {
-        return Offset(geometries, offsetDistance, offsetUnit, joinType, bevelRatio, null,
+        return Offset(geometries, offsetDistance, offsetUnit, joinType, miterLimit, null,
             cancellationToken);
     }
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
-    ///     The <see cref="JoinType" />
+    ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
+    ///     Default value: "round"
+    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
+    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
+    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
+    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
-    /// <param name="bevelRatio">
-    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
-    ///     far a mitered offset intersection can be located before it is beveled.
+    /// <param name="miterLimit">
+    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins which would result in a larger mitered offset will be beveled instead.
     /// </param>
     /// <param name="flattenError">
-    ///     Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared
-    ///     to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
+    ///     The maximum distance of the resulting segments compared to the true circular arc (used only when joins is round). The algorithm never produces more than around 180 vertices for each round join.
     /// </param>
     /// <returns>
     ///     The offset geometries.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
+    public async Task<Geometry?[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? miterLimit,
         double? flattenError, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(Offset),
-            cancellationToken, geometries, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
+        return await InvokeAsync<Geometry?[]>(nameof(ProjectionEngine), nameof(Offset),
+            cancellationToken, geometries, offsetDistance, offsetUnit, joinType, miterLimit, flattenError);
     }
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <returns>
     ///     The offset geometry.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+    public Task<Geometry?> Offset(Geometry geometry, double offsetDistance,
         CancellationToken cancellationToken = default)
     {
         return Offset(geometry, offsetDistance, null, null, null, null,
@@ -1168,26 +1157,22 @@ public class GeometryEngine : LogicComponent
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <returns>
     ///     The offset geometry.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+    public Task<Geometry?> Offset(Geometry geometry, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, CancellationToken cancellationToken = default)
     {
         return Offset(geometry, offsetDistance, offsetUnit, null, null, null,
@@ -1196,29 +1181,30 @@ public class GeometryEngine : LogicComponent
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
-    ///     The <see cref="JoinType" />
+    ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
+    ///     Default value: "round"
+    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
+    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
+    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
+    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
     /// <returns>
     ///     The offset geometry.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+    public Task<Geometry?> Offset(Geometry geometry, double offsetDistance,
         GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, CancellationToken cancellationToken = default)
     {
         return Offset(geometry, offsetDistance, offsetUnit, joinType, null, null,
@@ -1227,79 +1213,78 @@ public class GeometryEngine : LogicComponent
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
-    ///     The <see cref="JoinType" />
+    ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
+    ///     Default value: "round"
+    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
+    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
+    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
+    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
-    /// <param name="bevelRatio">
-    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
-    ///     far a mitered offset intersection can be located before it is beveled.
+    /// <param name="miterLimit">
+    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins which would result in a larger mitered offset will be beveled instead.
     /// </param>
     /// <returns>
     ///     The offset geometry.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    public Task<Geometry> Offset(Geometry geometry, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
+    public Task<Geometry?> Offset(Geometry geometry, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? miterLimit,
         CancellationToken cancellationToken = default)
     {
-        return Offset(geometry, offsetDistance, offsetUnit, joinType, bevelRatio, null,
+        return Offset(geometry, offsetDistance, offsetUnit, joinType, miterLimit, null,
             cancellationToken);
     }
 
     /// <summary>
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
-    ///     similar to buffering, but produces a one-sided result.
+    ///     similar to buffering, but produces a one-sided result. Point and multipoint geometries are not supported.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
-    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
-    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
-    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
-    ///     inside.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
-    ///     The <see cref="JoinType" />
+    ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
+    ///     Default value: "round"
+    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
+    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
+    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
+    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
-    /// <param name="bevelRatio">
-    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
-    ///     far a mitered offset intersection can be located before it is beveled.
+    /// <param name="miterLimit">
+    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins which would result in a larger mitered offset will be beveled instead.
     /// </param>
     /// <param name="flattenError">
-    ///     Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared
-    ///     to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
+    ///     The maximum distance of the resulting segments compared to the true circular arc (used only when joins is round). The algorithm never produces more than around 180 vertices for each round join.
     /// </param>
     /// <returns>
     ///     The offset geometry.
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
+    public async Task<Geometry?> Offset(Geometry geometry, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? miterLimit,
         double? flattenError, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Offset),
-            cancellationToken, geometry, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Offset),
+            cancellationToken, geometry, offsetDistance, offsetUnit, joinType, miterLimit, flattenError);
     }
 
     /// <summary>
@@ -1448,8 +1433,7 @@ public class GeometryEngine : LogicComponent
     }
 
     /// <summary>
-    ///     Rotates a geometry counterclockwise by the specified number of degrees. Rotation is around the centroid, or a given
-    ///     rotation point.
+    ///     Rotates a geometry counterclockwise by the specified number of degrees. Rotation is around the given rotation point, or the centroid if not specified.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to rotate.
@@ -1465,7 +1449,7 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Rotate(Geometry geometry, double angle, Point rotationOrigin,
+    public async Task<Geometry> Rotate(Geometry geometry, double angle, Point? rotationOrigin,
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Rotate),
@@ -1485,9 +1469,9 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Simplify(Geometry geometry, CancellationToken cancellationToken = default)
+    public async Task<Geometry?> Simplify(Geometry geometry, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Simplify),
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Simplify),
             cancellationToken, geometry);
     }
 
@@ -1565,7 +1549,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The union of the geometries
     /// </returns>
-    public Task<Geometry> Union(params Geometry[] geometries)
+    public Task<Geometry?> Union(params Geometry[] geometries)
     {
         return Union(geometries, CancellationToken.None);
     }
@@ -1581,9 +1565,9 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
     [SerializedMethod]
-    public async Task<Geometry> Union(IEnumerable<Geometry> geometries, CancellationToken cancellationToken = default)
+    public async Task<Geometry?> Union(IEnumerable<Geometry> geometries, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Union),
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Union),
             cancellationToken, geometries.Cast<object>());
     }
 
@@ -2134,7 +2118,12 @@ public class GeometryEngine : LogicComponent
 
         foreach (var p in ring)
         {
-            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+            if (p.X is null && p.Longitude is null || p.Y is null && p.Latitude is null)
+            {
+                throw new ArgumentException("Points must have X and Y coordinates");
+            }
+
+            mapPoints.Add(new MapPoint(p.X ?? p.Longitude!.Value, p.Y ?? p.Latitude!.Value));
         }
 
         return await IsClockwise(polygon, new MapPath(mapPoints), cancellationToken);

@@ -163,7 +163,6 @@ public class ESBuildGenerator : IIncrementalGenerator
             bool proBuildSuccess = false;
 
             // gets the ESBuild.cs script
-            // Only show dialog on full compilation builds, not design-time builds
             string[] coreArgs =
             [
                 "ESBuild.dll",

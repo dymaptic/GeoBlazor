@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Results;
 ///     Object returned from the nearestCoordinate(), nearestVertex(), and nearestVertices() methods of <see cref="GeometryEngine" />.
 /// </summary>
 [CodeGenerationIgnore]
-public record NearestPointResult
+public record ProximityResult
 {
     /// <summary>
     ///     A vertex within the specified distance of the search.
@@ -25,4 +25,12 @@ public record NearestPointResult
     ///     Indicates if it is an empty geometry.
     /// </summary>
     public bool IsEmpty { get; set; }
+
+    /// <summary>
+    ///     Indicates if the nearest coordinate is on the right side or left side of the input point.
+    /// </summary>
+    /// <remarks>
+    ///     Note: This property will only be present when calculateLeftRightSide is set to true when calling getNearestCoordinate().
+    /// </remarks>
+    public bool IsRightSide { get; set; }
 }

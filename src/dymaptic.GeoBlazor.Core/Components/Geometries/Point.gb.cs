@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Point.html">GeoBlazor Docs</a>
 ///     A location defined by X, Y, and Z coordinates.
@@ -10,85 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 /// </summary>
 public partial class Point
 {
-
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public Point()
-    {
-    }
-
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="longitude">
-    ///     The longitude of the point.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#longitude">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="latitude">
-    ///     The latitude of the point.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#latitude">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="x">
-    ///     The x-coordinate (easting) of the point in map units.
-    ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#x">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="y">
-    ///     The y-coordinate (northing) of the point in map units.
-    ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#y">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="z">
-    ///     The z-coordinate (or elevation) of the point in map units.
-    ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#z">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="spatialReference">
-    ///     The spatial reference of the geometry.
-    ///     default SpatialReference.WGS84 // wkid: 4326
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="hasM">
-    ///     Indicates if the geometry has M values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasM">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="hasZ">
-    ///     Indicates if the geometry has z-values (elevation).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="m">
-    ///     The m-coordinate of the point in map units.
-    ///     default undefined
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#m">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public Point(
-        double? longitude = null,
-        double? latitude = null,
-        double? x = null,
-        double? y = null,
-        double? z = null,
-        SpatialReference? spatialReference = null,
-        bool? hasM = null,
-        bool? hasZ = null,
-        double? m = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        Longitude = longitude;
-        Latitude = latitude;
-        X = x;
-        Y = y;
-        Z = z;
-        SpatialReference = spatialReference;
-        HasM = hasM;
-        HasZ = hasZ;
-        M = m;
-#pragma warning restore BL0005    
-    }
-    
-    
 #region Property Getters
 
     /// <summary>
@@ -100,8 +20,8 @@ public partial class Point
         {
             return Latitude;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -110,26 +30,28 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Latitude;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "latitude");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Latitude = result.Value.Value;
+            Latitude = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Latitude)] = Latitude;
+            ModifiedParameters[nameof(Latitude)] = Latitude;
         }
-         
+
         return Latitude;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Longitude property.
     /// </summary>
@@ -139,8 +61,8 @@ public partial class Point
         {
             return Longitude;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -149,26 +71,28 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Longitude;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "longitude");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Longitude = result.Value.Value;
+            Longitude = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Longitude)] = Longitude;
+            ModifiedParameters[nameof(Longitude)] = Longitude;
         }
-         
+
         return Longitude;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the M property.
     /// </summary>
@@ -178,8 +102,8 @@ public partial class Point
         {
             return M;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -188,26 +112,28 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return M;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "m");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             M = result.Value.Value;
+            M = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(M)] = M;
+            ModifiedParameters[nameof(M)] = M;
         }
-         
+
         return M;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the X property.
     /// </summary>
@@ -217,8 +143,8 @@ public partial class Point
         {
             return X;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -227,26 +153,28 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return X;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "x");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             X = result.Value.Value;
+            X = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(X)] = X;
+            ModifiedParameters[nameof(X)] = X;
         }
-         
+
         return X;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Y property.
     /// </summary>
@@ -256,8 +184,8 @@ public partial class Point
         {
             return Y;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -266,26 +194,28 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Y;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "y");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Y = result.Value.Value;
+            Y = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Y)] = Y;
+            ModifiedParameters[nameof(Y)] = Y;
         }
-         
+
         return Y;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Z property.
     /// </summary>
@@ -295,8 +225,8 @@ public partial class Point
         {
             return Z;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -305,27 +235,30 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Z;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "z");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Z = result.Value.Value;
+            Z = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Z)] = Z;
+            ModifiedParameters[nameof(Z)] = Z;
         }
-         
+
         return Z;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -341,13 +274,13 @@ public partial class Point
         Latitude = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Latitude)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -356,16 +289,16 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "latitude", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Longitude property after render.
     /// </summary>
@@ -378,13 +311,13 @@ public partial class Point
         Longitude = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Longitude)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -393,16 +326,16 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "longitude", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the M property after render.
     /// </summary>
@@ -415,13 +348,13 @@ public partial class Point
         M = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(M)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -430,16 +363,16 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "m", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the X property after render.
     /// </summary>
@@ -452,13 +385,13 @@ public partial class Point
         X = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(X)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -467,16 +400,16 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "x", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Y property after render.
     /// </summary>
@@ -489,13 +422,13 @@ public partial class Point
         Y = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Y)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -504,16 +437,16 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "y", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Z property after render.
     /// </summary>
@@ -526,13 +459,13 @@ public partial class Point
         Z = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Z)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -541,17 +474,18 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "z", value);
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
@@ -570,7 +504,7 @@ public partial class Point
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -580,18 +514,17 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "copy", 
+
+        return await JsComponentReference!.InvokeAsync<Point?>("copy",
             CancellationTokenSource.Token,
             other);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Point.html#pointdistance-method">GeoBlazor Docs</a>
     ///     Computes the Euclidean distance between this Point and a given Point.
@@ -607,7 +540,7 @@ public partial class Point
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -617,18 +550,17 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<double?>(
-            "distance", 
+
+        return await JsComponentReference!.InvokeAsync<double?>("distance",
             CancellationTokenSource.Token,
             other);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Point.html#pointnormalize-method">GeoBlazor Docs</a>
     ///     Modifies the point geometry in-place by shifting the X-coordinate to within
@@ -642,7 +574,7 @@ public partial class Point
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -652,17 +584,15 @@ public partial class Point
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "normalize", 
+
+        return await JsComponentReference!.InvokeAsync<Point?>("normalize",
             CancellationTokenSource.Token);
     }
-    
-#endregion
 
+#endregion
 }

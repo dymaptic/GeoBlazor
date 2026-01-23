@@ -185,7 +185,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
     /// </summary>
-    protected internal bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
+    protected internal bool IsMaui => JsRuntime?.GetType().Name.Contains("WebView") ?? false;
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
@@ -1138,7 +1138,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         foreach (PropertyInfo prop in _props)
         {
-            if (_circularMapComponents.Contains(prop.Name)
+            if (prop.SetMethod is null
+                || _circularMapComponents.Contains(prop.Name)
                 || _circularMapComponents.Contains(prop.PropertyType.Name)
                 || (prop.PropertyType.IsGenericType
                     && _circularMapComponents.Any(c => prop.PropertyType

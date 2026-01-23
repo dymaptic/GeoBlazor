@@ -35,6 +35,11 @@ public class ProjectionEngine : LogicComponent
     public Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference,
         CancellationToken cancellationToken = default)
     {
+        if (geometries.Length == 0)
+        {
+            return Task.FromResult<Geometry[]?>([]);
+        }
+
         return Project(geometries, spatialReference, null, cancellationToken);
     }
 
@@ -78,6 +83,12 @@ public class ProjectionEngine : LogicComponent
     public Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference,
         CancellationToken cancellationToken = default)
     {
+        if (spatialReference.Equals(geometry.SpatialReference))
+        {
+            // no conversion, just return the same geometry
+            return Task.FromResult<Geometry?>(geometry);
+        }
+
         return Project(geometry, spatialReference, null, cancellationToken);
     }
 

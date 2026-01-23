@@ -18,7 +18,7 @@ public partial class LocationService : LogicComponent
 
     // final implementation of all the SuggestLocations permutations
     [SerializedMethod]
-    public async Task<AddressCandidate> LocationToAddressImplementation(string url, Point location,
+    private async Task<AddressCandidate> LocationToAddressImplementation(string url, Point location,
         LocationType? locationType, SpatialReference? outSpatialReference, RequestOptions? requestOptions,
         CancellationToken cancellationToken = default)
     {
