@@ -1,15 +1,28 @@
 #!/usr/bin/env dotnet
 
+// Script Builder - Compiles C# build scripts to DLLs
+// ====================================================
+// Builds all C# file-based apps in the build-scripts directory using 'dotnet build'.
+// Outputs compiled DLLs to the ../build-tools/ directory for faster execution.
+//
+// This tool is used to pre-compile the build scripts so they can be run as DLLs
+// rather than interpreted C# files, significantly improving startup time.
+//
+// Usage:
+//   dotnet ScriptBuilder.cs                              Build all scripts
+//   dotnet ScriptBuilder.cs Script1.cs Script2.cs        Build only specified scripts
+//   dotnet ScriptBuilder.cs --exclude Script1.cs         Build all except specified scripts
+//
+// Options:
+//   --exclude    When specified, the listed scripts will be skipped instead of included
+//
+// Output:
+//   Compiled DLLs are placed in GeoBlazor/build-tools/ directory
+//
+// Note: ScriptBuilder.cs itself is always skipped to avoid self-compilation issues.
+
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-
-// Builds all C# scripts in the current directory using dotnet build.
-// Outputs built DLLs to ../build-tools/
-// Usage: dotnet ScriptBuilder.cs
-// Can also pass in script names to build specific scripts only:
-// Usage: dotnet ScriptBuilder.cs Script1.cs Script2.cs ...
-// or the --exclude option to skip specific scripts:
-// Usage: dotnet ScriptBuilder.cs --exclude Script1.cs Script2.cs ...
 
 bool excludeMode = false;
 HashSet<string> scriptsToProcess = new();
@@ -65,6 +78,13 @@ return 0;
 
 
 
+/// <summary>
+/// Compiles a single C# script to a DLL using 'dotnet build'.
+/// </summary>
+/// <param name="scriptName">The name of the script file (e.g., "ESBuild.cs").</param>
+/// <param name="scriptDir">The directory containing the script.</param>
+/// <param name="outDir">The output directory for the compiled DLL.</param>
+/// <returns>0 on success, non-zero on failure.</returns>
 static int BuildScript(string scriptName, string scriptDir, string outDir)
 {
     string[] args =
@@ -119,6 +139,12 @@ static int BuildScript(string scriptName, string scriptDir, string outDir)
 }
 
 
+/// <summary>
+/// Gets the directory containing this script file.
+/// Uses [CallerFilePath] to resolve the path at compile time.
+/// </summary>
+/// <param name="callerFilePath">Automatically populated with the source file path.</param>
+/// <returns>The directory path containing this script.</returns>
 static string GetScriptDirectory([CallerFilePath] string? callerFilePath = null)
 {
     return Path.GetDirectoryName(callerFilePath) ?? Environment.CurrentDirectory;

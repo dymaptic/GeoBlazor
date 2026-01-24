@@ -18,6 +18,12 @@ public class ESBuildGenerator : IIncrementalGenerator
         ? null
         : Path.GetFullPath(Path.Combine(_corePath, "..", "..", "build-tools"));
 
+#if SHOW_SOURCEGEN_DIALOGS
+    private static bool _showDialog = true;
+#else
+    private static bool _showDialog = false;
+#endif
+
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -163,20 +169,28 @@ public class ESBuildGenerator : IIncrementalGenerator
             bool proBuildSuccess = false;
 
             // gets the ESBuild.cs script
-            string[] coreArgs =
+            List<string> esBuildArgs =
             [
                 "ESBuild.dll",
-                "-c", _configuration!, // set config for ESBuild
-                "-d" // show dialog
+                "-c", _configuration! // set config for ESBuild
             ];
 
-            if (!_isDesignTimeBuild)
+            if (_showDialog)
             {
-                coreArgs = [..coreArgs, "-v"]; // show verbose output
+                if (!_isDesignTimeBuild)
+                {
+                    esBuildArgs = [..esBuildArgs, "-d", "-v"]; // show verbose output
+                }
+                else
+                {
+                    esBuildArgs = [..esBuildArgs, "-d"];
+                }
             }
 
             tasks.Add(Task.Run(async () =>
             {
+                string[] coreArgs = esBuildArgs.ToArray();
+
                 await ProcessHelper.Execute("Core",
                     BuildToolsPath!, "dotnet",
                     coreArgs, logBuilder, context);
@@ -187,18 +201,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             {
                 logBuilder.AppendLine("Starting Pro ESBuild process...");
 
-                string[] proArgs =
-                [
-                    "ESBuild.dll",
-                    "-c", _configuration!, // set config for ESBuild
-                    "-d", // show dialog
-                    "--pro" // build for Pro project
-                ];
-
-                if (!_isDesignTimeBuild)
-                {
-                    proArgs = [..proArgs, "-v"]; // show verbose output
-                }
+                string[] proArgs = [..esBuildArgs, "--pro"];
 
                 tasks.Add(Task.Run(async () =>
                 {

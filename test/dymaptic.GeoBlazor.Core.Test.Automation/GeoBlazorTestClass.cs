@@ -1,6 +1,4 @@
 using Microsoft.Playwright;
-using System.Diagnostics;
-using System.Text;
 using System.Web;
 
 
@@ -93,7 +91,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             if (await inconclusiveSpan.IsVisibleAsync())
             {
                 var (messages, errors) = CheckMessages(testName);
-                Trace.WriteLine(messages, "TEST");
+                Trace.WriteLine(messages, "TEST_RESPONSE");
 
                 if (!string.IsNullOrWhiteSpace(errors))
                 {
@@ -110,12 +108,12 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 await Expect(passedSpan).ToBeVisibleAsync(VisibleOptions);
                 await Expect(passedSpan).ToHaveTextAsync("Passed: 1");
                 var (messages, errors) = CheckMessages(testName);
-                Trace.WriteLine(messages, "TEST");
+                Trace.WriteLine(messages, "TEST_RESPONSE");
 
                 if (!string.IsNullOrWhiteSpace(errors))
                 {
                     Trace.WriteLine(errors, "TEST_ERROR");
-                    await RetryOrMarkAsFailure(testName, new Exception(errors), retries);
+                    await RetryOrMarkAsFailure(page, testName, new Exception(errors), retries);
 
                     return;
                 }
@@ -126,9 +124,9 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         catch (Exception ex)
         {
             var (messages, errors) = CheckMessages(testName);
-            Trace.WriteLine(messages, "TEST");
+            Trace.WriteLine(messages, "TEST_RESPONSE");
             Trace.WriteLine(errors, "TEST_ERROR");
-            await RetryOrMarkAsFailure(testName, ex, retries);
+            await RetryOrMarkAsFailure(page, testName, ex, retries);
         }
         finally
         {
@@ -226,7 +224,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     {
         IPage page = (IPage)pageObject!;
         Uri uri = new(page.Url);
-        string testName = HttpUtility.ParseQueryString(uri.Query)["testFilter"]!.Split('.').Last();
+        string testName = HttpUtility.ParseQueryString(uri.Query)["testFilter"]!;
 
         if (message.Type == "error" || message.Text.Contains("error"))
         {
@@ -262,7 +260,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         _errorMessages[testName].Add(message);
     }
 
-    private async Task RetryOrMarkAsFailure(string testName, Exception ex, int retries)
+    private async Task RetryOrMarkAsFailure(IPage page, string testName, Exception ex, int retries)
     {
         if (retries > 2)
         {
@@ -274,6 +272,11 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         var backoffMs = 1000 * (retries + 1);
         Trace.WriteLine($"Retrying {testName} in {backoffMs}ms (attempt {retries + 2}/3)", "TEST");
         await Task.Delay(backoffMs);
+
+        page.Console -= HandleConsoleMessage;
+        page.PageError -= HandlePageError;
+        _consoleMessages.Remove(testName);
+        _errorMessages.Remove(testName);
 
         await RunTestImplementation(testName, retries + 1);
     }

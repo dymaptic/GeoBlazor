@@ -69,7 +69,7 @@ if (help)
 // Normalize configuration
 configuration = configuration.Equals("release", StringComparison.OrdinalIgnoreCase) ? "Release" : "Debug";
 
-string scriptDir = GetScriptDirectory();
+string scriptDir = GetScriptsDirectory();
 
 // Define paths relative to script location (build-scripts folder)
 // Core: ../src/dymaptic.GeoBlazor.Core
@@ -143,7 +143,18 @@ Console.WriteLine("Lock file removed. Exiting.");
 return 0;
 
 // Helper method
-static string GetScriptDirectory([CallerFilePath] string? callerFilePath = null)
+static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
 {
-    return Path.GetDirectoryName(callerFilePath!) ?? Environment.CurrentDirectory;
+    // When running as a pre-compiled DLL, [CallerFilePath] contains the compile-time path
+    // which is invalid at runtime (especially in Docker containers).
+    // Detect this by checking if the file exists at the caller path.
+    if (!string.IsNullOrEmpty(callerFilePath) && File.Exists(callerFilePath))
+    {
+        return Path.GetDirectoryName(callerFilePath)!;
+    }
+
+    // Running as a DLL - use AppContext.BaseDirectory which points to the DLL location
+    // The DLL is in build-tools/, and scripts are in build-scripts/ (sibling directory)
+    string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+    return Path.Combine(Path.GetDirectoryName(dllDirectory)!, "build-scripts");
 }

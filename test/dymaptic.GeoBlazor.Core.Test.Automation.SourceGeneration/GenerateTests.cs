@@ -28,7 +28,8 @@ public class GenerateTests : IIncrementalGenerator
             List<string> classAttributes = [];
             Dictionary<string, List<string>> testMethods = [];
 
-            bool attributeFound = false;
+            bool testMethodAttributeFound = false;
+            string? currentMethodName = null;
             var inMethod = false;
             var openingBracketFound = false;
             int lineNumber = 0;
@@ -42,37 +43,46 @@ public class GenerateTests : IIncrementalGenerator
                 {
                     if (line.Contains("}"))
                     {
-                        methodBracketCount++;
-                    }
-                    else if (line.Contains("{"))
-                    {
-                        openingBracketFound = true;
                         methodBracketCount--;
+                    }
+
+                    if (line.Contains("{"))
+                    {
+                        if (!openingBracketFound)
+                        {
+                            openingBracketFound = true;
+                            testMethods.Add(currentMethodName!, additionalAttributes);
+                            additionalAttributes = [];
+                        }
+
+                        methodBracketCount++;
                     }
 
                     if (openingBracketFound && (methodBracketCount == 0))
                     {
+                        openingBracketFound = false;
                         inMethod = false;
                     }
 
                     continue;
                 }
 
-                if (attributeFound)
+                if (testMethodAttributeFound)
                 {
                     if (testMethodRegex.Match(line) is { Success: true } match)
                     {
                         inMethod = true;
+                        currentMethodName = match.Groups["testName"].Value;
 
                         if (line.Contains("{"))
                         {
                             openingBracketFound = true;
+                            methodBracketCount++;
+                            testMethods.Add(currentMethodName, additionalAttributes);
+                            additionalAttributes = [];
                         }
 
-                        string methodName = match.Groups["testName"].Value;
-                        testMethods.Add(methodName, additionalAttributes);
-                        attributeFound = false;
-                        additionalAttributes = [];
+                        testMethodAttributeFound = false;
 
                         continue;
                     }
@@ -80,7 +90,7 @@ public class GenerateTests : IIncrementalGenerator
                     if (line.StartsWith("//"))
                     {
                         // commented out test
-                        attributeFound = false;
+                        testMethodAttributeFound = false;
 
                         continue;
                     }
@@ -91,7 +101,7 @@ public class GenerateTests : IIncrementalGenerator
 
                 if (line.Contains("[TestMethod]") && !line.StartsWith("//"))
                 {
-                    attributeFound = true;
+                    testMethodAttributeFound = true;
                 }
                 else if (attributesToIgnore.Any(attribute => line.Contains($"[{attribute}")))
                 {
@@ -110,7 +120,7 @@ public class GenerateTests : IIncrementalGenerator
                 }
                 else if (classDeclarationRegex.Match(line) is { Success: true })
                 {
-                    classAttributes = additionalAttributes;
+                    classAttributes.AddRange(additionalAttributes);
                     additionalAttributes = [];
                 }
             }

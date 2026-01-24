@@ -71,7 +71,7 @@ public abstract class LogicComponent(
 
         await authenticationManager.Initialize();
 
-        Component ??= await jsModuleManager.GetLogicComponent(jsRuntime, ComponentName, cancellationToken);
+        Component ??= await jsModuleManager.GetLogicComponent(jsRuntime, ComponentName, Library, cancellationToken);
     }
 
     /// <summary>

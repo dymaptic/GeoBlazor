@@ -14,6 +14,12 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 [Generator]
 public class ProtobufSourceGenerator : IIncrementalGenerator
 {
+#if SHOW_SOURCEGEN_DIALOGS
+    private static bool _showDialog = true;
+#else
+    private static bool _showDialog = false;
+#endif
+
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -55,10 +61,10 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
             pipeline)
     {
         _corePath = pipeline.Options.ProjectDirectory;
-        var showDialog = pipeline.Options.PipelineBuild != "true";
+        bool showDialog = pipeline.Options.PipelineBuild != "true" && _showDialog;
 
         // Generate a unique session ID for this build session
-        var sessionId = $"{nameof(ProtobufSourceGenerator)}_{Guid.NewGuid():N}";
+        string sessionId = $"{nameof(ProtobufSourceGenerator)}_{Guid.NewGuid():N}";
 
         if (pipeline.Types.Length > 0)
         {

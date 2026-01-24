@@ -1,6 +1,8 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
 using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Model;
+using dymaptic.GeoBlazor.Core.Results;
 using Microsoft.AspNetCore.Components;
 
 
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 
+[TestCategory(nameof(LogicComponent))]
 [TestClass]
 public class LocationServiceTests : TestRunnerBase
 {
@@ -99,6 +102,85 @@ public class LocationServiceTests : TestRunnerBase
         Assert.IsTrue(LocationsMatch(_expectedLocationEugene2, secondAddress.Location),
             $"Expected Long: {_expectedLocationEugene2.Longitude} Lat: {_expectedLocationEugene2.Latitude}, got Long: {
                 secondAddress.Location.Longitude} Lat: {secondAddress.Location.Latitude}");
+    }
+
+    [TestMethod]
+    public async Task TestLocationToAddress(Action renderHandler)
+    {
+        // Reverse geocode: given a location, find the address
+        // Using the Esri headquarters location
+        Point location = new Point(-117.19498, 34.05383, spatialReference: new SpatialReference(4326));
+
+        AddressCandidate result = await LocationService.LocationToAddress(location);
+
+        Assert.IsNotNull(result);
+        Assert.IsNotNull(result.Address);
+
+        Assert.IsTrue(result.Address.Contains("New York") || result.Address.Contains("Redlands"),
+            $"Expected address to contain 'New York' or 'Redlands', got: {result.Address}");
+    }
+
+    [TestMethod]
+    public async Task TestLocationToAddressWithLocationType(Action renderHandler)
+    {
+        // Reverse geocode with location type specified
+        Point location = new Point(-117.19498, 34.05383, spatialReference: new SpatialReference(4326));
+
+        AddressCandidate result = await LocationService.LocationToAddress(location, LocationType.Rooftop);
+
+        Assert.IsNotNull(result);
+        Assert.IsNotNull(result.Address);
+    }
+
+    [TestMethod]
+    public async Task TestLocationToAddressWithOutSpatialReference(Action renderHandler)
+    {
+        // Reverse geocode with output spatial reference
+        Point location = new Point(-117.19498, 34.05383, spatialReference: new SpatialReference(4326));
+        SpatialReference outSpatialReference = new SpatialReference(102100); // Web Mercator
+
+        AddressCandidate result = await LocationService.LocationToAddress(location, null, outSpatialReference);
+
+        Assert.IsNotNull(result);
+        Assert.IsNotNull(result.Address);
+        Assert.IsNotNull(result.Location);
+
+        // Location should be in Web Mercator coordinates
+        Assert.IsNotNull(result.Location.SpatialReference);
+        Assert.AreEqual(102100, result.Location.SpatialReference.Wkid);
+    }
+
+    [TestMethod]
+    public async Task TestSuggestLocations(Action renderHandler)
+    {
+        // Get location suggestions based on partial text
+        Point location = new Point(-117.19498, 34.05383, spatialReference: new SpatialReference(4326));
+        string searchText = "Starbucks";
+
+        List<SuggestionResult> suggestions = await LocationService.SuggestLocations(location, searchText);
+
+        Assert.IsNotNull(suggestions);
+        Assert.IsGreaterThan(0, suggestions.Count);
+
+        // Each suggestion should have text and a magic key
+        SuggestionResult firstSuggestion = suggestions[0];
+        Assert.IsNotNull(firstSuggestion.Text);
+        Assert.IsFalse(string.IsNullOrEmpty(firstSuggestion.Text));
+    }
+
+    [TestMethod]
+    public async Task TestSuggestLocationsWithCategories(Action renderHandler)
+    {
+        // Get location suggestions with category filter
+        Point location = new Point(-117.19498, 34.05383, spatialReference: new SpatialReference(4326));
+        string searchText = "Coffee";
+        List<string> categories = ["Coffee Shop", "Food"];
+
+        List<SuggestionResult> suggestions = await LocationService.SuggestLocations(location, searchText, categories);
+
+        Assert.IsNotNull(suggestions);
+
+        // Should return results, though exact count depends on what's near the location
     }
 
     private bool LocationsMatch(Point loc1, Point loc2)

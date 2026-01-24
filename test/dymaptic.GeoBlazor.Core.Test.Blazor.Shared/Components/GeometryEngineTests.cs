@@ -1,4 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components;
+using dymaptic.GeoBlazor.Core.Components;
 using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Model;
@@ -9,6 +9,7 @@ using Microsoft.JSInterop;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 
+[TestCategory(nameof(LogicComponent))]
 [TestClass]
 public class GeometryEngineTests : TestRunnerBase
 {
@@ -19,7 +20,7 @@ public class GeometryEngineTests : TestRunnerBase
     public async Task TestBufferWithProjectedPoint()
     {
         Point point = new Point(0, 0, spatialReference: new SpatialReference(103002));
-        Polygon buffer = await GeometryEngine.Buffer(point, 10.0, GeometryEngineLinearUnit.Feet);
+        Polygon? buffer = await GeometryEngine.Buffer(point, 10.0, GeometryEngineLinearUnit.Feet);
         Assert.IsNotNull(buffer);
     }
 
@@ -59,8 +60,8 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestBufferCallAfterDensified()
     {
-        MapPath[] mapPaths = new MapPath[]
-        {
+        MapPath[] mapPaths =
+        [
             [
                 new MapPoint(-10424520.3945, 5095465.361299999),
                 new MapPoint(-10424520.3945, 5095465.2124999985),
@@ -174,9 +175,9 @@ public class GeometryEngineTests : TestRunnerBase
                 new MapPoint(-10423444.9369, 5091214.355099998),
                 new MapPoint(-10423442.8218, 5091028.472199999)
             ]
-        };
+        ];
         Polyline polyline = new Polyline(mapPaths, new SpatialReference(102100));
-        Polygon buffer = await GeometryEngine.Buffer(polyline, 20, GeometryEngineLinearUnit.Yards);
+        Polygon? buffer = await GeometryEngine.Buffer(polyline, 20, GeometryEngineLinearUnit.Yards);
         Assert.IsNotNull(buffer);
     }
 
@@ -263,7 +264,7 @@ public class GeometryEngineTests : TestRunnerBase
     {
         Point point = new Point(0, 0, spatialReference: new SpatialReference(103002));
 
-        Geometry convexHull = await GeometryEngine.ConvexHull(point);
+        Geometry? convexHull = await GeometryEngine.ConvexHull(point);
         Assert.IsInstanceOfType<Point>(convexHull);
     }
 
@@ -277,7 +278,7 @@ public class GeometryEngineTests : TestRunnerBase
             points.Add(new Point(i, i, spatialReference: new SpatialReference(103002)));
         }
 
-        Geometry[] convexHull = await GeometryEngine.ConvexHull(points);
+        Geometry?[] convexHull = await GeometryEngine.ConvexHull(points);
         Assert.IsInstanceOfType<Point>(convexHull[0]);
         Assert.HasCount(10, convexHull);
     }
@@ -292,7 +293,7 @@ public class GeometryEngineTests : TestRunnerBase
             points.Add(new Point(i, i, spatialReference: new SpatialReference(103002)));
         }
 
-        Geometry[] convexHull = await GeometryEngine.ConvexHull(points, true);
+        Geometry?[] convexHull = await GeometryEngine.ConvexHull(points, true);
         Assert.IsInstanceOfType<Polygon>(convexHull[0]);
         Assert.HasCount(1, convexHull);
     }
@@ -413,7 +414,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        Geometry difference = await GeometryEngine.Difference(boundaryPolygon, subtractor);
+        Geometry? difference = await GeometryEngine.Difference(boundaryPolygon, subtractor);
         Assert.AreNotEqual(boundaryPolygon, difference);
     }
 
@@ -453,7 +454,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        Geometry[] differences =
+        Geometry?[] differences =
             await GeometryEngine.Difference([boundaryPolygon1, boundaryPolygon2], subtractor);
         Assert.HasCount(2, differences);
     }
@@ -594,7 +595,9 @@ public class GeometryEngineTests : TestRunnerBase
     {
         SpatialReference spatialReference = new SpatialReference(103002);
 
+#pragma warning disable CS0612 // Type or member is obsolete
         SpatialReferenceInfo spatialReferenceInfo = await GeometryEngine.ExtendedSpatialReferenceInfo(spatialReference);
+#pragma warning restore CS0612 // Type or member is obsolete
 
         Assert.IsNotNull(spatialReferenceInfo);
     }
@@ -732,7 +735,7 @@ public class GeometryEngineTests : TestRunnerBase
             ]
         ]);
 
-        Polygon bufferedPolygon = await GeometryEngine.GeodesicBuffer(polygon, 10, GeometryEngineLinearUnit.Feet);
+        Polygon? bufferedPolygon = await GeometryEngine.GeodesicBuffer(polygon, 10, GeometryEngineLinearUnit.Feet);
 
         Assert.IsNotNull(bufferedPolygon);
 
@@ -990,7 +993,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        Geometry offset = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Bevel);
+        Geometry? offset = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Bevel);
 
         Assert.IsNotNull(offset);
         Assert.AreNotEqual(polygon, offset);
@@ -1025,12 +1028,13 @@ public class GeometryEngineTests : TestRunnerBase
 
         Geometry[] geometries = [polygon1, polygon2];
 
-        Geometry[] offset = await GeometryEngine.Offset(geometries, 10, GeometryEngineLinearUnit.Feet, JoinType.Bevel);
+        Geometry?[] offset = await GeometryEngine.Offset(geometries, 10, GeometryEngineLinearUnit.Feet, JoinType.Bevel);
 
         Assert.IsNotNull(offset);
 
-        foreach (Geometry geometry in offset)
+        foreach (Geometry? geometry in offset)
         {
+            Assert.IsNotNull(geometry);
             Assert.AreNotEqual(polygon1, geometry);
             Assert.AreNotEqual(polygon2, geometry);
         }
@@ -1219,7 +1223,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        Geometry simplifiedGeometry = await GeometryEngine.Simplify(polygon);
+        Geometry? simplifiedGeometry = await GeometryEngine.Simplify(polygon);
 
         Assert.IsNotNull(simplifiedGeometry);
         Assert.AreNotEqual(polygon, simplifiedGeometry);
@@ -1390,7 +1394,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        Geometry union = await GeometryEngine.Union(polygon1, polygon2);
+        Geometry? union = await GeometryEngine.Union(polygon1, polygon2);
 
         Assert.IsNotNull(union);
         Assert.AreNotEqual(polygon1, union);
@@ -1558,8 +1562,7 @@ public class GeometryEngineTests : TestRunnerBase
         ];
 
         Polygon polygon =
-            new Polygon(
-            [
+            new Polygon([
                 new MapPath(new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0),
                     new MapPoint(0, 0))
             ], new SpatialReference(102100));
@@ -1594,7 +1597,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(103002));
 
-        Polygon buffer = await GeometryEngine.Buffer(polygon, 10.0);
+        Polygon? buffer = await GeometryEngine.Buffer(polygon, 10.0);
         Assert.IsNotNull(buffer);
         Assert.AreNotEqual(polygon, buffer);
     }
@@ -1679,14 +1682,15 @@ public class GeometryEngineTests : TestRunnerBase
             new Polygon([
                 [
                     new MapPoint(0, 0),
-                    new MapPoint(0, 10),
-                    new MapPoint(10, 10),
-                    new MapPoint(10, 0),
+                    new MapPoint(0, 1000),
+                    new MapPoint(1000, 1000),
+                    new MapPoint(1000, 0),
                     new MapPoint(0, 0)
                 ]
             ], new SpatialReference(102100));
 
-        Geometry offset = await GeometryEngine.Offset(polygon, 10);
+        // Use negative offset for outward expansion (positive offset goes inward for polygons)
+        Geometry? offset = await GeometryEngine.Offset(polygon, -10);
 
         Assert.IsNotNull(offset);
         Assert.AreNotEqual(polygon, offset);
@@ -1706,7 +1710,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        Geometry offset = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet);
+        Geometry? offset = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet);
 
         Assert.IsNotNull(offset);
         Assert.AreNotEqual(polygon, offset);
@@ -1726,10 +1730,10 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        Geometry offsetMiter = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Miter);
+        Geometry? offsetMiter = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Miter);
         Assert.IsNotNull(offsetMiter);
 
-        Geometry offsetRound = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Round);
+        Geometry? offsetRound = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Round);
         Assert.IsNotNull(offsetRound);
     }
 
@@ -1747,7 +1751,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        Geometry offset = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Miter, 1.5);
+        Geometry? offset = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Miter, 1.5);
 
         Assert.IsNotNull(offset);
         Assert.AreNotEqual(polygon, offset);
@@ -1767,7 +1771,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        Geometry offset =
+        Geometry? offset =
             await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Round, null, 0.5);
 
         Assert.IsNotNull(offset);
@@ -1781,9 +1785,9 @@ public class GeometryEngineTests : TestRunnerBase
             new Polygon([
                 [
                     new MapPoint(0, 0),
-                    new MapPoint(0, 10),
-                    new MapPoint(10, 10),
-                    new MapPoint(10, 0),
+                    new MapPoint(0, 1000),
+                    new MapPoint(1000, 1000),
+                    new MapPoint(1000, 0),
                     new MapPoint(0, 0)
                 ]
             ], new SpatialReference(102100));
@@ -1791,15 +1795,16 @@ public class GeometryEngineTests : TestRunnerBase
         Polygon polygon2 =
             new Polygon([
                 [
-                    new MapPoint(20, 20),
-                    new MapPoint(20, 30),
-                    new MapPoint(30, 30),
-                    new MapPoint(30, 20),
-                    new MapPoint(20, 20)
+                    new MapPoint(2000, 2000),
+                    new MapPoint(2000, 3000),
+                    new MapPoint(3000, 3000),
+                    new MapPoint(3000, 2000),
+                    new MapPoint(2000, 2000)
                 ]
             ], new SpatialReference(102100));
 
-        Geometry[] offsets = await GeometryEngine.Offset([polygon1, polygon2], 10);
+        // Use negative offset for outward expansion (positive offset goes inward for polygons)
+        Geometry?[] offsets = await GeometryEngine.Offset([polygon1, polygon2], -10);
 
         Assert.IsNotNull(offsets);
         Assert.HasCount(2, offsets);
@@ -1837,7 +1842,7 @@ public class GeometryEngineTests : TestRunnerBase
             ]
         ]);
 
-        Polygon bufferedPolygon = await GeometryEngine.GeodesicBuffer(polygon, 10);
+        Polygon? bufferedPolygon = await GeometryEngine.GeodesicBuffer(polygon, 10);
 
         Assert.IsNotNull(bufferedPolygon);
         Assert.AreNotEqual(polygon, bufferedPolygon);
@@ -1924,7 +1929,7 @@ public class GeometryEngineTests : TestRunnerBase
                 ]
             ], new SpatialReference(102100));
 
-        Geometry union = await GeometryEngine.Union(polygon1, polygon2, polygon3);
+        Geometry? union = await GeometryEngine.Union(polygon1, polygon2, polygon3);
 
         Assert.IsNotNull(union);
         Assert.AreNotEqual(polygon1, union);
@@ -1954,6 +1959,81 @@ public class GeometryEngineTests : TestRunnerBase
             await GeometryEngine.Buffer([point1, point2], [10.0, 20.0], GeometryEngineLinearUnit.Meters);
         Assert.IsNotNull(buffers);
         Assert.HasCount(2, buffers);
+    }
+
+    [TestMethod]
+    public async Task TestOffsetMultipleGeometriesWithUnit()
+    {
+        Polygon polygon1 =
+            new Polygon([
+                [
+                    new MapPoint(0, 0),
+                    new MapPoint(0, 1000),
+                    new MapPoint(1000, 1000),
+                    new MapPoint(1000, 0),
+                    new MapPoint(0, 0)
+                ]
+            ], new SpatialReference(102100));
+
+        Polygon polygon2 =
+            new Polygon([
+                [
+                    new MapPoint(2000, 2000),
+                    new MapPoint(2000, 3000),
+                    new MapPoint(3000, 3000),
+                    new MapPoint(3000, 2000),
+                    new MapPoint(2000, 2000)
+                ]
+            ], new SpatialReference(102100));
+
+        // Use negative offset for outward expansion (positive offset goes inward for polygons)
+        Geometry?[] offsets = await GeometryEngine.Offset([polygon1, polygon2], -10, GeometryEngineLinearUnit.Meters);
+
+        Assert.IsNotNull(offsets);
+        Assert.HasCount(2, offsets);
+
+        foreach (Geometry? offset in offsets)
+        {
+            Assert.IsNotNull(offset);
+        }
+    }
+
+    [TestMethod]
+    public async Task TestOffsetMultipleGeometriesWithJoinTypeAndBevelRatio()
+    {
+        Polygon polygon1 =
+            new Polygon([
+                [
+                    new MapPoint(0, 0),
+                    new MapPoint(0, 1000),
+                    new MapPoint(1000, 1000),
+                    new MapPoint(1000, 0),
+                    new MapPoint(0, 0)
+                ]
+            ], new SpatialReference(102100));
+
+        Polygon polygon2 =
+            new Polygon([
+                [
+                    new MapPoint(2000, 2000),
+                    new MapPoint(2000, 3000),
+                    new MapPoint(3000, 3000),
+                    new MapPoint(3000, 2000),
+                    new MapPoint(2000, 2000)
+                ]
+            ], new SpatialReference(102100));
+
+        // Test offset with JoinType and bevelRatio parameters
+        Geometry?[] offsets = await GeometryEngine.Offset([polygon1, polygon2], -10,
+            GeometryEngineLinearUnit.Meters, JoinType.Miter, 1.5);
+
+        Assert.IsNotNull(offsets);
+        Assert.HasCount(2, offsets);
+
+        foreach (Geometry? offset in offsets)
+        {
+            Assert.IsNotNull(offset);
+        }
     }
 
     private readonly Random _random = new();

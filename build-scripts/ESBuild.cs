@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 // Get the actual script location using CallerFilePath (resolved at compile time)
 string scriptDir = GetScriptsDirectory();
@@ -266,8 +267,15 @@ finally
     }
 }
 
-// Helper methods
+// ============================================================================
+// Helper Methods
+// ============================================================================
 
+/// <summary>
+/// Gets the current Git branch name for a repository.
+/// </summary>
+/// <param name="workingDirectory">The directory within the Git repository.</param>
+/// <returns>The branch name, or "unknown" if Git is unavailable or fails.</returns>
 static string GetCurrentGitBranch(string workingDirectory)
 {
     try
@@ -297,6 +305,12 @@ static string GetCurrentGitBranch(string workingDirectory)
     }
 }
 
+/// <summary>
+/// Reads the last build record from the JSON file.
+/// The record contains the timestamp of the last successful build and the branch name.
+/// </summary>
+/// <param name="recordFilePath">Path to the .esbuild-record.json file.</param>
+/// <returns>A tuple containing the Unix timestamp (milliseconds) and branch name.</returns>
 static (long Timestamp, string Branch) GetLastBuildRecord(string recordFilePath)
 {
     if (!File.Exists(recordFilePath))
@@ -321,6 +335,16 @@ static (long Timestamp, string Branch) GetLastBuildRecord(string recordFilePath)
     }
 }
 
+/// <summary>
+/// Determines whether a TypeScript build is needed.
+/// A build is needed if: the branch changed, scripts were modified since last build,
+/// or the output directory is empty.
+/// </summary>
+/// <param name="recordFilePath">Path to the build record file.</param>
+/// <param name="currentBranch">The current Git branch name.</param>
+/// <param name="scriptsDir">Path to the TypeScript source files.</param>
+/// <param name="outputDir">Path to the JavaScript output directory.</param>
+/// <returns>True if a build should be performed.</returns>
 static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, string scriptsDir, string outputDir)
 {
     // Check if build is needed
@@ -354,12 +378,44 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
     return true;
 }
 
+/// <summary>
+/// Copies TypeScript files from Core's Scripts directory to Pro's Scripts directory.
+/// Files listed in Pro's esBuild.js with a "pro_" prefix are renamed accordingly.
+/// Only copies files that are newer than the destination.
+/// </summary>
+/// <param name="coreScriptsDir">Path to Core's Scripts directory.</param>
+/// <param name="proScriptsDir">Path to Pro's Scripts directory.</param>
+/// <param name="verbose">If true, logs each file operation.</param>
 static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool verbose)
 {
     Trace.WriteLine("Copying core Scripts to Pro Scripts directory...");
     if (!Directory.Exists(proScriptsDir))
     {
         Directory.CreateDirectory(proScriptsDir);
+    }
+
+    Regex proPrefixedFileRegex = new(@"^\s*'\.\/Scripts\/pro_(?<fileName>\w+)\.ts',\s*$",
+        RegexOptions.Compiled);
+
+    string proEsBuildJsFilePath = Path.GetFullPath(
+        Path.Combine(proScriptsDir, "..", "esBuild.js"));
+
+    List<string> proPrefixedFiles = [];
+
+    foreach (string line in File.ReadAllLines(proEsBuildJsFilePath))
+    {
+        if (proPrefixedFileRegex.Match(line) is Match match)
+        {
+            string fileName = match.Groups["fileName"].Value;
+            proPrefixedFiles.Add($"{fileName}.ts");
+            Console.WriteLine($"Found pro_ file: {fileName}.ts");
+            continue;
+        }
+        if (line.TrimStart().StartsWith("chunkNames"))
+        {
+            // we are past all the pro_ files
+            break;
+        }
     }
 
     int copiedCount = 0;
@@ -370,7 +426,12 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
     {
         string fileName = Path.GetFileName(filePath);
         fileNames.Add(fileName);
-        string destinationPath = Path.Combine(proScriptsDir, fileName);
+        string destinationFileName = fileName;
+        if (proPrefixedFiles.Contains(fileName))
+        {
+            destinationFileName = $"pro_{fileName}";
+        }
+        string destinationPath = Path.Combine(proScriptsDir, destinationFileName);
 
         if (!File.Exists(destinationPath))
         {
@@ -404,6 +465,12 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
     Trace.WriteLine($"Copied {copiedCount} files, skipped {skippedCount} files.");
 }
 
+/// <summary>
+/// Saves the build record to a JSON file after a successful build.
+/// Records the current timestamp and branch name for incremental build detection.
+/// </summary>
+/// <param name="recordFilePath">Path where the record should be saved.</param>
+/// <param name="branch">The current Git branch name.</param>
 static void SaveBuildRecord(string recordFilePath, string branch)
 {
     long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
@@ -417,6 +484,13 @@ static void SaveBuildRecord(string recordFilePath, string branch)
     File.WriteAllText(recordFilePath, json);
 }
 
+/// <summary>
+/// Checks if any TypeScript files in the Scripts directory have been modified
+/// since the given timestamp.
+/// </summary>
+/// <param name="scriptsDir">Path to the Scripts directory to scan.</param>
+/// <param name="lastTimestamp">Unix timestamp (milliseconds) of the last build.</param>
+/// <returns>True if any files have been modified since the timestamp.</returns>
 static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp)
 {
     if (!Directory.Exists(scriptsDir))
@@ -437,6 +511,12 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp)
     return false;
 }
 
+/// <summary>
+/// Starts the ConsoleDialog process to display build progress in a separate window.
+/// </summary>
+/// <param name="buildDir">The build-tools directory containing ConsoleDialog.dll.</param>
+/// <param name="title">The title for the console window.</param>
+/// <returns>The started Process, or null if it failed to start.</returns>
 static Process? StartConsoleDialog(string buildDir, string title)
 {
     try
@@ -488,6 +568,10 @@ static Process? StartConsoleDialog(string buildDir, string title)
     }
 }
 
+/// <summary>
+/// Gracefully closes the ConsoleDialog process by sending an "exit" command.
+/// </summary>
+/// <param name="dialog">The ConsoleDialog process to close.</param>
 static void KillDialog(Process? dialog)
 {
     if (dialog is null || dialog.HasExited)
@@ -512,6 +596,14 @@ static void KillDialog(Process? dialog)
     }
 }
 
+/// <summary>
+/// Runs an npm command using PowerShell 7 for cross-platform compatibility.
+/// Output is captured and also written to the Trace listeners.
+/// </summary>
+/// <param name="workingDirectory">The directory to run the command in.</param>
+/// <param name="command">The npm command (e.g., "install", "run build").</param>
+/// <param name="dialogProcess">Optional ConsoleDialog process for output display.</param>
+/// <returns>A tuple containing the output lines and exit code.</returns>
 static (List<string> Output, int ExitCode) RunNpmCommand(string workingDirectory, string command, Process? dialogProcess)
 {
     var output = new List<string>();
@@ -570,6 +662,11 @@ static (List<string> Output, int ExitCode) RunNpmCommand(string workingDirectory
     }
 }
 
+/// <summary>
+/// Checks if the output contains any error or warning messages.
+/// </summary>
+/// <param name="output">The list of output lines to check.</param>
+/// <returns>True if any line contains "Error" or "Warning" (case-insensitive).</returns>
 static bool HasErrorOrWarning(List<string> output)
 {
     return output.Any(line =>
@@ -577,6 +674,13 @@ static bool HasErrorOrWarning(List<string> output)
         line.Contains("Warning", StringComparison.OrdinalIgnoreCase));
 }
 
+/// <summary>
+/// Gets the directory containing the build scripts.
+/// When running as a .cs file, uses [CallerFilePath]. When running as a compiled DLL,
+/// calculates the path relative to the DLL location.
+/// </summary>
+/// <param name="callerFilePath">Automatically populated with the source file path at compile time.</param>
+/// <returns>The absolute path to the build-scripts directory.</returns>
 static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
 {
     // When running as a pre-compiled DLL, [CallerFilePath] contains the compile-time path
@@ -593,6 +697,10 @@ static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null
     return Path.Combine(Path.GetDirectoryName(dllDirectory)!, "build-scripts");
 }
 
+/// <summary>
+/// Sends a failure message to the dialog and keeps it open for user review.
+/// </summary>
+/// <param name="dialog">The ConsoleDialog process.</param>
 static void HoldDialog(Process? dialog)
 {
     if (dialog?.StandardInput is not null && !dialog.HasExited)
@@ -601,6 +709,10 @@ static void HoldDialog(Process? dialog)
     }
 }
 
+/// <summary>
+/// A TraceListener that forwards trace output to a ConsoleDialog process via stdin.
+/// This allows build output to be displayed in the popup console window.
+/// </summary>
 public class DialogTraceListener(Process dialog) : TraceListener
 {
     public override void Write(string? message)

@@ -1,8 +1,34 @@
 #!/usr/bin/env dotnet
 
-using System.Diagnostics;
+// Console Dialog - Build Progress Display Window
+// ===============================================
+// Manages a console window for displaying log messages during source generation
+// and build processes. Opens a separate terminal window that tails a log file,
+// allowing real-time visibility of build progress.
+//
+// Usage:
+//   dotnet ConsoleDialog.cs [title] [options]
+//   dotnet ConsoleDialog.cs "GeoBlazor Build"                    Start with custom title
+//   dotnet ConsoleDialog.cs "Build" -w 5 -t 120                  Custom wait/timeout
+//
+// Options:
+//   -w, --wait <seconds>      Seconds to wait before closing on exit (default: 3)
+//   -t, --timeout <seconds>   Idle timeout before auto-close (default: 60)
+//
+// Communication:
+//   The dialog reads from stdin. Send lines of text to display in the console window.
+//   Special commands:
+//     "hold"  - Prevent auto-timeout (keeps window open indefinitely)
+//     "exit"  - Close the console window
+//
+// Cross-Platform Support:
+//   - Windows: Opens PowerShell 7 (pwsh) window with Get-Content -Wait
+//   - macOS: Opens Terminal.app via osascript
+//   - Linux: Tries gnome-terminal, konsole, xfce4-terminal, or xterm
+//
+// Note: Messages are written to a temp file and tailed by the console window.
 
-// Manages a console window for displaying log messages during source generation.
+using System.Diagnostics;
 
 object _consoleLock = new();
 Process? _consoleProcess = null;
@@ -10,6 +36,7 @@ string? _consoleTempFile = null;
 
 string? title = null;
 int wait = 3;
+int idleTimeout = 60;
 
 for (int i = 0; i < args.Length; i++)
 {
@@ -20,6 +47,11 @@ for (int i = 0; i < args.Length; i++)
         case "-w":
         case "--wait":
             wait = int.TryParse(args[i + 1], out int parsedWait) ? parsedWait : wait;
+            i++;
+            break;
+        case "-t":
+        case "--timeout":
+            idleTimeout = int.TryParse(args[i + 1], out int parsedTimeout) ? parsedTimeout : idleTimeout;
             i++;
             break;
         default:
@@ -37,6 +69,12 @@ for (int i = 0; i < args.Length; i++)
 
 title ??= "GeoBlazor Build";
 
+/// <summary>
+/// Shows or updates the console window with a new message.
+/// Creates the temp log file and starts the console window on first call.
+/// </summary>
+/// <param name="title">The title for the console window.</param>
+/// <param name="message">The message to display (empty string to just ensure window is open).</param>
 void ShowOrUpdateConsole(string title, string message)
 {
     lock (_consoleLock)
@@ -65,21 +103,27 @@ void ShowOrUpdateConsole(string title, string message)
     }
 }
 
+/// <summary>
+/// Starts a platform-specific console window that tails the log file.
+/// Dispatches to Windows, macOS, or Linux-specific implementations.
+/// </summary>
+/// <param name="title">The title for the console window.</param>
 void StartConsoleWindow(string title)
 {
+    string windowTitle = string.IsNullOrWhiteSpace(title) ? "GeoBlazor Build" : title;
     try
     {
         if (OperatingSystem.IsWindows())
         {
-            StartWindowsConsole(title);
+            StartWindowsConsole(windowTitle);
         }
         else if (OperatingSystem.IsMacOS())
         {
-            StartMacConsole();
+            StartMacConsole(windowTitle);
         }
         else if (OperatingSystem.IsLinux())
         {
-            StartLinuxConsole();
+            StartLinuxConsole(windowTitle);
         }
     }
     catch
@@ -89,12 +133,15 @@ void StartConsoleWindow(string title)
     }
 }
 
+/// <summary>
+/// Starts a PowerShell 7 console window on Windows using Get-Content -Wait to tail the log file.
+/// </summary>
+/// <param name="title">The title for the console window.</param>
 void StartWindowsConsole(string title)
 {
     string escapedPath = _consoleTempFile!.Replace("'", "''");
-    string windowTitle = string.IsNullOrWhiteSpace(title) ? "GeoBlazor Build" : title;
-    string command = $"$Host.UI.RawUI.WindowTitle = '{windowTitle}'; " +
-                   $"Write-Host 'GeoBlazor Source Generator Output' -ForegroundColor Cyan; " +
+    string command = $"$Host.UI.RawUI.WindowTitle = '{title}'; " +
+                   $"Write-Host '{title}' -ForegroundColor Cyan; " +
                    $"Write-Host ('=' * 50); " +
                    $"Get-Content -Path '{escapedPath}' -Wait -Tail 100";
 
@@ -111,13 +158,16 @@ void StartWindowsConsole(string title)
     _consoleProcess.Start();
 }
 
-void StartMacConsole()
+/// <summary>
+/// Starts a Terminal.app window on macOS using osascript/AppleScript.
+/// </summary>
+void StartMacConsole(string title)
 {
     string escapedPath = _consoleTempFile!.Replace("'", "'\\''");
 
     // Use osascript to open Terminal.app with a pwsh command
     string pwshCommand = "pwsh -NoProfile -NoLogo -Command \\\"" +
-                       "Write-Host 'GeoBlazor Source Generator Output' -ForegroundColor Cyan; " +
+                       $"Write-Host '{title}' -ForegroundColor Cyan; " +
                        "Write-Host ('=' * 50); " +
                        $"Get-Content -Path '{escapedPath}' -Wait -Tail 100\\\"";
 
@@ -136,11 +186,15 @@ void StartMacConsole()
     _consoleProcess.Start();
 }
 
-void StartLinuxConsole()
+/// <summary>
+/// Starts a terminal window on Linux by trying common terminal emulators
+/// (gnome-terminal, konsole, xfce4-terminal, xterm) until one succeeds.
+/// </summary>
+void StartLinuxConsole(string title)
 {
     string escapedPath = _consoleTempFile!.Replace("'", "'\\''");
     string pwshCommand = "pwsh -NoProfile -NoLogo -Command \\\"" +
-                       "Write-Host 'GeoBlazor Source Generator Output' -ForegroundColor Cyan; " +
+                       $"Write-Host '{title}' -ForegroundColor Cyan; " +
                        "Write-Host ('=' * 50); " +
                        $"Get-Content -Path '{escapedPath}' -Wait -Tail 100\\\"";
 
@@ -182,6 +236,12 @@ void StartLinuxConsole()
     // No terminal emulator found - messages still go to temp file and diagnostics
 }
 
+/// <summary>
+/// Closes the console window gracefully, waiting for final messages to display
+/// before killing the process and cleaning up the temp file.
+/// </summary>
+/// <param name="title">The title (used in closing message).</param>
+/// <param name="wait">Seconds to wait before killing the process.</param>
 void CloseConsole(string title, int wait)
 {
     lock (_consoleLock)
@@ -231,6 +291,7 @@ CancellationTokenSource cts = new();
 cts.CancelAfter(TimeSpan.FromSeconds(60));
 
 bool hold = false;
+bool messageReceived = false;
 
 _ = Task.Run(async () =>
 {
@@ -238,6 +299,13 @@ _ = Task.Run(async () =>
         && (_consoleProcess is null || !_consoleProcess.HasExited))
     {
         await Task.Delay(1000);
+
+        if (messageReceived)
+        {
+            cts = new CancellationTokenSource();
+            cts.CancelAfter(TimeSpan.FromSeconds(idleTimeout));
+            messageReceived = false;
+        }
     }
     Console.WriteLine("Console dialog timed out. Closing...");
     CloseConsole(title, wait);
@@ -270,6 +338,7 @@ while (!cts.IsCancellationRequested)
         break;
     }
 
+    messageReceived = true;
     ShowOrUpdateConsole(title, inputLine);
 }
 

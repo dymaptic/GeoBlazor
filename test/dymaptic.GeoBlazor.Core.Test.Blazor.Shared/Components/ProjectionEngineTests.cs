@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 
+[TestCategory(nameof(LogicComponent))]
 [TestClass]
 public class ProjectionEngineTests : TestRunnerBase
 {

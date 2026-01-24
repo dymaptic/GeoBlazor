@@ -723,8 +723,17 @@ finally
     Console.WriteLine();
 }
 
-// Helper methods
+// ============================================================================
+// Helper Methods
+// ============================================================================
 
+/// <summary>
+/// Gets the directory containing the build scripts.
+/// When running as a .cs file, uses [CallerFilePath]. When running as a compiled DLL,
+/// calculates the path relative to the DLL location.
+/// </summary>
+/// <param name="callerFilePath">Automatically populated with the source file path at compile time.</param>
+/// <returns>The absolute path to the build-scripts directory.</returns>
 static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
 {
     // When running as a pre-compiled DLL, [CallerFilePath] contains the compile-time path
@@ -741,6 +750,11 @@ static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null
     return Path.Combine(Path.GetDirectoryName(dllDirectory)!, "build-scripts");
 }
 
+/// <summary>
+/// Writes a formatted step header to the console with colored background.
+/// </summary>
+/// <param name="step">The step number.</param>
+/// <param name="description">A description of what this step does.</param>
 static void WriteStepHeader(int step, string description)
 {
     Console.WriteLine();
@@ -752,6 +766,11 @@ static void WriteStepHeader(int step, string description)
     Console.WriteLine();
 }
 
+/// <summary>
+/// Writes a step completion message showing elapsed time.
+/// </summary>
+/// <param name="step">The step number that completed.</param>
+/// <param name="stepStartTime">The time when this step started.</param>
 static void WriteStepCompleted(int step, DateTime stepStartTime)
 {
     TimeSpan elapsed = DateTime.Now - stepStartTime;
@@ -762,6 +781,14 @@ static void WriteStepCompleted(int step, DateTime stepStartTime)
     Console.WriteLine();
 }
 
+/// <summary>
+/// Deletes a directory and all its contents if it exists.
+/// </summary>
+/// <param name="path">The directory path to delete.</param>
+/// <param name="usePowerShell">
+/// If true, uses PowerShell 7 for deletion which handles long paths on Windows.
+/// Useful for node_modules directories.
+/// </param>
 static void DeleteDirectoryIfExists(string path, bool usePowerShell = false)
 {
     if (!Directory.Exists(path))
@@ -817,6 +844,10 @@ static void DeleteDirectoryIfExists(string path, bool usePowerShell = false)
     }
 }
 
+/// <summary>
+/// Deletes all files within a directory recursively, but keeps the directory structure.
+/// </summary>
+/// <param name="path">The directory whose contents should be deleted.</param>
 static void DeleteDirectoryContentsIfExists(string path)
 {
     if (Directory.Exists(path))
@@ -835,6 +866,12 @@ static void DeleteDirectoryContentsIfExists(string path)
     }
 }
 
+/// <summary>
+/// Runs a dotnet command without capturing output.
+/// </summary>
+/// <param name="workingDirectory">The working directory for the command.</param>
+/// <param name="command">The dotnet command (e.g., "build", "restore", "clean").</param>
+/// <param name="args">Additional arguments to pass to the command.</param>
 static async Task RunDotnetCommand(string workingDirectory, string command, params string[] args)
 {
     var psi = new ProcessStartInfo
@@ -853,6 +890,14 @@ static async Task RunDotnetCommand(string workingDirectory, string command, para
     }
 }
 
+/// <summary>
+/// Runs a dotnet command and captures both stdout and stderr output.
+/// Output is also written to the console in real-time.
+/// </summary>
+/// <param name="workingDirectory">The working directory for the command.</param>
+/// <param name="command">The dotnet command (e.g., "build", "restore").</param>
+/// <param name="args">Additional arguments to pass to the command.</param>
+/// <returns>A tuple containing the exit code and a list of all output lines.</returns>
 static async Task<(int ExitCode, List<string> Output)> RunDotnetCommandWithOutputAsync(string workingDirectory,
     string command, params string[] args)
 {
@@ -900,6 +945,13 @@ static async Task<(int ExitCode, List<string> Output)> RunDotnetCommandWithOutpu
     return (process.ExitCode, output);
 }
 
+/// <summary>
+/// Runs a compiled dotnet script (DLL) with the specified arguments.
+/// </summary>
+/// <param name="workingDirectory">The working directory for the script.</param>
+/// <param name="scriptName">The name of the DLL to run (e.g., "ESBuild.dll").</param>
+/// <param name="args">Arguments to pass to the script.</param>
+/// <returns>The exit code from the script.</returns>
 static async Task<int> RunDotnetScriptAsync(string workingDirectory, string scriptName, string args)
 {
     var psi = new ProcessStartInfo
@@ -942,6 +994,15 @@ static async Task<int> RunDotnetScriptAsync(string workingDirectory, string scri
     return process.ExitCode;
 }
 
+/// <summary>
+/// Increments the version number in Directory.Build.props.
+/// For publish builds, checks NuGet for the latest version and increments appropriately.
+/// For non-publish builds, simply increments the build number.
+/// </summary>
+/// <param name="repoRoot">The repository root containing Directory.Build.props.</param>
+/// <param name="publish">If true, prepares a release version (3-digit, checks NuGet).</param>
+/// <param name="isPro">If true, updates ProVersion; otherwise updates CoreVersion.</param>
+/// <returns>The new version string.</returns>
 static async Task<string> BumpVersionAsync(string repoRoot, bool publish, bool isPro)
 {
     string directoryBuildPropsPath = Path.Combine(repoRoot, "Directory.Build.props");
@@ -1044,6 +1105,16 @@ static async Task<string> BumpVersionAsync(string repoRoot, bool publish, bool i
     return newVersion;
 }
 
+/// <summary>
+/// Compares two semantic version strings.
+/// </summary>
+/// <param name="version1">The first version string (e.g., "4.33.1.5").</param>
+/// <param name="version2">The second version string.</param>
+/// <returns>
+/// Less than 0 if version1 is less than version2;
+/// 0 if they are equal;
+/// Greater than 0 if version1 is greater than version2.
+/// </returns>
 static int CompareVersions(string version1, string version2)
 {
     // Simple version comparison - extract numeric parts
