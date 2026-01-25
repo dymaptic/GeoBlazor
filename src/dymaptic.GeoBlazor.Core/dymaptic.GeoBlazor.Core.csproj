@@ -122,9 +122,9 @@
                  Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated\**\*.g.cs" />
         <Compile Remove="Interfaces\IViewHit.cs" />
     </ItemGroup>
-    
-    <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
-        <Message Importance="high" Text="Clearing locks on esBuild files..." />
+
+    <Target AfterTargets="PrepareForBuild" Name="ClearLocks">
+        <Message Importance="high" Text="Clearing locks on esBuild files"/>
         <Exec Command="dotnet $(ProjectDir)../../build-tools/ESBuildClearLocks.dll" ContinueOnError="false"/>
     </Target>
 </Project>

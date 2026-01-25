@@ -51,11 +51,6 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         }
     }
 
-    protected virtual Task<(string, BrowserTypeConnectOptions?)?> ConnectOptionsAsync()
-    {
-        return Task.FromResult<(string, BrowserTypeConnectOptions?)?>(null);
-    }
-
     protected async Task RunTestImplementation(string testName, int retries = 0)
     {
         var page = await Context
@@ -112,10 +107,10 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
                 if (!string.IsNullOrWhiteSpace(errors))
                 {
+                    // these are typically browser console errors, the assertions in the
+                    // test runner web app decides whether to fail the test or not
+                    // so we just log here
                     Trace.WriteLine(errors, "TEST_ERROR");
-                    await RetryOrMarkAsFailure(page, testName, new Exception(errors), retries);
-
-                    return;
                 }
 
                 Trace.WriteLine($"{testName} Passed", "TEST");
@@ -126,7 +121,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             var (messages, errors) = CheckMessages(testName);
             Trace.WriteLine(messages, "TEST_RESPONSE");
             Trace.WriteLine(errors, "TEST_ERROR");
-            await RetryOrMarkAsFailure(page, testName, ex, retries);
+            await RetryOrMarkAsFailure(page, testName, ex, retries, messages, errors);
         }
         finally
         {
@@ -260,11 +255,12 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         _errorMessages[testName].Add(message);
     }
 
-    private async Task RetryOrMarkAsFailure(IPage page, string testName, Exception ex, int retries)
+    private async Task RetryOrMarkAsFailure(IPage page, string testName, Exception ex, int retries,
+        string messages, string errors)
     {
         if (retries > 2)
         {
-            TestConfig.FailedTests[testName] = $"{ex.Message}{Environment.NewLine}{ex.StackTrace}";
+            TestConfig.FailedTests[testName] = $"{messages}{Environment.NewLine}{errors}";
             Assert.Fail($"{testName} Exceeded the maximum number of retries.");
         }
 

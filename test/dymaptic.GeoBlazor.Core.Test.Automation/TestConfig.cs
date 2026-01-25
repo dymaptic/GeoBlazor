@@ -77,6 +77,8 @@ public class TestConfig
             Trace.WriteLine("Ctrl-C detected, initiating shutdown...", "TEST_SHUTDOWN");
             e.Cancel = true; // Prevent immediate termination to allow cleanup
 
+            AssemblyCleanup().Wait();
+
             // Trigger cancellation
             if (!cts.IsCancellationRequested)
             {
@@ -493,7 +495,30 @@ public class TestConfig
 
         var result = await Cli.Wrap(cmdLineApp)
             .WithArguments(args)
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "UNIT_TEST")))
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+            {
+                string trimmedLine = output.Trim();
+
+                if (trimmedLine.StartsWith("failed ", StringComparison.OrdinalIgnoreCase))
+                {
+                    string testName = output.Split(" ")[1];
+                    FailedTests.TryAdd(testName, output);
+                    _filteredTests.Add(testName);
+                }
+                else if (trimmedLine.StartsWith("inconclusive ", StringComparison.OrdinalIgnoreCase))
+                {
+                    string testName = output.Split(" ")[1];
+                    InconclusiveTests.Add(testName);
+                    _filteredTests.Add(testName);
+                }
+                else if (trimmedLine.StartsWith("passed ", StringComparison.OrdinalIgnoreCase))
+                {
+                    string testName = output.Split(" ")[1];
+                    _filteredTests.Add(testName);
+                }
+
+                Trace.WriteLine(output, "UNIT_TEST");
+            }))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "UNIT_TEST_ERROR")))
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync();
@@ -509,6 +534,7 @@ public class TestConfig
         var sgenFilePath = Path.Combine(_projectFolder, "..",
             "dymaptic.GeoBlazor.Core.SourceGenerator.Tests",
             "dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj");
+
         var cmdLineApp = "dotnet";
 
         string[] args =
@@ -517,7 +543,7 @@ public class TestConfig
             "--project",
             sgenFilePath,
             "-c",
-            "Release",
+            _runConfig!,
             "--output",
             "Detailed"
         ];
@@ -550,7 +576,30 @@ public class TestConfig
 
         var result = await Cli.Wrap(cmdLineApp)
             .WithArguments(args)
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "SGEN_TEST")))
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+            {
+                string trimmedLine = output.Trim();
+
+                if (trimmedLine.StartsWith("failed ", StringComparison.OrdinalIgnoreCase))
+                {
+                    string testName = output.Split(" ")[1];
+                    FailedTests.TryAdd(testName, output);
+                    _filteredTests.Add(testName);
+                }
+                else if (trimmedLine.StartsWith("inconclusive ", StringComparison.OrdinalIgnoreCase))
+                {
+                    string testName = output.Split(" ")[1];
+                    InconclusiveTests.Add(testName);
+                    _filteredTests.Add(testName);
+                }
+                else if (trimmedLine.StartsWith("passed ", StringComparison.OrdinalIgnoreCase))
+                {
+                    string testName = output.Split(" ")[1];
+                    _filteredTests.Add(testName);
+                }
+
+                Trace.WriteLine(output, "SGEN_TEST");
+            }))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "SGEN_TEST_ERROR")))
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync();
@@ -696,7 +745,8 @@ public class TestConfig
             "/p:GenerateDocs=false",
             "/p:DebugSymbols=true",
             "/p:DebugType=portable",
-            "/p:UsePackageReference=false"
+            "/p:UsePackageReference=false",
+            "-v:d"
         ];
 
         if (_cover)
