@@ -139,23 +139,11 @@ if (force && File.Exists(proRecordFilePath))
     File.Delete(proRecordFilePath);
 }
 
-string currentBranch = GetCurrentGitBranch(coreSourceDir);
-
+string currentBranch = GetCurrentGitBranch(sourceDir);
 bool needsBuild = CheckIfNeedsBuild(
-    coreRecordFilePath,
+    recordFilePath,
     currentBranch,
-    coreScriptsDir,
-    coreOutputDir);
-
-if (pro)
-{
-    currentBranch = GetCurrentGitBranch(proSourceDir);
-    needsBuild = CheckIfNeedsBuild(
-        proRecordFilePath,
-        currentBranch,
-        proScriptsDir,
-        proOutputDir);
-}
+    scriptsDir, outputDir);
 
 if (!needsBuild)
 {
@@ -502,7 +490,7 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp)
 
     foreach (string file in Directory.GetFiles(scriptsDir, "*", SearchOption.AllDirectories))
     {
-        if (File.GetLastWriteTime(file) > lastBuildTime)
+        if (File.GetLastWriteTimeUtc(file) > lastBuildTime)
         {
             return true;
         }

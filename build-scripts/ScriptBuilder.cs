@@ -320,7 +320,7 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp)
 
     foreach (string file in Directory.GetFiles(scriptsDir, "*", SearchOption.AllDirectories))
     {
-        if (File.GetLastWriteTime(file) > lastBuildTime)
+        if (File.GetLastWriteTimeUtc(file) > lastBuildTime)
         {
             return true;
         }

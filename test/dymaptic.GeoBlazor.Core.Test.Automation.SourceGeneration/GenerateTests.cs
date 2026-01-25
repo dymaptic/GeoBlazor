@@ -109,7 +109,15 @@ public class GenerateTests : IIncrementalGenerator
                 }
                 else if (attributeRegex.Match(line) is { Success: true })
                 {
-                    additionalAttributes.Add(line);
+                    var attributeLine = line;
+
+                    if (nameofRegex.Match(line) is { Success: true } nameofMatch)
+                    {
+                        var name = nameofMatch.Groups["typeOrMemberName"].Value;
+                        attributeLine = line.Replace(nameofMatch.Value, $"\"{name}\"");
+                    }
+
+                    additionalAttributes.Add(attributeLine);
                 }
                 else if (razorAttributeRegex.Match(line) is { Success: true } razorAttribute)
                 {
@@ -183,4 +191,6 @@ public class GenerateTests : IIncrementalGenerator
         new("^@attribute (?<attributeContent>[A-Za-z0-9_]*.*?)$", RegexOptions.Compiled);
     private static readonly Regex classDeclarationRegex =
         new(@"^public class (?<className>[A-Za-z0-9_]+)\s*?:?.*?$", RegexOptions.Compiled);
+    private static readonly Regex nameofRegex =
+        new(@"nameof\((?<typeOrMemberName>[A-Za-z0-9_]+)\)", RegexOptions.Compiled);
 }

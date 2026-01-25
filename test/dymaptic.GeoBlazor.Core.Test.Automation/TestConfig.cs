@@ -74,10 +74,26 @@ public class TestConfig
         // Handle Ctrl-C gracefully
         Console.CancelKeyPress += (sender, e) =>
         {
-            Trace.WriteLine("Ctrl-C detected, initiating shutdown...", "TEST_SHUTDOWN");
             e.Cancel = true; // Prevent immediate termination to allow cleanup
+            Trace.WriteLine("Ctrl-C detected, initiating shutdown...", "TEST_SHUTDOWN");
 
-            AssemblyCleanup().Wait();
+            _ = Task.Run(AssemblyCleanup);
+
+            var timeoutSeconds = 30;
+
+            while (!_cleanupComplete && (timeoutSeconds > 0))
+            {
+                Thread.Sleep(1000);
+                timeoutSeconds--;
+            }
+
+            if (_cleanupComplete)
+            {
+                Trace.WriteLine("Shutdown complete", "TEST_SHUTDOWN");
+                Environment.Exit(1);
+
+                return;
+            }
 
             // Trigger cancellation
             if (!cts.IsCancellationRequested)
@@ -90,10 +106,10 @@ public class TestConfig
                 gracefulCts.Cancel();
             }
 
-            // Force exit after timeout if cleanup hangs
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
-                await Task.Delay(15000); // 15 second timeout for cleanup
+                // Force exit after timeout if cleanup hangs
+                await Task.Delay(15000); // an extra 15 second timeout for cleanup
                 Trace.WriteLine("Cleanup timeout - forcing exit", "TEST_SHUTDOWN");
                 Environment.Exit(1);
             });
@@ -138,78 +154,85 @@ public class TestConfig
     [AssemblyCleanup]
     public static async Task AssemblyCleanup()
     {
-        var isCancelled = cts.IsCancellationRequested;
-
-        // Dispose browser pool first
-        if (BrowserPool.TryGetInstance(out var pool) && pool is not null)
+        try
         {
-            Trace.WriteLine("Disposing browser pool...", "TEST_CLEANUP");
+            var isCancelled = cts.IsCancellationRequested;
 
-            try
+            // Dispose browser pool first
+            if (BrowserPool.TryGetInstance(out var pool) && pool is not null)
             {
-                using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(isCancelled ? 3 : 10));
-                await pool.DisposeAsync().ConfigureAwait(false);
-                Trace.WriteLine("Browser pool disposed", "TEST_CLEANUP");
+                Trace.WriteLine("Disposing browser pool...", "TEST_CLEANUP");
+
+                try
+                {
+                    using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(isCancelled ? 3 : 10));
+                    await pool.DisposeAsync().ConfigureAwait(false);
+                    Trace.WriteLine("Browser pool disposed", "TEST_CLEANUP");
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine($"Browser pool disposal error: {ex.Message}", "TEST_CLEANUP");
+                }
             }
-            catch (Exception ex)
+
+            if (!isCancelled)
             {
-                Trace.WriteLine($"Browser pool disposal error: {ex.Message}", "TEST_CLEANUP");
+                cts.CancelAfter(5000);
             }
-        }
 
-        if (!isCancelled)
-        {
-            cts.CancelAfter(5000);
-        }
+            if (!gracefulCts.IsCancellationRequested)
+            {
+                await gracefulCts.CancelAsync();
+            }
 
-        if (!gracefulCts.IsCancellationRequested)
-        {
-            await gracefulCts.CancelAsync();
-        }
+            // Shorter delay if already cancelled
+            await Task.Delay(isCancelled ? 1000 : 5000);
 
-        // Shorter delay if already cancelled
-        await Task.Delay(isCancelled ? 1000 : 5000);
+            if (_useContainer)
+            {
+                await StopContainer(ComposeFilePath);
 
-        if (_useContainer)
-        {
-            await StopContainer(ComposeFilePath);
+                if (_cover)
+                {
+                    CopyCoverageFromContainer();
+                }
+            }
+            else
+            {
+                await StopTestApp();
+            }
 
             if (_cover)
             {
-                CopyCoverageFromContainer();
+                await GenerateCoverageReport();
             }
+
+            Trace.WriteLine("-------------------------------------------------------");
+            Trace.WriteLine("Test run complete", "FINAL_SUMMARY");
+            var passedTestCount = _filteredTests.Count - FailedTests.Count - InconclusiveTests.Count;
+            Trace.WriteLine($"{passedTestCount} / {_filteredTests.Count} tests passed.", "FINAL_SUMMARY");
+            Trace.WriteLine("Inconclusive Tests:", "FINAL_SUMMARY");
+
+            foreach (var inconclusive in InconclusiveTests)
+            {
+                Trace.WriteLine($"- {inconclusive}", "FINAL_SUMMARY");
+            }
+
+            Trace.WriteLine("-------------------------------------------------------");
+            Trace.WriteLine("Failed Tests:", "FINAL_SUMMARY");
+
+            foreach (var failedTest in FailedTests)
+            {
+                Trace.WriteLine($"- {failedTest.Key}: {Environment.NewLine}{failedTest.Value}",
+                    "FINAL_SUMMARY");
+            }
+
+            await File.WriteAllTextAsync(LogFilePath, logBuilder.ToString());
         }
-        else
+        finally
         {
-            await StopTestApp();
+            _cleanupComplete = true;
         }
-
-        if (_cover)
-        {
-            await GenerateCoverageReport();
-        }
-
-        Trace.WriteLine("-------------------------------------------------------");
-        Trace.WriteLine("Test run complete", "FINAL_SUMMARY");
-        int passedTestCount = _filteredTests.Count - FailedTests.Count - InconclusiveTests.Count;
-        Trace.WriteLine($"{passedTestCount} / {_filteredTests.Count} tests passed.", "FINAL_SUMMARY");
-        Trace.WriteLine("Inconclusive Tests:", "FINAL_SUMMARY");
-
-        foreach (string inconclusive in InconclusiveTests)
-        {
-            Trace.WriteLine($"- {inconclusive}", "FINAL_SUMMARY");
-        }
-
-        Trace.WriteLine("-------------------------------------------------------");
-        Trace.WriteLine("Failed Tests:", "FINAL_SUMMARY");
-
-        foreach (KeyValuePair<string, string> failedTest in FailedTests)
-        {
-            Trace.WriteLine($"- {failedTest.Key}: {Environment.NewLine}{failedTest.Value}",
-                "FINAL_SUMMARY");
-        }
-
-        await File.WriteAllTextAsync(LogFilePath, logBuilder.ToString());
     }
 
     private static void SetupConfiguration()
@@ -1087,6 +1110,7 @@ public class TestConfig
     private static int? _testProcessId;
     private static bool _useContainer;
     private static bool _cover;
+    private static bool _cleanupComplete;
     private static string _coverageFormat = string.Empty;
     private static string _coverageFileVersion = string.Empty;
     private static string? _reportGenLicenseKey;

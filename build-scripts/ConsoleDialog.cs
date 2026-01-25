@@ -91,7 +91,7 @@ void ShowOrUpdateConsole(string title, string message)
         {
             // Append message to the temp file
             string timestamp = DateTime.Now.ToString("HH:mm:ss");
-            string logLine = $"[{timestamp}] {title}: {message}{Environment.NewLine}";
+            string logLine = $"[{timestamp}] {message}{Environment.NewLine}";
             File.AppendAllText(_consoleTempFile, logLine);
         }
 

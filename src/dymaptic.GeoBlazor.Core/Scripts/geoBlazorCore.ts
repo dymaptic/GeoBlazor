@@ -1,10 +1,10 @@
 import {
-    addArcGisLayer,
-    graphicsRefs,
-    buildArcGisMapView,
-    popupTemplateRefs,
     actionHandlers,
+    addArcGisLayer,
+    buildArcGisMapView,
     esriConfig,
+    graphicsRefs,
+    popupTemplateRefs,
     resetMapComponent
 } from './arcGisJsInterop';
 import AuthenticationManager from "./authenticationManager";
